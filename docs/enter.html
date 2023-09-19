@@ -1,0 +1,268 @@
+<!--
+
+TODO
+
+add ??? dropdown, 1px dashed border
+explain this auction is for x time, bids extend by x, bids must increase by x%
+
+
+ -->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Sexy Findom</title>
+  <link rel="shortcut icon" type="image/x-icon" href="./kiss.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="">
+  <meta name="keywords" content="steviep, steve pikelny, pikelny, crypto, ethereum, bitcoin">
+
+  <meta name="twitter:image" content="https://steviep.xyz/">
+  <meta name="twitter:image:alt" content="">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@steviepxyz">
+  <meta name="twitter:site" content="@steviepxyz">
+  <meta property="twitter:description" content="">
+
+  <meta name="og:image" property="og:image" content="https://steviep.xyz/">
+  <meta name="og:image:alt" content="">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://steviep.xyz/">
+  <meta property="og:title" content="">
+  <meta property="og:site_name" content="">
+  <meta property="og:description" content="">
+
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+
+
+  <style type="text/css">
+    em {
+      color: #ff00c7;
+    }
+
+    main {
+      padding: 1em;
+      max-width: 600px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    label {
+      cursor: pointer;
+      display: flex;
+    }
+
+    h1 {
+      /*font-size: 2em;*/
+    }
+
+    h2 + h2 {
+      margin: 1em 0;
+    }
+
+    label input {
+      margin-right: 1em;
+    }
+
+    #connectButton, #proceedButton, #fakeProceedButton {
+      font-size: 2em;
+      box-shadow: 0 0 2em #b47aa7;
+      transition: 300ms;
+    }
+
+
+
+    @media (max-width: 635px) {
+      .proceed {
+        max-width: 365px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <main>
+    <section class="proceed">
+      <h1><em class="blink" style="padding-right: 0.25em; font-size: 1.2em;">WARNING!</em> There are LOTS of sexy Doms on this website who want to suck your wallet dry. Proceed at your own risk.</h1>
+
+      <div style="margin: 3em 0">
+        <h2><label><input type="checkbox" id="over18">I am over 18 and willing to view explicit adult content</label></h2>
+        <h2><label><input type="checkbox" id="money">I acknowledge that the sexy doms on this website may convince me to give them money with nothing in return</label></h2>
+        <h2><label><input type="checkbox" id="humiliation">I am aware that, by entering this website, humiliating, disparaging, and/or otherwise hurtful language may be directed towards me</label></h2>
+      </div>
+
+      <div class="center">
+
+      <connect-wallet id="wallet-connect">
+        <section slot="noWeb3">
+          <h2 class="error center" style="margin-bottom: 1em;">Please visit this website in a web3-connected browser</h2>
+          <button slot="button" id="fakeProceedButton" disabled="true">Proceed</button>
+        </section>
+
+        <section slot="notConnected">
+          <connect-button>
+            <button slot="button" id="connectButton" disabled="true">Proceed + Connect</button>
+            <h2 slot="loading">Loading...</h2>
+            <div slot="error" class="error" style="margin-top: 1em"></div>
+          </connect-button>
+        </section>
+
+        <section slot="connected">
+          <connect-button>
+            <button slot="button" id="proceedButton" disabled="true">Proceed</button>
+            <h2 slot="loading">Loading...</h2>
+            <div slot="error" class="error" style="margin-top: 1em"></div>
+          </connect-button>
+        </section>
+      </connect-wallet>
+
+
+
+
+      </div>
+
+    </section>
+  </main>
+
+  <footer><a href="https://steviep.xyz" target="_blank">steviep.xyz</a> (c) 2023</footer>
+</body>
+
+<script src="./$.js"></script>
+<script src="./webComponents.js"></script>
+<script src="./web3Components.js"></script>
+<script src="./connectWallet.js"></script>
+<script src="./min.ethers.js"></script>
+
+<script type="text/javascript">
+  const $id = s => $.id(document, s)
+
+  const $over18 = $id('over18')
+  const $money = $id('money')
+  const $humiliation = $id('humiliation')
+  const $connectButton = $id('connectButton')
+  const $proceedButton = $id('proceedButton')
+
+  const provider = new Web3Provider()
+
+  // provider.isConnected().then(isConnected => {
+  //   if (isConnected && !ls.get('is18')) {
+  //     window.location.replace('./index.html')
+  //   }
+  // })
+
+  mountComponents(
+    ConnectWallet(provider, 'connectWallet'),
+    ConnectButton(provider),
+  )
+
+
+  function onCheck() {
+    if ($over18.checked && $money.checked && $humiliation.checked) {
+      $connectButton.disabled = false
+      $proceedButton.disabled = false
+    } else {
+      $connectButton.disabled = true
+      $proceedButton.disabled = true
+    }
+  }
+
+  $over18.addEventListener('change', onCheck)
+  $money.addEventListener('change', onCheck)
+  $humiliation.addEventListener('change', onCheck)
+
+  provider.onConnect(async () => {
+    if ($over18.checked && $money.checked && $humiliation.checked) {
+      ls.set('is18', true)
+      window.location.replace('./index.html')
+    }
+  })
+
+
+
+  async function getEthUsd(uniswapV2) {
+    const decimals = 2
+    const { _reserve0, _reserve1 } = await uniswapV2.getReserves()
+    return _reserve0.mul(1000000000000).mul(10**decimals).div(_reserve1).toNumber() / 10**decimals
+  }
+
+
+
+
+  function formatMinBid(amt) {
+    return Math.ceil(amt * 1000) / 1000
+  }
+
+  function isENS(ens) {
+    return ens.slice(-4) === '.eth'
+  }
+  async function formatAddr(addr, provider, truncate=true) {
+    try {
+      const ens = await provider.getENS(addr)
+      if (ens.slice(-4) === '.eth') {
+        return ens.length > 10
+          ? ens.slice(0, 10) + '...'
+          : ens
+      } else {
+        return truncate ? truncateAddr(addr) : addr
+      }
+    } catch (e) {
+      return truncate ? truncateAddr(addr) : addr
+    }
+  }
+
+
+  function unhide(element) {
+    $(element, 'display', '')
+  }
+
+  function hide(element) {
+    $(element, 'display', 'none')
+  }
+
+  function setRunInterval(fn, ms, i=0) {
+    const run = () => {
+      fn(i)
+      i++
+    }
+
+    run()
+
+    let isCleared = false
+
+    let interval = setInterval(run, ms)
+
+    const newInterval = (ms) => {
+      if (isCleared) return
+      clearInterval(interval)
+      interval = setInterval(run, ms)
+    }
+
+    const stopInterval = () => {
+      if (!isCleared) {
+        clearInterval(interval)
+        isCleared = true
+      }
+    }
+    return stopInterval
+  }
+
+
+
+</script>
+
+
+
+<script type="text/javascript">
+  var hours = new Date().getHours();
+  if (hours <= 5 || hours >= 22) document.body.className = 'nightmode';
+</script>
+</html>
