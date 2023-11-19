@@ -1,20 +1,10 @@
-<!--
-
-TODO
-
-add ??? dropdown, 1px dashed border
-explain this auction is for x time, bids extend by x, bids must increase by x%
-
-
- -->
-
 
 
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Sexy Findom</title>
+  <title>FinSexy</title>
   <link rel="shortcut icon" type="image/x-icon" href="./kiss.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -101,8 +91,9 @@ explain this auction is for x time, bids extend by x, bids must increase by x%
       </div>
 
       <div class="center">
+        <button slot="button" id="proceedButton" disabled="true">Proceed</button>
 
-      <connect-wallet id="wallet-connect">
+<!--       <connect-wallet id="wallet-connect">
         <section slot="noWeb3">
           <h2 class="error center" style="margin-bottom: 1em;">Please visit this website in a web3-connected browser</h2>
           <button slot="button" id="fakeProceedButton" disabled="true">Proceed</button>
@@ -124,7 +115,7 @@ explain this auction is for x time, bids extend by x, bids must increase by x%
           </connect-button>
         </section>
       </connect-wallet>
-
+ -->
 
 
 
@@ -159,6 +150,13 @@ explain this auction is for x time, bids extend by x, bids must increase by x%
   //   }
   // })
 
+  $proceedButton.addEventListener('click', () => {
+    if ($over18.checked) {
+      ls.set('is18', true)
+    }
+    window.location.replace('./index.html')
+  })
+
   mountComponents(
     ConnectWallet(provider, 'connectWallet'),
     ConnectButton(provider),
@@ -167,10 +165,10 @@ explain this auction is for x time, bids extend by x, bids must increase by x%
 
   function onCheck() {
     if ($over18.checked && $money.checked && $humiliation.checked) {
-      $connectButton.disabled = false
+      // $connectButton.disabled = false
       $proceedButton.disabled = false
     } else {
-      $connectButton.disabled = true
+      // $connectButton.disabled = true
       $proceedButton.disabled = true
     }
   }
@@ -179,12 +177,12 @@ explain this auction is for x time, bids extend by x, bids must increase by x%
   $money.addEventListener('change', onCheck)
   $humiliation.addEventListener('change', onCheck)
 
-  provider.onConnect(async () => {
+  // provider.onConnect(async () => {
     if ($over18.checked && $money.checked && $humiliation.checked) {
       ls.set('is18', true)
       window.location.replace('./index.html')
     }
-  })
+  // })
 
 
 

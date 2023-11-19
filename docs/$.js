@@ -1,10 +1,10 @@
 
 const $ = (elem, prop, value) => elem.style[prop] = value
-$.cls = (elem, selector) => Array.isArray(elem)
+$.cls = (selector, elem=document) => Array.isArray(elem)
   ? elem.map(e => $.cls(e, selector)).flat()
   : Array.from(elem.getElementsByClassName(selector))
 
-$.id = (elem, selector) => Array.isArray(elem)
+$.id = (selector, elem=document) => Array.isArray(elem)
   ? elem.find(e => $.id(e, selector))
   : elem.getElementById(selector)
 
@@ -135,3 +135,53 @@ const ls = {
     }
   }
 }
+
+const createComponent = (tag, templateStr, initialState, onInit, onRender) => {
+  class ReactStyleComponent extends HTMLElement {
+    constructor() {
+      super();
+
+      // Initialize component state (similar to React's state)
+      this.state = Object.assign({}, initialState)
+      this.events = {}
+
+      // Create a shadow DOM and attach it to the element
+      const shadowRoot = this.attachShadow({ mode: 'open' });
+
+      // Define a template for the web component
+      const template = document.createElement('template');
+      template.innerHTML = templateStr;
+
+      // Clone the template content and append it to the shadow DOM
+      shadowRoot.appendChild(template.content.cloneNode(true));
+      this.$ = shadowRoot.querySelector.bind(shadowRoot)
+
+      this.onRender = onRender
+      onInit(this)
+    }
+
+    // Define a method to set the component state
+    setState(newState) {
+      this.state = { ...this.state, ...newState };
+      this.render(); // Re-render the component when state changes
+    }
+
+    // Define a method to render the component
+    render() {
+      this.onRender(this)
+    }
+
+    // Called when the element is connected to the DOM
+    connectedCallback() {
+      this.render();
+    }
+
+    registerEventHandler(event, fn) {
+      if (this.events[event]) this.events[event].push(fn)
+      else this.events[event] = [fn]
+    }
+  }
+
+  customElements.define(tag, ReactStyleComponent)
+}
+
