@@ -215,15 +215,19 @@ const HeatherHotMessages = {
     }
   }
 }
+
+
+const hhChatWindow = $.id('heatherHot-chat')
+
 const HHChat = new MessageHandler('heatherHot', HeatherHotMessages, 'START')
 
-const hhChatWindow = $.id('hh-chat')
 
-HHChat.addChatWindow(
-  message => hhChatWindow.submitMessage('heatherHot69', message),
-  (event, handler) => hhChatWindow.registerEventHandler(event, handler),
-)
+HHChat.addChatWindow(hhChatWindow)
 
 
+if (!HHChat.ctx.history.length) {
+  HHChat.next('', 'hi')
+}
 
-HHChat.next('', 'hi')
+
+

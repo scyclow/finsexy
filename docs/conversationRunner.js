@@ -89,10 +89,6 @@ const isNo = txt => noes.includes(responseParser(txt))
 
 
 
-// all conversation state is stored in ctx
-
-
-
 /*
 
 TODO
@@ -111,12 +107,48 @@ function getUserData() {
   }
 }
 
+
+
+
+const chatNameLS = chatName => ({
+  get() {
+    return ls.get('__CHAT_CONTEXT_' + chatName) || {}
+  },
+
+  set(k, v) {
+    const props = this.get() || {}
+    props[k] = v
+    ls.set('__CHAT_CONTEXT_' + chatName, JSON.stringify(props))
+  }
+})
+
 class ChatContext {
-  constructor(startingCode) {
-    this.lastDomCodeSent = startingCode || 'START'
-    this.history = []
-    this.conversationState = {}
+  constructor(chatName, startingCode) {
     this.user = getUserData
+    this.chatName = chatName
+    this.chatLS = chatNameLS(chatName)
+
+    const existingContext = this.chatLS.get()
+    this.lastDomCodeSent = existingContext.lastDomCodeSent || startingCode || 'START'
+    this.conversationState = existingContext.conversationState || {}
+    this.history = existingContext.history || []
+    this.messageEventQueue = existingContext.messageEventQueue || []
+
+    this.updateLS()
+
+  }
+
+  updateLS() {
+    this.chatLS.set('lastDomCodeSent', this.lastDomCodeSent)
+    this.chatLS.set('conversationState', this.conversationState)
+    this.chatLS.set('history', this.history)
+    this.chatLS.set('messageEventQueue', this.messageEventQueue)
+  }
+
+  addToMessageEventQueue(msg) {
+    this.messageEventQueue.push(msg)
+    this.messageEventQueue.sort((a, b) => a.timestamp - b.timestamp)
+    this.updateLS()
   }
 }
 
@@ -125,17 +157,54 @@ class MessageHandler {
   constructor(chatName, messages, startingCode) {
     this.chatName = chatName
     this.messages = messages
-    this.ctx = new ChatContext(startingCode)
-    this.domSendEvents = []
+    this.registeredChatWindows = []
+    this.ctx = new ChatContext(chatName, startingCode)
+
+    setRunInterval(() => {
+      while (true) {
+        if (
+          !this.ctx.messageEventQueue.length ||
+          this.ctx.messageEventQueue[0].timestamp > Date.now()
+        ) return
+
+        const { messageCode, userResponse } = this.ctx.messageEventQueue.shift()
+        const messageToSend = this.messages[messageCode]
+
+        this.ctx.lastDomCodeSent = messageCode
+
+        this.updateHistory({
+          messageCode: messageCode,
+          messageText: messageToSend.messageText(userResponse, this.ctx),
+          from: this.chatName,
+        })
+
+      }
+    }, 100)
   }
 
-  addChatWindow(onDomSend, eventRegister) {
-    this.domSendEvents.push(onDomSend)
-    eventRegister('submit', message => this.toDom(message))
+
+
+
+  addChatWindow(chatWindow) {
+    this.registeredChatWindows.push(chatWindow)
+    chatWindow.registerEventHandler('submit', message => this.toDom(message))
+    chatWindow.setState({ history: this.ctx.history })
+  }
+
+  updateHistory({ from, messageText, messageCode }) {
+    const historyItem = { from, messageText, messageCode, timestamp: Date.now() }
+    this.ctx.history.push(historyItem)
+    this.registeredChatWindows.forEach(chatWindow =>
+      chatWindow.setState({ history: this.ctx.history })
+    )
+    this.ctx.updateLS()
   }
 
   toDom(userResponse) {
-    this.ctx.history.push({ from: 'sub', message: userResponse })
+    this.updateHistory({
+      from: 'you',
+      messageText: userResponse
+    })
 
     const lastMessage = this.messages[this.ctx.lastDomCodeSent]
 
@@ -146,22 +215,56 @@ class MessageHandler {
   }
 
   next(userResponse, codeToSend) {
-
-    this.ctx.history.push({ from: 'dom', messageCode: codeToSend })
-    this.ctx.lastDomCodeSent = codeToSend
-
     const messageToSend = this.messages[codeToSend]
 
     if (messageToSend) {
-      this.domSendEvents.forEach(onSend => onSend(messageToSend.messageText(userResponse, this.ctx)))
+      const estimatedMessageText = messageToSend.messageText(userResponse, this.ctx)
+      const wait = Math.floor(
+        Math.max(1000*estimatedMessageText.length/80, 250)
+        + random(500)
+      )
+
+
+      this.ctx.addToMessageEventQueue({
+        userResponse,
+        messageCode: codeToSend,
+        timestamp: Date.now() + wait
+      })
+
 
       messageToSend?.followUpMessages?.forEach(followUp => {
-        // TODO UX of waiting
-        this.next(userResponse, followUp.messageCode)
+        this.ctx.addToMessageEventQueue({
+          userResponse,
+          messageCode: followUp.messageCode,
+          timestamp: Date.now() + followUp.waitMs
+        })
       })
+
+
+
+      // const send = () => {
+      //   this.updateHistory({
+      //     messageText,
+      //     from: this.chatName,
+      //     messageCode: codeToSend
+      //   })
+
+      //   let totalWaitTime = 0
+      //   messageToSend?.followUpMessages?.forEach(followUp => {
+      //     totalWaitTime += followUp.waitMs
+
+      //     setTimeout(
+      //       () => this.next(userResponse, followUp.messageCode),
+      //       totalWaitTime + followUp.waitMs
+      //     )
+      //   })
+      // }
+
+      // setTimeout(
+      //   send,
+      //   Math.max(1000*messageText.length/80, 250) + Math.random() * 500
+      // )
     }
-
-
   }
 }
 
@@ -182,34 +285,129 @@ createComponent(
       :host {
         display: block;
       }
+
+      * {
+        border: 0;
+        padding: 0;
+        font-family: Trebuchet MS;
+      }
+
+      #input {
+        resize: none;
+        width: 100%;
+        height: 4em;
+        color: #fff;
+        background: #292929;
+        padding: 0.5em;
+        box-sizing: border-box;
+        transition: 0.2s;
+      }
+
+
+      #input:hover {
+        box-shadow: inset 0px 0px 10px #ccc;
+      }
+      #input:focus, #input:focus:hover {
+        outline: none !important;
+        border: 1px solid #ff00c7;
+        box-shadow: inset 0px 0px 10px #ff00c7;
+      }
+
+      #inputArea {
+        display: flex;
+      }
+
+      #submit {
+        cursor: pointer;
+        background: #ff00c7;
+        border-color: #ff00c7;
+        color: #fff;
+        font-weight: bold;
+        padding: 0 1em;
+        transition: 0.2s;
+        font-size: 1.1em;
+      }
+
+      #submit:hover {
+        box-shadow: 0 0 20px #ff00c7;
+      }
+
+      #chat {
+        display: flex;
+        flex-direction: column;
+        border: 1px dashed;
+        height: 100%;
+      }
+
+      #display {
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+      }
+
+      #displayContainer {
+        height: 100%;
+        overflow: scroll;
+        padding: 0.5em;
+        box-shadow: inset 0px 0px 10px #ccc;
+      }
+
+      .message {
+        padding: 0.5em;
+        margin: 0.75em;
+      }
+
+      .message::selection {
+        background: #000;
+        color: #fff;
+      }
+
+      .from-you {
+        border-radius: 1em;
+        border-bottom-right-radius: 0;
+        background: #fff;
+        color: #000;
+        margin-left: 3em;
+        align-self: flex-end;
+        box-shadow: 0 0 20px #ffffff;
+      }
+
+      .from-dom {
+        background: #ff00c7;
+        color: #fff;
+        border-radius: 1em;
+        border-bottom-left-radius: 0;
+        margin-right: 3em;
+        align-self: flex-start;
+        box-shadow: 0 0 20px #ff00c7;
+
+      }
     </style>
 
-    <section>
-      <div id="display"></div>
-      <input id="input"></input>
-      <button id="submit">SUBMIT</button>
+    <section id="chat">
+      <div id="displayContainer">
+        <div id="display"></div>
+      </div>
+      <div id="inputArea">
+        <textarea id="input"></textarea>
+        <button id="submit">SUBMIT</button>
+      </div>
     </section>
   `,
   { history: [] },
   ctx => {
     ctx.$display = ctx.$('#display')
+    ctx.$displayContainer = ctx.$('#displayContainer')
     ctx.$input = ctx.$('#input')
     ctx.$submit = ctx.$('#submit')
-
-    ctx.submitMessage = (from, message) => ctx.setState({
-      history: [...ctx.state.history, {from, message }]
-    })
 
     const submit = () => {
       const message = ctx.$input.value
       if (!message.trim()) return
 
-
-      ctx.submitMessage('you', message)
-      ctx.$input.value = ''
-
       ctx.events?.submit?.forEach(onSubmit => onSubmit(message))
 
+      setTimeout(() => ctx.$input.value = '')
     }
 
 
@@ -217,11 +415,12 @@ createComponent(
     ctx.$input.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') submit()
     })
-
   },
   ctx => {
     ctx.$display.innerHTML = ctx.state.history.map(h =>
-      `<div>${h.from}: ${h.message}</div>`
+      `<div class="message ${h.from === 'you' ? 'from-you' : 'from-dom'}">${h.from}: ${h.messageText}</div>`
     ).join('')
+    ctx.$displayContainer.scrollTop = ctx.$displayContainer.scrollHeight;
+
   }
 )

@@ -47,10 +47,7 @@ const CaglaChat = new MessageHandler('cagla', CaglaMessages, 'START')
 
 const caglaChatWindow = $.id('cagla-chat')
 
-CaglaChat.addChatWindow(
-  message => caglaChatWindow.submitMessage('cagla', message),
-  (event, handler) => caglaChatWindow.registerEventHandler(event, handler),
-)
+CaglaChat.addChatWindow(caglaChatWindow)
 
 
 

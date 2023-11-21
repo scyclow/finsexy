@@ -3,19 +3,61 @@
 <head>
   <meta charset="utf-8">
   <title></title>
+
+  <style type="text/css">
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      background: #000;
+      color: #fff;
+    }
+    #messageSelector .active {
+      background: #ff00c7;
+      color: #fff;
+    }
+
+    #messageSelector {
+      list-style-type: none;
+    }
+    #messageSelector li {
+      cursor: pointer;
+      border: 1px dashed;
+      padding: 1em;
+    }
+
+    .chat-window.display-none {
+      display: none;
+    }
+
+    .chat-window {
+      height: calc(100% - 2px);
+    }
+
+    #chatWindow {
+      height: 100vh;
+      width: 100%;
+    }
+
+    main {
+      display: flex;
+    }
+  </style>
 </head>
 <body>
   <main>
     <aside>
-      <ul>
-        <li id="">heatherHot</li>
-        <li id="">Cagla</li>
-        <li>GoddessJessica</li>
+      <ul id="messageSelector">
 
       </ul>
     </aside>
 
-    <chat-window id="cagla-chat"></chat-window>
+    <section id="chatWindow">
+
+    </section>
+
   </main>
 
 
@@ -28,12 +70,62 @@
 </body>
 
 <script src="./$.js"></script>
+<script src="./utils.js"></script>
 <script src="./conversationRunner.js"></script>
-<!-- <script src="./chats/heatherHot.js"></script> -->
-<script src="./chats/cagla.js"></script>
+
 
 
 <script type="text/javascript">
+
+  const $messageSelector = $.id('messageSelector')
+  const $chatWindow = $.id('chatWindow')
+
+  const messageNames = [
+    'heatherHot',
+    'cagla',
+    'samanthaJones'
+  ]
+
+  $messageSelector.innerHTML = messageNames.map(m => `
+    <li
+      id="${m}-select"
+      class="message-selector"
+      onclick="onConvoSelect('${m}')"
+    >
+      ${m}
+    </li>
+  `).join('')
+
+  $messageSelector.innerHTML += `
+    <li>
+      <button onclick="localStorage.clear(); window.location.reload()">clear</button>
+    </li>
+  `
+
+  $chatWindow.innerHTML = messageNames.map(m => `
+    <chat-window id="${m}-chat" class="chat-window"></chat-window>
+  `).join('')
+
+
+  const onConvoSelect = (id) => {
+    $.cls('message-selector').forEach(ms => {
+      ms.classList.remove('active')
+    })
+
+    $.cls('chat-window').forEach(cw => {
+      console.log(cw)
+      cw.classList.add('display-none')
+    })
+
+    $.id(id + '-select').classList.add('active')
+    $.id(id + '-chat').classList.remove('display-none')
+  }
+
+  onConvoSelect('heatherHot')
+
+  // $heatherHotSelect.onclick = () => {
+  //   $heatherHotSelect.classList.add
+  // }
 
 
 
@@ -80,32 +172,34 @@
 
 //   }
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
+
+
+<script src="./chats/heatherHot.js"></script>
+<script src="./chats/cagla.js"></script>
+<script src="./chats/samanthaJones.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </html>
