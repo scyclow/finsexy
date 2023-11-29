@@ -160,6 +160,10 @@ const createComponent = (tag, templateStr, initialState, onInit, onRender) => {
       onInit(this)
     }
 
+    veiwState() {
+      return this.state
+    }
+
     // Define a method to set the component state
     setState(newState) {
       this.state = { ...this.state, ...newState };

@@ -4,19 +4,12 @@
   <meta charset="utf-8">
   <title></title>
 
+  <link rel="stylesheet" type="text/css" href="./styles.css">
   <style type="text/css">
-    * {
-      padding: 0;
-      margin: 0;
-    }
 
-    body {
-      background: #000;
-      color: #fff;
-    }
     #messageSelector .active {
-      background: #ff00c7;
-      color: #fff;
+      background: var(--primary-color);
+      color: var(--light-color);
     }
 
     #messageSelector {
@@ -24,8 +17,15 @@
     }
     #messageSelector li {
       cursor: pointer;
-      border: 1px dashed;
+      border: 1px solid var(--border-color);
       padding: 1em;
+      transition: 0.2s;
+    }
+    #messageSelector li:hover {
+      background: #ff66ff;
+    }
+    #messageSelector .active:hover {
+      background: #ff66ff;
     }
 
     .chat-window.display-none {
@@ -83,7 +83,8 @@
   const messageNames = [
     'heatherHot',
     'cagla',
-    'samanthaJones'
+    'samanthaJones',
+    'VinceSlickson'
   ]
 
   $messageSelector.innerHTML = messageNames.map(m => `
@@ -103,7 +104,7 @@
   `
 
   $chatWindow.innerHTML = messageNames.map(m => `
-    <chat-window id="${m}-chat" class="chat-window"></chat-window>
+    <chat-window id="${m}-chat" name="${m}" class="chat-window"></chat-window>
   `).join('')
 
 
@@ -178,6 +179,7 @@
 <script src="./chats/heatherHot.js"></script>
 <script src="./chats/cagla.js"></script>
 <script src="./chats/samanthaJones.js"></script>
+<script src="./chats/vinceSlickson.js"></script>
 
 
 

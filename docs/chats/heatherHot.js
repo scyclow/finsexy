@@ -1,3 +1,15 @@
+/*
+
+TODO
+  - is confused on asl, only ask for age
+  - only ask asl if user hasn't filled out profile; point out how much easier it would be if they fill out the profile
+  - ask for sexy chat credits; say that a lot of the doms take them
+
+
+*/
+
+
+
 
 const HeatherHotMessages = {
   START: {
@@ -105,16 +117,12 @@ const HeatherHotMessages = {
   introAccepted: {
     messageText: (userResponse, ctx) => `a/s/l?`,
     responseHandler: (userResponse, ctx) => {
-      const match = userResponse.match(/(\d+)\/([a-zA-Z]+)\/([a-zA-Z]+)/)
+      const match = userResponse.match(/(\d+)/)
 
       if (match) {
-        const [asl, _age, sex, location] = match
+        const [_age] = match
         const age = Number(_age)
         if (!age) return 'aslConfused'
-
-        ctx.conversationState.age = Number(age)
-        ctx.conversationState.sex = sex
-        ctx.conversationState.location = location
 
         if (age < 18) {
           return 'introTooYoung'
@@ -127,7 +135,7 @@ const HeatherHotMessages = {
         } else {
           return 'introOld'
         }
-      } else {
+      } else  {
         return 'aslConfused'
       }
     },
@@ -136,16 +144,12 @@ const HeatherHotMessages = {
   aslConfused: {
     messageText: (userResponse, ctx) => `i don't understand`,
     responseHandler: (userResponse, ctx) => {
-      const match = userResponse.match(/(\d+)\/([a-zA-Z]+)\/([a-zA-Z]+)/)
+      const match = userResponse.match(/(\d+)/)
 
       if (match) {
-        const [asl, _age, sex, location] = match
+        const [_age] = match
         const age = Number(_age)
         if (!age) return 'aslConfused'
-
-        ctx.conversationState.age = Number(age)
-        ctx.conversationState.sex = sex
-        ctx.conversationState.location = location
 
         if (age < 18) {
           return 'introTooYoung'
@@ -158,7 +162,7 @@ const HeatherHotMessages = {
         } else {
           return 'introOld'
         }
-      } else {
+      } else  {
         return 'aslConfused'
       }
     },
@@ -171,7 +175,11 @@ const HeatherHotMessages = {
   },
 
   introYoung: {
-    messageText: (userResponse, ctx) => `wow, you're are a young ${ctx.user().submissiveTitle}!`,
+    messageText: (userResponse, ctx) => `wow, you're are a young ${genderSwitch({
+      m: 'boy',
+      f: 'girl',
+      nb: 'baby'
+    })}!`,
     followUpMessages: [{ messageCode: 'fromNY', waitMs: 2000 }],
     responseHandler: () => {}
   },
@@ -225,7 +233,7 @@ const HHChat = new MessageHandler('heatherHot', HeatherHotMessages, 'START')
 HHChat.addChatWindow(hhChatWindow)
 
 
-if (!HHChat.ctx.history.length) {
+if (!HHChat.ctx.history.length && !HHChat.ctx.messageEventQueue.length) {
   HHChat.next('', 'hi')
 }
 

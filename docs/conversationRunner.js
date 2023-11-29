@@ -51,10 +51,20 @@ const yeses = [
   'sure thing',
   'hell yes',
   'hell yeah',
+  'fuck yeah',
+  'fuck yes',
   'fine',
   '1',
   'true',
   'i do',
+  'great',
+  'awesome',
+  'amazing',
+  'perfect',
+  'yay',
+  'incredibly',
+  'right',
+  'correct',
 ]
 
 const noes = [
@@ -70,6 +80,8 @@ const noes = [
   'definitely not',
   'not really',
   'hell no',
+  'fuck no',
+  'heck no',
   'not at all',
   'no thanks',
   'no thank you',
@@ -79,6 +91,9 @@ const noes = [
   'false',
   `i do not`,
   `i don't`,
+  `i dont`,
+  `wrong`,
+  `incorrect`,
 ]
 
 
@@ -103,8 +118,12 @@ function getUserData() {
   return {
     submissiveTitle: 'boy',
     name: 'steviep',
-    gender: 'man',
+    gender: 'm',
   }
+}
+
+function genderSwitch(mapping) {
+  return mapping[getUserData().gender]
 }
 
 
@@ -163,12 +182,38 @@ class MessageHandler {
     setRunInterval(() => {
       while (true) {
         if (
+          this.ctx.messageEventQueue.length &&
+          Date.now() + this.ctx.messageEventQueue[0].typingWait > this.ctx.messageEventQueue[0].timestamp
+        ) {
+          this.registeredChatWindows.forEach(chatWindow =>
+            !this.ctx.messageEventQueue[0].ignoreType && chatWindow.setState({ isTyping: true })
+          )
+        }
+
+        if (
           !this.ctx.messageEventQueue.length ||
           this.ctx.messageEventQueue[0].timestamp > Date.now()
         ) return
 
+
         const { messageCode, userResponse } = this.ctx.messageEventQueue.shift()
         const messageToSend = this.messages[messageCode]
+
+
+        messageToSend?.followUpMessages?.forEach(followUp => {
+          const messageToSend = this.messages[followUp.messageCode]
+          const estimatedMessageText = messageToSend.messageText(userResponse, this.ctx)
+          const typingWait = Math.floor(1000*estimatedMessageText.length/80)
+
+
+          this.ctx.addToMessageEventQueue({
+            userResponse,
+            messageCode: followUp.messageCode,
+            timestamp: Date.now() + followUp.waitMs + random(1000),
+            typingWait
+          })
+        })
+
 
         this.ctx.lastDomCodeSent = messageCode
 
@@ -194,9 +239,10 @@ class MessageHandler {
   updateHistory({ from, messageText, messageCode }) {
     const historyItem = { from, messageText, messageCode, timestamp: Date.now() }
     this.ctx.history.push(historyItem)
-    this.registeredChatWindows.forEach(chatWindow =>
-      chatWindow.setState({ history: this.ctx.history })
-    )
+    this.registeredChatWindows.forEach(chatWindow => {
+      chatWindow.setState({ isTyping: false })
+      setTimeout(() => chatWindow.setState({ history: this.ctx.history }), 100)
+    })
     this.ctx.updateLS()
   }
 
@@ -208,7 +254,7 @@ class MessageHandler {
 
     const lastMessage = this.messages[this.ctx.lastDomCodeSent]
 
-    if (lastMessage) {
+    if (lastMessage && lastMessage.responseHandler) {
       const codeToSend = lastMessage.responseHandler(userResponse, this.ctx)
       this.next(userResponse, codeToSend)
     }
@@ -219,51 +265,26 @@ class MessageHandler {
 
     if (messageToSend) {
       const estimatedMessageText = messageToSend.messageText(userResponse, this.ctx)
+      const typingWait = 500 + random(750)
       const wait = Math.floor(
-        Math.max(1000*estimatedMessageText.length/80, 250)
-        + random(500)
+        1000*estimatedMessageText.length/80
+        + typingWait
+        + 500 + random(750)
       )
+
+      setTimeout(() => {
+        this.registeredChatWindows.forEach(chatWindow =>
+          chatWindow.setState({ isTyping: true })
+        )
+      }, typingWait)
 
 
       this.ctx.addToMessageEventQueue({
+        ignoreType: true,
         userResponse,
         messageCode: codeToSend,
         timestamp: Date.now() + wait
       })
-
-
-      messageToSend?.followUpMessages?.forEach(followUp => {
-        this.ctx.addToMessageEventQueue({
-          userResponse,
-          messageCode: followUp.messageCode,
-          timestamp: Date.now() + followUp.waitMs
-        })
-      })
-
-
-
-      // const send = () => {
-      //   this.updateHistory({
-      //     messageText,
-      //     from: this.chatName,
-      //     messageCode: codeToSend
-      //   })
-
-      //   let totalWaitTime = 0
-      //   messageToSend?.followUpMessages?.forEach(followUp => {
-      //     totalWaitTime += followUp.waitMs
-
-      //     setTimeout(
-      //       () => this.next(userResponse, followUp.messageCode),
-      //       totalWaitTime + followUp.waitMs
-      //     )
-      //   })
-      // }
-
-      // setTimeout(
-      //   send,
-      //   Math.max(1000*messageText.length/80, 250) + Math.random() * 500
-      // )
     }
   }
 }
@@ -287,20 +308,26 @@ createComponent(
       }
 
       * {
-        border: 0;
+        margin: 0;
         padding: 0;
         font-family: Trebuchet MS;
+      }
+
+      h6 {
+        margin-top: 0.5em;
+        margin-bottom: 1em;
       }
 
       #input {
         resize: none;
         width: 100%;
         height: 4em;
-        color: #fff;
+        color: var(--light-color);
         background: #292929;
         padding: 0.5em;
         box-sizing: border-box;
         transition: 0.2s;
+        box-shadow: inset 0px 0px 10px #555;
       }
 
 
@@ -309,33 +336,35 @@ createComponent(
       }
       #input:focus, #input:focus:hover {
         outline: none !important;
-        border: 1px solid #ff00c7;
-        box-shadow: inset 0px 0px 10px #ff00c7;
+        border: 1px solid var(--primary-color);
+        box-shadow: inset 0px 0px 10px var(--primary-color);
       }
 
       #inputArea {
         display: flex;
+        border-top: 1px solid var(--border-color);
       }
 
       #submit {
         cursor: pointer;
-        background: #ff00c7;
-        border-color: #ff00c7;
-        color: #fff;
+        background: var(--primary-color);
+        border-width: 0;
+        color: var(--light-color);
         font-weight: bold;
         padding: 0 1em;
         transition: 0.2s;
-        font-size: 1.1em;
+        font-size: 1em;
+        text-shadow: 0 0 3px var(--dark-color)0ff;
       }
 
       #submit:hover {
-        box-shadow: 0 0 20px #ff00c7;
+        box-shadow: 0 0 20px var(--primary-color);
       }
 
       #chat {
         display: flex;
         flex-direction: column;
-        border: 1px dashed;
+        border: 1px solid var(--border-color);
         height: 100%;
       }
 
@@ -343,6 +372,8 @@ createComponent(
         display: flex;
         flex-direction: column;
         justify-content: end;
+        padding: 0.75em;
+        padding-top: 0em;
       }
 
       #displayContainer {
@@ -353,53 +384,112 @@ createComponent(
       }
 
       .message {
-        padding: 0.5em;
-        margin: 0.75em;
+        padding: 0.5em 1em 0.75em;
+        margin-top: 0.75em;
+        margin-bottom: 0.25em;
       }
 
       .message::selection {
-        background: #000;
-        color: #fff;
+        background: var(--dark-color);
+        color: var(--light-color);
+      }
+
+      .message:last-child {
+        animation: fadeIn linear 0.2s;
       }
 
       .from-you {
         border-radius: 1em;
         border-bottom-right-radius: 0;
-        background: #fff;
-        color: #000;
+        background: var(--light-color);
+        color: var(--dark-color);
         margin-left: 3em;
         align-self: flex-end;
-        box-shadow: 0 0 20px #ffffff;
+        box-shadow: 0 0 20px var(--light-color)fff;
       }
 
       .from-dom {
-        background: #ff00c7;
-        color: #fff;
+        background: var(--primary-color);
+        color: var(--light-color);
         border-radius: 1em;
         border-bottom-left-radius: 0;
         margin-right: 3em;
         align-self: flex-start;
-        box-shadow: 0 0 20px #ff00c7;
+        box-shadow: 0 0 20px var(--primary-color);
+      }
+
+
+      @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+         }
+      }
+
+      .alignLeft {
+        text-align: left;
+      }
+
+      .alignRight {
+        text-align: right;
+      }
+
+      time {
+        display: block;
+        font-size: 0.5em;
+        margin-top: 1em;
+        margin-bottom: 2em;
+      }
+
+      .date {
+        text-align: center;
+        margin: 1em;
+      }
+
+      #isTyping {
+        font-family: cursive;
+        font-style: italic;
+        margin-left: 1em;
+
+        opacity: 1;
+      }
+
+      .hidden {
+        opacity: 0 !important;
+      }
+
+      header {
+        background: linear-gradient(45deg, #18033b, var(--dark-color));
+        height: 40px;
+        border-bottom: #592ba2;
 
       }
     </style>
 
     <section id="chat">
+      <!-- <header></header> -->
       <div id="displayContainer">
         <div id="display"></div>
+        <div id="isTyping" class="hidden">heather is typing...</div>
       </div>
       <div id="inputArea">
         <textarea id="input"></textarea>
         <button id="submit">SUBMIT</button>
       </div>
     </section>
+
+
+
   `,
-  { history: [] },
+  { history: [], isTyping: false},
   ctx => {
     ctx.$display = ctx.$('#display')
     ctx.$displayContainer = ctx.$('#displayContainer')
     ctx.$input = ctx.$('#input')
     ctx.$submit = ctx.$('#submit')
+    ctx.$isTyping = ctx.$('#isTyping')
 
     const submit = () => {
       const message = ctx.$input.value
@@ -415,12 +505,39 @@ createComponent(
     ctx.$input.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') submit()
     })
+
+    ctx.$isTyping.innerHTML = `${ctx.getAttribute('name')} is typing...`
   },
   ctx => {
-    ctx.$display.innerHTML = ctx.state.history.map(h =>
-      `<div class="message ${h.from === 'you' ? 'from-you' : 'from-dom'}">${h.from}: ${h.messageText}</div>`
+
+    if (ctx.state.isTyping) {
+      ctx.$isTyping.classList.remove('hidden')
+    } else {
+      ctx.$isTyping.classList.add('hidden')
+    }
+
+
+    ctx.$display.innerHTML = ctx.state.history.map((h, i) =>
+      `
+      ${
+        i === 0 || getDateTime(ctx.state.history[i-1].timestamp)[0] !== getDateTime(h.timestamp)[0]
+          ? `<h5 class="date">${getDateTime(h.timestamp)[0]}</h5>`
+          : ''
+      }
+      <div class="message ${h.from === 'you' ? 'from-you' : 'from-dom'}">
+        <h6 class="from">${h.from}</h6>
+        <div class="messageContent">${h.messageText}</div>
+      </div>
+      <time datetime="${h.timestamp}" class="${h.from === 'you' ? 'alignRight' : 'alignLeft'}">
+        ${getDateTime(h.timestamp)[1]}
+      </time>
+      `
     ).join('')
     ctx.$displayContainer.scrollTop = ctx.$displayContainer.scrollHeight;
-
   }
 )
+
+function getDateTime(ts) {
+  const str = new Date(ts).toLocaleString()
+  return str.split(', ')
+}
