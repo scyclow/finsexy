@@ -40,7 +40,7 @@ const HeatherHotMessages = {
 
   funnyGreeting: {
     messageText: () => `that's a funny way to greet someone`,
-    followUpMessages: [ { messageCode: 'howAreYou', waitMs: 2000 } ],
+    followUp: { messageCode: 'howAreYou', waitMs: 2000 },
     responseHandler: () => {}
   },
 
@@ -57,9 +57,9 @@ const HeatherHotMessages = {
 
   intro: {
     messageText: (userResponse, ctx) => `my real name is Amanda, I'm 21/f and pretty bored searching for some1 2 talk too...`,
-    followUpMessages: [{ messageCode: 'intro2', waitMs: 2000 }],
+    followUp: { messageCode: 'intro2', waitMs: 2000 },
     responseHandler: (userResponse, ctx) => {
-      // ctx.conversationState.error = 'howareyou error'
+      // ctx.state.error = 'howareyou error'
       // return 'error'
     }
   },
@@ -180,19 +180,19 @@ const HeatherHotMessages = {
       f: 'girl',
       nb: 'baby'
     })}!`,
-    followUpMessages: [{ messageCode: 'fromNY', waitMs: 2000 }],
+    followUp: { messageCode: 'fromNY', waitMs: 2000 },
     responseHandler: () => {}
   },
 
   introJustRight: {
     messageText: () => `perfect, that's my favorite age!`,
-    followUpMessages: [{ messageCode: 'fromNY', waitMs: 2000 }],
+    followUp: { messageCode: 'fromNY', waitMs: 2000 },
     responseHandler: () => {}
   },
 
   introOld: {
     messageText: () => `ok gramps. lol jk`,
-    followUpMessages: [{ messageCode: 'fromNY', waitMs: 2000 }],
+    followUp: { messageCode: 'fromNY', waitMs: 2000 },
     responseHandler: () => {}
   },
 
@@ -216,8 +216,7 @@ const HeatherHotMessages = {
 
 
   error: {
-    messageText: (userResponse, ctx) => 'ERROR: ' + ctx.conversationState.error,
-    followUpMessages: [],
+    messageText: (userResponse, ctx) => 'ERROR: ' + ctx.state.error,
     responseHandler: (userResponse, ctx) => {
 
     }
@@ -233,7 +232,7 @@ const HHChat = new MessageHandler('heatherHot', HeatherHotMessages, 'START')
 HHChat.addChatWindow(hhChatWindow)
 
 
-if (!HHChat.ctx.history.length && !HHChat.ctx.messageEventQueue.length) {
+if (!HHChat.ctx.history.length && !HHChat.ctx.eventQueue.length) {
   HHChat.next('', 'hi')
 }
 

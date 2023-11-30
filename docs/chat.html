@@ -37,16 +37,22 @@
     }
 
     #chatWindow {
-      height: 100vh;
+      height: calc(100vh - 60px);
       width: 100%;
     }
 
     main {
       display: flex;
     }
+
+    code, code *{
+      font-family: monospace;
+    }
+
   </style>
 </head>
 <body>
+  <sexy-header></sexy-header>
   <main>
     <aside>
       <ul id="messageSelector">
@@ -57,6 +63,15 @@
     <section id="chatWindow">
 
     </section>
+
+    <aside style="width: 50vw; height: calc(100vh - 60px);overflow: scroll;">
+      <h1>Test panel</h1>
+      <code>
+        <pre id="chatState">
+
+        </pre>
+      </code>
+    </aside>
 
   </main>
 
@@ -72,6 +87,7 @@
 <script src="./$.js"></script>
 <script src="./utils.js"></script>
 <script src="./conversationRunner.js"></script>
+<script src="./header.js"></script>
 
 
 
@@ -108,21 +124,46 @@
   `).join('')
 
 
+  let activeChat
   const onConvoSelect = (id) => {
+    activeChat = id
+
+    const activeChatWindow = $.id(id + '-chat')
+
     $.cls('message-selector').forEach(ms => {
       ms.classList.remove('active')
     })
 
     $.cls('chat-window').forEach(cw => {
-      console.log(cw)
       cw.classList.add('display-none')
     })
 
     $.id(id + '-select').classList.add('active')
-    $.id(id + '-chat').classList.remove('display-none')
+    activeChatWindow.classList.remove('display-none')
+    activeChatWindow.scroll()
+
+    const url = new URL(window.location)
+    url.searchParams.set('activeChat', activeChat)
+    window.history.pushState({}, '', url)
   }
 
-  onConvoSelect('heatherHot')
+
+  activeChat = messageNames.includes(queryParams.activeChat)
+    ? queryParams.activeChat
+    : 'heatherHot'
+
+  onConvoSelect(activeChat)
+
+  setRunInterval(() => {
+    const chat = MessageHandler.chats[activeChat.toLowerCase()]
+    if (chat) {
+      $.id('chatState').innerHTML = JSON.stringify(
+        {...chat.ctx, history: chat.ctx.history},
+        null,
+        4
+      )
+    }
+  }, 10)
 
   // $heatherHotSelect.onclick = () => {
   //   $heatherHotSelect.classList.add

@@ -1,0 +1,4 @@
+createComponent(
+  'dom-profile',
+  ``,
+  {},

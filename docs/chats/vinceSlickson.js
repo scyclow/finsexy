@@ -5,27 +5,27 @@ const VinceMessages = {
 
   hello: {
     messageText: () => `Hey ${genderSwitch({m: 'buddy', w: 'sweetheart', nb: 'buddy'})}`,
-    followUpMessages: [{ messageCode: 'hello2', waitMs: 2000 }],
+    followUp: { messageCode: 'hello2', waitMs: 2000 },
   },
 
   hello2: {
     messageText: () => `I've seen you clicking around this website, looking for a real hunk`,
-    followUpMessages: [{ messageCode: 'hello3', waitMs: 3000 }],
+    followUp: { messageCode: 'hello3', waitMs: 3000 },
   },
 
   hello3: {
     messageText: () => `Well, today's your lucky day, because you finally found him`,
-    followUpMessages: [{ messageCode: 'hello4', waitMs: 4000 }],
+    followUp: { messageCode: 'hello4', waitMs: 4000 },
   },
 
   hello4: {
     messageText: () => `Hey, I know what you're thinking. I see that sparkle in your eye. You want a piece of this. Not just physically (obviously) but also something deeper. You want a taste of this success. You want to taste it covering your mouth and sliding back down your throat. You want to smell that sweet smell of money more than you want to take your next breath.`,
-    followUpMessages: [{ messageCode: 'hello5', waitMs: 10000 }],
+    followUp: { messageCode: 'hello5', waitMs: 10000 },
   },
 
   hello5: {
     messageText: () => `And the thought of this all is making you unbearably ${genderSwitch({m: 'hard', w: 'wet', nb: 'aroused'})} 😉`,
-    followUpMessages: [{ messageCode: 'hello6', waitMs: 4000 }],
+    followUp: { messageCode: 'hello6', waitMs: 4000 },
   },
 
   hello6: {
@@ -44,12 +44,12 @@ const VinceMessages = {
 
   hello6no: {
     messageText: () => `C'mon, don't play games. I know you want some of this`,
-    followUpMessages: [{ messageCode: 'doAnything', waitMs: 2000 }],
+    followUp: { messageCode: 'doAnything', waitMs: 2000 },
   },
 
   hello6yes: {
     messageText: () => `Haha, I thought so. I knew you couldn't resist.`,
-    followUpMessages: [{ messageCode: 'doAnything', waitMs: 2000 }],
+    followUp: { messageCode: 'doAnything', waitMs: 2000 },
 
   },
 
@@ -77,36 +77,55 @@ const VinceMessages = {
 
   daddy: {
     messageText: () => `That's right. I am your daddy. And do you know what daddies do? They look out for their little ${genderSwitch({m: 'boys', w: 'girls', nb: 'subs'})}.`,
-    followUpMessages: [{ messageCode: 'daddy2', waitMs: 3000 }],
+    followUp: { messageCode: 'daddy2', waitMs: 3000 },
   },
 
   daddy2: {
     messageText: () => `So I'll tell you what I'm gonna do for you: I'm gonna key you in on a little investment opportunity. That's just the kind of generous guy I am.`,
-    followUpMessages: [{ messageCode: 'daddy3', waitMs: 4500 }],
+    followUp: { messageCode: 'daddy3', waitMs: 4500 },
   },
 
   daddy3: {
     messageText: () => `But keep in mind, you're going to owe me BIG for this one. This is the investment opportunity of a lifetime, and I'm handing it to you on a silver platter.`,
-    followUpMessages: [{ messageCode: 'daddy4', waitMs: 4500 }],
+    followUp: { messageCode: 'daddy4', waitMs: 4500 },
   },
 
   daddy4: {
     messageText: () => `In fact, you'd have to be an <em>idiot</em> to not make money on this...`,
-    followUpMessages: [{ messageCode: 'daddy5', waitMs: 3000 }],
+    followUp: ctx => ctx.state.totalPaid > 0
+      ? { messageCode: 'alreadyPaid', waitMs: 3000 }
+      : { messageCode: 'daddy5', waitMs: 3000 },
   },
 
   daddy5: {
     messageText: () => `But when you're as succesful as me, you learn one thing: Time = Money.`,
-    followUpMessages: [{ messageCode: 'daddy6', waitMs: 3000 }],
+    followUp: { messageCode: 'daddy6', waitMs: 3000 },
   },
 
   daddy6: {
     messageText: () => `And my time isn't free, so if you really want this opportunity I'm going to need you to wet my whistle, if you know what I mean`,
-    followUpMessages: [{ messageCode: 'daddy7', waitMs: 3000 }],
+    followUp: { messageCode: 'daddy7', waitMs: 3000 },
   },
 
   daddy7: {
-    messageText: () => `All you need to do is send me 0.01 ETH, and I'll give you all the info you need to start making fast cash now`,
+    messageText: (response, ctx) => `All you need to do is send me 0.01 ETH, and I'll give you all the info you need to start making fast cash now`,
+    event: (ctx) => {
+      console.log('daddy7 event', ctx.state.totalPaid)
+      if (ctx.state.totalPaid > 0) {
+        return { messageCode: 'paymentReceived', waitMs: 0 }
+      }
+    }
+    // responseHandler: (response, ctx) => {
+    //   if (ctx.)
+    // }
+  },
+
+  alreadyPaid: {
+    messageText: () => `And I see you've already wet my whistle a bit...`
+  },
+
+  paymentReceived: {
+    messageText: () => `That's a good little pay piggie`
   },
 
 

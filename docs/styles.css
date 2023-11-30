@@ -1,7 +1,7 @@
 * {
   padding: 0;
   margin: 0;
-  font-family: sans-serif;
+  font-family: var(--default-font);
 }
 
 :root {
@@ -10,6 +10,15 @@
   --light-color: #fff;
   --dark-color: #000;
   --bg-color: #000;
+  /*--help-color: #df0;*/
+  --help-color: #00ff98;
+  --secondary-color: #7202c6;
+  --tertiary-color: #b40066;
+  /*--secondary-color: #00ff98;*/
+
+  --default-font: Trebuchet MS;
+  --fancy-font: cursive;
+  --code-font: monospace;
 }
 
 body {
@@ -83,6 +92,10 @@ button:disabled {
 button:disabled:hover {
   background: var(--primary-color);
   color: #fff;
+}
+
+code {
+  font-family: var(--code-font);
 }
 
 
