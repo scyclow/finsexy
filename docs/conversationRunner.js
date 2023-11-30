@@ -114,12 +114,7 @@ TODO
 
 */
 
-function getUserData() {
-  return {
-    name: 'steviep',
-    gender: 'm',
-  }
-}
+
 
 function genderSwitch(mapping) {
   return mapping[getUserData().gender]

@@ -87,13 +87,13 @@
     }
 
 
-    @media (max-width: 1430px) {
+    @media (max-width: 1000px) {
       .grid {
         grid-template-columns: 1fr 1fr;
       }
     }
 
-    @media (max-width: 1170px) {
+    @media (max-width: 650px) {
       .grid {
         grid-template-columns: 1fr;
       }
@@ -103,7 +103,6 @@
       display: flex;
       justify-content: center;
       margin-top: 3em;
-      min-width: 640px;
     }
 
 
@@ -112,8 +111,8 @@
 
   <script src="./$.js"></script>
   <script src="./webComponents.js"></script>
-  <script src="./web3Components.js"></script>
-  <script src="./connectWallet.js"></script>
+<!--   <script src="./web3Components.js"></script>
+  <script src="./connectWallet.js"></script> -->
   <script src="./header.js"></script>
 </head>
 
@@ -124,63 +123,43 @@
   <main>
 
     <section class="mainSection">
-      <aside>
-        <p>Welcome to FinSexy 💋. Placeholder text, sdklf dj kj akj fkja dkfj akjf sad oias dvoid sovi dsoic osdiv osdioidoidaoidasoiadiov sdia oadi voads voioai voifd  dj kj akj fkja dkfj akjf sad oias dvoid sovi dsoic osdiv osdioidoidaoidasoiadiov sdia oadi voads voioai voifd  dj kj akj fkja dkfj akjf sad oias dvoid sovi dsoic osdiv osdioidoidaoidasoiadiov sdia oadi voads voioai voifd  dj kj akj fkja dkfj akjf sad oias dvoid sovi dsoic osdiv osdioidoidaoidasoiadiov sdia oadi voads voioai voifd  dj kj akj fkja dkfj akjf sad oias dvoid sovi dsoic osdiv osdioidoidaoidasoiadiov sdia oadi voads voioai voifd  dj kj akj fkja dkfj akjf sad oias dvoid sovi dsoic osdiv osdioidoidaoidasoiadiov sdia oadi voads voioai voifd  dj kj akj fkja dkfj akjf sad oias dvoid sovi dsoic osdiv osdioidoidaoidasoiadiov sdia oadi voads voioai voifd </p>
 
-        <section style="margin-top: 1em">
-          <h2>Profile</h2>
-          <table>
-            <tbody>
-              <tr>
-                <td>Name:</td><td>Stevie</td>
-              </tr>
-              <tr>
-                <td>Addressed as:</td><td>Little Piggie</td>
-              </tr>
-
-              <tr>
-                <td>Age:</td><td>27</td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-      </aside>
       <section class="grid">
         <article>
-          <a href="./findomtemplate.html">
-            <img src="./assets/test.jpeg">
+          <a href="./chat.html?activeChat=heatherhot">
+            <img src="./thumbnails/heatherHot/0.png">
           </a>
           <figcaption>heatherhot6, 24</figcaption>
         </article>
         <article>
-          <a href="./findomtemplate.html">
-            <img src="./assets/generated_photos_64f53963d4a3830009e7c7e2.jpg">
-          </a>
-          <figcaption>MistressJennifer, 29</figcaption>
-        </article>
-        <article>
-          <a href="./findomtemplate.html">
-            <img src="./assets/mid-adult-businesswoman-grey-business-suit-writing.jpg">
+          <a href="./chat.html?activeChat=samanthaJones">
+            <img src="./thumbnails/samanthaJones/0.png">
           </a>
           <figcaption>SamanthaJones, 38</figcaption>
         </article>
         <article>
-          <a href="./findomtemplate.html">
-            <img src="./assets/surprised-successful-businesswoman-among-money-white-wall.jpg">
+          <a href="./chat.html?activeChat=VinceSlickson">
+            <img src="./thumbnails/vinceSlickson/0.png">
           </a>
-          <figcaption>Susan, 32</figcaption>
+          <figcaption>VinceSlickson, 45</figcaption>
         </article>
         <article>
-          <a href="./findomtemplate.html">
-            <img src="./assets/generated_photos_64f8a5f78227a3000b41262d.jpg">
+          <a href="./chat.html">
+            <img src="./thumbnails/utilityMonster/0.png">
           </a>
-          <figcaption>CryptoDaddy47, 47</figcaption>
+          <figcaption>$$$, 27</figcaption>
         </article>
         <article>
-          <a href="./findomtemplate.html">
+          <a href="./chat.html">
+            <img src="./thumbnails/candyCrush/0.png">
+          </a>
+          <figcaption>CandyCrush, 21</figcaption>
+        </article>
+        <article>
+          <a href="./chat.html?activeChat=cagla">
             <img src="./assets/test.jpeg">
           </a>
-          <figcaption>Cagla, 24</figcaption>
+          <figcaption>Cagla, 26</figcaption>
         </article>
         <div style="height: 50px"></div>
 <!--
@@ -229,11 +208,11 @@
 </body>
 
 
-<script src="./min.ethers.js"></script>
+<!-- <script src="./min.ethers.js"></script> -->
 
 <script type="text/javascript">
 
-  const provider = new Web3Provider()
+  //const provider = new Web3Provider()
 
   // provider.isConnected().then(isConnected => {
   //   console.log(isConnected, ls.get('is18'))
@@ -243,29 +222,29 @@
     }
   // })
 
-  mountComponents(
-    ConnectWallet(provider, 'connectWallet'),
-    ConnectButton(provider),
-  )
+  // mountComponents(
+  //   ConnectWallet(provider, 'connectWallet'),
+  //   ConnectButton(provider),
+  // )
 
-  const network = 'local'
+  // const network = 'local'
 
-  const STEVIEP_AUCTION = {
-    // local: '0x46d4674578a2daBbD0CEAB0500c6c7867999db34'
-    // local: '0x5FbDB2315678afecb367f032d93F642f64180aa3'
-  }[network]
-
-
-  const auctionABI = [
-    // 'event BidMade(uint256 indexed auctionId, address indexed bidder, uint256 amount, uint256 timestamp)',
-    // 'function auctionCount() external view returns (uint256)',
-  ]
+  // const STEVIEP_AUCTION = {
+  //   // local: '0x46d4674578a2daBbD0CEAB0500c6c7867999db34'
+  //   // local: '0x5FbDB2315678afecb367f032d93F642f64180aa3'
+  // }[network]
 
 
+  // const auctionABI = [
+  //   // 'event BidMade(uint256 indexed auctionId, address indexed bidder, uint256 amount, uint256 timestamp)',
+  //   // 'function auctionCount() external view returns (uint256)',
+  // ]
 
-  provider.onConnect(async () => {
 
-  })
+
+  // provider.onConnect(async () => {
+
+  // })
 
 
 
@@ -333,9 +312,4 @@
 </script>
 
 
-
-<script type="text/javascript">
-  var hours = new Date().getHours();
-  if (hours <= 5 || hours >= 22) document.body.className = 'nightmode';
-</script>
 </html>

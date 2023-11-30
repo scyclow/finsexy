@@ -41,8 +41,12 @@ createComponent(
         text-shadow: 1px 1px 2px var(--primary-color);
       }
 
-      #mobileMenu {
+      #mobileMenu, .displayNone {
         display: none;
+      }
+
+      .centerFlex {
+        justify-content: center;
       }
 
       @media (max-width: 650px) {
@@ -89,23 +93,26 @@ createComponent(
       }
     </style>
 
-    <header>
+    <header id="header">
       <h1><a href="./index.html">💋 FINSEXY</a></h1>
-      <nav>
+      <nav id="nav">
         <h4 id="mobileMenu">Menu</h4>
         <ul id="navItems">
           <li><a href="./index.html">Browse</a></li>
           <li><a href="./chat.html">Chat</a></li>
           <li><a href="#">VIP</a></li>
-          <li><a href="#">Preferences</a></li>
+          <li><a href="./profile.html">Preferences</a></li>
         </ul>
       </nav>
     </header>
   `,
   {},
   (ctx) => {
+
     ctx.$mobileMenu = ctx.$('#mobileMenu')
     ctx.$navItems = ctx.$('#navItems')
+    ctx.$nav = ctx.$('#nav')
+    ctx.$header = ctx.$('#header')
 
     let menuOpen = false
     ctx.$mobileMenu.onclick = () => {
@@ -119,5 +126,12 @@ createComponent(
       menuOpen = !menuOpen
     }
   },
-  (ctx) => {},
+  (ctx) => {
+    const hideNav = ctx.getAttribute('hideNav') === 'true'
+    if (hideNav) {
+      ctx.$nav.classList.add('displayNone')
+      ctx.$header.classList.add('centerFlex')
+    }
+
+  },
 )
