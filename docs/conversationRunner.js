@@ -409,6 +409,7 @@ createComponent(
         margin: 0;
         padding: 0;
         font-family: var(--default-font);
+
       }
 
       h6 {
