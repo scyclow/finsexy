@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <title>FinSexy</title>
-  <link rel="shortcut icon" type="image/x-icon" href="./kiss.png">
+  <link rel="shortcut icon" type="image/x-icon" href="./assets/kiss.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <meta name="description" content="">
@@ -131,9 +131,9 @@
 </body>
 
 <script src="./$.js"></script>
-<script src="./webComponents.js"></script>
-<script src="./web3Components.js"></script>
-<script src="./connectWallet.js"></script>
+<script src="./components/webComponents.js"></script>
+<script src="./components/web3Components.js"></script>
+<script src="./components/connectWallet.js"></script>
 <script src="./min.ethers.js"></script>
 
 <script type="text/javascript">
@@ -157,7 +157,7 @@
     if ($over18.checked) {
       ls.set('is18', true)
     }
-    window.location.replace('./index.html')
+    window.location.replace('./profile.html')
   })
 
   mountComponents(

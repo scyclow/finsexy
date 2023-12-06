@@ -146,7 +146,7 @@ const createComponent = (tag, templateStr, initialState, onInit, onRender) => {
       this.events = {}
 
       // Create a shadow DOM and attach it to the element
-      const shadowRoot = this.attachShadow({ mode: 'open' });
+      const shadowRoot = this.attachShadow({ mode: 'open' })
 
       // Define a template for the web component
       const template = document.createElement('template');
@@ -154,7 +154,16 @@ const createComponent = (tag, templateStr, initialState, onInit, onRender) => {
 
       // Clone the template content and append it to the shadow DOM
       shadowRoot.appendChild(template.content.cloneNode(true));
-      this.$ = shadowRoot.querySelector.bind(shadowRoot)
+
+      const qs = shadowRoot.querySelector.bind(shadowRoot)
+      this.$ = selector => {
+        const e = qs(selector)
+        if (selector[0] === '.') {
+          return e ? Array.from(e) : []
+        } else {
+          return e
+        }
+      }
 
       this.onRender = onRender
       onInit(this)

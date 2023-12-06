@@ -49,10 +49,14 @@ createComponent(
         justify-content: center;
       }
 
+
+
+
       @media (max-width: 650px) {
         #mobileMenu {
           display: initial;
           user-select: none;
+          margin-right: 0.5em;
         }
 
         #navItems {
@@ -84,22 +88,39 @@ createComponent(
           border-bottom: 0;
         }
 
-        #navItems.mobileDisplay li span {
-          text-align: right;
-          display: block;
-          padding: 0.25em 1em;
-          cursor: pointer
-        }
+      }
+
+      #totalUnreads, #totalUnreadsMenu {
+        position: absolute;
+        font-size: 0.5em;
+        font-weight: bolder;
+        height: 1em;
+        width: 1em;
+        padding: 0.5em;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background: var(--primary-color);
+        color: var(--light-color);
+
+        transform: translate(0, -1em);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 0 1em var(--primary-color)
+      }
+
+      #totalUnreads.hidden, #totalUnreadsMenu.hidden {
+        visibility: hidden
       }
     </style>
 
     <header id="header">
       <h1><a href="./index.html">💋 FINSEXY</a></h1>
       <nav id="nav">
-        <h4 id="mobileMenu">Menu</h4>
+        <h4 id="mobileMenu">Menu<span id="totalUnreadsMenu"><span></a></h4>
         <ul id="navItems">
           <li><a href="./index.html">Browse</a></li>
-          <li><a href="./chat.html">Chat</a></li>
+          <li><a href="./chat.html">Chat<span id="totalUnreads"><span></a></li>
           <li><a href="#">VIP</a></li>
           <li><a href="./profile.html">Preferences</a></li>
         </ul>
@@ -113,6 +134,8 @@ createComponent(
     ctx.$navItems = ctx.$('#navItems')
     ctx.$nav = ctx.$('#nav')
     ctx.$header = ctx.$('#header')
+    ctx.$totalUnreads = ctx.$('#totalUnreads')
+    ctx.$totalUnreadsMenu = ctx.$('#totalUnreadsMenu')
 
     let menuOpen = false
     ctx.$mobileMenu.onclick = () => {
@@ -125,10 +148,27 @@ createComponent(
       }
       menuOpen = !menuOpen
     }
+
+
+    setInterval(() => {
+      const totalUnreads = MessageHandler.totalUnreads()
+
+      if (totalUnreads) {
+        ctx.$totalUnreads.innerHTML = totalUnreads
+        ctx.$totalUnreads.classList.remove('hidden')
+
+        ctx.$totalUnreadsMenu.innerHTML = totalUnreads
+        ctx.$totalUnreadsMenu.classList.remove('hidden')
+      } else {
+        ctx.$totalUnreads.classList.add('hidden')
+
+        ctx.$totalUnreadsMenu.classList.add('hidden')
+
+      }
+    }, 100)
   },
   (ctx) => {
-    const hideNav = ctx.getAttribute('hideNav') === 'true'
-    if (hideNav) {
+    if (ctx.state.hideNav) {
       ctx.$nav.classList.add('displayNone')
       ctx.$header.classList.add('centerFlex')
     }

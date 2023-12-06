@@ -2,8 +2,32 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>FinSexy</title>
+  <link rel="shortcut icon" type="image/x-icon" href="./assets/kiss.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="">
+  <meta name="keywords" content="steviep, steve pikelny, pikelny, crypto, ethereum, bitcoin">
+
+  <meta name="twitter:image" content="https://steviep.xyz/">
+  <meta name="twitter:image:alt" content="">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@steviepxyz">
+  <meta name="twitter:site" content="@steviepxyz">
+  <meta property="twitter:description" content="">
+
+  <meta name="og:image" property="og:image" content="https://steviep.xyz/">
+  <meta name="og:image:alt" content="">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://steviep.xyz/">
+  <meta property="og:title" content="">
+  <meta property="og:site_name" content="">
+  <meta property="og:description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+
 
   <link rel="stylesheet" type="text/css" href="./styles.css">
   <style type="text/css">
@@ -38,15 +62,27 @@
     }
 
     #chatWindow {
-      height: calc(100vh - 60px);
-      width: 100%;
+      /*width: 100%;*/
+      flex:  1;
+    }
+
+    .devPanel {
+      width: 30vw;
+      overflow: scroll;
+      display: none;
+    }
+
+    .__debug .devPanel {
+      display: initial;
     }
 
     main {
       display: flex;
+      height: calc(100% - 60px);
     }
 
-    code, code *{
+
+    code, code * {
       font-family: monospace;
     }
 
@@ -56,22 +92,57 @@
       }
     }
 
+    body {
+      height: 100vh;
+      max-height: 100vh;
+      flex-direction: column;
+      display: flex;
+    }
+
+    .unread.hidden {
+      visibility: hidden;
+    }
+
+    .unread {
+      font-size: 0.75em;
+      font-weight: bolder;
+
+      height: 1em;
+      width: 1em;
+      padding: 0.5em;
+      margin-left: 0.5em;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      background: var(--primary-color);
+      color: var(--light-color);
+
+      transform: translateY(-.2em);
+        box-shadow: 0 0 1em var(--primary-color)
+
+    }
+
+    .message-selector {
+      display: flex;
+      justify-content: space-between;
+    }
+
   </style>
 </head>
 <body>
-  <sexy-header></sexy-header>
+  <sexy-header style="flex: 1"></sexy-header>
   <main>
     <aside>
-      <ul id="messageSelector">
-
-      </ul>
+      <!-- <message-selector id="messageSelector"></message-selector> -->
+      <ul id="messageSelector"></ul>
     </aside>
 
     <section id="chatWindow">
 
     </section>
 
-    <aside style="width: 50vw; height: calc(100vh - 60px);overflow: scroll;">
+    <aside class="devPanel">
       <h1>Dev Panel</h1>
       <code>
         <pre id="chatState">
@@ -83,19 +154,19 @@
   </main>
 
 
-<!--
-    <react-style-component id="component1"></react-style-component>
-    <react-style-component id="component2"></react-style-component>
-    <react-style-component id="component3"></react-style-component>
 
-    <div>hello</div> -->
 </body>
 
 <script src="./$.js"></script>
 <script src="./utils.js"></script>
-<script src="./profile.js"></script>
-<script src="./conversationRunner.js"></script>
-<script src="./header.js"></script>
+<script src="./state/profile.js"></script>
+<script src="./state/cli.js"></script>
+<script src="./state/conversationRunner.js"></script>
+<script src="./components/chatWindow.js"></script>
+<script src="./components/header.js"></script>
+
+
+<!-- <script src="./components/messageSelector.js"></script> -->
 
 
 
@@ -118,12 +189,13 @@
       onclick="onConvoSelect('${m}')"
     >
       ${m}
+      <span id="${m}-unread" class="unread hidden"></span>
     </li>
   `).join('')
 
   $messageSelector.innerHTML += `
     <li>
-      <button onclick="localStorage.clear(); window.location.reload()">clear</button>
+      <button onclick="localStorage.removeItem('__CHAT_CONTEXT'); window.location.reload()">clear</button>
     </li>
   `
 
@@ -153,6 +225,16 @@
     const url = new URL(window.location)
     url.searchParams.set('activeChat', activeChat)
     window.history.pushState({}, '', url)
+
+    Object.keys(MessageHandler.chats).forEach(k => {
+      if (k === activeChat.toLowerCase()) {
+        MessageHandler.chats[k].isActive = true
+        MessageHandler.chats[k].ctx.resetUnread()
+      } else {
+        MessageHandler.chats[k].isActive = false
+      }
+
+    })
   }
 
 
@@ -160,7 +242,9 @@
     ? queryParams.activeChat
     : 'heatherHot'
 
-  onConvoSelect(activeChat)
+  setTimeout(() => {
+    onConvoSelect(activeChat)
+  })
 
   setRunInterval(() => {
     const chat = MessageHandler.chats[activeChat.toLowerCase()]
@@ -171,7 +255,35 @@
         4
       )
     }
+
+    $.id('chatState').innerHTML += messageNames.map(m => {
+      if (MessageHandler.chats[m.toLowerCase()]) {
+        return `
+          <div>${m}: ${MessageHandler.chats[m.toLowerCase()].ctx.unread}</div>
+        `
+      } else {
+        return ''
+      }
+    }
+    ).join('')
+
   }, 10)
+
+
+
+  setInterval(() => {
+    messageNames.forEach(m => {
+      const unread = $.id(`${m}-unread`)
+      const unreadCount = MessageHandler.chats[m.toLowerCase()].ctx.unread
+      if (unread && unreadCount) {
+        unread.innerHTML = unreadCount
+        unread.classList.remove('hidden')
+      } else if (unread) {
+        unread.innerHTML = ''
+        unread.classList.add('hidden')
+      }
+    })
+  }, 100)
 
   // $heatherHotSelect.onclick = () => {
   //   $heatherHotSelect.classList.add
@@ -187,41 +299,6 @@
 
 
 
-
-// const ApplicationStateHandlers = []
-// const ApplicationState = {
-//   chat: {
-//     active: 'heatherHot',
-//     participants: {
-//       heatherHot: [],
-//       CandyCrush: [],
-//       GoddessJessica: [],
-//     }
-//   },
-// }
-
-// const getState = path => path.split('.').reduce((s, p) => s[p], ApplicationState)
-
-// const updateState = (path, value) => {
-//   const pathVals = path.split('.')
-//   const node = pathVals.slice(0, -1).reduce((s, p) => s[p], ApplicationState)
-//   const lastProp = pathVals.slice(-1)[0]
-//   node[lastProp] = value
-
-
-//   ApplicationStateHandlers.forEach(handler => handler(ApplicationState))
-// }
-
-
-
-// class ChatContext {
-//   constructor() {
-//     this.history = []
-//     this.warnings = 0
-//     this.stack = []
-
-//   }
-// }
 </script>
 
 
