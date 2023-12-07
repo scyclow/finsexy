@@ -110,7 +110,6 @@ const VinceMessages = {
   daddy7: {
     messageText: (response, ctx) => `All you need to do is send me 0.01 ETH, and I'll give you all the info you need to start making fast cash now`,
     event: (ctx) => {
-      console.log('daddy7 event', ctx.state.totalPaid)
       if (ctx.state.totalPaid > 0) {
         return { messageCode: 'paymentReceived', waitMs: 0 }
       }
@@ -133,9 +132,9 @@ const VinceMessages = {
 
 const VinceChat = new MessageHandler('VinceSlickson', VinceMessages, 'START')
 
-const vinceChatWindow = $.id('VinceSlickson-chat')
+// const vinceChatWindow = $.id('VinceSlickson-chat')
 
-VinceChat.addChatWindow(vinceChatWindow)
+// VinceChat.addChatWindow(vinceChatWindow)
 
 
 /*

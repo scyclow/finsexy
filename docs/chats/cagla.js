@@ -45,9 +45,9 @@ const CaglaMessages = messages.reduce(
 
 const CaglaChat = new MessageHandler('cagla', CaglaMessages, 'START')
 
-const caglaChatWindow = $.id('cagla-chat')
+// const caglaChatWindow = $.id('cagla-chat')
 
-CaglaChat.addChatWindow(caglaChatWindow)
+// CaglaChat.addChatWindow(caglaChatWindow)
 
 
 

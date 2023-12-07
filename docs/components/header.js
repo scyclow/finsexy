@@ -115,14 +115,14 @@ createComponent(
     </style>
 
     <header id="header">
-      <h1><a href="./index.html">💋 FINSEXY</a></h1>
+      <h1><a href="/">💋 FINSEXY</a></h1>
       <nav id="nav">
         <h4 id="mobileMenu">Menu<span id="totalUnreadsMenu"><span></a></h4>
         <ul id="navItems">
-          <li><a href="./index.html">Browse</a></li>
-          <li><a href="./chat.html">Chat<span id="totalUnreads"><span></a></li>
+          <li><a href="/">Browse</a></li>
+          <li><a href="/chat">Chat<span id="totalUnreads" class="hidden"><span></a></li>
           <li><a href="#">VIP</a></li>
-          <li><a href="./profile.html">Preferences</a></li>
+          <li><a href="/profile">Preferences</a></li>
         </ul>
       </nav>
     </header>

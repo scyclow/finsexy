@@ -16,9 +16,9 @@ const SamanthaMessages = {
 
 const SamanthaChat = new MessageHandler('samanthaJones', SamanthaMessages, 'START')
 
-const samanthaChatWindow = $.id('samanthaJones-chat')
+// const samanthaChatWindow = $.id('samanthaJones-chat')
 
-SamanthaChat.addChatWindow(samanthaChatWindow)
+// SamanthaChat.addChatWindow(samanthaChatWindow)
 
 
 

@@ -28,8 +28,6 @@
 
   <link rel="stylesheet" type="text/css" href="./styles.css">
 
-
-  <link rel="stylesheet" type="text/css" href="./styles.css">
   <style type="text/css">
 
     #messageSelector .active {
@@ -47,10 +45,10 @@
       transition: 0.2s;
     }
     #messageSelector li:hover {
-      background: #ff66ff;
+      background: var(--medium-color);
     }
     #messageSelector .active:hover {
-      background: #ff66ff;
+      background: var(--medium-color);
     }
 
     .chat-window.display-none {
@@ -165,43 +163,48 @@
 <script src="./components/chatWindow.js"></script>
 <script src="./components/header.js"></script>
 
-
-<!-- <script src="./components/messageSelector.js"></script> -->
-
-
+<script src="./chats/heatherHot.js"></script>
+<script src="./chats/cagla.js"></script>
+<script src="./chats/samanthaJones.js"></script>
+<script src="./chats/vinceSlickson.js"></script>
+<script src="./chats/katFischer.js"></script>
 
 <script type="text/javascript">
 
   const $messageSelector = $.id('messageSelector')
   const $chatWindow = $.id('chatWindow')
 
-  const messageNames = [
-    'heatherHot',
-    'cagla',
-    'samanthaJones',
-    'VinceSlickson'
-  ]
 
-  $messageSelector.innerHTML = messageNames.map(m => `
+  const messageNames = Object.keys(MessageHandler.chats)
+
+  $messageSelector.innerHTML = messageNames.map(name => `
     <li
-      id="${m}-select"
+      id="${name}-select"
       class="message-selector"
-      onclick="onConvoSelect('${m}')"
+      onclick="onConvoSelect('${name}')"
     >
-      ${m}
-      <span id="${m}-unread" class="unread hidden"></span>
+      ${name}
+      <span id="${name}-unread" class="unread hidden"></span>
     </li>
   `).join('')
+
+
+  $chatWindow.innerHTML = messageNames.map(name => `
+    <chat-window id="${name}-chat" name="${name}" class="chat-window"></chat-window>
+  `).join('')
+
+
+  messageNames.forEach(name => {
+    const $window = $.id(`${name}-chat`)
+    MessageHandler.chats[name].addChatWindow($window)
+  })
+
 
   $messageSelector.innerHTML += `
     <li>
       <button onclick="localStorage.removeItem('__CHAT_CONTEXT'); window.location.reload()">clear</button>
     </li>
   `
-
-  $chatWindow.innerHTML = messageNames.map(m => `
-    <chat-window id="${m}-chat" name="${m}" class="chat-window"></chat-window>
-  `).join('')
 
 
   let activeChat
@@ -227,7 +230,7 @@
     window.history.pushState({}, '', url)
 
     Object.keys(MessageHandler.chats).forEach(k => {
-      if (k === activeChat.toLowerCase()) {
+      if (k === activeChat) {
         MessageHandler.chats[k].isActive = true
         MessageHandler.chats[k].ctx.resetUnread()
       } else {
@@ -238,7 +241,7 @@
   }
 
 
-  activeChat = messageNames.includes(queryParams.activeChat)
+  activeChat = Object.keys(MessageHandler.chats).includes(queryParams.activeChat)
     ? queryParams.activeChat
     : 'heatherHot'
 
@@ -247,7 +250,7 @@
   })
 
   setRunInterval(() => {
-    const chat = MessageHandler.chats[activeChat.toLowerCase()]
+    const chat = MessageHandler.chats[activeChat]
     if (chat) {
       $.id('chatState').innerHTML = JSON.stringify(
         {...chat.ctx, history: chat.ctx.history},
@@ -256,10 +259,10 @@
       )
     }
 
-    $.id('chatState').innerHTML += messageNames.map(m => {
-      if (MessageHandler.chats[m.toLowerCase()]) {
+    $.id('chatState').innerHTML += Object.keys(MessageHandler.chats).map(m => {
+      if (MessageHandler.chats[m]) {
         return `
-          <div>${m}: ${MessageHandler.chats[m.toLowerCase()].ctx.unread}</div>
+          <div>${m}: ${MessageHandler.chats[m].ctx.unread}</div>
         `
       } else {
         return ''
@@ -272,9 +275,9 @@
 
 
   setInterval(() => {
-    messageNames.forEach(m => {
+    Object.keys(MessageHandler.chats).forEach(m => {
       const unread = $.id(`${m}-unread`)
-      const unreadCount = MessageHandler.chats[m.toLowerCase()].ctx.unread
+      const unreadCount = MessageHandler.chats[m].ctx.unread
       if (unread && unreadCount) {
         unread.innerHTML = unreadCount
         unread.classList.remove('hidden')
@@ -302,10 +305,6 @@
 </script>
 
 
-<script src="./chats/heatherHot.js"></script>
-<script src="./chats/cagla.js"></script>
-<script src="./chats/samanthaJones.js"></script>
-<script src="./chats/vinceSlickson.js"></script>
 
 
 

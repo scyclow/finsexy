@@ -33,7 +33,7 @@ const sexyCLI = {
   },
 
   run(name, input, ctx) {
-    const [sexy, command, ...args] = input.toLowerCase().trim().split(' ')
+    const [sexy, command, ...args] = input.trim().split(' ')
     const cb = this.nameToCallback[name]
     if (sexy !== '$sexy') return cb('Something went wrong...')
 

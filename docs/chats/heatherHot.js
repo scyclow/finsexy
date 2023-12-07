@@ -224,12 +224,12 @@ const HeatherHotMessages = {
 }
 
 
-const hhChatWindow = $.id('heatherHot-chat')
 
 const HHChat = new MessageHandler('heatherHot', HeatherHotMessages, 'START')
 
 
-HHChat.addChatWindow(hhChatWindow)
+// const hhChatWindow = $.id('heatherHot-chat')
+// HHChat.addChatWindow(hhChatWindow)
 
 
 if (!HHChat.ctx.history.length && !HHChat.ctx.eventQueue.length) {

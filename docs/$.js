@@ -136,6 +136,8 @@ const ls = {
   }
 }
 
+window.BLAH ={}
+
 const createComponent = (tag, templateStr, initialState, onInit, onRender) => {
   class ReactStyleComponent extends HTMLElement {
     constructor() {

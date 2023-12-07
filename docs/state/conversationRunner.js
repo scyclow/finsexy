@@ -120,6 +120,10 @@ function genderSwitch(mapping) {
   return mapping[getUserData().gender]
 }
 
+function interestedSwitch(mapping) {
+  return mapping[getUserData().interested]
+}
+
 
 
 
@@ -155,6 +159,8 @@ class ChatContext {
     this.user = getUserData
     this.chatName = chatName
     this.chatLS = chatNameLS(chatName)
+    this.lastMessageTimestamp = 0
+    this.totalMessages = 0
 
     const existingContext = this.chatLS.get()
     this.lastDomCodeSent = existingContext.lastDomCodeSent || startingCode || 'START'
@@ -173,6 +179,8 @@ class ChatContext {
     this.chatLS.set('eventQueue', this.eventQueue)
     this.chatLS.set('history', this.history)
     this.chatLS.set('unread', this.unread)
+    this.chatLS.set('lastMessageTimestamp', this.lastMessageTimestamp)
+    this.chatLS.set('totalMessages', this.totalMessages)
   }
 
   addToEventQueue(msg) {
@@ -260,6 +268,8 @@ class MessageHandler {
 
       this.ctx.lastDomCodeSent = messageCode
 
+      if (messageToSend.ignoreSend) return
+
       this.updateHistory({
         messageCode: messageCode,
         messageText: messageToSend.messageText(userResponse, this.ctx),
@@ -267,7 +277,7 @@ class MessageHandler {
       })
     }, 100)
 
-    MessageHandler.chats[chatName.toLowerCase()] = this
+    MessageHandler.chats[chatName] = this
   }
 
   static totalUnreads() {
@@ -279,7 +289,6 @@ class MessageHandler {
 
   addChatWindow(chatWindow) {
     if (chatWindow) {
-
       this.registeredChatWindows.push(chatWindow)
       chatWindow.registerEventHandler('submit', message => this.toDom(message))
       chatWindow.setState({ history: this.ctx.history })
@@ -287,10 +296,12 @@ class MessageHandler {
   }
 
   updateHistory({ from, messageText, messageCode, helpMessage }) {
-    console.log('update', from, this.isActive)
     if (!this.isActive) {
       this.ctx.unread += 1
     }
+    this.ctx.lastMessageTimestamp = Date.now()
+    this.ctx.totalMessages += 1
+
     const historyItem = { from, messageText, messageCode, helpMessage, timestamp: Date.now() }
     this.ctx.history.push(historyItem)
     this.registeredChatWindows.forEach(chatWindow => {

@@ -33,6 +33,7 @@ function getUserData() {
   return {
     name: profileInfo.name,
     gender: profileInfo.gender,
+    location: profileInfo.location,
     age: getAgeYears(profileInfo.birthday)
   }
 }
