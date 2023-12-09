@@ -121,13 +121,6 @@ TODO
 
 
 
-function genderSwitch(mapping) {
-  return mapping[getUserData().gender]
-}
-
-function interestedSwitch(mapping) {
-  return mapping[getUserData().interested]
-}
 
 
 

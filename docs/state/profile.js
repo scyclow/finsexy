@@ -16,6 +16,15 @@ const profileLS = addr => ({
   }
 })
 
+export function genderSwitch(mapping) {
+  return mapping[getUserData().gender]
+}
+
+export function interestedSwitch(mapping) {
+  return mapping[getUserData().interested]
+}
+
+
 export const getAgeYears = bd => {
   const ageMs = new Date() - new Date(bd)
 

@@ -194,15 +194,39 @@ createComponent(
         background: linear-gradient(180deg, #000 -25%, var(--secondary-color) 90%);
         height: 60px;
         border-bottom: #592ba2;
+        display: flex;
+        align-items: center;
+        padding: 0.5em 1em;
       }
 
       code {
         font-family: var(--code-font);
       }
+
+      #pfpContainer img {
+        width: 100%
+      }
+      #pfpContainer {
+        border-radius: 50%;
+        width: 35px;
+        overflow: hidden;
+        border: 1px solid var(--light-color);
+      }
+
+      #chatName {
+        margin-left: 0.5em;
+        font-size: 1.25em;
+        text-shadow: 0 0 5px var(--primary-color);
+      }
     </style>
 
     <section id="chat">
-      <header></header>
+      <header>
+        <div id="pfpContainer">
+          <img id="pfp">
+        </div>
+        <h5 id="chatName"></h5>
+      </header>
       <div id="displayContainer">
         <div id="display"></div>
         <div id="isTyping" class="hidden">heather is typing...</div>
@@ -223,6 +247,10 @@ createComponent(
     ctx.$input = ctx.$('#input')
     ctx.$submit = ctx.$('#submit')
     ctx.$isTyping = ctx.$('#isTyping')
+    ctx.$pfp = ctx.$('#pfp')
+    ctx.$chatName = ctx.$('#chatName')
+
+    const name = ctx.getAttribute('name')
 
     const submit = () => {
       const message = ctx.$input.value
@@ -233,13 +261,15 @@ createComponent(
       setTimeout(() => ctx.$input.value = '')
     }
 
+    ctx.$pfp.src = `./thumbnails/${name}/pfp.png`
+    ctx.$chatName.innerHTML = name
 
     ctx.$submit.addEventListener('click', submit)
     ctx.$input.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') submit()
     })
 
-    ctx.$isTyping.innerHTML = `${ctx.getAttribute('name')} is typing...`
+    ctx.$isTyping.innerHTML = `${name} is typing...`
 
     ctx.scroll = () => {
       ctx.$displayContainer.scrollTop = ctx.$displayContainer.scrollHeight

@@ -1,5 +1,7 @@
 
 export const $ = (elem, prop, value) => elem.style[prop] = value
+
+window.$ = $
 $.cls = (selector, elem=document) => Array.isArray(elem)
   ? elem.map(e => $.cls(e, selector)).flat()
   : Array.from(elem.getElementsByClassName(selector))
@@ -41,6 +43,7 @@ $.create = elType => (children, attrs={}) => {
 }
 
 $.a = $.create('a')
+$.li = $.create('li')
 $.div = $.create('div')
 $.span = $.create('span')
 $.main = $.create('main')

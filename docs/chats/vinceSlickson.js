@@ -1,5 +1,6 @@
 import { isYes, isNo, isGreeting, MessageHandler } from '../state/conversationRunner.js'
-import {getUserData} from '../state/profile.js'
+import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
+
 
 
 const VinceMessages = {

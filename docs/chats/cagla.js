@@ -1,5 +1,6 @@
 import { isYes, isNo, isGreeting, MessageHandler } from '../state/conversationRunner.js'
-import {getUserData} from '../state/profile.js'
+import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
+
 
 
 const messages = [
@@ -46,11 +47,9 @@ const CaglaMessages = messages.reduce(
 
 
 
-export const CaglaChat = new MessageHandler('cagla', CaglaMessages, 'START')
+// export const CaglaChat = new MessageHandler('cagla', CaglaMessages, 'START')
 
-// const caglaChatWindow = $.id('cagla-chat')
 
-// CaglaChat.addChatWindow(caglaChatWindow)
 
 
 

@@ -185,6 +185,16 @@ createComponent(
         box-shadow: inset 0px 0px 10px #555;
 
       }
+      #sendInput:focus {
+        border: 1px solid var(--green1-color);
+        border-right: 0;
+        outline: none;
+      }
+
+      #sendInput:focus + button {
+        border: 1px solid var(--green1-color);
+        border-left: 0;
+      }
 
       #chat {
         font-size: 1.8em;
@@ -234,9 +244,37 @@ createComponent(
           margin-top: 1em
         }
       }
+
+
+
+
+      .sideWindow #chat {
+        display: none
+      }
+      .sideWindow main {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .sideWindow h1 {
+        text-align: center;
+      }
+
+      .sideWindow #photoContainer {
+        width: 300px;
+        height: 300px;
+        }
+
+      .sideWindow .actions {
+        flex-direction: column;
+      }
+
+      .sideWindow #sendModule {
+        margin-top: 1em
+      }
     </style>
 
-    <article>
+    <article id="parent">
       <header>
         <h1 id="name"></h1>
       </header>
@@ -272,6 +310,7 @@ createComponent(
   `,
   {activePhoto: 0},
   (ctx) => {
+    ctx.parent = ctx.$('#parent')
     ctx.$name = ctx.$('#name')
     ctx.$photos = ctx.$('#photos')
     ctx.$description = ctx.$('#description')
@@ -279,6 +318,8 @@ createComponent(
     ctx.$imgLeft = ctx.$('#imgLeft')
     ctx.$imgRight = ctx.$('#imgRight')
     ctx.$chat = ctx.$('#chat')
+
+    if (ctx.getAttribute('sideWindow')) ctx.parent.classList.add('sideWindow')
 
 
 

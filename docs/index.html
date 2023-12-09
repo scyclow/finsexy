@@ -106,6 +106,17 @@
       margin-top: 3em;
     }
 
+    .hidden {
+      display: none;
+    }
+
+    .unreadMessage {
+      position: absolute;
+      background:linear-gradient(180deg, var(--primary-color) 17%, rgba(255,0,0,0) 100%);
+      padding: 0.25em;
+      color: var(--light-color);
+    }
+
 
   </style>
 
@@ -123,24 +134,28 @@
 
       <section class="grid">
         <article>
+          <div id="heatherHot-unread" class="unreadMessage hidden">New Message!</div>
           <a href="./profiles/heatherHot">
             <img src="./thumbnails/heatherHot/0.png">
           </a>
           <figcaption>heatherhot6, 27</figcaption>
         </article>
         <article>
+          <div id="VinceSlickson-unread" class="unreadMessage hidden">New Message!</div>
           <a href="./profiles/VinceSlickson">
             <img src="./thumbnails/VinceSlickson/0.png">
           </a>
           <figcaption>VinceSlickson, 42</figcaption>
         </article>
         <article>
+          <div id="katFischer-unread" class="unreadMessage hidden">New Message!</div>
           <a href="./profiles/katFischer">
             <img src="./thumbnails/katFischer/0.png">
           </a>
           <figcaption>katFischer, 23</figcaption>
         </article>
         <article>
+          <div id="samanthaJones-unread" class="unreadMessage hidden">New Message!</div>
           <a href="./profiles/samanthaJones">
             <img src="./thumbnails/samanthaJones/0.png">
           </a>
@@ -220,6 +235,18 @@
 <script type="module">
 
   import {ls} from './$.js'
+  import {MessageHandler} from './state/all.js'
+
+  setInterval(() => {
+    Object.keys(MessageHandler.chats).forEach(name => {
+      if (MessageHandler.chats[name].ctx.unread) {
+        $.id(`${name}-unread`).classList.remove('hidden')
+      } else {
+        $.id(`${name}-unread`).classList.add('hidden')
+
+      }
+    })
+  }, 200)
 
   //const provider = new Web3Provider()
 

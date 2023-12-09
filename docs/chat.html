@@ -64,13 +64,13 @@
       flex:  1;
     }
 
-    .devPanel {
+    .devPanel, #profilePanel {
       width: 30vw;
       overflow: scroll;
       display: none;
     }
 
-    .__debug .devPanel {
+    .__debug .devPanel, #profilePanel {
       display: initial;
     }
 
@@ -149,6 +149,11 @@
       </code>
     </aside>
 
+
+    <aside id="profilePanel">
+
+    </aside>
+
   </main>
 
 
@@ -169,20 +174,37 @@
 
   const $messageSelector = $.id('messageSelector')
   const $chatWindow = $.id('chatWindow')
+  const $profilePanel = $.id('profilePanel')
 
 
   const messageNames = Object.keys(MessageHandler.chats)
 
-  $messageSelector.innerHTML = messageNames.map(name => `
-    <li
-      id="${name}-select"
-      class="message-selector"
-      onclick="onConvoSelect('${name}')"
-    >
-      ${name}
-      <span id="${name}-unread" class="unread hidden"></span>
-    </li>
-  `).join('')
+  // $messageSelector.innerHTML = messageNames.map(name => `
+  //   <li
+  //     id="${name}-select"
+  //     class="message-selector"
+  //   >
+  //     ${name}
+  //     <span id="${name}-unread" class="unread hidden"></span>
+  //   </li>
+  // `).join('')
+
+
+  messageNames.forEach(name => {
+    const li = $.li([
+      $.span(name),
+      $.span('', { id: `${name}-unread`, class: 'unread hidden'})
+    ], {
+      id: `${name}-select`,
+      class: 'message-selector'
+    })
+
+    li.onclick = () => {
+      onConvoSelect(name)
+    }
+
+    $.render($messageSelector, li)
+  })
 
 
   $chatWindow.innerHTML = messageNames.map(name => `
@@ -190,16 +212,17 @@
   `).join('')
 
 
+
   messageNames.forEach(name => {
     const $window = $.id(`${name}-chat`)
     MessageHandler.chats[name].addChatWindow($window)
   })
 
+  const clearLI = $.li()
+  $.render($messageSelector, clearLI)
 
-  $messageSelector.innerHTML += `
-    <li>
-      <button onclick="localStorage.removeItem('__CHAT_CONTEXT'); window.location.reload()">clear</button>
-    </li>
+  clearLI.innerHTML = `
+    <button onclick="localStorage.removeItem('__CHAT_CONTEXT'); window.location.reload()">clear</button>
   `
 
 
@@ -232,8 +255,9 @@
       } else {
         MessageHandler.chats[k].isActive = false
       }
-
     })
+
+  $profilePanel.innerHTML = `<sexy-profile name="${id}" sideWindow="true"></sexy-profile>`
   }
 
 
