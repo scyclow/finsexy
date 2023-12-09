@@ -1,4 +1,5 @@
 
+import {createComponent} from '../$.js'
 
 
 
@@ -27,11 +28,12 @@ createComponent(
         width: 100%;
         height: 4em;
         color: var(--light-color);
-        background: #292929;
+        background: var(--input-color);
         padding: 0.5em;
         box-sizing: border-box;
         transition: 0.2s;
         box-shadow: inset 0px 0px 10px #555;
+        border-right: 0;
       }
 
 
@@ -95,6 +97,12 @@ createComponent(
         margin-top: 0.75em;
         margin-bottom: 0.25em;
         border-radius: 1em;
+        max-width: 35em;
+        line-height: 1.2;
+      }
+
+      .messageContent p + p {
+        margin-top: 0.5em;
       }
 
       .message::selection {
@@ -162,6 +170,7 @@ createComponent(
         font-size: 0.5em;
         margin-top: 1em;
         margin-bottom: 2em;
+        padding: 0 1em;
       }
 
       .date {

@@ -115,10 +115,10 @@
   </style>
 
 
-  <script src="./$.js"></script>
-  <script src="./components/webComponents.js"></script>
-  <script src="./components/header.js"></script>
-  <script src="./state/profile.js"></script>
+<script src="./utils.js"></script>
+<script type="module" src="./state/all.js"></script>
+<script type="module" src="./components/all.js"></script>
+
 </head>
 
 <body>
@@ -213,7 +213,10 @@ become a VIP -->
 
 <!-- <script src="./min.ethers.js"></script> -->
 
-<script type="text/javascript">
+<script type="module">
+
+  import {$, ls} from './$.js'
+  import {defaultProfileLS} from './state/profile.js'
 
   if (!ls.get('is18')) {
     window.location.replace('./enter.html')

@@ -155,21 +155,17 @@
 
 </body>
 
-<script src="./$.js"></script>
+
 <script src="./utils.js"></script>
-<script src="./state/profile.js"></script>
-<script src="./state/cli.js"></script>
-<script src="./state/conversationRunner.js"></script>
-<script src="./components/chatWindow.js"></script>
-<script src="./components/header.js"></script>
+<script type="module" src="./state/all.js"></script>
+<script type="module" src="./components/all.js"></script>
 
-<script src="./chats/heatherHot.js"></script>
-<script src="./chats/cagla.js"></script>
-<script src="./chats/samanthaJones.js"></script>
-<script src="./chats/vinceSlickson.js"></script>
-<script src="./chats/katFischer.js"></script>
 
-<script type="text/javascript">
+
+
+<script type="module">
+  import {MessageHandler} from './state/all.js'
+  import {$, queryParams} from './$.js'
 
   const $messageSelector = $.id('messageSelector')
   const $chatWindow = $.id('chatWindow')
@@ -208,7 +204,7 @@
 
 
   let activeChat
-  const onConvoSelect = (id) => {
+  const onConvoSelect = (id, ignoreHistory=false) => {
     activeChat = id
 
     const activeChatWindow = $.id(id + '-chat')
@@ -227,7 +223,7 @@
 
     const url = new URL(window.location)
     url.searchParams.set('activeChat', activeChat)
-    window.history.pushState({}, '', url)
+    if (!ignoreHistory) window.history.pushState({}, '', url)
 
     Object.keys(MessageHandler.chats).forEach(k => {
       if (k === activeChat) {
@@ -246,7 +242,7 @@
     : 'heatherHot'
 
   setTimeout(() => {
-    onConvoSelect(activeChat)
+    onConvoSelect(activeChat, true)
   })
 
   setRunInterval(() => {

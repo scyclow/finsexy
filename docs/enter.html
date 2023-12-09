@@ -130,13 +130,15 @@
   <footer><a href="https://steviep.xyz" target="_blank">steviep.xyz</a> (c) 2023</footer>
 </body>
 
-<script src="./$.js"></script>
-<script src="./components/webComponents.js"></script>
+
+<!-- <script src="./components/webComponents.js"></script>
 <script src="./components/web3Components.js"></script>
 <script src="./components/connectWallet.js"></script>
-<script src="./min.ethers.js"></script>
+<script src="./min.ethers.js"></script> -->
 
-<script type="text/javascript">
+<script type="module">
+  import {$, ls} from './$.js'
+
   const $id = s => $.id(s)
 
   const $over18 = $id('over18')
@@ -145,7 +147,7 @@
   const $connectButton = $id('connectButton')
   const $proceedButton = $id('proceedButton')
 
-  const provider = new Web3Provider()
+  // const provider = new Web3Provider()
 
   // provider.isConnected().then(isConnected => {
   //   if (isConnected && !ls.get('is18')) {
@@ -160,10 +162,10 @@
     window.location.replace('./profile.html')
   })
 
-  mountComponents(
-    ConnectWallet(provider, 'connectWallet'),
-    ConnectButton(provider),
-  )
+  // mountComponents(
+  //   ConnectWallet(provider, 'connectWallet'),
+  //   ConnectButton(provider),
+  // )
 
 
   function onCheck() {

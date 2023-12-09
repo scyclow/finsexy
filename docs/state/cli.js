@@ -1,6 +1,7 @@
+import {ls} from '../$.js'
 
 
-const cliLS = {
+export const cliLS = {
   get() {
     return ls.get('__CLI_STATE') || {}
   },
@@ -19,7 +20,7 @@ if (cliLS.get().devMode) {
   setTimeout(() => document.body.classList.add('__debug'))
 }
 
-const sexyCLI = {
+export const sexyCLI = {
 
   nameToAddress: {},
   nameToContext: {},
@@ -60,7 +61,7 @@ const sexyCLI = {
           return cb(`Invalid amount: ${amount}`)
         }
         // TODO make this real
-        MessageHandler.chats[recipient].ctx.state.totalPaid =
+        MessageHandler.chats[recipient].ctx.state.totalPaid +=
           (MessageHandler.chats[recipient].ctx.totalPaid || 0)
           + Number(amount)
       }, 2000)

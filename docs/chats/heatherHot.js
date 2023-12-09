@@ -1,3 +1,7 @@
+
+import { isYes, isNo, isGreeting, MessageHandler } from '../state/conversationRunner.js'
+import {getUserData} from '../state/profile.js'
+
 /*
 
 TODO
@@ -225,7 +229,7 @@ const HeatherHotMessages = {
 
 
 
-const HHChat = new MessageHandler('heatherHot', HeatherHotMessages, 'START')
+export const HHChat = new MessageHandler('heatherHot', HeatherHotMessages, 'START')
 
 
 // const hhChatWindow = $.id('heatherHot-chat')

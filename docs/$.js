@@ -1,5 +1,5 @@
 
-const $ = (elem, prop, value) => elem.style[prop] = value
+export const $ = (elem, prop, value) => elem.style[prop] = value
 $.cls = (selector, elem=document) => Array.isArray(elem)
   ? elem.map(e => $.cls(e, selector)).flat()
   : Array.from(elem.getElementsByClassName(selector))
@@ -49,7 +49,7 @@ $.section = $.create('section')
 
 const $html = document.getElementsByTagName('html')[0]
 
-let queryParams
+export let queryParams
 
 try {
   queryParams = window.location.search
@@ -119,7 +119,7 @@ function setMetadata(usedContent) {
   console.log(title)
 }
 
-const ls = {
+export const ls = {
   get(key) {
     try {
       return window.localStorage && window.localStorage.getItem && JSON.parse(window.localStorage.getItem(key))
@@ -136,9 +136,8 @@ const ls = {
   }
 }
 
-window.BLAH ={}
 
-const createComponent = (tag, templateStr, initialState, onInit, onRender) => {
+export const createComponent = (tag, templateStr, initialState, onInit, onRender) => {
   class ReactStyleComponent extends HTMLElement {
     constructor() {
       super();

@@ -1,3 +1,46 @@
+import {createComponent} from '../$.js'
+
+const ProfileStats = {
+  katFischer: {
+    age: 23,
+    distance: 69,
+    gender: 'Female',
+    maxPhotos: 3,
+    description: `I'm just doing my job`
+  },
+
+  heatherHot: {
+    age: 27,
+    distance: 2,
+    gender: 'Female',
+    maxPhotos: 4,
+    description: `Hi, my name is Heather`
+  },
+
+  VinceSlickson: {
+    age: 42,
+    distance: 10,
+    gender: '100% Male',
+    maxPhotos: 4,
+    description: `Your prayers have been answered because I'm the man you've been dreaming about`
+  },
+
+  samanthaJones: {
+    age: 38,
+    distance: 6,
+    maxPhotos: 4,
+    description: `Samantha Jones is a tax auditor financial professional with a focus on cryptocurrency and blockchain fraud. In her more than 17 years of industry experience, she has handled matters across the criminal and regulatory spectrum. `
+  },
+
+
+  hacker: {
+    age: 0,
+    distance: 0
+  }
+}
+
+
+
 createComponent(
   'sexy-profile',
   `
@@ -8,9 +51,63 @@ createComponent(
         font-family: var(--default-font);
       }
 
-      #controls {
+      article {
+        padding: 1em;
+        margin: auto;
+        max-width: 1000px;
+      }
+
+      img {
+        width: 100%
+      }
+
+      main {
+        display: flex;
+      }
+
+      header {
+        margin-top: 1em;
+        margin-bottom: 2em;
+      }
+
+      figcaption {
+        position: relative;
+        box-sizing: border-box;
+        width: calc(100% - 2px);
         display: flex;
         justify-content: space-between;
+        margin-top: -3.3em;
+        margin-left: 1px;
+        padding: 0.5em;
+        padding-top: 1.5em;
+        background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(255,0,0,0) 100%);
+        text-shadow: 1px -2px 0 #000;
+      }
+
+      h1 {
+        font-size: 3em;
+        text-shadow: 0 0 5px var(--medium-color), 0 0 8px var(--border-color);
+      }
+
+      h2 {
+        text-align: center;
+        text-decoration: underline;
+      }
+
+      input {
+        color: var(--light-color);
+        background: var(--input-color);
+        padding: 0.5em;
+        border: 1px solid var(--border-color);
+        text-align: center;
+      }
+
+      #content {
+        flex: 1;
+      }
+
+      #name {
+        margin-bottom: 0.5em;
       }
 
       #imgLeft, #imgRight {
@@ -23,72 +120,205 @@ createComponent(
       }
 
       #photoContainer {
-        padding: 1em;
         width: 400px;
-        height: 400px;
+
+
       }
 
       #photos {
         border: 1px solid var(--border-color);
+        box-shadow: 0 0 10px #888;
       }
 
-      img {
-        width: 100%
-      }
-
-      main {
+      .actions {
+        margin-top: 1em;
+        padding: 1em;
         display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
+
+      #description {
+        font-style: italic;
+        padding: 0.5em;
+        text-align: center;
+      }
+
+      #info > div + div {
+        margin-top: 0.25em;
+      }
+      #info > div {
+        text-align: center;
+      }
+
+      #activeThumbnail {
+        cursor: pointer
+      }
+
+      .modalContent {
+        width: 80vmin;
+        height: 80vmin;
+        border: 2px solid var(--primary-color);
+      }
+
+
+      #sendModule {
+        box-shadow: 0 0 20px var(--green1-color);
+      }
+      #sendModule * {
+        font-size: 1.15em;
+      }
+
+      #sendButton {
+        border: 1px solid var(--border-color);
+        border-left: 0px;
+        background: var(--green1-color);
+        color: var(--light-color);
+        padding: 0.5em 1em;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+
+      #sendInput {
+        border-right: 0;
+        width: 6em;
+        box-shadow: inset 0px 0px 10px #555;
+
+      }
+
+      #chat {
+        font-size: 1.8em;
+        box-shadow: 0 0 2em #b47aa7;
+        transition: 300ms;
+        display: inline-block;
+        cursor: pointer;
+        background: var(--primary-color);
+        color: var(--light-color);
+        border: 0px solid;
+        border-radius: 3px;
+        transition: 150ms;
+        padding: 0.35em 1em;
+        text-decoration: none;
+      }
+
+      #sendButton:hover {
+        background: var(--green2-color);
+      }
+      #chat:hover {
+        background: var(--medium-color);
+        border-color: var(--light-color);
+
+      }
+
 
       @media (max-width: 650px) {
         main {
           flex-direction: column;
           align-items: center;
         }
+
+        h1 {
+          text-align: center;
+        }
+
         #photoContainer {
           width: 300px;
           height: 300px;
         }
+
+        .actions {
+          flex-direction: column;
+        }
+
+        #sendModule {
+          margin-top: 1em
+        }
       }
     </style>
 
-    <main>
-      <aside id="photoContainer">
+    <article>
+      <header>
         <h1 id="name"></h1>
-        <div id="photos"></div>
-        <div id="controls">
-          <span id="imgLeft">← Previous</span>
-          <span id="imgRight">Next →</span>
-        </div>
-      </aside>
+      </header>
 
-      <section>
-        <p>descriptiondescriptiondescriptiondescriptiondescription</p>
-      </section>
+      <main>
+        <aside>
+          <div id="photoContainer">
+            <div id="photos"></div>
+            <figcaption>
+              <span id="imgLeft">← Previous</span>
+              <span id="imgRight">Next →</span>
+            </figcaption>
+          </div>
 
-    </main>
+          <div class="actions">
+            <a id="chat">Chat</a>
+            <div id="sendModule">
+              <input id="sendInput" type="number" step="0.01" placeholder="0.01"><button id="sendButton">SEND</button>
+            </div>
+            </div>
+        </aside>
+
+        <section id="content">
+          <div>
+            <h2>Profile</h2>
+            <div id="info"></div>
+            <p id="description"></p>
+          </div>
+        </section>
+
+      </main>
+    </article>
   `,
   {activePhoto: 0},
   (ctx) => {
     ctx.$name = ctx.$('#name')
     ctx.$photos = ctx.$('#photos')
+    ctx.$description = ctx.$('#description')
+    ctx.$info = ctx.$('#info')
     ctx.$imgLeft = ctx.$('#imgLeft')
     ctx.$imgRight = ctx.$('#imgRight')
+    ctx.$chat = ctx.$('#chat')
+
+
+
+    const name = ctx.getAttribute('name')
+    const {age, distance, gender, maxPhotos, description} = ProfileStats[name]
+
+    ctx.$description.innerHTML = `"${description}"`
+    ctx.$name.innerHTML = name
+    ctx.$info.innerHTML = `
+      <div>Age: ${age}</div>
+      <div>Gender: ${gender}</div>
+      <div>${distance} miles away!</div>
+    `
+
+    ctx.$chat.href = `/chat?activeChat=${name}`
 
     ctx.$imgLeft.onclick = () => {
-      ctx.setState({ activePhoto: (4 + ctx.state.activePhoto - 1) % 4})
+      ctx.setState({ activePhoto: (maxPhotos + ctx.state.activePhoto - 1) % maxPhotos})
     }
 
     ctx.$imgRight.onclick = () => {
-      ctx.setState({ activePhoto: (ctx.state.activePhoto + 1) % 4})
+      ctx.setState({ activePhoto: (ctx.state.activePhoto + 1) % maxPhotos})
     }
 
-    ctx.$name.innerHTML = ctx.getAttribute('name')
 
 
   },
   (ctx) => {
-    ctx.$photos.innerHTML = `<img src="../thumbnails/${ctx.getAttribute('name')}/${ctx.state.activePhoto}.png">`
+    ctx.$photos.innerHTML = `
+      <img id="activeThumbnail" src="../thumbnails/${ctx.getAttribute('name')}/${ctx.state.activePhoto}.png">
+      <sexy-modal id="activeThumbnailModal">
+        <div slot="content" class="modalContent">
+          <img src="../thumbnails/${ctx.getAttribute('name')}/${ctx.state.activePhoto}.png">
+        </div>
+      </sexy-modal>
+    `
+
+    ctx.$('#activeThumbnail').onclick = () => {
+      ctx.$('#activeThumbnailModal').open()
+    }
 
   },
 )

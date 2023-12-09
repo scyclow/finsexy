@@ -1,19 +1,23 @@
+import { isYes, isNo, isGreeting, MessageHandler } from '../state/conversationRunner.js'
+import {getUserData} from '../state/profile.js'
+
+
 
 const firstSendEvent = redirectTo => ctx => {
   // TODO if user waits too long, redirect to "Are you still there, baby? I can't stop thinking about you"
-  if (ctx.state.totalPaid >= 0.01) {
+  if (ctx.state.totalPaid >= ctx.state.sentFromPreviousRounds + 0.01) {
     return { messageCode: redirectTo, waitMs: 0 }
   }
 }
 
 const secondSendEvent = redirectTo => ctx => {
-  if (ctx.state.totalPaid >= 0.02) {
+  if (ctx.state.totalPaid >= ctx.state.sentFromPreviousRounds + 0.02) {
     return { messageCode: redirectTo, waitMs: 0 }
   }
 }
 
 const thirdSendEvent = redirectTo => ctx => {
-  if (ctx.state.totalPaid >= 0.02) {
+  if (ctx.state.totalPaid >= ctx.state.sentFromPreviousRounds + 0.03) {
     return { messageCode: redirectTo, waitMs: 0 }
   }
 }
@@ -25,7 +29,10 @@ const KatMessages = {
 
   steviep: {
     messageText: () => `Hello, Mr. Steviep! This is Sophia, and I have those documents you wanted signed.`,
-    responseHandler: () => 'sorry'
+    responseHandler: (r, ctx) => {
+      ctx.state.sentFromPreviousRounds = ctx.state.sentFromPreviousRounds || 0
+      return 'sorry'
+    }
   },
 
   sorry:   {
@@ -35,11 +42,11 @@ const KatMessages = {
 
   typingError: {
     messageText: () => `Oh my, I'm so sorry. Your user names are so similar I must have made a typing error.`,
-    followUp: { messageCode: 'funny', waitMs: 2000 }
+    followUp: { messageCode: 'funny', waitMs: 3000 }
   },
   funny: {
     messageText: () => `It's so funny that our paths should cross though.`,
-    followUp: { messageCode: 'sexy', waitMs: 2000 }
+    followUp: { messageCode: 'sexy', waitMs: 4000 }
   },
   sexy: {
     messageText: () => `You sound so sexy. We should have a conversation!`,
@@ -70,23 +77,20 @@ const KatMessages = {
   },
   thankful: {
     messageText: () => `I'm so thankful that we have gotten to know each other like this. I wish we could meet in person, but ${getUserData().location} is so far away from where I live.`,
-    followUp: { messageCode: 'busTicket', waitMs: 3000 }
+    followUp: { messageCode: 'busTicket', waitMs: 4000 }
   },
   busTicket: {
     messageText: () => `I wish I could afford a bus ticket to get there, but I sadly don't have any money left. My last ${genderSwitch({m: 'boyfriend', w: 'girlfriend', nb: 'romantic partner'})} took all of it when ${genderSwitch({m: 'he', w: 'she', nb: 'they'})} left me! Can you believe it?`,
     responseHandler: () => 'ifOnly'
   },
   ifOnly: {
-    messageText: () => `If only there was something we could do.`,
-    followUp: { messageCode: 'soHot', waitMs: 1000 }
-  },
-  soHot: {
-    messageText: () => `You're sooo hot, babe`,
+    messageText: () => `If only there was something we could do...`,
     responseHandler: () => 'sendReq1'
   },
+
   sendReq1: {
     messageText: () => `Well, would you be okay with lending me 0.01 ETH, just for a bus ticket? I'll pay you back as soon as I get my next paycheck.`,
-    followUp: { messageCode: 'sendReqFollowup1', waitMs: 1000 }
+    followUp: { messageCode: 'sendReqFollowup1', waitMs: 3000 }
 
   },
   sendReqFollowup1: {
@@ -138,12 +142,12 @@ const KatMessages = {
 
   youGotMe: {
     messageText: () => `Okay, okay, you got me.`,
-    followUp: { messageCode: 'katherine', waitMs: 4000 }
+    followUp: { messageCode: 'katherine', waitMs: 5000 }
   },
 
   katherine: {
     messageText: () => `My name's not Sophia. It's Katherine.`,
-    followUp: { messageCode: 'extractMoney', waitMs: 2000 }
+    followUp: { messageCode: 'extractMoney', waitMs: 4000 }
   },
 
   extractMoney: {
@@ -161,7 +165,7 @@ const KatMessages = {
 
   honestWithYou: {
     messageText: () => `I'll be completely honest with you: my ex <em>was</em> a total scumbag, and ${genderSwitch({m: `he`, w: `she`, nb: `they`})} just left me in a pretty shitty financial place. I wouldn't be doing this if I didn't <em>really</em> need the money.`,
-    followUp: { messageCode: 'noOptions', waitMs: 1000 }
+    followUp: { messageCode: 'noOptions', waitMs: 4000 }
   },
 
   noOptions: {
@@ -171,12 +175,12 @@ const KatMessages = {
 
   zeroReason: {
     messageText: () => `Look, I know you have absolutely zero reason to trust me, but sending me another 0.01 ETH would really mean a lot to me`,
-    followUp: { messageCode: 'trulySorry', waitMs: 3000 }
+    followUp: { messageCode: 'trulySorry', waitMs: 4000 }
   },
 
   trulySorry: {
     messageText: () => `Either way, just know that I'm truly sorry, and it brings me no pleasure to do any of this.`,
-    followUp: { messageCode: 'meanALot', waitMs: 2000 }
+    followUp: { messageCode: 'meanALot', waitMs: 3000 }
   },
 
   meanALot: {
@@ -205,12 +209,12 @@ const KatMessages = {
 
   jesusChrist: {
     messageText: () => `lol, jesus christ`,
-    followUp: { messageCode: 'fuckingMoron', waitMs: 1000 }
+    followUp: { messageCode: 'fuckingMoron', waitMs: 2000 }
   },
 
   fuckingMoron: {
     messageText: () => `what a fucking moron`,
-    followUp: { messageCode: 'fellForIt', waitMs: 2000 }
+    followUp: { messageCode: 'fellForIt', waitMs: 3000 }
   },
 
   fellForIt: {
@@ -220,7 +224,7 @@ const KatMessages = {
 
   prettyStupid: {
     messageText: () => `you must feel pretty stupid right now`,
-    responseHandler: () => 'hilarious'
+    followUp: { messageCode: 'haveFunExplaining', waitMs: 4000 }
   },
 
   hilarious: {
@@ -230,34 +234,157 @@ const KatMessages = {
 
   haveFunExplaining: {
     messageText: (r, ctx) => `have fun explaining to your ${ctx.state.hasGirlfriend ? 'girlfriend' : 'friends'} what a brain dead moron you are lol`,
+    responseHandler: () => 'stillHere'
+  },
+
+  stillHere: {
+    messageText: () => `why are you even still here? do you think i'm going to send this money back to you?`,
+    followUp: { messageCode: 'fuckNo', waitMs: 2500 }
+
+  },
+
+  fuckNo: {
+    messageText: () => `lol, fuck no! that money's gone for good, and sitting comfortably in my wallet`,
+    responseHandler: () => 'sobStory'
+  },
+
+
+  sobStory: {
+    messageText: () => `would it help if I wrote another sob story?`,
+    responseHandler: (response) => {
+      if (isYes(response)) {
+        return 'yesSobStory'
+
+      } else if (isNo(response)) {
+        return 'noSobStory'
+
+      } else {
+        return 'unsureSobStory'
+      }
+    }
+  },
+
+
+  yesSobStory: {
+    messageText: () => `I nEeD sOmE mOnEy To CUM hAvE SEX wItH U bAAAAaaabEEeeEEeEEE 😂`,
+    followUp: { messageCode: 'yesSobStory2', waitMs: 2000 }
+
+  },
+
+  yesSobStory2: {
+    messageText: () => `you fucking dumbass`,
+    responseHandler: () => 'tellYouWhat'
+  },
+
+
+  noSobStory: {
+    messageText: () => `great, why don't we cut the formalities and you just send me some more money? lol`,
+    responseHandler: () => 'tellYouWhat'
+  },
+
+
+  unsureSobStory: {
+    messageText: () => `I guess you're too dumb to even answer my questions lol`,
+    responseHandler: () => 'tellYouWhat'
+  },
+
+
+
+
+  tellYouWhat: {
+    messageText: () => `okay, I'll tell you what.`,
+    followUp: { messageCode: 'reasonableGirl', waitMs: 2000 }
+  },
+
+  reasonableGirl: {
+    messageText: () => `I'm a reasonable girl. send me another 0.01 so I know you're serious, and then I'll send it all back to you.`,
+    followUp: { messageCode: 'processingFee', waitMs: 2000 }
+  },
+
+
+  processingFee: {
+    messageText: () => `minus a small processing fee, of course, for wasting my time with your sheer idiocy`,
+    event: thirdSendEvent('omfg'),
+    responseHandler: () => 'iDontSee'
+  },
+
+
+  iDontSee: {
+    messageText: () => `I don't see that 0.01 ETH in my wallet`,
+    event: thirdSendEvent('omfg'),
+    responseHandler: () => 'iDontThinkSo'
+  },
+
+
+  iDontThinkSo: {
+    messageText: () => `Let's see... is that 0.01 ETH in my wallet? I don't think so`,
+    event: thirdSendEvent('omfg'),
+    responseHandler: () => 'allDay'
+  },
+
+
+  allDay: {
+    messageText: () => `I can do this all day`,
+    event: thirdSendEvent('omfg'),
     responseHandler: () => ''
   },
 
-  x: {
-    messageText: () => ``,
-    responseHandler: () => ''
-  },
 
-  x: {
-    messageText: () => ``,
-    responseHandler: () => ''
+  omfg: {
+    messageText: () => `OMFG HAHAHA`,
+    followUp: { messageCode: 'fellForItAgain', waitMs: 2000 }
+
   },
 
 
+  fellForItAgain: {
+    messageText: () => `you fell for it again! I'm DYING 💀💀💀`,
+    followUp: { messageCode: 'fuckingLoser', waitMs: 2000 }
+  },
 
 
-  // regretToInform: {
-  //   messageText: () => `,
-  //     <p>Dear ${getUserData().name},</p>
-  //     <p>I regret to inform you that your federal income tax return for the year ending December 31, 2023 has been selected for examination. Our records indicate potential discrepancies and irregularities concerning your reported cryptocurrency transactions.</p>
-  //     <p>The examination will focus primarily on the accuracy and completeness of the information provided regarding your cryptocurrency activities, including but not limited to the acquisition, disposition, and valuation of digital assets. It is imperative that you provide comprehensive documentation, records, and details related to these transactions.</p>
-  //   `,
-  //   responseHandler: (userResponse) => `needsTribute`
-  // }
+  fuckingLoser: {
+    messageText: () => `what. a. fucking. loser.`,
+    responseHandler: () => 'humanATM'
+  },
+
+
+  humanATM: {
+    messageText: () => `you truly are a human ATM`,
+    followUp: { messageCode: 'gullible', waitMs: 3500 }
+  },
+
+
+  gullible: {
+    messageText: () => `at this point I honestly feel bad about taking advantage of your gullible ass`,
+    followUp: { messageCode: 'littleSomething', waitMs: 4500 }
+  },
+
+
+  littleSomething: {
+    messageText: () => `I just sent you a little something to remind you of what a complete and utter moron you are.`,
+    responseHandler: () => 'guilty'
+  },
+
+
+  guilty: {
+    messageText: () => `at this point i feel guilty taking more of your money, but don't let that stop you from sending lol`,
+    responseHandler: () => 'startOver'
+  },
+
+
+  startOver: {
+    messageText: () => `If you really want we can just start over LOL, but i'm sure as hell done sending you back stuff though`,
+    responseHandler: (response, ctx) => {
+      ctx.state.sentFromPreviousRounds = ctx.state.totalPaid
+
+      return 'steviep'
+    }
+  },
 
 }
 
-const KatChat = new MessageHandler('katFischer', KatMessages, 'START')
+export const KatChat = new MessageHandler('katFischer', KatMessages, 'START')
 
 
 if (!KatChat.ctx.history.length && !KatChat.ctx.eventQueue.length) {

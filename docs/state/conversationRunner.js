@@ -1,3 +1,7 @@
+import { getUserData } from './profile.js'
+import { sexyCLI, cliLS } from './cli.js'
+import {ls} from '../$.js'
+
 
 const greetings = [
   'hello',
@@ -65,6 +69,7 @@ const yeses = [
   'incredibly',
   'right',
   'correct',
+  'i guess',
 ]
 
 const noes = [
@@ -98,9 +103,9 @@ const noes = [
 
 
 const responseParser = txt => txt.trim().replace('!', '').replace('.', '').replace('.', '')
-const isGreeting = txt => greetings.some(t => responseParser(txt).includes(t))
-const isYes = txt => yeses.some(t => responseParser(txt).includes(t))
-const isNo = txt => noes.some(t => responseParser(txt).includes(t))
+export const isGreeting = txt => greetings.some(t => responseParser(txt).includes(t))
+export const isYes = txt => yeses.some(t => responseParser(txt).includes(t))
+export const isNo = txt => noes.some(t => responseParser(txt).includes(t))
 
 
 
@@ -184,9 +189,12 @@ class ChatContext {
   }
 
   addToEventQueue(msg) {
-    this.eventQueue.push(msg)
-    this.eventQueue.sort((a, b) => a.timestamp - b.timestamp)
-    this.updateLS()
+    const pendingMessageCodes = this.eventQueue.map(event => event.messageCode)
+    if (!pendingMessageCodes.includes(msg.messageCode)) {
+      this.eventQueue.push(msg)
+      this.eventQueue.sort((a, b) => a.timestamp - b.timestamp)
+      this.updateLS()
+    }
   }
 
   resetUnread() {
@@ -196,7 +204,7 @@ class ChatContext {
 }
 
 
-class MessageHandler {
+export class MessageHandler {
   static chats = {}
 
 
@@ -366,4 +374,3 @@ class MessageHandler {
     }
   }
 }
-

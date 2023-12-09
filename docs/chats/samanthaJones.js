@@ -1,3 +1,7 @@
+import { isYes, isNo, isGreeting, MessageHandler } from '../state/conversationRunner.js'
+import {getUserData} from '../state/profile.js'
+
+
 const SamanthaMessages = {
   START: {
     responseHandler: (userResponse) => `regretToInform`
@@ -14,7 +18,7 @@ const SamanthaMessages = {
 
 }
 
-const SamanthaChat = new MessageHandler('samanthaJones', SamanthaMessages, 'START')
+export const SamanthaChat = new MessageHandler('samanthaJones', SamanthaMessages, 'START')
 
 // const samanthaChatWindow = $.id('samanthaJones-chat')
 

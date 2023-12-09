@@ -1,3 +1,4 @@
+import {ls} from '../$.js'
 const profileLS = addr => ({
   get() {
     return ls.get('__PROFILE_DATA_' + addr) || {}
@@ -15,7 +16,7 @@ const profileLS = addr => ({
   }
 })
 
-const getAgeYears = bd => {
+export const getAgeYears = bd => {
   const ageMs = new Date() - new Date(bd)
 
   return ageMs / (1000 * 60 * 60 * 24 * 365.25)
@@ -25,9 +26,9 @@ const getAgeYears = bd => {
 
 
 // TODO handle different wallets
-const defaultProfileLS = profileLS('DEFAULT')
+export const defaultProfileLS = profileLS('DEFAULT')
 
-function getUserData() {
+export function getUserData() {
   const profileInfo = defaultProfileLS.get()
 
   return {

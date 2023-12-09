@@ -1,3 +1,7 @@
+import { isYes, isNo, isGreeting, MessageHandler } from '../state/conversationRunner.js'
+import {getUserData} from '../state/profile.js'
+
+
 const VinceMessages = {
   START: {
     responseHandler: () => `hello`
@@ -130,7 +134,7 @@ const VinceMessages = {
 
 }
 
-const VinceChat = new MessageHandler('VinceSlickson', VinceMessages, 'START')
+export const VinceChat = new MessageHandler('VinceSlickson', VinceMessages, 'START')
 
 // const vinceChatWindow = $.id('VinceSlickson-chat')
 

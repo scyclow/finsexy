@@ -79,11 +79,11 @@
     }
 
     .grid figcaption {
-      margin-top: -2.1em;
       margin-left: 1px;
+      width: calc(100% - 18px);
+      margin-top: -2.1em;
       padding: 0.5em;
       padding-top: 1em;
-      width: calc(100% - 18px);
       background: linear-gradient(0deg, rgba(2,0,36,1) 17%, rgba(255,0,0,0) 100%);
     }
 
@@ -123,37 +123,43 @@
 
       <section class="grid">
         <article>
-          <a href="./chat.html?activeChat=heatherhot">
+          <a href="./profiles/heatherHot">
             <img src="./thumbnails/heatherHot/0.png">
           </a>
-          <figcaption>heatherhot6, 24</figcaption>
+          <figcaption>heatherhot6, 27</figcaption>
         </article>
         <article>
-          <a href="./chat.html?activeChat=samanthaJones">
+          <a href="./profiles/VinceSlickson">
+            <img src="./thumbnails/VinceSlickson/0.png">
+          </a>
+          <figcaption>VinceSlickson, 42</figcaption>
+        </article>
+        <article>
+          <a href="./profiles/katFischer">
+            <img src="./thumbnails/katFischer/0.png">
+          </a>
+          <figcaption>katFischer, 23</figcaption>
+        </article>
+        <article>
+          <a href="./profiles/samanthaJones">
             <img src="./thumbnails/samanthaJones/0.png">
           </a>
           <figcaption>SamanthaJones, 38</figcaption>
         </article>
         <article>
-          <a href="./chat.html?activeChat=VinceSlickson">
-            <img src="./thumbnails/vinceSlickson/0.png">
-          </a>
-          <figcaption>VinceSlickson, 45</figcaption>
-        </article>
-        <article>
-          <a href="./chat.html">
+          <a href="./chat">
             <img src="./thumbnails/utilityMonster/0.png">
           </a>
           <figcaption>$$$, 27</figcaption>
         </article>
         <article>
-          <a href="./chat.html">
+          <a href="./chat">
             <img src="./thumbnails/candyCrush/0.png">
           </a>
           <figcaption>CandyCrush, 21</figcaption>
         </article>
         <article>
-          <a href="./chat.html?activeChat=cagla">
+          <a href="./chat?activeChat=cagla">
             <img src="./assets/test.jpeg">
           </a>
           <figcaption>Cagla, 26</figcaption>
@@ -161,19 +167,19 @@
         <div style="height: 50px"></div>
 <!--
         <article >
-          <a href="./findomtemplate.html">
+          <a href="./findomtemplate">
             <img src="./assets/test.jpeg">
           </a>
           <figcaption>Cagla, 24</figcaption>
         </article>
          <article>
-          <a href="./findomtemplate.html">
+          <a href="./findomtemplate">
             <img src="./assets/test.jpeg">
           </a>
           <figcaption>Cagla, 24</figcaption>
         </article>
         <article>
-          <a href="./findomtemplate.html">
+          <a href="./findomtemplate">
             <img src="./assets/test.jpeg">
           </a>
           <figcaption>Cagla, 24</figcaption>
@@ -205,22 +211,15 @@
 </body>
 
 
-  <script src="./$.js"></script>
-  <script src="./utils.js"></script>
-  <script src="./state/profile.js"></script>
-  <script src="./state/cli.js"></script>
-  <script src="./state/conversationRunner.js"></script>
-  <script src="./components/chatWindow.js"></script>
-  <script src="./components/header.js"></script>
-
-  <script src="./chats/heatherHot.js"></script>
-  <script src="./chats/cagla.js"></script>
-  <script src="./chats/samanthaJones.js"></script>
-  <script src="./chats/vinceSlickson.js"></script>
+<script src="./utils.js"></script>
+<script type="module" src="./state/all.js"></script>
+<script type="module" src="./components/all.js"></script>
 
 <!-- <script src="./min.ethers.js"></script> -->
 
-<script type="text/javascript">
+<script type="module">
+
+  import {ls} from './$.js'
 
   //const provider = new Web3Provider()
 
@@ -228,7 +227,7 @@
   //   console.log(isConnected, ls.get('is18'))
 
     if (!ls.get('is18')) {
-      window.location.replace('./enter.html')
+      window.location.replace('./enter')
     }
   // })
 
