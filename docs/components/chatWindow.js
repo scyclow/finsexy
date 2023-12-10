@@ -89,7 +89,8 @@ createComponent(
         height: 100%;
         overflow: scroll;
         padding: 0.5em;
-        box-shadow: inset 0px 0px 10px #ccc;
+        padding-top: 80px
+
       }
 
       .message {
@@ -191,9 +192,8 @@ createComponent(
       }
 
       header {
-        background: linear-gradient(180deg, #000 -25%, var(--secondary-color) 90%);
+        background: linear-gradient(0deg, rgba(0,0,0,0) 0%, var(--secondary-color) 95%);
         height: 60px;
-        border-bottom: #592ba2;
         display: flex;
         align-items: center;
         padding: 0.5em 1em;
@@ -218,15 +218,24 @@ createComponent(
         font-size: 1.25em;
         text-shadow: 0 0 5px var(--primary-color);
       }
+
+      #headerContainer {
+        position: relative;
+        height: 0;
+        top: 0
+      }
     </style>
 
     <section id="chat">
-      <header>
-        <div id="pfpContainer">
-          <img id="pfp">
-        </div>
-        <h5 id="chatName"></h5>
-      </header>
+      <div id="headerContainer">
+        <header>
+          <div id="pfpContainer">
+            <img id="pfp">
+          </div>
+          <h5 id="chatName"></h5>
+        </header>
+      </div>
+
       <div id="displayContainer">
         <div id="display"></div>
         <div id="isTyping" class="hidden">heather is typing...</div>

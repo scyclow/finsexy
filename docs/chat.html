@@ -37,6 +37,8 @@
 
     #messageSelector {
       list-style-type: none;
+      display: flex;
+      flex-direction: column-reverse;
     }
     #messageSelector li {
       cursor: pointer;
@@ -97,7 +99,11 @@
       display: flex;
     }
 
-    .unread.hidden {
+    .hidden {
+      display: none !important;
+    }
+
+    .unread.invisible {
       visibility: hidden;
     }
 
@@ -142,6 +148,7 @@
 
     <aside class="devPanel">
       <h1>Dev Panel</h1>
+      <button onclick="localStorage.removeItem('__CHAT_CONTEXT'); window.location.reload()">clear</button>
       <code>
         <pre id="chatState">
 
@@ -185,15 +192,19 @@
   //     class="message-selector"
   //   >
   //     ${name}
-  //     <span id="${name}-unread" class="unread hidden"></span>
+  //     <span id="${name}-unread" class="unread invisible"></span>
   //   </li>
   // `).join('')
 
 
   messageNames.forEach(name => {
+
     const li = $.li([
       $.span(name),
-      $.span('', { id: `${name}-unread`, class: 'unread hidden'})
+      $.span('', {
+        id: `${name}-unread`,
+        class: 'unread invisible',
+      })
     ], {
       id: `${name}-select`,
       class: 'message-selector'
@@ -217,13 +228,6 @@
     const $window = $.id(`${name}-chat`)
     MessageHandler.chats[name].addChatWindow($window)
   })
-
-  const clearLI = $.li()
-  $.render($messageSelector, clearLI)
-
-  clearLI.innerHTML = `
-    <button onclick="localStorage.removeItem('__CHAT_CONTEXT'); window.location.reload()">clear</button>
-  `
 
 
   let activeChat
@@ -296,14 +300,29 @@
 
   setInterval(() => {
     Object.keys(MessageHandler.chats).forEach(m => {
-      const unread = $.id(`${m}-unread`)
+      const $unread = $.id(`${m}-unread`)
+      const $select = $.id(`${m}-select`)
+
       const unreadCount = MessageHandler.chats[m].ctx.unread
-      if (unread && unreadCount) {
-        unread.innerHTML = unreadCount
-        unread.classList.remove('hidden')
-      } else if (unread) {
-        unread.innerHTML = ''
-        unread.classList.add('hidden')
+      if ($unread && unreadCount) {
+        $unread.innerHTML = unreadCount
+        $unread.classList.remove('invisible')
+      } else if ($unread) {
+        $unread.innerHTML = ''
+        $unread.classList.add('invisible')
+      }
+
+      const isActive = activeChat === m
+
+      const messageCount = MessageHandler.chats[m].ctx.history.length
+      if ($select && !messageCount && !isActive) {
+        $select.classList.add('hidden')
+      } else if ($select && messageCount) {
+        $select.classList.remove('hidden')
+      }
+
+      if ($select) {
+        $select.style.order = MessageHandler.chats[m].ctx.lastUserMessageTimestamp  - 1702100000000
       }
     })
   }, 100)

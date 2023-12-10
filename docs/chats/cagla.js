@@ -47,9 +47,3 @@ const CaglaMessages = messages.reduce(
 
 
 
-// export const CaglaChat = new MessageHandler('cagla', CaglaMessages, 'START')
-
-
-
-
-

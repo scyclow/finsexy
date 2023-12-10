@@ -1,6 +1,7 @@
 import {createComponent} from '../$.js'
+import {MessageHandler} from '../state/all.js'
 
-const ProfileStats = {
+export const ProfileStats = {
   katFischer: {
     age: 23,
     distance: 69,
@@ -14,7 +15,7 @@ const ProfileStats = {
     distance: 2,
     gender: 'Female',
     maxPhotos: 4,
-    description: `Hi, my name is Heather`
+    description: `My name is Heather`
   },
 
   VinceSlickson: {
@@ -211,13 +212,13 @@ createComponent(
         text-decoration: none;
       }
 
-      #sendButton:hover {
-        background: var(--green2-color);
-      }
       #chat:hover {
         background: var(--medium-color);
         border-color: var(--light-color);
+      }
 
+      #sendButton:hover {
+        background: var(--green2-color);
       }
 
 
@@ -233,7 +234,6 @@ createComponent(
 
         #photoContainer {
           width: 300px;
-          height: 300px;
         }
 
         .actions {
@@ -272,6 +272,24 @@ createComponent(
       .sideWindow #sendModule {
         margin-top: 1em
       }
+
+      .hidden {
+        display: none;
+      }
+
+      .unreadContainer {
+        position: relative;
+        height: 0;
+        top: 0;
+      }
+
+      .unreadMessage {
+        background:linear-gradient(180deg, var(--primary-color) 17%, rgba(255,0,0,0) 100%);
+        padding: 0.25em;
+        color: var(--light-color);
+        text-shadow: 0 0 2px #000;
+        text-align: center;
+      }
     </style>
 
     <article id="parent">
@@ -282,6 +300,9 @@ createComponent(
       <main>
         <aside>
           <div id="photoContainer">
+            <div class="unreadContainer">
+              <div id="unread" class="unreadMessage hidden">New Message!</div>
+            </div>
             <div id="photos"></div>
             <figcaption>
               <span id="imgLeft">← Previous</span>
@@ -294,7 +315,7 @@ createComponent(
             <div id="sendModule">
               <input id="sendInput" type="number" step="0.01" placeholder="0.01"><button id="sendButton">SEND</button>
             </div>
-            </div>
+          </div>
         </aside>
 
         <section id="content">
@@ -318,6 +339,9 @@ createComponent(
     ctx.$imgLeft = ctx.$('#imgLeft')
     ctx.$imgRight = ctx.$('#imgRight')
     ctx.$chat = ctx.$('#chat')
+    ctx.$unread = ctx.$('#unread')
+    ctx.$sendButton = ctx.$('#sendButton')
+    ctx.$sendInput = ctx.$('#sendInput')
 
     if (ctx.getAttribute('sideWindow')) ctx.parent.classList.add('sideWindow')
 
@@ -342,6 +366,23 @@ createComponent(
 
     ctx.$imgRight.onclick = () => {
       ctx.setState({ activePhoto: (ctx.state.activePhoto + 1) % maxPhotos})
+    }
+
+
+    setInterval(() => {
+      if (MessageHandler.chats[name].ctx.unread) {
+        ctx.$unread.classList.remove('hidden')
+      } else {
+        ctx.$unread.classList.add('hidden')
+      }
+    }, 200)
+
+    ctx.$sendButton.onclick = () => {
+      const val = Number(ctx.$sendInput.value)
+      if (val) {
+        sexyCLI.run(name, `$sexy send ${name} ${val}`)
+        ctx.$sendInput.value = ''
+      }
     }
 
 

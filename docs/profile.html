@@ -119,6 +119,55 @@
 <script type="module" src="./state/all.js"></script>
 <script type="module" src="./components/all.js"></script>
 
+<style type="text/css">
+  main {
+    max-width: 450px;
+    margin: 2em auto;
+  }
+
+  fieldset {
+    padding: 1em;
+  }
+
+  form fieldset + fieldset {
+    margin-top: 1em;
+  }
+
+  textarea, input, select {
+    padding: 0.25em;
+    font-size: 1.25em;
+    color: var(--light-color);
+    background: var(--input-color);
+  }
+
+  select {
+    cursor: pointer;
+  }
+
+  .submitContainer {
+    display: flex;
+    padding: 1em;
+    justify-content: center;
+    margin-top: 1em;
+
+  }
+
+
+  button {
+    font-size: 1.5em;
+    box-shadow: 0 0 2em #b47aa7;
+    transition: 300ms;
+    cursor: pointer;
+    padding: 0.35em 1em;
+  }
+
+  button:hover {
+    color: var(--light-color);
+    background: var(--medium-color);
+    border-color: var(--light-color);
+  }
+</style>
+
 </head>
 
 <body>
@@ -173,7 +222,7 @@
       </fieldset>
 
       <fieldset>
-        <legend>What's your deepest, darkest sexual fantasy</legend>
+        <legend>What's your deepest, darkest sexual fantasy?</legend>
         <textarea required name="fantasy" id="fantasy"></textarea>
       </fieldset>
 
@@ -183,7 +232,9 @@
       </fieldset>
 
       <p id="error"></p>
-      <button id="submit">Submit</button>
+      <div class="submitContainer">
+        <button id="submit">Submit</button>
+      </div>
     </form>
 
 <!--
@@ -216,7 +267,7 @@ become a VIP -->
 <script type="module">
 
   import {$, ls} from './$.js'
-  import {defaultProfileLS} from './state/profile.js'
+  import {defaultProfileLS, getAgeYears} from './state/profile.js'
 
   if (!ls.get('is18')) {
     window.location.replace('./enter.html')
@@ -257,6 +308,8 @@ become a VIP -->
     e.preventDefault()
   }
 
+  window.onSubmit = onSubmit
+
   fields.forEach(field => {
     const $elem = $.id(field)
     if (defaultProfileLS.get()[field]) {
@@ -277,9 +330,18 @@ become a VIP -->
 
     defaultProfileLS.set('profileCompleted', true)
 
+
     if (fieldsValid) {
-      window.location.href = './index.html'
+      // try {
+
+        window.location.href = '/'
+      //   window.location.replace('/');
+      // } catch (e) {
+      //   debugger
+
+      // }
     }
+
   }
 
 

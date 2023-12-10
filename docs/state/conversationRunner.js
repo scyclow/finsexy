@@ -158,6 +158,7 @@ class ChatContext {
     this.chatName = chatName
     this.chatLS = chatNameLS(chatName)
     this.lastMessageTimestamp = 0
+    this.lastUserMessageTimestamp = 0
     this.totalMessages = 0
 
     const existingContext = this.chatLS.get()
@@ -178,6 +179,7 @@ class ChatContext {
     this.chatLS.set('history', this.history)
     this.chatLS.set('unread', this.unread)
     this.chatLS.set('lastMessageTimestamp', this.lastMessageTimestamp)
+    this.chatLS.set('lastUserMessageTimestamp', this.lastUserMessageTimestamp)
     this.chatLS.set('totalMessages', this.totalMessages)
   }
 
@@ -300,6 +302,9 @@ export class MessageHandler {
     if (!this.isActive) {
       this.ctx.unread += 1
     }
+    if (from === 'you') {
+      this.ctx.lastUserMessageTimestamp = Date.now()
+    }
     this.ctx.lastMessageTimestamp = Date.now()
     this.ctx.totalMessages += 1
 
@@ -332,6 +337,15 @@ export class MessageHandler {
       const codeToSend = lastMessage.responseHandler(userResponse, this.ctx)
       this.next(userResponse, codeToSend)
     }
+  }
+
+  queueEvent(codeToSend, wait) {
+    this.ctx.addToEventQueue({
+      ignoreType: true,
+      userResponse: '',
+      messageCode: codeToSend,
+      timestamp: Date.now() + wait
+    })
   }
 
   next(userResponse, codeToSend) {
@@ -367,3 +381,5 @@ export class MessageHandler {
     }
   }
 }
+
+window.MessageHandler = MessageHandler

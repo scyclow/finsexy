@@ -71,16 +71,24 @@
     .grid article {
       display: flex;
       flex-direction: column;
-
-      border: 1px solid;
+      border: 1px solid var(--border-color);
+      transition: 0.2s;
+      box-shadow: 0 0 10px var(--border-color);
     }
+
+    .grid article:hover {
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+      filter: saturate(125%);
+    }
+
     .grid img {
       width: 100%;
     }
 
     .grid figcaption {
-      margin-left: 1px;
-      width: calc(100% - 18px);
+      /*margin-left: 1px;*/
+      width: calc(100% - 16px);
       margin-top: -2.1em;
       padding: 0.5em;
       padding-top: 1em;
@@ -110,11 +118,18 @@
       display: none;
     }
 
+    .unreadContainer {
+      position: relative;
+      height: 0;
+      top: 0;
+    }
+
     .unreadMessage {
-      position: absolute;
       background:linear-gradient(180deg, var(--primary-color) 17%, rgba(255,0,0,0) 100%);
       padding: 0.25em;
       color: var(--light-color);
+      text-shadow: 0 0 2px #000;
+      text-align: center;
     }
 
 
@@ -132,73 +147,8 @@
 
     <section class="mainSection">
 
-      <section class="grid">
-        <article>
-          <div id="heatherHot-unread" class="unreadMessage hidden">New Message!</div>
-          <a href="./profiles/heatherHot">
-            <img src="./thumbnails/heatherHot/0.png">
-          </a>
-          <figcaption>heatherhot6, 27</figcaption>
-        </article>
-        <article>
-          <div id="VinceSlickson-unread" class="unreadMessage hidden">New Message!</div>
-          <a href="./profiles/VinceSlickson">
-            <img src="./thumbnails/VinceSlickson/0.png">
-          </a>
-          <figcaption>VinceSlickson, 42</figcaption>
-        </article>
-        <article>
-          <div id="katFischer-unread" class="unreadMessage hidden">New Message!</div>
-          <a href="./profiles/katFischer">
-            <img src="./thumbnails/katFischer/0.png">
-          </a>
-          <figcaption>katFischer, 23</figcaption>
-        </article>
-        <article>
-          <div id="samanthaJones-unread" class="unreadMessage hidden">New Message!</div>
-          <a href="./profiles/samanthaJones">
-            <img src="./thumbnails/samanthaJones/0.png">
-          </a>
-          <figcaption>SamanthaJones, 38</figcaption>
-        </article>
-        <article>
-          <a href="./chat">
-            <img src="./thumbnails/utilityMonster/0.png">
-          </a>
-          <figcaption>$$$, 27</figcaption>
-        </article>
-        <article>
-          <a href="./chat">
-            <img src="./thumbnails/candyCrush/0.png">
-          </a>
-          <figcaption>CandyCrush, 21</figcaption>
-        </article>
-        <article>
-          <a href="./chat?activeChat=cagla">
-            <img src="./assets/test.jpeg">
-          </a>
-          <figcaption>Cagla, 26</figcaption>
-        </article>
-        <div style="height: 50px"></div>
-<!--
-        <article >
-          <a href="./findomtemplate">
-            <img src="./assets/test.jpeg">
-          </a>
-          <figcaption>Cagla, 24</figcaption>
-        </article>
-         <article>
-          <a href="./findomtemplate">
-            <img src="./assets/test.jpeg">
-          </a>
-          <figcaption>Cagla, 24</figcaption>
-        </article>
-        <article>
-          <a href="./findomtemplate">
-            <img src="./assets/test.jpeg">
-          </a>
-          <figcaption>Cagla, 24</figcaption>
-        </article> -->
+      <section id="links" class="grid">
+
       </section>
 
 
@@ -236,6 +186,42 @@
 
   import {ls} from './$.js'
   import {MessageHandler} from './state/all.js'
+  import {ProfileStats} from './components/profile.js'
+  import {HHChat} from './chats/heatherHot.js'
+  import {KatChat} from './chats/katFischer.js'
+
+
+  $.id('links').innerHTML = Object.keys(MessageHandler.chats).map(name => `
+    <article>
+      <div class="unreadContainer">
+        <div id="${name}-unread" class="unreadMessage hidden">New Message!</div>
+      </div>
+      <a href="./profiles/${name}">
+        <img src="./thumbnails/${name}/0.png">
+      </a>
+      <div>
+      <figcaption>${name}, ${ProfileStats[name].age}</figcaption>
+    </article>
+  `).join('') + `
+        <article>
+          <a href="#">
+            <img src="./thumbnails/utilityMonster/0.png">
+          </a>
+          <figcaption>$$$, 27</figcaption>
+        </article>
+        <article>
+          <a href="#">
+            <img src="./thumbnails/candyCrush/0.png">
+          </a>
+          <figcaption>CandyCrush, 21</figcaption>
+        </article>
+        <article>
+          <a href="#">
+            <img src="./assets/test.jpeg">
+          </a>
+          <figcaption>Cagla, 26</figcaption>
+        </article>
+  `
 
   setInterval(() => {
     Object.keys(MessageHandler.chats).forEach(name => {
@@ -248,14 +234,31 @@
     })
   }, 200)
 
-  //const provider = new Web3Provider()
 
-  // provider.isConnected().then(isConnected => {
-  //   console.log(isConnected, ls.get('is18'))
 
-    if (!ls.get('is18')) {
-      window.location.replace('./enter')
-    }
+  if (!ls.get('is18')) {
+    window.location.replace('./enter')
+  }
+
+
+  if (!ls.get('returnVisit')) {
+
+    setTimeout(() => {
+      if (!KatChat.ctx.history.length && !KatChat.ctx.eventQueue.length) {
+        KatChat.queueEvent('steviep', 3000)
+      }
+      if (!HHChat.ctx.history.length && !HHChat.ctx.eventQueue.length) {
+        HHChat.queueEvent('hi', 60000)
+      }
+
+
+      ls.set('returnVisit', true)
+    }, 1000)
+  }
+
+
+
+
   // })
 
   // mountComponents(

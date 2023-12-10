@@ -137,9 +137,6 @@ const VinceMessages = {
 
 export const VinceChat = new MessageHandler('VinceSlickson', VinceMessages, 'START')
 
-// const vinceChatWindow = $.id('VinceSlickson-chat')
-
-// VinceChat.addChatWindow(vinceChatWindow)
 
 
 /*

@@ -10,6 +10,27 @@ TODO
   - ask for sexy chat credits; say that a lot of the doms take them
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"yeah, you like sending me money, don't you"
+"Do you know wha tI'm going to do with this ETH? I'm going to buy a crypto punk and fucking burn it"
+
 */
 
 
@@ -232,13 +253,6 @@ const HeatherHotMessages = {
 export const HHChat = new MessageHandler('heatherHot', HeatherHotMessages, 'START')
 
 
-// const hhChatWindow = $.id('heatherHot-chat')
-// HHChat.addChatWindow(hhChatWindow)
-
-
-if (!HHChat.ctx.history.length && !HHChat.ctx.eventQueue.length) {
-  HHChat.next('', 'hi')
-}
 
 
 

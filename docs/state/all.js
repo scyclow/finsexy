@@ -7,3 +7,9 @@ export * from '../chats/heatherHot.js'
 export * from '../chats/cagla.js'
 export * from '../chats/katFischer.js'
 export * from '../chats/vinceSlickson.js'
+
+import {ls} from '../$.js'
+
+  if (!ls.get('is18')) {
+    window.location.replace('./enter')
+  }

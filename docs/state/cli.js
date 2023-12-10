@@ -35,7 +35,9 @@ export const sexyCLI = {
 
   run(name, input, ctx) {
     const [sexy, command, ...args] = input.trim().split(' ')
-    const cb = this.nameToCallback[name]
+    const cb = name
+      ? this.nameToCallback[name]
+      : noop
     if (sexy !== '$sexy') return cb('Something went wrong...')
 
     if (command === 'help') {
@@ -61,6 +63,7 @@ export const sexyCLI = {
           return cb(`Invalid amount: ${amount}`)
         }
         // TODO make this real
+        MessageHandler.chats[recipient].ctx.state.totalPaid = MessageHandler.chats[recipient].ctx.state.totalPaid || 0
         MessageHandler.chats[recipient].ctx.state.totalPaid +=
           (MessageHandler.chats[recipient].ctx.totalPaid || 0)
           + Number(amount)
@@ -96,4 +99,6 @@ export const sexyCLI = {
     return cb()
   }
 }
+
+window.sexyCLI = sexyCLI
 

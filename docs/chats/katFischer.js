@@ -388,16 +388,7 @@ const KatMessages = {
 export const KatChat = new MessageHandler('katFischer', KatMessages, 'START')
 
 
-if (!KatChat.ctx.history.length && !KatChat.ctx.eventQueue.length) {
-  KatChat.next('', 'steviep')
-}
-
-
-
-/*
 
 
 
 
-
-*/
