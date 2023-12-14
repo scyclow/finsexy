@@ -1,3 +1,58 @@
+/*
+
+Tutorial
+
+
+  hi
+  how are you today?
+
+  I see you're new on this website. Have you ever done findom before?
+    no
+      do you know what findom is?
+        no
+          findom is the hottest thing ever
+    yes
+      great! findom is the hottest thing ever.
+
+      finsexy is a little different from other platforms though
+
+
+  you might notice that a lot of the doms on FinSexy charge less than some other findoms out there
+  steviep, the site's creator, said something about achieving it through economies or scale or something. you can ask him
+    (if not looking for me)
+      but i see you're only interested in women, so you might need to change that lol
+
+
+
+
+  I see here you were born in xxxx
+
+    if < 18yo
+      how did you get in here? this is for adults only. you should go back to tiktok, sweetheart.
+
+    if < 1900
+      jesus fucking christ you're old
+
+
+
+
+
+
+
+You probably want one of those stupid NFTs too though, right? lol
+  yes
+    okay, whatever floats your boat, sweetheart lol
+
+*/
+
+
+
+
+
+
+
+
+
 
 import { isYes, isNo, isGreeting, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
@@ -34,9 +89,19 @@ TODO
 */
 
 
+export const HeatherHotProfile = {
+  age: 27,
+  distance: 2,
+  gender: 'Female',
+  maxPhotos: 4,
+  description: `My name is Heather`
+}
+
 
 
 const HeatherHotMessages = {
+  // __contract() {},
+
   START: {
     responseHandler: (userResponse) => {
       if (userResponse) {

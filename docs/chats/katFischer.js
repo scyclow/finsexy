@@ -1,29 +1,74 @@
 import { isYes, isNo, isGreeting, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
+import {provider, bnToN} from '../eth.js'
 
 
 
 
-const firstSendEvent = redirectTo => ctx => {
-  // TODO if user waits too long, redirect to "Are you still there, baby? I can't stop thinking about you"
-  if (ctx.state.totalPaid >= ctx.state.sentFromPreviousRounds + 0.01) {
-    return { messageCode: redirectTo, waitMs: 0 }
+export const KatProfile = {
+  age: 23,
+  distance: 69,
+  gender: 'Female',
+  maxPhotos: 3,
+  description: `I'm just doing my job`
+}
+
+
+export async function ketContractInfo() {
+  const networkName = (await provider.getNetwork()).name
+  const contractAddr = {
+    local: '0x0bF7dE8d71820840063D4B8653Fd3F0618986faF'
+  }[networkName]
+
+  const abi = [
+    'function tributes(address) external view returns (uint256)'
+  ]
+
+  return [contractAddr, abi]
+}
+
+
+
+
+
+
+
+
+
+
+
+const firstSendEvent = redirectTo => async (ctx, contract) => {
+  await provider.isConnected()
+  if (contract) {
+
+    const t = bnToN(await contract.tributes(await provider.signer.getAddress()))
+    console.log(t)
+    // TODO if user waits too long, redirect to "Are you still there, baby? I can't stop thinking about you"
+    if (t > 0) {
+      return { messageCode: redirectTo, waitMs: 0 }
+    }
   }
 }
 
-const secondSendEvent = redirectTo => ctx => {
+const secondSendEvent = redirectTo => async (ctx, contract) => {
   if (ctx.state.totalPaid >= ctx.state.sentFromPreviousRounds + 0.02) {
     return { messageCode: redirectTo, waitMs: 0 }
   }
 }
 
-const thirdSendEvent = redirectTo => ctx => {
+const thirdSendEvent = redirectTo => async (ctx, contract) => {
   if (ctx.state.totalPaid >= ctx.state.sentFromPreviousRounds + 0.03) {
     return { messageCode: redirectTo, waitMs: 0 }
   }
 }
 
-const KatMessages = {
+
+export const KatMessages = {
+  async __contract() {
+    const [contractAddr, abi] = await ketContractInfo()
+
+    return await provider.contract(contractAddr, abi)
+  },
   START: {
     responseHandler: () => `steviep`
   },
@@ -104,6 +149,7 @@ const KatMessages = {
     responseHandler: () => 'convinced'
   },
 
+// TODO warn against disconnected wallet
   convinced: {
     messageText: () => `Okay, I'm convinced. Send me the 0.01 ETH, and I'll use it to buy a bus right away!`,
     event: firstSendEvent('firstSendPause'),

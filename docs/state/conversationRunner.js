@@ -1,6 +1,8 @@
 import { getUserData } from './profile.js'
 import { sexyCLI, cliLS } from './cli.js'
 import {ls} from '../$.js'
+import {provider} from '../eth.js'
+
 
 
 const greetings = [
@@ -210,6 +212,12 @@ export class MessageHandler {
     this.ctx = new ChatContext(chatName, startingCode)
     this.isActive = false
 
+    if (messages.__contract) {
+      provider.onConnect(async addr => {
+        this.contract = await messages.__contract()
+      })
+    }
+
     sexyCLI.register(chatName, '', this.ctx, messageText =>
       this.updateHistory({
         helpMessage: true,
@@ -219,13 +227,13 @@ export class MessageHandler {
 
     setRunInterval(async () => {
       const currentNode = this.messages[this.ctx.lastDomCodeSent]
-      const event = currentNode?.event?.(this.ctx)
+      const event = await currentNode?.event?.(this.ctx, this.contract)
       if (event) {
         this.ctx.addToEventQueue(event)
       }
     }, 1000)
 
-    setRunInterval(() => {
+    setRunInterval(async () => {
       if (
         this.ctx.eventQueue.length &&
         Date.now() + this.ctx.eventQueue[0].typingWait > this.ctx.eventQueue[0].timestamp
@@ -246,12 +254,12 @@ export class MessageHandler {
 
 
       const followUp = messageToSend?.followUp instanceof Function
-        ? messageToSend.followUp(this.ctx)
+        ? messageToSend.followUp(this.ctx, this.contract)
         : messageToSend.followUp
 
       if (followUp) {
         const messageToSend = this.messages[followUp.messageCode]
-        const estimatedMessageText = messageToSend.messageText(userResponse, this.ctx)
+        const estimatedMessageText = messageToSend.messageText(userResponse, this.ctx, this.contract)
         const typingWait = cliLS.get().devIgnoreWait
           ? 0
           :  Math.floor(1000*estimatedMessageText.length/80)
@@ -275,7 +283,7 @@ export class MessageHandler {
 
       this.updateHistory({
         messageCode: messageCode,
-        messageText: messageToSend.messageText(userResponse, this.ctx),
+        messageText: messageToSend.messageText(userResponse, this.ctx, this.contract),
         from: this.chatName,
       })
     }, 100)
@@ -321,7 +329,7 @@ export class MessageHandler {
     this.ctx.updateLS()
   }
 
-  toDom(userResponse) {
+  async toDom(userResponse) {
     this.updateHistory({
       from: 'you',
       messageText: userResponse
@@ -334,7 +342,7 @@ export class MessageHandler {
     const lastMessage = this.messages[this.ctx.lastDomCodeSent]
 
     if (lastMessage && lastMessage.responseHandler) {
-      const codeToSend = lastMessage.responseHandler(userResponse, this.ctx)
+      const codeToSend = lastMessage.responseHandler(userResponse, this.ctx, this.contract)
       this.next(userResponse, codeToSend)
     }
   }
@@ -348,11 +356,11 @@ export class MessageHandler {
     })
   }
 
-  next(userResponse, codeToSend) {
+  async next(userResponse, codeToSend) {
     const messageToSend = this.messages[codeToSend]
 
     if (messageToSend) {
-      const estimatedMessageText = messageToSend.messageText(userResponse, this.ctx)
+      const estimatedMessageText = messageToSend.messageText(userResponse, this.ctx, this.contract)
       let wait = 0
       let typingWait = 0
 

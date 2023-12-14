@@ -1,43 +1,21 @@
 import {createComponent} from '../$.js'
 import {MessageHandler} from '../state/all.js'
+import {KatProfile} from '../chats/katFischer.js'
+import {HeatherHotProfile} from '../chats/heatherHot.js'
+import {HackerProfile} from '../chats/hacker.js'
+import {VinceProfile} from '../chats/VinceSlickson.js'
+import {SamanthaProfile} from '../chats/samanthaJones.js'
 
 export const ProfileStats = {
-  katFischer: {
-    age: 23,
-    distance: 69,
-    gender: 'Female',
-    maxPhotos: 3,
-    description: `I'm just doing my job`
-  },
+  katFischer: KatProfile,
 
-  heatherHot: {
-    age: 27,
-    distance: 2,
-    gender: 'Female',
-    maxPhotos: 4,
-    description: `My name is Heather`
-  },
+  heatherHot: HeatherHotProfile,
 
-  VinceSlickson: {
-    age: 42,
-    distance: 10,
-    gender: '100% Male',
-    maxPhotos: 4,
-    description: `Your prayers have been answered because I'm the man you've been dreaming about`
-  },
+  VinceSlickson: VinceProfile,
 
-  samanthaJones: {
-    age: 38,
-    distance: 6,
-    maxPhotos: 4,
-    description: `Samantha Jones is a tax auditor financial professional with a focus on cryptocurrency and blockchain fraud. In her more than 17 years of industry experience, she has handled matters across the criminal and regulatory spectrum. `
-  },
+  samanthaJones: SamanthaProfile,
 
-
-  hacker: {
-    age: 0,
-    distance: 0
-  }
+  hacker: HackerProfile
 }
 
 

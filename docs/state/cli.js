@@ -1,4 +1,5 @@
 import {ls} from '../$.js'
+import { provider, toETH } from '../eth.js'
 
 
 export const cliLS = {
@@ -62,13 +63,13 @@ export const sexyCLI = {
         } else if (isNaN(Number(amount))) {
           return cb(`Invalid amount: ${amount}`)
         }
-        // TODO make this real
-        MessageHandler.chats[recipient].ctx.state.totalPaid = MessageHandler.chats[recipient].ctx.state.totalPaid || 0
-        MessageHandler.chats[recipient].ctx.state.totalPaid +=
-          (MessageHandler.chats[recipient].ctx.totalPaid || 0)
-          + Number(amount)
+
+        provider.signer.sendTransaction({
+          to: MessageHandler.chats[recipient].contract.address,
+          value: toETH(amount)
+        })
       }, 2000)
-      return cb(`Sending: ${JSON.stringify(args)}`)
+      return cb(`Sending ${args[0]} ${args[1]} ETH...`)
     }
     else if (command === 'help') {
       return cb('... If you still require customer assistance, please text the following number during business hours: ‪(848) 225-7281‬. Mobile SMS messaging rates may apply.')
@@ -86,7 +87,7 @@ export const sexyCLI = {
 
 
         return cb(`__DEBUG__: ${debugVal}`)
-      } else if (args[0] === 'ignorewait') {
+      } else if (args[0] === 'ignorewait' || args[0] === 'ignoreWait') {
 
         const waitVal = args[1] === 'true' ? true : false
 

@@ -23,6 +23,10 @@ createComponent(
         margin-bottom: 1em;
       }
 
+      a {
+        color: var(--light-color);
+      }
+
       #input {
         resize: none;
         width: 100%;
@@ -203,14 +207,33 @@ createComponent(
         font-family: var(--code-font);
       }
 
+      #profileLink {
+        display: flex;
+        align-items: center;
+      }
+
+      #profileLink {
+        text-decoration: none;
+        cursor: pointer;
+      }
+      #profileLink:hover {
+        text-decoration: underline;
+
+      }
+      #profileLink:hover #pfpContainer {
+        box-shadow: 0 0 15px var(--light-color);
+      }
+
       #pfpContainer img {
         width: 100%
       }
       #pfpContainer {
         border-radius: 50%;
         width: 35px;
+        height: 35px;
         overflow: hidden;
         border: 1px solid var(--light-color);
+        transition: 0.2s;
       }
 
       #chatName {
@@ -229,10 +252,12 @@ createComponent(
     <section id="chat">
       <div id="headerContainer">
         <header>
-          <div id="pfpContainer">
-            <img id="pfp">
-          </div>
-          <h5 id="chatName"></h5>
+          <a id="profileLink">
+            <div id="pfpContainer">
+              <img id="pfp">
+            </div>
+            <h5 id="chatName"></h5>
+          </a>
         </header>
       </div>
 
@@ -258,6 +283,7 @@ createComponent(
     ctx.$isTyping = ctx.$('#isTyping')
     ctx.$pfp = ctx.$('#pfp')
     ctx.$chatName = ctx.$('#chatName')
+    ctx.$profileLink = ctx.$('#profileLink')
 
     const name = ctx.getAttribute('name')
 
@@ -272,6 +298,7 @@ createComponent(
 
     ctx.$pfp.src = `./thumbnails/${name}/pfp.png`
     ctx.$chatName.innerHTML = name
+    ctx.$profileLink.href = `./profiles/${name}`
 
     ctx.$submit.addEventListener('click', submit)
     ctx.$input.addEventListener('keypress', (e) => {

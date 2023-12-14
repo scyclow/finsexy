@@ -39,6 +39,8 @@ const CaglaMessages = messages.reduce(
     }
   },
   {
+    // __contract() {},
+
     START: {
       responseHandler: (userResponse) => `msg0`
     }

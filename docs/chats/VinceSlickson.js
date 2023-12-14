@@ -1,9 +1,17 @@
 import { isYes, isNo, isGreeting, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 
-
+export const VinceProfile = {
+  age: 42,
+  distance: 10,
+  gender: '100% Male',
+  maxPhotos: 4,
+  description: `Your prayers have been answered because I'm the man you've been dreaming about`
+}
 
 const VinceMessages = {
+  // __contract() {},
+
   START: {
     responseHandler: () => `hello`
   },
