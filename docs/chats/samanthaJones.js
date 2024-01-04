@@ -7,7 +7,7 @@ export const SamanthaProfile = {
     distance: 6,
     maxPhotos: 4,
     description: `
-    Samantha Jones is a tax auditor financial professional who loves auditing crypto sissy ${''}
+    Samantha Jones is a tax auditor financial professional who loves auditing crypto sissy ${''}s
 
     with a focus on cryptocurrency and blockchain fraud. In her more than 17 years of industry experience, she has handled matters across the criminal and regulatory spectrum. `
   }

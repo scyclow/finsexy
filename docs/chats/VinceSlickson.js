@@ -162,4 +162,26 @@ But when you're as succesful as me, you learn one thing: Time = Money.
 And my time isn't free, so if you really want this opportunity I'm going to need you to wet my whistle, if you know what I mean
 
 All you need to do is send me 0.01 ETH, and I'll give you all the info you need to start making fast cash now
+
+
+
+
+
+Oh yeah, you like it when i give you that alpha, don't you?
+
+
+
+
+
+how does that alpha feel?
+
+
+Whoa there, buddy. I'm not gay or anything. It's just... the money and power are _intoxicating_
+  https://www.reddit.com/r/findomsupportgroup/comments/18twp5t/im_straight_but_dommed_another_guy_last_night/
+
+
+
+
+
+
 */

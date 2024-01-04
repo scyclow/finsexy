@@ -1,5 +1,9 @@
 /*
 
+"I'm trouble"
+
+"I like three things: tattoos, sex, and money"
+
 time to make yourself useful, baby 😉
 
 You know what i really want....

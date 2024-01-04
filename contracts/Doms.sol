@@ -27,3 +27,47 @@ contract KatFischer {
 
   }
 }
+
+
+contract Cagla {
+  // generic
+}
+
+contract CandyCrush {
+  // buy4me
+}
+
+contract DrAndy {
+  // role play
+}
+
+
+contract DungeonMistress {
+  // role play
+}
+
+contract GoddessJessica {
+  // initial tribute
+}
+
+contract Hacker {
+  // blackmail
+}
+
+contract HeatherHot {}
+
+contract QueenOfDiamonds {
+  // money is 25% chance you make her cum; won't give you nft until she cums
+}
+
+contract SamantheJones {
+  // audit - post your seed phrase
+}
+
+contract StevieP {
+  // post on twitter
+}
+
+contract VinceSlickson {
+  // wants fastcash
+}

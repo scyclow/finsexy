@@ -1,3 +1,11 @@
+/*
+
+after first message: Talking to International DOMs requires VIP membership (or pay 0.02 )
+
+
+
+
+*/
 import { isYes, isNo, isGreeting, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 

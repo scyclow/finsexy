@@ -43,6 +43,14 @@ You probably want one of those stupid NFTs too though, right? lol
   yes
     okay, whatever floats your boat, sweetheart lol
 
+
+
+
+
+
+ETHICAL DOM RULES
+
+https://www.reddit.com/r/findomsupportgroup/comments/18qvg29/i_try_to_be_an_ethical_domme_and_i_usually_have_a/
 */
 
 

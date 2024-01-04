@@ -1,14 +1,23 @@
 /*
+WORSHIP ME
+
 
 I'm the reason your wife/husband/partner is going to leave you
   wife: only interested in women, is man
   husband: is woman interested in everyone
   partner: is nb
 
+feminist
 
 
 You're going to give me all of your money, and you're going to fucking like it
 
+
+I want you to spend until it hurts
+
+
+contract?
+  sub buys 0.01 eth for 0.02 eth
 
 
 

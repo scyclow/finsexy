@@ -14,6 +14,16 @@ export const KatProfile = {
 }
 
 
+
+export const KatTestimonials = [
+  {
+    name: '0x72f...daF',
+    rating: 2,
+    review: `I don't trust Kat. She just messaged me out of the blue and thought I was someone else. This seems like a scam`
+  }
+]
+
+
 export async function ketContractInfo() {
   const networkName = (await provider.getNetwork()).name
   const contractAddr = {
