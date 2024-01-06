@@ -115,7 +115,7 @@ export class Web3Provider {
   }
 
   async getETHBalance(addr) {
-    return this.provider.getBalance(addr)
+    return (await this.provider.getBalance(addr)) / 1e18
   }
 
   async getNetwork() {

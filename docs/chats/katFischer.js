@@ -24,10 +24,10 @@ export const KatTestimonials = [
 ]
 
 
-export async function ketContractInfo() {
+export async function katContractInfo(provider) {
   const networkName = (await provider.getNetwork()).name
   const contractAddr = {
-    local: '0x0bF7dE8d71820840063D4B8653Fd3F0618986faF'
+    local: '0xc981ec845488b8479539e6B22dc808Fb824dB00a'
   }[networkName]
 
   const abi = [
@@ -47,10 +47,10 @@ export async function ketContractInfo() {
 
 
 
-const firstSendEvent = redirectTo => async (ctx, contract) => {
-  await provider.isConnected()
-  if (contract) {
+const firstSendEvent = redirectTo => async (ctx, contract, provider) => {
+  const isConnected = await provider.isConnected()
 
+  if (contract && isConnected) {
     const t = bnToN(await contract.tributes(await provider.signer.getAddress()))
     console.log(t)
     // TODO if user waits too long, redirect to "Are you still there, baby? I can't stop thinking about you"
@@ -60,22 +60,25 @@ const firstSendEvent = redirectTo => async (ctx, contract) => {
   }
 }
 
-const secondSendEvent = redirectTo => async (ctx, contract) => {
-  if (ctx.state.totalPaid >= ctx.state.sentFromPreviousRounds + 0.02) {
+const secondSendEvent = redirectTo => async (ctx, contract, provider) => {
+  const isConnected = await provider.isConnected()
+
+  if (isConnected && ctx.state.totalPaid >= ctx.state.sentFromPreviousRounds + 0.02) {
     return { messageCode: redirectTo, waitMs: 0 }
   }
 }
 
-const thirdSendEvent = redirectTo => async (ctx, contract) => {
-  if (ctx.state.totalPaid >= ctx.state.sentFromPreviousRounds + 0.03) {
+const thirdSendEvent = redirectTo => async (ctx, contract, provider) => {
+  const isConnected = await provider.isConnected()
+  if (isConnected && ctx.state.totalPaid >= ctx.state.sentFromPreviousRounds + 0.03) {
     return { messageCode: redirectTo, waitMs: 0 }
   }
 }
 
 
 export const KatMessages = {
-  async __contract() {
-    const [contractAddr, abi] = await ketContractInfo()
+  async __contract(provider) {
+    const [contractAddr, abi] = await katContractInfo(provider)
 
     return await provider.contract(contractAddr, abi)
   },
@@ -84,7 +87,7 @@ export const KatMessages = {
   },
 
   steviep: {
-    messageText: () => `Hello, Mr. Steviep! This is Sophia, and I have those documents you wanted signed.`,
+    messageText: () => `Hello, Mr. Steviep! This is Katrina, and I have those documents you wanted signed.`,
     responseHandler: (r, ctx) => {
       ctx.state.sentFromPreviousRounds = ctx.state.sentFromPreviousRounds || 0
       return 'sorry'
@@ -203,7 +206,7 @@ export const KatMessages = {
   },
 
   katherine: {
-    messageText: () => `My name's not Sophia. It's Katherine.`,
+    messageText: () => `My name's not Katrina. It's Katherine.`,
     followUp: { messageCode: 'extractMoney', waitMs: 4000 }
   },
 

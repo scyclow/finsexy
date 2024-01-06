@@ -9,6 +9,12 @@ export const VinceProfile = {
   description: `Your prayers have been answered because I'm the man you've been dreaming about`
 }
 
+
+export const VinceTestimonials = {
+  '0x': `Every session I have with Vince gets me hot. and. bothered. 🥵`,
+  '0x1': ``
+}
+
 const VinceMessages = {
   // __contract() {},
 
@@ -43,28 +49,35 @@ const VinceMessages = {
 
   hello6: {
     messageText: () => `I bet you can't take it any more. You need that taste right now. Isn't that right?`,
-    responseHandler: response => {
-      if (isNo(response)) {
-        return 'hello6no'
-      } else if (isYes) {
-        return 'hello6yes'
-      } else {
-        return 'hello6no'
-      }
-    },
+    responseHandler: 'hello7'
+    // response => {
+    //   if (isNo(response)) {
+    //     return 'hello6no'
+    //   } else if (isYes) {
+    //     return 'hello6yes'
+    //   } else {
+    //     return 'hello6no'
+    //   }
+    // },
   },
 
-
-  hello6no: {
-    messageText: () => `C'mon, don't play games. I know you want some of this`,
+  hello7: {
+    messageText: userResponse => isNo(userResponse)
+      ? `C'mon, don't play games. I know you want some of this`
+      : `Haha, I thought so. I knew you couldn't resist.`,
     followUp: { messageCode: 'doAnything', waitMs: 2000 },
   },
 
-  hello6yes: {
-    messageText: () => `Haha, I thought so. I knew you couldn't resist.`,
-    followUp: { messageCode: 'doAnything', waitMs: 2000 },
 
-  },
+  // hello6no: {
+  //   messageText: () => `C'mon, don't play games. I know you want some of this`,
+  //   followUp: { messageCode: 'doAnything', waitMs: 2000 },
+  // },
+
+  // hello6yes: {
+  //   messageText: () => `Haha, I thought so. I knew you couldn't resist.`,
+  //   followUp: { messageCode: 'doAnything', waitMs: 2000 },
+  // },
 
   doAnything: {
     messageText: () => `I bet you'll do anything I say, right?`,
@@ -165,6 +178,7 @@ All you need to do is send me 0.01 ETH, and I'll give you all the info you need 
 
 
 
+any time accounting or samantha jones is mentioned: "I hate that fuckign bitch. I'm sure she had a lot ot say about me"
 
 
 Oh yeah, you like it when i give you that alpha, don't you?

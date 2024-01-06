@@ -37,11 +37,12 @@ createComponent(
         box-sizing: border-box;
         transition: 0.2s;
         box-shadow: inset 0px 0px 10px #555;
-        border-right: 0;
+        border: 0px solid rgba(0, 0, 0, 0);
       }
 
 
       #input:hover {
+        border: 1px solid var(--border-color);
         box-shadow: inset 0px 0px 10px #ccc;
       }
       #input:focus, #input:focus:hover {
@@ -109,6 +110,16 @@ createComponent(
       .messageContent p + p {
         margin-top: 0.5em;
       }
+
+      .messageContent {
+        line-height: 1.3;
+        padding-bottom: 0.25em;
+      }
+
+      .from-dom {
+        text-shadow: 0 0 1px var(--dark-color);
+      }
+
 
       .message::selection {
         background: var(--dark-color);
@@ -234,18 +245,27 @@ createComponent(
         overflow: hidden;
         border: 1px solid var(--light-color);
         transition: 0.2s;
+        box-shadow: 2px 2px 1px var(--dark-color)
       }
 
       #chatName {
         margin-left: 0.5em;
         font-size: 1.25em;
-        text-shadow: 0 0 5px var(--primary-color);
+        text-shadow: 2px 2px 1px var(--dark-color);
       }
 
       #headerContainer {
         position: relative;
         height: 0;
         top: 0
+      }
+
+      code {
+        display: inline-block;
+        padding: 0.5em;
+        background: var(--code-color);
+        color: var(--light-color);
+        border-radius: 0.25em;
       }
     </style>
 

@@ -240,20 +240,20 @@
   }
 
 
-  if (!ls.get('returnVisit')) {
+  // if (!ls.get('returnVisit')) {
 
     setTimeout(() => {
       if (!KatChat.ctx.history.length && !KatChat.ctx.eventQueue.length) {
-        KatChat.queueEvent('steviep', 3000)
+        KatChat.queueEvent('steviep', 60000)
       }
       if (!HHChat.ctx.history.length && !HHChat.ctx.eventQueue.length) {
-        HHChat.queueEvent('hi', 60000)
+        HHChat.queueEvent('hi', 3000)
       }
 
 
-      ls.set('returnVisit', true)
+      // ls.set('returnVisit', true)
     }, 1000)
-  }
+  // }
 
 
 

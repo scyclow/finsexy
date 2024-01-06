@@ -2,16 +2,33 @@ import { isYes, isNo, isGreeting, MessageHandler } from '../state/conversationRu
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 
 
+
+
+
+
+
+
+
+/*
+Testimonial
+
+
+*/
+
 export const SamanthaProfile = {
-    age: 38,
-    distance: 6,
-    maxPhotos: 4,
-    description: `
-    Samantha Jones is a tax auditor financial professional who loves auditing crypto sissy ${''}s
+  age: 38,
+  distance: 6,
+  maxPhotos: 4,
+  description: `
+  Samantha Jones is a tax auditor financial professional who loves auditing crypto sissy ${''}s
 
-    with a focus on cryptocurrency and blockchain fraud. In her more than 17 years of industry experience, she has handled matters across the criminal and regulatory spectrum. `
-  }
+  with a focus on cryptocurrency and blockchain fraud. In her more than 17 years of industry experience, she has handled matters across the criminal and regulatory spectrum. `
+}
 
+export const SamanthaTestimonials = {
+  '0x': `SamanthaJones is everything I love about the crypto space distilled down into one single person. I'd been getting absolutely rekt on shitcoins for years, but nothing compares to Samantha. Every audit from her is like a proctology exam. She knows how to make my whole body quiver like nothing else. `
+  //
+}
 
 const SamanthaMessages = {
   // __contract() {},
@@ -46,6 +63,9 @@ export const SamanthaChat = new MessageHandler('samanthaJones', SamanthaMessages
 
 sir/ma'm/..., this is a serious matter
 if you do not comply with my request there will be severe consequences
+
+
+throws shade at vince slickson
 
 
 

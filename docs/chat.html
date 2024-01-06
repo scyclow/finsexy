@@ -47,10 +47,12 @@
       transition: 0.2s;
     }
     #messageSelector li:hover {
-      background: var(--medium-color);
+      background: var(--light-color);
+      color: var(--primary-color);
     }
     #messageSelector .active:hover {
-      background: var(--medium-color);
+      background: var(--light-color);
+      color: var(--primary-color);
     }
 
     .chat-window.display-none {
@@ -176,12 +178,16 @@
 
 
 <script type="module">
-  import {MessageHandler} from './state/all.js'
+  import {MessageHandler, KatChat, HHChat} from './state/all.js'
   import {$, queryParams} from './$.js'
+  import {clitLS} from './state/clit.js'
 
   const $messageSelector = $.id('messageSelector')
   const $chatWindow = $.id('chatWindow')
   const $profilePanel = $.id('profilePanel')
+
+
+
 
 
   const messageNames = Object.keys(MessageHandler.chats)
@@ -274,6 +280,7 @@
   })
 
   setRunInterval(() => {
+    if (!clitLS.get().devMode) return
     const chat = MessageHandler.chats[activeChat]
     if (chat) {
       $.id('chatState').innerHTML = JSON.stringify(
@@ -294,7 +301,7 @@
     }
     ).join('')
 
-  }, 10)
+  }, 300)
 
 
 
@@ -334,7 +341,17 @@
 
 
 
+  setTimeout(() => {
+    // if (!KatChat.ctx.history.length && !KatChat.ctx.eventQueue.length) {
+    //   KatChat.queueEvent('steviep', 60000)
+    // }
+    if (!HHChat.ctx.history.length && !HHChat.ctx.eventQueue.length) {
+      HHChat.queueEvent('hi', 3000)
+    }
 
+
+    // ls.set('returnVisit', true)
+  }, 1000)
 
 
 

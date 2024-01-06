@@ -11,7 +11,7 @@ contract KatFischer {
     if (msg.value >= 0.01 ether) {
       tributes[msg.sender] += 1;
 
-      if (tributes[msg.sender] == 3) {
+      if (tributes[msg.sender] > 0 && tributes[msg.sender] % 3 == 0) {
         tributes[msg.sender] = 0;
         _mint(msg.sender);
 
@@ -27,6 +27,29 @@ contract KatFischer {
 
   }
 }
+
+
+contract HeatherHot {
+  mapping(address => uint256) public tributes;
+
+  receive() external payable {
+    if (msg.value >= 0.01 ether) {
+      tributes[msg.sender] += 1;
+      _mint(msg.sender);
+    }
+  }
+
+  function withdraw() external {
+
+  }
+
+  function _mint(address sender) internal {
+
+  }
+}
+
+
+
 
 
 contract Cagla {
@@ -54,7 +77,6 @@ contract Hacker {
   // blackmail
 }
 
-contract HeatherHot {}
 
 contract QueenOfDiamonds {
   // money is 25% chance you make her cum; won't give you nft until she cums

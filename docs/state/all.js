@@ -1,4 +1,4 @@
-export * from './cli.js'
+export * from './clit.js'
 export * from './profile.js'
 export * from './conversationRunner.js'
 
@@ -10,6 +10,6 @@ export * from '../chats/VinceSlickson.js'
 
 import {ls} from '../$.js'
 
-  if (!ls.get('is18')) {
-    window.location.replace('./enter')
-  }
+if (!ls.get('is18')) {
+  window.location.replace('./enter')
+}

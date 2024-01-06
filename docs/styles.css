@@ -11,16 +11,20 @@
   --medium-color: #ff66ff;
   --dark-color: #120211;
   --bg-color: #120211;
-  --input-color: #292929;
+
+  /*--input-color: #292929;*/
+  --input-color: #25051e;
   /*--help-color: #df0;*/
   --help-color: #00ff98;
   --secondary-color: #7202c6;
   --tertiary-color: #b40066;
+  --code-color: rgba(17, 5, 17, 0.7);
 
   --green1-color: #339966;
   --green2-color: #66cc99;
   --blue-color: #003366;
   --red-color: #ff3333;
+
   /*--secondary-color: #00ff98;*/
 
   --default-font: Trebuchet MS;

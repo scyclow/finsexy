@@ -1,5 +1,5 @@
 import { getUserData } from './profile.js'
-import { sexyCLI, cliLS } from './cli.js'
+import { sexyCLIT, clitLS } from './clit.js'
 import {ls} from '../$.js'
 import {provider} from '../eth.js'
 
@@ -45,6 +45,7 @@ const yeses = [
   'sure',
   'ok',
   'okay',
+  'k',
   'alright',
   'definitely',
   'you bet',
@@ -104,10 +105,63 @@ const noes = [
 ]
 
 
-const responseParser = txt => txt.trim().replace('!', '').replace('.', '').replace('.', '')
+const positives = [
+  'good',
+  'great',
+  'incredible',
+  'fabulous',
+  'amazing',
+  'horny',
+  'amazing',
+  'awesome',
+  'wonderful',
+  'lovely',
+  'terrific',
+  'excellent',
+  'superb',
+  'fabulous',
+  'phenominal',
+  'spectacular',
+  'marvelous',
+  'spelendid',
+  'outstanding',
+  'happy',
+  'love',
+]
+
+const negatives = [
+  'bad',
+  'bored',
+  'terrible',
+  'hate',
+  'awful',
+  'sad',
+  'unhappy',
+  'upset',
+  'miserable',
+  'stressed',
+  'depressed',
+  'scared',
+]
+
+const meanResponses = [
+  'fuck you',
+  'go fuck yourself',
+  'get fucked',
+  'suck my dick',
+  'eat my ass',
+  'bitch',
+  'cunt',
+  'whore'
+]
+
+const responseParser = txt => txt.toLowerCase().trim().replace('!', '').replace('.', '').replace('.', '').split(' ')
 export const isGreeting = txt => greetings.some(t => responseParser(txt).includes(t))
-export const isYes = txt => yeses.some(t => responseParser(txt).includes(t))
+export const isYes = txt => yeses.some(t => responseParser(txt).includes(t) && !isNo(txt))
 export const isNo = txt => noes.some(t => responseParser(txt).includes(t))
+export const isPositive = txt => positives.some(t => responseParser(txt).includes(t) && !isNo(txt))
+export const isNegative = txt => negatives.some(t => responseParser(txt).includes(t))
+export const isMean = txt => meanResponses.some(t => txt.toLowerCase().trim().replace('!', '').replace('.', '').replace('.', '').includes(t))
 
 
 
@@ -167,8 +221,9 @@ class ChatContext {
     this.lastDomCodeSent = existingContext.lastDomCodeSent || startingCode || 'START'
     this.state = existingContext.state || {}
     this.eventQueue = existingContext.eventQueue || []
-    this.history = existingContext.history || []
     this.unread = existingContext.unread || 0
+    this.global = {}
+    this.history = existingContext.history || []
 
     this.updateLS()
 
@@ -203,22 +258,29 @@ class ChatContext {
 
 export class MessageHandler {
   static chats = {}
+  static globalCtx = {
+    premium: 1
+  }
 
+  static provider = provider
 
   constructor(chatName, messages, startingCode) {
     this.chatName = chatName
     this.messages = messages
     this.registeredChatWindows = []
     this.ctx = new ChatContext(chatName, startingCode)
+    this.ctx.global = MessageHandler.globalCtx
     this.isActive = false
+    this.provider = MessageHandler.provider
 
     if (messages.__contract) {
-      provider.onConnect(async addr => {
-        this.contract = await messages.__contract()
+      this.provider.onConnect(async addr => {
+        this.contract = await messages.__contract(this.provider)
+        this.ctx.global.isConnected = true
       })
     }
 
-    sexyCLI.register(chatName, '', this.ctx, messageText =>
+    sexyCLIT.register(chatName, '', this.ctx, messageText =>
       this.updateHistory({
         helpMessage: true,
         messageText
@@ -226,8 +288,8 @@ export class MessageHandler {
     )
 
     setRunInterval(async () => {
-      const currentNode = this.messages[this.ctx.lastDomCodeSent]
-      const event = await currentNode?.event?.(this.ctx, this.contract)
+      const currentNode = this.getMessageToSend(this.ctx.lastDomCodeSent)
+      const event = await currentNode?.event?.(this.ctx, this.contract, this.provider)
       if (event) {
         this.ctx.addToEventQueue(event)
       }
@@ -250,22 +312,21 @@ export class MessageHandler {
 
 
       const { messageCode, userResponse } = this.ctx.eventQueue.shift()
-      const messageToSend = this.messages[messageCode]
+      const messageToSend = this.getMessageToSend(messageCode, userResponse)
 
 
-      const followUp = messageToSend?.followUp instanceof Function
-        ? messageToSend.followUp(this.ctx, this.contract)
-        : messageToSend.followUp
+      const followUp = this.sendFollowup(messageToSend, userResponse)
+
 
       if (followUp) {
-        const messageToSend = this.messages[followUp.messageCode]
-        const estimatedMessageText = messageToSend.messageText(userResponse, this.ctx, this.contract)
-        const typingWait = cliLS.get().devIgnoreWait
-          ? 0
+        const messageToSend = this.getMessageToSend(followUp.messageCode, userResponse)
+        const estimatedMessageText = await this.sendMessage(messageToSend, userResponse)
+        const typingWait = clitLS.get().devIgnoreWait
+          ? 50
           :  Math.floor(1000*estimatedMessageText.length/80)
-        const wait = cliLS.get().devIgnoreWait
+        const wait = clitLS.get().devIgnoreWait
           ? 0
-          : followUp.waitMs + random(1000)
+          : (followUp.waitMs||0) + random(1000)
 
         this.ctx.addToEventQueue({
           userResponse,
@@ -283,7 +344,7 @@ export class MessageHandler {
 
       this.updateHistory({
         messageCode: messageCode,
-        messageText: messageToSend.messageText(userResponse, this.ctx, this.contract),
+        messageText: await this.sendMessage(messageToSend, userResponse),
         from: this.chatName,
       })
     }, 100)
@@ -296,7 +357,35 @@ export class MessageHandler {
   }
 
 
+  getMessageToSend(msgCode, userResponse) {
+    const precheck = this.messages?.__precheck?.(userResponse, this.ctx)
 
+    return precheck || this.messages[msgCode]
+  }
+
+
+
+  async sendMessage(msg, userResponse) {
+    if (!msg.messageText) return
+
+    return typeof msg.messageText === 'string'
+      ? msg.messageText
+      : msg.messageText(userResponse, this.ctx, this.contract, this.provider)
+  }
+
+  sendFollowup(msg, userResponse) {
+    if (!msg.followUp) return
+    return msg?.followUp instanceof Function
+      ? msg.followUp(userResponse, this.ctx, this.contract, this.provider)
+      : msg.followUp
+  }
+
+  async findNextNode(msg, userResponse) {
+    if (!msg.responseHandler) return
+    return typeof msg.responseHandler === 'string'
+      ? msg.responseHandler
+      : msg.responseHandler(userResponse, this.ctx, this.contract, this.provider)
+  }
 
   addChatWindow(chatWindow) {
     if (chatWindow) {
@@ -336,13 +425,13 @@ export class MessageHandler {
     })
 
     if (userResponse.match(/^(\$sexy\s)/)) {
-      return sexyCLI.run(this.chatName, userResponse, this.ctx)
+      return sexyCLIT.run(this.chatName, userResponse, this.ctx)
     }
 
-    const lastMessage = this.messages[this.ctx.lastDomCodeSent]
+    const lastMessage = this.getMessageToSend(this.ctx.lastDomCodeSent, userResponse)
 
     if (lastMessage && lastMessage.responseHandler) {
-      const codeToSend = lastMessage.responseHandler(userResponse, this.ctx, this.contract)
+      const codeToSend = await this.findNextNode(lastMessage, userResponse)
       this.next(userResponse, codeToSend)
     }
   }
@@ -357,14 +446,14 @@ export class MessageHandler {
   }
 
   async next(userResponse, codeToSend) {
-    const messageToSend = this.messages[codeToSend]
+    const messageToSend = this.getMessageToSend(codeToSend, userResponse)
 
     if (messageToSend) {
-      const estimatedMessageText = messageToSend.messageText(userResponse, this.ctx, this.contract)
+      const estimatedMessageText = await this.sendMessage(messageToSend, userResponse)
       let wait = 0
       let typingWait = 0
 
-      if (!cliLS.get().devIgnoreWait) {
+      if (!clitLS.get().devIgnoreWait) {
         typingWait = 500 + random(750)
         wait = Math.floor(
           1000*estimatedMessageText.length/80

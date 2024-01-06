@@ -7,6 +7,10 @@ do you have kids?
 
 
 
+I'm the reason your wife/husband/partner is going to leave you
+  wife: only interested in women, is man
+  husband: is woman interested in everyone
+  partner: is nb
 
 
 
@@ -29,6 +33,7 @@ i can tell -- you want to get fucking rekt
 loss porn
 
 
+"Do you know wha tI'm going to do with this ETH? I'm going to buy a crypto punk and fucking burn it"
 
 
 
@@ -36,3 +41,8 @@ loss porn
 
 
 */
+
+
+export const QueenOfDiamondsTestimonials = {
+  '0x': `GoddessJessica completely ruined my life by extracting at least five figures from my wallet over the course of a weekend. When my wife found out she left me and took the kids. It was so hot. I don't think I've ever cum harder in my life`,
+}

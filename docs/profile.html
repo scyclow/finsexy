@@ -140,6 +140,16 @@
     background: var(--input-color);
   }
 
+  textarea {
+    width: 15em;
+    height: 3em;
+  }
+
+  fieldset, input {
+    border-color: var(--border-color);
+    border-style: solid;
+  }
+
   select {
     cursor: pointer;
   }
@@ -176,18 +186,18 @@
 
   <main>
 
-    <h1>Create Profile</h1>
+    <h1>Financial Submissive Application</h1>
 
 
     <form onsubmit="onSubmit(event)">
       <fieldset>
         <legend>Name</legend>
-        <input required type="text" name="name" id="name">
+        <input required type="text" name="name" id="name" placeholder="paypiggie123">
       </fieldset>
 
       <fieldset>
         <legend>Location</legend>
-        <input required type="text" name="location" id="location">
+        <input required type="text" name="location" id="location" placeholder="New York, NY">
       </fieldset>
 
       <fieldset>
@@ -218,17 +228,17 @@
 
       <fieldset>
         <legend>Annual Income</legend>
-        <input required type="number" name="income" id="income">
+        <input required type="number" name="income" id="income" placeholder="$100,000">
       </fieldset>
 
       <fieldset>
         <legend>What's your deepest, darkest sexual fantasy?</legend>
-        <textarea required name="fantasy" id="fantasy"></textarea>
+        <textarea required name="fantasy" id="fantasy" placeholder="I want a sexy dom to drain my wallet until it hurts 💦"></textarea>
       </fieldset>
 
       <fieldset>
         <legend>Password</legend>
-        <input required type="text" minlength="6" name="pass" id="pass">
+        <input required type="text" minlength="6" name="pass" id="pass" placeholder="******">
       </fieldset>
 
       <p id="error"></p>

@@ -109,3 +109,10 @@ As you await the officer to approach, you reflect on the shame and humiliation f
 
 
 */
+
+
+
+export const DrAndyTestimonials = {
+  '0x': `Dr Andy was instrumental in helping me overcome my findom addiction.`,
+  '0x1': `I've cycled through more therapists than I can count, and it always left me feeling like I was the problem. How come therapy can fix so many people, but not me? Clearly this was my fault. It was my fault I couldn't be fixed, it was my fault that I was single, and it was my fault that I couldn't love myself. I was the failure. But things were different with Dr Andy. Their warm demeanor and understanding tone created the perfect non-judgemental environment for me to address and correct multiple behavioral issues.`
+}

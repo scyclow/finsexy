@@ -37,17 +37,20 @@ export const getAgeYears = bd => {
 // TODO handle different wallets
 export const defaultProfileLS = profileLS('DEFAULT')
 
-export function getUserData() {
+export function getUserData(key) {
   const profileInfo = defaultProfileLS.get()
-
-  return {
+  const info = {
     name: profileInfo.name,
     gender: profileInfo.gender,
     location: profileInfo.location,
-    age: getAgeYears(profileInfo.birthday)
+    age: getAgeYears(profileInfo.birthday),
+    interested: profileInfo.interested,
+    fantasy: profileInfo.fantasy,
   }
+
+  if (key) return info[key]
+
+  return info
 }
-
-
 
 

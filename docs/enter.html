@@ -40,7 +40,7 @@
       margin: auto;
       padding: 1em;
       max-width: 600px;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -48,6 +48,16 @@
 
     }
 
+    input[type='checkbox'] {
+      width: 2em;
+      height: 2em;
+      transition: 0.2s;
+    }
+
+    .inputHolder {
+      display: flex;
+      align-items: center;
+    }
     label, input {
       cursor: pointer;
     }
@@ -55,12 +65,16 @@
       display: flex;
     }
 
+    label:hover input[type='checkbox'] {
+      box-shadow: 0 0 15px var(--primary-color);
+    }
+
     h1 {
       /*font-size: 2em;*/
     }
 
-    h2 + h2 {
-      margin: 1em 0;
+    label + label {
+      margin: 1.5em 0;
     }
 
     label input {
@@ -90,9 +104,19 @@
       <h1><em class="blink" style="padding-right: 0.25em; font-size: 1.2em;">WARNING!</em> There are LOTS of sexy Doms on this website who want to suck your wallet dry. Proceed at your own risk.</h1>
 
       <div style="margin: 3em 0">
-        <h2><label><input type="checkbox" id="over18">I am over 18 and willing to view explicit adult content</label></h2>
-        <h2><label><input type="checkbox" id="money">I acknowledge that the sexy doms on this website may convince me to give them money with nothing in return</label></h2>
-        <h2><label><input type="checkbox" id="humiliation">I am aware that, by entering this website, humiliating, disparaging, and/or otherwise hurtful language may be directed towards me</label></h2>
+        <label>
+          <div class="inputHolder"><input type="checkbox" id="over18"></div>
+          <h2>I am over 18 and willing to view explicit adult content.</h2>
+        </label>
+        <label>
+          <div class="inputHolder"><input type="checkbox" id="money"></div>
+          <!-- <h2>I acknowledge that the sexy doms on this website may convince me to give them money with nothing in return</h2> -->
+          <h2>I have a deep desire to be financially dominated, and am willing to unconditionally send money to the sexy doms on this website. </h2>
+        </label>
+        <label>
+          <div class="inputHolder"><input type="checkbox" id="humiliation"></div>
+          <h2>I am aware that, by entering this website, humiliating, disparaging, and/or otherwise hurtful language may be directed towards me.</h2>
+        </label>
       </div>
 
       <div class="center">
