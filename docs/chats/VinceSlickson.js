@@ -6,14 +6,13 @@ export const VinceProfile = {
   distance: 10,
   gender: '100% Male',
   maxPhotos: 4,
-  description: `Your prayers have been answered because I'm the man you've been dreaming about`
+  description: `Your prayers have been answered because I'm the man you've been dreaming about`,
+  testimonials: [
+    { name: '0x', review: `Every session I have with Vince gets me hot. and. bothered. 🥵`},
+    { name: '0x1', review: ``}
+  ]
 }
 
-
-export const VinceTestimonials = {
-  '0x': `Every session I have with Vince gets me hot. and. bothered. 🥵`,
-  '0x1': ``
-}
 
 const VinceMessages = {
   // __contract() {},

@@ -1,13 +1,10 @@
 export const HackerProfile = {
   age: 0,
-  distance: 0
+  distance: 0,
+  reviews: [
+    {
+      name: '0x72f...daF',
+      review: `I don't like this dom at all.  `
+    }
+  ]
 }
-
-
-export const HackerTestimonials = [
-  {
-    name: '0x72f...daF',
-    rating: 0,
-    review: `I don't like this dom at all.  `
-  }
-]

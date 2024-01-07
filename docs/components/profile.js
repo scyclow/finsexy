@@ -71,6 +71,12 @@ createComponent(
       h2 {
         text-align: center;
         text-decoration: underline;
+        margin-bottom: 0.5em;
+      }
+
+      a {
+        color: var(--medium-color);
+        text-shadow: 0 0 50px var(--primary-color);
       }
 
       input {
@@ -83,7 +89,15 @@ createComponent(
 
       #content {
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
+
+      #content, aside, header {
+        padding: 0 1em;
+      }
+
 
       #name {
         margin-bottom: 0.5em;
@@ -100,6 +114,9 @@ createComponent(
 
       #photoContainer {
         width: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
 
       }
@@ -110,7 +127,7 @@ createComponent(
       }
 
       .actions {
-        margin-top: 1em;
+        margin: 1em 0;
         padding: 1em;
         display: flex;
         justify-content: space-between;
@@ -200,7 +217,7 @@ createComponent(
       }
 
 
-      @media (max-width: 650px) {
+      @media (max-width: 800px) {
         main {
           flex-direction: column;
           align-items: center;
@@ -268,6 +285,51 @@ createComponent(
         text-shadow: 0 0 2px #000;
         text-align: center;
       }
+
+      #testimonialContainer {
+        border: 2px dotted var(--border-color);
+        padding: 0.75em;
+      }
+
+      #testimonialContent {
+        padding-top: 0.75em;
+      }
+
+      #testimonials {
+        margin-top: 3em;
+        max-width: 500px;
+      }
+
+
+      .testimonial + .testimonial {
+        margin-top: 2em;
+      }
+      .testimonial {
+        border: 1px solid var(--border-color);
+      }
+
+      .testimonialName {
+        border-bottom: 1px solid var(--border-color);
+        background: var(--gray-color);
+        text-decoration: underline;
+        user-select: none;
+      }
+      .testimonialName span {
+        cursor: no-drop;
+      }
+
+      .testimonialName, .testimonialReview {
+        padding: 0.75em;
+      }
+
+      .testimonialReview {
+        box-shadow: inset 0 0 10px #777;
+      }
+
+      ::selection {
+        background: var(--light-color);
+        color: var(--dark-color);
+      }
     </style>
 
     <article id="parent">
@@ -297,12 +359,21 @@ createComponent(
         </aside>
 
         <section id="content">
-          <div>
+          <section id="profileInfo">
             <h2>Profile</h2>
             <div id="info"></div>
             <p id="description"></p>
-          </div>
+          </section>
+
+          <section id="testimonials">
+            <h2>Testimonials</h2>
+            <div id="testimonialContainer">
+              <h3>Powered by <a href="https://friendworld.social" target="_blank">friendworld.social</a></h3>
+              <div id="testimonialContent"></div>
+            </div>
+          </section>
         </section>
+
 
       </main>
     </article>
@@ -320,13 +391,15 @@ createComponent(
     ctx.$unread = ctx.$('#unread')
     ctx.$sendButton = ctx.$('#sendButton')
     ctx.$sendInput = ctx.$('#sendInput')
+    ctx.$testimonials = ctx.$('#testimonials')
+    ctx.$testimonialContent = ctx.$('#testimonialContent')
 
     if (ctx.getAttribute('sideWindow')) ctx.parent.classList.add('sideWindow')
 
 
 
     const name = ctx.getAttribute('name')
-    const {age, distance, gender, maxPhotos, description} = ProfileStats[name]
+    const {age, distance, gender, maxPhotos, description, testimonials} = ProfileStats[name]
 
     ctx.$description.innerHTML = `"${description}"`
     ctx.$name.innerHTML = name
@@ -362,6 +435,13 @@ createComponent(
         ctx.$sendInput.value = ''
       }
     }
+
+    ctx.$testimonialContent.innerHTML = testimonials.map(t => `
+      <div class="testimonial">
+        <div class="testimonialName"><span>${t.name}</span></div>
+        <div class="testimonialReview">${t.review}</div>
+      </div>
+    `).join('')
 
 
 

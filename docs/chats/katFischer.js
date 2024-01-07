@@ -10,18 +10,18 @@ export const KatProfile = {
   distance: 69,
   gender: 'Female',
   maxPhotos: 3,
-  description: `I'm just doing my job`
+  description: `I'm just doing my job`,
+  testimonials: [
+    {
+      name:'0x72f...daF',
+      review: `I don't trust Kat. She just messaged me out of the blue and thought I was someone else. This seems like a scam`
+    }
+  ]
 }
 
 
 
-export const KatTestimonials = [
-  {
-    name: '0x72f...daF',
-    rating: 2,
-    review: `I don't trust Kat. She just messaged me out of the blue and thought I was someone else. This seems like a scam`
-  }
-]
+
 
 
 export async function katContractInfo(provider) {

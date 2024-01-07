@@ -38,15 +38,26 @@ export const HeatherHotProfile = {
   distance: 2,
   gender: 'Female',
   maxPhotos: 4,
-  description: `My name is Heather`
+  description: `My name is Heather, and I'm here to help`,
+  testimonials: [
+    {
+      name: '0xfFff...3892',
+      review: `I went years without a single woman giving me a glimer of romantic or sexual attention. And believe me, it wasn't from lack of trying! I must have swiped right on every girl in my city, and I didn't get a single match. It was like I was completely invisible. The second heatherHot introduced herself to me I absolutely melted. It felt so good to be acknowledge by such a gorgeous woman that I immediately creamed my pants. She's 100% worth every penny!`,
+    },
+    {
+      name: '0x1',
+      review: `heatherHot is so hot!`,
+    },
+    {
+      name: '0x2',
+      review: `Heather was really helpful in giving me a lay of the land. A great way to start my findom journey`,
+    },
+  ]
 }
 
 
 
-export const HeatherHotTestimonials = {
-  '0x': `I went years without a single woman giving me a glimer of romantic or sexual attention. And believe me, it wasn't from lack of trying! I must have swiped right on every girl in my city, and I didn't get a single match. It was like I was completely invisible. The second heatherHot introduced herself to me I absolutely melted. It felt so good to be acknowledge by such a gorgeous woman that I immediately creamed my pants. She's 100% worth every penny!`,
-  '0x1': `heatherHot is so sexy!`,
-}
+
 
 
 
@@ -87,8 +98,7 @@ const HeatherHotMessages = {
     return await provider.contract(contractAddr, abi)
   },
 
-  // TODO something that intercepts messages
-  // rude response
+  // TODO
   // more info
 
   __precheck(userResponse, ctx) {
@@ -178,11 +188,11 @@ const HeatherHotMessages = {
   },
 
   newToFindomYes: {
-    messageText: (ur, ctx) => {
+    messageText: `omg. Findom is like the <em>hottest thing ever</em>!`,
+    followUp: (ur, ctx) => {
       ctx.state.isNew = true
-      return `omg. Findom is like the <em>hottest thing ever</em>!`
-    },
-    followUp: { messageCode: 'newToFindomYes2', waitMs: 1500 }
+      return { messageCode: 'newToFindomYes2', waitMs: 1500 }
+    }
   },
 
   newToFindomYes2: {
@@ -399,7 +409,7 @@ const HeatherHotMessages = {
   ageCheck: {
     messageText: `Are you really ${Math.floor(getUserData('age'))}?`,
     responseHandler: (ur, ctx) => {
-      if (isYes(ur)) return 'ageResponse'
+      if (isYes(ur) || !getUserData('age')) return 'ageResponse'
       else if (ur.match(/(\d+)/)) {
         const [_age] = ur.match(/(\d+)/)
         ctx.state.ageOverride = Number(_age)
@@ -432,7 +442,6 @@ const HeatherHotMessages = {
     messageText: (ur, ctx) => {
       const age = ctx.state.ageOverride || getUserData('age')
       if (age < 18) {
-        ctx.state.hardStop = true
         return `Wow, you are <em>wayyy</em> too young to be on this web site. you should go to a kid-friendly website like tiktok or friendworld`
       } else if (age < 25) {
         return `Wow, you're a young ${genderSwitch({
@@ -449,15 +458,23 @@ const HeatherHotMessages = {
           nb: 'old timer'
         })}. lol jk`
       } else {
-        ctx.state.veryOld = true
+
         return `Jesus fucking Christ you're <em>old</em>. ${age}?! How are you even using a computer?`
       }
     },
     followUp: (ur, ctx) => {
+      const age = ctx.state.ageOverride || getUserData('age')
+      ctx.state.hardStop = age < 18
+      ctx.state.veryOld = age >= 125
+
       if (ctx.state.hardStop) return
       else return { messageCode: 'howMuch', waitMs: 2000 }
     },
     responseHandler: (ur, ctx) => {
+      const age = ctx.state.ageOverride || getUserData('age')
+      ctx.state.hardStop = age < 18
+      ctx.state.veryOld = age >= 125
+
       if (ctx.state.hardStop) return 'error'
     }
   },
@@ -622,10 +639,14 @@ const HeatherHotMessages = {
     responseHandler: ur => isYes(ur) ? 'nftYes' : 'nftNo'
   },
 
+  nftNo: {
+    messageText: `Well, you're getting one anyhow lol`,
+    followUp: { messageCode: 'nftYes2', waitMs: 3000 }
+  },
+
   nftYes: {
     messageText: `Okay, whatever floats your boat, sweetheart lol`,
     followUp: { messageCode: 'nftYes2', waitMs: 3000 }
-
   },
 
   nftYes2: {

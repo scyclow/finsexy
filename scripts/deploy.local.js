@@ -3,17 +3,29 @@ async function main() {
   const artist = signers[0]
   console.log('Deploying base contract for artist addr:', artist.address)
 
-  HeatherHotFactory = await ethers.getContractFactory('HeatherHot', artist)
-  KatFischerFactory = await ethers.getContractFactory('KatFischer', artist)
-  HeatherHot = await HeatherHotFactory.deploy()
-  KatFischer = await KatFischerFactory.deploy()
-  await HeatherHot.deployed()
-  await KatFischer.deployed()
 
+  const doms = [
+    'ABMock',
+    'FastCashMock',
+    'UFIMMock',
+    'IOUMock',
+    'NVCMock',
+    'IFDMock',
+    'MMOMock',
+    'CASHMock',
 
+    'HeatherHot',
+    'KatFischer',
+    'SamanthaJones'
+  ]
 
-  console.log(`HeatherHot:`, HeatherHot.address)
-  console.log(`KatFischer:`, KatFischer.address)
+  for (let dom of doms) {
+    const factory = await ethers.getContractFactory(dom, artist)
+    const contract = await factory.deploy()
+    await contract.deployed()
+    console.log(dom, contract.address)
+  }
+
 }
 
 

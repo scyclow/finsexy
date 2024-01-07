@@ -17,11 +17,11 @@ const profileLS = addr => ({
 })
 
 export function genderSwitch(mapping) {
-  return mapping[getUserData().gender]
+  return mapping[getUserData().gender || 'nb']
 }
 
 export function interestedSwitch(mapping) {
-  return mapping[getUserData().interested]
+  return mapping[getUserData().interested || 'nb']
 }
 
 

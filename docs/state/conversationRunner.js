@@ -86,6 +86,7 @@ const noes = [
   'negative',
   'absolutely not',
   'definitely not',
+  'not',
   'not really',
   'hell no',
   'fuck no',
@@ -152,7 +153,9 @@ const meanResponses = [
   'eat my ass',
   'bitch',
   'cunt',
-  'whore'
+  'whore',
+  'shut up',
+  'tranny'
 ]
 
 const responseParser = txt => txt.toLowerCase().trim().replace('!', '').replace('.', '').replace('.', '').split(' ')
@@ -277,6 +280,7 @@ export class MessageHandler {
       this.provider.onConnect(async addr => {
         this.contract = await messages.__contract(this.provider)
         this.ctx.global.isConnected = true
+        this.ctx.global.connectedAddr = addr
       })
     }
 
@@ -315,7 +319,7 @@ export class MessageHandler {
       const messageToSend = this.getMessageToSend(messageCode, userResponse)
 
 
-      const followUp = this.sendFollowup(messageToSend, userResponse)
+      const followUp = await this.sendFollowup(messageToSend, userResponse)
 
 
       if (followUp) {
@@ -373,7 +377,7 @@ export class MessageHandler {
       : msg.messageText(userResponse, this.ctx, this.contract, this.provider)
   }
 
-  sendFollowup(msg, userResponse) {
+  async sendFollowup(msg, userResponse) {
     if (!msg.followUp) return
     return msg?.followUp instanceof Function
       ? msg.followUp(userResponse, this.ctx, this.contract, this.provider)

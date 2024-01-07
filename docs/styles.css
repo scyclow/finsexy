@@ -20,16 +20,26 @@
   --tertiary-color: #b40066;
   --code-color: rgba(17, 5, 17, 0.7);
 
+
+
   --green1-color: #339966;
   --green2-color: #66cc99;
   --blue-color: #003366;
   --red-color: #ff3333;
+  --purple-color: #49155b;
+  --gray-color: #3f304a;
+  /*#470061;*/
+
+
+  /*hsl(284 26% 26%)*/
 
   /*--secondary-color: #00ff98;*/
 
-  --default-font: Trebuchet MS;
+  --default-font: Trebuchet MS, sans-serif;
   --fancy-font: cursive;
   --code-font: monospace;
+
+
 }
 
 body {

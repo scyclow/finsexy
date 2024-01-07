@@ -120,12 +120,6 @@ createComponent(
         text-shadow: 0 0 1px var(--dark-color);
       }
 
-
-      .message::selection {
-        background: var(--dark-color);
-        color: var(--light-color);
-      }
-
       .message:last-child {
         animation: fadeIn linear 0.2s;
       }
@@ -251,7 +245,7 @@ createComponent(
       #chatName {
         margin-left: 0.5em;
         font-size: 1.25em;
-        text-shadow: 2px 2px 1px var(--dark-color);
+        text-shadow: 2px 2px 1px var(--dark-color), 0 0 20px var(--secondary-color);
       }
 
       #headerContainer {
@@ -267,6 +261,18 @@ createComponent(
         color: var(--light-color);
         border-radius: 0.25em;
       }
+
+      ::selection, .message ::selection  {
+        background: var(--dark-color);
+        color: var(--light-color);
+      }
+
+      time::selection, .date::selection {
+        background: var(--light-color);
+        color: var(--dark-color);
+      }
+
+
     </style>
 
     <section id="chat">

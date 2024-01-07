@@ -11,6 +11,7 @@ createComponent(
         margin: 0;
         padding: 0;
         font-family: var(--default-font);
+        user-select: none;
       }
       header {
         padding: 0.25em 0.5em;
