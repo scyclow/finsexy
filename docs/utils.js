@@ -11,7 +11,6 @@
 // const dist = (x1, y1, x2, y2) => Math.sqrt(Math.abs(x1 - x2)**2 + Math.abs(y1 - y2)**2)
 
 
-// const int = parseInt
 
 // let __randomSeed = int(tokenData.hash.slice(50, 58), 16)
 // function rnd(mn, mx) {
@@ -31,6 +30,7 @@ function random(mn, mx) {
   else return out
 }
 
+const int = parseInt
 const rndint = (mn, mx) => int(random(mn, mx))
 const prb = x => random() < x
 const sample = (a) => a[int(random(a.length))]

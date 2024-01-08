@@ -39,6 +39,7 @@ const yeses = [
   'ya',
   'y',
   'yup',
+  'yep',
   'oui',
   'si',
   'da',
@@ -64,6 +65,7 @@ const yeses = [
   '1',
   'true',
   'i do',
+  'i sure do',
   'great',
   'awesome',
   'amazing',
@@ -73,6 +75,10 @@ const yeses = [
   'right',
   'correct',
   'i guess',
+  'it is',
+  'yessir',
+  'more than anything',
+  'go ahead',
 ]
 
 const noes = [
@@ -158,13 +164,27 @@ const meanResponses = [
   'tranny'
 ]
 
-const responseParser = txt => txt.toLowerCase().trim().replace('!', '').replace('.', '').replace('.', '').split(' ')
-export const isGreeting = txt => greetings.some(t => responseParser(txt).includes(t))
-export const isYes = txt => yeses.some(t => responseParser(txt).includes(t) && !isNo(txt))
-export const isNo = txt => noes.some(t => responseParser(txt).includes(t))
-export const isPositive = txt => positives.some(t => responseParser(txt).includes(t) && !isNo(txt))
-export const isNegative = txt => negatives.some(t => responseParser(txt).includes(t))
-export const isMean = txt => meanResponses.some(t => txt.toLowerCase().trim().replace('!', '').replace('.', '').replace('.', '').includes(t))
+
+const responseParser = txt => txt.toLowerCase().trim().replace('!', '').replace('.', '').replace('.', '')
+
+function isMatch(txt, phrases) {
+  const cleaned = txt.toLowerCase().trim().replace('!', '').replace('.', '').replace('.', '')
+  const multipleWordPhrases = phrases.filter(phrase => phrase.split(' ').length > 1)
+  const singleWordPhrases = phrases.filter(phrase => phrase.split(' ').length === 1)
+
+  return (
+    multipleWordPhrases.some(phrase => txt.includes(phrase)) ||
+    singleWordPhrases.some(phrase => txt.split(' ').includes(phrase))
+  )
+}
+
+const isNegate = txt => responseParser(txt).split(' ').some(word => ['no', 'not'].includes(word))
+export const isGreeting = txt => isMatch(txt, greetings)
+export const isYes = txt => isMatch(txt, yeses) && !isNegate(txt)
+export const isNo = txt => isMatch(txt, noes)
+export const isPositive = txt => isMatch(txt, positives) && !isNegate(txt)
+export const isNegative = txt => isMatch(txt, negatives)
+export const isMean = txt => isMatch(txt, meanResponses)
 
 
 
@@ -212,22 +232,28 @@ const chatNameLS = chatName => ({
 
 
 class ChatContext {
-  constructor(chatName, startingCode) {
+  constructor(chatName, startingCode, onRehydrate) {
     this.user = getUserData
     this.chatName = chatName
     this.chatLS = chatNameLS(chatName)
     this.lastMessageTimestamp = 0
     this.lastUserMessageTimestamp = 0
     this.totalMessages = 0
-
-    const existingContext = this.chatLS.get()
-    this.lastDomCodeSent = existingContext.lastDomCodeSent || startingCode || 'START'
-    this.state = existingContext.state || {}
-    this.eventQueue = existingContext.eventQueue || []
-    this.unread = existingContext.unread || 0
     this.global = {}
-    this.history = existingContext.history || []
 
+
+    setRunInterval(
+      () => {
+        const existingContext = this.chatLS.get()
+        this.lastDomCodeSent = existingContext.lastDomCodeSent || startingCode || 'START'
+        this.state = existingContext.state || {}
+        this.eventQueue = existingContext.eventQueue || []
+        this.unread = existingContext.unread || 0
+        this.history = existingContext.history || []
+        onRehydrate(this.history)
+      },
+      4000
+    )
     this.updateLS()
 
   }
@@ -259,11 +285,32 @@ class ChatContext {
 }
 
 
+function createGlobalCtx(init) {
+  const ctx = ls.get('__CHAT_GLOBAL_CONTEXT') || init
+
+  setInterval(() => {
+    Object.assign(ctx, ls.get('__CHAT_GLOBAL_CONTEXT') || init)
+  }, 4000)
+
+  return new Proxy(ctx, {
+    set(obj, key, val) {
+      obj[key] = val
+      ls.set('__CHAT_GLOBAL_CONTEXT', JSON.stringify(ctx))
+      return val
+    },
+    get(obj, key) {
+      return obj[key]
+    }
+  })
+}
+
+
+
 export class MessageHandler {
   static chats = {}
-  static globalCtx = {
+  static globalCtx = createGlobalCtx({
     premium: 1
-  }
+  })
 
   static provider = provider
 
@@ -271,7 +318,13 @@ export class MessageHandler {
     this.chatName = chatName
     this.messages = messages
     this.registeredChatWindows = []
-    this.ctx = new ChatContext(chatName, startingCode)
+    this.ctx = new ChatContext(chatName, startingCode, (history) =>
+      this.registeredChatWindows.forEach(chatWindow => {
+        if (chatWindow.state.history.length !== history.length) {
+          chatWindow.setState({ history })
+        }
+      })
+    )
     this.ctx.global = MessageHandler.globalCtx
     this.isActive = false
     this.provider = MessageHandler.provider
@@ -279,8 +332,8 @@ export class MessageHandler {
     if (messages.__contract) {
       this.provider.onConnect(async addr => {
         this.contract = await messages.__contract(this.provider)
-        this.ctx.global.isConnected = true
-        this.ctx.global.connectedAddr = addr
+        MessageHandler.globalCtx.isConnected = true
+        MessageHandler.globalCtx.connectedAddr = addr
       })
     }
 

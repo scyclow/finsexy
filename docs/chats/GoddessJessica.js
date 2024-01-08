@@ -35,13 +35,24 @@ if less than 1 eth in your wallet:
 
 
 Testimonial
-I feel broken
-https://www.reddit.com/r/paypigsupportgroup/comments/18zea4t/i_feel_broken/
+  I feel broken
+  https://www.reddit.com/r/paypigsupportgroup/comments/18zea4t/i_feel_broken/
+
+  What is money, anyhow?
+  https://www.reddit.com/r/paypigsupportgroup/comments/191jx2f/what_is_money_anyway/
 
 
 
 
 "You belong to me"
+
+
+
+you know, the rise of monogmous relationships can be directly tied to capitalism and property ownership. Many early, pre-aggricultural societies were primarily matriarchal.
+
+
+
+
 
 explore ideas of ownership over paypig
 
@@ -49,6 +60,14 @@ explore ideas of ownership over paypig
 */
 
 
-export const GoddessJessicaTestimonials = {
-  '0x1': `I have a tiny pp and my huge bank account that belongs soley to GoddessJessica 🙏`
-}
+export const GoddessJessicaTestimonials = [
+  {
+    name: '0x0',
+    review: `I have a tiny pp and my huge bank account that belongs soley to GoddessJessica 🙏`,
+  },
+  {
+    name: '0x1',
+    review: `I came so hard that I don't even know what money is any more.`,
+  },
+]
+

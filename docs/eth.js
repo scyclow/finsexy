@@ -28,7 +28,6 @@ export class Web3Provider {
   constructor() {
     if (window.ethereum) {
       try {
-        console.log('web3')
         this.provider = new ethers.providers.Web3Provider(window.ethereum, 'any')
         this.isEthBrowser = true
 

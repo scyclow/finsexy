@@ -10,6 +10,7 @@ export const VinceProfile = {
   testimonials: [
     { name: '0x', review: `Every session I have with Vince gets me hot. and. bothered. 🥵`},
     { name: '0x1', review: ``}
+    // A lot of men like participating in no-nut November. But I like saving up my money in november. now my wallet is ready to burst
   ]
 }
 

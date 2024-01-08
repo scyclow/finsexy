@@ -57,7 +57,7 @@ export const SamanthaProfile = {
 export async function samanthaContractInfo(provider) {
   const networkName = (await provider.getNetwork()).name
   const contractAddr = {
-    local: '0x5E5713a0d915701F464DEbb66015adD62B2e6AE9'
+    local: '0x084815D1330eCC3eF94193a19Ec222C0C73dFf2d'
   }[networkName]
 
   const abi = [
@@ -70,7 +70,7 @@ export async function samanthaContractInfo(provider) {
 
 const receiveAddrs = (ur, ctx) => {
   if (ur.trim().toLowerCase() === 'this is my only address') {
-    ctx.state.validAddresses = []
+    ctx.state.validAddresses = [ctx.global.connectedAddr]
     return 'addressesPatience'
   }
   if (ur.toLowerCase().includes('.eth')) return 'includesENS'
@@ -93,6 +93,8 @@ const SamanthaMessages = {
 
 
   __precheck(userResponse, ctx) {
+
+    // TODO - check "add an address"
     if (userResponse && isMean(userResponse)) {
       ctx.state.meanWarnings = (ctx.state.meanWarnings||0) + 1
 
@@ -132,6 +134,11 @@ const SamanthaMessages = {
       <p>I regret to inform you that your federal income tax return for the year ending December 31, 2023 has been selected for examination. Our records indicate potential discrepancies and irregularities concerning your reported cryptocurrency transactions.</p>
       <p>The examination will focus primarily on the accuracy and completeness of the information provided regarding your cryptocurrency activities, including but not limited to the acquisition, disposition, and valuation of digital assets. It is imperative that you provide comprehensive documentation, records, and details related to these transactions.</p>
     `,
+    followUp: { messageCode: 'everySquareInch', waitMs: 2000 }
+  },
+
+  everySquareInch: {
+    messageText: `That means I'm going to examine every square inch of your transaction history. It's going to be a slow, painful, meticulous process. And when I'm done... We're going to assess your penalties.`,
     followUp: { messageCode: 'understand', waitMs: 2000 }
   },
 
@@ -216,7 +223,7 @@ const SamanthaMessages = {
   },
 
   proceed: {
-    messageText: `I'm going to need a a comma- or space-delineated list of all wallet addresses you currently have custody over, other than the address you are currently connected with to FinSexy. I need the full address -- no ENS names. If this is your only address, then say "this is my only address"`,
+    messageText: `I'm going to need a a comma- or space-delineated list of all wallet addresses you currently have custody over, other than the address currently connected to FinSexy. I need full addresses -- no ENS names. If this is your only address, then say "this is my only address"`,
     responseHandler: receiveAddrs
   },
 
@@ -234,7 +241,12 @@ const SamanthaMessages = {
         return { messageCode: 'addressesInvalid', waitMs: 30000 }
       }
 
-      ctx.state.validAddresses = Array.from(new Set(ctx.state.givenAddresses.filter(addr => provider.isAddress(addr))))
+      ctx.state.validAddresses = Array.from(
+        new Set([
+          ctx.global.connectedAddr,
+          ...ctx.state.givenAddresses.filter(addr => provider.isAddress(addr))
+        ])
+      ).filter(x => !!x)
 
       return { messageCode: 'addressesPatience', waitMs: 30000 }
     }
@@ -274,7 +286,7 @@ const SamanthaMessages = {
         const signer = ctx.global.connectedAddr
         const contracts = await provider.steviepContracts('mainnet')
 
-        const addrs = [signer, ...ctx.state.validAddresses]
+        const addrs = ctx.state.validAddresses
 
 
         for (let addr of addrs) {
@@ -330,10 +342,10 @@ const SamanthaMessages = {
   addressesContinue1: {
     async messageText(ur, ctx, contract, provider) {
       const signer = ctx.global.connectedAddr
-      const hasMultipleAccounts = !!ctx.state.validAddresses.length
+      const hasMultipleAccounts = ctx.state.validAddresses.length > 1
 
       let balanceSum = 0
-      for (let addr of [signer, ...ctx.state.validAddresses]) {
+      for (let addr of ctx.state.validAddresses) {
         balanceSum += await provider.getETHBalance(addr)
       }
       return `${hasMultipleAccounts ? `${hasMultipleAccounts + 1} accounts` : 'One account'}, holding approximately ${balanceSum} ETH. `
@@ -346,7 +358,7 @@ const SamanthaMessages = {
       const signer = ctx.global.connectedAddr
       const { steviepBalances } = ctx.state
 
-      const hasMultipleAccounts = !!ctx.state.validAddresses.length
+      const hasMultipleAccounts = ctx.state.validAddresses.length > 1
       const hasIrregularities = [
         steviepBalances.FIMBalance,
         steviepBalances.UFIMBalance,
@@ -361,8 +373,8 @@ const SamanthaMessages = {
       if (!hasIrregularities) return `Okay, everything seems to be in order here. Let's continue.`
 
       const addrText =
-        ctx.state.validAddresses.length
-          ? `the following addresses:</p> <code>${[signer, ...ctx.state.validAddresses].join(', ')}</code>`
+        ctx.state.validAddresses.length > 1
+          ? `the following addresses:</p> <code>${ctx.state.validAddresses.join(', ')}</code>`
           : `the address</p> <code>${signer}</code>`
 
       return `
@@ -411,14 +423,13 @@ const SamanthaMessages = {
       if (IFDBalance) balanceText.push(`Instructions For Defacement/Plottables Flex: ${IFDBalance}`)
       if (MMOBalance) balanceText.push(`Money Making Opportunity: ${MMOBalance}`)
       if (CASHBalance) balanceText.push(`Cold Hard Cash: ${CASHBalance}`)
-      if (FastCashBalance) balanceText.push(`FastCash: ${FastCashBalance}`)
+      if (FastCashBalance) balanceText.push(`FastCash: ${FastCashBalance % 1 ? FastCashBalance : FastCashBalance.toFixed(2)}`)
 
 
       return `
         <p>My system is flagging the following assets:</p>
         <code>${balanceText.join('<br>')}</code>
       `
-
     }
   },
 
@@ -430,16 +441,10 @@ const SamanthaMessages = {
 
 
 
-// do you have any other wallets?
 
-//// check for fim, NVC, IOU, MMO, IFD, fastcash, cold hard cash, 10eth
-// oh boy...
 
 export const SamanthaChat = new MessageHandler('samanthaJones', SamanthaMessages, 'START')
 
-// const samanthaChatWindow = $.id('samanthaJones-chat')
-
-// SamanthaChat.addChatWindow(samanthaChatWindow)
 
 
 
@@ -448,6 +453,13 @@ export const SamanthaChat = new MessageHandler('samanthaJones', SamanthaMessages
 
 
 /*
+
+
+
+I'll be quite honest, name. Things aren't looking good for you.
+At best you're looking at substantial penalties, and at worst you're looking at quite a bit of jail time.
+
+I can make this all go away for you. For a small fee, of course
 
 
 
@@ -463,9 +475,7 @@ Okay. Oof. I see a few problems right off the bat. Has this man (link to CPA) ev
   Yes: that figures.
 
 I see you have some fastcash
-I'll be quite honest, name. Things aren't looking good for you. At best you're looking at substantial penalties, and at worst you're looking at quite a bit of jail time.
 That being said, browsing your transactions gets me so hot. So many... incongruities.
-I can make this all go away for you. For a small fee, of course
 I just need the private key to your wallet to run something through our system.
 Don't be such a prude. It's not like I haven't seen a private key before. Are you afraid I'll think it's too small? Lol
 

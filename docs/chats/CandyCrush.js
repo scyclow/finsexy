@@ -16,6 +16,11 @@ or you can just give me the money, and i can spoil wine, and dine myself
 I'd really like to
 
 hmm, let's see. what will i buy with this
+
+
+total tease
+  " that's all you get for 0.01 ETH"
+
 */
 
 

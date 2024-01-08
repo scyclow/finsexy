@@ -1,5 +1,6 @@
 import {ls} from '../$.js'
 import { provider, toETH } from '../eth.js'
+import {MessageHandler} from './conversationRunner.js'
 
 
 export const clitLS = {
@@ -79,15 +80,15 @@ export const sexyCLIT = {
       const code = args[0]
 
       if (code === 'SingleSissySub') {
-        ctx.global.premium = 1
+        MessageHandler.globalCtx.premium = 1
         return cb(`All prices: 1x`)
 
       } else if (code === 'DoubleTheFun') {
-        ctx.global.premium = 2
+        MessageHandler.globalCtx.premium = 2
         return cb(`All prices: 2x`)
 
       } else if (code === 'ThirdTimesTheCharm') {
-        ctx.global.premium = 3
+        MessageHandler.globalCtx.premium = 3
         return cb(`All prices: 3x`)
 
       } else if (!code || ['list', 'ls'].includes(code.toLowerCase())) {
@@ -137,6 +138,15 @@ export const sexyCLIT = {
 
         clitLS.set('devIgnoreWait', waitVal)
         return cb(`Ignore Wait: ${waitVal}`)
+      } else if (args[0] === 'node') {
+        const [_, chatName, node] = args
+
+        if (!(chatName in MessageHandler.chats)) return cb(`Invalid chat name: ${chatName}`)
+
+        cb(`Moving to node ${node} for ${chatName}`)
+
+        MessageHandler.chats[chatName].queueEvent(node, 1000)
+
       } else {
         return cb(`
           <p>Invalid dev command: <code>${args[0]}</code></p>

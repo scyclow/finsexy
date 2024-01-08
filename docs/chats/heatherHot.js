@@ -63,14 +63,14 @@ export const HeatherHotProfile = {
 
 
 async function sendEvent(ctx, contract, provider) {
-  const isConnected = await provider.isConnected()
+  const addr = await provider.isConnected()
 
   ctx.state.rounds = ctx.state.rounds || 0
 
-  if (contract && isConnected) {
-    const t = bnToN(await contract.tributes(await provider.signer.getAddress()))
-    if (t >= ctx.state.rounds)
-    return { messageCode: 'soGood' }
+  if (contract && addr) {
+    const t = bnToN(await contract.tributes(addr))
+
+    if (t > ctx.state.rounds) return { messageCode: 'soGood' }
   }
 
 }
@@ -79,7 +79,7 @@ async function sendEvent(ctx, contract, provider) {
 export async function heatherContractInfo(provider) {
   const networkName = (await provider.getNetwork()).name
   const contractAddr = {
-    local: '0x0bF7dE8d71820840063D4B8653Fd3F0618986faF'
+    local: '0xAE246E208ea35B3F23dE72b697D47044FC594D5F'
   }[networkName]
 
   const abi = [
@@ -197,17 +197,17 @@ const HeatherHotMessages = {
 
   newToFindomYes2: {
     messageText: `Fin Dom is short for Financial Domination. It's similar to a lot of other kinds of BDSM, where the submissive (that's you 😉) gets to an experience a total loss of control at the hands of their sexy dom.`,
-    followUp: { messageCode: 'newToFindomYes3', waitMs: 2000 }
+    followUp: { messageCode: 'newToFindomYes3', waitMs: 3000 }
   },
 
   newToFindomYes3: {
     messageText: `It's a win-win for both of us. You get to send to the hottest doms around, and we get to get off on you sending us money.`,
-    followUp: { messageCode: 'newToFindomYes4', waitMs: 2000 }
+    followUp: { messageCode: 'newToFindomYes4', waitMs: 4000 }
   },
 
   newToFindomYes4: {
     messageText: `I know, I know. Being sent money is a bit of a strange fetish, but I can't help myself. Something about it makes me uncontrolably aroused. I just know that you'll love it. `,
-    followUp: { messageCode: 'newToFindomContinue', waitMs: 2000 }
+    followUp: { messageCode: 'newToFindomContinue', waitMs: 3000 }
   },
 
 
@@ -221,7 +221,7 @@ const HeatherHotMessages = {
 
   newToFindomContinue: {
     messageText: `I mean, you clearly get off on losing money. You <em>are</em> into crypto and NFTs, afterall. LOL!`,
-    followUp: { messageCode: 'nextSteps', waitMs: 2000 }
+    followUp: { messageCode: 'nextSteps', waitMs: 5000 }
   },
 
 
@@ -261,12 +261,12 @@ const HeatherHotMessages = {
 
   moreInfo: {
     messageText: `There are a lot of findom platforms on the internet, but FinSexy is the hottest one <em>by far</em>. There are so many hot doms on this site. More than any other!`,
-    followUp: { messageCode: 'affordable', waitMs: 2000 }
+    followUp: { messageCode: 'affordable', waitMs: 3000 }
   },
 
   affordable: {
     messageText: `It's also more affordable than a lot of the doms you'll find on other platforms. The founder of this website, steviep, told me that it has something to do with economies of scale.`,
-    followUp: { messageCode: 'steviep', waitMs: 2000 }
+    followUp: { messageCode: 'steviep', waitMs: 3500 }
   },
 
   steviep: {
@@ -275,36 +275,36 @@ const HeatherHotMessages = {
       m: '',
       nb: '',
     })}`,
-    followUp: { messageCode: 'nextSteps', waitMs: 4000 }
+    followUp: { messageCode: 'nextSteps', waitMs: 5000 }
   },
 
 
   moreInfo2: {
     messageText: `One thing i really like about finsexy is how there are two easy ways to send!`,
-    followUp: { messageCode: 'moreInfo2a', waitMs: 2000 }
+    followUp: { messageCode: 'moreInfo2a', waitMs: 3000 }
   },
 
   moreInfo2a: {
     messageText: `One way is to go to the dom's profile and fill out the "send" input box. Then you just click the "send" button. It's as simple as that!`,
-    followUp: { messageCode: 'moreInfo2b', waitMs: 2000 }
+    followUp: { messageCode: 'moreInfo2b', waitMs: 3000 }
   },
 
 
   moreInfo2b: {
     messageText: `Or, if you're just so caught up in the moment that you don't want to leave the chat window you can use the $sexy command line interface tool (CLIT)!`,
-    followUp: { messageCode: 'moreInfo2c', waitMs: 2000 }
+    followUp: { messageCode: 'moreInfo2c', waitMs: 3000 }
   },
 
 
   moreInfo2c: {
     messageText: `Or you can just play around and see what you find. I love it when you play with my $sexy CLIT, lol!`,
-    followUp: { messageCode: 'nextSteps', waitMs: 4000 }
+    followUp: { messageCode: 'nextSteps', waitMs: 5000 }
   },
 
 
   moreInfo3: {
     messageText: `Oh, you're curious. That's sooo hot!`,
-    followUp: { messageCode: 'moreInfo3a', waitMs: 2000 }
+    followUp: { messageCode: 'moreInfo3a', waitMs: 3000 }
   },
 
   moreInfo3a: {
@@ -313,12 +313,12 @@ const HeatherHotMessages = {
       f: `you're turning into a puddle`,
       nb: `you're getting a little too aroused`
     })}, and I don't want to tease you too much 😉`,
-    followUp: { messageCode: 'moreInfo3b', waitMs: 2000 }
+    followUp: { messageCode: 'moreInfo3b', waitMs: 4000 }
   },
 
   moreInfo3b: {
     messageText: `So let's keep it as our little secret...`,
-    followUp: { messageCode: 'moreInfo3c', waitMs: 4000 }
+    followUp: { messageCode: 'moreInfo3c', waitMs: 6000 }
   },
 
   moreInfo3c: {
@@ -340,44 +340,44 @@ const HeatherHotMessages = {
 
   moreInfo3e: {
     messageText: `But if that's all too much to handle then you can alway go back with <code>$sexy premium SingleSissySub</code>`,
-    followUp: { messageCode: 'nextSteps', waitMs: 4000 }
+    followUp: { messageCode: 'nextSteps', waitMs: 5000 }
   },
 
 
   moreInfo4: {
     messageText: `Let's see, what else...`,
-    followUp: { messageCode: 'moreInfo4a', waitMs: 4000 }
+    followUp: { messageCode: 'moreInfo4a', waitMs: 8000 }
   },
 
 
   moreInfo4a: {
     messageText: `Oh yeah, I guess I should talk to you about our wellness guidelines. Wellness is super hot`,
-    followUp: { messageCode: 'moreInfo4b', waitMs: 2000 }
+    followUp: { messageCode: 'moreInfo4b', waitMs: 3000 }
   },
 
   moreInfo4b: {
     messageText: `First, we usually recommend that you don't use your primary wallet for findom play. When you're in the heat of the moment it can be difficult to make smart decisions that you're not going to regret the next day. Don't budget more than you're willing to spend!`,
-    followUp: { messageCode: 'moreInfo4c', waitMs: 2000 }
+    followUp: { messageCode: 'moreInfo4c', waitMs: 3000 }
   },
 
   moreInfo4c: {
     messageText: `If you're having budget issues then you should talk to SamanthaJones. She's really good with money!`,
-    followUp: { messageCode: 'moreInfo4d', waitMs: 2000 }
+    followUp: { messageCode: 'moreInfo4d', waitMs: 3000 }
   },
 
   moreInfo4d: {
     messageText: `Second, remember that all the doms here practice SSC, RACK, and CCCC. Everything you do should be consensual. Don't ever feel obligated or pressured to do something you don't want to! We're all here to have hot fun!`,
-    followUp: { messageCode: 'moreInfo4e', waitMs: 2000 }
+    followUp: { messageCode: 'moreInfo4e', waitMs: 3000 }
   },
 
   moreInfo4e: {
     messageText: `Third, if you ever feel like you have a problem, or can't control yourself, we have a really good therapist on staff that you can talk to. DrAndy is really the best`,
-    followUp: { messageCode: 'moreInfo4f', waitMs: 2000 }
+    followUp: { messageCode: 'moreInfo4f', waitMs: 3000 }
   },
 
   moreInfo4e: {
     messageText: `And lastly, this is an adult website!! If you're not 18+ then please please please go use a kid-friendly app instead, like tiktok or friendworld`,
-    followUp: { messageCode: 'nextSteps', waitMs: 2000 }
+    followUp: { messageCode: 'nextSteps', waitMs: 5000 }
   },
 
   waitForConnect: {
@@ -494,7 +494,7 @@ const HeatherHotMessages = {
           : '!'
       }`
     },
-    followUp: { messageCode: 'downToBusiness', waitMs: 2000 }
+    followUp: { messageCode: 'downToBusiness', waitMs: 4000 }
   },
 
   downToBusiness: {
@@ -631,6 +631,7 @@ const HeatherHotMessages = {
 
   soGood: {
     messageText: `Mmmm, that felt so good. That'll never get old`,
+    event: sendEvent,
     responseHandler: 'nft'
   },
 
@@ -651,6 +652,11 @@ const HeatherHotMessages = {
 
   nftYes2: {
     messageText: `I sent you a picture of your money getting really hot 🔥`,
+    followUp: { messageCode: 'nftYes3', waitMs: 2000 }
+  },
+
+  nftYes3: {
+    messageText: `lol`,
     responseHandler: 'again'
   },
 

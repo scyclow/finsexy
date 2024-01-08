@@ -238,6 +238,7 @@
 
   let activeChat
   const onConvoSelect = (id, ignoreHistory=false) => {
+    if (activeChat === id) return
     activeChat = id
 
     const activeChatWindow = $.id(id + '-chat')
@@ -256,7 +257,7 @@
 
     const url = new URL(window.location)
     url.searchParams.set('activeChat', activeChat)
-    if (!ignoreHistory) window.history.pushState({}, '', url)
+    if (!ignoreHistory) window.history.pushState({ activeChat }, '', url.toString())
 
     Object.keys(MessageHandler.chats).forEach(k => {
       if (k === activeChat) {
@@ -267,7 +268,7 @@
       }
     })
 
-  $profilePanel.innerHTML = `<sexy-profile name="${id}" sideWindow="true"></sexy-profile>`
+    $profilePanel.innerHTML = `<sexy-profile name="${id}" sideWindow="true"></sexy-profile>`
   }
 
 
@@ -290,16 +291,16 @@
       )
     }
 
-    $.id('chatState').innerHTML += Object.keys(MessageHandler.chats).map(m => {
-      if (MessageHandler.chats[m]) {
-        return `
-          <div>${m}: ${MessageHandler.chats[m].ctx.unread}</div>
-        `
-      } else {
-        return ''
-      }
-    }
-    ).join('')
+    // $.id('chatState').innerHTML += Object.keys(MessageHandler.chats).map(m => {
+    //   if (MessageHandler.chats[m]) {
+    //     return `
+    //       <div>${m}: ${MessageHandler.chats[m].ctx.unread}</div>
+    //     `
+    //   } else {
+    //     return ''
+    //   }
+    // }
+    // ).join('')
 
   }, 300)
 
@@ -353,7 +354,10 @@
     // ls.set('returnVisit', true)
   }, 1000)
 
-
+  window.addEventListener('popstate', () => {
+    const u = new URL(window.location)
+    onConvoSelect(u.searchParams.get('activeChat') || 'heatherHot', true)
+  })
 
 
 
