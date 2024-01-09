@@ -2,6 +2,10 @@
 import {createComponent} from '../$.js'
 
 
+// TODO
+  // make @ link to other profiles
+  // uptade text to include @
+
 
 createComponent(
   'chat-window',
@@ -105,6 +109,14 @@ createComponent(
         border-radius: 1em;
         max-width: 35em;
         line-height: 1.2;
+      }
+      .messageContent img, .messageContent code{
+        margin-top: 0.5em;
+      }
+
+      .messageContent img {
+        width: 100%;
+        border: 1px solid var(--light-color);
       }
 
       .messageContent p + p {

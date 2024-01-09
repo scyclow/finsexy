@@ -431,7 +431,7 @@ createComponent(
     ctx.$sendButton.onclick = () => {
       const val = Number(ctx.$sendInput.value)
       if (val) {
-        sexyCLI.run(name, `$sexy send ${name} ${val}`)
+        sexyCLIT.run(name, `$sexy send ${name} ${val}`)
         ctx.$sendInput.value = ''
       }
     }

@@ -76,6 +76,7 @@ const yeses = [
   'correct',
   'i guess',
   'it is',
+  'it does',
   'yessir',
   'more than anything',
   'go ahead',
@@ -165,10 +166,10 @@ const meanResponses = [
 ]
 
 
-const responseParser = txt => txt.toLowerCase().trim().replace('!', '').replace('.', '').replace('.', '')
+export const responseParser = txt => txt.toLowerCase().trim().replaceAll('!', '').replaceAll('.', '').replaceAll('.', '')
 
 function isMatch(txt, phrases) {
-  const cleaned = txt.toLowerCase().trim().replace('!', '').replace('.', '').replace('.', '')
+  const cleaned = txt.toLowerCase().trim().replaceAll('!', '').replaceAll('.', '').replaceAll('.', '')
   const multipleWordPhrases = phrases.filter(phrase => phrase.split(' ').length > 1)
   const singleWordPhrases = phrases.filter(phrase => phrase.split(' ').length === 1)
 
@@ -476,12 +477,14 @@ export class MessageHandler {
   }
 
   async toDom(userResponse) {
+    const is$sexy = userResponse.match(/^(\$sexy\s)/)
+
     this.updateHistory({
       from: 'you',
-      messageText: userResponse
+      messageText: is$sexy ? `<code>${userResponse}</code>` : userResponse
     })
 
-    if (userResponse.match(/^(\$sexy\s)/)) {
+    if (is$sexy) {
       return sexyCLIT.run(this.chatName, userResponse, this.ctx)
     }
 

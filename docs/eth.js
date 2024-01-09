@@ -160,15 +160,6 @@ export class Web3Provider {
     ]
 
 
-
-
-
-
-
-
-
-
-
     const CONTRACTS = {
       local: {
         AB: '0xcb0A9835CDf63c84FE80Fcc59d91d7505871c98B',
@@ -179,19 +170,21 @@ export class Web3Provider {
         IFD: '0xCdb63c58b907e76872474A0597C5252eDC97c883',
         MMO: '0x15BB2cc3Ea43ab2658F7AaecEb78A9d3769BE3cb',
         CASH: '0xa4d0806d597146df93796A38435ABB2a3cb96677',
+        TenEth: '',
       },
       goerli: {
 
       },
       mainnet: {
         AB: '0xa7d8d9ef8D8Ce8992Df33D8b8CF4Aebabd5bD270',
+        FastCash: '0xcA5228D1fe52D22db85E02CA305cddD9E573D752',
         UFIM: '0xf49b26cF118Db11A7DD1D9B88C7E1bC153851757',
         IOU: '0x13178AB07A88f065EFe6D06089a6e6AB55AE8a15',
         NVC: '0xE6da43BCFA2aE0eD8C6aC4b3BEeA1eC9ae65DAbA',
         IFD: '0xf49b26cF118Db11A7DD1D9B88C7E1bC153851757',
         MMO: '0x41d3d86a84c8507A7Bc14F2491ec4d188FA944E7',
         CASH: '0x6DEa3f6f1bf5ce6606054BaabF5452726Fe4dEA1',
-        FastCash: '0xcA5228D1fe52D22db85E02CA305cddD9E573D752',
+        TenEth: '0x13bBBEfE251c94467D183821b663Ef0bD0a8A722',
       }
     }[networkName]
 
@@ -203,7 +196,8 @@ export class Web3Provider {
       IFD: this.rawContract(CONTRACTS.IFD, erc721ABI).connect(signer),
       MMO: this.rawContract(CONTRACTS.MMO, erc721ABI).connect(signer),
       CASH: this.rawContract(CONTRACTS.CASH, erc721ABI).connect(signer),
-      FastCash: this.rawContract(CONTRACTS.FastCash, erc721ABI).connect(signer),
+      FastCash: this.rawContract(CONTRACTS.FastCash, erc20ABI).connect(signer),
+      TenEth: this.rawContract(CONTRACTS.TenEth, erc721ABI).connect(signer),
     }
   }
 }

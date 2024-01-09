@@ -1,11 +1,11 @@
-import { isYes, isNo, isGreeting, isMean, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, responseParser, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch, interestedSwitch} from '../state/profile.js'
 import {fromWei} from '../eth.js'
 
 
 
 
-
+const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 
 
@@ -16,7 +16,7 @@ Testimonial
 */
 
 export const SamanthaProfile = {
-  age: 38,
+  age: 46,
   distance: 6,
   gender: 'Female',
   maxPhotos: 4,
@@ -25,7 +25,7 @@ export const SamanthaProfile = {
     m: 'sissy boys',
     f: 'sissy girls',
     nb: 'sissies',
-  })} and focuses on cryptocurrency and blockchain fraud. In her more than 17 years of industry experience, she has handled matters across the criminal and regulatory spectrum. `,
+  })} and focuses on cryptocurrency and blockchain fraud. In her more than 25 years of industry experience, she has handled matters across the criminal and regulatory spectrum. `,
   testimonials: [
     {
       name: '0x0',
@@ -40,6 +40,10 @@ export const SamanthaProfile = {
       review: `I've been living in constant fear of an IRS audit since I began my involvement in the crypto space in 2021. Samantha helped me work through those fears in a controlled environment. She was worth every penny`,
     },
     {
+      name: '0x3',
+      review: `I've been a naughty girl`,
+    },
+    {
       name: '0x2',
       review: `I'm an absolute mess when it comes to managing my finances. Even thinking about doing my taxes fills me with a deep existential dread. So there's definitely something appealing in totally giving up all control of my balance sheet`,
     },
@@ -48,6 +52,105 @@ export const SamanthaProfile = {
 }
 
 
+
+
+
+async function sendEvent1(ctx, contract, provider) {
+  const addr = await provider.isConnected()
+
+  ctx.state.rounds = ctx.state.rounds || 0
+
+  if (contract && addr) {
+    const t = bnToN(await contract.tributes(addr))
+
+    if (t > 0 && t / 3 > ctx.state.rounds) return { messageCode: 'edgeOff' }
+  }
+
+}
+
+
+
+const receiveAddrs = (ur, ctx) => {
+  if (ur.trim().toLowerCase() === 'this is my only address') {
+    ctx.state.validAddresses = [ctx.global.connectedAddr]
+    return 'addressesPatience'
+  }
+  if (ur.toLowerCase().includes('.eth')) return 'includesENS'
+
+  ctx.state.givenAddresses = ur.replaceAll(',', ' ').split(' ').filter(word => word.startsWith('0x'))
+
+  if (!ctx.state.givenAddresses.length) return 'addressesInvalid'
+  return 'letMeRun'
+}
+
+
+function generateRemainingBalanceText(ctx, ignoreAlreadyAudited) {
+  const {
+    FIM,
+    UFIM,
+    IOU,
+    NVC,
+    IFD,
+    MMO,
+    CASH,
+    FastCash,
+    TenEth,
+  } = ctx.state.steviepBalances
+
+  let balanceText = []
+
+  const ignoreFIM = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.FIM)
+  const ignoreUFIM = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.UFIM)
+  const ignoreIOU = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.IOU)
+  const ignoreNVC = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.NVC)
+  const ignoreIFD = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.IFD)
+  const ignoreMMO = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.MMO)
+  const ignoreCASH = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.CASH)
+  const ignoreTenEth = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.TenEth)
+  const ignoreFastCash = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.FastCash)
+
+  if (!ignoreFIM && FIM) balanceText.push(`Fake Internet Money: ${FIM}`)
+  if (!ignoreUFIM && UFIM) balanceText.push(`Uncirculated Fake Internet Money: ${UFIM}`)
+  if (!ignoreIOU && IOU) balanceText.push(`IOUs: ${IOU}`)
+  if (!ignoreNVC && NVC) balanceText.push(`Negative Value Certificates: ${NVC}`)
+  if (!ignoreIFD && IFD) balanceText.push(`Instructions For Defacement/Plottables Flex: ${IFD}`)
+  if (!ignoreMMO && MMO) balanceText.push(`Money Making Opportunity: ${MMO}`)
+  if (!ignoreCASH && CASH) balanceText.push(`Cold Hard Cash: ${CASH}`)
+  if (!ignoreTenEth && TenEth) balanceText.push(`10 ETH Giveaway: ${CASH}`)
+  if (!ignoreFastCash && FastCash) balanceText.push(`FastCash: ${FastCash % 1 ? FastCash : FastCash.toFixed(2)}`)
+
+  return balanceText ? `<code>${balanceText.join('<br>')}</code>` : ''
+}
+
+
+function steviepAssetResponseHandler(ur, ctx) {
+  const cleanedUr = responseParser(ur)
+  const isMatch = phrases => phrases.some(x => cleanedUr.includes(x))
+
+  if (isMatch(['uncirculated', 'ufim'])) {
+    return 'ufimAudit'
+  } else if (isMatch(['fake', 'internet', 'fim'])) {
+    return 'fimAudit'
+  } else if (isMatch(['iou'])) {
+    return 'iouAudit'
+  } else if (isMatch(['negative', 'value', 'cert', 'nvc'])) {
+    return 'nvcAudit'
+  } else if (isMatch(['instructions', 'ifd', 'plottables', 'flex'])) {
+    return 'ifdAudit'
+  } else if (isMatch(['making', 'opportunity', 'mmo'])) {
+    return 'mmoAudit'
+  } else if (isMatch(['fastcash', 'fast'])) {
+    return 'fastCashAudit'
+  } else if (isMatch(['cold', 'hard', 'cash', 'chc',])) {
+    return 'cashAudit'
+  } else if (isMatch(['ten', '10', 'eth', 'giveaway'])) {
+    return 'tenEthAudit'
+  } else if (isMatch(['list', 'again'])) {
+    return 'relistAudit'
+  } else {
+    return 'confusedAudit'
+  }
+}
 
 
 
@@ -65,20 +168,6 @@ export async function samanthaContractInfo(provider) {
   ]
 
   return [contractAddr, abi]
-}
-
-
-const receiveAddrs = (ur, ctx) => {
-  if (ur.trim().toLowerCase() === 'this is my only address') {
-    ctx.state.validAddresses = [ctx.global.connectedAddr]
-    return 'addressesPatience'
-  }
-  if (ur.toLowerCase().includes('.eth')) return 'includesENS'
-
-  ctx.state.givenAddresses = ur.replace(',', ' ').split(' ').filter(word => word.startsWith('0x'))
-
-  if (!ctx.state.givenAddresses.length) return 'addressesInvalid'
-  return 'letMeRun'
 }
 
 
@@ -233,7 +322,7 @@ const SamanthaMessages = {
   },
 
   letMeRun: {
-    messageText: (ur, ctx) => `Please hold while I run ${ctx.state.givenAddresses.length ? 'these addresses' : 'this address'}. This might take a moment`,
+    messageText: (ur, ctx) => `Please hold while I run a preliminary search on ${ctx.state.givenAddresses.length ? 'these addresses' : 'this address'}. This might take a moment`,
     async followUp(ur, ctx, contract, provider) {
       ctx.state.invalidAddresses = ctx.state.givenAddresses.filter(addr => !provider.isAddress(addr))
 
@@ -263,23 +352,19 @@ const SamanthaMessages = {
     responseHandler: receiveAddrs
   },
 
-  // addressesProcessed2: {
-  //   messageText: `Okay, I've processed all your addresses...`
-
-  // },
-
   addressesPatience: {
     messageText: `Thank you for your patience. Just tying up a few loose ends.`,
     async followUp(ur, ctx, contract, provider) {
       ctx.state.steviepBalances = {
-        FIMBalance: 0,
-        UFIMBalance: 0,
-        IOUBalance: 0,
-        NVCBalance: 0,
-        IFDBalance: 0,
-        MMOBalance: 0,
-        CASHBalance: 0,
-        FastCashBalance: 0,
+        FIM: 0,
+        UFIM: 0,
+        IOU: 0,
+        NVC: 0,
+        IFD: 0,
+        MMO: 0,
+        CASH: 0,
+        FastCash: 0,
+        TenEth: 0,
       }
 
       try {
@@ -291,7 +376,8 @@ const SamanthaMessages = {
 
         for (let addr of addrs) {
           const ABTokens = await contracts.AB.tokensOfOwner(addr)
-          const FIMBalance = ABTokens.reduce((sum, id) => Math.floor(id/1000000) === 152 ? sum + 1 : sum, 0)
+          const FIMTokens = ABTokens.filter(id => Math.floor(id/1000000) === 152).map(bnToN)
+          const FIMBalance = FIMTokens.length
 
           const [
             UFIMBalance,
@@ -301,6 +387,7 @@ const SamanthaMessages = {
             MMOBalance,
             CASHBalance,
             FastCashBalance,
+            TenEthBalance,
           ] = await Promise.all([
             contracts.UFIM.balanceOf(addr),
             contracts.IOU.balanceOf(addr),
@@ -309,17 +396,22 @@ const SamanthaMessages = {
             contracts.MMO.balanceOf(addr),
             contracts.CASH.balanceOf(addr),
             contracts.FastCash.balanceOf(addr),
+            contracts.TenEth.balanceOf(addr),
           ])
 
+          ctx.state.FIMTokens = FIMTokens
 
-          ctx.state.steviepBalances.FIMBalance += Number(FIMBalance)
-          ctx.state.steviepBalances.UFIMBalance += Number(UFIMBalance)
-          ctx.state.steviepBalances.IOUBalance += Number(IOUBalance)
-          ctx.state.steviepBalances.NVCBalance += Number(NVCBalance)
-          ctx.state.steviepBalances.IFDBalance += Number(IFDBalance)
-          ctx.state.steviepBalances.MMOBalance += Number(MMOBalance)
-          ctx.state.steviepBalances.CASHBalance += Number(CASHBalance)
-          ctx.state.steviepBalances.FastCashBalance += fromWei(Number(FastCashBalance))
+          ctx.state.steviepBalances.FIM += Number(FIMBalance)
+          ctx.state.steviepBalances.UFIM += Number(UFIMBalance)
+          ctx.state.steviepBalances.IOU += Number(IOUBalance)
+          ctx.state.steviepBalances.NVC += Number(NVCBalance)
+          ctx.state.steviepBalances.IFD += Number(IFDBalance)
+          ctx.state.steviepBalances.MMO += Number(MMOBalance)
+          ctx.state.steviepBalances.CASH += Number(CASHBalance)
+          ctx.state.steviepBalances.TenEth += Number(TenEthBalance)
+          ctx.state.steviepBalances.FastCash += fromWei(Number(FastCashBalance))
+
+          ctx.state.auditsRemaining = Object.assign({}, ctx.state.steviepBalances)
         }
 
 
@@ -327,7 +419,7 @@ const SamanthaMessages = {
 
 
       } catch (e) {
-        ctx.error = e
+        ctx.error = e.message
         return { messageCode: 'addressesError', waitMs: 3000 }
       }
 
@@ -356,21 +448,8 @@ const SamanthaMessages = {
   addressesContinue2: {
     messageText(ur, ctx) {
       const signer = ctx.global.connectedAddr
-      const { steviepBalances } = ctx.state
 
       const hasMultipleAccounts = ctx.state.validAddresses.length > 1
-      const hasIrregularities = [
-        steviepBalances.FIMBalance,
-        steviepBalances.UFIMBalance,
-        steviepBalances.IOUBalance,
-        steviepBalances.NVCBalance,
-        steviepBalances.IFDBalance,
-        steviepBalances.MMOBalance,
-        steviepBalances.CASHBalance,
-        steviepBalances.FastCashBalance,
-      ].some(x => !!x)
-
-      if (!hasIrregularities) return `Okay, everything seems to be in order here. Let's continue.`
 
       const addrText =
         ctx.state.validAddresses.length > 1
@@ -378,63 +457,233 @@ const SamanthaMessages = {
           : `the address</p> <code>${signer}</code>`
 
       return `
-        <p>Oh my, I'm noticing certain... irregularities with your account${hasMultipleAccounts ? 's' : ''}. For ${addrText}
+        <p>Oh my, I'm noticing certain... irregularities with the following account${hasMultipleAccounts ? 's' : ''}: ${addrText}
       `
     },
-    followUp: (ur, ctx, contract, provider) => {
+    followUp: fu('dirty')
+  },
+
+  dirty: {
+    messageText: () => `You've been a bad little ${genderSwitch({m: 'boy', f: 'girl', nb: 'cryptoslut'})}, haven't you?`,
+    responseHandler: 'notGreat'
+  },
+
+
+  notGreat: {
+    messageText: `I'll be honest, ${getUserData('name')}. Things aren't looking great for you.`,
+    followUp: fu('notGreat2')
+  },
+
+  notGreat2: {
+    messageText: `At best you're looking at substantial penalties. At worst you're looking at jail time.`,
+    followUp: fu('notGreat3')
+  },
+
+  notGreat3: {
+    messageText: `But there's just something about your transaction history that's driving me wild.`,
+    followUp: fu('notGreat4')
+  },
+
+  notGreat4: {
+    messageText: `It's so... dirty.`,
+    followUp: fu('cleanYouUp', 6000)
+  },
+
+  cleanYouUp: {
+    messageText: `I <em>could</em> help clean things up. But I'm not cheap.`,
+    followUp: fu('bestInBiz')
+  },
+
+  bestInBiz: {
+    messageText: `I've been doing this for more than 25 years, so you can say I've been around the block a few times. And, I'm <em>very</em> thorough.`,
+    followUp: fu('prePay', 6000)
+  },
+
+  prePay: {
+    messageText: (ur, ctx) => `Here's what we'll do: You send me a ${ctx.global.premium * 0.01} ETH penalty pre-payment and we'll see if we can get this mess sorted out.`,
+    event: sendEvent1,
+    responseHandler: 'prePay2'
+  },
+
+  prePay2: {
+    messageText: `I can't wait to subject you to more anal-ysis and find out what you did.`,
+    event: sendEvent1,
+    responseHandler: 'prePay3'
+  },
+
+  prePay3: {
+    messageText: (ur, ctx) => `You can sexy send me with <code>$sexy send samanthaJones ${ctx.global.premium * 0.01}</code>`,
+    event: sendEvent1,
+    responseHandler: 'prePay'
+  },
+
+  edgeOff: {
+    messageText: `Okay, that prepayment really took the edge off. Let's continue, shall we?`,
+    followUp: (ur, ctx) => {
       const { steviepBalances } = ctx.state
 
-      const hasIrregularities = [
-        steviepBalances.FIMBalance,
-        steviepBalances.UFIMBalance,
-        steviepBalances.IOUBalance,
-        steviepBalances.NVCBalance,
-        steviepBalances.IFDBalance,
-        steviepBalances.MMOBalance,
-        steviepBalances.CASHBalance,
-        steviepBalances.FastCashBalance,
+      const hasSteviepTokens = [
+        steviepBalances.FIM,
+        steviepBalances.UFIM,
+        steviepBalances.IOU,
+        steviepBalances.NVC,
+        steviepBalances.IFD,
+        steviepBalances.MMO,
+        steviepBalances.CASH,
+        steviepBalances.FastCash,
+        steviepBalances.TenEth,
       ].some(x => !!x)
 
 
-      if (!hasIrregularities) return { messageCode: 'continue', waitMs: 2000 }
+      if (!hasSteviepTokens) return { messageCode: 'doesntAddUp', waitMs: 2000 }
       else return { messageCode: 'flagging', waitMs: 2000}
     }
   },
 
   flagging: {
     messageText: (ur, ctx) => {
-      const {
-        FIMBalance,
-        UFIMBalance,
-        IOUBalance,
-        NVCBalance,
-        IFDBalance,
-        MMOBalance,
-        CASHBalance,
-        FastCashBalance,
-      } = ctx.state.steviepBalances
-
-      let balanceText = []
-
-      if (FIMBalance) balanceText.push(`Fake Internet Money: ${FIMBalance}`)
-      if (UFIMBalance) balanceText.push(`Uncirculated Fake Internet Money: ${UFIMBalance}`)
-      if (IOUBalance) balanceText.push(`IOUs: ${IOUBalance}`)
-      if (NVCBalance) balanceText.push(`Negative Value Certificates: ${NVCBalance}`)
-      if (IFDBalance) balanceText.push(`Instructions For Defacement/Plottables Flex: ${IFDBalance}`)
-      if (MMOBalance) balanceText.push(`Money Making Opportunity: ${MMOBalance}`)
-      if (CASHBalance) balanceText.push(`Cold Hard Cash: ${CASHBalance}`)
-      if (FastCashBalance) balanceText.push(`FastCash: ${FastCashBalance % 1 ? FastCashBalance : FastCashBalance.toFixed(2)}`)
-
-
       return `
-        <p>My system is flagging the following assets:</p>
-        <code>${balanceText.join('<br>')}</code>
+        <p>My system is flagging your positions in the following assets:</p>
+        ${generateRemainingBalanceText(ctx)}
       `
+    },
+    followUp: fu('oneByOne', 5000)
+  },
+
+  oneByOne: {
+    messageText: `We need to go through these one by one. Where do you want to start?`,
+    responseHandler: steviepAssetResponseHandler
+  },
+
+  oneByOneReview: {
+    messageText: (ur, ctx) => {
+      const remainingAuditText = generateRemainingBalanceText(ctx, true)
+      if (remainingAuditText) return `What should we work through next? Here's what we have left: ${remainingAuditText}`
+      else return `Okay, I think that's all for your suspiscious assets. For now, at least. Shall we move on?`
+    },
+    responseHandler: (ur, ctx) => {
+      const remainingAuditText = generateRemainingBalanceText(ctx, true)
+      if (remainingAuditText) return steviepAssetResponseHandler(ur, ctx)
+      else return 'doesntAddUp'
     }
   },
 
-  continue: {
-    messageText: 'continue placeholder'
+  fimAudit: {
+    messageText: (ur, ctx) => ctx.state.steviepBalances.FIM
+      ? `Okay, would you mind explaining to me what exactly this is? <img src="https://artblocks-mainnet.s3.amazonaws.com/${ctx.state.FIMTokens[0]}.png">`
+      : genderSwitch({m: 'Sir', f: `Ma'am`, nb: getUserData('name')}) + `, you do not appear to have any Fake Internet Money. Let's try to stay focused.`,
+    responseHandler: (ur, ctx) => ctx.state.steviepBalances.FIM
+      ? 'fimAudit2'
+      : steviepAssetResponseHandler(ur, ctx)
+
+  },
+  fimAudit2: {
+    messageText: `And what was your cost basis on this?`,
+    responseHandler: 'fimAudit3'
+  },
+
+  fimAudit3: {
+    messageText: `Okay, so just to make sure I understand -- and please correct me if I'm wrong -- you're aware that this money is fake?`,
+    responseHandler: 'fimAudit4'
+  },
+
+  fimAudit4: {
+    messageText: ur => {
+      if (isYes(ur)) return 'And understanding that, you spent <em>real</em> money on this, er, <em>fake</em> money?'
+      else return `So you're claiming ignorance at having spent <em>real</em> money on this, er, <em>fake</em> money?`
+    },
+    responseHandler: (ur, ctx) => {
+      ctx.state.auditsRemaining.FIM = 0
+      return 'fimAudit5'
+    }
+  },
+
+  fimAudit5: {
+    messageText: `I'm not sure that pleading stupidity will hold up against a money laundering charge. I suggest you rectify this, but let's move on for now.`,
+    followUp: fu('oneByOneReview')
+  },
+
+  ufimAudit: {
+    messageText: 'ufimAudit'
+  },
+
+
+  iouAudit: {
+    messageText: 'iouAudit'
+  },
+
+  nvcAudit: {
+    messageText: 'nvcAudit'
+  },
+
+  ifdAudit: {
+    messageText: 'ifdAudit'
+  },
+
+  mmoAudit: {
+    messageText: 'mmoAudit'
+  },
+
+  fastCashAudit: {
+    messageText: 'fastCashAudit'
+  },
+
+  cashAudit: {
+    messageText: 'cashAudit'
+  },
+
+  tenEthAudit: {
+    messageText: 'tenEthAudit'
+  },
+
+  relistAudit: {
+    messageText: 'relistAudit'
+  },
+
+  confusedAudit: {
+    messageText: 'confusedAudit'
+  },
+
+
+
+  doesntAddUp: {
+    messageText: `Something just doesn't add up here...`,
+    followUp: fu('cpa')
+  },
+
+
+  cpa: {
+    messageText: 'Have your taxes ever been prepared by a man named Christopher P. Anderson?',
+    followUp: { messageCode: 'cpaWebsite', waitMs: 2000 }
+  },
+
+  cpaWebsite: {
+    messageText: `Here's his website. Is this ringing any bells? <a href="https://cryptotaxspecialist.0ms.co/" target="_blank">cryptotaxspecialist.0ms.co</a>`,
+    responseHandler: ur => {
+      if (isYes(ur)) return 'cpaWebsiteYes'
+      else if (isNo(ur)) return 'cpaWebsiteNo'
+      else return 'cpaWebsiteUnsure'
+    }
+  },
+
+  cpaWebsiteNo: {
+    messageText: 'Are you sure about that?',
+    responseHandler: 'cpaWebsiteYes'
+  },
+
+  cpaWebsiteUnsure: {
+    messageText: `You really like testing my patience, don't you?`,
+    responseHandler: 'cpaWebsiteYes'
+  },
+
+  cpaWebsiteYes: {
+    messageText: `Well, I hate to break it to you, but this man is not an accountant. CPA stands for his initials, not "Certified Public Accountant".`,
+    responseHandler: 'END_PLACEHOLDER'
+  },
+
+
+  END_PLACEHOLDER: {
+    messageText: 'END_PLACEHOLDER'
   }
 
 }

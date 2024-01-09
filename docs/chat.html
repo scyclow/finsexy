@@ -68,14 +68,20 @@
       flex:  1;
     }
 
-    .devPanel, #profilePanel {
+    #devPanel, #profilePanel {
       width: 30vw;
       overflow: scroll;
       display: none;
     }
 
-    .__debug .devPanel, #profilePanel {
+    .__debug #devPanel, #profilePanel {
       display: initial;
+    }
+
+    #devPanel {
+      border-left: 1px solid var(--border-color);
+      padding: 0.5em;
+      background: #282828;
     }
 
     main {
@@ -148,9 +154,15 @@
 
     </section>
 
-    <aside class="devPanel">
+    <aside id="profilePanel"></aside>
+
+    <aside id="devPanel">
       <h1>Dev Panel</h1>
-      <button onclick="localStorage.removeItem('__CHAT_CONTEXT'); window.location.reload()">clear</button>
+      <div style="display: flex; justify-content: center; margin: 1em auto;">
+        <button onclick="localStorage.removeItem('__CHAT_CONTEXT'); window.location.reload()" style="background: var(--red-color); font-size: 1.5em;">
+          Clear
+        </button>
+      </div>
       <code>
         <pre id="chatState">
 
@@ -159,9 +171,6 @@
     </aside>
 
 
-    <aside id="profilePanel">
-
-    </aside>
 
   </main>
 
@@ -238,7 +247,7 @@
 
   let activeChat
   const onConvoSelect = (id, ignoreHistory=false) => {
-    if (activeChat === id) return
+    if (!ignoreHistory && activeChat === id) return
     activeChat = id
 
     const activeChatWindow = $.id(id + '-chat')
@@ -284,7 +293,7 @@
     if (!clitLS.get().devMode) return
     const chat = MessageHandler.chats[activeChat]
     if (chat) {
-      $.id('chatState').innerHTML = JSON.stringify(
+      $.id('chatState').innerText = JSON.stringify(
         {...chat.ctx, history: chat.ctx.history},
         null,
         4

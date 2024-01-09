@@ -55,3 +55,9 @@ contract CASHMock {
     return 1;
   }
 }
+
+contract TenETHMock {
+  function balanceOf(address owner) external view returns (uint256 balance) {
+    return 1;
+  }
+}

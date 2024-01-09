@@ -44,7 +44,7 @@ export async function katContractInfo(provider) {
 
 
 
-
+// TODO fix all this shit
 
 
 const firstSendEvent = redirectTo => async (ctx, contract, provider) => {

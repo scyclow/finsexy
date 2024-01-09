@@ -23,7 +23,6 @@ if (clitLS.get().devMode) {
 }
 
 export const sexyCLIT = {
-
   nameToAddress: {},
   nameToContext: {},
   nameToCallback: {},
@@ -60,7 +59,7 @@ export const sexyCLIT = {
       `)
     }
     else if (command === 'send') {
-      setTimeout(() => {
+      setTimeout(async () => {
         const [recipient, amount] = args
         if (!MessageHandler.chats[recipient]) {
           return cb(`Invalid recipient: ${recipient}`)
@@ -68,11 +67,17 @@ export const sexyCLIT = {
           return cb(`Invalid amount: ${amount}`)
         }
 
-        provider.signer.sendTransaction({
-          to: MessageHandler.chats[recipient].contract.address,
-          value: toETH(amount)
-        })
-      }, 2000)
+        try {
+          const tx = await provider.signer.sendTransaction({
+            to: MessageHandler.chats[recipient].contract.address,
+            value: toETH(amount)
+          })
+          console.log(tx)
+        } catch (e) {
+          console.log(e)
+          cb(`ERROR: ${e.message || JSON.stringify(e)}`)
+        }
+      }, 1000)
       return cb(`Sending ${args[0]} ${args[1]} ETH...`)
     }
 
@@ -117,6 +122,9 @@ export const sexyCLIT = {
 
           <h5 style="margin-top: 2em; margin-bottom: 0.25em">Toggle Message Wait Time</h5>
           <p><code>$sexy dev ignoreWait [bool]</code></p>
+
+          <h5 style="margin-top: 2em; margin-bottom: 0.25em">GoTo Conversation Node</h5>
+          <p><code>$sexy dev node [dom name] [node name]</code></p>
 
         `)
       } else if (args[0] === 'debug') {

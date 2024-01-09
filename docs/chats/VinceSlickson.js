@@ -165,7 +165,7 @@ export const VinceChat = new MessageHandler('VinceSlickson', VinceMessages, 'STA
 
 
 
-
+Oh yeah, I can't wait to stake <em>your</em> assets.
 
 
 In fact, you'd have to be an <em>idiot</em> to not make money on this...

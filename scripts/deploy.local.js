@@ -16,7 +16,9 @@ async function main() {
 
     'HeatherHot',
     'KatFischer',
-    'SamanthaJones'
+    'SamanthaJones',
+
+    'TenETHMock',
   ]
 
   for (let dom of doms) {
