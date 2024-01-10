@@ -62,6 +62,7 @@ async function sendEvent1(ctx, contract, provider) {
 
   if (contract && addr) {
     const t = bnToN(await contract.tributes(addr))
+    console.log(t, addr)
 
     if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'edgeOff' }
   }
@@ -455,7 +456,7 @@ const SamanthaMessages = {
       for (let addr of ctx.state.validAddresses) {
         balanceSum += await provider.getETHBalance(addr)
       }
-      return `${hasMultipleAccounts ? `${hasMultipleAccounts + 1} accounts` : 'One account'}, holding approximately ${balanceSum} ETH. `
+      return `${hasMultipleAccounts ? `${ctx.state.validAddresses.length} accounts` : 'One account'}, holding approximately ${balanceSum} ETH. `
     },
     followUp: { messageCode: 'addressesContinue2', waitMs: 2000 }
 
@@ -501,7 +502,7 @@ const SamanthaMessages = {
 
   notGreat4: {
     messageText: `It's so... dirty.`,
-    followUp: fu('cleanYouUp', 6000)
+    followUp: fu('cleanYouUp', 4000)
   },
 
   cleanYouUp: {
