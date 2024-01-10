@@ -33,19 +33,19 @@ export const SamanthaProfile = {
     },
     {
       name: '0x',
-      review: `SamanthaJones is everything I love about the crypto space distilled down into one single person. I'd been getting absolutely rekt on shitcoins for years, but nothing compares to Samantha. Every audit from her is like a proctology exam. She knows how to press all of my buttons like nothing else. `,
+      review: `SamanthaJones is everything I love about the crypto space distilled down into one single person. I've been getting absolutely rekt on shitcoins for years, but nothing compares to Samantha. Every audit from her is like a proctology exam. She knows how to press all of my buttons like nothing else. `,
     },
     {
       name: '0x1',
-      review: `I've been living in constant fear of an IRS audit since I began my involvement in the crypto space in 2021. Samantha helped me work through those fears in a controlled environment. She was worth every penny`,
+      review: `Ever since 2021, when i first became involved in the crypto scene, I have been living in constant fear of an IRS audit. Samantha helped me work through some of those issues in a controlled environment. She was worth every penny`,
     },
     {
       name: '0x3',
-      review: `I've been a naughty girl`,
+      review: `i've been a naughty girl`,
     },
     {
       name: '0x2',
-      review: `I'm an absolute mess when it comes to managing my finances. Even thinking about doing my taxes fills me with a deep existential dread. So there's definitely something appealing in totally giving up all control of my balance sheet`,
+      review: `I'm an absolute mess when it comes to managing my finances. Even thinking about doing my taxes fills me with a deep existential dread. There's something appealing about giving up total control of my balance sheet to her`,
     },
     // dealing with my finances causes me too much anxiety. it's nice to completely give up control
   ]
@@ -238,12 +238,17 @@ const SamanthaMessages = {
       <p>I regret to inform you that your federal income tax return for the year ending December 31, 2023 has been selected for examination. Our records indicate potential discrepancies and irregularities concerning your reported cryptocurrency transactions.</p>
       <p>The examination will focus primarily on the accuracy and completeness of the information provided regarding your cryptocurrency activities, including but not limited to the acquisition, disposition, and valuation of digital assets. It is imperative that you provide comprehensive documentation, records, and details related to these transactions.</p>
     `,
-    followUp: { messageCode: 'everySquareInch', waitMs: 2000 }
+    followUp: { messageCode: 'everySquareInch', waitMs: 10000 }
   },
 
   everySquareInch: {
     messageText: `That means I'm going to examine every square inch of your transaction history. It's going to be a slow, painful, meticulous process. And when I'm done... We're going to assess your penalties.`,
-    followUp: { messageCode: 'understand', waitMs: 2000 }
+    followUp: fu('veryThorough')
+  },
+
+  veryThorough: {
+    messageText: `I'm <em>very</em> thorough.`,
+    followUp: fu('understand')
   },
 
   understand: {
@@ -261,7 +266,7 @@ const SamanthaMessages = {
         TenEth: 0,
       }
       if (isYes(ur)) {
-        return 'proceed'
+        return 'good'
       } else if (isNo(ur)) {
         return 'understandUnsure2'
       } else {
@@ -286,10 +291,8 @@ const SamanthaMessages = {
     responseHandler: ur => {
       if (isYes(ur)) {
         return 'proceed'
-      } else if (isNo(ur)) {
-        return 'understandNo'
       } else {
-        return 'understandUnsure2'
+        return 'understandUnsure3'
       }
     }
   },
@@ -311,7 +314,7 @@ const SamanthaMessages = {
   },
 
   imSorry: {
-    messageText: `If you'd like to continue you'll have to cooperate. I believe I'm owed an appology.`,
+    messageText: `If you want to make this process as painless as possible then I suggest you cooperate. I believe I'm owed an appology.`,
     responseHandler: ur => {
       if (ur.toLowerCase().includes('sorry') && !isNo(ur)) {
         return 'veryWell'
@@ -333,12 +336,27 @@ const SamanthaMessages = {
   },
 
   veryWell: {
-    messageText: `Very well. Let's proceed. I'm going to run you through a strict audit protocol.`,
-    followUp: { messageCode: 'proceed', waitMs: 2000 }
+    messageText: `Very well. Let's proceed. We have a lot of work ahead of us.`,
+    followUp: { messageCode: 'instructions', waitMs: 2000 }
+  },
+
+  good: {
+    messageText: `Good${genderSwitch({m: ' boy.', f: ' girl.', nb: '.'})}`,
+    followUp: fu('instructions')
+  },
+
+  instructions: {
+    messageText: `Follow my instructions as closely as possible, or else there will be severe consequences. We have a string protocol to adhere to.`,
+    followUp: fu('proceed')
   },
 
   proceed: {
-    messageText: `I'm going to need a comma- or space-delineated list of all wallet addresses you currently have custody over, other than the address currently connected to FinSexy. I need full addresses -- no ENS names. If this is your only address, then say "this is my only address"`,
+    messageText: `In order to get a complete picture of your transaction history I need you to send me a comma- or space-delineated list of all wallet addresses you currently have custody over.`,
+    followUp: fu('fullAddrs')
+  },
+
+  fullAddrs: {
+    messageText: `I need full addresses -- no ENS names. If this is your only address, then say "this is my only address".`,
     responseHandler: receiveAddrs
   },
 
@@ -453,27 +471,29 @@ const SamanthaMessages = {
       const hasMultipleAccounts = ctx.state.validAddresses.length > 1
 
       let balanceSum = 0
+      let totalTxs = 0
       for (let addr of ctx.state.validAddresses) {
         balanceSum += await provider.getETHBalance(addr)
+        try {totalTxs += await provider.getTransactionCount(addr)} catch (e) {console.log(e)}
       }
-      return `${hasMultipleAccounts ? `${ctx.state.validAddresses.length} accounts` : 'One account'}, holding approximately ${balanceSum} ETH. `
+
+      const txText = totalTxs ?
+        `About ${totalTxs} total transactions${hasMultipleAccounts ? ' between them' : ''}.`
+        : ''
+      return `It looks like we have ${hasMultipleAccounts ? `${ctx.state.validAddresses.length} accounts` : 'one account'} holding approximately ${balanceSum} ETH. ${txText}`
     },
     followUp: { messageCode: 'addressesContinue2', waitMs: 2000 }
-
   },
+
+
   addressesContinue2: {
     messageText(ur, ctx) {
       const signer = ctx.global.connectedAddr
 
       const hasMultipleAccounts = ctx.state.validAddresses.length > 1
 
-      const addrText =
-        ctx.state.validAddresses.length > 1
-          ? `the following addresses:</p> <code>${ctx.state.validAddresses.join(', ')}</code>`
-          : `the address</p> <code>${signer}</code>`
-
       return `
-        <p>Oh my, I'm noticing certain irregularities with the following account${hasMultipleAccounts ? 's' : ''}: ${addrText}
+        Oh my, I'm noticing some concerning irregularities with the address${hasMultipleAccounts ? 'es' : ''} you've given me.
       `
     },
     followUp: fu('dirty')
@@ -491,7 +511,7 @@ const SamanthaMessages = {
   },
 
   notGreat2: {
-    messageText: `At best you're looking at substantial penalties. At worst you're looking at jail time.`,
+    messageText: `You're looking at substantial penalties at best, and jail time at worst.`,
     followUp: fu('notGreat3')
   },
 
@@ -502,36 +522,38 @@ const SamanthaMessages = {
 
   notGreat4: {
     messageText: `It's so... dirty.`,
-    followUp: fu('cleanYouUp', 4000)
+    followUp: fu('beenAround')
   },
 
-  cleanYouUp: {
-    messageText: `I <em>could</em> help clean things up. But I'm not cheap.`,
-    followUp: fu('bestInBiz')
+  beenAround: {
+    messageText: `I've been doing this for more than 25 years, so you can say I've been around the block a few times. But even so, I've never seen anything like this.`,
+    followUp: fu('fullAudit', 6000)
   },
 
-  bestInBiz: {
-    messageText: `I've been doing this for more than 25 years, so you can say I've been around the block a few times. And, I'm <em>very</em> thorough.`,
-    followUp: fu('prePay', 6000)
+  fullAudit: {
+    messageText: `We're going to have to do a full audit. I have too many unanswered questions.`,
+    followUp: fu('prePay')
   },
+
 
   prePay: {
-    messageText: (ur, ctx) => `Here's what we'll do: You send me a ${ctx.global.premium * 0.01} ETH penalty pre-payment and we'll see if we can get this mess sorted out.`,
+    messageText: (ur, ctx) => `But before we start I need you to send me a ${ctx.global.premium * 0.01} ETH penalty pre-payment. Then we'll see if we can get this mess sorted out.`,
     event: sendEvent1,
     responseHandler: 'prePay2'
   },
 
   prePay2: {
-    messageText: `I can't wait to subject you to more analysis and find out what you did.`,
+    messageText: (ur, ctx) => `You can sexy send me with <code>$sexy send samanthaJones ${ctx.global.premium * 0.01}</code> or just send it to me throug my profile page.`,
     event: sendEvent1,
     responseHandler: 'prePay3'
   },
 
   prePay3: {
-    messageText: (ur, ctx) => `You can sexy send me with <code>$sexy send samanthaJones ${ctx.global.premium * 0.01}</code>`,
+    messageText: `I can't wait to subject you to more analysis and find out what you did.`,
     event: sendEvent1,
     responseHandler: 'prePay'
   },
+
 
   edgeOff: {
     messageText: `Okay, that prepayment really took the edge off. Let's continue, shall we?`,

@@ -126,6 +126,9 @@ export const sexyCLIT = {
           <h5 style="margin-top: 2em; margin-bottom: 0.25em">GoTo Conversation Node</h5>
           <p><code>$sexy dev node [dom name] [node name]</code></p>
 
+          <h5 style="margin-top: 2em; margin-bottom: 0.25em">Clear Chat History</h5>
+          <p><code>$sexy dev clear</code></p>
+
         `)
       } else if (args[0] === 'debug') {
         const debugVal = args[1] === 'true' ? true : false
@@ -146,6 +149,12 @@ export const sexyCLIT = {
 
         clitLS.set('devIgnoreWait', waitVal)
         return cb(`Ignore Wait: ${waitVal}`)
+
+      } else if (args[0] === 'clear') {
+        localStorage.removeItem('__CHAT_CONTEXT')
+        window.location.reload()
+
+        // return cb(`Clearing`)
       } else if (args[0] === 'node') {
         const [_, chatName, node] = args
 

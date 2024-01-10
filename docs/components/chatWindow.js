@@ -129,7 +129,7 @@ createComponent(
       }
 
       .from-dom {
-        text-shadow: 0 0 1px var(--dark-color);
+        text-shadow: 1px 1px 2px var(--secondary-color);
       }
 
       .message:last-child {

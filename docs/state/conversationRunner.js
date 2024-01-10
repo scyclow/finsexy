@@ -243,14 +243,21 @@ class ChatContext {
     this.global = {}
 
 
+
+
     setRunInterval(
       () => {
         const existingContext = this.chatLS.get()
+
+        if (this.history && this.history.length > existingContext.history.length) return
+
         this.lastDomCodeSent = existingContext.lastDomCodeSent || startingCode || 'START'
         this.state = existingContext.state || {}
         this.eventQueue = existingContext.eventQueue || []
         this.unread = existingContext.unread || 0
         this.history = existingContext.history || []
+
+
         onRehydrate(this.history)
       },
       4000

@@ -102,6 +102,10 @@ export class Web3Provider {
     return this.provider.lookupAddress(addr)
   }
 
+  async getTransactionCount(addr) {
+    return this.provider.getTransactionCount(addr)
+  }
+
 
   async formatAddr(addr, truncate=true, nameLength=19) {
     try {
