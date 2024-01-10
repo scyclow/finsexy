@@ -83,6 +83,7 @@ export async function heatherContractInfo(provider) {
   }[networkName]
 
   const abi = [
+    'event Send(address indexed sender, uint256 amount)',
     'function tributes(address) external view returns (uint256)'
   ]
 

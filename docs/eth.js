@@ -4,7 +4,7 @@ export const bnToN = bn => Number(bn.toString())
 export const ethVal = n => Number(ethers.utils.formatEther(n))
 export const truncateAddr = addr => addr.slice(0, 6) + '...' + addr.slice(-4)
 export const toETH = amt => ethers.utils.parseEther(String(amt))
-export const fromWei = amt => amt/1e18
+export const fromWei = amt => bnToN(amt)/1e18
 export const ethValue = amt => ({ value: toETH(amt) })
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000'
 

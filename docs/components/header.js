@@ -166,6 +166,7 @@ createComponent(
           <!--<li><a href="/">Browse</a></li>-->
           <!--<li><a href="#">VIP</a></li>-->
           <li><a href="/profile">Preferences</a></li>
+          <li><a href="/senders">Top Senders</a></li>
           <li style="margin-right: 1em">
             <connect-wallet>
               <div slot="noWeb3">

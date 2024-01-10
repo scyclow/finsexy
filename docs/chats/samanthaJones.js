@@ -177,6 +177,7 @@ export async function samanthaContractInfo(provider) {
   }[networkName]
 
   const abi = [
+    'event Send(address indexed sender, uint256 amount)',
     'function tributes(address) external view returns (uint256)'
   ]
 
@@ -443,7 +444,7 @@ const SamanthaMessages = {
           ctx.state.steviepBalances.MMO += Number(MMOBalance)
           ctx.state.steviepBalances.CASH += Number(CASHBalance)
           ctx.state.steviepBalances.TenEth += Number(TenEthBalance)
-          ctx.state.steviepBalances.FastCash += fromWei(Number(FastCashBalance))
+          ctx.state.steviepBalances.FastCash += fromWei(FastCashBalance)
 
           ctx.state.auditsRemaining = Object.assign({}, ctx.state.steviepBalances)
         }

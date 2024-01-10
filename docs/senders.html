@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>FinSexy</title>
+  <link rel="shortcut icon" type="image/x-icon" href="./assets/kiss.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="">
+  <meta name="keywords" content="steviep, steve pikelny, pikelny, crypto, ethereum, bitcoin">
+
+  <meta name="twitter:image" content="https://steviep.xyz/">
+  <meta name="twitter:image:alt" content="">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@steviepxyz">
+  <meta name="twitter:site" content="@steviepxyz">
+  <meta property="twitter:description" content="">
+
+  <meta name="og:image" property="og:image" content="https://steviep.xyz/">
+  <meta name="og:image:alt" content="">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://steviep.xyz/">
+  <meta property="og:title" content="">
+  <meta property="og:site_name" content="">
+  <meta property="og:description" content="">
+
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+
+
+  <style type="text/css">
+
+    main {
+      max-width: 1400px;
+    }
+
+    aside {
+      width: 250px;
+      padding: 1em;
+    }
+
+    h1 {
+      text-shadow: 2px 2px var(--dark-color), 3px 3px 2px var(--primary-color);
+      text-decoration: none;
+      color: var(--light-color)
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      height: 280px;
+      width: 280px;
+      overflow: hidden;
+    }
+
+    #skip {
+      text-align: center;
+    }
+    #skip a {
+      text-decoration: underline;
+      color: var(--primary-color);
+      transition: 0.3s;
+    }
+
+    #skip a:hover {
+      text-decoration: underline;
+      color: var(--medium-color);
+    }
+
+    td {
+      padding: 0.5em;
+      padding-bottom: 0;
+    }
+
+    footer {
+      font-size: 8px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      column-gap: 1vw;
+      row-gap: 1.5vw;
+    }
+    .grid article {
+      display: flex;
+      flex-direction: column;
+
+      border: 1px solid;
+    }
+    .grid img {
+      width: 100%;
+    }
+
+    .grid figcaption {
+      margin-top: -2.1em;
+      margin-left: 1px;
+      padding: 0.5em;
+      padding-top: 1em;
+      width: calc(100% - 18px);
+      background: linear-gradient(0deg, rgba(2,0,36,1) 17%, rgba(255,0,0,0) 100%);
+    }
+
+
+    @media (max-width: 1000px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .mainSection {
+      display: flex;
+      justify-content: center;
+      margin-top: 3em;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+  </style>
+
+
+<script src="./utils.js"></script>
+<script type="module" src="./state/all.js"></script>
+<script type="module" src="./components/all.js"></script>
+
+<style type="text/css">
+  main {
+    max-width: 600px;
+    margin: 2em auto;
+  }
+
+  table {
+    border-collapse:  collapse;
+    border-spacing:  0;
+    margin: 0 auto;
+    margin-bottom: 2em;
+    margin-top: 0.5em;
+
+  }
+  td {
+    border-top: 1px solid var(--light-color);
+  }
+
+</style>
+
+</head>
+
+<body>
+  <sexy-header id="header"></sexy-header>
+
+
+  <main>
+
+    <connect-wallet>
+      <div slot="noWeb3">
+        <em class="error">Please Connect in a <br>Web3-enabled Browser</em>
+      </div>
+
+      <div slot="notConnected">
+        <h1>Please connect your wallet to view the leaderboard</h1>
+      </div>
+
+      <div slot="connected" id="connected">
+        <h1>Leaderboard</h1>
+
+        <h2>Total Tributes Sent</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Sender</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+
+          <tbody id="senderAddrs"></tbody>
+        </table>
+
+        <h2>Total Tributes Received</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Recipient</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+
+          <tbody id="receiverNames"></tbody>
+        </table>
+      </div>
+    </connect-wallet>
+
+
+  </main>
+
+
+</body>
+
+
+<!-- <script src="./min.ethers.js"></script> -->
+
+<script type="module">
+
+  import {$, ls} from './$.js'
+  import {provider, fromWei} from './eth.js'
+  import {heatherContractInfo} from './chats/heatherHot.js'
+  import {katContractInfo} from './chats/katFischer.js'
+  import {samanthaContractInfo} from './chats/samanthaJones.js'
+
+
+
+  provider.onConnect(async () => {
+    const contracts = {
+      heatherHot: provider.rawContract(...(await heatherContractInfo(provider))),
+      katFischer: provider.rawContract(...(await katContractInfo(provider))),
+      samanthaJones: provider.rawContract(...(await samanthaContractInfo(provider)))
+    }
+
+    const senders = {}
+    const receivers = {}
+
+    for (let dom of Object.keys(contracts)) {
+      const contract = contracts[dom]
+      const sendFilter = contract.filters.Send()
+      const sendEvents = await contract.queryFilter(sendFilter)
+
+
+      for (let send of sendEvents) {
+        const { sender, amount } = send.args
+
+        receivers[dom] = (receivers[dom] || 0) + fromWei(amount)
+        senders[sender] = (senders[sender] || 0) + fromWei(amount)
+      }
+    }
+
+
+
+    $.id('senderAddrs').innerHTML = Object.keys(senders).map(s => `
+      <tr>
+        <td>${s}</td>
+        <td>${senders[s]} ETH</td>
+      </tr>
+    `).join('')
+
+    $.id('receiverNames').innerHTML = Object.keys(receivers).map(r => `
+      <tr>
+        <td>${r}</td>
+        <td>${receivers[r]} ETH</td>
+      </tr>
+    `).join('')
+
+  })
+
+
+</script>
+
+
+</html>
