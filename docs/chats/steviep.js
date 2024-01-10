@@ -113,6 +113,10 @@ Oh yeah, also I can also sell this drainer role to whoever i want.
 
 
 
+if ask for SSN
+  lol, i'm not giving you my ssn.
+
+
 
 
 */
@@ -123,7 +127,8 @@ export const SteviepTestimonials = {
   '0x1': `I was SO happy when steviep launched a findom project. He is, without a doubt, the HOTTEST artist in the NFT space. I couldn't wait to give him my money!`,
   '0x2': `I'll do anything stevie p says, and buy anything stevie p makes. I'll even pay him money in exchange for less money. `,
   '0x3': `I've been writing erotica about stevie for years. I'm thrilled that I can finally act out on those fantasies where he takes all of my money`
-  '0x4': `What a hunk 😍`
+  '0x4': `What a hunk 😍`,
+  '0x5': `I've always gottens uch a rush from clicking the mint button on his drops. I'm jsut glad that now I can get that same rush from sending him money whenever I want!`
 }
 
 

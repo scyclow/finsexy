@@ -433,6 +433,11 @@ export class MessageHandler {
 
   async sendFollowup(msg, userResponse) {
     if (!msg.followUp) return
+
+    if (typeof msg.followUp === 'string') {
+      console.log(`INCORRECT FOLLOWUP FORMAT: ${msg.followUp}`)
+      return { messageCode: msg.followUp, waitMs: 3000}
+    }
     return msg?.followUp instanceof Function
       ? msg.followUp(userResponse, this.ctx, this.contract, this.provider)
       : msg.followUp

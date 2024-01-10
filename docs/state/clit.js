@@ -72,7 +72,7 @@ export const sexyCLIT = {
             to: MessageHandler.chats[recipient].contract.address,
             value: toETH(amount)
           })
-          console.log(tx)
+          // console.log(tx)
         } catch (e) {
           console.log(e)
           cb(`ERROR: ${e.message || JSON.stringify(e)}`)

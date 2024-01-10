@@ -63,7 +63,21 @@ async function sendEvent1(ctx, contract, provider) {
   if (contract && addr) {
     const t = bnToN(await contract.tributes(addr))
 
-    if (t > 0 && t / 3 > ctx.state.rounds) return { messageCode: 'edgeOff' }
+    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'edgeOff' }
+  }
+
+}
+
+
+async function sendEvent2(ctx, contract, provider) {
+  const addr = await provider.isConnected()
+
+  ctx.state.rounds = ctx.state.rounds || 0
+
+  if (contract && addr) {
+    const t = bnToN(await contract.tributes(addr))
+
+    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'feltGood' }
   }
 
 }
@@ -77,7 +91,7 @@ const receiveAddrs = (ur, ctx) => {
   }
   if (ur.toLowerCase().includes('.eth')) return 'includesENS'
 
-  ctx.state.givenAddresses = ur.replaceAll(',', ' ').split(' ').filter(word => word.startsWith('0x'))
+  ctx.state.givenAddresses = ur.trim().replaceAll(',', ' ').split(' ').filter(word => word.startsWith('0x'))
 
   if (!ctx.state.givenAddresses.length) return 'addressesInvalid'
   return 'letMeRun'
@@ -116,10 +130,10 @@ function generateRemainingBalanceText(ctx, ignoreAlreadyAudited) {
   if (!ignoreIFD && IFD) balanceText.push(`Instructions For Defacement/Plottables Flex: ${IFD}`)
   if (!ignoreMMO && MMO) balanceText.push(`Money Making Opportunity: ${MMO}`)
   if (!ignoreCASH && CASH) balanceText.push(`Cold Hard Cash: ${CASH}`)
-  if (!ignoreTenEth && TenEth) balanceText.push(`10 ETH Giveaway: ${CASH}`)
+  if (!ignoreTenEth && TenEth) balanceText.push(`10 ETH Giveaway: ${TenEth}`)
   if (!ignoreFastCash && FastCash) balanceText.push(`FastCash: ${FastCash % 1 ? FastCash : FastCash.toFixed(2)}`)
 
-  return balanceText ? `<code>${balanceText.join('<br>')}</code>` : ''
+  return balanceText.length ? `<br><code>${balanceText.join('<br>')}</code>` : ''
 }
 
 
@@ -145,8 +159,6 @@ function steviepAssetResponseHandler(ur, ctx) {
     return 'cashAudit'
   } else if (isMatch(['ten', '10', 'eth', 'giveaway'])) {
     return 'tenEthAudit'
-  } else if (isMatch(['list', 'again'])) {
-    return 'relistAudit'
   } else {
     return 'confusedAudit'
   }
@@ -160,7 +172,7 @@ function steviepAssetResponseHandler(ur, ctx) {
 export async function samanthaContractInfo(provider) {
   const networkName = (await provider.getNetwork()).name
   const contractAddr = {
-    local: '0x084815D1330eCC3eF94193a19Ec222C0C73dFf2d'
+    local: '0x76a999d5F7EFDE0a300e710e6f52Fb0A4b61aD58'
   }[networkName]
 
   const abi = [
@@ -184,7 +196,9 @@ const SamanthaMessages = {
   __precheck(userResponse, ctx) {
 
     // TODO - check "add an address"
-    if (userResponse && isMean(userResponse)) {
+    if (userResponse && userResponse.toLowerCase().includes('vince') && ctx.global.mentionedSamanthaToVince) {
+      // TODO
+    } else if (userResponse && isMean(userResponse)) {
       ctx.state.meanWarnings = (ctx.state.meanWarnings||0) + 1
 
       return {
@@ -233,7 +247,18 @@ const SamanthaMessages = {
 
   understand: {
     messageText: 'Do you understand?',
-    responseHandler: (ur) => {
+    responseHandler: (ur, ctx) => {
+      ctx.state.steviepBalances = {
+        FIM: 0,
+        UFIM: 0,
+        IOU: 0,
+        NVC: 0,
+        IFD: 0,
+        MMO: 0,
+        CASH: 0,
+        FastCash: 0,
+        TenEth: 0,
+      }
       if (isYes(ur)) {
         return 'proceed'
       } else if (isNo(ur)) {
@@ -312,7 +337,7 @@ const SamanthaMessages = {
   },
 
   proceed: {
-    messageText: `I'm going to need a a comma- or space-delineated list of all wallet addresses you currently have custody over, other than the address currently connected to FinSexy. I need full addresses -- no ENS names. If this is your only address, then say "this is my only address"`,
+    messageText: `I'm going to need a comma- or space-delineated list of all wallet addresses you currently have custody over, other than the address currently connected to FinSexy. I need full addresses -- no ENS names. If this is your only address, then say "this is my only address"`,
     responseHandler: receiveAddrs
   },
 
@@ -355,18 +380,6 @@ const SamanthaMessages = {
   addressesPatience: {
     messageText: `Thank you for your patience. Just tying up a few loose ends.`,
     async followUp(ur, ctx, contract, provider) {
-      ctx.state.steviepBalances = {
-        FIM: 0,
-        UFIM: 0,
-        IOU: 0,
-        NVC: 0,
-        IFD: 0,
-        MMO: 0,
-        CASH: 0,
-        FastCash: 0,
-        TenEth: 0,
-      }
-
       try {
         const signer = ctx.global.connectedAddr
         const contracts = await provider.steviepContracts('mainnet')
@@ -398,6 +411,8 @@ const SamanthaMessages = {
             contracts.FastCash.balanceOf(addr),
             contracts.TenEth.balanceOf(addr),
           ])
+
+
 
           ctx.state.FIMTokens = FIMTokens
 
@@ -457,7 +472,7 @@ const SamanthaMessages = {
           : `the address</p> <code>${signer}</code>`
 
       return `
-        <p>Oh my, I'm noticing certain... irregularities with the following account${hasMultipleAccounts ? 's' : ''}: ${addrText}
+        <p>Oh my, I'm noticing certain irregularities with the following account${hasMultipleAccounts ? 's' : ''}: ${addrText}
       `
     },
     followUp: fu('dirty')
@@ -506,7 +521,7 @@ const SamanthaMessages = {
   },
 
   prePay2: {
-    messageText: `I can't wait to subject you to more anal-ysis and find out what you did.`,
+    messageText: `I can't wait to subject you to more analysis and find out what you did.`,
     event: sendEvent1,
     responseHandler: 'prePay3'
   },
@@ -559,7 +574,7 @@ const SamanthaMessages = {
     messageText: (ur, ctx) => {
       const remainingAuditText = generateRemainingBalanceText(ctx, true)
       if (remainingAuditText) return `What should we work through next? Here's what we have left: ${remainingAuditText}`
-      else return `Okay, I think that's all for your suspiscious assets. For now, at least. Shall we move on?`
+      else return `Okay, I think that's all for your suspiscious asset activity. For now, at least. Shall we move on?`
     },
     responseHandler: (ur, ctx) => {
       const remainingAuditText = generateRemainingBalanceText(ctx, true)
@@ -578,7 +593,7 @@ const SamanthaMessages = {
 
   },
   fimAudit2: {
-    messageText: `And what was your cost basis on this?`,
+    messageText: `And do you remember what was your cost basis was for this?`,
     responseHandler: 'fimAudit3'
   },
 
@@ -592,62 +607,239 @@ const SamanthaMessages = {
       if (isYes(ur)) return 'And understanding that, you spent <em>real</em> money on this, er, <em>fake</em> money?'
       else return `So you're claiming ignorance at having spent <em>real</em> money on this, er, <em>fake</em> money?`
     },
-    responseHandler: (ur, ctx) => {
-      ctx.state.auditsRemaining.FIM = 0
-      return 'fimAudit5'
-    }
+    followUp: fu('fimAudit5')
   },
 
   fimAudit5: {
-    messageText: `I'm not sure that pleading stupidity will hold up against a money laundering charge. I suggest you rectify this, but let's move on for now.`,
-    followUp: fu('oneByOneReview')
+    messageText: `Which, I might add, has significantly decreased in market value...`,
+    responseHandler: 'fimAudit6'
+  },
+
+  fimAudit6: {
+    messageText: `You're so <em>wreckless</em> with your finances.`,
+    followUp: fu('fimAudit7')
+  },
+
+  fimAudit7: {
+    messageText: `Appologies. I'm letting my excitement get the better of me. This conversation is being recorded, so I should really maintain a professional demeanor.`,
+    followUp: fu('fimAudit8')
+  },
+
+  fimAudit8: {
+    messageText: `If I can be frank, you're looking at potential money laundering charges for this, and I don't think pleading stupidity will hold up in court. I suggest talking to your lawyer about this, but let's move on for now.`,
+    followUp: (ur, ctx) => {
+      ctx.state.auditsRemaining.FIM = 0
+      return fu('oneByOneReview')
+    }
   },
 
   ufimAudit: {
-    messageText: 'ufimAudit'
+    messageText: `So these uncirculated fake internet money NFTs... Not only are they fake, but the website says they're commemorative collectables?`,
+    responseHandler: 'ufimAudit2'
   },
 
+  ufimAudit2: {
+    messageText: `Is it a real commemorative collectable, or a fake commemorative collectable?`,
+    responseHandler: 'ufimAudit3'
+  },
+
+  ufimAudit3: {
+    messageText: `And you spent real, non-commemorative money on this?`,
+    responseHandler: 'ufimAudit4'
+  },
+
+  ufimAudit4: {
+    messageText: `Well, I suppose I don't see anything strictly wrong here. Just remember when you sell this that collectables are taxed at a different long-term capital gains rate than investments. That is, in the <em>very</em> off chance your position appreciates in value.`,
+    followUp: fu('ufimAudit5')
+  },
+
+  ufimAudit5: {
+    messageText: `But I must admit, your propensity to spend money on worthless items is quite endearing. You're like a child who needs ${genderSwitch({m: 'his', f: 'her', nb: 'their'})} mommy to monitor all of their expenditures. It's very cute.`,
+    followUp: (ur, ctx) => {
+      ctx.state.auditsRemaining.UFIM = 0
+      return fu('oneByOneReview')
+    }
+  },
 
   iouAudit: {
-    messageText: 'iouAudit'
+    messageText: 'Alright. IOUs... What exactly is this an IOU for?',
+    responseHandler: 'iouAudit2'
+  },
+
+  iouAudit2: {
+    messageText: `I'm not sure I understand. What are you owed by holding this asset?`,
+    responseHandler: 'iouAudit3'
+  },
+
+  iouAudit3: {
+    messageText: `I still don't get it. This is a bearer instrument, correct?`,
+    followUp: fu('iouAudit4')
+  },
+
+  iouAudit4: {
+    messageText: `And you're currently in possession of it.`,
+    followUp: fu('iouAudit5')
+  },
+
+  iouAudit5: {
+    messageText: `And I.O.U. is a popular colloquialism to refer to the phrase "I Owe You"...`,
+    responseHandler: 'iouAudit6'
+  },
+
+  iouAudit6: {
+    messageText: `I don't think you quite understand the concepts of "debt" and "ownership". I bet GoddessJessica is going to have a field day with you. I don't want to ruin her fun, so let's move on here.`,
+    followUp: (ur, ctx) => {
+      ctx.state.auditsRemaining.IOU = 0
+      return fu('oneByOneReview')
+    }
   },
 
   nvcAudit: {
-    messageText: 'nvcAudit'
+    messageText: `Oh, god help me. This might be the most foolish investment I've seen in the last three fiscal years.`,
+    followUp: fu('nvcAudit2')
   },
 
+  nvcAudit2: {
+    messageText: `These certificates represent... negative values. And you paid a positive amount of money for them?`,
+    responseHandler: 'nvcAudit3'
+  },
+
+  nvcAudit3: {
+    messageText: `I'm sorry, but I'm getting flush just hearing you attempt to defend yourself. Excuse me, I need a moment to collect myself.`,
+    followUp: fu('nvcAudit4', 12000)
+  },
+
+  nvcAudit4: {
+    messageText: `Okay, here's the deal. Do not -- I repeat, do NOT -- file this as a liability. This is not a tax-deductable expense, and it is not implicitly a capital loss until you sell it for less than your original cost basis. I'll be watching what you do here very closely.`,
+    followUp: (ur, ctx) => {
+      ctx.state.auditsRemaining.NVC = 0
+      return fu('oneByOneReview')
+    }
+  },
+
+
   ifdAudit: {
-    messageText: 'ifdAudit'
+    messageText: `As much as your disregard for US currency arrouses my interests, this one doesn't have any obvious tax implications, so I believe it is outside my purview.`,
+    followUp: fu('ifdAudit2')
+  },
+
+  ifdAudit2: {
+    messageText: `I'll just note that defacing and mutilating US currency is a federal crime, and that you are not legally obligated to follow these instructions.`,
+    followUp: (ur, ctx) => {
+      ctx.state.auditsRemaining.IFD = 0
+      return fu('oneByOneReview')
+    }
   },
 
   mmoAudit: {
-    messageText: 'mmoAudit'
+    messageText: 'Oh boy. This one is a real doozy. If I understand correctly, this is a financial security with an appoximate book value of 0.031 ETH. Have you paid the appropriate taxes on this asset?',
+    followUp: fu('mmoAudit2')
   },
 
-  fastCashAudit: {
-    messageText: 'fastCashAudit'
+  mmoAudit2: {
+    messageText: (ur) => (
+      isYes(ur)
+        ? `Don't lie to me, ${getUserData('name')}. I can see <em>everything</em> you've done.`
+        : `I didn't think so.`
+    ) + ` Your desire for penalties must be insatiable.`,
+    followUp: (ur, ctx) => {
+      ctx.state.auditsRemaining.MMO = 0
+      return fu('oneByOneReview')
+    }
   },
 
   cashAudit: {
-    messageText: 'cashAudit'
+    messageText: `Oh, now I see why you are into findom. steviep really took you for a ride here.`,
+    followUp: fu('cashAudit2')
   },
+
+  cashAudit2: {
+    messageText: `Nothing can explain this purchase other than sheer, unadulterated masochism. Why else would someone spend money on... less money?`,
+    followUp: fu('cashAudit3')
+  },
+
+  cashAudit3: {
+    messageText: `Lucky for you, I have a soft spot for masochists. So I'll be watching very closely to see if this is entered on your balance sheet at so much as one cent higher than its nominal value.`,
+    followUp: (ur, ctx) => {
+      ctx.state.auditsRemaining.CASH = 0
+      return fu('oneByOneReview')
+    }
+  },
+
+  fastCashAudit: {
+    messageText: () => `${genderSwitch({m: 'Sir', f: `Ma'am`, nb: getUserData('name')})}, I believe you may have beenthe victim of securities fraud with this Fast Cash investment.`,
+    followUp: fu('fastCashAudit2')
+  },
+
+
+// nevertheless, if you received this in an airdrop then
+
+  fastCashAudit2: {
+    messageText: `Did VinceSlickson sell this to you? He's a real fucking slime ball. But I have to say, the way he takes advantage of poor little unsuspecting investors such as yourself gives him a certain charm. He'd never go for a girl like me though. He must think I'm too uptight.`,
+    followUp: fu('fastCashAudit3')
+  },
+
+  fastCashAudit3: {
+    messageText: `I guess if you ever talk to him then maybe mention me. I'm curious to hear what he says.`,
+    followUp: fu('fastCashAudit4')
+  },
+
+  fastCashAudit4: {
+    messageText: `Anyhow, getting back to business, I have good news and bad news for you. Which do you want first?`,
+    responseHandler: ur => {
+      if (ur.toLowerCase().includes('good')) return 'fastCashAudit5Good'
+      else if (ur.toLowerCase().includes('bad')) return 'fastCashAudit5Bad'
+    }
+  },
+
+  fastCashAudit5Good: {
+    messageText: (ur, ctx) => `${
+      ctx.state.fcBadNews
+        ? 'And I guess that more or less negates the good news, which'
+        : 'The good news'
+      } is that your Fast Cash investment is worth approximately $${(ctx.state.steviepBalances.FastCash * 104666.06117).toFixed(2)} USD.`,
+    followUp(ur, ctx) {
+      ctx.state.fcGoodNews = true
+      return fu('fastCashAudit5Bad')
+    }
+  },
+
+  fastCashAudit5Bad: {
+    messageText: (ur, ctx) => `The bad news is that since this is an illegal securities offering it may be subject to an investigation by the SEC at any time, which would absolutely crater its value. Additionally, if you received this token as an airdrop or gift, then your taxable income for that year is actually $${(ctx.state.steviepBalances.FastCash * 104666.06117).toFixed(2)} USD higher than what you initiall filed for.`,
+    followUp(ur, ctx) {
+      ctx.state.fcBadNews = true
+      if (ctx.state.fcGoodNews) return fu('fastCashAudit6')
+      else return fu('fastCashAudit5Good')
+    }
+  },
+
+  fastCashAudit6: {
+    messageText: `Now, I know what you're wondering, so I'll preemptively answer your question: The thought of you squirming in your little chair has made my nipples incredibly hard. So much so that I could probably cut glass with them.`,
+    followUp(ur, ctx) {
+      ctx.state.auditsRemaining.FastCash = 0
+      return fu('oneByOneReview')
+    }
+  },
+
 
   tenEthAudit: {
-    messageText: 'tenEthAudit'
+    messageText: `I hope you understand that redeeming this token will constitute a transaction of more than $10,000 USD, which means that you will need to report steviep's social security number. `,
+    followUp(ur, ctx) {
+      ctx.state.auditsRemaining.TenEth = 0
+      return fu('oneByOneReview')
+    }
   },
 
-  relistAudit: {
-    messageText: 'relistAudit'
-  },
 
   confusedAudit: {
-    messageText: 'confusedAudit'
+    messageText: `I don't understand. That does not appear to be one of your flagged positions.`,
+    responseHandler: steviepAssetResponseHandler
   },
 
 
 
   doesntAddUp: {
-    messageText: `Something just doesn't add up here...`,
+    messageText: `Hold on a second, something just doesn't add up here...`,
     followUp: fu('cpa')
   },
 
@@ -658,7 +850,7 @@ const SamanthaMessages = {
   },
 
   cpaWebsite: {
-    messageText: `Here's his website. Is this ringing any bells? <a href="https://cryptotaxspecialist.0ms.co/" target="_blank">cryptotaxspecialist.0ms.co</a>`,
+    messageText: `Here's his website. Does this ring any bells? <a href="https://cryptotaxspecialist.0ms.co/" target="_blank">cryptotaxspecialist.0ms.co</a>`,
     responseHandler: ur => {
       if (isYes(ur)) return 'cpaWebsiteYes'
       else if (isNo(ur)) return 'cpaWebsiteNo'
@@ -678,14 +870,57 @@ const SamanthaMessages = {
 
   cpaWebsiteYes: {
     messageText: `Well, I hate to break it to you, but this man is not an accountant. CPA stands for his initials, not "Certified Public Accountant".`,
-    responseHandler: 'END_PLACEHOLDER'
+    followUp: fu('cpaIncompetent')
+  },
+
+  cpaIncompetent: {
+    messageText: `This man is <em>completely</em> incompetent, so it's no surprise that he completely fucked you when he filed.`,
+    followUp: fu('incongruities')
+  },
+
+  incongruities: {
+    messageText: `Looking over your transaction history and cross referencing it with your tax returns from the last few years is quite the experience. So many... <em>incongruities</em>.`,
+    followUp: fu('penalties')
+  },
+
+  penalties: {
+    messageText: `Please hold while I tally up all the penalties you owe. This might take a while since the process is turning me into an absolute puddle.`,
+    followUp: fu('damage', 10000)
+  },
+
+  damage: {
+    messageText: (ur, ctx) => `Alright, I can't take any more foreplay. The damage comes out to ${ctx.global.premium * 0.05}. You can send to me either through the sexy clit or my profile page.`,
+    event: sendEvent2,
+    followUp: fu('penaltiesNow')
+  },
+
+  penaltiesNow: {
+    messageText: `I need your penalties. In my wallet. Now.`,
+    event: sendEvent2,
+    followUp: fu('readyToBurst')
   },
 
 
-  END_PLACEHOLDER: {
-    messageText: 'END_PLACEHOLDER'
-  }
+  readyToBurst: {
+    messageText: ` I've had this desire slowly building up inside me since the beginning of our conversation, and I'm just about ready to burst.`,
+    event: sendEvent2,
+    followUp: fu('damage')
+  },
 
+  feltGood: {
+    messageText: `Ooooh, wow. That felt good. I really needed that. I've been incredibly wound up lately.`,
+    followUp: fu('beenFun')
+  },
+
+  beenFun: {
+    messageText: `This has been fun. I sent something to your wallet. Hopefully it will give you a little motivation to keep your taxes in good standing.`,
+    followUp: fu('keepInTouch')
+  },
+
+  keepInTouch: {
+    messageText: `If you ever need another audit, don't hesitate to get in touch.`,
+    responseHandler: 'helpYou'
+  },
 }
 
 

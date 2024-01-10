@@ -79,7 +79,7 @@ async function sendEvent(ctx, contract, provider) {
 export async function heatherContractInfo(provider) {
   const networkName = (await provider.getNetwork()).name
   const contractAddr = {
-    local: '0xAE246E208ea35B3F23dE72b697D47044FC594D5F'
+    local: '0x82BBAA3B0982D88741B275aE1752DB85CAfe3c65'
   }[networkName]
 
   const abi = [
@@ -575,7 +575,7 @@ const HeatherHotMessages = {
 
 
   howDoYouFeel: {
-    messageText: (ur, ctx) => `Yeah, you really want to watch your ${ctx.global.premium * 0.01} ETH burn up in my wallet, dont you?`,
+    messageText: (ur, ctx) => `Yeah, you really want to watch your ${ctx.global.premium * 0.01} ETH burn up in my hot little wallet, dont you?`,
     responseHandler: (ur) => {
       if (isYes(ur)) return 'okaySend'
       else return 'sendAnyhow'
@@ -631,7 +631,6 @@ const HeatherHotMessages = {
 
   soGood: {
     messageText: `Mmmm, that felt so good. That'll never get old`,
-    event: sendEvent,
     responseHandler: 'nft'
   },
 
@@ -661,7 +660,7 @@ const HeatherHotMessages = {
   },
 
   again: {
-    messageText: `This was fun. If you ever want to send me more money, don't hesitate to get in touch 😘`,
+    messageText: `This was fun. If you ever want to send me more money then you know where to find me 😘`,
     responseHandler: (ur, ctx) => {
       ctx.state.rounds = (ctx.state.rounds||0) + 1
       return 'nextSteps'

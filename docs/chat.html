@@ -227,6 +227,7 @@
 
     li.onclick = () => {
       onConvoSelect(name)
+      updateDevPanel()
     }
 
     $.render($messageSelector, li)
@@ -289,29 +290,47 @@
     onConvoSelect(activeChat, true)
   })
 
-  setRunInterval(() => {
-    if (!clitLS.get().devMode) return
+
+
+  const updateDevPanel = () => {
     const chat = MessageHandler.chats[activeChat]
-    if (chat) {
-      $.id('chatState').innerText = JSON.stringify(
-        {...chat.ctx, history: chat.ctx.history},
-        null,
-        4
-      )
-    }
+    $.id('chatState').innerText = JSON.stringify(
+      {...chat.ctx, history: chat.ctx.history},
+      null,
+      4
+    )
+  }
 
-    // $.id('chatState').innerHTML += Object.keys(MessageHandler.chats).map(m => {
-    //   if (MessageHandler.chats[m]) {
-    //     return `
-    //       <div>${m}: ${MessageHandler.chats[m].ctx.unread}</div>
-    //     `
-    //   } else {
-    //     return ''
-    //   }
-    // }
-    // ).join('')
+  updateDevPanel()
+  $.cls('chat-window').forEach(chatWindow => {
+    chatWindow.registerEventHandler('submit', updateDevPanel)
 
-  }, 300)
+  })
+
+
+  // setRunInterval(() => {
+  //   if (!clitLS.get().devMode) return
+  //   const chat = MessageHandler.chats[activeChat]
+  //   if (chat) {
+  //     $.id('chatState').innerText = JSON.stringify(
+  //       {...chat.ctx, history: chat.ctx.history},
+  //       null,
+  //       4
+  //     )
+  //   }
+
+  //   // $.id('chatState').innerHTML += Object.keys(MessageHandler.chats).map(m => {
+  //   //   if (MessageHandler.chats[m]) {
+  //   //     return `
+  //   //       <div>${m}: ${MessageHandler.chats[m].ctx.unread}</div>
+  //   //     `
+  //   //   } else {
+  //   //     return ''
+  //   //   }
+  //   // }
+  //   // ).join('')
+
+  // }, 300)
 
 
 

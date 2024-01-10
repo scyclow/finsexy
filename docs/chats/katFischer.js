@@ -27,7 +27,7 @@ export const KatProfile = {
 export async function katContractInfo(provider) {
   const networkName = (await provider.getNetwork()).name
   const contractAddr = {
-    local: '0x82BBAA3B0982D88741B275aE1752DB85CAfe3c65'
+    local: '0x084815D1330eCC3eF94193a19Ec222C0C73dFf2d'
   }[networkName]
 
   const abi = [

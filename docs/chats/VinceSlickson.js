@@ -163,7 +163,14 @@ export const VinceChat = new MessageHandler('VinceSlickson', VinceMessages, 'STA
 /*
 
 
+if asked about samantha
+  ctx.global.mentionedSamanthaToVince = true
+  oh, she's a humorless bitch. what a fucking killjoy. she never likes to have any fun. it's all audit this, and penalties that. way too uptight for my taste
+  although, she does have a fabulous rack. I wouldn't mind itemizing THOSE deductions, if you know what I mean. Maybe give the
 
+  I wouldn't mind staking her assets
+  I wouldn't mind itemizing her deductions
+  I wouldn't mind giving her the old FIFO
 
 Oh yeah, I can't wait to stake <em>your</em> assets.
 

@@ -13,12 +13,12 @@ async function main() {
     'IFDMock',
     'MMOMock',
     'CASHMock',
+    'TenETHMock',
 
     'HeatherHot',
     'KatFischer',
     'SamanthaJones',
 
-    'TenETHMock',
   ]
 
   for (let dom of doms) {

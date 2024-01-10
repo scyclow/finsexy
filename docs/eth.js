@@ -56,6 +56,7 @@ export class Web3Provider {
     this.onConnectCbs.push(cb)
     this.isConnected()
       .then(addr => {
+        console.log(`New connection: ${addr}`)
         if (addr) {
           cb(addr)
         }
@@ -170,7 +171,7 @@ export class Web3Provider {
         IFD: '0xCdb63c58b907e76872474A0597C5252eDC97c883',
         MMO: '0x15BB2cc3Ea43ab2658F7AaecEb78A9d3769BE3cb',
         CASH: '0xa4d0806d597146df93796A38435ABB2a3cb96677',
-        TenEth: '',
+        TenEth: '0xAE246E208ea35B3F23dE72b697D47044FC594D5F',
       },
       goerli: {
 
