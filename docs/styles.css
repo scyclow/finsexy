@@ -153,3 +153,47 @@ code {
     visibility: hidden;
   }
 }
+
+
+.preOrgasm {
+  animation: PreOrgasm 3s ease-in-out infinite;
+}
+
+
+.orgasm {
+  animation-iteration-count: 1;
+  animation: Orgasm 24s ease-out;
+}
+
+
+
+@keyframes PreOrgasm {
+  0%, 100% {
+    filter: blur(0.5px);
+  }
+
+  50% {
+    filter: blur(2.5px);
+  }
+}
+
+
+
+@keyframes Orgasm {
+  0% {
+    filter: brightness(1) blur(0) saturate(1) ;
+  }
+
+  2.5% {
+    background: var(--light-color);
+    filter: brightness(50) blur(10px) saturate(5) ;
+  }
+
+  55% {
+    filter: brightness(1.5) blur(0.5px) saturate(2) ;
+  }
+
+  100% {
+    filter: brightness(1) blur(0) saturate(1) ;
+  }
+}

@@ -64,7 +64,7 @@ async function sendEvent1(ctx, contract, provider) {
     const t = bnToN(await contract.tributes(addr))
     console.log(t, addr)
 
-    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'edgeOff' }
+    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'edgeOff', waitMs: 3000 }
   }
 
 }
@@ -78,7 +78,7 @@ async function sendEvent2(ctx, contract, provider) {
   if (contract && addr) {
     const t = bnToN(await contract.tributes(addr))
 
-    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'feltGood' }
+    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'feltGood', waitMs: 3000 }
   }
 
 }
@@ -346,7 +346,7 @@ const SamanthaMessages = {
   },
 
   instructions: {
-    messageText: `Follow my instructions as closely as possible, or else there will be severe consequences. We have a string protocol to adhere to.`,
+    messageText: `Follow my instructions as closely as possible, or else there will be severe consequences. We have a strict protocol to adhere to.`,
     followUp: fu('proceed')
   },
 
@@ -366,7 +366,7 @@ const SamanthaMessages = {
   },
 
   letMeRun: {
-    messageText: (ur, ctx) => `Please hold while I run a preliminary search on ${ctx.state.givenAddresses.length ? 'these addresses' : 'this address'}. This might take a moment`,
+    messageText: (ur, ctx) => `Please hold while I run a preliminary search on ${ctx.state.givenAddresses.length ? 'the following addresses' : 'this address'}. This might take a moment. <code>${[ctx.global.connectedAddr, ...ctx.state.givenAddresses].join(', ')}</code>`,
     async followUp(ur, ctx, contract, provider) {
       ctx.state.invalidAddresses = ctx.state.givenAddresses.filter(addr => !provider.isAddress(addr))
 
@@ -487,15 +487,7 @@ const SamanthaMessages = {
 
 
   addressesContinue2: {
-    messageText(ur, ctx) {
-      const signer = ctx.global.connectedAddr
-
-      const hasMultipleAccounts = ctx.state.validAddresses.length > 1
-
-      return `
-        Oh my, I'm noticing some concerning irregularities with the address${hasMultipleAccounts ? 'es' : ''} you've given me.
-      `
-    },
+    messageText:`Oh my, I'm noticing some concerning irregularities.`,
     followUp: fu('dirty')
   },
 
@@ -511,12 +503,12 @@ const SamanthaMessages = {
   },
 
   notGreat2: {
-    messageText: `You're looking at substantial penalties at best, and jail time at worst.`,
+    messageText: `You're looking at substantial penalties at best. Jail time at worst.`,
     followUp: fu('notGreat3')
   },
 
   notGreat3: {
-    messageText: `But there's just something about your transaction history that's driving me wild.`,
+    messageText: `But there's something about your transaction history that's just driving me wild.`,
     followUp: fu('notGreat4')
   },
 
@@ -608,7 +600,7 @@ const SamanthaMessages = {
 
   fimAudit: {
     messageText: (ur, ctx) => ctx.state.steviepBalances.FIM
-      ? `Okay, would you mind explaining to me what exactly this is? <img src="https://artblocks-mainnet.s3.amazonaws.com/${ctx.state.FIMTokens[0]}.png">`
+      ? `According to your transaction history it appears as if you purchased this NFT that appears to resemble monopoly money. Does this belong to you? <img src="https://artblocks-mainnet.s3.amazonaws.com/${ctx.state.FIMTokens[0]}.png">`
       : genderSwitch({m: 'Sir', f: `Ma'am`, nb: getUserData('name')}) + `, you do not appear to have any Fake Internet Money. Let's try to stay focused.`,
     responseHandler: (ur, ctx) => ctx.state.steviepBalances.FIM
       ? 'fimAudit2'
@@ -718,22 +710,38 @@ const SamanthaMessages = {
   },
 
   nvcAudit: {
-    messageText: `Oh, god help me. This might be the most foolish investment I've seen in the last three fiscal years.`,
-    followUp: fu('nvcAudit2')
+    messageText: `You're going to have to help me understand this position. I'm looking at the transaction history here, and it doesn't quite make sense to me.`,
+    followUp: fu('nvcAudit1')
+  },
+
+  nvcAudit1: {
+    messageText: `It appears as if this asset was issued by the address <code>0x7C23C1b7e544e3e805bA675c811E287fc9d71949</code>, which suffered some sort of loss... And the certificate claims that it is a fractionalization of that loss? Does that all track with you?`,
+    responseHandler: 'nvcAudit2'
   },
 
   nvcAudit2: {
-    messageText: `These certificates represent... negative values. And you paid a positive amount of money for them?`,
-    responseHandler: 'nvcAudit3'
+    messageText: `Alright. And looking past the completely nonsensical idea of what fractionalizing a negative value actually means, you decided that it would be desirable to... um, incur this value.`,
+    followUp: fu('nvcAudit3', 4000)
   },
 
   nvcAudit3: {
-    messageText: `I'm sorry, but I'm getting flush just hearing you attempt to defend yourself. Excuse me, I need a moment to collect myself.`,
-    followUp: fu('nvcAudit4', 12000)
+    messageText: `So much so that you were willing to pay a positive amount of money to do so?`,
+    responseHandler: 'nvcAudit4'
   },
 
   nvcAudit4: {
-    messageText: `Okay, here's the deal. Do not -- I repeat, do NOT -- file this as a liability. This is not a tax-deductable expense, and it is not implicitly a capital loss until you sell it for less than your original cost basis. I'll be watching what you do here very closely.`,
+    messageText: `This might possibly be the most foolish investment I've seen in the last three fiscal years.`,
+    followUp: fu('nvcAudit5', 4000)
+  },
+
+
+  nvcAudit5: {
+    messageText: `I'm sorry, but I'm getting flush just hearing you attempt to defend yourself. Excuse me, I need a moment to collect myself.`,
+    followUp: fu('nvcAudit6', 12000)
+  },
+
+  nvcAudit6: {
+    messageText: `All I'll say for now is that you better file this as a liability. This is NOT a tax-deductable expense, and it is not implicitly a capital loss until you sell it for less than your original cost basis. I'll be watching what you do here very closely.`,
     followUp: (ur, ctx) => {
       ctx.state.auditsRemaining.NVC = 0
       return fu('oneByOneReview')
@@ -742,7 +750,7 @@ const SamanthaMessages = {
 
 
   ifdAudit: {
-    messageText: `As much as your disregard for US currency arrouses my interests, this one doesn't have any obvious tax implications, so I believe it is outside my purview.`,
+    messageText: `As much as your disregard for US currency arouses my interests, this one doesn't have any obvious tax implications, so I believe it is outside my purview.`,
     followUp: fu('ifdAudit2')
   },
 

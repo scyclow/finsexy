@@ -228,6 +228,7 @@
     li.onclick = () => {
       onConvoSelect(name)
       updateDevPanel()
+      updateViewedPanels()
     }
 
     $.render($messageSelector, li)
@@ -304,8 +305,15 @@
   updateDevPanel()
   $.cls('chat-window').forEach(chatWindow => {
     chatWindow.registerEventHandler('submit', updateDevPanel)
+    chatWindow.registerEventHandler('submit', updateViewedPanels)
 
   })
+
+
+  setInterval(() => {
+    updateDevPanel()
+    updateViewedPanels()
+  }, 5000)
 
 
   // setRunInterval(() => {
@@ -333,8 +341,14 @@
   // }, 300)
 
 
+  function updateViewedPanels() {
 
-  setInterval(() => {
+    const order = Object.keys(MessageHandler.chats).sort(
+      (a, b) =>
+        MessageHandler.chats[a].ctx.lastUserMessageTimestamp
+        - MessageHandler.chats[b].ctx.lastUserMessageTimestamp
+    )
+
     Object.keys(MessageHandler.chats).forEach(m => {
       const $unread = $.id(`${m}-unread`)
       const $select = $.id(`${m}-select`)
@@ -357,11 +371,16 @@
         $select.classList.remove('hidden')
       }
 
+
       if ($select) {
-        $select.style.order = MessageHandler.chats[m].ctx.lastUserMessageTimestamp  - 1702100000000
+        $select.style.order = order.findIndex(name => name === m)
       }
     })
-  }, 100)
+  }
+  updateViewedPanels()
+
+
+  // setInterval(() => , 250)
 
   // $heatherHotSelect.onclick = () => {
   //   $heatherHotSelect.classList.add

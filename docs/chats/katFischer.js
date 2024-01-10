@@ -55,7 +55,7 @@ const firstSendEvent = redirectTo => async (ctx, contract, provider) => {
     console.log(t)
     // TODO if user waits too long, redirect to "Are you still there, baby? I can't stop thinking about you"
     if (t > 0) {
-      return { messageCode: redirectTo, waitMs: 0 }
+      return { messageCode: redirectTo, waitMs: 3000 }
     }
   }
 }
@@ -64,14 +64,14 @@ const secondSendEvent = redirectTo => async (ctx, contract, provider) => {
   const isConnected = await provider.isConnected()
 
   if (isConnected && ctx.state.totalPaid >= ctx.state.sentFromPreviousRounds + 0.02) {
-    return { messageCode: redirectTo, waitMs: 0 }
+    return { messageCode: redirectTo, waitMs: 3000 }
   }
 }
 
 const thirdSendEvent = redirectTo => async (ctx, contract, provider) => {
   const isConnected = await provider.isConnected()
   if (isConnected && ctx.state.totalPaid >= ctx.state.sentFromPreviousRounds + 0.03) {
-    return { messageCode: redirectTo, waitMs: 0 }
+    return { messageCode: redirectTo, waitMs: 3000 }
   }
 }
 

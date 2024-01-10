@@ -70,7 +70,7 @@ async function sendEvent(ctx, contract, provider) {
   if (contract && addr) {
     const t = bnToN(await contract.tributes(addr))
 
-    if (t > ctx.state.rounds) return { messageCode: 'soGood' }
+    if (t > ctx.state.rounds) return { messageCode: 'soGood', waitMs: 3000 }
   }
 
 }

@@ -34,7 +34,7 @@ export const sexyCLIT = {
     this.nameToCallback[name] = cb
   },
 
-  run(name, input, ctx) {
+  run(name, input, ctx, ignoreCb) {
     const [sexy, command, ...args] = input.trim().split(' ')
     const cb = name
       ? this.nameToCallback[name]
@@ -62,23 +62,28 @@ export const sexyCLIT = {
       setTimeout(async () => {
         const [recipient, amount] = args
         if (!MessageHandler.chats[recipient]) {
-          return cb(`Invalid recipient: ${recipient}`)
+          return ignoreCb ? null :  cb(`Invalid recipient: ${recipient}`)
         } else if (isNaN(Number(amount))) {
-          return cb(`Invalid amount: ${amount}`)
+          return ignoreCb ? null :  cb(`Invalid amount: ${amount}`)
         }
 
         try {
+          document.body.classList.add('preOrgasm')
           const tx = await provider.signer.sendTransaction({
             to: MessageHandler.chats[recipient].contract.address,
             value: toETH(amount)
           })
-          // console.log(tx)
+          await tx.wait()
+          document.body.classList.remove('preOrgasm')
+          document.documentElement.classList.add('orgasm')
         } catch (e) {
           console.log(e)
-          cb(`ERROR: ${e.message || JSON.stringify(e)}`)
+          document.body.classList.remove('preOrgasm')
+
+          ignoreCb ? null : cb(`ERROR: ${e.message || JSON.stringify(e)}`)
         }
       }, 1000)
-      return cb(`Sending ${args[0]} ${args[1]} ETH...`)
+      return ignoreCb ? null :  cb(`Sending ${args[0]} ${args[1]} ETH...`)
     }
 
     else if (command === 'premium') {

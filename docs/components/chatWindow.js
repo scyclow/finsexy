@@ -117,6 +117,7 @@ createComponent(
       .messageContent img {
         width: 100%;
         border: 1px solid var(--light-color);
+        box-shadow: 0 0 10px var(--light-color);
       }
 
       .messageContent p + p {
@@ -279,7 +280,7 @@ createComponent(
         color: var(--light-color);
       }
 
-      time::selection, .date::selection {
+      time::selection, .date::selection, #input::selection {
         background: var(--light-color);
         color: var(--dark-color);
       }

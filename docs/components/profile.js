@@ -428,11 +428,19 @@ createComponent(
       }
     }, 200)
 
-    ctx.$sendButton.onclick = () => {
+
+    const send$ = () => {
       const val = Number(ctx.$sendInput.value)
       if (val) {
-        sexyCLIT.run(name, `$sexy send ${name} ${val}`)
+        sexyCLIT.run(name, `$sexy send ${name} ${val}`, {}, true)
         ctx.$sendInput.value = ''
+      }
+    }
+    ctx.$sendButton.onclick = send$
+
+    ctx.$sendInput.onkeydown = (e) => {
+      if (e.key === 'Enter') {
+        send$()
       }
     }
 

@@ -65,7 +65,10 @@ const yeses = [
   '1',
   'true',
   'i do',
+  'i am',
+  'i sure am',
   'i sure do',
+  'i think so',
   'great',
   'awesome',
   'amazing',
@@ -80,6 +83,8 @@ const yeses = [
   'yessir',
   'more than anything',
   'go ahead',
+  'sounds good',
+  'sounds great',
 ]
 
 const noes = [
@@ -237,20 +242,19 @@ class ChatContext {
     this.user = getUserData
     this.chatName = chatName
     this.chatLS = chatNameLS(chatName)
-    this.lastMessageTimestamp = 0
-    this.lastUserMessageTimestamp = 0
-    this.totalMessages = 0
     this.global = {}
-
-
-
+    this.lastLSWrite = 0
 
     setRunInterval(
       () => {
         const existingContext = this.chatLS.get()
 
-        if (this.history && this.history.length > existingContext.history.length) return
+        if (existingContext.lastLSWrite < this.lastLSWrite) return
 
+        this.lastLSRead = Date.now()
+        this.lastMessageTimestamp = existingContext.lastMessageTimestamp || 0
+        this.lastUserMessageTimestamp = existingContext.lastUserMessageTimestamp || 0
+        this.totalMessages = existingContext.totalMessages || 0
         this.lastDomCodeSent = existingContext.lastDomCodeSent || startingCode || 'START'
         this.state = existingContext.state || {}
         this.eventQueue = existingContext.eventQueue || []
@@ -275,6 +279,8 @@ class ChatContext {
     this.chatLS.set('lastMessageTimestamp', this.lastMessageTimestamp)
     this.chatLS.set('lastUserMessageTimestamp', this.lastUserMessageTimestamp)
     this.chatLS.set('totalMessages', this.totalMessages)
+    this.lastLSWrite = Date.now()
+    this.chatLS.set('lastLSWrite', this.lastLSWrite)
   }
 
   addToEventQueue(msg) {
