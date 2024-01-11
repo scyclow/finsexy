@@ -55,6 +55,7 @@ describe('Doms', () => {
       'HeatherHot',
       'KatFischer',
       'SamanthaJones',
+      'VinceSlickson',
 
     ]
 

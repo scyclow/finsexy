@@ -52,6 +52,10 @@ export const HeatherHotProfile = {
       name: '0x2',
       review: `Heather was really helpful in giving me a lay of the land. A great way to start my findom journey`,
     },
+    {
+      name: '0x3',
+      review: `Every session I have with Heather leaves me 🥵 hot 🥵 and 🥵 bothered 🥵`,
+    },
   ]
 }
 

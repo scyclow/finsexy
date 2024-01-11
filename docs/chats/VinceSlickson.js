@@ -1,5 +1,7 @@
-import { isYes, isNo, isGreeting, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
+
+const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 export const VinceProfile = {
   age: 42,
@@ -15,11 +17,124 @@ export const VinceProfile = {
 }
 
 
+export async function vinceContractInfo(provider) {
+  const networkName = (await provider.getNetwork()).name
+  const contractAddr = {
+    local: '0x02e8910B3B89690d4aeC9fcC0Ae2cD16fB6A4828'
+  }[networkName]
+
+  const abi = [
+    'event Send(address indexed sender, uint256 amount)',
+    'function tributes(address) external view returns (uint256)'
+  ]
+
+  return [contractAddr, abi]
+}
+
+
+
+async function sendEvent1(ctx, contract, provider) {
+  const addr = await provider.isConnected()
+
+  ctx.state.rounds = ctx.state.rounds || 0
+
+  if (contract && addr) {
+    const t = bnToN(await contract.tributes(addr))
+
+    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'thereWeGo', waitMs: 3000 }
+  }
+
+}
+
+
 const VinceMessages = {
-  // __contract() {},
+  async __contract(provider) {
+    const [contractAddr, abi] = await vinceContractInfo(provider)
+
+    return await provider.contract(contractAddr, abi)
+  },
+
+  __precheck(userResponse, ctx, contract, provider, isFollowup) {
+    if (userResponse && isMean(userResponse)) {
+      return {
+        messageText: `Okay, asshole. Have fun staying poor`,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+      }
+    } else if (
+      userResponse
+      && userResponse.trim().toLowerCase().includes('samantha')
+      && !isFollowup
+    ) {
+      ctx.global.mentionedSamanthaToVince = true
+      ctx.state.returnTo = ctx.lastDomCodeSent === 'START' ? 'hello' : ctx.lastDomCodeSent
+
+      return {
+        messageText: `SamanthaJones? What a humorless bitch.`,
+        followUp: fu('samanthaJones1')
+      }
+    }
+  },
+
+  samanthaJones1: {
+    messageText: `She never likes to have any fun`,
+    followUp: fu('samanthaJones2')
+  },
+
+  samanthaJones2: {
+    messageText: `It's all "audit this" and "penalties that`,
+    followUp: fu('samanthaJones3')
+  },
+
+  samanthaJones3: {
+    messageText: `Way too uptight for my taste`,
+    followUp: fu('samanthaJones4')
+  },
+
+  samanthaJones4: {
+    messageText: `I like 'em nice and loose`,
+    followUp: fu('samanthaJones5')
+  },
+
+  samanthaJones5: {
+    messageText: `Although, she does have an incredible rack...`,
+    followUp: fu('samanthaJones6')
+  },
+
+  samanthaJones6: {
+    messageText: `I wouldn't mind itemizing THOSE deductions, if you know what I mean`,
+    followUp: fu('samanthaJones7')
+  },
+
+  samanthaJones7: {
+    messageText: `Maybe give her a little First In First Out`,
+    followUp: fu('samanthaJones8')
+  },
+
+  samanthaJones8: {
+    messageText: `Although with her it's probably more like Last In First Out`,
+    followUp: fu('samanthaJones9')
+  },
+
+  samanthaJones9: {
+    messageText: `We were talking about something else though, weren't we?`,
+    followUp: fu('samanthaJones10')
+  },
+
+  samanthaJones10: {
+    messageText: `Hold on a sec. I need to go pop my stack really quick`,
+    responseHandler(ur, ctx) {
+      return ctx.state.returnTo
+
+    }
+    // followUp: (ur, ctx) => {
+    //   return {messageCode: ctx.state.returnTo, waitMs: 20, ignoreSend: true, ignoreType: true}
+    // }
+  },
 
   START: {
-    responseHandler: () => `hello`
+    responseHandler: `hello`,
+    ignoreSend: true,
+    ignoreType: true
   },
 
   hello: {
@@ -29,17 +144,17 @@ const VinceMessages = {
 
   hello2: {
     messageText: () => `I've seen you clicking around this website, looking for a real hunk`,
-    followUp: { messageCode: 'hello3', waitMs: 3000 },
+    followUp: { messageCode: 'hello3', waitMs: 2000 },
   },
 
   hello3: {
     messageText: () => `Well, today's your lucky day, because you finally found him`,
-    followUp: { messageCode: 'hello4', waitMs: 4000 },
+    followUp: { messageCode: 'hello4', waitMs: 2000 },
   },
 
   hello4: {
     messageText: () => `Hey, I know what you're thinking. I see that sparkle in your eye. You want a piece of this. Not just physically (obviously) but also something deeper. You want a taste of this success. You want to taste it covering your mouth and sliding back down your throat. You want to smell that sweet smell of money more than you want to take your next breath.`,
-    followUp: { messageCode: 'hello5', waitMs: 10000 },
+    followUp: { messageCode: 'hello5', waitMs: 7000 },
   },
 
   hello5: {
@@ -108,50 +223,108 @@ const VinceMessages = {
 
   daddy2: {
     messageText: () => `So I'll tell you what I'm gonna do for you: I'm gonna key you in on a little investment opportunity. That's just the kind of generous guy I am.`,
-    followUp: { messageCode: 'daddy3', waitMs: 4500 },
+    followUp: { messageCode: 'daddy3', waitMs: 3000 },
   },
 
   daddy3: {
     messageText: () => `But keep in mind, you're going to owe me BIG for this one. This is the investment opportunity of a lifetime, and I'm handing it to you on a silver platter.`,
-    followUp: { messageCode: 'daddy4', waitMs: 4500 },
+    followUp: { messageCode: 'daddy4', waitMs: 3000 },
   },
 
   daddy4: {
     messageText: () => `In fact, you'd have to be an <em>idiot</em> to not make money on this...`,
-    followUp: ctx => ctx.state.totalPaid > 0
-      ? { messageCode: 'alreadyPaid', waitMs: 3000 }
-      : { messageCode: 'daddy5', waitMs: 3000 },
+    followUp: fu('daddy5', 3000)
+
   },
 
   daddy5: {
-    messageText: () => `But when you're as succesful as me, you learn one thing: Time = Money.`,
+    messageText: () => `But when you're as succesful as me, you learn not to give anything away for free`,
     followUp: { messageCode: 'daddy6', waitMs: 3000 },
   },
 
   daddy6: {
-    messageText: () => `And my time isn't free, so if you really want this opportunity I'm going to need you to wet my whistle, if you know what I mean`,
+    messageText: () => `So if you want in on this you're gonna need to wet my whistle`,
     followUp: { messageCode: 'daddy7', waitMs: 3000 },
   },
 
   daddy7: {
-    messageText: (response, ctx) => `All you need to do is send me 0.01 ETH, and I'll give you all the info you need to start making fast cash now`,
-    event: (ctx) => {
-      if (ctx.state.totalPaid > 0) {
-        return { messageCode: 'paymentReceived', waitMs: 0 }
-      }
-    }
-    // responseHandler: (response, ctx) => {
-    //   if (ctx.)
-    // }
+    messageText: (ur, ctx) => `Let's say... ${ctx.global.premium * 0.01} ETH`,
+    event: sendEvent1,
+    responseHandler: 'send1Response1'
   },
 
-  alreadyPaid: {
-    messageText: () => `And I see you've already wet my whistle a bit...`
+  send1Response1: {
+    messageText: `C'mon, you know how to do it`,
+    event: sendEvent1,
+    responseHandler: 'send1Response2'
   },
 
-  paymentReceived: {
-    messageText: () => `That's a good little pay piggie`
+  send1Response2: {
+    messageText: (ur, ctx) => `Or maybe ${ctx.global.premium * 0.005} just to see how it feels.`,
+    event: sendEvent1,
+    responseHandler: 'send1Response3'
   },
+
+  send1Response3: {
+    messageText: `You know you want to`,
+    event: sendEvent1,
+    responseHandler: 'send1Response4'
+  },
+
+  send1Response4: {
+    messageText: `This opportunity won't be around for long. You better get in while the gettin's good`,
+    event: sendEvent1,
+    responseHandler: 'send1Response5'
+  },
+
+  send1Response5: {
+    messageText: (ur, ctx) => `I've also been using that sleek new sexy pay system. I think you can send me the ETH by simply typing in <code>$sexy send VinceSlickson ${ctx.global.premium * 0.01}</code>`,
+    event: sendEvent1,
+    responseHandler: 'send1Response1'
+  },
+
+
+  thereWeGo: {
+    messageText: `Oh yeah, there we go!`,
+    followUp: fu('tellMe')
+  },
+
+  tellMe: {
+    messageText: `Tell me that didn't feel amazing`,
+    followUp: fu('sendingMe')
+  },
+
+  sendingMe: {
+    messageText: (ur, ctx) => `Sending me ${ctx.global.premium * 0.01}`,
+    followUp: fu('iKnow')
+  },
+
+  iKnow: {
+    messageText: `I know it did`,
+    followUp: fu('wantAlpha')
+  },
+
+  wantAlpha: {
+    messageText: `You want that alpha, don't you?`,
+    followUp: fu('wantAlphaYes')
+  },
+
+  wantAlphaYes: {
+    messageText: `Yeah, you want that alpha real bad`,
+    followUp: fu('alphaOoze')
+  },
+
+  alphaOoze: {
+    messageText: `I've got alpha oozing out of every pore of my body`,
+    followUp: fu('haveFun')
+  },
+
+  haveFun: {
+    messageText: `And you just want to lick it up`,
+    // followUp: fu('haveFun')
+  },
+
+
 
 
 }
@@ -163,16 +336,6 @@ export const VinceChat = new MessageHandler('VinceSlickson', VinceMessages, 'STA
 /*
 
 
-if asked about samantha
-  ctx.global.mentionedSamanthaToVince = true
-  oh, she's a humorless bitch. what a fucking killjoy. she never likes to have any fun. it's all audit this, and penalties that. way too uptight for my taste
-  although, she does have a fabulous rack. I wouldn't mind itemizing THOSE deductions, if you know what I mean. Maybe give the
-
-  I wouldn't mind staking her assets
-  I wouldn't mind itemizing her deductions
-  I wouldn't mind giving her the old FIFO
-
-Oh yeah, I can't wait to stake <em>your</em> assets.
 
 
 In fact, you'd have to be an <em>idiot</em> to not make money on this...
@@ -185,7 +348,6 @@ All you need to do is send me 0.01 ETH, and I'll give you all the info you need 
 
 
 
-any time accounting or samantha jones is mentioned: "I hate that fuckign bitch. I'm sure she had a lot ot say about me"
 
 
 Oh yeah, you like it when i give you that alpha, don't you?

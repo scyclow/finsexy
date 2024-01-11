@@ -78,6 +78,9 @@ createComponent(
         color: var(--medium-color);
         text-shadow: 0 0 50px var(--primary-color);
       }
+      a:hover {
+        text-decoration: none;
+      }
 
       input {
         color: var(--light-color);

@@ -243,13 +243,17 @@ class ChatContext {
     this.chatName = chatName
     this.chatLS = chatNameLS(chatName)
     this.global = {}
-    this.lastLSWrite = 0
+    this.lastLSRead = 0
 
     setRunInterval(
       () => {
         const existingContext = this.chatLS.get()
 
-        if (existingContext.lastLSWrite < this.lastLSWrite) return
+        if (
+          this.history
+          && existingContext.history.length < this.history.length
+          && this.lastLSRead < ls.get('__LAST_CLEAR_TIME')
+        ) return
 
         this.lastLSRead = Date.now()
         this.lastMessageTimestamp = existingContext.lastMessageTimestamp || 0
@@ -259,6 +263,7 @@ class ChatContext {
         this.state = existingContext.state || {}
         this.eventQueue = existingContext.eventQueue || []
         this.unread = existingContext.unread || 0
+        this.lastLSRead = Date.now()
         this.history = existingContext.history || []
 
 
@@ -279,8 +284,7 @@ class ChatContext {
     this.chatLS.set('lastMessageTimestamp', this.lastMessageTimestamp)
     this.chatLS.set('lastUserMessageTimestamp', this.lastUserMessageTimestamp)
     this.chatLS.set('totalMessages', this.totalMessages)
-    this.lastLSWrite = Date.now()
-    this.chatLS.set('lastLSWrite', this.lastLSWrite)
+
   }
 
   addToEventQueue(msg) {
@@ -382,15 +386,15 @@ export class MessageHandler {
       ) return
 
 
-      const { messageCode, userResponse } = this.ctx.eventQueue.shift()
-      const messageToSend = this.getMessageToSend(messageCode, userResponse)
+      const { messageCode, userResponse, isFollowup } = this.ctx.eventQueue.shift()
+      const messageToSend = this.getMessageToSend(messageCode, userResponse, isFollowup)
 
 
       const followUp = await this.sendFollowup(messageToSend, userResponse)
 
 
       if (followUp) {
-        const messageToSend = this.getMessageToSend(followUp.messageCode, userResponse)
+        const messageToSend = this.getMessageToSend(followUp.messageCode, userResponse, true)
         const estimatedMessageText = await this.sendMessage(messageToSend, userResponse)
         const typingWait = clitLS.get().devIgnoreWait
           ? 50
@@ -403,7 +407,8 @@ export class MessageHandler {
           userResponse,
           messageCode: followUp.messageCode,
           timestamp: Date.now() + wait,
-          typingWait
+          typingWait,
+          isFollowup: true
         })
       }
 
@@ -428,8 +433,14 @@ export class MessageHandler {
   }
 
 
-  getMessageToSend(msgCode, userResponse) {
-    const precheck = this.messages?.__precheck?.(userResponse, this.ctx)
+  getMessageToSend(msgCode, userResponse, isFollowup) {
+    const precheck = userResponse && this.messages?.__precheck?.(
+      userResponse,
+      this.ctx,
+      this.contract,
+      this.provider,
+      isFollowup
+    )
 
     return precheck || this.messages[msgCode]
   }
@@ -437,7 +448,9 @@ export class MessageHandler {
 
 
   async sendMessage(msg, userResponse) {
-    if (!msg.messageText) return
+    if (!msg.messageText) {
+      return ''
+    }
 
     return typeof msg.messageText === 'string'
       ? msg.messageText
@@ -472,6 +485,8 @@ export class MessageHandler {
   }
 
   updateHistory({ from, messageText, messageCode, helpMessage }) {
+    if (!messageText) return
+
     if (!this.isActive) {
       this.ctx.unread += 1
     }
@@ -508,7 +523,7 @@ export class MessageHandler {
 
     const lastMessage = this.getMessageToSend(this.ctx.lastDomCodeSent, userResponse)
 
-    if (lastMessage && lastMessage.responseHandler) {
+    if (lastMessage && (lastMessage.responseHandler || lastMessage.followUp)) {
       const codeToSend = await this.findNextNode(lastMessage, userResponse)
       this.next(userResponse, codeToSend)
     }
@@ -542,7 +557,7 @@ export class MessageHandler {
 
       setTimeout(() => {
         this.registeredChatWindows.forEach(chatWindow =>
-          chatWindow.setState({ isTyping: true })
+          !messageToSend.ignoreType && chatWindow.setState({ isTyping: true })
         )
       }, typingWait)
 

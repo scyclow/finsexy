@@ -10,7 +10,8 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 
 /*
-Testimonial
+TODO
+  - ignore first payment if user has already paid
 
 
 */
@@ -239,7 +240,7 @@ const SamanthaMessages = {
       <p>I regret to inform you that your federal income tax return for the year ending December 31, 2023 has been selected for examination. Our records indicate potential discrepancies and irregularities concerning your reported cryptocurrency transactions.</p>
       <p>The examination will focus primarily on the accuracy and completeness of the information provided regarding your cryptocurrency activities, including but not limited to the acquisition, disposition, and valuation of digital assets. It is imperative that you provide comprehensive documentation, records, and details related to these transactions.</p>
     `,
-    followUp: { messageCode: 'everySquareInch', waitMs: 10000 }
+    followUp: { messageCode: 'everySquareInch', waitMs: 8000 }
   },
 
   everySquareInch: {
@@ -352,7 +353,7 @@ const SamanthaMessages = {
   },
 
   proceed: {
-    messageText: `In order to get a complete picture of your transaction history I need you to send me a comma- or space-delineated list of all wallet addresses you currently have custody over.`,
+    messageText: `In order to get a complete picture of your transaction history I need you to send me a comma- or space-delineated list of all other wallet addresses you currently have custody over.`,
     followUp: fu('fullAddrs')
   },
 
@@ -951,7 +952,10 @@ const SamanthaMessages = {
 
   keepInTouch: {
     messageText: `If you ever need another audit, don't hesitate to get in touch.`,
-    responseHandler: 'helpYou'
+    responseHandler: (ur, ctx) => {
+      ctx.state.rounds += 1
+      return 'helpYou'
+    }
   },
 }
 

@@ -22,6 +22,13 @@ if (clitLS.get().devMode) {
   setTimeout(() => document.body.classList.add('__debug'))
 }
 
+
+export const clearChat = () => {
+  localStorage.removeItem('__CHAT_CONTEXT')
+  ls.set('__LAST_CLEAR_TIME', Date.now())
+  window.location.reload()
+}
+
 export const sexyCLIT = {
   nameToAddress: {},
   nameToContext: {},
@@ -156,8 +163,7 @@ export const sexyCLIT = {
         return cb(`Ignore Wait: ${waitVal}`)
 
       } else if (args[0] === 'clear') {
-        localStorage.removeItem('__CHAT_CONTEXT')
-        window.location.reload()
+        clearChat()
 
         // return cb(`Clearing`)
       } else if (args[0] === 'node') {

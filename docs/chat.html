@@ -159,7 +159,7 @@
     <aside id="devPanel">
       <h1>Dev Panel</h1>
       <div style="display: flex; justify-content: center; margin: 1em auto;">
-        <button onclick="localStorage.removeItem('__CHAT_CONTEXT'); window.location.reload()" style="background: var(--red-color); font-size: 1.5em;">
+        <button id="clearChat" style="background: var(--red-color); font-size: 1.5em;">
           Clear
         </button>
       </div>
@@ -189,14 +189,15 @@
 <script type="module">
   import {MessageHandler, KatChat, HHChat} from './state/all.js'
   import {$, queryParams} from './$.js'
-  import {clitLS} from './state/clit.js'
+  import {clitLS, clearChat} from './state/clit.js'
 
   const $messageSelector = $.id('messageSelector')
   const $chatWindow = $.id('chatWindow')
   const $profilePanel = $.id('profilePanel')
+  const $clearChat = $.id('clearChat')
 
 
-
+  $clearChat.onclick = clearChat
 
 
   const messageNames = Object.keys(MessageHandler.chats)
@@ -342,6 +343,8 @@
 
 
   function updateViewedPanels() {
+
+    MessageHandler.chats[activeChat].ctx.resetUnread()
 
     const order = Object.keys(MessageHandler.chats).sort(
       (a, b) =>
