@@ -17,6 +17,7 @@ TODO
 */
 
 export const SamanthaProfile = {
+  name: 'samanthaJones',
   age: 46,
   distance: 6,
   gender: 'Female',
@@ -188,6 +189,8 @@ export async function samanthaContractInfo(provider) {
 
 
 const SamanthaMessages = {
+  TYPING_SPEED: 1.5,
+
   async __contract(provider) {
     const [contractAddr, abi] = await samanthaContractInfo(provider)
 
@@ -973,7 +976,7 @@ const SamanthaMessages = {
 
 
 
-export const SamanthaChat = new MessageHandler('samanthaJones', SamanthaMessages, 'START')
+export const SamanthaChat = new MessageHandler(SamanthaProfile.name, SamanthaMessages)
 
 
 

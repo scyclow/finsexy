@@ -2,7 +2,7 @@ import {MessageHandler} from '../state/all.js'
 import {createComponent} from '../$.js'
 import {provider} from '../eth.js'
 
-import {winner, profile, chat} from './svg.js'
+import {winner, profile, chat, house} from './svg.js'
 
 
 createComponent(
@@ -61,7 +61,7 @@ createComponent(
       }
       nav a:hover, #mobileMenu:hover {
         color: var(--primary-color);
-        text-shadow: 1px 1px 2px var(--primary-color);
+        text-shadow: 0px 0px 10px var(--medium-color);
       }
 
       nav a:hover svg .svgStroke {
@@ -211,6 +211,12 @@ createComponent(
       <nav id="nav">
         <h4 id="mobileMenu">Menu<span id="totalUnreadsMenu"><span></a></h4>
         <ul id="navItems">
+          <li>
+            <a href="/">
+              <span class="icon">${house}</span>
+              Home
+            </a>
+          </li>
           <li>
             <a href="/chat">
               <span class="icon">${chat}</span>

@@ -5,6 +5,13 @@ import {provider, bnToN} from '../eth.js'
 WORSHIP ME
 
 
+CRYPTO IS JUST ASTROLOGY FOR MEN
+
+
+
+
+
+
 bdsm vampire/succubus, drain your wallet
 
 before engaging, must consent to master/slave dynamic
@@ -164,6 +171,7 @@ next question:
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 export const GoddessJessicaProfile = {
+  name: 'GoddessJessica',
   age: 31,
   distance: 16,
   gender: 'Female',
@@ -215,6 +223,12 @@ export async function goddessContractInfo(provider) {
 }
 
 export const GoddessJessicaMessages = {
+  TYPING_SPEED: 1,
+  START: {
+    responseHandler: `hello`,
+    ignoreSend: true,
+    ignoreType: true
+  },
   async __contract(provider) {
     const [contractAddr, abi] = await goddessContractInfo(provider)
 
@@ -237,11 +251,6 @@ export const GoddessJessicaMessages = {
     // }
   },
 
-  START: {
-    responseHandler: `hello`,
-    ignoreSend: true,
-    ignoreType: true
-  },
 
   hello: {
     async messageText(ur, ctx, contract, provider) {
@@ -366,6 +375,6 @@ export const GoddessJessicaMessages = {
 
 
 
-export const GoddessJessicaChat = new MessageHandler('GoddessJessica', GoddessJessicaMessages, 'START')
+export const GoddessJessicaChat = new MessageHandler(GoddessJessicaProfile.name, GoddessJessicaMessages)
 
 

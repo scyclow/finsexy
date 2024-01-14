@@ -6,6 +6,7 @@ import {provider, bnToN} from '../eth.js'
 
 
 export const KatProfile = {
+  name: 'katFischer',
   age: 23,
   distance: 69,
   gender: 'Female',
@@ -78,6 +79,8 @@ const thirdSendEvent = redirectTo => async (ctx, contract, provider) => {
 
 
 export const KatMessages = {
+  TYPING_SPEED: 1,
+
   async __contract(provider) {
     const [contractAddr, abi] = await katContractInfo(provider)
 
@@ -445,7 +448,7 @@ export const KatMessages = {
 
 }
 
-export const KatChat = new MessageHandler('katFischer', KatMessages, 'START')
+export const KatChat = new MessageHandler(KatProfile.name, KatMessages)
 
 
 

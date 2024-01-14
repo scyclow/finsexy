@@ -332,7 +332,7 @@ export class MessageHandler {
 
   static provider = provider
 
-  constructor(chatName, messages, startingCode) {
+  constructor(chatName, messages, startingCode='START') {
     this.chatName = chatName
     this.messages = messages
     this.registeredChatWindows = []
@@ -545,11 +545,12 @@ export class MessageHandler {
       const estimatedMessageText = await this.sendMessage(messageToSend, userResponse)
       let wait = 0
       let typingWait = 0
+      const domTypingSpeed = this.messages.TYPING_SPEED
 
       if (!clitLS.get().devIgnoreWait) {
         typingWait = 500 + random(750)
         wait = Math.floor(
-          1000*estimatedMessageText.length/80
+          domTypingSpeed*2000*estimatedMessageText.length/80
           + typingWait
           + 500 + random(750)
         )

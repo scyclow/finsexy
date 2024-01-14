@@ -110,15 +110,101 @@ As you await the officer to approach, you reflect on the shame and humiliation f
 
 */
 
+import { isYes, isNo, isGreeting, isMean, MessageHandler } from '../state/conversationRunner.js'
+import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
+
+const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
+
+export const AndyProfile = {
+  name: 'DrAndy',
+  age: 0,
+  distance: 0,
+  gender: '',
+  maxPhotos: 4,
+  description: ``,
+  testimonials: [
+    {
+      name: '0x',
+      review: `Dr Andy was instrumental in helping me overcome my findom addiction.`,
+    },
+    {
+      name: '0x1',
+      review: `I've cycled through more therapists than I can count, and it always left me feeling like I was the problem. How come therapy can fix so many people, but not me? Clearly this was my fault. It was my fault I couldn't be fixed, it was my fault that I was single, and it was my fault that I couldn't love myself. I was the failure. But things were different with Dr Andy. Their warm demeanor and understanding tone created the perfect non-judgemental environment for me to address and correct multiple behavioral issues.`,
+    },
+    {
+      name: '0x1',
+      review: `I always found the psychological component of any kink to be the hottest part. So imagine how excited I got at the idea of <em>findom therapy</em>. There's just something about the combination of using a website, having deep conversations with a robot about my psyche, and sending it money that create the perfect storm for absurdly powerful orgasms!`,
+    },
+    // I know she's really an AI, but I don't care
+    // For some reason I find it's easier to open up to a robot than a real person. At least I don't have to worry about her judging me.
+  ]
+}
 
 
-export const DrAndyTestimonials = {
-  '0x': `Dr Andy was instrumental in helping me overcome my findom addiction.`,
-  '0x1': `I've cycled through more therapists than I can count, and it always left me feeling like I was the problem. How come therapy can fix so many people, but not me? Clearly this was my fault. It was my fault I couldn't be fixed, it was my fault that I was single, and it was my fault that I couldn't love myself. I was the failure. But things were different with Dr Andy. Their warm demeanor and understanding tone created the perfect non-judgemental environment for me to address and correct multiple behavioral issues.`,
-  '0x1': `I always found the psychological component of any kink to be the hottest part. So imagine how excited I got at the idea of <em>findom therapy</em>. There's just something about the combination of using a website, having deep conversations with a robot about my psyche, and sending it money that create the perfect storm for absurdly powerful orgasms!`,
+export async function andyContractInfo(provider) {
+  const networkName = (await provider.getNetwork()).name
+  const contractAddr = {
+    local: '0x9abb5861e3a1eDF19C51F8Ac74A81782e94F8FdC'
+  }[networkName]
 
-  // I know she's really an AI, but I don't care
-  // For some reason I find it's easier to open up to a robot than a real person. At least I don't have to worry about her judging me.
+  const abi = [
+    'event Send(address indexed sender, uint256 amount)',
+    'function tributes(address) external view returns (uint256)'
+  ]
 
+  return [contractAddr, abi]
+}
+
+
+
+async function sendEvent1(ctx, contract, provider) {
+  const addr = await provider.isConnected()
+
+  ctx.state.rounds = ctx.state.rounds || 0
+
+  if (contract && addr) {
+    const t = bnToN(await contract.tributes(addr))
+
+    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: '', waitMs: 3000 }
+  }
 
 }
+
+
+const AndyMessages = {
+  TYPING_SPEED: 1,
+
+  START: {
+    responseHandler: `hello`,
+    ignoreSend: true,
+    ignoreType: true
+  },
+
+  async __contract(provider) {
+    const [contractAddr, abi] = await andyContractInfo(provider)
+
+    return await provider.contract(contractAddr, abi)
+  },
+
+  __precheck(userResponse, ctx, contract, provider, isFollowup) {
+    if (userResponse && isMean(userResponse)) {
+      return {
+        messageText: ``,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+      }
+    }
+  },
+
+  hello: {
+    messageText: `hello`,
+    // followUp: { messageCode: 'hello2', waitMs: 2000 },
+  },
+}
+
+
+
+export const AndyChat = new MessageHandler(AndyProfile.name, AndyMessages)
+
+
+
+

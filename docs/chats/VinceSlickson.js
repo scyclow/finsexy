@@ -52,6 +52,14 @@ async function sendEvent1(ctx, contract, provider) {
 
 
 const VinceMessages = {
+  TYPING_SPEED: 0.5,
+
+  START: {
+    responseHandler: `hello`,
+    ignoreSend: true,
+    ignoreType: true
+  },
+
   async __contract(provider) {
     const [contractAddr, abi] = await vinceContractInfo(provider)
 
@@ -133,12 +141,6 @@ const VinceMessages = {
     // followUp: (ur, ctx) => {
     //   return {messageCode: ctx.state.returnTo, waitMs: 20, ignoreSend: true, ignoreType: true}
     // }
-  },
-
-  START: {
-    responseHandler: `hello`,
-    ignoreSend: true,
-    ignoreType: true
   },
 
   hello: {
@@ -333,7 +335,7 @@ const VinceMessages = {
 
 }
 
-export const VinceChat = new MessageHandler('VinceSlickson', VinceMessages, 'START')
+export const VinceChat = new MessageHandler('VinceSlickson', VinceMessages)
 
 
 

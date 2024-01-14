@@ -20,6 +20,11 @@ async function main() {
     'SamanthaJones',
     'VinceSlickson',
     'GoddessJessica',
+    'DrAndy',
+    'DungeonMistress',
+    'Hacker',
+    'QueenOfDiamonds',
+    'StevieP',
 
   ]
 

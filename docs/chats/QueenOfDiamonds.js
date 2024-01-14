@@ -129,8 +129,91 @@ Are you ready to get absolutely fucking rekt?
 
 `I'm the reason your wife is going to leave you. I'm trouble. 💸 #findom 👑 #brat 🙇‍♀️🙇🙇‍♂️ #spoilme 🥵💦 #paypig 🐷`
 
-export const QueenOfDiamondsTestimonials = {
-  '0x': `GoddessJessica completely ruined my life by extracting at least five figures from my wallet over the course of a weekend. When my wife found out she left me and took the kids. It was so hot. I don't think I've ever cum harder in my life`,
-  '0x': `I like putting the pussy on a pedastal.
-`,
+
+
+import { isYes, isNo, isGreeting, isMean, MessageHandler } from '../state/conversationRunner.js'
+import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
+
+const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
+
+export const QueenProfile = {
+  name: 'QueenOfDiamonds',
+  age: 0,
+  distance: 0,
+  gender: '',
+  maxPhotos: 4,
+  description: ``,
+  testimonials: [
+    {
+      name: '0x',
+      review: `GoddessJessica completely ruined my life by extracting at least five figures from my wallet over the course of a weekend. When my wife found out she left me and took the kids. It was so hot. I don't think I've ever cum harder in my life`,
+    },
+    {
+      name: '0x',
+      review: `I like putting the pussy on a pedastal.`,
+    },
+  ]
 }
+
+
+export async function queenContractInfo(provider) {
+  const networkName = (await provider.getNetwork()).name
+  const contractAddr = {
+    local: '0xF8b299F87EBb62E0b625eAF440B73Cc6b7717dbd'
+  }[networkName]
+
+  const abi = [
+    'event Send(address indexed sender, uint256 amount)',
+    'function tributes(address) external view returns (uint256)'
+  ]
+
+  return [contractAddr, abi]
+}
+
+
+
+async function sendEvent1(ctx, contract, provider) {
+  const addr = await provider.isConnected()
+
+  ctx.state.rounds = ctx.state.rounds || 0
+
+  if (contract && addr) {
+    const t = bnToN(await contract.tributes(addr))
+
+    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: '', waitMs: 3000 }
+  }
+
+}
+
+
+const QueenMessages = {
+  TYPING_SPEED: 1,
+
+  START: {
+    responseHandler: `hello`,
+    ignoreSend: true,
+    ignoreType: true
+  },
+
+  async __contract(provider) {
+    const [contractAddr, abi] = await queenContractInfo(provider)
+
+    return await provider.contract(contractAddr, abi)
+  },
+
+  __precheck(userResponse, ctx, contract, provider, isFollowup) {
+    if (userResponse && isMean(userResponse)) {
+      return {
+        messageText: ``,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+      }
+    }
+  },
+
+  hello: {
+    messageText: `hello`,
+    // followUp: { messageCode: 'hello2', waitMs: 2000 },
+  },
+}
+
+export const QueenChat = new MessageHandler(QueenProfile.name, QueenMessages)

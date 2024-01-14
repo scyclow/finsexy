@@ -1,24 +1,5 @@
 import {createComponent} from '../$.js'
-import {MessageHandler} from '../state/all.js'
-import {KatProfile} from '../chats/katFischer.js'
-import {HeatherHotProfile} from '../chats/heatherHot.js'
-import {HackerProfile} from '../chats/hacker.js'
-import {VinceProfile} from '../chats/VinceSlickson.js'
-import {SamanthaProfile} from '../chats/samanthaJones.js'
-import {GoddessJessicaProfile} from '../chats/GoddessJessica.js'
-
-export const ProfileStats = {
-  katFischer: KatProfile,
-
-  heatherHot: HeatherHotProfile,
-
-  VinceSlickson: VinceProfile,
-
-  samanthaJones: SamanthaProfile,
-
-  hacker: HackerProfile,
-  GoddessJessica: GoddessJessicaProfile
-}
+import {MessageHandler, ProfileStats} from '../state/all.js'
 
 
 
@@ -39,7 +20,8 @@ createComponent(
       }
 
       img {
-        width: 100%
+        width: 100%;
+        display: block;
       }
 
       main {
@@ -57,12 +39,18 @@ createComponent(
         width: calc(100% - 2px);
         display: flex;
         justify-content: space-between;
-        margin-top: -3.3em;
-        margin-left: 1px;
         padding: 0.5em;
-        padding-top: 1.5em;
-        background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(255,0,0,0) 100%);
         text-shadow: 1px -2px 0 #000;
+        /*
+          padding-top: 1.5em;
+          margin-left: 1px;
+          margin-top: -3.3em;
+          background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(255,0,0,0) 100%);
+          pointer-events: none;
+        */
+      }
+
+      figcaption * {
       }
 
       h1 {
@@ -111,11 +99,30 @@ createComponent(
       #imgLeft, #imgRight {
         user-select: none;
         cursor: pointer;
+
+        font-size: 1.25em;
+
+        /*
+          padding: 0.25em;
+          background: rgba(0, 0, 0, 0.3);
+          font-size: 1.5em;
+          border-radius: 50%;
+          display: inline-block;
+          width: 1em;
+          text-align: center;
+          margin: 0.25em;
+        */
       }
 
       #imgLeft:hover, #imgRight:hover {
         color: var(--medium-color);
       }
+
+      /*
+      #imgRight {
+        transform: translateX(-1em);
+      }
+      */
 
       #photoContainer {
         width: 400px;
@@ -227,6 +234,16 @@ createComponent(
         background: var(--green2-color);
       }
 
+      #imgContainer {
+        display: flex;
+        align-items: center;
+      }
+
+      .imgControl {
+        width: 0;
+        z-index: 2;
+      }
+
 
       @media (max-width: 800px) {
         main {
@@ -284,6 +301,7 @@ createComponent(
       }
 
       .unreadContainer {
+        pointer-events: none;
         position: relative;
         height: 0;
         top: 0;
@@ -354,11 +372,24 @@ createComponent(
             <div class="unreadContainer">
               <div id="unread" class="unreadMessage hidden">New Message!</div>
             </div>
-            <div id="photos"></div>
-            <figcaption>
-              <span id="imgLeft">← Previous</span>
-              <span id="imgRight">Next →</span>
-            </figcaption>
+            <div id="imgContainer">
+            <!--
+              <span class="imgControl">
+                <span id="imgLeft">&lt;</span>
+              </span>
+            -->
+              <div id="photos">
+              </div>
+            <!--
+              <span class="imgControl">
+                <span id="imgRight">&gt;</span>
+              </span>
+            -->
+            </div>
+              <figcaption>
+                <span id="imgLeft">← Previous</span>
+                <span id="imgRight">Next →</span>
+              </figcaption>
           </div>
 
           <div class="actions">

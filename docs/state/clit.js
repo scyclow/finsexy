@@ -38,7 +38,7 @@ export const sexyCLIT = {
   register(name, addr, ctx, cb) {
     this.nameToAddress[name] = addr
     this.nameToContext[name] = ctx
-    this.nameToCallback[name] = cb
+    this.nameToCallback[name] = (...args) => setTimeout(() => cb(...args), 200)
   },
 
   run(name, input, ctx) {

@@ -6,6 +6,7 @@ import {createComponent} from '../$.js'
   // make @ link to other profiles
   // uptade text to include @
 
+const FIRST_LOAD = Date.now()
 
 createComponent(
   'chat-window',
@@ -409,11 +410,15 @@ createComponent(
     ) {
       const $lastMessage = renderMessage(last(ctx.state.history), ctx.state.history.length-1)
       ctx.$display.append($lastMessage)
+      // if (last(ctx.state.history).from !== 'you' && FIRST_LOAD < Date.now() - 1000) {
+      //   new Audio('/assets/notification4.mp3').play().catch(noop)
+      // }
 
     } else if (ctx.state.history !== ctx.oldState.history) {
       const $msgElems = ctx.state.history.map(renderMessage)
       $.render(ctx.$display, $msgElems)
     }
+
 
 
     ctx.scroll()

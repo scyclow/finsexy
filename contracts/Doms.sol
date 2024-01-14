@@ -140,36 +140,162 @@ contract GoddessJessica {
   }
 }
 
-
-contract Cagla {
-  // generic
-}
-
-contract CandyCrush {
-  // buy4me
-}
-
 contract DrAndy {
-  // role play
+  mapping(address => uint256) public tributes;
+  event Send(address indexed from, uint256 amount);
+
+  receive() external payable {
+    emit Send(msg.sender, msg.value);
+
+    if (msg.value >= 0.01 ether) {
+      tributes[msg.sender] += 1;
+      _mint(msg.sender);
+    }
+  }
+
+  function withdraw() external {
+
+  }
+
+  function _mint(address sender) internal {
+
+  }
 }
 
 
 contract DungeonMistress {
-  // role play
+  mapping(address => uint256) public tributes;
+  event Send(address indexed from, uint256 amount);
+
+  receive() external payable {
+    emit Send(msg.sender, msg.value);
+
+    if (msg.value >= 0.01 ether) {
+      tributes[msg.sender] += 1;
+      _mint(msg.sender);
+    }
+  }
+
+  function withdraw() external {
+
+  }
+
+  function _mint(address sender) internal {
+
+  }
 }
 
 
 contract Hacker {
-  // blackmail
+  mapping(address => uint256) public tributes;
+  event Send(address indexed from, uint256 amount);
+
+  receive() external payable {
+    emit Send(msg.sender, msg.value);
+
+    if (msg.value >= 0.01 ether) {
+      tributes[msg.sender] += 1;
+      _mint(msg.sender);
+    }
+  }
+
+  function withdraw() external {
+
+  }
+
+  function _mint(address sender) internal {
+
+  }
 }
 
 
 contract QueenOfDiamonds {
-  // money is 25% chance you make her cum; won't give you nft until she cums
+  mapping(address => uint256) public tributes;
+  event Send(address indexed from, uint256 amount);
+
+  receive() external payable {
+    emit Send(msg.sender, msg.value);
+
+    if (msg.value >= 0.01 ether) {
+      tributes[msg.sender] += 1;
+      _mint(msg.sender);
+    }
+  }
+
+  function withdraw() external {
+
+  }
+
+  function _mint(address sender) internal {
+
+  }
 }
 
 
 contract StevieP {
-  // post on twitter
+  mapping(address => uint256) public tributes;
+  event Send(address indexed from, uint256 amount);
+
+  receive() external payable {
+    emit Send(msg.sender, msg.value);
+
+    if (msg.value >= 0.01 ether) {
+      tributes[msg.sender] += 1;
+      _mint(msg.sender);
+    }
+  }
+
+  function withdraw() external {
+
+  }
+
+  function _mint(address sender) internal {
+
+  }
 }
+
+contract Cagla {
+  mapping(address => uint256) public tributes;
+  event Send(address indexed from, uint256 amount);
+
+  receive() external payable {
+    emit Send(msg.sender, msg.value);
+
+    if (msg.value >= 0.01 ether) {
+      tributes[msg.sender] += 1;
+      _mint(msg.sender);
+    }
+  }
+
+  function withdraw() external {
+
+  }
+
+  function _mint(address sender) internal {
+
+  }
+}
+
+contract CandyCrush {
+  mapping(address => uint256) public tributes;
+  event Send(address indexed from, uint256 amount);
+
+  receive() external payable {
+    emit Send(msg.sender, msg.value);
+
+    if (msg.value >= 0.01 ether) {
+      tributes[msg.sender] += 1;
+      _mint(msg.sender);
+    }
+  }
+
+  function withdraw() external {
+
+  }
+
+  function _mint(address sender) internal {
+
+  }
+}
+
 

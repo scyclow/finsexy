@@ -32,8 +32,11 @@ TODO
 
 */
 
+const hasNumber = ur => ur.match(/(\d+)/)
+
 
 export const HeatherHotProfile = {
+  name: 'heatherHot',
   age: 27,
   distance: 2,
   gender: 'Female',
@@ -97,6 +100,8 @@ export async function heatherContractInfo(provider) {
 
 
 const HeatherHotMessages = {
+  TYPING_SPEED: 1.5,
+
   async __contract(provider) {
     const [contractAddr, abi] = await heatherContractInfo(provider)
 
@@ -415,8 +420,8 @@ const HeatherHotMessages = {
     messageText: `Are you really ${Math.floor(getUserData('age'))}?`,
     responseHandler: (ur, ctx) => {
       if (isYes(ur) || !getUserData('age')) return 'ageResponse'
-      else if (ur.match(/(\d+)/)) {
-        const [_age] = ur.match(/(\d+)/)
+      else if (hasNumber(ur)) {
+        const [_age] = hasNumber(ur)
         ctx.state.ageOverride = Number(_age)
         return 'ageResponse'
       } else {
@@ -428,7 +433,7 @@ const HeatherHotMessages = {
   ageAsk: {
     messageText: (ur, ctx) => ctx.state.multipleAgeAsk ? `<em>How</em> old?` : 'Then how old <em>are</em> you?',
     responseHandler: (ur, ctx) => {
-      const [_age] = ur.match(/(\d+)/) || []
+      const [_age] = hasNumber(ur) || []
 
       if (!_age) {
         ctx.state.multipleAgeAsk = true
@@ -469,18 +474,33 @@ const HeatherHotMessages = {
     },
     followUp: (ur, ctx) => {
       const age = ctx.state.ageOverride || getUserData('age')
-      ctx.state.hardStop = age < 18
+      ctx.state.ageStop = age < 18
       ctx.state.veryOld = age >= 125
 
-      if (ctx.state.hardStop) return
+      if (ctx.state.ageStop) return
       else return { messageCode: 'howMuch', waitMs: 2000 }
     },
     responseHandler: (ur, ctx) => {
       const age = ctx.state.ageOverride || getUserData('age')
-      ctx.state.hardStop = age < 18
+      ctx.state.ageStop = age < 18
       ctx.state.veryOld = age >= 125
 
-      if (ctx.state.hardStop) return 'error'
+      if (ctx.state.ageStop) return 'tooYoung'
+    }
+  },
+
+  tooYoung: {
+    messageText: `You're too young to be using this website.`,
+    followUp: { messageCode: 'tooYoung2', waitMs: 2000 }
+  },
+
+  tooYoung2: {
+    messageText: `That is, unless you're actually older than 18...`,
+    responseHandler: (ur, ctx) => {
+      if (hasNumber(ur)) {
+        ctx.state.multipleAgeAsk = true
+      }
+      return 'ageAsk'
     }
   },
 
@@ -683,7 +703,7 @@ const HeatherHotMessages = {
 
 
 
-export const HHChat = new MessageHandler('heatherHot', HeatherHotMessages, 'START')
+export const HHChat = new MessageHandler(HeatherHotProfile.name, HeatherHotMessages)
 
 
 
