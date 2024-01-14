@@ -5,6 +5,7 @@ import {HeatherHotProfile} from '../chats/heatherHot.js'
 import {HackerProfile} from '../chats/hacker.js'
 import {VinceProfile} from '../chats/VinceSlickson.js'
 import {SamanthaProfile} from '../chats/samanthaJones.js'
+import {GoddessJessicaProfile} from '../chats/GoddessJessica.js'
 
 export const ProfileStats = {
   katFischer: KatProfile,
@@ -15,7 +16,8 @@ export const ProfileStats = {
 
   samanthaJones: SamanthaProfile,
 
-  hacker: HackerProfile
+  hacker: HackerProfile,
+  GoddessJessica: GoddessJessicaProfile
 }
 
 
@@ -176,6 +178,12 @@ createComponent(
         padding: 0.5em 1em;
         cursor: pointer;
         transition: 0.2s;
+      }
+
+      #sendError {
+        margin-top: 0.75em;
+        text-align: center;
+        color: var(--red-color);
       }
 
       #sendInput {
@@ -358,6 +366,7 @@ createComponent(
             <div id="sendModule">
               <input id="sendInput" type="number" step="0.01" placeholder="0.01"><button id="sendButton">SEND</button>
             </div>
+            <div id="sendError"></div>
           </div>
         </aside>
 
@@ -396,6 +405,7 @@ createComponent(
     ctx.$sendInput = ctx.$('#sendInput')
     ctx.$testimonials = ctx.$('#testimonials')
     ctx.$testimonialContent = ctx.$('#testimonialContent')
+    ctx.$sendError = ctx.$('#sendError')
 
     if (ctx.getAttribute('sideWindow')) ctx.parent.classList.add('sideWindow')
 
@@ -435,7 +445,15 @@ createComponent(
     const send$ = () => {
       const val = Number(ctx.$sendInput.value)
       if (val) {
-        sexyCLIT.run(name, `$sexy send ${name} ${val}`, {}, true)
+        ctx.$sendError.innerHTML = ''
+        sexyCLIT//.run(name, `$sexy send ${name} ${val}`, {}, true)
+          .send(name, val,
+            (msg) => {},
+            (msg) => {
+              console.log(msg)
+              ctx.$sendError.innerHTML = msg
+            },
+          )
         ctx.$sendInput.value = ''
       }
     }

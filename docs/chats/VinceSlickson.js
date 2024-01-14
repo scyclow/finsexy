@@ -10,8 +10,12 @@ export const VinceProfile = {
   maxPhotos: 4,
   description: `Your prayers have been answered because I'm the man you've been dreaming about`,
   testimonials: [
+    { name: '0x1', review: `He totally turned my life around, both financially AND sexually!`},
     { name: '0x', review: `Every session I have with Vince gets me hot. and. bothered. 🥵`},
-    { name: '0x1', review: ``}
+    { name: '0x1', review: `a true professional`},
+    { name: '0x1', review: `Vince is a real dream boat. He also made me a TON of money!`},
+    { name: '0x1', review: `vince has been a positive male role model in my life and is also very sexy. i like giving him my money`},
+    { name: '0x1', review: `I like the photo where he's on the beach`},
     // A lot of men like participating in no-nut November. But I like saving up my money in november. now my wallet is ready to burst
   ]
 }
@@ -81,7 +85,7 @@ const VinceMessages = {
   },
 
   samanthaJones2: {
-    messageText: `It's all "audit this" and "penalties that`,
+    messageText: `It's all "audit this" and "penalties that"`,
     followUp: fu('samanthaJones3')
   },
 

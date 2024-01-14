@@ -74,14 +74,15 @@
       display: flex;
       flex-direction: column;
       border: 1px solid var(--border-color);
-      transition: 0.2s;
-      box-shadow: 0 0 10px var(--border-color);
+      transition: 0.25s;
+      box-shadow: 0 0 0.625em var(--border-color);
     }
 
     .grid article:hover {
       color: var(--primary-color);
       border-color: var(--primary-color);
       filter: saturate(125%);
+      box-shadow: 0 0 1em var(--primary-color);
     }
 
     .grid img {
@@ -95,6 +96,7 @@
       padding: 0.5em;
       padding-top: 1em;
       background: linear-gradient(0deg, rgba(2,0,36,1) 17%, rgba(255,0,0,0) 100%);
+      text-shadow: -1px -1px 1px var(--dark-color);
     }
 
 
@@ -183,6 +185,8 @@
   import {KatChat} from './chats/katFischer.js'
 
 
+
+
   $.id('links').innerHTML = Object.keys(MessageHandler.chats).map(name => `
     <article>
       <div class="unreadContainer">
@@ -237,10 +241,10 @@
 
     setTimeout(() => {
       if (!KatChat.ctx.history.length && !KatChat.ctx.eventQueue.length) {
-        KatChat.queueEvent('steviep', 60000)
+        KatChat.queueEvent('steviep', 120000)
       }
       if (!HHChat.ctx.history.length && !HHChat.ctx.eventQueue.length) {
-        HHChat.queueEvent('hi', 3000)
+        HHChat.queueEvent('hi', 6000)
       }
 
 

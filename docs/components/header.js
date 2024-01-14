@@ -2,6 +2,8 @@ import {MessageHandler} from '../state/all.js'
 import {createComponent} from '../$.js'
 import {provider} from '../eth.js'
 
+import {winner, profile, chat} from './svg.js'
+
 
 createComponent(
   'sexy-header',
@@ -26,7 +28,13 @@ createComponent(
         text-shadow: 2px 2px var(--dark-color), 3px 3px 2px var(--primary-color);
         font-size: 1em;
         text-decoration: none;
-        color: var(--light-color)
+        color: var(--light-color);
+        transition: 300ms;
+      }
+
+      h1 a:hover {
+        color: var(--medium-color)
+
       }
 
       nav ul {
@@ -56,6 +64,14 @@ createComponent(
         text-shadow: 1px 1px 2px var(--primary-color);
       }
 
+      nav a:hover svg .svgStroke {
+        stroke: var(--primary-color);
+      }
+      nav a:hover svg .svgFill {
+        stroke: var(--primary-color);
+        fill: var(--primary-color);
+      }
+
       #mobileMenu, .displayNone {
         display: none;
       }
@@ -64,6 +80,28 @@ createComponent(
         justify-content: center;
       }
 
+      .icon {
+        display: inline-block;
+        margin-right: 0.5em;
+        transform: translateY(1px);
+      }
+      .icon svg {
+        width: 15px;
+        height: 15px;
+        stroke: var(--light-color);
+
+      }
+      .icon svg .svgStroke {
+        transition: 0.2s;
+        stroke: var(--light-color);
+      }
+
+      .icon svg .svgFill {
+        transition: 0.2s;
+        stroke: var(--light-color);
+        fill: var(--light-color);
+
+      }
 
 
 
@@ -108,7 +146,7 @@ createComponent(
 
       #totalUnreads, #totalUnreadsMenu {
         position: absolute;
-        font-size: 0.5em;
+        font-size: 0.55em;
         font-weight: bolder;
         height: 1em;
         width: 1em;
@@ -123,6 +161,14 @@ createComponent(
         transform: translate(0, -1em);
         border: 1px solid var(--border-color);
         box-shadow: 0 0 1em var(--primary-color)
+      }
+
+      #totalUnreads {
+        transform: translate(-6.1em, -1em);
+      }
+
+      #totalUnreadsMenu {
+        transform: translate(0, -1em);
       }
 
       #totalUnreads.hidden, #totalUnreadsMenu.hidden {
@@ -141,18 +187,21 @@ createComponent(
       }
 
       #connectButton:hover {
-        opacity: 0.65;
+        background: var(--light-color);
+        color: var(--primary-color);
+        animation: none;
+        box-shadow: 0 0 3em var(--primary-color);
       }
 
       @keyframes Glissen {
         0%, 100% {
           background: var(--primary-color);
-          box-shadow: 0 0 2em var(--primary-color);
+          box-shadow: 0 0 3em var(--primary-color);
         }
 
         50% {
           background: var(--secondary-color);
-          box-shadow: 0 0 2em var(--secondary-color);
+          box-shadow: 0 0 3em var(--secondary-color);
         }
       }
     </style>
@@ -162,11 +211,17 @@ createComponent(
       <nav id="nav">
         <h4 id="mobileMenu">Menu<span id="totalUnreadsMenu"><span></a></h4>
         <ul id="navItems">
-          <li><a href="/chat">Chat<span id="totalUnreads" class="hidden"><span></a></li>
+          <li>
+            <a href="/chat">
+              <span class="icon">${chat}</span>
+              Chat
+              <span id="totalUnreads" class="hidden"><span>
+            </a>
+          </li>
           <!--<li><a href="/">Browse</a></li>-->
           <!--<li><a href="#">VIP</a></li>-->
-          <li><a href="/profile">Preferences</a></li>
-          <li><a href="/senders">Top Senders</a></li>
+          <li><a href="/profile"><span class="icon">${profile}</span>Profile</a></li>
+          <li><a href="/senders"><span class="icon">${winner}</span>Top Senders</a></li>
           <li style="margin-right: 1em">
             <connect-wallet>
               <div slot="noWeb3">
@@ -219,6 +274,7 @@ createComponent(
     })
 
 
+    // TODO make this a handler instead of an interval
     setInterval(() => {
       const totalUnreads = MessageHandler.totalUnreads()
 
@@ -234,7 +290,7 @@ createComponent(
         ctx.$totalUnreadsMenu.classList.add('hidden')
 
       }
-    }, 100)
+    }, 500)
   },
   (ctx) => {
     if (ctx.state.hideNav) {

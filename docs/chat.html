@@ -202,6 +202,15 @@
 
   const messageNames = Object.keys(MessageHandler.chats)
 
+  const sortChats = () => Object.keys(MessageHandler.chats)
+    .filter(c => MessageHandler.chats[c].ctx.lastUserMessageTimestamp > 0)
+    .sort(
+    (a, b) =>
+      MessageHandler.chats[a].ctx.lastUserMessageTimestamp
+      - MessageHandler.chats[b].ctx.lastUserMessageTimestamp
+  )
+
+
   // $messageSelector.innerHTML = messageNames.map(name => `
   //   <li
   //     id="${name}-select"
@@ -284,9 +293,11 @@
   }
 
 
+  const topChat = last(sortChats()) || 'heatherHot'
+
   activeChat = Object.keys(MessageHandler.chats).includes(queryParams.activeChat)
     ? queryParams.activeChat
-    : 'heatherHot'
+    : topChat
 
   setTimeout(() => {
     onConvoSelect(activeChat, true)
@@ -342,15 +353,12 @@
   // }, 300)
 
 
+
   function updateViewedPanels() {
 
     MessageHandler.chats[activeChat].ctx.resetUnread()
 
-    const order = Object.keys(MessageHandler.chats).sort(
-      (a, b) =>
-        MessageHandler.chats[a].ctx.lastUserMessageTimestamp
-        - MessageHandler.chats[b].ctx.lastUserMessageTimestamp
-    )
+    const order = sortChats()
 
     Object.keys(MessageHandler.chats).forEach(m => {
       const $unread = $.id(`${m}-unread`)

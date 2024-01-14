@@ -42,6 +42,7 @@ createComponent(
         transition: 0.2s;
         box-shadow: inset 0px 0px 10px #555;
         border: 0px solid rgba(0, 0, 0, 0);
+        font-size: 1.05em;
       }
 
 
@@ -98,8 +99,11 @@ createComponent(
         height: 100%;
         overflow: scroll;
         padding: 0.5em;
-        padding-top: 80px
+        padding-top: 80px;
+      }
 
+      .smoothScroll {
+        scroll-behavior: smooth;
       }
 
       .message {
@@ -267,6 +271,11 @@ createComponent(
         top: 0
       }
 
+      .chatMessage {
+        display: flex;
+        flex-direction: column;
+      }
+
       code {
         display: inline-block;
         padding: 0.5em;
@@ -353,6 +362,11 @@ createComponent(
     ctx.scroll()
 
 
+    setTimeout(() => {
+      ctx.$displayContainer.classList.add('smoothScroll')
+    }, 100)
+
+
   },
   ctx => {
     if (ctx.state.isTyping) {
@@ -361,9 +375,7 @@ createComponent(
       ctx.$isTyping.classList.add('hidden')
     }
 
-
-    ctx.$display.innerHTML = ctx.state.history.map((h, i) =>
-      `
+    const renderMessage = (h, i) => $.div(`
       ${
         i === 0 || getDateTime(ctx.state.history[i-1].timestamp)[0] !== getDateTime(h.timestamp)[0]
           ? `<h5 class="date">${getDateTime(h.timestamp)[0]}</h5>`
@@ -388,8 +400,21 @@ createComponent(
             </time>
           `
       }
-      `
-    ).join('')
+    `, { class: 'chatMessage'})
+
+
+    if (
+      ctx.state.history.length &&
+      ctx.state.history.length === ctx.oldState.history.length + 1
+    ) {
+      const $lastMessage = renderMessage(last(ctx.state.history), ctx.state.history.length-1)
+      ctx.$display.append($lastMessage)
+
+    } else if (ctx.state.history !== ctx.oldState.history) {
+      const $msgElems = ctx.state.history.map(renderMessage)
+      $.render(ctx.$display, $msgElems)
+    }
+
 
     ctx.scroll()
   }

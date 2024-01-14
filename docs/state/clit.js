@@ -41,7 +41,7 @@ export const sexyCLIT = {
     this.nameToCallback[name] = cb
   },
 
-  run(name, input, ctx, ignoreCb) {
+  run(name, input, ctx) {
     const [sexy, command, ...args] = input.trim().split(' ')
     const cb = name
       ? this.nameToCallback[name]
@@ -66,31 +66,7 @@ export const sexyCLIT = {
       `)
     }
     else if (command === 'send') {
-      setTimeout(async () => {
-        const [recipient, amount] = args
-        if (!MessageHandler.chats[recipient]) {
-          return ignoreCb ? null :  cb(`Invalid recipient: ${recipient}`)
-        } else if (isNaN(Number(amount))) {
-          return ignoreCb ? null :  cb(`Invalid amount: ${amount}`)
-        }
-
-        try {
-          document.body.classList.add('preOrgasm')
-          const tx = await provider.signer.sendTransaction({
-            to: MessageHandler.chats[recipient].contract.address,
-            value: toETH(amount)
-          })
-          await tx.wait()
-          document.body.classList.remove('preOrgasm')
-          document.documentElement.classList.add('orgasm')
-        } catch (e) {
-          console.log(e)
-          document.body.classList.remove('preOrgasm')
-
-          ignoreCb ? null : cb(`ERROR: ${e.message || JSON.stringify(e)}`)
-        }
-      }, 1000)
-      return ignoreCb ? null :  cb(`Sending ${args[0]} ${args[1]} ETH...`)
+      this.send(args[0], args[1], cb, cb)
     }
 
     else if (command === 'premium') {
@@ -188,6 +164,35 @@ export const sexyCLIT = {
         <p>Run <code>$sexy help</code> for more options</p>
       `)
     }
+  },
+
+  send(recipient, amount, cb, errorCb) {
+    document.documentElement.classList.remove('orgasm')
+
+    setTimeout(async () => {
+      if (!MessageHandler.chats[recipient]) {
+        return cb(`Invalid recipient: ${recipient}`)
+      } else if (isNaN(Number(amount))) {
+        return cb(`Invalid amount: ${amount}`)
+      }
+
+      try {
+        document.body.classList.add('preOrgasm')
+        const tx = await provider.signer.sendTransaction({
+          to: MessageHandler.chats[recipient].contract.address,
+          value: toETH(amount)
+        })
+        await tx.wait()
+        document.body.classList.remove('preOrgasm')
+        document.documentElement.classList.add('orgasm')
+      } catch (e) {
+        console.log(e)
+        document.body.classList.remove('preOrgasm')
+
+        errorCb(`ERROR: ${e.message || JSON.stringify(e)}`)
+      }
+    }, 300)
+    return cb(`Sending ${recipient} ${amount} ETH...`)
   }
 }
 

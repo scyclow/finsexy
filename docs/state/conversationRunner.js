@@ -434,7 +434,7 @@ export class MessageHandler {
 
 
   getMessageToSend(msgCode, userResponse, isFollowup) {
-    const precheck = userResponse && this.messages?.__precheck?.(
+    const precheck = this.messages?.__precheck?.(
       userResponse,
       this.ctx,
       this.contract,
@@ -497,7 +497,7 @@ export class MessageHandler {
     this.ctx.totalMessages += 1
 
     const historyItem = { from, messageText, messageCode, helpMessage, timestamp: Date.now() }
-    this.ctx.history.push(historyItem)
+    this.ctx.history = [...this.ctx.history, historyItem]
     this.registeredChatWindows.forEach(chatWindow => {
       if (helpMessage) {
         chatWindow.setState({ history: this.ctx.history })

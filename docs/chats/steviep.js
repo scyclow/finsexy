@@ -119,6 +119,88 @@ if ask for SSN
 
 
 
+
+making art is too much of a fucking pain in the ass. it's way easier to convince idiots like you to just give me money.
+
+why bother grinding out these stupid generative art projects?
+busting my ass to make sure that every output looks great
+who fucking cares?
+
+
+
+
+I'll tell you what.
+I'm too lazy to build this into the UI, so you'll have to do this all directly from etherscan
+
+
+
+
+I'll let you on on a little secret
+Don't tell anyone though
+Top secret info
+But first, you gotta pay up.
+You don't think I'd tell you for free, did you?
+
+
+
+Okay
+Here's the secret:
+The sexy doms on this website...
+None of them are actually horny for you.
+But don't take it personally.
+None of them actually have the capacity of horniness.
+The doms you've been talking to are really the result of cutting edge, highly sophisticated artificial intelligence.
+Not just Dr Andy. <em>All</em> of them.
+The wool has been pulled over your eyes this entire time.
+You've been living in a den of lies
+You've been wlaking through a hall of mirrors
+
+But I'll tell you another secret:
+I've been watching you this entire time, sending money to my creations
+And it's abolutely thrilling.
+You can't imagine the rush I feel.
+Not just from creating an experience so immersive that you've completely lost sight of reality
+And not just from taking your money
+But from doing both simulteneously.
+
+
+But don't worry about it. It's no big deal.
+It's not like this is the only time the wool's been pulled over your eyes.
+Who cares if the doms aren't real?
+Think of all the parasocial relationships you have with "real" people
+celebrities, podcasters, social media influencers
+those aren't real relationships. They're all parasocial.
+From where you're standing they might as well not be real.
+
+
+
+
+
+
+
+
+Do you really think that hot, sexy humans would want to talk to you?
+Fuck no.
+You're a goddamn loser.
+Do you know how hard it would be to get an attractive (man/woman) to talk to you?
+I know you're sexless loser
+
+I have you wrapped around my finger.
+
+
+
+
+
+In fact, none of them have the capacity for horniness
+They're just putting on a show for your benefit
+Trying to extract as much money out of you as possible
+
+
+
+
+
+
+
 */
 
 
@@ -128,7 +210,9 @@ export const SteviepTestimonials = {
   '0x2': `I'll do anything stevie p says, and buy anything stevie p makes. I'll even pay him money in exchange for less money. `,
   '0x3': `I've been writing erotica about stevie for years. I'm thrilled that I can finally act out on those fantasies where he takes all of my money`
   '0x4': `What a hunk 😍`,
-  '0x5': `I've always gottens uch a rush from clicking the mint button on his drops. I'm jsut glad that now I can get that same rush from sending him money whenever I want!`
+  '0x5': `I've always gottens uch a rush from clicking the mint button on his drops. I'm jsut glad that now I can get that same rush from sending him money whenever I want!`,
+  '0x6': `I don't know how he does it, but every time I send my orgasm is so powerful it disrupts my entire visual field! `,
+
 }
 
 

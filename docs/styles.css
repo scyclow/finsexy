@@ -42,6 +42,10 @@
 
 }
 
+html {
+  background: var(--bg-color);
+}
+
 body {
   background: var(--bg-color);
   color: var(--light-color);
@@ -169,11 +173,11 @@ code {
 
 @keyframes PreOrgasm {
   0%, 100% {
-    filter: blur(0.5px);
+    filter: blur(0.5px) saturate(1.5);
   }
 
   50% {
-    filter: blur(2.5px);
+    filter: blur(2.5px) saturate(1.5);
   }
 }
 
@@ -181,19 +185,18 @@ code {
 
 @keyframes Orgasm {
   0% {
-    filter: brightness(1) blur(0) saturate(1) ;
+    filter: brightness(1) blur(0) saturate(1);
   }
 
   2.5% {
-    background: var(--light-color);
-    filter: brightness(50) blur(10px) saturate(5) ;
+    filter: brightness(50) blur(10px) saturate(5);
   }
 
   55% {
-    filter: brightness(1.5) blur(0.5px) saturate(2) ;
+    filter: brightness(1.5) blur(0.5px) saturate(2);
   }
 
   100% {
-    filter: brightness(1) blur(0) saturate(1) ;
+    filter: brightness(1) blur(0) saturate(1);
   }
 }

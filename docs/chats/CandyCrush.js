@@ -21,6 +21,8 @@ hmm, let's see. what will i buy with this
 total tease
   " that's all you get for 0.01 ETH"
 
+https://twitter.com/goddexvicious
+
 */
 
 

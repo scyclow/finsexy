@@ -434,7 +434,6 @@ const SamanthaMessages = {
           ])
 
 
-
           ctx.state.FIMTokens = FIMTokens
 
           ctx.state.steviepBalances.FIM += Number(FIMBalance)
@@ -717,9 +716,20 @@ const SamanthaMessages = {
   },
 
   nvcAudit1: {
-    messageText: `It appears as if this asset was issued by the address <code>0x7C23C1b7e544e3e805bA675c811E287fc9d71949</code>, which suffered some sort of loss... And the certificate claims that it is a fractionalization of that loss? Does that all track with you?`,
+    messageText: `It appears as if this asset was issued by the address <code>0x7C23C1b7e544e3e805bA675c811E287fc9d71949</code> after it suffered some sort of loss...`,
+    followUp: fu('nvcAudit1a')
+  },
+
+  nvcAudit1a: {
+    messageText: `Which I'm sure felt <em>amazing</em>...`,
+    followUp: fu('nvcAudit1b')
+  },
+
+  nvcAudit1b: {
+    messageText: `And these certificates claim that they are fractionalizations of that loss? Does that all track with you?`,
     responseHandler: 'nvcAudit2'
   },
+
 
   nvcAudit2: {
     messageText: `Alright. And looking past the completely nonsensical idea of what fractionalizing a negative value actually means, you decided that it would be desirable to... um, incur this value.`,

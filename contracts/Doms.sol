@@ -77,20 +77,6 @@ contract SamanthaJones {
     }
   }
 
-  fallback() external payable {
-    // TODO do i really need this?
-    uint256 requiredTributeValue = tributes[msg.sender] % 2 == 0 ? 0.01 ether : 0.05 ether;
-
-    if (msg.value >= requiredTributeValue) {
-      tributes[msg.sender] += 1;
-
-      if (tributes[msg.sender] % 2 == 0) {
-        _mint(msg.sender);
-
-      }
-    }
-  }
-
   function withdraw() external {
 
   }
@@ -132,6 +118,27 @@ contract VinceSlickson {
 }
 
 
+contract GoddessJessica {
+  mapping(address => uint256) public tributes;
+  event Send(address indexed from, uint256 amount);
+
+  receive() external payable {
+    emit Send(msg.sender, msg.value);
+
+    if (msg.value >= 0.01 ether) {
+      tributes[msg.sender] += 1;
+      _mint(msg.sender);
+    }
+  }
+
+  function withdraw() external {
+
+  }
+
+  function _mint(address sender) internal {
+
+  }
+}
 
 
 contract Cagla {
@@ -151,9 +158,6 @@ contract DungeonMistress {
   // role play
 }
 
-contract GoddessJessica {
-  // initial tribute
-}
 
 contract Hacker {
   // blackmail

@@ -13,11 +13,11 @@ $.id = (selector, elem=document) => Array.isArray(elem)
 
 $.render = (e, children) => {
   if (!children) return
-  else if (typeof children === 'string') e.textContent = children
+  else if (typeof children === 'string') e.innerHTML = children
   else if (Array.isArray(children)) {
     if (typeof children[0] === 'string') {
       children.forEach(child => {
-        e.textContent += (
+        e.innerHTML += (
           typeof child === 'string' ? child : child.outerHTML
         )
       })
@@ -147,6 +147,7 @@ export const createComponent = (tag, templateStr, initialState, onInit, onRender
 
       // Initialize component state (similar to React's state)
       this.state = Object.assign({}, initialState)
+      this.oldState = this.state
       this.events = {}
 
       // Create a shadow DOM and attach it to the element
@@ -179,8 +180,11 @@ export const createComponent = (tag, templateStr, initialState, onInit, onRender
 
     // Define a method to set the component state
     setState(newState) {
+      this.oldState = this.state
       this.state = { ...this.state, ...newState };
-      this.render(); // Re-render the component when state changes
+
+      if (deepEquals(this.state, this.oldState)) return
+      this.render()
     }
 
     // Define a method to render the component
