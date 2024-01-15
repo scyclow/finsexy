@@ -118,7 +118,7 @@ contract VinceSlickson {
 }
 
 
-contract GoddessJessica {
+contract CrystalGoddess {
   mapping(address => uint256) public tributes;
   event Send(address indexed from, uint256 amount);
 

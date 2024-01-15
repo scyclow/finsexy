@@ -150,6 +150,15 @@ export const QueenProfile = {
       review: `GoddessJessica completely ruined my life by extracting at least five figures from my wallet over the course of a weekend. When my wife found out she left me and took the kids. It was so hot. I don't think I've ever cum harder in my life`,
     },
     {
+      name: '0x0',
+      review: `I have a tiny pp and my huge bank account that belongs soley to Queen 🙏`,
+    },
+    {
+      name: '0x1',
+      review: `Queen completely ruined my life 💦😍`,
+    },
+
+    {
       name: '0x',
       review: `I like putting the pussy on a pedastal.`,
     },
@@ -212,9 +221,38 @@ const QueenMessages = {
   },
 
   hello: {
-    messageText: `hello`,
+    messageText: `Hello idiot`,
     // followUp: { messageCode: 'hello2', waitMs: 2000 },
   },
+
+  hello: {
+    async messageText(ur, ctx, contract, provider) {
+      if (!ctx.global.isConnected) {
+        return `Ha, you think you can talk to me without even connecting your wallet? `
+      } else if (await provider.getETHBalance(ctx.global.connectedAddr) < 1) {
+        return `${await provider.getETHBalance(ctx.global.connectedAddr)} ETH? I don't have time for poor people like you. Come back when you have at least 1 ETH to show me.`
+      } else {
+        return `You think you deserve to talk to me? I don't think so`
+      }
+    },
+    async followUp(ur, ctx, contract, provider) {
+      if (!ctx.global.isConnected) {
+        return fu('followUpRejected1')
+      } else if (await provider.getETHBalance(ctx.global.connectedAddr) < 1) {
+        return fu('followUpRejected2')
+      }
+    }
+  },
+
+  helloRejected1: {
+    messageText: `You're out of your league.`,
+    responseHandler: 'hello'
+  },
+  helloRejected2: {
+    messageText: `Go talk to VinceSlickson. Maybe he can help you get some cash`,
+    responseHandler: 'hello'
+  },
+
 }
 
 export const QueenChat = new MessageHandler(QueenProfile.name, QueenMessages)

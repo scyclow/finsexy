@@ -19,7 +19,7 @@ async function main() {
     'KatFischer',
     'SamanthaJones',
     'VinceSlickson',
-    'GoddessJessica',
+    'CrystalGoddess',
     'DrAndy',
     'DungeonMistress',
     'Hacker',

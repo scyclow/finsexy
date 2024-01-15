@@ -177,8 +177,8 @@ next question:
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
-export const GoddessJessicaProfile = {
-  name: 'GoddessJessica',
+export const CrystalGoddessProfile = {
+  name: 'CrystalGoddess',
   age: 31,
   distance: 16,
   gender: 'Female',
@@ -186,16 +186,8 @@ export const GoddessJessicaProfile = {
   description: `Bow down to Goddess Jessica. I'm going to suck you dry and drain you till it hurts. `,
   testimonials: [
     {
-      name: '0x0',
-      review: `I have a tiny pp and my huge bank account that belongs soley to GoddessJessica 🙏`,
-    },
-    {
       name: '0x1',
       review: `I came so hard that I don't even know what money is any more.`,
-    },
-    {
-      name: '0x1',
-      review: `GoddessJessica completely ruined my life 💦😍`,
     },
     {
       name: '0x1',
@@ -229,7 +221,7 @@ export async function goddessContractInfo(provider) {
   return [contractAddr, abi]
 }
 
-export const GoddessJessicaMessages = {
+export const CrystalGoddessMessages = {
   TYPING_SPEED: 1,
   START: {
     responseHandler: `hello`,
@@ -382,6 +374,6 @@ export const GoddessJessicaMessages = {
 
 
 
-export const GoddessJessicaChat = new MessageHandler(GoddessJessicaProfile.name, GoddessJessicaMessages)
+export const CrystalGoddessChat = new MessageHandler(CrystalGoddessProfile.name, CrystalGoddessMessages)
 
 

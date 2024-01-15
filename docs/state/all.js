@@ -5,7 +5,7 @@ export * from './conversationRunner.js'
 export * from '../chats/heatherHot.js'
 export * from '../chats/samanthaJones.js'
 export * from '../chats/VinceSlickson.js'
-export * from '../chats/GoddessJessica.js'
+export * from '../chats/CrystalGoddess.js'
 export * from '../chats/katFischer.js'
 export * from '../chats/DrAndy.js'
 export * from '../chats/DungeonMistress.js'
@@ -17,7 +17,7 @@ import {HeatherHotProfile} from '../chats/heatherHot.js'
 import {SamanthaProfile} from '../chats/samanthaJones.js'
 import {VinceProfile} from '../chats/VinceSlickson.js'
 import {KatProfile} from '../chats/katFischer.js'
-import {GoddessJessicaProfile} from '../chats/GoddessJessica.js'
+import {CrystalGoddessProfile} from '../chats/CrystalGoddess.js'
 import {AndyProfile} from '../chats/DrAndy.js'
 import {MistressProfile} from '../chats/DungeonMistress.js'
 import {HackerProfile} from '../chats/hacker.js'
@@ -37,7 +37,7 @@ export const ProfileStats = {
   samanthaJones: SamanthaProfile,
   VinceSlickson: VinceProfile,
   katFischer: KatProfile,
-  GoddessJessica: GoddessJessicaProfile,
+  CrystalGoddess: CrystalGoddessProfile,
   DrAndy: AndyProfile,
   DungeonMistress: MistressProfile,
   QueenOfDiamonds: QueenProfile,
