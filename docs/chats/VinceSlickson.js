@@ -371,6 +371,15 @@ Whoa there, buddy. I'm not gay or anything. It's just... the money and power are
 
 
 
+https://archive.drsusanblock.com/editorial/AdelphiaAccountingScandal.htm
+Stocks Gone Limp?
+Need Help With Your Figures?
+(Personal, Not Accounting)
+EXPERIENCE TELEPHONE SEX THERAPY
+We're Here for You 24 Hours a Day
+Call 310.454.5353
+
+
 
 
 */

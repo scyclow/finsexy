@@ -5,7 +5,14 @@ import {provider, bnToN} from '../eth.js'
 WORSHIP ME
 
 
-CRYPTO IS JUST ASTROLOGY FOR MEN
+
+Crystal Goddess?
+  rablance your karmic debt
+  CRYPTO IS JUST ASTROLOGY FOR MEN
+  money as electricity/energy/life force
+  your karmic debt is in a negative balance
+
+
 
 
 

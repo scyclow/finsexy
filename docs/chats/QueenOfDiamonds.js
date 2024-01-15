@@ -119,6 +119,7 @@ Are you ready to get absolutely fucking rekt?
 
 
 
+wallet ratings - sort of like dick ratings, but based on what's in your wallet
 
 
 

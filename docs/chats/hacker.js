@@ -76,7 +76,21 @@ const HackerMessages = {
   },
 
   hello: {
-    messageText: `hello`,
+    async messageText(ur, ctx, contract, provider) {
+      return `
+        Send 0.1 in eth to the underneath address (remove***from it):
+
+        ${hackerContractInfo(provider)[0].slice(0, 4)}***${hackerContractInfo(provider)[0].slice(4)}
+
+        You may be thinking why the heck would you do that? Well, prepare yourself simply because I am going to move your world right now. I had a dangerous malware infect your laptop or computer and also record video of YOU (using your cam) when you looked at 'adult' web sites.
+
+        Here's one of your password ${getUserData('password')}
+
+        Still don't believe me? Reply 7 and I will be randomly share your video with 7 people you recognize (Yes, I've access to your address book also).
+
+        Now, what can I want to get this to entire thing go away? Very well, I have already pointed out the particular offer in beginning of the message. Should you not fulfill it within Twenty-four hrs, I'm going to create your life horrible by mailing that video to Everyone you know. Your time frame begins now.
+      `
+    },
     // followUp: { messageCode: 'hello2', waitMs: 2000 },
   },
 }

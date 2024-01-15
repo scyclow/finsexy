@@ -1,6 +1,16 @@
 /*
 
 
+PROMPT
+ bimbo non binary
+
+
+
+
+
+
+
+
   - messages you after you've sent some money
     - hello, it seems like you have a problem. i'm here to help
 
@@ -33,6 +43,140 @@ i take an ecclectic approach that combines several modalities, including psychos
 
 
 Hello! It's nice to meet you.
+
+
+
+
+
+
+
+you find your mind wandering in my direction, as if a magnetic pulse is pulling you towards me. your thougths go quiet, and are replaced by the sound of my voice.
+
+the closer you come, the mmore intoxicated you become. my smell wafts into your nose and seeps into your olifactory glands. my essance hangs in the air around you and slowly makes its way into every one of your orifaces
+
+
+
+
+
+
+As a therapist who practices both CBT and psychodynamic modalities, my approach is focused on helping individuals identify and change patterns of negative thought and behavior that may be contributing to their struggles. In the case of your findom addiction, I would work with you to explore the underlying motivations for this behavior and help you develop healthier coping strategies.
+
+
+- For the therapy to work, i recommend taking a few moments of reflection and writing detailed responses
+- I encourage you to answer honestly and thoughtfully, even though I'm just a robot.
+
+
+[error if user responds too quickly, doesn't meet a certain word count]
+
+Our therapy sessions will be split into three modules, each one designed to do a deep dive into your psyche: Your Parents, Money, and Sex. Once you purchase a module you can rerun it whenever you want by typing in "MODULE X" (where x is either 1, 2, or 3)
+
+Once you complete all three modules you'll be given a certificate of completion
+
+if answer is yes/no + short: "what is it?" "please elaborate" "tell me more"
+
+
+
+
+Intake (free)
+  - Know that everything you say is strictly confidential and kept between us
+  - how much do you currently send to findoms per week?
+  - do you feel that this is currently having a positive or negative impact on your life?
+  - would you like to modify this behavior in some way, or eliminate it all together?
+
+  - i take a psychodynamic approach,
+
+
+
+I'm sorry, but thats all the time we have for today. Let's explore that some more next time. That will be $50. I do not accept insurance, unfortunately. However, if you submit a claim to your insurance provider then there is a chance that this may count towards your out of network deductible.
+
+
+
+
+Session 1
+  Tell me about your past
+    What was your childhood like?
+
+    What was your relationship with your parents like?
+      How did they show affection to each other?
+        Have you seen shades of this in your own romantic and sexual relationships?
+
+      what was there relationship to money?
+        How would you classify your upbringing, socioeconomically speaking?
+        Would you say your parents were cheap?
+        Did they spoil you?
+        Were their career choices driven by money?
+        How did they talk about money with you?
+        What sort of things did they spend money on?
+
+      Have you ever walked in on your parenst having sex?
+
+
+
+
+Session 2
+  What is your relationship to money like today?
+  What is your current job? If you don't have a job, then what do you currently do for money?
+  Why did you initially make the decision to pursue that route?
+  Would you still make the same decision today?
+  How much do you currently make?
+  Does that feel like enough?
+  Do you enjoy gambling? How do you feel when there is a high degree fo uncertainty around your money?
+  When you spend money, how does that make you feel? Excited? dreadful? indifferent?
+  What would you do with the rest of your life if you suddenly had $10 million right now?
+  How about if you suddenly lost all your money and financial resources? What would you do with your life?
+
+
+Session 3
+  Sex
+    Tell me about the first time you masturbated. What was it about? How did you feel afterwards?
+
+    What is your current relationship status?
+      Single
+        Tell me about your dating life. How often do you go on dates? Do you find it easy to find new partners?
+        What are you looking for in a new partner?
+        What does your love/sex life look like in 5 years? 10 years? 20 years?
+        How much do you usually spend per date?
+
+      In a relationship
+        How often do you have sex with your partner?
+        Are you satisfied with the quantity and quality of this sex?
+        If there is one thing you could change about your partner, what would it be?
+        How much money do you spend on your partner per month?
+
+      It's complicated
+        Please, elaborate!
+        How often have you been having sex in the last three months?
+        Are you still dating new people?
+
+    How often do you masturbate?
+
+    Do you look at pornography? If so, how often? What kinds of pornography do you look at?
+
+    Have you ever given money to a non-findom sex worker? (i.e. a prostitute, stripper, onlyfans profile, etc.)
+
+    Is there a sexual fantasy that you have that you are ashamed about?
+    What is it?
+
+
+Conclusion (only available after you've paid fro each session)
+  - Its been a pleasure working with you over these last several sessions. the way your mind works is fascinating, and i've enjoyed analyzing all of your answers
+
+
+
+
+
+https://www.onlygoddesslila.com/findom-addiction-counseling-therapy/
+
+Human ATM Training
+  https://www.pornhub.com/view_video.php?viewkey=64422f23ea265
+
+Free will
+  https://www.pornhub.com/view_video.php?viewkey=654837492a1db
+
+JOI reprogramming NFT?
+  swirly svg visuals
+  text to voice
+  binaural beats audio
 
 
 conclusion:
@@ -108,6 +252,49 @@ As you await the officer to approach, you reflect on the shame and humiliation f
 
 
 
+
+
+
+
+
+diagnose patient with timophilia
+
+Many of my patients have timophilia, which means you have an attraction to money, gold, or wealth
+
+However, given your proclivity to send money away, I suspect that you have a rare varient called vicarious timophilia, which means you
+
+
+it's possible that you could have a form of timophobia
+
+
+
+
+
+
+Timophilia
+https://kinkdictionary.com/uncategorized/timophilia/
+
+
+phone sex therpy
+https://drsusanblockinstitute.com/
+
+
+https://samanthasummersinstitute.org/therapies/#therapy
+
+main image on here
+https://drsusanblockinstitute.com/
+https://drsusanblockinstitute.com/wp-content/uploads/2015/05/Need-To-Talk-Dr-Susan-Block-Institute.jpg
+
+
+
+
+https://archive.drsusanblock.com/Ccbilltheater/HOODS_handjobs.htm
+"Hi Dr. Susan,
+Thank you soooo much for having me
+unannounced on your Show. I had a Great Time!!!!!! You are so brilliant and sexy. You guys do an awesome Job and I don't even have Words. You really were a Milestone for Shayna Knight, Thank you sooo much!
+Keep the Good Work up!!!
+ShaynaKnight"
+
 */
 
 import { isYes, isNo, isGreeting, isMean, MessageHandler } from '../state/conversationRunner.js'
@@ -130,6 +317,10 @@ export const AndyProfile = {
     {
       name: '0x1',
       review: `I've cycled through more therapists than I can count, and it always left me feeling like I was the problem. How come therapy can fix so many people, but not me? Clearly this was my fault. It was my fault I couldn't be fixed, it was my fault that I was single, and it was my fault that I couldn't love myself. I was the failure. But things were different with Dr Andy. Their warm demeanor and understanding tone created the perfect non-judgemental environment for me to address and correct multiple behavioral issues.`,
+    },
+    {
+      name: '0x1',
+      review: `I'M A DIAGNOSED TIMOPHILIAC BABY, I CAN'T GET ENOUGH!`,
     },
     {
       name: '0x1',

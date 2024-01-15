@@ -2,7 +2,8 @@
 goth, dungeon, classic dominatrix torturess, medieval banker
 
 
-QueenOfDiamonds
+midieval vampire sucking your money out
+
 
 you need to pay the queen/goddess/high priestess a tithe
 

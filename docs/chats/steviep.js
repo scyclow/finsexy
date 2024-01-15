@@ -214,7 +214,7 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 export const StevieProfile = {
   name: 'steviep',
-  age: 0,
+  age: 34,
   distance: 0,
   gender: '',
   maxPhotos: 4,
