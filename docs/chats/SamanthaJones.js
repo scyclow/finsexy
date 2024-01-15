@@ -18,7 +18,7 @@ TODO
 */
 
 export const SamanthaProfile = {
-  name: 'samanthaJones',
+  name: 'SamanthaJones',
   age: 46,
   distance: 6,
   gender: 'Female',
@@ -540,7 +540,7 @@ const SamanthaMessages = {
   },
 
   prePay2: {
-    messageText: (ur, ctx) => `You can sexy send me with <code>$sexy send samanthaJones ${ctx.global.premium * 0.01}</code> or just send it to me throug my profile page.`,
+    messageText: (ur, ctx) => `You can sexy send me with <code>$sexy send SamanthaJones ${ctx.global.premium * 0.01}</code> or just send it to me throug my profile page.`,
     event: sendEvent1,
     responseHandler: 'prePay3'
   },

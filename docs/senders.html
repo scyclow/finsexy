@@ -218,7 +218,7 @@
   import {provider, fromWei} from './eth.js'
   import {heatherContractInfo} from './chats/heatherHot.js'
   import {katContractInfo} from './chats/katFischer.js'
-  import {samanthaContractInfo} from './chats/samanthaJones.js'
+  import {samanthaContractInfo} from './chats/SamanthaJones.js'
   import {vinceContractInfo} from './chats/VinceSlickson.js'
 
 
@@ -227,7 +227,7 @@
     const contracts = {
       heatherHot: provider.rawContract(...(await heatherContractInfo(provider))),
       katFischer: provider.rawContract(...(await katContractInfo(provider))),
-      samanthaJones: provider.rawContract(...(await samanthaContractInfo(provider))),
+      SamanthaJones: provider.rawContract(...(await samanthaContractInfo(provider))),
       VinceSlickson: provider.rawContract(...(await vinceContractInfo(provider)))
     }
 

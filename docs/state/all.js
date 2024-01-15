@@ -3,7 +3,7 @@ export * from './profile.js'
 export * from './conversationRunner.js'
 
 export * from '../chats/heatherHot.js'
-export * from '../chats/samanthaJones.js'
+export * from '../chats/SamanthaJones.js'
 export * from '../chats/VinceSlickson.js'
 export * from '../chats/CrystalGoddess.js'
 export * from '../chats/katFischer.js'
@@ -14,7 +14,7 @@ export * from '../chats/QueenOfDiamonds.js'
 export * from '../chats/steviep.js'
 
 import {HeatherHotProfile} from '../chats/heatherHot.js'
-import {SamanthaProfile} from '../chats/samanthaJones.js'
+import {SamanthaProfile} from '../chats/SamanthaJones.js'
 import {VinceProfile} from '../chats/VinceSlickson.js'
 import {KatProfile} from '../chats/katFischer.js'
 import {CrystalGoddessProfile} from '../chats/CrystalGoddess.js'
@@ -34,7 +34,7 @@ if (!ls.get('is18')) {
 
 export const ProfileStats = {
   heatherHot: HeatherHotProfile,
-  samanthaJones: SamanthaProfile,
+  SamanthaJones: SamanthaProfile,
   VinceSlickson: VinceProfile,
   katFischer: KatProfile,
   CrystalGoddess: CrystalGoddessProfile,
