@@ -1,4 +1,4 @@
-import { isYes, isNo, isGreeting, isMean, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, MessageHandler, responseParser } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 import {provider, bnToN} from '../eth.js'
 /*
@@ -19,7 +19,6 @@ Crystal Goddess?
 
 
 
-bdsm vampire/succubus, drain your wallet
 
 before engaging, must consent to master/slave dynamic
 
@@ -172,7 +171,78 @@ next question:
 
 
 
+
+
+
+
+
+Crystal Goddess
+
+https://ascensionglossary.com/index.php/Abuses_of_Power
+  Use Male Privilege
+  Use Economic Abuse
+  Monetizing Human Suffering
+
+
+https://ascensionglossary.com/index.php/Egyptian_Curses#Money_Curses
+https://ascensionglossary.com/index.php/Poverty_Consciousness
+
+https://www.youtube.com/watch?v=mSEAcEBf8gY&ab_channel=JessicaHeslop-ManifestbyJess
+
+https://www.pornhub.com/view_video.php?viewkey=6536d70bc9dc8
+https://www.pornhub.com/view_video.php?viewkey=6536d70bc9dc8
+https://www.pornhub.com/view_video.php?viewkey=64b01923015f7
+
+
+https://www.pornhub.com/view_video.php?viewkey=654837492a1db
+  Findom Brainwashing Femdom Mind Fuck Mezmerize Reprogramming
+  Free will is s very interesting concept...
+  Free will is a burden, isn't it...
+  When you send money, you feel a release. You feel unburdened
+  You don't need ot make any decisions or choices with your money. You can trust me
+  Your money belongs to me. You belong to me. You are my property. Whatever is yours is now mine
+  As my property, you will be my financial slave until i milk you dry
+  You will completely lose everything. You will be in complete financial ruin. You will go bankrupt.
+  You will take out loans because you're so desperate and obsesses. You will borrow money from people you love and care about.
+  You'll take money away from your own future. Just to feed your findom addiction. You're sick. You know that.
+  A tribute is a sign of respect and admiration
+  Financial abuse gives you such a headrush. Such a spike in dopamine. All those happy chemicals.
+
+
 */
+
+
+function getZodiacSign(timestamp) {
+  const date = new Date(timestamp)
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+
+  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) {
+    return 'Aries'
+  } else if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) {
+    return 'Taurus'
+  } else if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) {
+    return 'Gemini'
+  } else if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) {
+    return 'Cancer'
+  } else if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) {
+    return 'Leo'
+  } else if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) {
+    return 'Virgo'
+  } else if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) {
+    return 'Libra'
+  } else if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) {
+    return 'Scorpio'
+  } else if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) {
+    return 'Sagittarius'
+  } else if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) {
+    return 'Capricorn'
+  } else if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) {
+    return 'Aquarius'
+  } else {
+    return 'Pisces'
+  }
+}
 
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
@@ -183,20 +253,20 @@ export const CrystalGoddessProfile = {
   distance: 16,
   gender: 'Female',
   maxPhotos: 4,
-  description: `Bow down to Goddess Jessica. I'm going to suck you dry and drain you till it hurts. `,
+  description: `Bow down to Crystal Goddess. I'm going to suck you dry and drain you till it hurts. `,
   testimonials: [
     {
       name: '0x1',
       review: `I came so hard that I don't even know what money is any more.`,
     },
-    {
-      name: '0x1',
-      review: `Goddess is definitely not a starter dom. It's not a great idea to play with her unless you've done this before. I went to her at a low point in my life. I was sending to doms so often that I didn't even get pleasure from it any more. It left me feeling pretty emotionally drained, and Goddess drained what was left from my wallet. She also drained what was left in my balls.`,
-    },
+    // {
+    //   name: '0x1',
+    //   review: `Goddess is definitely not a starter dom. It's not a great idea to play with her unless you've done this before. I went to her at a low point in my life. I was sending to doms so often that I didn't even get pleasure from it any more. It left me feeling pretty emotionally drained, and Goddess drained what was left from my wallet. She also drained what was left in my balls.`,
+    // },
 
     {
       name: '0x1',
-      review: `Thank you so much Jessica for draining me. You give me purpose in my miserable, pathetic life 🙏`,
+      review: `Thank you so much Goddess for draining me. You give me purpose in my miserable, pathetic life 🙏`,
     },
 
   // - testimonials "i've always been afraid of approaching women in bars"
@@ -235,10 +305,10 @@ export const CrystalGoddessMessages = {
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {
-    if (ctx.state.blocked) {
+    // if (ctx.state.blocked) {
       // TODO return event that unblocks upon send
       // return {}
-    }
+    // }
     // if (userResponse && isMean(userResponse)) {
     //   // return {
     //   //   messageText: `Congratulations. You just earned yourself a 0.01 ETH unblock fee.`,
@@ -252,32 +322,239 @@ export const CrystalGoddessMessages = {
 
 
   hello: {
-    async messageText(ur, ctx, contract, provider) {
-      if (!ctx.global.isConnected) {
-        return `Ha, you think you can talk to me without even connecting your wallet? `
-      } else if (await provider.getETHBalance(ctx.global.connectedAddr) < 1) {
-        return `${await provider.getETHBalance(ctx.global.connectedAddr)} ETH? I don't have time for poor people like you. Come back when you have at least 1 ETH to show me.`
-      } else {
-        return `You think you deserve to talk to me? I don't think so`
-      }
-    },
-    async followUp(ur, ctx, contract, provider) {
-      if (!ctx.global.isConnected) {
-        return fu('followUpRejected1')
-      } else if (await provider.getETHBalance(ctx.global.connectedAddr) < 1) {
-        return fu('followUpRejected2')
-      }
+    messageText: 'Greetings, my little money slave',
+    followUp: fu('godIsWoman')
+  },
+
+  godIsWoman: {
+    messageText: `Are you surprised to learn that God is a woman?`,
+    responseHandler: ur => isNo(ur)
+      ? `unsurprised`
+      : `surprised`
+  },
+
+  unsurprised: {
+    messageText: `Of course not. When you envision the platonic ideal of perfection, does anything other than my perfect body come to mind?`,
+    responseHandler: ur => isNo(ur) ? 'knowSoMuch' : 'pity'
+  },
+
+  knowSoMuch: {
+    messageText: `You think you know so much, don't you?`,
+    followUp: (ur, ctx) => {
+      ctx.state.knowSoMuch = true
+      return fu('doNotUnderstand')
     }
   },
 
-  helloRejected1: {
-    messageText: `You're out of your league.`,
-    responseHandler: 'hello'
+
+
+
+  surprised: {
+    messageText: `Of course you are. Your feeble mind can not comprehend anything other than what's been told to you by so-called "holy" men`,
+    followUp: fu('doNotUnderstand')
   },
-  helloRejected2: {
-    messageText: `Go talk to VinceSlickson. Maybe he can help you get some cash`,
-    responseHandler: 'hello'
+
+
+  pity: {
+    messageText: genderSwitch({
+      m: `Your pitifully small sphere of conscious awareness is matched only by your miniscule genitals`,
+      f: `I will take pitty on you to to the profound level of deception you have suffered at the hands of this patriarchal society`,
+      nb: `I will take pitty on you to to the profound level of deception you have suffered at the hands of this patriarchal society`
+    }),
+    followUp: fu('doNotUnderstand')
   },
+
+  doNotUnderstand: {
+    messageText: (ur, ctx) => `${ctx.state.knowSoMuch ? 'But there' : 'There'} is ${ctx.state.knowSoMuch ? 'still ' : ''}so much you do not understand`
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+  worship: {
+    messageText: `And you know what to do when you encounter perfection, don't you?`,
+    responseHandler: 'worship2'
+  },
+
+  worship2: {
+    messageText: ur => responseParser(ur).includes('worship')
+      ? `That's right. You worship it`
+      : `You worship it.`,
+    followUp: fu('bowDown')
+  },
+
+  notWorthy: {
+    messageText: `You think you are worthy of my attention?`,
+    responseHandler: ur => isYes(ur) ? 'bowDown' : 'notWorthy2',
+  },
+
+  notWorthy2: {
+    messageText: `Thankfully for you, I am a merciful goddess.`,
+    followUp: fu('bowDown')
+  },
+
+  bowDown: {
+    messageText: ur => `So bow down before me, ${getUserData('name')}, and make a vow of devotion to your goddess`,
+    responseHandler: ur => responseParser(ur).includes('i make a vow of devotion to you my goddess')
+      ? 'vowDevotionSuccess'
+      : 'vowDevotionFailure'
+  },
+
+  vowDevotionFailure: {
+    messageText: `I think the words your looking for are: "I make a vow of devotion to you, my goddess"`,
+    responseHandler: ur => responseParser(ur).includes('i make a vow of devotion to you my goddess')
+      ? 'vowDevotionSuccess'
+      : 'vowDevotionFailure'
+  },
+
+
+  vowDevotionSuccess: {
+    messageText: `Excellent.`,
+    followUp: fu('divineOwnership')
+  },
+
+  divineOwnership: {
+    messageText: () => `In taking this vow of devotion, you acknowledge that I, your Goddess, claim divine ownership over you, ${getUserData('name')}`,
+    followUp: fu('assetsToo', 5000)
+  },
+
+  assetsToo: {
+    messageText: `You relenquish control over the entirety of your digital assets, as you have found the burdon of self-sovereign ownership to be too much for your soul to bear`,
+    followUp: fu('freeWill', 5000)
+  },
+
+  // property: {
+  //   messageText: `You are `
+  // },
+
+  freeWill: {
+    messageText: `The responsibility of free will has overwhelmed you. Your stupid little mind collapses under the slightest pressure of decision making`,
+    followUp: fu('youNeedGoddess', 5000)
+  },
+
+
+  youNeedGoddess: {
+    messageText: `You <em>need</em> Goddess to unburden you. To take control of your wallet and make the decisions that you cannot trust yourself to make`,
+    followUp: fu(`thisIsWhy`, 5000)
+  },
+
+
+  thisIsWhy: {
+    messageText: `And this is why you relenquish control to me`,
+    followUp: fu(`youAreWeak`, 5000)
+  },
+
+  youAreWeak: {
+    messageText: `Because you are weak`,
+    followUp: fu(`pathetic`, 5000)
+  },
+
+  pathetic: {
+    messageText: `Because you are pathetic`,
+    followUp: fu(`tooAbstract`, 5000)
+  },
+
+
+
+
+  // you desire a release, to be unburdoned
+
+  tooAbstract: {
+    // messageText: `Because the concept of money is too abstract for your tiny brain to comprehend`,
+    messageText: `Because the concept of ownership fills you with a deep seeded dread.`,
+    followUp: fu('cryptoIdiot', 5000)
+  },
+
+
+
+  // you are an inanimate object to me
+  // you are a NPC
+
+
+
+
+  // Of course a crypto bro such as yourself would ahve no conception of where money even comes from
+  cryptoIdiot: {
+    // messageText: () => `It is unsurprising that a crypto ${genderSwitch({ m: 'bro', f: 'idiot', nb: 'idiot'})} such as yourself would have no conception of where money and value even comes from`,
+    // followUp: fu(`thisIsWhy`)
+  },
+
+
+
+/*
+
+
+what's the point i'm getting at here?
+  you fundamentally don't know how money works or what it is
+  your misunderstanding is deep and metaphyical
+  and you therefore don't deserve to have any
+
+  you don't understand how the blockchain works
+  there's a sort of ineffability to it
+  you fundamentally hold a sort of faith in the fact that it works
+  and there's a collective faith in what gives it value
+  you don't need to understnad it though if you have faith
+
+
+
+
+
+
+you have been manifesting a poverty consciousness
+
+
+  and in return i will realign the numismatic energy of your chakras, rescuing you from a poverty mindset and delivering you to an
+
+  expunge your karmic debt
+
+  we will create an energy bridge
+
+
+  */
+
+
+
+
+  // figures: {
+  //   messageText: ``
+  // }
+
+  // rough: {
+  //   messageText: `Which makes sense. This is a rough time of year for ${getZodiacSign(getUserData('birthday'))}s`
+  // }
+
+
+
+
+
+  // JOI/reprogramming
+    // you don't have free will
+    // you belong to me
+    // you don't deserve to hold money
+    // you crypto bros have no concept of where money even comes from
+
+    // Some people say that time = money
+    // but money is really a project of value that only exists in 5D
+    // much like a two dimensional being cannot understand 3d, I can't expect your feeble little mind to comprehend the value being projected from 5D, and in some cases 7D
+    // the money in your wallet exists as a cosmic imbalance
+    // capitalism relies on destroying mother earth, extracting its resources, and directing all entropy towards
+    // for many years, value was captured in physical form -- that of paper
+    // but value has increasingly been represented digitally over the last 60 years
+    // bringing it to the ethereal realm brings it one step closer
+    // this imbalance creares tension in your body
+    // the value of everything in your wallet
+
+
+
+
 
 
 

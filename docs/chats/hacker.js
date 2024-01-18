@@ -16,6 +16,10 @@ export const HackerProfile = {
     {
       name: '0x72f...daF',
       review: `I don't like this dom at all. `
+    },
+    {
+      name: '0x72f...daF',
+      review: `I knew someone was watching me this entire time. This whole website gives me the creeps`
     }
   ]
 }

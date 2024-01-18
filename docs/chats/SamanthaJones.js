@@ -15,6 +15,7 @@ TODO
 
 0x47144372eb383466D18FC91DB9Cd0396Aa6c87A4, 0x7ccd2EE72a75F7e4776f598c1Be11A119fD8d191, 0xbc3Ced9089e13C29eD15e47FFE3e0cAA477cb069
 
+https://www.loyalfans.com/countessdiamond/video/bank-manager-tricks-you-into-sending
 */
 
 export const SamanthaProfile = {
@@ -49,6 +50,11 @@ export const SamanthaProfile = {
     {
       name: '0x2',
       review: `I'm an absolute mess when it comes to managing my finances. Even thinking about doing my taxes fills me with a deep existential dread. There's something appealing about giving up total control of my balance sheet to her`,
+    },
+
+    {
+      name: '0x2',
+      review: `I love that every transaction I make is out in the open for Samantha to read at her liesure. It gets me so hard.`,
     },
     // dealing with my finances causes me too much anxiety. it's nice to completely give up control
   ]

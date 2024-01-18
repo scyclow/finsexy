@@ -404,17 +404,22 @@ createComponent(
     `, { class: 'chatMessage'})
 
 
+    const lastMessage = last(ctx.state.history)
+
+
+
     if (
       ctx.state.history.length &&
       ctx.state.history.length === ctx.oldState.history.length + 1
     ) {
-      const $lastMessage = renderMessage(last(ctx.state.history), ctx.state.history.length-1)
+      const $lastMessage = renderMessage(lastMessage, ctx.state.history.length-1)
       ctx.$display.append($lastMessage)
       // if (last(ctx.state.history).from !== 'you' && FIRST_LOAD < Date.now() - 1000) {
       //   new Audio('/assets/notification4.mp3').play().catch(noop)
       // }
 
     } else if (ctx.state.history !== ctx.oldState.history) {
+      ctx.$display.innerHTML = ''
       const $msgElems = ctx.state.history.map(renderMessage)
       $.render(ctx.$display, $msgElems)
     }

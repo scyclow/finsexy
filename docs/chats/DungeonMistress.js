@@ -4,6 +4,9 @@ goth, dungeon, classic dominatrix torturess, medieval banker
 
 midieval vampire sucking your money out
 
+bdsm vampire/succubus, drain your wallet
+
+
 
 you need to pay the queen/goddess/high priestess a tithe
 

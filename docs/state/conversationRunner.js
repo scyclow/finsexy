@@ -106,13 +106,12 @@ const noes = [
   'not at all',
   'no thanks',
   'no thank you',
-  `i don't think so`,
   `i dont think so`,
   '0',
   'false',
   `i do not`,
-  `i don't`,
   `i dont`,
+  `i cant`,
   `wrong`,
   `incorrect`,
 ]
@@ -171,7 +170,7 @@ const meanResponses = [
 ]
 
 
-export const responseParser = txt => txt.toLowerCase().trim().replaceAll('!', '').replaceAll('.', '').replaceAll('.', '')
+export const responseParser = txt => txt.toLowerCase().trim().replaceAll('!', '').replaceAll('.', '').replaceAll(',', '').replaceAll('"', '').replaceAll(`'`, '')
 
 function isMatch(txt, phrases) {
   const cleaned = txt.toLowerCase().trim().replaceAll('!', '').replaceAll('.', '').replaceAll('.', '')
@@ -249,11 +248,11 @@ class ChatContext {
       () => {
         const existingContext = this.chatLS.get()
 
-        if (
-          this.history
-          && existingContext.history.length < this.history.length
-          && this.lastLSRead < ls.get('__LAST_CLEAR_TIME')
-        ) return
+        // if (
+        //   this.history
+        //   && existingContext.history.length < this.history.length
+        //   && this.lastLSRead < ls.get('__LAST_CLEAR_TIME')
+        // ) return
 
         this.lastLSRead = Date.now()
         this.lastMessageTimestamp = existingContext.lastMessageTimestamp || 0
@@ -276,6 +275,8 @@ class ChatContext {
   }
 
   updateLS() {
+    if (this.lastLSRead < ls.get('__LAST_CLEAR_TIME')) return
+
     this.chatLS.set('lastDomCodeSent', this.lastDomCodeSent)
     this.chatLS.set('state', this.state)
     this.chatLS.set('eventQueue', this.eventQueue)
@@ -400,7 +401,7 @@ export class MessageHandler {
           ? 50
           :  Math.floor(1000*estimatedMessageText.length/80)
         const wait = clitLS.get().devIgnoreWait
-          ? 0
+          ? 10
           : (followUp.waitMs||0) + random(1000)
 
         this.ctx.addToEventQueue({
@@ -496,7 +497,14 @@ export class MessageHandler {
     this.ctx.lastMessageTimestamp = Date.now()
     this.ctx.totalMessages += 1
 
-    const historyItem = { from, messageText, messageCode, helpMessage, timestamp: Date.now() }
+    const historyItem = {
+      from,
+      messageText,
+      messageCode,
+      helpMessage,
+      id: this.ctx.history.length,
+      timestamp: Date.now()
+    }
     this.ctx.history = [...this.ctx.history, historyItem]
     this.registeredChatWindows.forEach(chatWindow => {
       if (helpMessage) {
@@ -543,8 +551,8 @@ export class MessageHandler {
 
     if (messageToSend) {
       const estimatedMessageText = await this.sendMessage(messageToSend, userResponse)
-      let wait = 0
-      let typingWait = 0
+      let wait = 50
+      let typingWait = 50
       const domTypingSpeed = this.messages.TYPING_SPEED
 
       if (!clitLS.get().devIgnoreWait) {

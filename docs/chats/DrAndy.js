@@ -286,6 +286,8 @@ https://drsusanblockinstitute.com/
 https://drsusanblockinstitute.com/wp-content/uploads/2015/05/Need-To-Talk-Dr-Susan-Block-Institute.jpg
 
 
+https://www.loyalfans.com/countessdiamond/video/findom-therapy-59
+https://www.loyalfans.com/countessdiamond
 
 
 https://archive.drsusanblock.com/Ccbilltheater/HOODS_handjobs.htm

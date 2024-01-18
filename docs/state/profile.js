@@ -43,6 +43,7 @@ export function getUserData(key) {
     name: profileInfo.name,
     gender: profileInfo.gender,
     location: profileInfo.location,
+    birthday: profileInfo.birthday,
     age: getAgeYears(profileInfo.birthday),
     interested: profileInfo.interested,
     fantasy: profileInfo.fantasy,
