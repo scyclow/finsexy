@@ -4,8 +4,9 @@ import {MessageHandler} from './conversationRunner.js'
 
 
 export const clitLS = {
-  get() {
-    return ls.get('__CLIT_STATE') || {}
+  get(k) {
+    const s = ls.get('__CLIT_STATE') || {}
+    return k ? s[k] : s
   },
 
   set(k, v) {
@@ -23,10 +24,10 @@ if (clitLS.get().devMode) {
 }
 
 
-export const clearChat = () => {
+export const clearChat = (ignoreReload=false) => {
   localStorage.removeItem('__CHAT_CONTEXT')
   ls.set('__LAST_CLEAR_TIME', Date.now())
-  window.location.reload()
+  if (!ignoreReload) window.location.reload()
 }
 
 export const sexyCLIT = {
@@ -120,12 +121,6 @@ export const sexyCLIT = {
         `)
       } else if (args[0] === 'debug') {
         const debugVal = args[1] === 'true' ? true : false
-
-        if (debugVal) {
-          document.body.classList.add('__debug')
-        } else {
-          document.body.classList.remove('__debug')
-        }
 
         clitLS.set('devMode', debugVal)
 

@@ -139,6 +139,7 @@ export const ls = {
   }
 }
 
+window.ls = ls
 
 export const createComponent = (tag, templateStr, initialState, onInit, onRender) => {
   class ReactStyleComponent extends HTMLElement {

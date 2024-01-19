@@ -35,6 +35,10 @@
       color: var(--light-color);
     }
 
+    li {
+      /*box-shadow: inset 0 0 0.5em var(--border-color), 0 0 0.5em var(--border-color);*/
+    }
+
     #messageSelector {
       list-style-type: none;
       display: flex;
@@ -42,7 +46,7 @@
     }
     #messageSelector li {
       cursor: pointer;
-      border: 1px solid var(--border-color);
+      /*border: 1px solid var(--border-color);*/
       padding: 1em;
       transition: 0.2s;
     }
@@ -70,6 +74,7 @@
 
     #devPanel, #profilePanel {
       width: 30vw;
+      min-width: 320px;
       overflow: scroll;
       display: none;
     }
@@ -89,15 +94,13 @@
       height: calc(100% - 60px);
     }
 
+    aside {
+      width: 200px;
+    }
+
 
     code, code * {
       font-family: monospace;
-    }
-
-    @media (max-width: 600px) {
-      main {
-        flex-direction: column;
-      }
     }
 
     body {
@@ -140,12 +143,42 @@
       justify-content: space-between;
     }
 
+
+
+    @media (max-width: 900px) {
+      #profilePanel {
+        display: none;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .activeChat #messageSelectorSection {
+        display: none;
+      }
+
+      #messageSelectorSection {
+        width: 100%;
+      }
+      #messageSelectorSection .active {
+        background: none;
+      }
+      #messageSelectorSection li:after {
+        content: '→';
+      }
+
+      .inactiveChat #chatWindow {
+        display: none;
+      }
+    }
+
   </style>
 </head>
+
+
 <body>
   <sexy-header style="flex: 1"></sexy-header>
-  <main>
-    <aside>
+  <main id="main">
+    <aside id="messageSelectorSection">
       <!-- <message-selector id="messageSelector"></message-selector> -->
       <ul id="messageSelector"></ul>
     </aside>
@@ -195,6 +228,7 @@
   const $chatWindow = $.id('chatWindow')
   const $profilePanel = $.id('profilePanel')
   const $clearChat = $.id('clearChat')
+  const $main = $.id('main')
 
 
   $clearChat.onclick = clearChat
@@ -259,6 +293,10 @@
 
   let activeChat
   const onConvoSelect = (id, ignoreHistory=false) => {
+    const url = new URL(window.location)
+    url.searchParams.set('activeChat', activeChat)
+    if (!ignoreHistory) window.history.pushState({ activeChat }, '', url.toString())
+
     if (!ignoreHistory && activeChat === id) return
     activeChat = id
 
@@ -275,10 +313,6 @@
     $.id(id + '-select').classList.add('active')
     activeChatWindow.classList.remove('display-none')
     activeChatWindow.scroll()
-
-    const url = new URL(window.location)
-    url.searchParams.set('activeChat', activeChat)
-    if (!ignoreHistory) window.history.pushState({ activeChat }, '', url.toString())
 
     Object.keys(MessageHandler.chats).forEach(k => {
       if (k === activeChat) {
@@ -306,6 +340,14 @@
 
 
   const updateDevPanel = () => {
+    const showDev = clitLS.get('devMode')
+
+    if (showDev) {
+      document.body.classList.add('__debug')
+    } else {
+      document.body.classList.remove('__debug')
+    }
+
     const chat = MessageHandler.chats[activeChat]
     $.id('chatState').innerText = JSON.stringify(
       {...chat.ctx, history: chat.ctx.history},
@@ -325,7 +367,7 @@
   setInterval(() => {
     updateDevPanel()
     updateViewedPanels()
-  }, 5000)
+  }, 1000)
 
 
   // setRunInterval(() => {
@@ -387,6 +429,7 @@
         $select.style.order = order.findIndex(name => name === m)
       }
     })
+    adjustUI()
   }
   updateViewedPanels()
 
@@ -414,8 +457,23 @@
 
   window.addEventListener('popstate', () => {
     const u = new URL(window.location)
-    onConvoSelect(u.searchParams.get('activeChat') || 'heatherHot', true)
+    const activeChat = u.searchParams.get('activeChat')
+    onConvoSelect(activeChat || topChat, true)
+    adjustUI()
   })
+
+  function adjustUI() {
+    const u = new URL(window.location)
+    const activeChat = u.searchParams.get('activeChat')
+
+    if (activeChat) {
+      $main.classList.add('activeChat')
+      $main.classList.remove('inactiveChat')
+    } else {
+      $main.classList.remove('activeChat')
+      $main.classList.add('inactiveChat')
+    }
+  }
 
 
 

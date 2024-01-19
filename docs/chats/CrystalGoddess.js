@@ -244,8 +244,25 @@ function getZodiacSign(timestamp) {
   }
 }
 
-
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
+
+function diatribe(baseCode, messages, endAction) {
+  return messages.reduce((nodes, messageText, i) => {
+    const action = i === messages.length - 1
+      ? endAction
+      : {followUp: fu(`${baseCode}-${i+1}`)}
+
+    const code = i ? `${baseCode}-${i}` : baseCode
+
+    nodes[code] = {
+      messageText,
+      ...action
+    }
+
+    return nodes
+  }, {})
+}
+
 
 export const CrystalGoddessProfile = {
   name: 'CrystalGoddess',
@@ -364,11 +381,30 @@ export const CrystalGoddessMessages = {
     followUp: fu('doNotUnderstand')
   },
 
-  doNotUnderstand: {
-    messageText: (ur, ctx) => `${ctx.state.knowSoMuch ? 'But there' : 'There'} is ${ctx.state.knowSoMuch ? 'still ' : ''}so much you do not understand`
-  },
+  ...diatribe('doNotUnderstand', [
+    (ur, ctx) => `${ctx.state.knowSoMuch ? 'But there' : 'There'} is ${ctx.state.knowSoMuch ? 'still ' : ''}so much you do not understand`,
+    () => `And crypto ${genderSwitch({ m: 'bros', f: 'idiots', nb: 'idiots'})} don't know what they `,
 
 
+
+    // ''like you worship a false idol
+
+  ], {
+    responseHandler: ''
+  }),
+
+
+
+
+/*
+crypto bros act like they know everything
+but they're really living in their own little fantasy land
+praying to the market
+
+but they don't even know how money works
+
+if you want to m
+*/
 
 
 

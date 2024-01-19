@@ -637,7 +637,7 @@ const HeatherHotMessages = {
   },
 
   sendOrWhat: {
-    messageText: `Are you goint to send or what?`,
+    messageText: `Are you going to send or what?`,
     event: sendEvent,
     responseHandler: 'noCum'
   },

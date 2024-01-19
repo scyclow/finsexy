@@ -29,6 +29,13 @@ https://twitter.com/GoddessAva22
 https://twitter.com/hazelownsyou
 
 
+
+https://www.reddit.com/r/findomsupportgroup/comments/19ahz41/unpopular_opinion_post_nut_clarity/
+  Why the hell are men running the world if they cannot operate their brains at the same time as their genitals?
+  Can you imagine vulva-owners blaming our genitals in the same way?
+  I am however, socially encouraged to play babysitter to men-children who get to decide on everything from whether I earn the same amount as them, to whether I can obtain free contraception.
+
+
 cuckholding: watch me make money
 
 

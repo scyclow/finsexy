@@ -556,7 +556,7 @@ export class MessageHandler {
       const domTypingSpeed = this.messages.TYPING_SPEED
 
       if (!clitLS.get().devIgnoreWait) {
-        typingWait = 500 + random(750)
+        typingWait = 1000 + random(750)
         wait = Math.floor(
           domTypingSpeed*2000*estimatedMessageText.length/80
           + typingWait

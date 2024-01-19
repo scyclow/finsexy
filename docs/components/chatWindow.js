@@ -60,6 +60,7 @@ createComponent(
       #inputArea {
         display: flex;
         border-top: 1px solid var(--border-color);
+        box-shadow: 0 -1px 8px var(--dark-color);
       }
 
       #submit {
@@ -84,7 +85,7 @@ createComponent(
       #chat {
         display: flex;
         flex-direction: column;
-        border: 1px solid var(--border-color);
+        outline: 1px solid var(--border-color);
         height: 100%;
       }
 
@@ -295,12 +296,29 @@ createComponent(
         color: var(--dark-color);
       }
 
+      #back {
+        display: none;
+        text-decoration: none;
+        padding: 1em;
+        padding-left: 0;
+        font-size: 1.25em;
+        text-shadow: 3px 3px 0 var(--dark-color), -1px -1px 0 var(--dark-color), 3px 3px 5px var(--dark-color);
+
+      }
+
+      @media(max-width: 520px) {
+        #back {
+          display: initial;
+        }
+      }
+
 
     </style>
 
     <section id="chat">
       <div id="headerContainer">
         <header>
+          <a id="back" href="/chat">←</a>
           <a id="profileLink">
             <div id="pfpContainer">
               <img id="pfp">

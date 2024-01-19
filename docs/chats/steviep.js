@@ -199,6 +199,13 @@ Trying to extract as much money out of you as possible
 
 
 
+CHALLENGE:
+  - some cheap NFT to mint with arbitrary stupid features
+  - you need to collect a "full set" of findom tribute tokens to get some other stupid shit
+  - riff on $GOO, or some stupid staking/erc20 metchanism
+
+
+
 
 
 */

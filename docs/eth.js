@@ -16,8 +16,6 @@ function isENS(ens) {
 window.toETH = toETH
 window.bnToN = bnToN
 
-const network = 'mainnet'
-const etherscanPrefix = network === 'goerli' ? 'goerli.' : ''
 
 
 
@@ -129,6 +127,7 @@ export class Web3Provider {
   async getNetwork() {
     const network = await this.provider.getNetwork()
     const hasName = network.name && network.name !== 'unknown'
+    const { chainId } = network
 
     let name
     if (network.chainId === 1) {
@@ -145,7 +144,7 @@ export class Web3Provider {
     const etherscanPrefix = name === 'goerli' ? 'goerli.' : ''
 
 
-    return { name, hasName, network, etherscanPrefix }
+    return { name, chainId, hasName, network, etherscanPrefix }
   }
 
   async steviepContracts(networkOverride='') {

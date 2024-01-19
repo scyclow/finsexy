@@ -244,6 +244,9 @@ createComponent(
         z-index: 2;
       }
 
+      aside, #photoContainer {
+        max-width: 100%
+      }
 
       @media (max-width: 800px) {
         main {
@@ -266,10 +269,30 @@ createComponent(
         #sendModule {
           margin-top: 1em
         }
+
+        #content, aside, header {
+          padding: 0;
+        }
+
       }
 
 
+      @media (max-width: 400px) {
+        h1 {
+          font-size: 2.5em
+        }
+      }
 
+
+      .sideWindow #content,
+      .sideWindow aside,
+      .sideWindow header {
+        padding: 0;
+      }
+
+      .sideWindow h1 {
+        font-size: 2.5em
+      }
 
       .sideWindow #chat {
         display: none
