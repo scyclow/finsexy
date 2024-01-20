@@ -208,7 +208,7 @@ contract Hacker {
 }
 
 
-contract QueenOfDiamonds {
+contract QueenJessica {
   mapping(address => uint256) public tributes;
   event Send(address indexed from, uint256 amount);
 

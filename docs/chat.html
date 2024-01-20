@@ -50,6 +50,7 @@
       padding: 1em;
       transition: 0.2s;
       border-bottom: 1px solid var(--border2-color);
+      user-select: none;
     }
     #messageSelector li:hover {
       background: var(--light-color);
@@ -295,8 +296,10 @@
   let activeChat
   const onConvoSelect = (id, ignoreHistory=false) => {
     const url = new URL(window.location)
-    url.searchParams.set('activeChat', activeChat)
-    if (!ignoreHistory) window.history.pushState({ activeChat }, '', url.toString())
+    const existingActiveChat = url.searchParams.get('activeChat')
+    url.searchParams.set('activeChat', id)
+
+    if (!ignoreHistory && existingActiveChat !== id) window.history.pushState({ activeChat }, '', url.toString())
 
     if (!ignoreHistory && activeChat === id) return
     activeChat = id

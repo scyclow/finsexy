@@ -306,8 +306,8 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 export const AndyProfile = {
   name: 'DrAndy',
-  age: 0,
-  distance: 0,
+  age: 24,
+  distance: 12,
   gender: '',
   maxPhotos: 4,
   description: ``,

@@ -310,7 +310,7 @@ const VinceMessages = {
 
   haveFun: {
     messageText: `And you just want to lick it up`,
-    // followUp: fu('haveFun')
+    followUp: fu('haveFun')
   },
 
 

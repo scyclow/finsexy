@@ -385,9 +385,10 @@ createComponent(
     ctx.scroll()
 
 
+
     setTimeout(() => {
       ctx.$displayContainer.classList.add('smoothScroll')
-    }, 100)
+    }, 200)
 
 
   },
@@ -445,7 +446,6 @@ createComponent(
       const $msgElems = ctx.state.history.map(renderMessage)
       $.render(ctx.$display, $msgElems)
     }
-
 
 
     ctx.scroll()

@@ -145,16 +145,16 @@ import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 export const QueenProfile = {
-  name: 'QueenOfDiamonds',
-  age: 0,
-  distance: 0,
-  gender: '',
+  name: 'QueenJessica',
+  age: 29,
+  distance: 13,
+  gender: 'F',
   maxPhotos: 4,
-  description: ``,
+  description: `I'm the reason your wife is going to leave you.`,
   testimonials: [
     {
       name: '0x',
-      review: `GoddessJessica completely ruined my life by extracting at least five figures from my wallet over the course of a weekend. When my wife found out she left me and took the kids. It was so hot. I don't think I've ever cum harder in my life`,
+      review: `QueenJessica completely ruined my life by extracting at least five figures from my wallet over the course of a weekend. When my wife found out she left me and took the kids. It was so hot. I don't think I've ever cum harder in my life`,
     },
     {
       name: '0x0',

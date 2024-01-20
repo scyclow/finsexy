@@ -10,7 +10,7 @@ export * from '../chats/katFischer.js'
 export * from '../chats/DrAndy.js'
 export * from '../chats/DungeonMistress.js'
 export * from '../chats/hacker.js'
-export * from '../chats/QueenOfDiamonds.js'
+export * from '../chats/QueenJessica.js'
 export * from '../chats/steviep.js'
 
 import {HeatherHotProfile} from '../chats/heatherHot.js'
@@ -21,7 +21,7 @@ import {CrystalGoddessProfile} from '../chats/CrystalGoddess.js'
 import {AndyProfile} from '../chats/DrAndy.js'
 import {MistressProfile} from '../chats/DungeonMistress.js'
 import {HackerProfile} from '../chats/hacker.js'
-import {QueenProfile} from '../chats/QueenOfDiamonds.js'
+import {QueenProfile} from '../chats/QueenJessica.js'
 import {StevieProfile} from '../chats/steviep.js'
 // export * from '../chats/cagla.js'
 
@@ -40,7 +40,7 @@ export const ProfileStats = {
   CrystalGoddess: CrystalGoddessProfile,
   DrAndy: AndyProfile,
   DungeonMistress: MistressProfile,
-  QueenOfDiamonds: QueenProfile,
+  QueenJessica: QueenProfile,
   steviep: StevieProfile,
   '0x0': HackerProfile,
 }

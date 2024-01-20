@@ -7,11 +7,11 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 export const HackerProfile = {
   name: '0x0',
-  age: 0,
-  distance: 0,
-  maxPhotos: 0,
+  age: NaN,
+  distance: NaN,
+  maxPhotos: 1,
   description: ``,
-  gender: '',
+  gender: null,
   testimonials: [
     {
       name: '0x72f...daF',
