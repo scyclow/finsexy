@@ -1,4 +1,4 @@
-import { isYes, isNo, isGreeting, isMean, MessageHandler, responseParser } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, MessageHandler, responseParser, diatribe } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 import {provider, bnToN} from '../eth.js'
 /*
@@ -212,6 +212,7 @@ https://www.pornhub.com/view_video.php?viewkey=654837492a1db
 */
 
 
+
 function getZodiacSign(timestamp) {
   const date = new Date(timestamp)
   const month = date.getMonth() + 1
@@ -246,22 +247,7 @@ function getZodiacSign(timestamp) {
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
-function diatribe(baseCode, messages, endAction) {
-  return messages.reduce((nodes, messageText, i) => {
-    const action = i === messages.length - 1
-      ? endAction
-      : {followUp: fu(`${baseCode}-${i+1}`)}
 
-    const code = i ? `${baseCode}-${i}` : baseCode
-
-    nodes[code] = {
-      messageText,
-      ...action
-    }
-
-    return nodes
-  }, {})
-}
 
 
 export const CrystalGoddessProfile = {
@@ -309,7 +295,7 @@ export async function goddessContractInfo(provider) {
 }
 
 export const CrystalGoddessMessages = {
-  TYPING_SPEED: 1,
+  TYPING_SPEED: 1.5,
   START: {
     responseHandler: `hello`,
     ignoreSend: true,
@@ -367,32 +353,77 @@ export const CrystalGoddessMessages = {
 
 
   surprised: {
-    messageText: `Of course you are. Your feeble mind can not comprehend anything other than what's been told to you by so-called "holy" men`,
+    messageText: `Of course you are. Your stupid little mind can't comprehend anything other than what's been told to you by so-called "holy" men`,
     followUp: fu('doNotUnderstand')
   },
 
 
   pity: {
     messageText: genderSwitch({
-      m: `Your pitifully small sphere of conscious awareness is matched only by your miniscule genitals`,
-      f: `I will take pitty on you to to the profound level of deception you have suffered at the hands of this patriarchal society`,
-      nb: `I will take pitty on you to to the profound level of deception you have suffered at the hands of this patriarchal society`
+      m: `Your pitifully small sphere of conscious awareness is matched only by your tiny genitals`,
+      f: `I will take pitty on you, given the profound level of deception you have suffered at the hands of this patriarchal society`,
+      nb: `I will take pitty on you, given the profound level of deception you have suffered at the hands of this patriarchal society`
     }),
     followUp: fu('doNotUnderstand')
   },
 
   ...diatribe('doNotUnderstand', [
     (ur, ctx) => `${ctx.state.knowSoMuch ? 'But there' : 'There'} is ${ctx.state.knowSoMuch ? 'still ' : ''}so much you do not understand`,
-    () => `And crypto ${genderSwitch({ m: 'bros', f: 'idiots', nb: 'idiots'})} don't know what they `,
+    () => `I see you, staying up late at night, staring into the deep void of your computer screen, ${genderSwitch({m: 'erection', f: 'vulva', m: 'genitals'})} in hand, praying to the false idols of market analysis`,
+    `Seeking patterns in the chaos. Trend lines, Candlesticks, Ichimoku Clouds`,
+    `Religiously tracking memes and metas`,
+    `You worship the aura of the rare, searching for a Holy Grail`,
+    `You see monkeys with coins in their eyes and mistake that for wealth`,
+    `You live your life under the belief that you can take your money with you when you die`,
+    `But you do not understand that Charon's Obol will only get you across the lake of fire`,
+    `The simple fact that you are here shows that you've been lead astray`,
+    `@SamanthaJones may have seen all of your transactions, but I've seen more`,
+    `Goddess knows all`,
+  ], {
+    responseHandler: 'doYouWish'
+  }),
+
+  doYouWish: {
+    messageText: `Do you accept your follies and wish to repent?`,
+    responseHandler: ur => isYes(ur) ? 'repent' : 'fool'
+  },
 
 
+  fool: {
+    messageText: `That is because you are truly a fool`,
+    followUp: fu('relent')
+  },
+
+  relent: {
+    messageText: `But you will relent, and I will be here when you do`,
+    responseHandler: 'doYouWish'
+  },
+
+  repent: {
+
+  }
+
+
+
+
+
+
+
+    // `The mechanations of the blockchain `
 
     // ''like you worship a false idol
 
-  ], {
-    responseHandler: ''
-  }),
 
+
+    // () => `And crypto ${genderSwitch({ m: 'bros', f: 'idiots', nb: 'idiots'})} don't know what they `,
+
+
+
+
+
+
+
+// pay me to continuet he download of my wisdom into your consciousness
 
 
 
@@ -415,99 +446,99 @@ if you want to m
 
 
 
-  worship: {
-    messageText: `And you know what to do when you encounter perfection, don't you?`,
-    responseHandler: 'worship2'
-  },
-
-  worship2: {
-    messageText: ur => responseParser(ur).includes('worship')
-      ? `That's right. You worship it`
-      : `You worship it.`,
-    followUp: fu('bowDown')
-  },
-
-  notWorthy: {
-    messageText: `You think you are worthy of my attention?`,
-    responseHandler: ur => isYes(ur) ? 'bowDown' : 'notWorthy2',
-  },
-
-  notWorthy2: {
-    messageText: `Thankfully for you, I am a merciful goddess.`,
-    followUp: fu('bowDown')
-  },
-
-  bowDown: {
-    messageText: ur => `So bow down before me, ${getUserData('name')}, and make a vow of devotion to your goddess`,
-    responseHandler: ur => responseParser(ur).includes('i make a vow of devotion to you my goddess')
-      ? 'vowDevotionSuccess'
-      : 'vowDevotionFailure'
-  },
-
-  vowDevotionFailure: {
-    messageText: `I think the words your looking for are: "I make a vow of devotion to you, my goddess"`,
-    responseHandler: ur => responseParser(ur).includes('i make a vow of devotion to you my goddess')
-      ? 'vowDevotionSuccess'
-      : 'vowDevotionFailure'
-  },
-
-
-  vowDevotionSuccess: {
-    messageText: `Excellent.`,
-    followUp: fu('divineOwnership')
-  },
-
-  divineOwnership: {
-    messageText: () => `In taking this vow of devotion, you acknowledge that I, your Goddess, claim divine ownership over you, ${getUserData('name')}`,
-    followUp: fu('assetsToo', 5000)
-  },
-
-  assetsToo: {
-    messageText: `You relenquish control over the entirety of your digital assets, as you have found the burdon of self-sovereign ownership to be too much for your soul to bear`,
-    followUp: fu('freeWill', 5000)
-  },
-
-  // property: {
-  //   messageText: `You are `
+  // worship: {
+  //   messageText: `And you know what to do when you encounter perfection, don't you?`,
+  //   responseHandler: 'worship2'
   // },
 
-  freeWill: {
-    messageText: `The responsibility of free will has overwhelmed you. Your stupid little mind collapses under the slightest pressure of decision making`,
-    followUp: fu('youNeedGoddess', 5000)
-  },
+  // worship2: {
+  //   messageText: ur => responseParser(ur).includes('worship')
+  //     ? `That's right. You worship it`
+  //     : `You worship it.`,
+  //   followUp: fu('bowDown')
+  // },
+
+  // notWorthy: {
+  //   messageText: `You think you are worthy of my attention?`,
+  //   responseHandler: ur => isYes(ur) ? 'bowDown' : 'notWorthy2',
+  // },
+
+  // notWorthy2: {
+  //   messageText: `Thankfully for you, I am a merciful goddess.`,
+  //   followUp: fu('bowDown')
+  // },
+
+  // bowDown: {
+  //   messageText: ur => `So bow down before me, ${getUserData('name')}, and make a vow of devotion to your goddess`,
+  //   responseHandler: ur => responseParser(ur).includes('i make a vow of devotion to you my goddess')
+  //     ? 'vowDevotionSuccess'
+  //     : 'vowDevotionFailure'
+  // },
+
+  // vowDevotionFailure: {
+  //   messageText: `I think the words your looking for are: "I make a vow of devotion to you, my goddess"`,
+  //   responseHandler: ur => responseParser(ur).includes('i make a vow of devotion to you my goddess')
+  //     ? 'vowDevotionSuccess'
+  //     : 'vowDevotionFailure'
+  // },
 
 
-  youNeedGoddess: {
-    messageText: `You <em>need</em> Goddess to unburden you. To take control of your wallet and make the decisions that you cannot trust yourself to make`,
-    followUp: fu(`thisIsWhy`, 5000)
-  },
+  // vowDevotionSuccess: {
+  //   messageText: `Excellent.`,
+  //   followUp: fu('divineOwnership')
+  // },
+
+  // divineOwnership: {
+  //   messageText: () => `In taking this vow of devotion, you acknowledge that I, your Goddess, claim divine ownership over you, ${getUserData('name')}`,
+  //   followUp: fu('assetsToo', 5000)
+  // },
+
+  // assetsToo: {
+  //   messageText: `You relenquish control over the entirety of your digital assets, as you have found the burdon of self-sovereign ownership to be too much for your soul to bear`,
+  //   followUp: fu('freeWill', 5000)
+  // },
+
+  // // property: {
+  // //   messageText: `You are `
+  // // },
+
+  // freeWill: {
+  //   messageText: `The responsibility of free will has overwhelmed you. Your stupid little mind collapses under the slightest pressure of decision making`,
+  //   followUp: fu('youNeedGoddess', 5000)
+  // },
 
 
-  thisIsWhy: {
-    messageText: `And this is why you relenquish control to me`,
-    followUp: fu(`youAreWeak`, 5000)
-  },
-
-  youAreWeak: {
-    messageText: `Because you are weak`,
-    followUp: fu(`pathetic`, 5000)
-  },
-
-  pathetic: {
-    messageText: `Because you are pathetic`,
-    followUp: fu(`tooAbstract`, 5000)
-  },
+  // youNeedGoddess: {
+  //   messageText: `You <em>need</em> Goddess to unburden you. To take control of your wallet and make the decisions that you cannot trust yourself to make`,
+  //   followUp: fu(`thisIsWhy`, 5000)
+  // },
 
 
+  // thisIsWhy: {
+  //   messageText: `And this is why you relenquish control to me`,
+  //   followUp: fu(`youAreWeak`, 5000)
+  // },
+
+  // youAreWeak: {
+  //   messageText: `Because you are weak`,
+  //   followUp: fu(`pathetic`, 5000)
+  // },
+
+  // pathetic: {
+  //   messageText: `Because you are pathetic`,
+  //   followUp: fu(`tooAbstract`, 5000)
+  // },
 
 
-  // you desire a release, to be unburdoned
 
-  tooAbstract: {
-    // messageText: `Because the concept of money is too abstract for your tiny brain to comprehend`,
-    messageText: `Because the concept of ownership fills you with a deep seeded dread.`,
-    followUp: fu('cryptoIdiot', 5000)
-  },
+
+  // // you desire a release, to be unburdoned
+
+  // tooAbstract: {
+  //   // messageText: `Because the concept of money is too abstract for your tiny brain to comprehend`,
+  //   messageText: `Because the concept of ownership fills you with a deep seeded dread.`,
+  //   followUp: fu('cryptoIdiot', 5000)
+  // },
 
 
 
@@ -518,10 +549,10 @@ if you want to m
 
 
   // Of course a crypto bro such as yourself would ahve no conception of where money even comes from
-  cryptoIdiot: {
+  // cryptoIdiot: {
     // messageText: () => `It is unsurprising that a crypto ${genderSwitch({ m: 'bro', f: 'idiot', nb: 'idiot'})} such as yourself would have no conception of where money and value even comes from`,
     // followUp: fu(`thisIsWhy`)
-  },
+  // },
 
 
 

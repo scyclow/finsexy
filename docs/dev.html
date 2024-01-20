@@ -290,6 +290,10 @@
 
   $.id('clearChat').onclick = clearChat
   $.id('clearLs').onclick = () => localStorage.clear()
+
+  if (clitLS.get('devMode')) $.id('devMode').checked = true
+  if (clitLS.get('devIgnoreWait')) $.id('ignoreWait').checked = true
+
   $.id('devMode').onchange = (e) => {
     clitLS.set('devMode', e.target.checked)
   }

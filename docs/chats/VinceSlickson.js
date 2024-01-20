@@ -1,4 +1,4 @@
-import { isYes, isNo, isGreeting, isMean, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, diatribe, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 
 const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
@@ -52,7 +52,7 @@ async function sendEvent1(ctx, contract, provider) {
 
 
 const VinceMessages = {
-  TYPING_SPEED: 0.5,
+  TYPING_SPEED: 0.4,
 
   START: {
     responseHandler: `hello`,
@@ -81,7 +81,7 @@ const VinceMessages = {
       ctx.state.returnTo = ctx.lastDomCodeSent === 'START' ? 'hello' : ctx.lastDomCodeSent
 
       return {
-        messageText: `SamanthaJones? What a humorless bitch.`,
+        messageText: `@SamanthaJones? What a humorless bitch.`,
         followUp: fu('samanthaJones1')
       }
     }
@@ -143,46 +143,29 @@ const VinceMessages = {
     // }
   },
 
-  hello: {
-    messageText: () => `Hey ${genderSwitch({m: 'buddy', w: 'sweetheart', nb: 'buddy'})}`,
-    followUp: { messageCode: 'hello2', waitMs: 2000 },
-  },
+  ...diatribe('hello', [
+    () => `Hey ${genderSwitch({m: 'buddy', w: 'sweetheart', nb: 'buddy'})}`,
+    `I've seen you clicking around this website, looking for a real hunk`,
+    `Well, today's your lucky day, because you finally found him`,
+    `Hey, I know what you're thinking`,
+    `I see that sparkle in your eye`,
+    `You want a piece of this`,
+    `Not just physically (obviously) but also something deeper`,
+    `You want a taste of this success`,
+    `You want to taste it covering your mouth and sliding back down your throat`,
+    `You want to smell that sweet smell of money more than you want to take your next breath`,
+    () => `And the thought of this all is making you unbearably ${genderSwitch({m: 'hard', w: 'wet', nb: 'aroused'})} 😉`,
+  ], {
+    followUp: fu('needThatTaste', 4000)
+  }, 2000),
 
-  hello2: {
-    messageText: () => `I've seen you clicking around this website, looking for a real hunk`,
-    followUp: { messageCode: 'hello3', waitMs: 2000 },
-  },
-
-  hello3: {
-    messageText: () => `Well, today's your lucky day, because you finally found him`,
-    followUp: { messageCode: 'hello4', waitMs: 2000 },
-  },
-
-  hello4: {
-    messageText: () => `Hey, I know what you're thinking. I see that sparkle in your eye. You want a piece of this. Not just physically (obviously) but also something deeper. You want a taste of this success. You want to taste it covering your mouth and sliding back down your throat. You want to smell that sweet smell of money more than you want to take your next breath.`,
-    followUp: { messageCode: 'hello5', waitMs: 7000 },
-  },
-
-  hello5: {
-    messageText: () => `And the thought of this all is making you unbearably ${genderSwitch({m: 'hard', w: 'wet', nb: 'aroused'})} 😉`,
-    followUp: { messageCode: 'hello6', waitMs: 4000 },
-  },
-
-  hello6: {
+  needThatTaste: {
     messageText: () => `I bet you can't take it any more. You need that taste right now. Isn't that right?`,
-    responseHandler: 'hello7'
-    // response => {
-    //   if (isNo(response)) {
-    //     return 'hello6no'
-    //   } else if (isYes) {
-    //     return 'hello6yes'
-    //   } else {
-    //     return 'hello6no'
-    //   }
-    // },
+    responseHandler: 'cantResist'
+
   },
 
-  hello7: {
+  cantResist: {
     messageText: userResponse => isNo(userResponse)
       ? `C'mon, don't play games. I know you want some of this`
       : `Haha, I thought so. I knew you couldn't resist.`,

@@ -178,8 +178,8 @@ function isMatch(txt, phrases) {
   const singleWordPhrases = phrases.filter(phrase => phrase.split(' ').length === 1)
 
   return (
-    multipleWordPhrases.some(phrase => txt.includes(phrase)) ||
-    singleWordPhrases.some(phrase => txt.split(' ').includes(phrase))
+    multipleWordPhrases.some(phrase => cleaned.includes(phrase)) ||
+    singleWordPhrases.some(phrase => cleaned.split(' ').includes(phrase))
   )
 }
 
@@ -191,6 +191,27 @@ export const isPositive = txt => isMatch(txt, positives) && !isNegate(txt)
 export const isNegative = txt => isMatch(txt, negatives)
 export const isMean = txt => isMatch(txt, meanResponses)
 
+export const diatribe = (baseCode, messages, endAction, waitMs=2000) => {
+  return messages.reduce((nodes, messageText, i) => {
+    const action = i === messages.length - 1
+      ? endAction
+      : {
+          followUp: {
+            messageCode: `${baseCode}-${i+1}`,
+            waitMs
+          }
+        }
+
+    const code = i ? `${baseCode}-${i}` : baseCode
+
+    nodes[code] = {
+      messageText,
+      ...action
+    }
+
+    return nodes
+  }, {})
+}
 
 
 /*
@@ -371,66 +392,66 @@ export class MessageHandler {
       }
     }, 1000)
 
-    setRunInterval(async () => {
-      if (
-        this.ctx.eventQueue.length &&
-        Date.now() + this.ctx.eventQueue[0].typingWait > this.ctx.eventQueue[0].timestamp
-      ) {
-        this.registeredChatWindows.forEach(chatWindow =>
-          !this.ctx.eventQueue[0].ignoreType && chatWindow.setState({ isTyping: true })
-        )
-      }
-
-      if (
-        !this.ctx.eventQueue.length ||
-        this.ctx.eventQueue[0].timestamp > Date.now()
-      ) return
-
-
-      const { messageCode, userResponse, isFollowup } = this.ctx.eventQueue.shift()
-      const messageToSend = this.getMessageToSend(messageCode, userResponse, isFollowup)
-
-
-      const followUp = await this.sendFollowup(messageToSend, userResponse)
-
-
-      if (followUp) {
-        const messageToSend = this.getMessageToSend(followUp.messageCode, userResponse, true)
-        const estimatedMessageText = await this.sendMessage(messageToSend, userResponse)
-        const typingWait = clitLS.get().devIgnoreWait
-          ? 50
-          :  Math.floor(1000*estimatedMessageText.length/80)
-        const wait = clitLS.get().devIgnoreWait
-          ? 10
-          : (followUp.waitMs||0) + random(1000)
-
-        this.ctx.addToEventQueue({
-          userResponse,
-          messageCode: followUp.messageCode,
-          timestamp: Date.now() + wait,
-          typingWait,
-          isFollowup: true
-        })
-      }
-
-
-
-      this.ctx.lastDomCodeSent = messageCode
-
-      if (messageToSend.ignoreSend) return
-
-      this.updateHistory({
-        messageCode: messageCode,
-        messageText: await this.sendMessage(messageToSend, userResponse),
-        from: this.chatName,
-      })
-    }, 100)
+    setRunInterval(this.handleQueue.bind(this), 100)
 
     MessageHandler.chats[chatName] = this
   }
 
   static totalUnreads() {
     return Object.keys(MessageHandler.chats).reduce((sum, k) => sum + MessageHandler.chats[k].ctx.unread, 0)
+  }
+
+  async handleQueue() {
+    if (!this.ctx.eventQueue.length) return
+    const nextMessage = this.ctx.eventQueue[0]
+    const now = Date.now()
+
+    if (
+      nextMessage.startTyping <= now
+      && !nextMessage.ignoreType
+    ) {
+      this.registeredChatWindows.forEach(chatWindow =>
+        chatWindow.setState({ isTyping: true })
+      )
+    }
+    else {
+      if (nextMessage.startTyping) console.log(now - nextMessage.startTyping)
+      else if (nextMessage.isFollowup) debugger
+    }
+
+
+
+    if (nextMessage.timestamp > now) return
+
+    const { messageCode, userResponse, isFollowup } = this.ctx.eventQueue.shift()
+    const messageToSend = this.getMessageToSend(messageCode, userResponse, isFollowup)
+
+    const followUp = await this.sendFollowup(messageToSend, userResponse)
+
+
+    if (followUp) {
+      const messageToSend = this.getMessageToSend(followUp.messageCode, userResponse, true)
+      const estimatedMessageText = await this.sendMessage(messageToSend, userResponse)
+      const [typingWait, wait] = this.waitTimes(estimatedMessageText, 250)
+
+      this.ctx.addToEventQueue({
+        userResponse,
+        messageCode: followUp.messageCode,
+        timestamp: now + wait,
+        startTyping: now + typingWait,
+        isFollowup: true
+      })
+    }
+
+    this.ctx.lastDomCodeSent = messageCode
+
+    if (messageToSend.ignoreSend) return
+
+    this.updateHistory({
+      messageCode: messageCode,
+      messageText: await this.sendMessage(messageToSend, userResponse),
+      from: this.chatName,
+    })
   }
 
 
@@ -546,23 +567,31 @@ export class MessageHandler {
     })
   }
 
+  waitTimes(estimatedMessageText, typingWaitFactor) {
+    const domTypingSpeed = this.messages.TYPING_SPEED
+
+    if (clitLS.get().devIgnoreWait) {
+      return [50, 50]
+    } else {
+      const typingWait = 1000 + random(typingWaitFactor)
+      const wait = Math.floor(
+        Math.max(
+          1500,
+          domTypingSpeed*25*estimatedMessageText.length
+          + 500 + random(750)
+        )
+        + typingWait
+      )
+      return [typingWait, wait]
+    }
+  }
+
   async next(userResponse, codeToSend) {
     const messageToSend = this.getMessageToSend(codeToSend, userResponse)
 
     if (messageToSend) {
       const estimatedMessageText = await this.sendMessage(messageToSend, userResponse)
-      let wait = 50
-      let typingWait = 50
-      const domTypingSpeed = this.messages.TYPING_SPEED
-
-      if (!clitLS.get().devIgnoreWait) {
-        typingWait = 1000 + random(750)
-        wait = Math.floor(
-          domTypingSpeed*2000*estimatedMessageText.length/80
-          + typingWait
-          + 500 + random(750)
-        )
-      }
+      const [typingWait, wait] = this.waitTimes(estimatedMessageText, 750)
 
       setTimeout(() => {
         this.registeredChatWindows.forEach(chatWindow =>

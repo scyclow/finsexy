@@ -77,7 +77,7 @@ async function sendEvent(ctx, contract, provider) {
   if (contract && addr) {
     const t = bnToN(await contract.tributes(addr))
 
-    if (t > ctx.state.rounds) return { messageCode: 'soGood', waitMs: 3000 }
+    if (t > ctx.state.rounds) return { messageCode: 'soGood', waitMs: 6000 }
   }
 
 }
@@ -275,12 +275,12 @@ const HeatherHotMessages = {
   },
 
   affordable: {
-    messageText: `It's also more affordable than a lot of the doms you'll find on other platforms. The founder of this website, steviep, told me that it has something to do with economies of scale.`,
+    messageText: `It's also more affordable than a lot of the doms you'll find on other platforms. The founder of this website, @steviep, told me that it has something to do with economies of scale.`,
     followUp: { messageCode: 'steviep', waitMs: 3500 }
   },
 
   steviep: {
-    messageText: () => `steviep is sooooo hot. You should message him when you get a chance${interestedSwitch({
+    messageText: () => `@steviep is sooooo hot. You should message him when you get a chance${interestedSwitch({
       f: `... Oh wait, according to your finsub application it looks like you don't like being dommed by men. That's a shame. He's soooo hot. But hey, some people are just prudes. If you decide to change your finsub application to say you like men I won't tell 😉`,
       m: '',
       nb: '',

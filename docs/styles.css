@@ -6,7 +6,9 @@
 
 :root {
   --primary-color: #ff00c7;
-  --border-color: #887888;
+  /*--border-color: #887888;*/
+  --border-color: #524552;
+  --border2-color: #29202a;
   --light-color: #fff8ff;
   --medium-color: #ff66ff;
   --dark-color: #120211;

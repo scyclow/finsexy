@@ -276,7 +276,7 @@ createComponent(
     }
 
     provider.onConnect(async (addr) => {
-      ctx.$connected.innerHTML = `<div style="color:var(--medium-color); padding: 0.5em; text-decoration: underline">${await provider.formatAddr(addr)}</div>`
+      ctx.$connected.innerHTML = `<div style="color:var(--medium-color); padding: 0.5em">${await provider.formatAddr(addr)}</div>`
     })
 
 

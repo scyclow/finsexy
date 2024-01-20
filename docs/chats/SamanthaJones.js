@@ -71,9 +71,8 @@ async function sendEvent1(ctx, contract, provider) {
 
   if (contract && addr) {
     const t = bnToN(await contract.tributes(addr))
-    console.log(t, addr)
 
-    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'edgeOff', waitMs: 3000 }
+    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'edgeOff', waitMs: 6000 }
   }
 
 }
@@ -196,7 +195,7 @@ export async function samanthaContractInfo(provider) {
 
 
 const SamanthaMessages = {
-  TYPING_SPEED: 1.5,
+  TYPING_SPEED: 1.1,
 
   async __contract(provider) {
     const [contractAddr, abi] = await samanthaContractInfo(provider)
@@ -802,7 +801,7 @@ const SamanthaMessages = {
   },
 
   cashAudit: {
-    messageText: `Oh, now I see why you are into findom. steviep really took you for a ride here.`,
+    messageText: `Oh, now I see why you are into findom. @steviep really took you for a ride here.`,
     followUp: fu('cashAudit2')
   },
 
@@ -828,7 +827,7 @@ const SamanthaMessages = {
 // nevertheless, if you received this in an airdrop then
 
   fastCashAudit2: {
-    messageText: `Did VinceSlickson sell this to you? He's a real fucking slime ball. But I have to say, the way he takes advantage of poor little unsuspecting investors such as yourself gives him a certain charm. He'd never go for a girl like me though. He must think I'm too uptight.`,
+    messageText: `Did @VinceSlickson sell this to you? He's a real fucking slime ball. But I have to say, the way he takes advantage of poor little unsuspecting investors such as yourself gives him a certain charm. He'd never go for a girl like me though. He must think I'm too uptight.`,
     followUp: fu('fastCashAudit3')
   },
 
@@ -876,7 +875,7 @@ const SamanthaMessages = {
 
 
   tenEthAudit: {
-    messageText: `I hope you understand that redeeming this token will constitute a transaction of more than $10,000 USD, which means that you will need to report steviep's social security number. `,
+    messageText: `I hope you understand that redeeming this token will constitute a transaction of more than $10,000 USD, which means that you will need to report @steviep's social security number. `,
     followUp(ur, ctx) {
       ctx.state.auditsRemaining.TenEth = 0
       return fu('oneByOneReview')
@@ -944,20 +943,20 @@ const SamanthaMessages = {
   damage: {
     messageText: (ur, ctx) => `Alright, I can't take any more foreplay. The damage comes out to ${ctx.global.premium * 0.05}. You can send to me either through the sexy clit or my profile page.`,
     event: sendEvent2,
-    followUp: fu('penaltiesNow')
+    responseHandler: 'penaltiesNow'
   },
 
   penaltiesNow: {
     messageText: `I need your penalties. In my wallet. Now.`,
     event: sendEvent2,
-    followUp: fu('readyToBurst')
+    responseHandler: 'readyToBurst'
   },
 
 
   readyToBurst: {
     messageText: ` I've had this desire slowly building up inside me since the beginning of our conversation, and I'm just about ready to burst.`,
     event: sendEvent2,
-    followUp: fu('damage')
+    responseHandler: 'damage'
   },
 
   feltGood: {

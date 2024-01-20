@@ -303,7 +303,11 @@ createComponent(
         padding-left: 0;
         font-size: 1.25em;
         text-shadow: 3px 3px 0 var(--dark-color), -1px -1px 0 var(--dark-color), 3px 3px 5px var(--dark-color);
+        transition: 0.2s;
+      }
 
+      #back:hover {
+        color: var(--medium-color);
       }
 
       @media(max-width: 520px) {

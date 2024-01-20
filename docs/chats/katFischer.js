@@ -54,26 +54,33 @@ const firstSendEvent = redirectTo => async (ctx, contract, provider) => {
 
   if (contract && isConnected) {
     const t = bnToN(await contract.tributes(await provider.signer.getAddress()))
-    console.log(t)
+
     // TODO if user waits too long, redirect to "Are you still there, baby? I can't stop thinking about you"
     if (t > 0) {
-      return { messageCode: redirectTo, waitMs: 3000 }
+      return { messageCode: redirectTo, waitMs: 1000 }
     }
   }
 }
 
 const secondSendEvent = redirectTo => async (ctx, contract, provider) => {
   const isConnected = await provider.isConnected()
+  if (contract && isConnected) {
+    const t = bnToN(await contract.tributes(await provider.signer.getAddress()))
 
-  if (isConnected && ctx.state.totalPaid >= ctx.state.sentFromPreviousRounds + 0.02) {
-    return { messageCode: redirectTo, waitMs: 3000 }
+    if (isConnected && t % 3 > 1) {
+      return { messageCode: redirectTo, waitMs: 5000 }
+    }
   }
 }
 
 const thirdSendEvent = redirectTo => async (ctx, contract, provider) => {
   const isConnected = await provider.isConnected()
-  if (isConnected && ctx.state.totalPaid >= ctx.state.sentFromPreviousRounds + 0.03) {
-    return { messageCode: redirectTo, waitMs: 3000 }
+  if (contract && isConnected) {
+    const t = bnToN(await contract.tributes(await provider.signer.getAddress()))
+
+    if (isConnected && t && t % 3 === 0) {
+      return { messageCode: redirectTo, waitMs: 5000 }
+    }
   }
 }
 
@@ -99,7 +106,7 @@ export const KatMessages = {
   },
 
   sorry:   {
-    messageText: () => `You're not steviep?`,
+    messageText: () => `You're not @steviep?`,
     responseHandler: () => 'typingError'
   },
 

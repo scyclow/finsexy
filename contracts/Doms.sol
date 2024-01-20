@@ -17,7 +17,6 @@ contract KatFischer {
       tributes[msg.sender] += 1;
 
       if (tributes[msg.sender] > 0 && tributes[msg.sender] % 3 == 0) {
-        tributes[msg.sender] = 0;
         _mint(msg.sender);
 
       }
