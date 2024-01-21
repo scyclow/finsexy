@@ -172,7 +172,7 @@ const meanResponses = [
 
 export const responseParser = txt => txt.toLowerCase().trim().replaceAll('!', '').replaceAll('.', '').replaceAll(',', '').replaceAll('"', '').replaceAll(`'`, '')
 
-function isMatch(txt, phrases) {
+export function isMatch(txt, phrases) {
   const cleaned = txt.toLowerCase().trim().replaceAll('!', '').replaceAll('.', '').replaceAll('.', '')
   const multipleWordPhrases = phrases.filter(phrase => phrase.split(' ').length > 1)
   const singleWordPhrases = phrases.filter(phrase => phrase.split(' ').length === 1)

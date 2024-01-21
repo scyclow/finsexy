@@ -144,7 +144,7 @@ const VinceMessages = {
   },
 
   ...diatribe('hello', [
-    () => `Hey ${genderSwitch({m: 'buddy', w: 'sweetheart', nb: 'buddy'})}`,
+    () => `Hey ${genderSwitch({m: 'buddy', f: 'sweetheart', nb: 'buddy'})}`,
     `I've seen you clicking around this website, looking for a real hunk`,
     `Well, today's your lucky day, because you finally found him`,
     `Hey, I know what you're thinking`,
@@ -154,7 +154,7 @@ const VinceMessages = {
     `You want a taste of this success`,
     `You want to taste it covering your mouth and sliding back down your throat`,
     `You want to smell that sweet smell of money more than you want to take your next breath`,
-    () => `And the thought of this all is making you unbearably ${genderSwitch({m: 'hard', w: 'wet', nb: 'aroused'})} 😉`,
+    () => `And the thought of this all is making you unbearably ${genderSwitch({m: 'hard', f: 'wet', nb: 'aroused'})} 😉`,
   ], {
     followUp: fu('needThatTaste', 4000)
   }, 2000),
@@ -206,7 +206,7 @@ const VinceMessages = {
   },
 
   daddy: {
-    messageText: () => `That's right. I am your daddy. And do you know what daddies do? They look out for their little ${genderSwitch({m: 'boys', w: 'girls', nb: 'subs'})}.`,
+    messageText: () => `That's right. I am your daddy. And do you know what daddies do? They look out for their little ${genderSwitch({m: 'boys', f: 'girls', nb: 'subs'})}.`,
     followUp: { messageCode: 'daddy2', waitMs: 3000 },
   },
 
@@ -310,7 +310,7 @@ const VinceMessages = {
 
   haveFun: {
     messageText: `And you just want to lick it up`,
-    followUp: fu('haveFun')
+    followUp: ''//fu('haveFun')
   },
 
 

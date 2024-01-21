@@ -16,7 +16,7 @@ https://www.reddit.com/r/findomsupportgroup/comments/18qvg29/i_try_to_be_an_ethi
 
 
 
-import { isYes, isNo, isGreeting, isNegative, isPositive, isMean, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isNegative, isPositive, isMean, isMatch, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 import {bnToN} from '../eth.js'
 
@@ -237,7 +237,8 @@ const HeatherHotMessages = {
 
   nextSteps: {
     messageText: (ur, ctx) => {
-      if (ctx.state.rounds > 0) {
+      if (ctx.state.rounds > 0 && ctx.state.isFresh) {
+        ctx.state.isFresh = false
         return 'Hello again. Are you ready for me to suck your wallet dry? Or do you want to me to tell you more about finsexy?'
       } else {
         return `So what do you say? Are you ready for me to ${ctx.state.isNew ? 'pop your findom cherry' : 'suck your wallet dry'}? Or do you want to me to tell you more about finsexy?`
@@ -245,7 +246,7 @@ const HeatherHotMessages = {
     },
     responseHandler: (ur, ctx) => {
       if (
-        ['finsexy', 'more', 'question', 'tell me', 'info', 'help', 'ok', 'okay', 'k', 'yes', 'yeah'].some(keyword => ur.toLowerCase().split(' ').includes(keyword))
+        isMatch(ur, ['finsexy', 'more', 'question', 'tell me', 'info', 'help', 'ok', 'okay', 'k', 'yes', 'yeah'])
       ) {
         const infoCount = (ctx.state.moreInfoCount||0) % 4
         if (!infoCount) {
@@ -554,7 +555,7 @@ const HeatherHotMessages = {
   },
 
   downToBusinessYes: {
-    messageText: `I know what you've been thining about`,
+    messageText: `I know what you've been thinking about`,
     followUp: { messageCode: 'downToBusinessYesa', waitMs: 2000 }
   },
 
@@ -688,6 +689,7 @@ const HeatherHotMessages = {
     messageText: `This was fun. If you ever want to send me more money then you know where to find me 😘`,
     responseHandler: (ur, ctx) => {
       ctx.state.rounds = (ctx.state.rounds||0) + 1
+      ctx.state.isFresh = true
       return 'nextSteps'
     }
   },

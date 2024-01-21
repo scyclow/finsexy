@@ -134,7 +134,7 @@ export const KatMessages = {
     }
   },
   girlfriendYes: {
-    messageText: () => `Well, she is very lucky to have someone as ${genderSwitch({m: 'handsome', w: 'beautiful', nb: 'attractive'})} as you!`,
+    messageText: () => `Well, she is very lucky to have someone as ${genderSwitch({m: 'handsome', f: 'beautiful', nb: 'attractive'})} as you!`,
     responseHandler: () => 'myPartner'
   },
   girlfriendNo: {
@@ -142,7 +142,7 @@ export const KatMessages = {
     responseHandler: () => 'myPartner'
   },
   myPartner: {
-    messageText: () => `I'm single. My ${genderSwitch({m: 'boyfriend', w: 'girlfriend', nb: 'romantic partner'})} just dumped me last week. I've been soooo horny since then. I don't know what to do with myself.`,
+    messageText: () => `I'm single. My ${genderSwitch({m: 'boyfriend', f: 'girlfriend', nb: 'romantic partner'})} just dumped me last week. I've been soooo horny since then. I don't know what to do with myself.`,
     responseHandler: () => 'thankful'
   },
   thankful: {
@@ -150,7 +150,7 @@ export const KatMessages = {
     followUp: { messageCode: 'busTicket', waitMs: 4000 }
   },
   busTicket: {
-    messageText: () => `I wish I could afford a bus ticket to get there, but I sadly don't have any money left. My last ${genderSwitch({m: 'boyfriend', w: 'girlfriend', nb: 'romantic partner'})} took all of it when ${genderSwitch({m: 'he', w: 'she', nb: 'they'})} left me! Can you believe it?`,
+    messageText: () => `I wish I could afford a bus ticket to get there, but I sadly don't have any money left. My last ${genderSwitch({m: 'boyfriend', f: 'girlfriend', nb: 'romantic partner'})} took all of it when ${genderSwitch({m: 'he', f: 'she', nb: 'they'})} left me! Can you believe it?`,
     responseHandler: () => 'ifOnly'
   },
   ifOnly: {
@@ -199,7 +199,7 @@ export const KatMessages = {
   },
 
   req1d: {
-    messageText: () => `I think you can send it by typing "$sexy send katFischer 0.01", but without the quotes, and then pressing enter`,
+    messageText: () => `I think you can send it by typing "<code>$sexy send katFischer 0.01</code>", but without the quotes, and then pressing enter`,
     event: firstSendEvent('firstSendPause'),
     responseHandler: () => 'req1a'
   },
@@ -227,7 +227,7 @@ export const KatMessages = {
   },
 
   asshole: {
-    messageText: () => `I know this doesn't make it any better, but it wasn't even my idea. My boss is a real fucking asshole. ${genderSwitch({m: `He's`, w: `She's`, nb: `They're`})} the one making me do it. And what am I going to do, quit? I can't afford that. I really need this job.`,
+    messageText: () => `I know this doesn't make it any better, but it wasn't even my idea. My boss is a real fucking asshole. ${genderSwitch({m: `He's`, f: `She's`, nb: `They're`})} the one making me do it. And what am I going to do, quit? I can't afford that. I really need this job.`,
     responseHandler: (response, ctx) => {
       ctx.state.suspectResponse = response
       return 'honestWithYou'
@@ -235,12 +235,12 @@ export const KatMessages = {
   },
 
   honestWithYou: {
-    messageText: () => `I'll be completely honest with you: my ex <em>was</em> a total scumbag, and ${genderSwitch({m: `he`, w: `she`, nb: `they`})} just left me in a pretty shitty financial place. I wouldn't be doing this if I didn't <em>really</em> need the money.`,
+    messageText: () => `I'll be completely honest with you: my ex <em>was</em> a total scumbag, and ${genderSwitch({m: `he`, f: `she`, nb: `they`})} just left me in a pretty shitty financial place. I wouldn't be doing this if I didn't <em>really</em> need the money.`,
     followUp: { messageCode: 'noOptions', waitMs: 4000 }
   },
 
   noOptions: {
-    messageText: () => `I don't feel good about it, but I don't have any options left. My ${genderSwitch({m: `dad`, w: `mom`, nb: `mom`})}'s last medical bill pretty much cleaned out my bank account, and I'm already behind two months on rent. `,
+    messageText: () => `I don't feel good about it, but I don't have any options left. My ${genderSwitch({m: `dad`, f: `mom`, nb: `mom`})}'s last medical bill pretty much cleaned out my bank account, and I'm already behind two months on rent. `,
     followUp: { messageCode: 'zeroReason', waitMs: 8000 }
   },
 

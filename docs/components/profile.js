@@ -1,5 +1,6 @@
 import {createComponent} from '../$.js'
 import {MessageHandler, ProfileStats} from '../state/all.js'
+import {provider} from '../eth.js'
 
 
 
@@ -139,11 +140,14 @@ createComponent(
       }
 
       .actions {
-        margin: 1em 0;
-        padding: 1em;
         display: flex;
         justify-content: space-between;
         align-items: center;
+      }
+
+      .actionContainer {
+        margin: 1em 0;
+        padding: 1em;
       }
 
       #description {
@@ -233,6 +237,7 @@ createComponent(
       #sendButton:hover {
         background: var(--green2-color);
       }
+
 
       #imgContainer {
         display: flex;
@@ -338,6 +343,17 @@ createComponent(
         text-align: center;
       }
 
+      #profileInfo {
+        padding: 1em;
+        width: 100%;
+        max-width: 500px;
+        box-sizing: border-box;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 0 5px var(--border-color);
+/*
+        background: var(--border2-color);
+*/
+      }
       #testimonialContainer {
         border: 2px dotted var(--border-color);
         padding: 0.75em;
@@ -382,6 +398,19 @@ createComponent(
         background: var(--light-color);
         color: var(--dark-color);
       }
+
+      .disconnected {
+        border: 1px solid var(--error-color);
+        opacity: 0.5;
+        cursor: no-drop;
+      }
+      .disconnected * {
+        cursor: no-drop !important;
+        user-select: none !important;
+      }
+      .disconnected #sendButton:hover {
+        background: var(--green1-color);
+      }
     </style>
 
     <article id="parent">
@@ -409,18 +438,31 @@ createComponent(
               </span>
             -->
             </div>
-              <figcaption>
-                <span id="imgLeft">← Previous</span>
-                <span id="imgRight">Next →</span>
-              </figcaption>
+            <figcaption>
+              <span id="imgLeft">← Previous</span>
+              <span id="imgRight">Next →</span>
+            </figcaption>
           </div>
 
-          <div class="actions">
-            <a id="chat">Chat</a>
-            <div id="sendModule">
-              <input id="sendInput" type="number" step="0.01" placeholder="0.01"><button id="sendButton">SEND</button>
+          <div class="actionContainer">
+            <div class="actions">
+              <a id="chat">Chat</a>
+
+              <div id="sendModule" class="disconnected">
+                <input disabled id="sendInput" type="number" step="0.01" placeholder="0.01"><button id="sendButton">SEND</button>
+              </div>
+
+              <div id="sendError"></div>
+
             </div>
-            <div id="sendError"></div>
+            <connect-wallet id="connectMsg">
+              <div slot="noWeb3" style="text-align: center; margin-top: 1em">
+                <em class="error">Please Connect in a Web3-enabled Browser to send</em>
+              </div>
+              <div slot="notConnected" style="text-align: center; margin-top: 1em">
+                <em class="error">Please Connect your wallet to send</em>
+              </div>
+            </connect-wallet>
           </div>
         </aside>
 
@@ -456,6 +498,7 @@ createComponent(
     ctx.$chat = ctx.$('#chat')
     ctx.$unread = ctx.$('#unread')
     ctx.$sendButton = ctx.$('#sendButton')
+    ctx.$sendModule = ctx.$('#sendModule')
     ctx.$sendInput = ctx.$('#sendInput')
     ctx.$testimonials = ctx.$('#testimonials')
     ctx.$testimonialContent = ctx.$('#testimonialContent')
@@ -527,6 +570,15 @@ createComponent(
     `).join('')
 
 
+    provider.onConnect((addr) => {
+      if (addr) {
+        ctx.$sendModule.classList.remove('disconnected')
+        ctx.$sendInput.disabled = false
+      } else {
+        ctx.$sendModule.classList.add('disconnected')
+        ctx.$sendInput.disabled = true
+      }
+    })
 
   },
   (ctx) => {

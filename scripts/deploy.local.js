@@ -23,7 +23,7 @@ async function main() {
     'DrAndy',
     'DungeonMistress',
     'Hacker',
-    'QueenOfDiamonds',
+    'QueenJessica',
     'StevieP',
 
   ]
