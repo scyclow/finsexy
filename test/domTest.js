@@ -4,8 +4,7 @@ const { expectRevert, time, snapshot } = require('@openzeppelin/test-helpers')
 
 
 
-const toETH = amt => ethers.utils.parseEther(String(amt))
-const bidAmount = amt => ({ value: toETH(amt) })
+const toETH = amt => ({ value: ethers.utils.parseEther(String(amt)) })
 const num = n => Number(ethers.utils.formatEther(n))
 const _num = n => n.toString()
 
@@ -31,6 +30,7 @@ const safeTransferFrom = 'safeTransferFrom(address,address,uint256)'
 
 
 describe('Doms', () => {
+  const Contracts = {}
   const Doms = {}
 
   let signers, artist, paypig
@@ -40,8 +40,20 @@ describe('Doms', () => {
     artist = signers[0]
     paypig = signers[1]
 
+    const FinDoms = [
+      'HeatherHot',
+      'KatFischer',
+      'SamanthaJones',
+      'VinceSlickson',
+      'CrystalGoddess',
+      'DrAndy',
+      'DungeonMistress',
+      'Hacker',
+      'QueenJessica',
+      'StevieP',
+    ]
 
-    const doms = [
+    const contracts = [
       'ABMock',
       'FastCashMock',
       'UFIMMock',
@@ -51,31 +63,52 @@ describe('Doms', () => {
       'MMOMock',
       'CASHMock',
       'TenETHMock',
-
-      'HeatherHot',
-      'KatFischer',
-      'SamanthaJones',
-      'VinceSlickson',
-
+      'FinSexy',
     ]
 
-    for (let dom of doms) {
-      const factory = await ethers.getContractFactory(dom, artist)
+
+
+    for (let i = 0; i < contracts.length; i++) {
+      const factory = await ethers.getContractFactory(contracts[i], artist)
       const contract = await factory.deploy()
       await contract.deployed()
-      Doms[dom] = contract
+      Contracts[contracts[i]] = contract
     }
+
+    for (let i = 0; i < FinDoms.length; i++) {
+      const factory = await ethers.getContractFactory(FinDoms[i], artist)
+      const contract = await factory.deploy(Contracts.FinSexy.address)
+      await Contracts.FinSexy.setFindom(i, contract.address)
+      await contract.deployed()
+      Contracts[FinDoms[i]] = contract
+    }
+
+
+
+
+
   })
 
   describe('SamanthaJones', () => {
     it('should work', async () => {
       const steveip = await ethers.getImpersonatedSigner('0x8D55ccAb57f3Cba220AB3e3F3b7C9F59529e5a65')
-      await steveip.sendTransaction({to: Doms.SamanthaJones.address, value: ethers.utils.parseEther('0.01')})
-      await steveip.sendTransaction({to: Doms.SamanthaJones.address, value: ethers.utils.parseEther('0.01')})
+      await steveip.sendTransaction({to: Contracts.SamanthaJones.address, ...toETH(0.01)})
+      await steveip.sendTransaction({to: Contracts.SamanthaJones.address, ...toETH(0.01)})
 
-      expect(bnToN(await Doms.SamanthaJones.connect(steveip).tributes(steveip.address))).to.equal(1)
-      await steveip.sendTransaction({to: Doms.SamanthaJones.address, value: ethers.utils.parseEther('0.05')})
-      expect(bnToN(await Doms.SamanthaJones.connect(steveip).tributes(steveip.address))).to.equal(2)
+      expect(num(await Contracts.SamanthaJones.connect(steveip).tributes(steveip.address))).to.equal(.02)
+      expect(bnToN(await Contracts.FinSexy.connect(steveip).totalSupply())).to.equal(0)
+
+      await steveip.sendTransaction({
+        to: Contracts.SamanthaJones.address,
+        gasLimit: 200000,
+        ...toETH(0.04),
+      })
+
+      expect(bnToN(await Contracts.FinSexy.connect(steveip).totalSupply())).to.equal(1)
+
+
+      // await steveip.sendTransaction({to: Doms.SamanthaJones.address, value: ethers.utils.parseEther('0.05')})
+      // expect(bnToN(await Doms.SamanthaJones.connect(steveip).tributes(steveip.address))).to.equal(2)
 
     })
   })

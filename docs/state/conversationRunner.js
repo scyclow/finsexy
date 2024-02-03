@@ -145,6 +145,8 @@ const positives = [
   'ok',
   'okay',
   'alright',
+  'not bad',
+  'not too bad',
 ]
 
 const negatives = [
@@ -160,6 +162,9 @@ const negatives = [
   'stressed',
   'depressed',
   'scared',
+  'not great',
+  'not good',
+  'not too good',
 ]
 
 const meanResponses = [

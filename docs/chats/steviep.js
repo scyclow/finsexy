@@ -51,20 +51,6 @@ export const StevieProfile = {
 }
 
 
-export async function stevieContractInfo(provider) {
-  const networkName = (await provider.getNetwork()).name
-  const contractAddr = {
-    local: '0xEb0fCBB68Ca7Ba175Dc1D3dABFD618e7a3F582F6'
-  }[networkName]
-
-  const abi = [
-    'event Send(address indexed sender, uint256 amount)',
-    'function tributes(address) external view returns (uint256)'
-  ]
-
-  return [contractAddr, abi]
-}
-
 
 
 async function sendEvent1(ctx, contract, provider) {
@@ -91,9 +77,8 @@ const StevieMessages = {
   },
 
   async __contract(provider) {
-    const [contractAddr, abi] = await stevieContractInfo(provider)
+    return await provider.domContract('steviep')
 
-    return await provider.contract(contractAddr, abi)
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {
@@ -112,6 +97,12 @@ const StevieMessages = {
 }
 
 /*
+
+
+
+
+hey, look
+i'm just trying to create the sexiest possible experience here
 
 
 

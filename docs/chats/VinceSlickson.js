@@ -21,21 +21,6 @@ export const VinceProfile = {
 }
 
 
-export async function vinceContractInfo(provider) {
-  const networkName = (await provider.getNetwork()).name
-  const contractAddr = {
-    local: '0x02e8910B3B89690d4aeC9fcC0Ae2cD16fB6A4828'
-  }[networkName]
-
-  const abi = [
-    'event Send(address indexed sender, uint256 amount)',
-    'function tributes(address) external view returns (uint256)'
-  ]
-
-  return [contractAddr, abi]
-}
-
-
 
 async function sendEvent1(ctx, contract, provider) {
   const addr = await provider.isConnected()
@@ -61,9 +46,8 @@ const VinceMessages = {
   },
 
   async __contract(provider) {
-    const [contractAddr, abi] = await vinceContractInfo(provider)
+    return await provider.domContract('VinceSlickson')
 
-    return await provider.contract(contractAddr, abi)
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {

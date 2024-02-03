@@ -116,20 +116,6 @@ export const MistressProfile = {
 }
 
 
-export async function mistressContractInfo(provider) {
-  const networkName = (await provider.getNetwork()).name
-  const contractAddr = {
-    local: '0x484242986F57dFcA98EeC2C78427931C63F1C4ce'
-  }[networkName]
-
-  const abi = [
-    'event Send(address indexed sender, uint256 amount)',
-    'function tributes(address) external view returns (uint256)'
-  ]
-
-  return [contractAddr, abi]
-}
-
 
 
 async function sendEvent1(ctx, contract, provider) {
@@ -156,9 +142,8 @@ const MistressMessages = {
   },
 
   async __contract(provider) {
-    const [contractAddr, abi] = await mistressContractInfo(provider)
+    return await provider.domContract('DungeonMistress')
 
-    return await provider.contract(contractAddr, abi)
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {

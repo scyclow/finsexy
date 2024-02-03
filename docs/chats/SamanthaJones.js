@@ -13,6 +13,9 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 TODO
   - ignore first payment if user has already paid
 
+  - after you've paid a couple doms, enter "this looks like money laundering" module
+  - expand on VS story
+
 0x47144372eb383466D18FC91DB9Cd0396Aa6c87A4, 0x7ccd2EE72a75F7e4776f598c1Be11A119fD8d191, 0xbc3Ced9089e13C29eD15e47FFE3e0cAA477cb069
 
 https://www.loyalfans.com/countessdiamond/video/bank-manager-tricks-you-into-sending
@@ -176,31 +179,12 @@ function steviepAssetResponseHandler(ur, ctx) {
 
 
 
-
-
-export async function samanthaContractInfo(provider) {
-  const networkName = (await provider.getNetwork()).name
-  const contractAddr = {
-    local: '0x76a999d5F7EFDE0a300e710e6f52Fb0A4b61aD58'
-  }[networkName]
-
-  const abi = [
-    'event Send(address indexed sender, uint256 amount)',
-    'function tributes(address) external view returns (uint256)'
-  ]
-
-  return [contractAddr, abi]
-}
-
-
-
 const SamanthaMessages = {
   TYPING_SPEED: 1.1,
 
   async __contract(provider) {
-    const [contractAddr, abi] = await samanthaContractInfo(provider)
+    return await provider.domContract('SamanthaJones')
 
-    return await provider.contract(contractAddr, abi)
   },
 
 
@@ -421,7 +405,7 @@ const SamanthaMessages = {
     async followUp(ur, ctx, contract, provider) {
       try {
         const signer = ctx.global.connectedAddr
-        const contracts = await provider.steviepContracts('mainnet')
+        const contracts = await provider.steviepContracts()
 
         const addrs = ctx.state.validAddresses
 
@@ -473,6 +457,7 @@ const SamanthaMessages = {
 
       } catch (e) {
         ctx.error = e.message
+        console.log(ctx.error)
         return { messageCode: 'addressesError', waitMs: 3000 }
       }
 

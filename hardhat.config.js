@@ -40,6 +40,6 @@ module.exports = {
 
   gasReporter: {
     currency: 'USD',
-    gasPrice: 1000
+    gasPrice: 20
   }
 }

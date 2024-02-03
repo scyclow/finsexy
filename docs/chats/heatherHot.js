@@ -83,29 +83,13 @@ async function sendEvent(ctx, contract, provider) {
 }
 
 
-export async function heatherContractInfo(provider) {
-  const networkName = (await provider.getNetwork()).name
-  const contractAddr = {
-    local: '0x82BBAA3B0982D88741B275aE1752DB85CAfe3c65'
-  }[networkName]
-
-  const abi = [
-    'event Send(address indexed sender, uint256 amount)',
-    'function tributes(address) external view returns (uint256)'
-  ]
-
-  return [contractAddr, abi]
-}
-
-
 
 const HeatherHotMessages = {
   TYPING_SPEED: 1.5,
 
   async __contract(provider) {
-    const [contractAddr, abi] = await heatherContractInfo(provider)
+    return await provider.domContract('heatherHot')
 
-    return await provider.contract(contractAddr, abi)
   },
 
   // TODO

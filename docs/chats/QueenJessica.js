@@ -50,20 +50,6 @@ export const QueenProfile = {
 }
 
 
-export async function queenContractInfo(provider) {
-  const networkName = (await provider.getNetwork()).name
-  const contractAddr = {
-    local: '0xF8b299F87EBb62E0b625eAF440B73Cc6b7717dbd'
-  }[networkName]
-
-  const abi = [
-    'event Send(address indexed sender, uint256 amount)',
-    'function tributes(address) external view returns (uint256)'
-  ]
-
-  return [contractAddr, abi]
-}
-
 
 
 async function sendEvent1(ctx, contract, provider) {
@@ -90,9 +76,8 @@ const QueenMessages = {
   },
 
   async __contract(provider) {
-    const [contractAddr, abi] = await queenContractInfo(provider)
+    return await provider.domContract('QueenJessica')
 
-    return await provider.contract(contractAddr, abi)
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {

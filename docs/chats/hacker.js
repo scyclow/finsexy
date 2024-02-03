@@ -25,20 +25,6 @@ export const HackerProfile = {
 }
 
 
-export async function hackerContractInfo(provider) {
-  const networkName = (await provider.getNetwork()).name
-  const contractAddr = {
-    local: '0x9DBb24B10502aD166c198Dbeb5AB54d2d13AfcFd'
-  }[networkName]
-
-  const abi = [
-    'event Send(address indexed sender, uint256 amount)',
-    'function tributes(address) external view returns (uint256)'
-  ]
-
-  return [contractAddr, abi]
-}
-
 
 
 async function sendEvent1(ctx, contract, provider) {
@@ -65,9 +51,8 @@ const HackerMessages = {
   },
 
   async __contract(provider) {
-    const [contractAddr, abi] = await hackerContractInfo(provider)
+    return await provider.domContract('0x0')
 
-    return await provider.contract(contractAddr, abi)
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {

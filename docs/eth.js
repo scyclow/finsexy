@@ -147,8 +147,9 @@ export class Web3Provider {
     return { name, chainId, hasName, network, etherscanPrefix }
   }
 
-  async steviepContracts(networkOverride='') {
-    const networkName = networkOverride || (await provider.getNetwork()).name
+  async steviepContracts() {
+    let networkName = (await provider.getNetwork()).name
+    if (networkName === 'local') networkName = 'mainnet'
     const signer = await this.isConnected()
 
     const erc20ABI = [
@@ -203,6 +204,52 @@ export class Web3Provider {
       FastCash: this.rawContract(CONTRACTS.FastCash, erc20ABI).connect(signer),
       TenEth: this.rawContract(CONTRACTS.TenEth, erc721ABI).connect(signer),
     }
+  }
+
+  async domContract(name) {
+    return (await this.domContracts())[name]
+
+  }
+  async domContracts() {
+    const networkName = (await provider.getNetwork()).name
+
+    const domABI = [
+      'event Send(address indexed sender, uint256 amount)',
+      'function tributes(address) external view returns (uint256)'
+    ]
+
+    const CONTRACTS = {
+      local: {
+        heatherHot: '0x084815D1330eCC3eF94193a19Ec222C0C73dFf2d',
+        katFischer: '0x02e8910B3B89690d4aeC9fcC0Ae2cD16fB6A4828',
+        SamanthaJones: '0x9abb5861e3a1eDF19C51F8Ac74A81782e94F8FdC',
+        VinceSlickson: '0x9DBb24B10502aD166c198Dbeb5AB54d2d13AfcFd',
+        CrystalGoddess: '0xEb0fCBB68Ca7Ba175Dc1D3dABFD618e7a3F582F6',
+        DrAndy: '0x8B342f4Ddcc71Af65e4D2dA9CD00cc0E945cFD12',
+        DungeonMistress: '0xD28F3246f047Efd4059B24FA1fa587eD9fa3e77F',
+        '0x0': '0x0B32a3F8f5b7E5d315b9E52E640a49A89d89c820',
+        QueenJessica: '0x519b05b3655F4b89731B677d64CEcf761f4076f6',
+        steviep: '0xb6057e08a11da09a998985874FE2119e98dB3D5D',
+      },
+      goerli: {},
+      mainnet: {},
+    }[networkName]
+
+
+    return {
+      heatherHot: await this.contract(CONTRACTS.heatherHot, domABI),
+      katFischer: await this.contract(CONTRACTS.katFischer, domABI),
+      SamanthaJones: await this.contract(CONTRACTS.SamanthaJones, domABI),
+      VinceSlickson: await this.contract(CONTRACTS.VinceSlickson, domABI),
+      CrystalGoddess: await this.contract(CONTRACTS.CrystalGoddess, domABI),
+      DrAndy: await this.contract(CONTRACTS.DrAndy, domABI),
+      DungeonMistress: await this.contract(CONTRACTS.DungeonMistress, domABI),
+      '0x0': await this.contract(CONTRACTS['0x0'], domABI),
+      QueenJessica: await this.contract(CONTRACTS.QueenJessica, domABI),
+      steviep: await this.contract(CONTRACTS.steviep, domABI),
+    }
+
+
   }
 }
 

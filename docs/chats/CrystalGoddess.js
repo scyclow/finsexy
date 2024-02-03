@@ -91,19 +91,6 @@ export const CrystalGoddessProfile = {
   ]
 }
 
-export async function goddessContractInfo(provider) {
-  const networkName = (await provider.getNetwork()).name
-  const contractAddr = {
-    local: '0x564Db7a11653228164FD03BcA60465270E67b3d7'
-  }[networkName]
-
-  const abi = [
-    'event Send(address indexed sender, uint256 amount)',
-    'function tributes(address) external view returns (uint256)'
-  ]
-
-  return [contractAddr, abi]
-}
 
 export const CrystalGoddessMessages = {
   TYPING_SPEED: 1.5,
@@ -113,9 +100,7 @@ export const CrystalGoddessMessages = {
     ignoreType: true
   },
   async __contract(provider) {
-    const [contractAddr, abi] = await goddessContractInfo(provider)
-
-    return await provider.contract(contractAddr, abi)
+    return await provider.domContract('CrystalGoddess')
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {

@@ -52,21 +52,6 @@ export const AndyProfile = {
 }
 
 
-export async function andyContractInfo(provider) {
-  const networkName = (await provider.getNetwork()).name
-  const contractAddr = {
-    local: '0x9abb5861e3a1eDF19C51F8Ac74A81782e94F8FdC'
-  }[networkName]
-
-  const abi = [
-    'event Send(address indexed sender, uint256 amount)',
-    'function tributes(address) external view returns (uint256)'
-  ]
-
-  return [contractAddr, abi]
-}
-
-
 
 async function sendEvent1(ctx, contract, provider) {
   const addr = await provider.isConnected()
@@ -92,9 +77,8 @@ const AndyMessages = {
   },
 
   async __contract(provider) {
-    const [contractAddr, abi] = await andyContractInfo(provider)
+    return await provider.domContract('DrAndy')
 
-    return await provider.contract(contractAddr, abi)
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {

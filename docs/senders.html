@@ -216,20 +216,13 @@
 
   import {$, ls} from './$.js'
   import {provider, fromWei} from './eth.js'
-  import {heatherContractInfo} from './chats/heatherHot.js'
-  import {katContractInfo} from './chats/katFischer.js'
-  import {samanthaContractInfo} from './chats/SamanthaJones.js'
-  import {vinceContractInfo} from './chats/VinceSlickson.js'
 
 
 
-  provider.onConnect(async () => {
-    const contracts = {
-      heatherHot: provider.rawContract(...(await heatherContractInfo(provider))),
-      katFischer: provider.rawContract(...(await katContractInfo(provider))),
-      SamanthaJones: provider.rawContract(...(await samanthaContractInfo(provider))),
-      VinceSlickson: provider.rawContract(...(await vinceContractInfo(provider)))
-    }
+
+  provider.onConnect(async (addr) => {
+    const contracts = await provider.domContracts()
+
 
     const senders = {}
     const receivers = {}
@@ -248,7 +241,7 @@
       }
     }
 
-console.log(senders)
+console.log(fromWei(await contracts.heatherHot.tributes(addr)))
 
 
     $.id('senderAddrs').innerHTML = Object.keys(senders).map(s => `

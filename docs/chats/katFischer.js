@@ -25,23 +25,6 @@ export const KatProfile = {
 
 
 
-export async function katContractInfo(provider) {
-  const networkName = (await provider.getNetwork()).name
-  const contractAddr = {
-    local: '0x084815D1330eCC3eF94193a19Ec222C0C73dFf2d'
-  }[networkName]
-
-  const abi = [
-    'event Send(address indexed sender, uint256 amount)',
-    'function tributes(address) external view returns (uint256)'
-  ]
-
-  return [contractAddr, abi]
-}
-
-
-
-
 
 
 
@@ -89,9 +72,8 @@ export const KatMessages = {
   TYPING_SPEED: 1,
 
   async __contract(provider) {
-    const [contractAddr, abi] = await katContractInfo(provider)
+    return await provider.domContract('katFischer')
 
-    return await provider.contract(contractAddr, abi)
   },
   START: {
     responseHandler: () => `steviep`
