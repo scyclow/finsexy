@@ -210,6 +210,11 @@ const SamanthaMessages = {
     // TODO - check "add an address"
     if (userResponse && userResponse.toLowerCase().includes('vince') && ctx.global.mentionedSamanthaToVince) {
       // TODO
+    } else if (userResponse && userResponse.toLowerCase().includes('sex and the city')) {
+      return {
+        messageText: `I don't have time for TV.`,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+      }
     } else if (userResponse && isMean(userResponse)) {
       ctx.state.meanWarnings = (ctx.state.meanWarnings||0) + 1
 
@@ -235,7 +240,11 @@ const SamanthaMessages = {
     }
   },
 
-  // TODO: I'm sorry, but I don't speak to anyone who doesn't connect their wallet.
+  // TODO: "I'm sorry, but I don't speak to anyone who doesn't connect their wallet."
+  // TODO: "if sent to other doms - might be a money laundering charge here"
+  // TODO: "yeah, you like being watched, don't you? And evaluated. I've got you under a microscope"
+  // TODO: "naughty"
+  // TODO: if sent to other doms, mention potential tax fraud
 
   pleaseHold: {
     messageText: 'Please hold for one minute. Your account has been flagged by my automated system for suspiscious activity. I need to look into this.',
@@ -253,7 +262,7 @@ const SamanthaMessages = {
   },
 
   everySquareInch: {
-    messageText: `That means I'm going to examine every square inch of your transaction history. It's going to be a slow, painful, meticulous process. And when I'm done... We're going to assess your penalties.`,
+    messageText: `Which means I get to examine every square inch of your transaction history. It's going to be a slow, painful, meticulous process. And when I'm done... We're going to assess your penalties.`,
     followUp: fu('veryThorough')
   },
 
@@ -978,6 +987,8 @@ const SamanthaMessages = {
   },
 }
 
+
+// TODO: sign a contract?
 
 
 

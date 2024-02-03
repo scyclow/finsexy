@@ -1,5 +1,5 @@
 import {ls} from '../$.js'
-import { provider, toETH } from '../eth.js'
+import { provider, toETH, ZERO_ADDR } from '../eth.js'
 import {MessageHandler} from './conversationRunner.js'
 
 
@@ -59,6 +59,9 @@ export const sexyCLIT = {
         <h5 style="margin-top: 2em; margin-bottom: 0.25em">Send ETH</h5>
         <p><code>$sexy send [recipient name] [amount in ETH]</code></p>
 
+        <h5 style="margin-top: 2em; margin-bottom: 0.25em">Burn ETH</h5>
+        <p><code>$sexy burn [amount in ETH]</code></p>
+
         <h5 style="margin-top: 2em; margin-bottom: 0.25em">Input Premium Code</h5>
         <p><code>$sexy premium [premium-code]</code> </p>
 
@@ -68,6 +71,10 @@ export const sexyCLIT = {
     }
     else if (command === 'send') {
       this.send(args[0], args[1], cb, cb)
+    }
+
+    else if (command === 'burn') {
+      this.burn(args[0], ctx, cb, cb)
     }
 
     else if (command === 'premium') {
@@ -155,7 +162,7 @@ export const sexyCLIT = {
     }
     else {
       return cb(`
-        <p>Invalid command: <code>${command}</code></p>
+        <p>Invalid command: <code>${command || 'undefined'}</code></p>
         <p>Run <code>$sexy help</code> for more options</p>
       `)
     }
@@ -188,6 +195,30 @@ export const sexyCLIT = {
       }
     }, 300)
     return cb(`Sending ${recipient} ${amount} ETH...`)
+  },
+
+  burn(amount, ctx, cb, errorCb) {
+    document.documentElement.classList.remove('burn')
+
+    setTimeout(async () => {
+      try {
+        document.body.classList.add('preOrgasm')
+        const tx = await provider.signer.sendTransaction({
+          to: ZERO_ADDR,
+          value: toETH(amount)
+        })
+        await tx.wait()
+        ctx.state.totalBurnt = ctx.state.totalBurnt ? Number(ctx.state.totalBurnt) + Number(amount) : Number(amount)
+        document.body.classList.remove('preOrgasm')
+        document.documentElement.classList.add('burn')
+      } catch (e) {
+        console.log(e)
+        document.body.classList.remove('preOrgasm')
+
+        errorCb(`ERROR: ${e.message || JSON.stringify(e)}`)
+      }
+    }, 300)
+    return cb(`Burning ${amount} ETH...`)
   }
 }
 

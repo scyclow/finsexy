@@ -1,12 +1,309 @@
 import { isYes, isNo, isGreeting, isMean, MessageHandler, responseParser, diatribe } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 import {provider, bnToN} from '../eth.js'
+
+
+
+function getZodiacSign(timestamp) {
+  const date = new Date(timestamp)
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+
+  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) {
+    return 'Aries'
+  } else if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) {
+    return 'Taurus'
+  } else if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) {
+    return 'Gemini'
+  } else if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) {
+    return 'Cancer'
+  } else if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) {
+    return 'Leo'
+  } else if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) {
+    return 'Virgo'
+  } else if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) {
+    return 'Libra'
+  } else if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) {
+    return 'Scorpio'
+  } else if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) {
+    return 'Sagittarius'
+  } else if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) {
+    return 'Capricorn'
+  } else if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) {
+    return 'Aquarius'
+  } else {
+    return 'Pisces'
+  }
+}
+
+
+async function tributeEvent(ctx, contract, provider) {
+  const addr = await provider.isConnected()
+
+  if (contract && addr) {
+    // const t = bnToN(await contract.tributes(addr))
+
+    // if (t > ctx.state.rounds) return { messageCode: 'soGood', waitMs: 6000 }
+  }
+
+}
+
+
+
+const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
+
+
+
+
+export const CrystalGoddessProfile = {
+  name: 'CrystalGoddess',
+  age: 31,
+  distance: 16,
+  gender: 'Female',
+  maxPhotos: 4,
+  description: `Bow down to Crystal Goddess. I'm going to suck you dry and drain you till it hurts. `,
+  testimonials: [
+    {
+      name: '0x1',
+      review: `I came so hard that I don't even know what money is any more.`,
+    },
+
+    // I do not deserve this money
+
+
+
+    // {
+    //   name: '0x1',
+    //   review: `Goddess is definitely not a starter dom. It's not a great idea to play with her unless you've done this before. I went to her at a low point in my life. I was sending to doms so often that I didn't even get pleasure from it any more. It left me feeling pretty emotionally drained, and Goddess drained what was left from my wallet. She also drained what was left in my balls.`,
+    // },
+
+    {
+      name: '0x1',
+      review: `Thank you so much Goddess for draining me. You give me purpose in my miserable, pathetic life 🙏`,
+    },
+
+  // - testimonials "i've always been afraid of approaching women in bars"
+  // - SweetSalvation: "i'd rather be giving my hard earned money to this pretty girl than let the government pry it from y cold dead hand when they come around looking for taxes because the government can't tell either of us what to do as consenting adults who want to form a business relationship with one another that benefits her and it benefits me."
+  // - "as a woman myself, i find it so much easier to submit to a strong, powerful woman of color"
+
+  // - "My entire life, society has been telling me that my worth as a man is determined by how attractive my woman is. The career, the money, the hours in the gym -- none of it matters if you can't translate that into a hot woman. So striking out on the dating scene over, and over, and over again just left me feeling like a failure. I was less of a man. Not only did ___ help me realize all this, but she also fills that hot-woman role for me for a modest amount of money! My value as a man has never been higher, and I owe it all to ___"
+
+  ]
+}
+
+export async function goddessContractInfo(provider) {
+  const networkName = (await provider.getNetwork()).name
+  const contractAddr = {
+    local: '0x564Db7a11653228164FD03BcA60465270E67b3d7'
+  }[networkName]
+
+  const abi = [
+    'event Send(address indexed sender, uint256 amount)',
+    'function tributes(address) external view returns (uint256)'
+  ]
+
+  return [contractAddr, abi]
+}
+
+export const CrystalGoddessMessages = {
+  TYPING_SPEED: 1.5,
+  START: {
+    responseHandler: `hello`,
+    ignoreSend: true,
+    ignoreType: true
+  },
+  async __contract(provider) {
+    const [contractAddr, abi] = await goddessContractInfo(provider)
+
+    return await provider.contract(contractAddr, abi)
+  },
+
+  __precheck(userResponse, ctx, contract, provider, isFollowup) {
+    // if (ctx.state.blocked) {
+      // TODO return event that unblocks upon send
+      // return {}
+    // }
+    // if (userResponse && isMean(userResponse)) {
+    //   // return {
+    //   //   messageText: `Congratulations. You just earned yourself a 0.01 ETH unblock fee.`,
+    //   //   responseHandler: (ur, ctx) => {
+    //   //     ctx.state.blocked = true
+    //   //     return ctx.lastDomCodeSent
+    //   //   }
+    //   // }
+    // }
+  },
+
+
+  hello: {
+    messageText: 'Greetings, my little money slave',
+    followUp: fu('godIsWoman')
+  },
+
+  godIsWoman: {
+    messageText: `Are you surprised to learn that God is a woman?`,
+    responseHandler: ur => isNo(ur)
+      ? `unsurprised`
+      : `surprised`
+  },
+
+  unsurprised: {
+    messageText: `Of course not. When you envision the platonic ideal of perfection, does anything other than my perfect body come to mind?`,
+    responseHandler: ur => isNo(ur) ? 'knowSoMuch' : 'pity'
+  },
+
+  knowSoMuch: {
+    messageText: `You think you know so much, don't you?`,
+    followUp: (ur, ctx) => {
+      ctx.state.knowSoMuch = true
+      return fu('doNotUnderstand')
+    }
+  },
+
+
+
+
+  surprised: {
+    messageText: `Of course you are. Your stupid little mind can't comprehend anything other than what's been told to you by so-called "holy" men`,
+    followUp: fu('doNotUnderstand')
+  },
+
+
+  pity: {
+    messageText: genderSwitch({
+      m: `Your pitifully small sphere of conscious awareness is matched only by your tiny genitals`,
+      f: `I will take pitty on you, given the profound level of deception you have suffered at the hands of this patriarchal society`,
+      nb: `I will take pitty on you, given the profound level of deception you have suffered at the hands of this patriarchal society`
+    }),
+    followUp: fu('doNotUnderstand')
+  },
+
+  ...diatribe('doNotUnderstand', [
+    (ur, ctx) => `${ctx.state.knowSoMuch ? 'But there' : 'There'} is ${ctx.state.knowSoMuch ? 'still ' : ''}so much you do not understand. I see you, staying up late at night, staring into the deep void of your computer screen, ${genderSwitch({m: 'erection', f: 'vulva', nb: 'genitals'})} in hand, praying to the false idol of market analysis`,
+    `Seeking patterns in chaos. Trend lines, Candlesticks, Ichimoku Clouds. Religiously tracking memes and metas`,
+    `You worship the aura of the rare, searching for a Holy Grail. You see monkeys with coins in their eyes and mistake that for wealth. You live your life believing you can take your money with you upon your death. But you do not understand that Charon's Obol will only get you across the lake of fire`,
+    `The simple fact that you are here shows that you've been lead astray`,
+    `@SamanthaJones may have seen all of your transactions, but I've seen more`,
+    `Goddess knows all`,
+  ], {
+    followUp: fu('doYouWish', 6000)
+  }),
+
+  doYouWish: {
+    messageText: `Do you accept your follies and wish to repent for your sins?`,
+    responseHandler: ur => isYes(ur) ? 'repent' : 'fool'
+  },
+
+
+  fool: {
+    messageText: `That is because you are truly a fool`,
+    followUp: fu('relent')
+  },
+
+  relent: {
+    messageText: `But I am a merciful Goddess. I will be here when you ultimately relent`,
+    responseHandler: 'doYouWish'
+  },
+
+  repent: {
+    messageText: `Then bow down, and acknowledge me as your Goddess. Take a vow of devotion to me`,
+    responseHandler: ur => responseParser(ur).includes('i make a vow of devotion to you my goddess')
+      ? 'vowDevotionSuccess'
+      : 'vowDevotionFailure'
+  },
+
+  vowDevotionFailure: {
+    messageText: `I think the words your looking for are: "I make a vow of devotion to you, my goddess"`,
+    responseHandler: ur => responseParser(ur).includes('i make a vow of devotion to you my goddess')
+      ? 'vowDevotionSuccess'
+      : 'vowDevotionFailure'
+  },
+
+
+
+  vowDevotionSuccess: {
+    messageText: `Excellent.`,
+    followUp: fu('divineOwnership')
+  },
+
+  ...diatribe('divineOwnership', [
+    () => `In taking this vow of devotion, you acknowledge that I, your Goddess, claim divine ownership over you, ${getUserData('name')}`,
+    `You relenquish control over the entirety of your digital assets, as you have found the burden of self-sovereign ownership to be too much for your soul to bear. The responsibility of free will has overwhelmed you. Your stupid little mind collapses under the slightest pressure of decision making`,
+    `You can feel the weight of this load draging you down by your loins. You know that you are not truly free until you achieve the release of being unburdened. Until you give yourself over to me. Only then will the weight be lifted from your shoulders`,
+    `You <em>need</em> Goddess to unburden you. To take control of your wallet and make the decisions you cannot trust yourself to make`,
+    `And this is why you relenquish control to me: Because you are weak. Because you are pathetic. Because the idea of true ownership fills you with a deep existential dread`,
+    `Is this all making sense to your tiny little brain?`
+  ], {
+    responseHandler: 'divineOwnershipNext'
+  }, 5000),
+
+
+  divineOwnershipNext: {
+    messageText: ur => isYes(ur)
+      ? 'Wonderful'
+      : `Thankfully your feeble mind does not need to fully grasp my wisdom. Acting on faith is sufficient`,
+    followUp: fu('enlightenment')
+  },
+
+  enlightenment: {
+    messageText: `In order to rectify this karmic imbalance we must embark on a ritual to bring you closer to numismatic enlightenment`,
+    followUp: fu('evacuation')
+  },
+
+  evacuation: {
+    messageText: `First, we must cleanse your transactional pathways by burning 0.000666000 ETH. It is important that you do not refresh your web browser while the ritual is underway`,
+    followUp: fu('initiateBurn')
+  },
+
+  initiateBurn: {
+    messageText: 'You can initiate a ritual burn with the sexy CLIT by typing <code>$sexy burn 0.000666000</code>',
+    event: ctx => ctx.state.totalBurnt >= 0.000666 ? { messageCode: 'aura', waitMs: 3000 } : null,
+    responseHandler: 'doNotSpeak'
+  },
+
+  doNotSpeak: {
+    messageText: `Do not speak until you have completed your burn`,
+    event: ctx => ctx.state.totalBurnt >= 0.000666 ? { messageCode: 'aura', waitMs: 3000 } : null,
+    responseHandler: 'initiateBurn'
+  },
+
+  aura: {
+    messageText: `I see an immediate improvement in your aura. The unburdening has begun, and you are close to a cycle of rebirth`,
+    followUp: fu('evacuation'),
+  },
+
+  evacuation: {
+    messageText: `We will now begin a partial evacuation of your wallet, in which you will abdicate 0.0363 ETH to Goddess`,
+    event: tributeEvent,
+    responseHandler: 'evacuation2'
+  },
+
+  evacuation2: {
+    messageText: `Once this tribute has been given, your cycle of rebirth will continue and you shall resume the download of monetary wisdom`,
+    event: tributeEvent,
+    responseHandler: 'evacuation2'
+  },
+
+  evacuation3: {
+    messageText: ``,
+    event: tributeEvent,
+    responseHandler: 'evacuation2'
+  }
+
+}
+
+
+
 /*
+
+
+
+
 WORSHIP ME
+BOW DOWN TO CRYSTAL GODDESS
 
 
-
-Crystal Goddess?
+Crystal Goddess
   rablance your karmic debt
   CRYPTO IS JUST ASTROLOGY FOR MEN
   money as electricity/energy/life force
@@ -14,9 +311,16 @@ Crystal Goddess?
 
 
 
+Lunar Goddess
+  Dark forest
+  Lunar punk
 
 
 
+
+
+
+I've been manifesting the presence of a new submissive
 
 
 
@@ -213,205 +517,17 @@ https://www.pornhub.com/view_video.php?viewkey=654837492a1db
 
 
 
-function getZodiacSign(timestamp) {
-  const date = new Date(timestamp)
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-
-  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) {
-    return 'Aries'
-  } else if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) {
-    return 'Taurus'
-  } else if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) {
-    return 'Gemini'
-  } else if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) {
-    return 'Cancer'
-  } else if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) {
-    return 'Leo'
-  } else if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) {
-    return 'Virgo'
-  } else if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) {
-    return 'Libra'
-  } else if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) {
-    return 'Scorpio'
-  } else if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) {
-    return 'Sagittarius'
-  } else if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) {
-    return 'Capricorn'
-  } else if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) {
-    return 'Aquarius'
-  } else {
-    return 'Pisces'
-  }
-}
-
-const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 
+// paying me absolves your sins, rebalances your karmic debts
+// in wiping clean/emptying your wallet/etc, it will remap your desires
 
-
-export const CrystalGoddessProfile = {
-  name: 'CrystalGoddess',
-  age: 31,
-  distance: 16,
-  gender: 'Female',
-  maxPhotos: 4,
-  description: `Bow down to Crystal Goddess. I'm going to suck you dry and drain you till it hurts. `,
-  testimonials: [
-    {
-      name: '0x1',
-      review: `I came so hard that I don't even know what money is any more.`,
-    },
-    // {
-    //   name: '0x1',
-    //   review: `Goddess is definitely not a starter dom. It's not a great idea to play with her unless you've done this before. I went to her at a low point in my life. I was sending to doms so often that I didn't even get pleasure from it any more. It left me feeling pretty emotionally drained, and Goddess drained what was left from my wallet. She also drained what was left in my balls.`,
-    // },
-
-    {
-      name: '0x1',
-      review: `Thank you so much Goddess for draining me. You give me purpose in my miserable, pathetic life 🙏`,
-    },
-
-  // - testimonials "i've always been afraid of approaching women in bars"
-  // - SweetSalvation: "i'd rather be giving my hard earned money to this pretty girl than let the government pry it from y cold dead hand when they come around looking for taxes because the government can't tell either of us what to do as consenting adults who want to form a business relationship with one another that benefits her and it benefits me."
-  // - "as a woman myself, i find it so much easier to submit to a strong, powerful woman of color"
-
-  // - "My entire life, society has been telling me that my worth as a man is determined by how attractive my woman is. The career, the money, the hours in the gym -- none of it matters if you can't translate that into a hot woman. So striking out on the dating scene over, and over, and over again just left me feeling like a failure. I was less of a man. Not only did ___ help me realize all this, but she also fills that hot-woman role for me for a modest amount of money! My value as a man has never been higher, and I owe it all to ___"
-  ]
-}
-
-export async function goddessContractInfo(provider) {
-  const networkName = (await provider.getNetwork()).name
-  const contractAddr = {
-    local: '0x564Db7a11653228164FD03BcA60465270E67b3d7'
-  }[networkName]
-
-  const abi = [
-    'event Send(address indexed sender, uint256 amount)',
-    'function tributes(address) external view returns (uint256)'
-  ]
-
-  return [contractAddr, abi]
-}
-
-export const CrystalGoddessMessages = {
-  TYPING_SPEED: 1.5,
-  START: {
-    responseHandler: `hello`,
-    ignoreSend: true,
-    ignoreType: true
-  },
-  async __contract(provider) {
-    const [contractAddr, abi] = await goddessContractInfo(provider)
-
-    return await provider.contract(contractAddr, abi)
-  },
-
-  __precheck(userResponse, ctx, contract, provider, isFollowup) {
-    // if (ctx.state.blocked) {
-      // TODO return event that unblocks upon send
-      // return {}
-    // }
-    // if (userResponse && isMean(userResponse)) {
-    //   // return {
-    //   //   messageText: `Congratulations. You just earned yourself a 0.01 ETH unblock fee.`,
-    //   //   responseHandler: (ur, ctx) => {
-    //   //     ctx.state.blocked = true
-    //   //     return ctx.lastDomCodeSent
-    //   //   }
-    //   // }
-    // }
-  },
-
-
-  hello: {
-    messageText: 'Greetings, my little money slave',
-    followUp: fu('godIsWoman')
-  },
-
-  godIsWoman: {
-    messageText: `Are you surprised to learn that God is a woman?`,
-    responseHandler: ur => isNo(ur)
-      ? `unsurprised`
-      : `surprised`
-  },
-
-  unsurprised: {
-    messageText: `Of course not. When you envision the platonic ideal of perfection, does anything other than my perfect body come to mind?`,
-    responseHandler: ur => isNo(ur) ? 'knowSoMuch' : 'pity'
-  },
-
-  knowSoMuch: {
-    messageText: `You think you know so much, don't you?`,
-    followUp: (ur, ctx) => {
-      ctx.state.knowSoMuch = true
-      return fu('doNotUnderstand')
-    }
-  },
-
-
-
-
-  surprised: {
-    messageText: `Of course you are. Your stupid little mind can't comprehend anything other than what's been told to you by so-called "holy" men`,
-    followUp: fu('doNotUnderstand')
-  },
-
-
-  pity: {
-    messageText: genderSwitch({
-      m: `Your pitifully small sphere of conscious awareness is matched only by your tiny genitals`,
-      f: `I will take pitty on you, given the profound level of deception you have suffered at the hands of this patriarchal society`,
-      nb: `I will take pitty on you, given the profound level of deception you have suffered at the hands of this patriarchal society`
-    }),
-    followUp: fu('doNotUnderstand')
-  },
-
-  ...diatribe('doNotUnderstand', [
-    (ur, ctx) => `${ctx.state.knowSoMuch ? 'But there' : 'There'} is ${ctx.state.knowSoMuch ? 'still ' : ''}so much you do not understand`,
-    () => `I see you, staying up late at night, staring into the deep void of your computer screen, ${genderSwitch({m: 'erection', f: 'vulva', m: 'genitals'})} in hand, praying to the false idols of market analysis`,
-    `Seeking patterns in the chaos. Trend lines, Candlesticks, Ichimoku Clouds`,
-    `Religiously tracking memes and metas`,
-    `You worship the aura of the rare, searching for a Holy Grail`,
-    `You see monkeys with coins in their eyes and mistake that for wealth`,
-    `You live your life under the belief that you can take your money with you when you die`,
-    `But you do not understand that Charon's Obol will only get you across the lake of fire`,
-    `The simple fact that you are here shows that you've been lead astray`,
-    `@SamanthaJones may have seen all of your transactions, but I've seen more`,
-    `Goddess knows all`,
-  ], {
-    responseHandler: 'doYouWish'
-  }),
-
-  doYouWish: {
-    messageText: `Do you accept your follies and wish to repent?`,
-    responseHandler: ur => isYes(ur) ? 'repent' : 'fool'
-  },
-
-
-  fool: {
-    messageText: `That is because you are truly a fool`,
-    followUp: fu('relent')
-  },
-
-  relent: {
-    messageText: `But you will relent, and I will be here when you do`,
-    responseHandler: 'doYouWish'
-  },
-
-  repent: {
-
-  }
-
-
-
-
+// your reality is maleable. we can change it
 
 
 
     // `The mechanations of the blockchain `
 
-    // ''like you worship a false idol
 
 
 
@@ -445,100 +561,6 @@ if you want to m
 
 
 
-
-  // worship: {
-  //   messageText: `And you know what to do when you encounter perfection, don't you?`,
-  //   responseHandler: 'worship2'
-  // },
-
-  // worship2: {
-  //   messageText: ur => responseParser(ur).includes('worship')
-  //     ? `That's right. You worship it`
-  //     : `You worship it.`,
-  //   followUp: fu('bowDown')
-  // },
-
-  // notWorthy: {
-  //   messageText: `You think you are worthy of my attention?`,
-  //   responseHandler: ur => isYes(ur) ? 'bowDown' : 'notWorthy2',
-  // },
-
-  // notWorthy2: {
-  //   messageText: `Thankfully for you, I am a merciful goddess.`,
-  //   followUp: fu('bowDown')
-  // },
-
-  // bowDown: {
-  //   messageText: ur => `So bow down before me, ${getUserData('name')}, and make a vow of devotion to your goddess`,
-  //   responseHandler: ur => responseParser(ur).includes('i make a vow of devotion to you my goddess')
-  //     ? 'vowDevotionSuccess'
-  //     : 'vowDevotionFailure'
-  // },
-
-  // vowDevotionFailure: {
-  //   messageText: `I think the words your looking for are: "I make a vow of devotion to you, my goddess"`,
-  //   responseHandler: ur => responseParser(ur).includes('i make a vow of devotion to you my goddess')
-  //     ? 'vowDevotionSuccess'
-  //     : 'vowDevotionFailure'
-  // },
-
-
-  // vowDevotionSuccess: {
-  //   messageText: `Excellent.`,
-  //   followUp: fu('divineOwnership')
-  // },
-
-  // divineOwnership: {
-  //   messageText: () => `In taking this vow of devotion, you acknowledge that I, your Goddess, claim divine ownership over you, ${getUserData('name')}`,
-  //   followUp: fu('assetsToo', 5000)
-  // },
-
-  // assetsToo: {
-  //   messageText: `You relenquish control over the entirety of your digital assets, as you have found the burdon of self-sovereign ownership to be too much for your soul to bear`,
-  //   followUp: fu('freeWill', 5000)
-  // },
-
-  // // property: {
-  // //   messageText: `You are `
-  // // },
-
-  // freeWill: {
-  //   messageText: `The responsibility of free will has overwhelmed you. Your stupid little mind collapses under the slightest pressure of decision making`,
-  //   followUp: fu('youNeedGoddess', 5000)
-  // },
-
-
-  // youNeedGoddess: {
-  //   messageText: `You <em>need</em> Goddess to unburden you. To take control of your wallet and make the decisions that you cannot trust yourself to make`,
-  //   followUp: fu(`thisIsWhy`, 5000)
-  // },
-
-
-  // thisIsWhy: {
-  //   messageText: `And this is why you relenquish control to me`,
-  //   followUp: fu(`youAreWeak`, 5000)
-  // },
-
-  // youAreWeak: {
-  //   messageText: `Because you are weak`,
-  //   followUp: fu(`pathetic`, 5000)
-  // },
-
-  // pathetic: {
-  //   messageText: `Because you are pathetic`,
-  //   followUp: fu(`tooAbstract`, 5000)
-  // },
-
-
-
-
-  // // you desire a release, to be unburdoned
-
-  // tooAbstract: {
-  //   // messageText: `Because the concept of money is too abstract for your tiny brain to comprehend`,
-  //   messageText: `Because the concept of ownership fills you with a deep seeded dread.`,
-  //   followUp: fu('cryptoIdiot', 5000)
-  // },
 
 
 
@@ -714,7 +736,6 @@ you have been manifesting a poverty consciousness
 
 
 
-}
 
 
 

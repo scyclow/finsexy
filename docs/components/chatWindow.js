@@ -116,6 +116,16 @@ createComponent(
         max-width: 35em;
         line-height: 1.2;
       }
+
+      .message a {
+        color: var(--light-color);
+        text-shadow: 1px 1px 2px var(--secondary-color), 1px 1px 1px var(--dark-color);
+      }
+
+      .message a:hover {
+        text-decoration: none;
+      }
+
       .messageContent img, .messageContent code{
         margin-top: 0.5em;
       }
@@ -411,7 +421,7 @@ createComponent(
           : h.from === 'you' ? 'from-you' : 'from-dom'
       }">
         ${h.helpMessage ? '' : `<h6 class="from">${h.from}</h6>`}
-        <div class="messageContent">${h.messageText}</div>
+        <div class="messageContent">${linkify(h.messageText)}</div>
       </div>
       ${
         h.helpMessage
@@ -451,6 +461,19 @@ createComponent(
     ctx.scroll()
   }
 )
+
+
+
+
+function linkify(txt) {
+  return txt.includes('@')
+    ? txt.replaceAll(
+      /@(\w+)/g,
+      (match, mention) => `<a href="/chat?activeChat=${mention}">${match}</a>`
+    )
+    : txt
+
+}
 
 function getDateTime(ts) {
   const str = new Date(ts).toLocaleString()

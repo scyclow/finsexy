@@ -1,3 +1,116 @@
+
+
+
+
+
+
+import { isYes, isNo, isGreeting, isMean, MessageHandler } from '../state/conversationRunner.js'
+import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
+
+const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
+
+export const StevieProfile = {
+  name: 'steviep',
+  age: 34,
+  distance: 0,
+  gender: '',
+  maxPhotos: 4,
+  description: ``,
+  testimonials: [
+    {
+      name: '0x',
+      review: `Stevie P is my favorite artist of all time. I'm so glad that I have the opportunity to be a patron of his brilliant artwork!`,
+    },
+    {
+      name: '0x1',
+      review: `I was SO happy when steviep launched a findom project. He is, without a doubt, the HOTTEST artist in the NFT space. I couldn't wait to give him my money!`,
+    },
+    {
+      name: '0x2',
+      review: `I'll do anything stevie p says, and buy anything stevie p makes. I'll even pay him money in exchange for less money. `,
+    },
+    {
+      name: '0x3',
+      review: `I've been writing erotica about stevie for years. I'm thrilled that I can finally act out on those fantasies where he takes all of my money`
+    },
+    {
+      name: '0x4',
+      review: `What a hunk 😍`,
+    },
+    {
+      name: '0x5',
+      review: `I've always gottens uch a rush from clicking the mint button on his drops. I'm jsut glad that now I can get that same rush from sending him money whenever I want!`,
+    },
+    {
+      name: '0x6',
+      review: `I don't know how he does it, but every time I send my orgasm is so powerful it disrupts my entire visual field! `,
+    },
+
+    // I give to steviep to participate in his art. I do it for its own sake.
+  ]
+}
+
+
+export async function stevieContractInfo(provider) {
+  const networkName = (await provider.getNetwork()).name
+  const contractAddr = {
+    local: '0xEb0fCBB68Ca7Ba175Dc1D3dABFD618e7a3F582F6'
+  }[networkName]
+
+  const abi = [
+    'event Send(address indexed sender, uint256 amount)',
+    'function tributes(address) external view returns (uint256)'
+  ]
+
+  return [contractAddr, abi]
+}
+
+
+
+async function sendEvent1(ctx, contract, provider) {
+  const addr = await provider.isConnected()
+
+  ctx.state.rounds = ctx.state.rounds || 0
+
+  if (contract && addr) {
+    const t = bnToN(await contract.tributes(addr))
+
+    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: '', waitMs: 3000 }
+  }
+
+}
+
+
+const StevieMessages = {
+  TYPING_SPEED: 1,
+
+  START: {
+    responseHandler: `hello`,
+    ignoreSend: true,
+    ignoreType: true
+  },
+
+  async __contract(provider) {
+    const [contractAddr, abi] = await stevieContractInfo(provider)
+
+    return await provider.contract(contractAddr, abi)
+  },
+
+  __precheck(userResponse, ctx, contract, provider, isFollowup) {
+    if (userResponse && isMean(userResponse)) {
+      return {
+        messageText: ``,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+      }
+    }
+  },
+
+  hello: {
+    messageText: `hello`,
+    // followUp: { messageCode: 'hello2', waitMs: 2000 },
+  },
+}
+
 /*
 
 
@@ -209,116 +322,6 @@ CHALLENGE:
 
 
 */
-
-
-
-
-
-import { isYes, isNo, isGreeting, isMean, MessageHandler } from '../state/conversationRunner.js'
-import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
-
-const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
-
-export const StevieProfile = {
-  name: 'steviep',
-  age: 34,
-  distance: 0,
-  gender: '',
-  maxPhotos: 4,
-  description: ``,
-  testimonials: [
-    {
-      name: '0x',
-      review: `Stevie P is my favorite artist of all time. I'm so glad that I have the opportunity to be a patron of his brilliant artwork!`,
-    },
-    {
-      name: '0x1',
-      review: `I was SO happy when steviep launched a findom project. He is, without a doubt, the HOTTEST artist in the NFT space. I couldn't wait to give him my money!`,
-    },
-    {
-      name: '0x2',
-      review: `I'll do anything stevie p says, and buy anything stevie p makes. I'll even pay him money in exchange for less money. `,
-    },
-    {
-      name: '0x3',
-      review: `I've been writing erotica about stevie for years. I'm thrilled that I can finally act out on those fantasies where he takes all of my money`
-    },
-    {
-      name: '0x4',
-      review: `What a hunk 😍`,
-    },
-    {
-      name: '0x5',
-      review: `I've always gottens uch a rush from clicking the mint button on his drops. I'm jsut glad that now I can get that same rush from sending him money whenever I want!`,
-    },
-    {
-      name: '0x6',
-      review: `I don't know how he does it, but every time I send my orgasm is so powerful it disrupts my entire visual field! `,
-    },
-  ]
-}
-
-
-export async function stevieContractInfo(provider) {
-  const networkName = (await provider.getNetwork()).name
-  const contractAddr = {
-    local: '0xEb0fCBB68Ca7Ba175Dc1D3dABFD618e7a3F582F6'
-  }[networkName]
-
-  const abi = [
-    'event Send(address indexed sender, uint256 amount)',
-    'function tributes(address) external view returns (uint256)'
-  ]
-
-  return [contractAddr, abi]
-}
-
-
-
-async function sendEvent1(ctx, contract, provider) {
-  const addr = await provider.isConnected()
-
-  ctx.state.rounds = ctx.state.rounds || 0
-
-  if (contract && addr) {
-    const t = bnToN(await contract.tributes(addr))
-
-    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: '', waitMs: 3000 }
-  }
-
-}
-
-
-const StevieMessages = {
-  TYPING_SPEED: 1,
-
-  START: {
-    responseHandler: `hello`,
-    ignoreSend: true,
-    ignoreType: true
-  },
-
-  async __contract(provider) {
-    const [contractAddr, abi] = await stevieContractInfo(provider)
-
-    return await provider.contract(contractAddr, abi)
-  },
-
-  __precheck(userResponse, ctx, contract, provider, isFollowup) {
-    if (userResponse && isMean(userResponse)) {
-      return {
-        messageText: ``,
-        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
-      }
-    }
-  },
-
-  hello: {
-    messageText: `hello`,
-    // followUp: { messageCode: 'hello2', waitMs: 2000 },
-  },
-}
-
 export const StevieChat = new MessageHandler(StevieProfile.name, StevieMessages)
 
 

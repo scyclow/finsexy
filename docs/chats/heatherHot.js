@@ -37,7 +37,7 @@ const hasNumber = ur => ur.match(/(\d+)/)
 
 export const HeatherHotProfile = {
   name: 'heatherHot',
-  age: 27,
+  age: 23,
   distance: 2,
   gender: 'Female',
   maxPhotos: 4,
@@ -45,7 +45,7 @@ export const HeatherHotProfile = {
   testimonials: [
     {
       name: '0xfFff...3892',
-      review: `I went years without a single woman giving me a glimer of romantic or sexual attention. And believe me, it wasn't from lack of trying! I must have swiped right on every girl in my city, and I didn't get a single match. It was like I was completely invisible. The second heatherHot introduced herself to me I absolutely melted. It felt so good to be acknowledge by such a gorgeous woman that I immediately creamed my pants. She's 100% worth every penny!`,
+      review: `The second heatherHot introduced herself to me I absolutely melted. It felt so good to be acknowledge by such a gorgeous woman that I immediately creamed my pants. I went years without a single woman giving me a glimer of romantic or sexual attention. And believe me, it wasn't from lack of trying! I must have swiped right on every girl in my city, and I didn't get a single match. It was like I was completely invisible. Anyhow, meeting heather was like a breathe of fresh air. She's 100% worth every penny!`,
     },
     {
       name: '0x1',
@@ -589,15 +589,13 @@ const HeatherHotMessages = {
     followUp: { messageCode: 'howDoYouFeel', waitMs: 1000 }
   },
 
-  howDoYouFeel: {
-    messageText: `How does that make you feel?`,
-    responseHandler: 'reallyHot'
-  },
 
-  reallyHot: {
-    messageText: `Ugh, this is getting me reallyyyyy hot`,
-    responseHandler: 'lightOnFire'
-  },
+
+  // reallyHot: {
+  //   messageText: `Ugh, this is getting me reallyyyyy hot`,
+  //   responseHandler: 'lightOnFire'
+  // },
+
 
 
   howDoYouFeel: {
@@ -625,6 +623,15 @@ const HeatherHotMessages = {
     responseHandler: 'sendHelp'
   },
 
+  // TODO: Don't you want to turn this fantasy into a reality?
+
+  // TODO: I fantasize about findom aaaaall day. the thought of seeing money in my walle tmakes me quiver
+
+  // TODO: why don't you send 0.01 ETH to my wallet and see what happens?
+  //       have you checked your wallet to see what's there?
+  //       that's right, nothing 😈
+  //       you're going to need to send a lot more than that
+
   sendHelp: {
     messageText: (ur, ctx) => `You can send me ${ctx.global.premium * 0.01} ETH by going to my profile and filling out the "send" input box. Then you just click the "send" button. It's as simple as that!`,
     event: sendEvent,
@@ -650,10 +657,6 @@ const HeatherHotMessages = {
   },
 
 
-  // lightOnFire: {
-  //   messageText: `You want to light your money on fire`,
-
-  // }
 
   soGood: {
     messageText: `Mmmm, that felt so good. That'll never get old`,

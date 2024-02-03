@@ -123,9 +123,9 @@ contract CrystalGoddess {
 
   receive() external payable {
     emit Send(msg.sender, msg.value);
+    tributes[msg.sender] += msg.value;
 
-    if (msg.value >= 0.01 ether) {
-      tributes[msg.sender] += 1;
+    if (msg.value >= 0.0363 ether) {
       _mint(msg.sender);
     }
   }
@@ -296,5 +296,4 @@ contract CandyCrush {
 
   }
 }
-
 

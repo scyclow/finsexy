@@ -85,6 +85,8 @@ const yeses = [
   'go ahead',
   'sounds good',
   'sounds great',
+  'sort of',
+  'sorta',
 ]
 
 const noes = [
@@ -114,6 +116,7 @@ const noes = [
   `i cant`,
   `wrong`,
   `incorrect`,
+  `not bad`,
 ]
 
 
@@ -139,6 +142,9 @@ const positives = [
   'outstanding',
   'happy',
   'love',
+  'ok',
+  'okay',
+  'alright',
 ]
 
 const negatives = [
@@ -372,7 +378,7 @@ export class MessageHandler {
     if (messages.__contract) {
       this.provider.onConnect(async addr => {
         this.contract = await messages.__contract(this.provider)
-        MessageHandler.globalCtx.isConnected = true
+        MessageHandler.globalCtx.isConnected = !!addr
         MessageHandler.globalCtx.connectedAddr = addr
       })
     }
@@ -414,10 +420,10 @@ export class MessageHandler {
         chatWindow.setState({ isTyping: true })
       )
     }
-    else {
-      if (nextMessage.startTyping) console.log(now - nextMessage.startTyping)
-      else if (nextMessage.isFollowup) debugger
-    }
+    // else {
+    //   if (nextMessage.startTyping) console.log(now - nextMessage.startTyping)
+    //   else if (nextMessage.isFollowup) debugger
+    // }
 
 
 

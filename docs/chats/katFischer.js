@@ -159,7 +159,7 @@ export const KatMessages = {
   },
 
   sendReq1: {
-    messageText: () => `Well, would you be okay with lending me 0.01 ETH, just for a bus ticket? I'll pay you back as soon as I get my next paycheck.`,
+    messageText: (ur, ctx) => `Well, would you be okay with lending me ${ctx.global.premium * 0.01} ETH, just for a bus ticket? I'll pay you back as soon as I get my next paycheck.`,
     followUp: { messageCode: 'sendReqFollowup1', waitMs: 3000 }
 
   },
@@ -175,7 +175,7 @@ export const KatMessages = {
 
 // TODO warn against disconnected wallet
   convinced: {
-    messageText: () => `Okay, I'm convinced. Send me the 0.01 ETH, and I'll use it to buy a bus right away!`,
+    messageText: (ur, ctx) => `Okay, I'm convinced. Send me the ${ctx.global.premium * 0.01} ETH, and I'll use it to buy a bus right away!`,
     event: firstSendEvent('firstSendPause'),
     responseHandler: () => 'req1a'
   },
@@ -199,7 +199,7 @@ export const KatMessages = {
   },
 
   req1d: {
-    messageText: () => `I think you can send it by typing "<code>$sexy send katFischer 0.01</code>", but without the quotes, and then pressing enter`,
+    messageText: (ur, ctx) => `I think you can send it by typing "<code>$sexy send katFischer ${ctx.global.premium * 0.01}</code>", but without the quotes, and then pressing enter`,
     event: firstSendEvent('firstSendPause'),
     responseHandler: () => 'req1a'
   },
@@ -245,7 +245,7 @@ export const KatMessages = {
   },
 
   zeroReason: {
-    messageText: () => `Look, I know you have absolutely zero reason to trust me, but sending me another 0.01 ETH would really mean a lot to me`,
+    messageText: (ur, ctx) => `Look, I know you have absolutely zero reason to trust me, but sending me another ${ctx.global.premium * 0.01} ETH would really mean a lot to me`,
     followUp: { messageCode: 'trulySorry', waitMs: 4000 }
   },
 
@@ -267,7 +267,7 @@ export const KatMessages = {
   },
 
   only01: {
-    messageText: () => `It's only 0.01 ETH. That's nothing for you, but it would make such a huge difference to me`,
+    messageText: (ur, ctx) => `It's only ${ctx.global.premium * 0.01} ETH. That's nothing for you, but it would make such a huge difference to me`,
     event: secondSendEvent('jesusChrist'),
     responseHandler: () => 'beggingYou'
   },
@@ -368,7 +368,7 @@ export const KatMessages = {
   },
 
   reasonableGirl: {
-    messageText: () => `I'm a reasonable girl. send me another 0.01 so I know you're serious, and then I'll send it all back to you.`,
+    messageText: (ur, ctx) => `I'm a reasonable girl. send me another ${ctx.global.premium * 0.01} so I know you're serious, and then I'll send it all back to you.`,
     followUp: { messageCode: 'processingFee', waitMs: 2000 }
   },
 
@@ -381,14 +381,14 @@ export const KatMessages = {
 
 
   iDontSee: {
-    messageText: () => `I don't see that 0.01 ETH in my wallet`,
+    messageText: (ur, ctx) => `I don't see that ${ctx.global.premium * 0.01} ETH in my wallet`,
     event: thirdSendEvent('omfg'),
     responseHandler: () => 'iDontThinkSo'
   },
 
 
   iDontThinkSo: {
-    messageText: () => `Let's see... is that 0.01 ETH in my wallet? I don't think so`,
+    messageText: (ur, ctx) => `Let's see... is that ${ctx.global.premium * 0.01} ETH in my wallet? I don't think so`,
     event: thirdSendEvent('omfg'),
     responseHandler: () => 'allDay'
   },

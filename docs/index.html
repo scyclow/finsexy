@@ -34,7 +34,7 @@
 
     main {
       max-width: 1400px;
-      margin: 3em auto;
+      margin: 0 auto;
 
     }
 
@@ -43,9 +43,15 @@
       padding: 1em;
     }
 
+
     h2 {
-      text-align: center;
+      text-shadow: 2px 2px var(--dark-color), 3px 3px 2px var(--primary-color);
+      text-decoration: none;
+      color: var(--light-color);
+      text-align: left;
+      margin: 1.5em 0;
     }
+
 
     a {
       color: #fff;
@@ -131,6 +137,8 @@
     .mainSection {
       display: flex;
       justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
 
     .hidden {
@@ -222,8 +230,8 @@
 
 
   <main>
-
     <section class="mainSection">
+      <h2>Which sexy dom do you want to take your money?</h2>
       <section id="links" class="grid">
       </section>
     </section>
@@ -253,8 +261,8 @@
 
 
 
-console.log(Object.keys(ProfileStats))
-  $.id('links').innerHTML = Object.keys(ProfileStats).map(name => `
+
+  $.id('links').innerHTML = Object.keys(ProfileStats).map((name, i) => `
     <article id="${name}-link">
       <div class="unreadContainer">
         <div id="${name}-unread" class="unreadMessage hidden">New Message!</div>

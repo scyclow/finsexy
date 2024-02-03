@@ -82,66 +82,31 @@ const VinceMessages = {
 
       return {
         messageText: `@SamanthaJones? What a humorless bitch.`,
-        followUp: fu('samanthaJones1')
+        followUp: fu('samanthaJones')
       }
     }
   },
 
-  samanthaJones1: {
-    messageText: `She never likes to have any fun`,
-    followUp: fu('samanthaJones2')
-  },
+  ...diatribe('samanthaJones', [
+    `She never likes to have any fun`,
+    `It's all "audit this" and "penalties that"`,
+    `Way too uptight for my taste`,
+    `I like 'em nice and loose`,
+    `Although, she does have an incredible rack...`,
+    `I wouldn't mind itemizing THOSE deductions, if you know what I mean`,
+    `Maybe give her a little First In First Out`,
+    `Although with her it's probably more like Last In First Out`,
+    `You know whose wallet I'd <em>really</em> like to slide into though?`,
+    `CrystalGoddess`,
+    `She drives me absolutely wild`,
+    `I'll listen to her talk about spiritual numistmatics or whatever the fuck it is all night long`,
+    `She can balance my chakras whenever she wants`,
+    `We were talking about something else though, weren't we?`,
+    `Hold on a sec. I need to go pop my stack really quick`
+  ], {
+    responseHandler: (ur, ctx) => ctx.state.returnTo
+  }),
 
-  samanthaJones2: {
-    messageText: `It's all "audit this" and "penalties that"`,
-    followUp: fu('samanthaJones3')
-  },
-
-  samanthaJones3: {
-    messageText: `Way too uptight for my taste`,
-    followUp: fu('samanthaJones4')
-  },
-
-  samanthaJones4: {
-    messageText: `I like 'em nice and loose`,
-    followUp: fu('samanthaJones5')
-  },
-
-  samanthaJones5: {
-    messageText: `Although, she does have an incredible rack...`,
-    followUp: fu('samanthaJones6')
-  },
-
-  samanthaJones6: {
-    messageText: `I wouldn't mind itemizing THOSE deductions, if you know what I mean`,
-    followUp: fu('samanthaJones7')
-  },
-
-  samanthaJones7: {
-    messageText: `Maybe give her a little First In First Out`,
-    followUp: fu('samanthaJones8')
-  },
-
-  samanthaJones8: {
-    messageText: `Although with her it's probably more like Last In First Out`,
-    followUp: fu('samanthaJones9')
-  },
-
-  samanthaJones9: {
-    messageText: `We were talking about something else though, weren't we?`,
-    followUp: fu('samanthaJones10')
-  },
-
-  samanthaJones10: {
-    messageText: `Hold on a sec. I need to go pop my stack really quick`,
-    responseHandler(ur, ctx) {
-      return ctx.state.returnTo
-
-    }
-    // followUp: (ur, ctx) => {
-    //   return {messageCode: ctx.state.returnTo, waitMs: 20, ignoreSend: true, ignoreType: true}
-    // }
-  },
 
   ...diatribe('hello', [
     () => `Hey ${genderSwitch({m: 'buddy', f: 'sweetheart', nb: 'buddy'})}`,
@@ -205,42 +170,19 @@ const VinceMessages = {
     },
   },
 
-  daddy: {
-    messageText: () => `That's right. I am your daddy. And do you know what daddies do? They look out for their little ${genderSwitch({m: 'boys', f: 'girls', nb: 'subs'})}.`,
-    followUp: { messageCode: 'daddy2', waitMs: 3000 },
-  },
-
-  daddy2: {
-    messageText: () => `So I'll tell you what I'm gonna do for you: I'm gonna key you in on a little investment opportunity. That's just the kind of generous guy I am.`,
-    followUp: { messageCode: 'daddy3', waitMs: 3000 },
-  },
-
-  daddy3: {
-    messageText: () => `But keep in mind, you're going to owe me BIG for this one. This is the investment opportunity of a lifetime, and I'm handing it to you on a silver platter.`,
-    followUp: { messageCode: 'daddy4', waitMs: 3000 },
-  },
-
-  daddy4: {
-    messageText: () => `In fact, you'd have to be an <em>idiot</em> to not make money on this...`,
-    followUp: fu('daddy5', 3000)
-
-  },
-
-  daddy5: {
-    messageText: () => `But when you're as succesful as me, you learn not to give anything away for free`,
-    followUp: { messageCode: 'daddy6', waitMs: 3000 },
-  },
-
-  daddy6: {
-    messageText: () => `So if you want in on this you're gonna need to wet my whistle`,
-    followUp: { messageCode: 'daddy7', waitMs: 3000 },
-  },
-
-  daddy7: {
-    messageText: (ur, ctx) => `Let's say... ${ctx.global.premium * 0.01} ETH`,
+  ...diatribe('daddy', [
+    () => `That's right. I am your daddy. And do you know what daddies do? They look out for their little ${genderSwitch({m: 'boys', f: 'girls', nb: 'subs'})}.`,
+    `So I'll tell you what I'm gonna do for you: I'm gonna key you in on a little investment opportunity. That's just the kind of generous guy I am.`,
+    `But keep in mind, you're going to owe me BIG for this one. This is the investment opportunity of a lifetime, and I'm handing it to you on a silver platter.`,
+    `In fact, you'd have to be an <em>idiot</em> to not make money on this...`,
+    `But when you're as succesful as me, you learn not to give anything away for free`,
+    `So if you want in on this you're gonna need to wet my whistle`,
+    (ur, ctx) => `Let's say... ${ctx.global.premium * 0.01} ETH`,
+  ], {
     event: sendEvent1,
     responseHandler: 'send1Response1'
-  },
+  }, 3000),
+
 
   send1Response1: {
     messageText: `C'mon, you know how to do it`,
@@ -249,7 +191,7 @@ const VinceMessages = {
   },
 
   send1Response2: {
-    messageText: (ur, ctx) => `Or maybe ${ctx.global.premium * 0.005} just to see how it feels.`,
+    messageText: (ur, ctx) => `Or maybe ${ctx.global.premium * 0.005} first, just to see how it feels.`,
     event: sendEvent1,
     responseHandler: 'send1Response3'
   },
@@ -309,10 +251,40 @@ const VinceMessages = {
   },
 
   haveFun: {
-    messageText: `And you just want to lick it up`,
-    followUp: ''//fu('haveFun')
+    messageText: `And you just want to lick it up, don't you??`,
+    responseHandler: ur => isNo(ur) ? 'games' : 'whatsNext'
   },
 
+  games: {
+    messageText: `Don't play games with me. I'm a busy guy`,
+    followUp: fu('games2')
+  },
+
+  games2: {
+    messageText: `Do you want that alpha or not?`,
+    responseHandler: ur => isNo(ur) ? 'stayingPoor' : 'whatsNext'
+  },
+
+  stayingPoor: {
+    messageText: `Okay, have fun staying poor, dumbass`,
+    responseHandler: 'games2'
+  },
+
+  whatsNext: {
+
+  }
+
+
+
+// your wallet is going to get absolutely REKT by my alpha
+
+// I'm the alpha, and you're the beta
+// just a crypto beta cuck
+// watching me get <em>rich</em> and you beg for some of that wealth to trickle down to you
+
+// sure thing: fastcash, stable coin
+// or, let me manage your money.
+// deposit x with vince. goes down. 0.01 per minute. can withdraw at any time
 
 
 

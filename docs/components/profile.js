@@ -32,6 +32,7 @@ createComponent(
       header {
         margin-top: 1em;
         margin-bottom: 2em;
+        display: flex;
       }
 
       figcaption {
@@ -94,7 +95,7 @@ createComponent(
 
 
       #name {
-        margin-bottom: 0.5em;
+        margin-right: 0.5em;
       }
 
       #imgLeft, #imgRight {
@@ -141,13 +142,14 @@ createComponent(
 
       .actions {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
       }
 
       .actionContainer {
         margin: 1em 0;
         padding: 1em;
+        width: 100%;
       }
 
       #description {
@@ -192,9 +194,11 @@ createComponent(
       }
 
       #sendError {
-        margin-top: 0.75em;
         text-align: center;
         color: var(--red-color);
+        max-width: 360px;
+        margin: auto;
+        margin-top: 0.75em;
       }
 
       #sendInput {
@@ -249,14 +253,35 @@ createComponent(
         z-index: 2;
       }
 
+      aside {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
       aside, #photoContainer {
         max-width: 100%
+      }
+
+      #sexyPicText {
+        font-style: italic;
+        text-align: center;
+        padding: 0.6em;
+      }
+
+      @media (max-width: 875px) {
+        #sexyPicSection {
+          flex-direction: column;
+        }
       }
 
       @media (max-width: 800px) {
         main {
           flex-direction: column;
           align-items: center;
+        }
+        header {
+          flex-direction: column;
         }
 
         h1 {
@@ -307,8 +332,16 @@ createComponent(
         align-items: center;
       }
 
+      .sideWindow header {
+        flex-direction: column;
+      }
+
       .sideWindow h1 {
         text-align: center;
+      }
+
+      .sideWindow #sexyPicSection {
+        flex-direction: column;
       }
 
       .sideWindow #photoContainer {
@@ -411,6 +444,30 @@ createComponent(
       .disconnected #sendButton:hover {
         background: var(--green1-color);
       }
+
+      #sexyPicSection {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5em;
+      }
+
+      #buySexyPic {
+        font-size: 1.1em;
+        padding: 0.5em;
+        cursor: pointer;
+        color: var(--light-color);
+        border: 0;
+        box-shadow: 0 0 25px var(--secondary-color);
+        border-radius: 5px;
+        background: linear-gradient(145deg, var(--secondary-color), var(--blue-color));
+        transition: 0.3s;
+      }
+      #buySexyPic:hover {
+        box-shadow: 0 0 50px var(--secondary-color);
+        filter: saturate(2);
+
+      }
     </style>
 
     <article id="parent">
@@ -445,16 +502,18 @@ createComponent(
           </div>
 
           <div class="actionContainer">
+
             <div class="actions">
               <a id="chat">Chat</a>
 
               <div id="sendModule" class="disconnected">
                 <input disabled id="sendInput" type="number" step="0.01" placeholder="0.01"><button id="sendButton">SEND</button>
               </div>
-
-              <div id="sendError"></div>
-
             </div>
+
+            <div id="sendError"></div>
+
+
             <connect-wallet id="connectMsg">
               <div slot="noWeb3" style="text-align: center; margin-top: 1em">
                 <em class="error">Please Connect in a Web3-enabled Browser to send</em>
@@ -467,6 +526,10 @@ createComponent(
         </aside>
 
         <section id="content">
+            <div id="sexyPicSection">
+              <button id="buySexyPic">Buy Sexy Pic</button>
+              <div id="sexyPicText">0.069 ETH (9/10 remaining!)</div>
+            </div>
           <section id="profileInfo">
             <h2>Profile</h2>
             <div id="info"></div>
