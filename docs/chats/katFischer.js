@@ -129,6 +129,15 @@ export const KatMessages = {
   convinced: {
     messageText: (ur, ctx) => `Okay, I'm convinced. Send me the ${ctx.global.premium * 0.01} ETH, and I'll use it to buy a bus right away!`,
     event: 'firstSendEvent',
+    responseHandler: async (ur, ctx, contract, provider) => {
+      const isConnected = await provider.isConnected()
+      if (isConnected) return 'req1a'
+      else return 'needConnect'
+    }
+  },
+
+  needConnect: {
+    messageText: 'You might need to connect your wallet first though',
     responseHandler: 'req1a',
   },
 

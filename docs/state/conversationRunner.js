@@ -245,7 +245,6 @@ export function createEvent(amount, responses={}, waitMs=600000) {
 
       if (contract && addr) {
         const t = fromWei(await contract.tributes(addr))
-        console.log(t, ctx.state.alreadyPaid, t - ctx.state.alreadyPaid, price, t - ctx.state.alreadyPaid >= price)
         if (Number((t - ctx.state.alreadyPaid).toFixed(6)) >= price) {
           return responses.primary
         } else if (Date.now() - ctx.state.lastResponded > waitMs && !ctx.state.nodeResponses[ctx.lastDomCodeSent]) {
@@ -417,7 +416,7 @@ export class MessageHandler {
     this.provider = MessageHandler.provider
 
     if (messages.__contract) {
-      this.connected = new Promise(res => {
+      this.connected = new Promise((res) => {
         this.provider.onConnect(async addr => {
           this.contract = await messages.__contract(this.provider)
           MessageHandler.globalCtx.isConnected = !!addr
@@ -485,7 +484,7 @@ export class MessageHandler {
 
     this.ctx.lastUserResponse = userResponse || this.ctx.lastUserResponse
 
-    if (messageToSend.event) {
+    if (messageToSend.event && MessageHandler.globalCtx.isConnected) {
       await this.connected
       await this.messages[messageToSend.event]?.preEvent(userResponse, this.ctx, this.contract, this.provider)
     }
@@ -508,6 +507,7 @@ export class MessageHandler {
     }
 
     this.ctx.lastDomCodeSent = messageCode
+
 
     if (messageToSend.ignoreSend) return
 

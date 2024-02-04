@@ -243,7 +243,7 @@ const QueenMessages = {
 
   send1: createEvent(0.02, {
     main: 'congrats'
-  })
+  }),
 
   timeToSend: {
     messageText: `In fact, I think it's time for you to send right now.`,
