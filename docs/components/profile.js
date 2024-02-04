@@ -516,6 +516,13 @@ createComponent(
 
 
             <connect-wallet id="connectMsg">
+              <div slot="connected">
+                <div id="sexyPicSection">
+                  <button id="buySexyPic">Buy Sexy Pic</button>
+                  <div id="sexyPicText">(0.069 ETH)</div>
+                </div>
+
+              </div>
               <div slot="noWeb3" style="text-align: center; margin-top: 1em">
                 <em class="error">Please Connect in a Web3-enabled Browser to send</em>
               </div>
@@ -523,10 +530,6 @@ createComponent(
                 <em class="error">Please Connect your wallet to send</em>
               </div>
             </connect-wallet>
-            <div id="sexyPicSection">
-              <button id="buySexyPic">Buy Sexy Pic</button>
-              <div id="sexyPicText">(0.069 ETH)</div>
-            </div>
           </div>
         </aside>
 
@@ -583,7 +586,7 @@ createComponent(
       <div>${distance} miles away!</div>
     `
 
-    ctx.$chat.href = `/chat?activeChat=${name}`
+    ctx.$chat.href = `../chat?activeChat=${name}`
 
     ctx.$imgLeft.onclick = () => {
       ctx.setState({ activePhoto: (maxPhotos + ctx.state.activePhoto - 1) % maxPhotos})

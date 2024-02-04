@@ -470,11 +470,6 @@ export class MessageHandler {
         chatWindow.setState({ isTyping: true })
       )
     }
-    // else {
-    //   if (nextMessage.startTyping) console.log(now - nextMessage.startTyping)
-    //   else if (nextMessage.isFollowup) debugger
-    // }
-
 
 
     if (nextMessage.timestamp > now) return
