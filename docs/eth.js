@@ -15,6 +15,7 @@ function isENS(ens) {
 
 window.toETH = toETH
 window.bnToN = bnToN
+window.fromWei = fromWei
 
 
 

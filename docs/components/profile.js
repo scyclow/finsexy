@@ -450,6 +450,7 @@ createComponent(
         align-items: center;
         justify-content: center;
         margin-bottom: 1.5em;
+          margin-top: 2em;
       }
 
       #buySexyPic {
@@ -522,14 +523,14 @@ createComponent(
                 <em class="error">Please Connect your wallet to send</em>
               </div>
             </connect-wallet>
+            <div id="sexyPicSection">
+              <button id="buySexyPic">Buy Sexy Pic</button>
+              <div id="sexyPicText">(0.069 ETH)</div>
+            </div>
           </div>
         </aside>
 
         <section id="content">
-            <div id="sexyPicSection">
-              <button id="buySexyPic">Buy Sexy Pic</button>
-              <div id="sexyPicText">0.069 ETH (9/10 remaining!)</div>
-            </div>
           <section id="profileInfo">
             <h2>Profile</h2>
             <div id="info"></div>

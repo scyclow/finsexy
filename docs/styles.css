@@ -168,7 +168,7 @@ code {
 
 .orgasm {
   animation-iteration-count: 1;
-  animation: Orgasm 24s ease-out;
+  animation: Orgasm 48s ease-out;
 }
 
 .burn {
@@ -191,20 +191,20 @@ code {
 
 
 @keyframes Orgasm {
-  0% {
+  0%, 100% {
     filter: brightness(1) blur(0) saturate(1);
   }
 
-  2.5% {
+  1.25% {
     filter: brightness(50) blur(10px) saturate(5);
   }
 
-  55% {
+  27% {
     filter: brightness(1.5) blur(0.5px) saturate(2);
   }
 
-  100% {
-    filter: brightness(1) blur(0) saturate(1);
+  75% {
+    filter: brightness(1) blur(0) saturate(0.9);
   }
 }
 

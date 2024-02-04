@@ -141,6 +141,7 @@
   main {
     max-width: 450px;
     margin: 2em auto;
+    padding: 0 1em;
   }
 
   fieldset {
@@ -198,6 +199,8 @@
   .submitContainer {
     /*flex-direction: column;*/
   }
+
+  ::-webkit-calendar-picker-indicator { filter: invert(100%); }
 </style>
 
 </head>
@@ -227,7 +230,7 @@
 
       <fieldset>
         <legend>Birthday</legend>
-        <input required type="date" name="birthday" id="birthday" />
+        <input required type="date" name="birthday" id="birthday" style="cursor: pointer;" />
       </fieldset>
 
       <fieldset>

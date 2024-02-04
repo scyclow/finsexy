@@ -16,10 +16,12 @@ https://www.reddit.com/r/findomsupportgroup/comments/18qvg29/i_try_to_be_an_ethi
 
 
 
-import { isYes, isNo, isGreeting, isNegative, isPositive, isMean, isMatch, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isNegative, isPositive, isMean, isMatch, createEvent,MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 import {bnToN} from '../eth.js'
 
+
+const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 /*
 
@@ -69,23 +71,14 @@ export const HeatherHotProfile = {
 
 
 
-async function sendEvent(ctx, contract, provider) {
-  const addr = await provider.isConnected()
 
-  ctx.state.rounds = ctx.state.rounds || 0
-
-  if (contract && addr) {
-    const t = bnToN(await contract.tributes(addr))
-
-    if (t > ctx.state.rounds) return { messageCode: 'soGood', waitMs: 6000 }
-  }
-
-}
 
 
 
 const HeatherHotMessages = {
   TYPING_SPEED: 1.5,
+
+
 
   async __contract(provider) {
     return await provider.domContract('heatherHot')
@@ -221,8 +214,7 @@ const HeatherHotMessages = {
 
   nextSteps: {
     messageText: (ur, ctx) => {
-      if (ctx.state.rounds > 0 && ctx.state.isFresh) {
-        ctx.state.isFresh = false
+      if (ctx.state.cherryPopped) {
         return 'Hello again. Are you ready for me to suck your wallet dry? Or do you want to me to tell you more about finsexy?'
       } else {
         return `So what do you say? Are you ready for me to ${ctx.state.isNew ? 'pop your findom cherry' : 'suck your wallet dry'}? Or do you want to me to tell you more about finsexy?`
@@ -592,18 +584,25 @@ const HeatherHotMessages = {
 
   sendAnyhow: {
     messageText: (ur, ctx) => `Shut up and send me ${ctx.global.premium * 0.01} ETH`,
-    followUp: { messageCode: 'cumTogether', waitMs: 1000 }
+    followUp: (ur, ctx, contract) => ({ messageCode: 'cumTogether', waitMs: 1000 })
   },
 
 
   okaySend: {
     messageText: (ur, ctx) => `Okay. I'm ready for you to send me ${ctx.global.premium * 0.01} ETH`,
-    followUp: { messageCode: 'cumTogether', waitMs: 1500 }
+    followUp: (ur, ctx, contract) => ({ messageCode: 'cumTogether', waitMs: 1500 })
   },
+
+  sendEvent: createEvent(0.01, {
+    primary: fu('soGood', 6000),
+    notEnough: fu('aLittleMore', 3000)
+  }),
+
+
 
   cumTogether: {
     messageText: `Then we can cum together`,
-    event: sendEvent,
+    event: 'sendEvent',
     responseHandler: 'sendHelp'
   },
 
@@ -618,28 +617,41 @@ const HeatherHotMessages = {
 
   sendHelp: {
     messageText: (ur, ctx) => `You can send me ${ctx.global.premium * 0.01} ETH by going to my profile and filling out the "send" input box. Then you just click the "send" button. It's as simple as that!`,
-    event: sendEvent,
+    event: 'sendEvent',
     followUp: { messageCode: 'sendHelp2', waitMs: 2000 }
   },
 
   sendHelp2: {
     messageText: (ur, ctx) => `Or, you can use the sexy CLIT by typing <code>$sexy send heatherHot ${ctx.global.premium * 0.01}</code>`,
-    event: sendEvent,
+    event: 'sendEvent',
+    responseHandler: 'sendMoreOkay'
+  },
+
+  sendMoreOkay: {
+    messageText: `If you want to send more that's okay too 🙂`,
+    event: 'sendEvent',
     responseHandler: 'sendOrWhat'
   },
 
   sendOrWhat: {
     messageText: `Are you going to send or what?`,
-    event: sendEvent,
+    event: 'sendEvent',
     responseHandler: 'noCum'
   },
 
   noCum: {
     messageText: (ur, ctx) => `You're not allowed to cum until you send me ${ctx.global.premium * 0.01} ETH`,
-    event: sendEvent,
+    event: 'sendEvent',
     responseHandler: 'sendHelp'
   },
 
+
+
+  aLittleMore: {
+    messageText: `I need just a little bit more`,
+    event: 'sendEvent',
+    responseHandler: 'sendOrWhat'
+  },
 
 
   soGood: {
@@ -675,8 +687,7 @@ const HeatherHotMessages = {
   again: {
     messageText: `This was fun. If you ever want to send me more money then you know where to find me 😘`,
     responseHandler: (ur, ctx) => {
-      ctx.state.rounds = (ctx.state.rounds||0) + 1
-      ctx.state.isFresh = true
+      ctx.state.cherryPopped = true
       return 'nextSteps'
     }
   },
@@ -689,6 +700,9 @@ const HeatherHotMessages = {
     }
   }
 }
+
+
+
 
 
 

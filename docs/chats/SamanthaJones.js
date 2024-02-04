@@ -1,4 +1,4 @@
-import { isYes, isNo, isGreeting, isMean, responseParser, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, responseParser, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch, interestedSwitch} from '../state/profile.js'
 import {fromWei} from '../eth.js'
 
@@ -63,36 +63,6 @@ export const SamanthaProfile = {
   ]
 }
 
-
-
-
-
-async function sendEvent1(ctx, contract, provider) {
-  const addr = await provider.isConnected()
-
-  ctx.state.rounds = ctx.state.rounds || 0
-
-  if (contract && addr) {
-    const t = bnToN(await contract.tributes(addr))
-
-    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'edgeOff', waitMs: 6000 }
-  }
-
-}
-
-
-async function sendEvent2(ctx, contract, provider) {
-  const addr = await provider.isConnected()
-
-  ctx.state.rounds = ctx.state.rounds || 0
-
-  if (contract && addr) {
-    const t = bnToN(await contract.tributes(addr))
-
-    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'feltGood', waitMs: 3000 }
-  }
-
-}
 
 
 
@@ -218,17 +188,28 @@ const SamanthaMessages = {
 
   helpYou: {
     messageText: 'Can I help you?',
-    responseHandler: (ur, ctx) => {
+    responseHandler: async (ur, ctx, contract, provider) => {
       ctx.state.messagedFirst = true
-      return 'pleaseHold'
+
+      const isConnected = await provider.isConnected()
+      if (isConnected) return 'pleaseHold'
+      else return 'onlyConnected'
     }
   },
 
-  // TODO: "I'm sorry, but I don't speak to anyone who doesn't connect their wallet."
   // TODO: "if sent to other doms - might be a money laundering charge here"
   // TODO: "yeah, you like being watched, don't you? And evaluated. I've got you under a microscope"
   // TODO: "naughty"
   // TODO: if sent to other doms, mention potential tax fraud
+
+  onlyConnected: {
+    messageText: `I'm sorry, but only talk to people who connect their wallets. I like to know who I'm speaking with.`,
+    responseHandler: async (ur, ctx, contract, provider) => {
+      const isConnected = await provider.isConnected()
+      if (isConnected) return 'pleaseHold'
+      else return 'onlyConnected'
+    }
+  },
 
   pleaseHold: {
     messageText: 'Please hold for one minute. Your account has been flagged by my automated system for suspiscious activity. I need to look into this.',
@@ -531,25 +512,34 @@ const SamanthaMessages = {
     followUp: fu('prePay')
   },
 
+  sendEvent1: createEvent(0.01, {
+    primary: { messageCode: 'edgeOff', waitMs: 6000 },
+    notEnough: { messageCode: 'moreThanThat', waitMs: 3000 }
+  }),
 
   prePay: {
     messageText: (ur, ctx) => `But before we start I need you to send me a ${ctx.global.premium * 0.01} ETH penalty pre-payment. Then we'll see if we can get this mess sorted out.`,
-    event: sendEvent1,
+    event: 'sendEvent1',
     responseHandler: 'prePay2'
   },
 
   prePay2: {
     messageText: (ur, ctx) => `You can sexy send me with <code>$sexy send SamanthaJones ${ctx.global.premium * 0.01}</code> or just send it to me throug my profile page.`,
-    event: sendEvent1,
+    event: 'sendEvent1',
     responseHandler: 'prePay3'
   },
 
   prePay3: {
     messageText: `I can't wait to subject you to more analysis and find out what you did.`,
-    event: sendEvent1,
+    event: 'sendEvent1',
     responseHandler: 'prePay'
   },
 
+  moreThanThat: {
+    messageText: (ur, ctx) => `I'm going to need more than that. Namely, ${ctx.global.premium * 0.01} ETH.`,
+    event: 'sendEvent1',
+    responseHandler: 'prePay2'
+  },
 
   edgeOff: {
     messageText: `Okay, that prepayment really took the edge off. Let's continue, shall we?`,
@@ -934,22 +924,33 @@ const SamanthaMessages = {
     followUp: fu('damage', 10000)
   },
 
+  sendEvent2: createEvent(0.05, {
+    primary: { messageCode: 'feltGood', waitMs: 3000 },
+    notEnough: { messageCode: 'wontDo', waitMs: 3000 }
+  }),
+
   damage: {
     messageText: (ur, ctx) => `Alright, I can't take any more foreplay. The damage comes out to ${ctx.global.premium * 0.05}. You can send to me either through the sexy clit or my profile page.`,
-    event: sendEvent2,
+    event: 'sendEvent2',
     responseHandler: 'penaltiesNow'
   },
 
   penaltiesNow: {
     messageText: `I need your penalties. In my wallet. Now.`,
-    event: sendEvent2,
+    event: 'sendEvent2',
     responseHandler: 'readyToBurst'
   },
 
 
   readyToBurst: {
-    messageText: ` I've had this desire slowly building up inside me since the beginning of our conversation, and I'm just about ready to burst.`,
-    event: sendEvent2,
+    messageText: `I've had this desire slowly building up inside me since the beginning of our conversation, and I'm just about ready to burst.`,
+    event: 'sendEvent2',
+    responseHandler: 'damage'
+  },
+
+  wontDo: {
+    messageText: (ur, ctx) => `Don't be a tease. Send me ${ctx.global.premium * 0.05} ETH or you could go to jail for a long, <em>long</em> time.`,
+    event: 'sendEvent2',
     responseHandler: 'damage'
   },
 

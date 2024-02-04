@@ -225,6 +225,40 @@ export const diatribe = (baseCode, messages, endAction, waitMs=2000) => {
 }
 
 
+// primary, wait, notEnough
+export function createEvent(amount, responses={}, waitMs=600000) {
+  return {
+    async preEvent(ur, ctx, contract, provider) {
+      const addr = await provider.isConnected()
+      ctx.state.nodeResponses = ctx.state.nodeResponses || {}
+
+      if (addr) {
+        ctx.state.alreadyPaid = fromWei(await contract.tributes(addr))
+        ctx.state.lastResponded = Date.now()
+        ctx.state.nodeResponses[ctx.lastDomCodeSent] = true
+      }
+    },
+
+    async check(ur, ctx, contract, provider) {
+      const addr = await provider.isConnected()
+      const price = ctx.global.premium * amount
+
+      if (contract && addr) {
+        const t = fromWei(await contract.tributes(addr))
+        console.log(t, ctx.state.alreadyPaid, t - ctx.state.alreadyPaid, price, t - ctx.state.alreadyPaid >= price)
+        if (Number((t - ctx.state.alreadyPaid).toFixed(6)) >= price) {
+          return responses.primary
+        } else if (Date.now() - ctx.state.lastResponded > waitMs && !ctx.state.nodeResponses[ctx.lastDomCodeSent]) {
+          return responses.wait
+        } else if (t > ctx.state.alreadyPaid && t - ctx.state.alreadyPaid < price) {
+          return responses.notEnough
+        }
+      }
+    },
+  }
+}
+
+
 /*
 
 TODO
@@ -289,6 +323,7 @@ class ChatContext {
         this.lastLSRead = Date.now()
         this.lastMessageTimestamp = existingContext.lastMessageTimestamp || 0
         this.lastUserMessageTimestamp = existingContext.lastUserMessageTimestamp || 0
+        this.lastUserResponse = existingContext.lastUserResponse || ''
         this.totalMessages = existingContext.totalMessages || 0
         this.lastDomCodeSent = existingContext.lastDomCodeSent || startingCode || 'START'
         this.state = existingContext.state || {}
@@ -316,6 +351,7 @@ class ChatContext {
     this.chatLS.set('unread', this.unread)
     this.chatLS.set('lastMessageTimestamp', this.lastMessageTimestamp)
     this.chatLS.set('lastUserMessageTimestamp', this.lastUserMessageTimestamp)
+    this.chatLS.set('lastUserResponse', this.lastUserResponse)
     this.chatLS.set('totalMessages', this.totalMessages)
 
   }
@@ -381,10 +417,13 @@ export class MessageHandler {
     this.provider = MessageHandler.provider
 
     if (messages.__contract) {
-      this.provider.onConnect(async addr => {
-        this.contract = await messages.__contract(this.provider)
-        MessageHandler.globalCtx.isConnected = !!addr
-        MessageHandler.globalCtx.connectedAddr = addr
+      this.connected = new Promise(res => {
+        this.provider.onConnect(async addr => {
+          this.contract = await messages.__contract(this.provider)
+          MessageHandler.globalCtx.isConnected = !!addr
+          MessageHandler.globalCtx.connectedAddr = addr
+          res()
+        })
       })
     }
 
@@ -397,9 +436,16 @@ export class MessageHandler {
 
     setRunInterval(async () => {
       const currentNode = this.getMessageToSend(this.ctx.lastDomCodeSent)
-      const event = await currentNode?.event?.(this.ctx, this.contract, this.provider)
-      if (event) {
-        this.ctx.addToEventQueue(event)
+      const eventNode = currentNode.event
+      if (eventNode) {
+        const event = await this.messages[eventNode].check(
+          this.ctx.lastUserResponse,
+          this.ctx,
+          this.contract,
+          this.provider
+        )
+
+        if (event) this.ctx.addToEventQueue(event)
       }
     }, 1000)
 
@@ -436,6 +482,13 @@ export class MessageHandler {
 
     const { messageCode, userResponse, isFollowup } = this.ctx.eventQueue.shift()
     const messageToSend = this.getMessageToSend(messageCode, userResponse, isFollowup)
+
+    this.ctx.lastUserResponse = userResponse || this.ctx.lastUserResponse
+
+    if (messageToSend.event) {
+      await this.connected
+      await this.messages[messageToSend.event]?.preEvent(userResponse, this.ctx, this.contract, this.provider)
+    }
 
     const followUp = await this.sendFollowup(messageToSend, userResponse)
 
@@ -581,7 +634,7 @@ export class MessageHandler {
   waitTimes(estimatedMessageText, typingWaitFactor) {
     const domTypingSpeed = this.messages.TYPING_SPEED
 
-    if (clitLS.get().devIgnoreWait) {
+    if (clitLS.get('devIgnoreWait')) {
       return [50, 50]
     } else {
       const typingWait = 1000 + random(typingWaitFactor)

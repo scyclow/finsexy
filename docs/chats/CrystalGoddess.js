@@ -1,4 +1,4 @@
-import { isYes, isNo, isGreeting, isMean, MessageHandler, responseParser, diatribe } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, MessageHandler, responseParser, diatribe, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 import {provider, bnToN} from '../eth.js'
 
@@ -257,21 +257,23 @@ export const CrystalGoddessMessages = {
     followUp: fu('evacuation'),
   },
 
+  tributeEvent: createEvent(0.0363, {}),
+
   evacuation: {
     messageText: `We will now begin a partial evacuation of your wallet, in which you will abdicate 0.0363 ETH to Goddess`,
-    event: tributeEvent,
+    event: 'tributeEvent',
     responseHandler: 'evacuation2'
   },
 
   evacuation2: {
     messageText: `Once this tribute has been given, your cycle of rebirth will continue and you shall resume the download of monetary wisdom`,
-    event: tributeEvent,
+    event: 'tributeEvent',
     responseHandler: 'evacuation2'
   },
 
   evacuation3: {
     messageText: ``,
-    event: tributeEvent,
+    event: 'tributeEvent',
     responseHandler: 'evacuation2'
   }
 

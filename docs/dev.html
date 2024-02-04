@@ -231,46 +231,42 @@
       <div slot="connected" id="connected">
         <h1>Dev</h1>
         <section id="info"></section>
-        <section class="control">
-          <label>
-            <input type="checkbox" id="devMode">
-            Enable Debug Mode
-          </label>
-
-          <label>
-            <input type="checkbox" id="ignoreWait">
-            Ignore Chat Wait
-          </label>
-
-          <button id="clearChat">
-            Clear Chat
-          </button>
-
-
-          <button id="clearLs">
-            Clear LS
-          </button>
-        </section>
-
-        <section>
-          <button id="enterState">Enter State</button> <span id="stateEntered" class="hidden"></span>
-          <div>
-            <textarea id="newState"></textarea>
-          </div>
-        </section>
-
-        <section>
-          <div>
-            <button id="copyState">Copy State</button> <span id="stateCopied" class="hidden"></span>
-          </div>
-          <code id="state"></code>
-        </section>
-
-
-
-
       </div>
     </connect-wallet>
+    <section class="control">
+      <label>
+        <input type="checkbox" id="devMode">
+        Enable Debug Mode
+      </label>
+
+      <label>
+        <input type="checkbox" id="ignoreWait">
+        Ignore Chat Wait
+      </label>
+
+      <button id="clearChat">
+        Clear Chat
+      </button>
+
+
+      <button id="clearLs">
+        Clear LS
+      </button>
+    </section>
+
+    <section>
+      <button id="enterState">Enter State</button> <span id="stateEntered" class="hidden"></span>
+      <div>
+        <textarea id="newState"></textarea>
+      </div>
+    </section>
+
+    <section>
+      <div>
+        <button id="copyState">Copy State</button> <span id="stateCopied" class="hidden"></span>
+      </div>
+      <code id="state"></code>
+    </section>
 
 
   </main>

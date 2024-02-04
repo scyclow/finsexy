@@ -186,7 +186,7 @@ export const sexyCLIT = {
         })
         await tx.wait()
         document.body.classList.remove('preOrgasm')
-        document.documentElement.classList.add('orgasm')
+        if (!clitLS.get('devIgnoreWait')) document.documentElement.classList.add('orgasm')
       } catch (e) {
         console.log(e)
         document.body.classList.remove('preOrgasm')

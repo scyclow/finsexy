@@ -6,9 +6,10 @@
 
 
 
-import { isYes, isNo, isGreeting, isMean, diatribe, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 import {fromWei} from '../eth.js'
+
 
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
@@ -49,21 +50,6 @@ export const QueenProfile = {
   ]
 }
 
-
-
-
-async function sendEvent1(ctx, contract, provider) {
-  const addr = await provider.isConnected()
-
-  ctx.state.rounds = ctx.state.rounds || 0
-
-  if (contract && addr) {
-    const t = bnToN(await contract.tributes(addr))
-
-    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: '', waitMs: 3000 }
-  }
-
-}
 
 
 const QueenMessages = {
@@ -255,6 +241,10 @@ const QueenMessages = {
     followUp: fu('timeToSend')
   }),
 
+  send1: createEvent(0.02, {
+    main: 'congrats'
+  })
+
   timeToSend: {
     messageText: `In fact, I think it's time for you to send right now.`,
     followUp: fu('timeToSend2')
@@ -262,25 +252,25 @@ const QueenMessages = {
 
   timeToSend2: {
     messageText: () => `Let's say... ${MessageHandler.globalCtx.premium * 0.02} this time`,
-    event: () => {},
+    event: 'send1',
     responseHandler: 'timeToSend3'
   },
 
   timeToSend3: {
     messageText: `You thought I was going to be <em>cheap</em>? 🤣`,
-    event: () => {},
+    event: 'send1',
     responseHandler: 'timeToSend4'
   },
 
   timeToSend4: {
     messageText: `Remember: if you're not sending then you don't fucking exist`,
-    event: () => {},
+    event: 'send1',
     responseHandler: 'timeToSend5'
   },
 
   timeToSend5: {
     messageText: () => `What part of "send me ${MessageHandler.globalCtx.premium * 0.02} ETH" do you not understand?`,
-    event: () => {},
+    event: 'send1',
     responseHandler: 'timeToSend3'
   },
 

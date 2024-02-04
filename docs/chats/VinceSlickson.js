@@ -1,4 +1,4 @@
-import { isYes, isNo, isGreeting, isMean, diatribe, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 
 const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
@@ -22,18 +22,18 @@ export const VinceProfile = {
 
 
 
-async function sendEvent1(ctx, contract, provider) {
-  const addr = await provider.isConnected()
+// async function sendEvent1(ctx, contract, provider) {
+//   const addr = await provider.isConnected()
 
-  ctx.state.rounds = ctx.state.rounds || 0
+//   ctx.state.rounds = ctx.state.rounds || 0
 
-  if (contract && addr) {
-    const t = bnToN(await contract.tributes(addr))
+//   if (contract && addr) {
+//     const t = bnToN(await contract.tributes(addr))
 
-    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'thereWeGo', waitMs: 3000 }
-  }
+//     if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'thereWeGo', waitMs: 3000 }
+//   }
 
-}
+// }
 
 
 const VinceMessages = {
@@ -163,41 +163,58 @@ const VinceMessages = {
     `So if you want in on this you're gonna need to wet my whistle`,
     (ur, ctx) => `Let's say... ${ctx.global.premium * 0.01} ETH`,
   ], {
-    event: sendEvent1,
+    event: 'sendEvent1',
     responseHandler: 'send1Response1'
   }, 3000),
 
 
+  sendEvent1: createEvent(0.01, {
+    primary: { messageCode: 'thereWeGo', waitMs: 3000 },
+    wait: { messageCode: 'stillThere' },
+    notEnough: {messageCode: 'iLikeIt', waitMs: 2000}
+  }),
+
+  stillThere: {
+    messageText: `Hey, where'd you go?`,
+    event: 'sendEvent1',
+    responseHandler: 'send1Response4'
+  },
+
   send1Response1: {
     messageText: `C'mon, you know how to do it`,
-    event: sendEvent1,
+    event: 'sendEvent1',
     responseHandler: 'send1Response2'
   },
 
   send1Response2: {
     messageText: (ur, ctx) => `Or maybe ${ctx.global.premium * 0.005} first, just to see how it feels.`,
-    event: sendEvent1,
+    event: 'sendEvent1',
     responseHandler: 'send1Response3'
   },
 
   send1Response3: {
     messageText: `You know you want to`,
-    event: sendEvent1,
+    event: 'sendEvent1',
     responseHandler: 'send1Response4'
   },
 
   send1Response4: {
     messageText: `This opportunity won't be around for long. You better get in while the gettin's good`,
-    event: sendEvent1,
+    event: 'sendEvent1',
     responseHandler: 'send1Response5'
   },
 
   send1Response5: {
     messageText: (ur, ctx) => `I've also been using that sleek new sexy pay system. I think you can send me the ETH by simply typing in <code>$sexy send VinceSlickson ${ctx.global.premium * 0.01}</code>`,
-    event: sendEvent1,
+    event: 'sendEvent1',
     responseHandler: 'send1Response1'
   },
 
+  iLikeIt: {
+    messageText: `That's a good start, but I'm gonna need a little more than that`,
+    event: 'sendEvent1',
+    responseHandler: 'send1Response1'
+  },
 
   thereWeGo: {
     messageText: `Oh yeah, there we go!`,

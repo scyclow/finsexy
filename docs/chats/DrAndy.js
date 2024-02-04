@@ -1,6 +1,6 @@
 
 
-import { isYes, isNo, isGreeting, isMean, isPositive, isNegative, isMatch, diatribe, responseParser, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, isPositive, isNegative, isMatch, diatribe, responseParser, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
@@ -51,20 +51,6 @@ export const AndyProfile = {
   ]
 }
 
-
-
-async function sendEvent1(ctx, contract, provider) {
-  const addr = await provider.isConnected()
-
-  ctx.state.rounds = ctx.state.rounds || 0
-
-  if (contract && addr) {
-    const t = bnToN(await contract.tributes(addr))
-
-    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: '', waitMs: 3000 }
-  }
-
-}
 
 
 const AndyMessages = {
@@ -186,35 +172,38 @@ const AndyMessages = {
     followUp: fu('firstPayment1')
   },
 
+  firstPaymentEvent: createEvent(0.01, {
+    main: fu('firstSession')
+  }),
 
   firstPayment1: {
     messageText: (ur, ctx) => `We can begin the first session after you send me ${ctx.global.premium * 0.01} ETH.`,
-    event: firstPaymentEvent,
+    event: 'firstPaymentEvent',
     responseHandler: 'firstPayment2'
   },
 
   firstPayment2: {
     messageText: `I think you'll really enjoy our sessions. My clients walk away <em>very</em> happy`,
-    event: firstPaymentEvent,
+    event: 'firstPaymentEvent',
     responseHandler: 'firstPayment3'
   },
 
 
   firstPayment3: {
     messageText: (ur, ctx) => `You can send the ${ctx.global.premium * 0.01} ETH to me on my profile page, or by typing <code>$sexy send DrAndy ${ctx.global.premium * 0.01}</code>`,
-    event: firstPaymentEvent,
+    event: 'firstPaymentEvent',
     responseHandler: 'firstPayment4'
   },
 
   firstPayment4: {
     messageText: `I don't accept insurance or VIP credits at this time, unfortunately.`,
-    event: firstPaymentEvent,
+    event: 'firstPaymentEvent',
     responseHandler: 'firstPayment4'
   },
 
   firstPayment5: {
     messageText: `Don't worry, we can fix you!`,
-    event: firstPaymentEvent,
+    event: 'firstPaymentEvent',
     responseHandler: 'firstPayment2'
   },
 
@@ -288,27 +277,31 @@ const AndyMessages = {
     followUp: fu('secondPayment1')
   },
 
+  secondPayment: createEvent(0.01, {
+    main: fu('secondSession')
+  }),
+
   secondPayment1: {
     messageText: (ur, ctx) => `Anyhow, we can begin the next session after you send me ${ctx.global.premium * 0.01} ETH.`,
-    event: secondPaymentEvent,
+    event: 'secondPaymentEvent',
     responseHandler: 'secondPayment2'
   },
 
   secondPayment2: {
     messageText: `It's actually been clinically shown that as long as you're simply "in therapy", your mental health shows substantial improvements. But if you don't pay for the next session, I worry that you may lose those that.`,
-    event: secondPaymentEvent,
+    event: 'secondPaymentEvent',
     responseHandler: 'secondPayment3'
   },
 
   secondPayment3: {
     messageText: (ur, ctx) => `Remember, you can either send my the ETH on my profile page or by using the sexy CLIT.`,
-    event: secondPaymentEvent,
+    event: 'secondPaymentEvent',
     responseHandler: 'secondPayment4'
   },
 
   secondPayment4: {
     messageText: `I'm sorry, but I'm not accepting insurance or VIP credits right now.`,
-    event: secondPaymentEvent,
+    event: 'secondPaymentEvent',
     responseHandler: 'secondPayment2'
   },
 
@@ -479,14 +472,6 @@ const AndyMessages = {
 }
 
 
-function firstPaymentEvent() {
-  return fu('firstSession')
-}
-
-
-function secondPaymentEvent() {
-  return fu('secondSession')
-}
 
 
 
