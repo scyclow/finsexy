@@ -42,6 +42,7 @@ export const HeatherHotProfile = {
   age: 23,
   distance: 2,
   gender: 'Female',
+  display: 'f',
   maxPhotos: 4,
   description: `My name is Heather, and I'm here to help`,
   testimonials: [
@@ -215,7 +216,7 @@ const HeatherHotMessages = {
   nextSteps: {
     messageText: (ur, ctx) => {
       if (ctx.state.cherryPopped) {
-        return 'Hello again. Are you ready for me to suck your wallet dry? Or do you want to me to tell you more about finsexy?'
+        return 'Hello again. Are you ready for me to suck your wallet dry? Or do you want me to tell you more about finsexy?'
       } else {
         return `So what do you say? Are you ready for me to ${ctx.state.isNew ? 'pop your findom cherry' : 'suck your wallet dry'}? Or do you want to me to tell you more about finsexy?`
       }
@@ -259,8 +260,9 @@ const HeatherHotMessages = {
   steviep: {
     messageText: () => `@steviep is sooooo hot. You should message him when you get a chance${interestedSwitch({
       f: `... Oh wait, according to your finsub application it looks like you don't like being dommed by men. That's a shame. He's soooo hot. But hey, some people are just prudes. If you decide to change your finsub application to say you like men I won't tell 😉`,
+      nb: `... Oh wait, according to your finsub application it looks like you don't like being dommed by men. That's a shame. He's soooo hot. But hey, some people are just prudes. If you decide to change your finsub application to say you like men I won't tell 😉`,
       m: '',
-      nb: '',
+      all: '',
     })}`,
     followUp: { messageCode: 'nextSteps', waitMs: 5000 }
   },
@@ -562,7 +564,8 @@ const HeatherHotMessages = {
 
   downToBusinessYesf: {
     messageText: (ur, ctx) =>  `and think about sending me ${ctx.global.premium * 0.01} ETH`,
-    followUp: { messageCode: 'howDoYouFeel', waitMs: 1000 }
+    followUp: { messageCode: 'howDoYouFeel', waitMs: 1000 },
+    event: 'sendEvent',
   },
 
 
@@ -576,6 +579,7 @@ const HeatherHotMessages = {
 
   howDoYouFeel: {
     messageText: (ur, ctx) => `Yeah, you really want to watch your ${ctx.global.premium * 0.01} ETH burn up in my hot little wallet, dont you?`,
+    event: 'sendEvent',
     responseHandler: (ur) => {
       if (isYes(ur)) return 'okaySend'
       else return 'sendAnyhow'
@@ -584,12 +588,14 @@ const HeatherHotMessages = {
 
   sendAnyhow: {
     messageText: (ur, ctx) => `Shut up and send me ${ctx.global.premium * 0.01} ETH`,
+    event: 'sendEvent',
     followUp: (ur, ctx, contract) => ({ messageCode: 'cumTogether', waitMs: 1000 })
   },
 
 
   okaySend: {
     messageText: (ur, ctx) => `Okay. I'm ready for you to send me ${ctx.global.premium * 0.01} ETH`,
+    event: 'sendEvent',
     followUp: (ur, ctx, contract) => ({ messageCode: 'cumTogether', waitMs: 1500 })
   },
 
@@ -602,6 +608,14 @@ const HeatherHotMessages = {
 
   cumTogether: {
     messageText: `Then we can cum together`,
+    event: 'sendEvent',
+    followUp: fu('fantasyToReality', 8000),
+    responseHandler: 'sendHelp'
+  },
+
+
+  fantasyToReality: {
+    messageText: `And we can turn this fantasy into reality`,
     event: 'sendEvent',
     responseHandler: 'sendHelp'
   },

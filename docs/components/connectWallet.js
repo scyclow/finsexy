@@ -55,7 +55,7 @@ createComponent(
       })
     )
   },
-  ctx => {
+  async ctx => {
     [
       ctx.$noWeb3,
       ctx.$connected,
@@ -71,7 +71,7 @@ createComponent(
       ctx.$connectionError.classList.remove('hidden')
     } else if (ctx.state.connectedAddr) {
       ctx.$connected.classList.remove('hidden')
-    } else {
+    } else if (!await provider.isConnected()) {
       ctx.$notConnected.classList.remove('hidden')
     }
   }

@@ -12,13 +12,14 @@ import {fromWei} from '../eth.js'
 
 
 
-const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
+const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 export const QueenProfile = {
   name: 'QueenJessica',
   age: 29,
   distance: 13,
   gender: 'F',
+  display: 'f',
   maxPhotos: 4,
   description: `
     <p>I'm the reason your wife is going to leave you 💸 #findom 👑 #brat 🙇‍♀️🙇🙇‍♂️ #spoilme 🥵💦 #paypig 🐷</p>
@@ -84,9 +85,11 @@ const QueenMessages = {
     async messageText(ur, ctx, contract, provider) {
 
       if (!ctx.global.isConnected) {
+        if (ctx.state.rejected1) return ''
         return `Ha, you think you can talk to me without even connecting your wallet? `
 
       } else if (await provider.getETHBalance(ctx.global.connectedAddr) < 0.5) {
+        if (ctx.state.rejected2) return ''
         return `${await provider.getETHBalance(ctx.global.connectedAddr)} ETH? I don't have time for poor people like you. Come back when you have at least 0.5 ETH in your wallet to show me.`
 
       } else if (contract) {
@@ -97,6 +100,7 @@ const QueenMessages = {
           // return `You think you're worth my time just because you sent me ${totalSent} ETH?`
           return `Are you ready to serve me today?`
         } else {
+          if (ctx.state.rejected3) return ''
           return `Did you even read my profile?`
         }
       } else {
@@ -105,10 +109,19 @@ const QueenMessages = {
     },
     async followUp(ur, ctx, contract, provider) {
       if (!ctx.global.isConnected) {
+        if (ctx.state.rejected1) return
+        ctx.state.introResponded = false
+        ctx.state.rejected1 = true
         return fu('helloRejected1')
       } else if (await provider.getETHBalance(ctx.global.connectedAddr) < 1) {
+        if (ctx.state.rejected2) return
+        ctx.state.introResponded = false
+        ctx.state.rejected2 = true
         return fu('helloRejected2')
       } else if (contract) {
+        if (ctx.state.rejected3) return
+        ctx.state.introResponded = false
+        ctx.state.rejected3 = true
         const sendFilter = contract.filters.Send(ctx.global.connectedAddr)
         const sendEvents = await contract.queryFilter(sendFilter)
         const totalSent = sendEvents.reduce((sum, event) => sum + fromWei(event.args.amount), 0)
@@ -118,6 +131,7 @@ const QueenMessages = {
       }
     },
     async responseHandler(ur, ctx, contract, provider) {
+      const {introResponded} = ctx.state
       if (!ctx.global.isConnected || await provider.getETHBalance(ctx.global.connectedAddr) < 1) return
 
       if (ctx.global.isConnected) {
@@ -125,7 +139,8 @@ const QueenMessages = {
         const sendEvents = await contract.queryFilter(sendFilter)
         const totalSent = sendEvents.reduce((sum, event) => sum + fromWei(event.args.amount), 0)
         if (totalSent >= ctx.global.premium * 0.01) {
-          if (isYes(ur)) return 'serveMeYes'
+          if (introResponded) return 'serveMe'
+          else if (isYes(ur)) return 'serveMeYes'
           else return 'serveMeNo'
         }
       }
@@ -134,15 +149,24 @@ const QueenMessages = {
 
   helloRejected1: {
     messageText: `You're out of your league.`,
-    responseHandler: 'helloResponse'
+    responseHandler: (ur, ctx) => {
+      ctx.state.introResponded = true
+      return 'helloResponse'
+    }
   },
   helloRejected2: {
     messageText: `Go talk to @VinceSlickson. Maybe he can help you get some cash`,
-    responseHandler: 'helloResponse'
+    responseHandler: (ur, ctx) => {
+      ctx.state.introResponded = true
+      return 'helloResponse'
+    }
   },
   helloRejected3: {
     messageText: (ur, ctx) => `What don't you understand about "${ctx.global.premium * 0.01} ETH tribute to talk"?`,
-    responseHandler: 'helloResponse'
+    responseHandler: (ur, ctx) => {
+      ctx.state.introResponded = true
+      return 'helloResponse'
+    }
   },
 
   helloAccepted: {
@@ -161,10 +185,14 @@ const QueenMessages = {
       ctx.state.wrongAnswers = (ctx.state.wrongAnswers||0) + 1
       return isYes(ur) ? 'serveMeYes' : 'serveMeNo'
     }
-
   },
 
   serveMeYes: {
+    messageText: `Good`,
+    followUp: fu('married')
+  },
+
+  married: {
     messageText: `Are you married?`,
     responseHandler: (ur, ctx) => {
       ctx.state.isMarried = isYes(ur)
@@ -233,7 +261,7 @@ const QueenMessages = {
 
 
   ...diatribe('isSingle', [
-    () => `Figures that no one would want to date a crypto cuck sissy ${genderSwitch({m: 'boy', f: 'girl', nb: 'degen'})} like you`,
+    () => `Figures that no one would want to date a crypto sissy cuck ${genderSwitch({m: 'boy', f: 'girl', nb: 'degen'})} like you`,
     `You don't deserve any love`,
     `That is, not unless you make yourself useful and pay up`,
     `Keep that in mind: if you're not sending me money you don't exist to me.`
@@ -378,6 +406,27 @@ function firstPaymentEvent() {
 
 
 /*
+
+if (m)
+  There's nothing hotter than a man bowing down to a woman
+
+
+95% of the largest companies in this country are run by men
+women only make $0.70 for every dollar a man makes
+so the way i see it, 30% of your wallet is mine
+sex work is work
+
+
+
+
+I want you to spend until it hurts
+
+
+
+
+Who said you're entitled to my time and attention? You have to earn that
+
+
 
 
 Hmm, I dunno. I only see X ETH in that wallet. That's a little on the 🤏 side.

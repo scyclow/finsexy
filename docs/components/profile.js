@@ -14,6 +14,12 @@ createComponent(
         font-family: var(--default-font);
       }
 
+
+      connect-wallet:not(:defined) {
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
       article {
         padding: 1em;
         margin: auto;
@@ -70,8 +76,13 @@ createComponent(
         color: var(--medium-color);
         text-shadow: 0 0 50px var(--primary-color);
       }
-      a:hover {
+      a:hover, a:active, a:focus {
         text-decoration: none;
+        outline: 1px solid var(--primary-color);
+      }
+
+      button {
+        user-select: none;
       }
 
       input {
@@ -98,7 +109,8 @@ createComponent(
         margin-right: 0.5em;
       }
 
-      #imgLeft, #imgRight {
+      #imgLeft, #imgRight,
+      #imgLeft2, #imgRight2 {
         user-select: none;
         cursor: pointer;
 
@@ -116,7 +128,12 @@ createComponent(
         */
       }
 
-      #imgLeft:hover, #imgRight:hover {
+      #imgLeft, #imgRight,
+      #imgLeft2, #imgRight2 {
+        transition: 0.3s;
+      }
+      #imgLeft:hover, #imgRight:hover,
+      #imgLeft2:hover, #imgRight2:hover {
         color: var(--medium-color);
       }
 
@@ -207,13 +224,14 @@ createComponent(
         box-shadow: inset 0px 0px 10px #555;
 
       }
-      #sendInput:focus {
+      #sendInput:focus, #sendInput:active {
         border: 1px solid var(--green1-color);
         border-right: 0;
         outline: none;
       }
 
-      #sendInput:focus + button {
+      #sendInput:focus + button,
+      #sendInput:active + button {
         border: 1px solid var(--green1-color);
         border-left: 0;
       }
@@ -231,15 +249,27 @@ createComponent(
         transition: 150ms;
         padding: 0.35em 1em;
         text-decoration: none;
+        user-select: none;
       }
 
-      #chat:hover {
+      img {
+        user-select: none;
+
+      }
+
+      #chat:hover, #chat:active, #chat:focus {
+        outline: none;
         background: var(--medium-color);
         border-color: var(--light-color);
       }
 
-      #sendButton:hover {
+      #sendButton:hover, #sendButton:active, #sendButton:focus {
+        outline: none;
         background: var(--green2-color);
+      }
+
+      #sendButton:active, #buySexyPic:active {
+        opacity: 0.8;
       }
 
 
@@ -464,7 +494,8 @@ createComponent(
         background: linear-gradient(145deg, var(--secondary-color), var(--blue-color));
         transition: 0.3s;
       }
-      #buySexyPic:hover {
+      #buySexyPic:hover, #buySexyPic:active, #buySexyPic:focus {
+        outline: none;
         box-shadow: 0 0 50px var(--secondary-color);
         filter: saturate(2);
 
@@ -489,6 +520,18 @@ createComponent(
               </span>
             -->
               <div id="photos">
+                <img id="activeThumbnail" >
+                <sexy-modal id="activeThumbnailModal">
+                  <div slot="content">
+                    <div class="modalContent">
+                      <img id="activeThumbnail2" >
+                    </div>
+                    <figcaption>
+                      <span id="imgLeft2">← Previous</span>
+                      <span id="imgRight2">Next →</span>
+                    </figcaption>
+                  </div>
+                </sexy-modal>
               </div>
             <!--
               <span class="imgControl">
@@ -517,7 +560,7 @@ createComponent(
 
             <connect-wallet id="connectMsg">
               <div slot="connected">
-                <div id="sexyPicSection">
+                <div id="sexyPicSection" style="display: none">
                   <button id="buySexyPic">Buy Sexy Pic</button>
                   <div id="sexyPicText">(0.069 ETH)</div>
                 </div>
@@ -570,6 +613,7 @@ createComponent(
     ctx.$testimonials = ctx.$('#testimonials')
     ctx.$testimonialContent = ctx.$('#testimonialContent')
     ctx.$sendError = ctx.$('#sendError')
+    ctx.$activeThumbnail = ctx.$('#activeThumbnail')
 
     if (ctx.getAttribute('sideWindow')) ctx.parent.classList.add('sideWindow')
 
@@ -588,13 +632,20 @@ createComponent(
 
     ctx.$chat.href = `../chat?activeChat=${name}`
 
-    ctx.$imgLeft.onclick = () => {
+    const getActiveThumbnail = () => `../thumbnails/${ctx.getAttribute('name')}/${ctx.state.activePhoto}.png`
+
+    ctx.changeImgLeft = id => () => {
       ctx.setState({ activePhoto: (maxPhotos + ctx.state.activePhoto - 1) % maxPhotos})
+      ctx.$(id).src = getActiveThumbnail()
     }
 
-    ctx.$imgRight.onclick = () => {
+    ctx.changeImgRight = id => () => {
       ctx.setState({ activePhoto: (ctx.state.activePhoto + 1) % maxPhotos})
+      ctx.$(id).src = getActiveThumbnail()
     }
+
+    ctx.$imgLeft.onclick = ctx.changeImgLeft('#activeThumbnail')
+    ctx.$imgRight.onclick = ctx.changeImgRight('#activeThumbnail')
 
 
     setInterval(() => {
@@ -647,20 +698,21 @@ createComponent(
       }
     })
 
+    ctx.$activeThumbnail.src = getActiveThumbnail()
+
+
+    ctx.$activeThumbnail.onclick = () => {
+      ctx.$('#activeThumbnailModal').open()
+      ctx.$('#activeThumbnail2').src = getActiveThumbnail()
+      ctx.$('#imgLeft2').onclick = ctx.changeImgLeft('#activeThumbnail2')
+      ctx.$('#imgRight2').onclick = ctx.changeImgRight('#activeThumbnail2')
+    }
+
+    ctx.$('#imgLeft2').onclick = ctx.changeImgLeft
+    ctx.$('#imgRight2').onclick = ctx.changeImgRight
   },
   (ctx) => {
-    ctx.$photos.innerHTML = `
-      <img id="activeThumbnail" src="../thumbnails/${ctx.getAttribute('name')}/${ctx.state.activePhoto}.png">
-      <sexy-modal id="activeThumbnailModal">
-        <div slot="content" class="modalContent">
-          <img src="../thumbnails/${ctx.getAttribute('name')}/${ctx.state.activePhoto}.png">
-        </div>
-      </sexy-modal>
-    `
 
-    ctx.$('#activeThumbnail').onclick = () => {
-      ctx.$('#activeThumbnailModal').open()
-    }
 
   },
 )

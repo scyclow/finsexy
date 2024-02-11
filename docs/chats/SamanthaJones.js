@@ -26,6 +26,7 @@ export const SamanthaProfile = {
   age: 46,
   distance: 6,
   gender: 'Female',
+  display: 'f',
   maxPhotos: 4,
   description: `
   Samantha Jones is a tax auditor financial professional who loves auditing crypto ${genderSwitch({

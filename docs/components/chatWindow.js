@@ -32,6 +32,10 @@ createComponent(
         color: var(--light-color);
       }
 
+      img {
+        user-select: none;
+      }
+
       #input {
         resize: none;
         width: 100%;
@@ -72,14 +76,16 @@ createComponent(
         padding: 0 1em;
         transition: 0.2s;
         font-size: 1em;
-        text-shadow: 0 0 3px var(--dark-color)0ff;
+        text-shadow: 0 0 3px var(--dark-color);
+        user-select: none;
       }
 
-      #submit:hover {
+      #submit:hover, #submit:active, #submit:focus {
         box-shadow: 0 0 20px var(--primary-color);
+        outline: none;
       }
-      #submit:active {
-        opacity: 0.9;
+      #submit:active, #submit:focus {
+        opacity: 0.8;
       }
 
       #chat {
@@ -93,8 +99,7 @@ createComponent(
         display: flex;
         flex-direction: column;
         justify-content: end;
-        padding: 0.75em;
-        padding-top: 0em;
+        padding: 0em 0.75em;
       }
 
       #displayContainer {
@@ -115,11 +120,12 @@ createComponent(
         border-radius: 1em;
         max-width: 35em;
         line-height: 1.2;
+        word-break: break-word;
       }
 
       .message a {
-        color: var(--light-color);
-        text-shadow: 1px 1px 2px var(--secondary-color), 1px 1px 1px var(--dark-color);
+        color: var(--light-link-color);
+        text-shadow: 1px 1px 9px var(--secondary-color), 1px 1px 1px var(--dark-color);
       }
 
       .message a:hover {
@@ -208,7 +214,6 @@ createComponent(
         display: block;
         font-size: 0.5em;
         margin-top: 1em;
-        margin-bottom: 2em;
         padding: 0 1em;
       }
 
@@ -222,6 +227,7 @@ createComponent(
         font-style: italic;
         margin-left: 1em;
 
+        transition: 0.2s;
         opacity: 1;
       }
 
@@ -250,11 +256,17 @@ createComponent(
         text-decoration: none;
         cursor: pointer;
       }
-      #profileLink:hover {
+      #profileLink:hover, #profileLink:active, #profileLink:focus {
         text-decoration: underline;
-
       }
-      #profileLink:hover #pfpContainer {
+
+      #profileLink:active, #profileLink:focus {
+        outline: 1px solid var(--primary-color);
+      }
+
+      #profileLink:hover #pfpContainer,
+      #profileLink:active #pfpContainer,
+      #profileLink:focus #pfpContainer {
         box-shadow: 0 0 15px var(--light-color);
       }
 
@@ -286,6 +298,8 @@ createComponent(
       .chatMessage {
         display: flex;
         flex-direction: column;
+        margin-bottom: 1em;
+        transition: 0.3s;
       }
 
       code {
@@ -320,11 +334,48 @@ createComponent(
         color: var(--medium-color);
       }
 
+      #newMessage {
+        position: static;
+        overflow: visible;
+        height: 0;
+      }
+      #newMessage * {
+        position: relative;
+        transform: translate(0, -96%);
+        padding: 0.25em;
+        text-align: center;
+        background: linear-gradient(180deg, rgba(0,0,0,0) 0%, var(--primary-color) 100%);
+        text-shadow: 0 0 3px var(--dark-color);
+      }
+
       @media(max-width: 520px) {
         #back {
           display: initial;
         }
       }
+
+      .dance:first-child {
+        margin-left: 0.15em
+      }
+      .dance {
+        display: inline-block;
+        animation: Dance 1.75s ease-in-out infinite;
+      }
+
+      @keyframes Dance {
+        0%, 50%, 100% {
+          transform: translate(0, 0);
+        }
+
+        25% {
+          transform: translate(0, -0.25em);
+        }
+
+        45% {
+          transform: translate(0, 0.025em);
+        }
+      }
+
 
 
     </style>
@@ -344,8 +395,9 @@ createComponent(
 
       <div id="displayContainer">
         <div id="display"></div>
-        <div id="isTyping" class="hidden">heather is typing...</div>
+        <div id="isTyping" class="hidden"></div>
       </div>
+      <div id="newMessage" class="hidden"><div style="position: relative">New Message!</div></div>
       <div id="inputArea">
         <textarea id="input"></textarea>
         <button id="submit">SUBMIT</button>
@@ -365,6 +417,7 @@ createComponent(
     ctx.$pfp = ctx.$('#pfp')
     ctx.$chatName = ctx.$('#chatName')
     ctx.$profileLink = ctx.$('#profileLink')
+    ctx.$newMessage = ctx.$('#newMessage')
 
     const name = ctx.getAttribute('name')
 
@@ -386,11 +439,13 @@ createComponent(
       if (e.key === 'Enter') submit()
     })
 
-    ctx.$isTyping.innerHTML = `${name} is typing...`
+    ctx.$isTyping.innerHTML = `${name} is typing<span class="dance" >.</span><span class="dance" style="animation-delay:0.2s">.</span><span class="dance" style="animation-delay:0.4s">.</span>`
 
+    ctx.isAtBottom = () => ctx.$displayContainer.scrollTop + window.innerHeight >= ctx.$displayContainer.scrollHeight //+ 75
     ctx.scroll = () => {
       ctx.$displayContainer.scrollTop = ctx.$displayContainer.scrollHeight
     }
+
 
     ctx.scroll()
 
@@ -400,6 +455,9 @@ createComponent(
       ctx.$displayContainer.classList.add('smoothScroll')
     }, 200)
 
+    ctx.$displayContainer.onscroll = () => {
+      if (ctx.isAtBottom()) ctx.$newMessage.classList.add('hidden')
+    }
 
   },
   ctx => {
@@ -436,16 +494,18 @@ createComponent(
       }
     `, { class: 'chatMessage'})
 
+    const isAtBottom = ctx.isAtBottom()
+
 
     const lastMessage = last(ctx.state.history)
 
 
-
+    let $lastMessage
     if (
       ctx.state.history.length &&
       ctx.state.history.length === ctx.oldState.history.length + 1
     ) {
-      const $lastMessage = renderMessage(lastMessage, ctx.state.history.length-1)
+      $lastMessage = renderMessage(lastMessage, ctx.state.history.length-1)
       ctx.$display.append($lastMessage)
       // if (last(ctx.state.history).from !== 'you' && FIRST_LOAD < Date.now() - 1000) {
       //   new Audio('/assets/notification4.mp3').play().catch(noop)
@@ -458,7 +518,11 @@ createComponent(
     }
 
 
-    ctx.scroll()
+    if (isAtBottom) {
+      ctx.scroll()
+    } else if (!ctx.state.isTyping) {
+      ctx.$newMessage.classList.remove('hidden')
+    }
   }
 )
 

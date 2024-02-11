@@ -32,6 +32,36 @@ const greetings = [
   'hey you',
 ]
 
+const positives = [
+  'positive',
+  'good',
+  'great',
+  'incredible',
+  'fabulous',
+  'amazing',
+  'horny',
+  'amazing',
+  'awesome',
+  'wonderful',
+  'lovely',
+  'terrific',
+  'excellent',
+  'superb',
+  'fabulous',
+  'phenominal',
+  'spectacular',
+  'marvelous',
+  'spelendid',
+  'outstanding',
+  'happy',
+  'love',
+  'ok',
+  'okay',
+  'alright',
+  'not bad',
+  'not too bad',
+]
+
 const yeses = [
   'yes',
   'yeah',
@@ -62,9 +92,9 @@ const yeses = [
   'fuck yeah',
   'fuck yes',
   'fine',
-  '1',
   'true',
   'i do',
+  'i did',
   'i am',
   'i sure am',
   'i sure do',
@@ -87,6 +117,19 @@ const yeses = [
   'sounds great',
   'sort of',
   'sorta',
+  'once or twice',
+  'all the time',
+  'sometimes',
+  'confirm',
+  'confirmation',
+  'i consent',
+  `lets do it`,
+  `lets go`,
+  `lets fucking go`,
+  `lets do it`,
+  `lets do this`,
+  `im in`,
+  ...positives
 ]
 
 const noes = [
@@ -117,37 +160,11 @@ const noes = [
   `wrong`,
   `incorrect`,
   `not bad`,
+  `does not`,
+  `doesnt`
 ]
 
 
-const positives = [
-  'good',
-  'great',
-  'incredible',
-  'fabulous',
-  'amazing',
-  'horny',
-  'amazing',
-  'awesome',
-  'wonderful',
-  'lovely',
-  'terrific',
-  'excellent',
-  'superb',
-  'fabulous',
-  'phenominal',
-  'spectacular',
-  'marvelous',
-  'spelendid',
-  'outstanding',
-  'happy',
-  'love',
-  'ok',
-  'okay',
-  'alright',
-  'not bad',
-  'not too bad',
-]
 
 const negatives = [
   'bad',
@@ -181,10 +198,10 @@ const meanResponses = [
 ]
 
 
-export const responseParser = txt => txt.toLowerCase().trim().replaceAll('!', '').replaceAll('.', '').replaceAll(',', '').replaceAll('"', '').replaceAll(`'`, '')
+export const responseParser = txt => txt.toLowerCase().trim().replaceAll('!', '').replaceAll('.', '').replaceAll(',', '').replaceAll('"', '').replaceAll(`'`, '').replaceAll('?', '')
 
 export function isMatch(txt, phrases) {
-  const cleaned = txt.toLowerCase().trim().replaceAll('!', '').replaceAll('.', '').replaceAll('.', '')
+  const cleaned = responseParser(txt)
   const multipleWordPhrases = phrases.filter(phrase => phrase.split(' ').length > 1)
   const singleWordPhrases = phrases.filter(phrase => phrase.split(' ').length === 1)
 
@@ -208,12 +225,17 @@ export const diatribe = (baseCode, messages, endAction, waitMs=2000) => {
       ? endAction
       : {
           followUp: {
-            messageCode: `${baseCode}-${i+1}`,
+            messageCode: `${baseCode}${i+1}`,
             waitMs
+          },
+          responseHandler: (ur, ctx) => {
+            if (!ctx.eventQueue.length) {
+              return `${baseCode}${i+1}`
+            }
           }
         }
 
-    const code = i ? `${baseCode}-${i}` : baseCode
+    const code = i ? `${baseCode}${i}` : baseCode
 
     nodes[code] = {
       messageText,
@@ -313,11 +335,12 @@ class ChatContext {
       () => {
         const existingContext = this.chatLS.get()
 
-        // if (
-        //   this.history
-        //   && existingContext.history.length < this.history.length
-        //   && this.lastLSRead < ls.get('__LAST_CLEAR_TIME')
-        // ) return
+        if (
+          this.history
+          && existingContext.history
+          && existingContext.history.length < this.history.length
+          && this.lastLSRead < ls.get('__LAST_CLEAR_TIME')
+        ) return
 
         this.lastLSRead = Date.now()
         this.lastMessageTimestamp = existingContext.lastMessageTimestamp || 0
@@ -416,12 +439,16 @@ export class MessageHandler {
     this.provider = MessageHandler.provider
 
     if (messages.__contract) {
-      this.connected = new Promise((res) => {
+      this.connected = new Promise((res, rej) => {
         this.provider.onConnect(async addr => {
-          this.contract = await messages.__contract(this.provider)
-          MessageHandler.globalCtx.isConnected = !!addr
-          MessageHandler.globalCtx.connectedAddr = addr
-          res()
+          try {
+            this.contract = await messages.__contract(this.provider)
+            MessageHandler.globalCtx.isConnected = !!addr
+            MessageHandler.globalCtx.connectedAddr = addr
+            res()
+          } catch (e) {
+            rej(e)
+          }
         })
       })
     }
@@ -474,6 +501,8 @@ export class MessageHandler {
 
     if (nextMessage.timestamp > now) return
 
+    console.log(this.ctx.eventQueue[0])
+
     const { messageCode, userResponse, isFollowup } = this.ctx.eventQueue.shift()
     const messageToSend = this.getMessageToSend(messageCode, userResponse, isFollowup)
 
@@ -481,7 +510,7 @@ export class MessageHandler {
 
     if (messageToSend.event && MessageHandler.globalCtx.isConnected) {
       await this.connected
-      await this.messages[messageToSend.event]?.preEvent(userResponse, this.ctx, this.contract, this.provider)
+      await this.messages[messageToSend.event]?.preEvent?.(userResponse, this.ctx, this.contract, this.provider)
     }
 
     const followUp = await this.sendFollowup(messageToSend, userResponse)
@@ -490,7 +519,7 @@ export class MessageHandler {
     if (followUp) {
       const messageToSend = this.getMessageToSend(followUp.messageCode, userResponse, true)
       const estimatedMessageText = await this.sendMessage(messageToSend, userResponse)
-      const [typingWait, wait] = this.waitTimes(estimatedMessageText, 250)
+      const [typingWait, wait] = this.waitTimes(estimatedMessageText, 250, followUp.waitMs)
 
       this.ctx.addToEventQueue({
         userResponse,
@@ -626,13 +655,13 @@ export class MessageHandler {
     })
   }
 
-  waitTimes(estimatedMessageText, typingWaitFactor) {
+  waitTimes(estimatedMessageText, typingWaitFactor, waitMs=1000) {
     const domTypingSpeed = this.messages.TYPING_SPEED
 
     if (clitLS.get('devIgnoreWait')) {
       return [50, 50]
     } else {
-      const typingWait = 1000 + random(typingWaitFactor)
+      const typingWait = waitMs + random(typingWaitFactor)
       const wait = Math.floor(
         Math.max(
           1500,
@@ -652,7 +681,7 @@ export class MessageHandler {
       const estimatedMessageText = await this.sendMessage(messageToSend, userResponse)
       const [typingWait, wait] = this.waitTimes(estimatedMessageText, 750)
 
-      setTimeout(() => {
+      if (estimatedMessageText) setTimeout(() => {
         this.registeredChatWindows.forEach(chatWindow =>
           !messageToSend.ignoreType && chatWindow.setState({ isTyping: true })
         )

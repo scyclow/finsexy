@@ -157,9 +157,10 @@
     font-size: 1.25em;
     color: var(--light-color);
     background: var(--input-color);
+    border:  1px solid var(--border-color);
   }
 
-  textarea {
+  textarea {`
     width: 15em;
     height: 3em;
   }
@@ -171,6 +172,18 @@
 
   select {
     cursor: pointer;
+  }
+
+  input:active,
+  input:focus,
+  textarea:active,
+  textarea:focus,
+  select:active,
+  select:focus {
+    box-shadow: inset 0 0 3px var(--primary-color);
+    outline: none;
+    border-color: var(--primary-color);
+    /*box-sizing: border-box;*/
   }
 
   .submitContainer {
@@ -190,10 +203,11 @@
     padding: 0.35em 1em;
   }
 
-  button:hover {
+  button:hover, button:active, button:focus {
     color: var(--light-color);
     background: var(--medium-color);
     border-color: var(--light-color);
+    outline: none;
   }
 
   .submitContainer {
@@ -243,7 +257,7 @@
         </select>
       </fieldset>
 
-      <fieldset>
+<!--       <fieldset>
         <legend>Interested In</legend>
         <select required id="interested">
           <option value="" selected disabled hidden></option>
@@ -252,13 +266,13 @@
           <option value="nb">Other</option>
           <option value="nb">Everyone</option>
         </select>
-      </fieldset>
+      </fieldset> -->
 
-
+<!--
       <fieldset>
         <legend>Annual Income</legend>
         <input required type="number" name="income" id="income" placeholder="$100,000">
-      </fieldset>
+      </fieldset> -->
 
       <fieldset>
         <legend>What's your deepest, darkest sexual fantasy?</legend>
@@ -321,8 +335,8 @@ become a VIP -->
     'location',
     'birthday',
     'gender',
-    'interested',
-    'income',
+    // 'interested',
+    // 'income',
     'fantasy',
     'pass',
   ]

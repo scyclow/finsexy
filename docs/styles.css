@@ -13,6 +13,7 @@
   --medium-color: #ff66ff;
   --dark-color: #120211;
   --bg-color: #120211;
+  --light-link-color: #00ffef;
 
   /*--input-color: #292929;*/
   --input-color: #25051e;
@@ -176,6 +177,20 @@ code {
   animation: Burn 24s ease-out;
 }
 
+::selection {
+  background: var(--light-color);
+  color: var(--dark-color);
+  text-shadow: none;
+}
+
+button, img {
+  user-select: none;
+}
+
+
+
+
+
 
 
 @keyframes PreOrgasm {
@@ -221,4 +236,12 @@ code {
   55% {
     filter: brightness(0.5) blur(0.5px) saturate(2) hue-rotate(40deg);
   }
+}
+
+chat-window:not(:defined),
+sexy-header:not(:defined),
+sexy-profile:not(:defined),
+connect-wallet:not(:defined) {
+  opacity: 0;
+  transition: opacity 0.3s;
 }

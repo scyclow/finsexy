@@ -13,6 +13,7 @@ export const AndyProfile = {
   age: 24,
   distance: 10,
   gender: 'Non-Binary',
+  display: 'nb',
   maxPhotos: 4,
   description: `Has your addiction to financial domination gotten out of control? Have you attempted to give it up, but failed because life because life felt like it lost its luster? Do you feel stuck? If this description resonates with you, then I'm here to help. As an advanced artificial intelligence therapy system, I take an ecclectic approach that combines several modalities, including psychosexual-dynamic therapy and CBT. I'm also a trained hypnotherapist.`,
   testimonials: [
@@ -479,10 +480,38 @@ const AndyMessages = {
 
 /*
 
-
-
-
 TODO
+
+  - gets off on mind control, tweaking your fantasies
+    - obedience, training you like a dog
+  - gives you little tasks to do as their slave
+  - you are the slave to the computer
+  - lean into the placebo effect. if you believe it strong enough then it can be real
+  - "if you believe that i'm a real person, then i'm functionally real"
+
+
+
+
+
+Obedience
+  "Now say 'thank you dr andy'"
+  "if you want to be a good boy/girl for Dr Andy, then you'll do exactly what you're told."
+"I want you to get on your knees, bow your head at my feet, and send until it hurts. "
+
+"You know you can't resist Dr Andy"
+"Your addiction is keeping you from letting go. You need to come back for more"
+
+"Every last cent in your wallet belongs to me"
+"You're going to send until it hurts"
+you need stronger consequences.
+You're going to give me all of your money, and you're going to fucking like it
+
+
+
+i love putting men in their place
+I'll train your beta sissy crypto cuck brain to
+
+
   -
   - it's fascinating to see how your mind works
   - anyhow, that will be 0.01
@@ -490,6 +519,25 @@ TODO
 
 
   - clinical research shows that this is the only proven way to cure you of your addiction. You do want to be cured, don't you?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 */
@@ -643,9 +691,11 @@ conclusion:
 Additionally, due to your intense travel schedule you have not experienced sexual release in several days.
 Suddenly, police lights flash behind you, and you are hit with a visceral sinking feeling in your stomach.
 You pull over to the side of the road and sit in your vehicle, looking forward with both hands on the wheel.
-As you await the officer to approach, you reflect on the shame and humiliation for having been caught exceeding the local speed limit."
+As you await the officer to approach, you reflect on the shame and humiliation for having been caught exceeding the local speed limit.
+
+"
 [wait for an extra beat]
-"Finally, you see me, a police officer, exit my vehicle and approach yours through your side mirror. What do you say to mae after you roll down your window?"
+"Finally, you see me, a police officer, exit my vehicle and approach yours through your side mirror. You see a gun attached to my hip, but you know I'm not going to use it. It's just there to intimidate you. The threat of me using it is enough to keep you in line. What do you say to mae after you roll down your window?"
 
 "Do you have any idea how fast you were going? You need to slow down, sir/mam/whatever. That was reckless behavior. You could have killed somebody!"
 

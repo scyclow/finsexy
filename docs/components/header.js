@@ -1,6 +1,8 @@
 import {MessageHandler} from '../state/all.js'
 import {createComponent} from '../$.js'
 import {provider} from '../eth.js'
+import './connectWallet.js'
+
 
 import {winner, profile, chat, house} from './svg.js'
 
@@ -9,6 +11,11 @@ createComponent(
   'sexy-header',
   `
     <style>
+
+      connect-wallet:not(:defined) {
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
       * {
         margin: 0;
         padding: 0;
@@ -21,6 +28,7 @@ createComponent(
         display: flex;
         justify-content: space-between;
         align-items: center;
+        background: var(--bg-color);
       }
 
       h1 a {
@@ -32,9 +40,10 @@ createComponent(
         transition: 300ms;
       }
 
-      h1 a:hover {
-        color: var(--medium-color)
-
+      h1 a:hover, h1 a:active, h1 a:focus {
+        outline: none;
+        color: var(--medium-color);
+        text-shadow: 2px 2px 4px var(--dark-color), 3px 3px 8px var(--primary-color);
       }
 
       nav ul {
@@ -59,15 +68,28 @@ createComponent(
         transition: 0.2s;
         cursor: pointer;
       }
-      nav a:hover, #mobileMenu:hover {
+      nav a:hover, #mobileMenu:hover,
+      nav a:active, #mobileMenu:active,
+      nav a:focus, #mobileMenu:focus {
+        outline: none;
         color: var(--primary-color);
         text-shadow: 0px 0px 10px var(--medium-color);
       }
 
-      nav a:hover svg .svgStroke {
+
+      nav a:active, #mobileMenu:active, h1:active {
+        opacity: 0.8;
+      }
+
+
+      nav a:hover svg .svgStroke,
+      nav a:active svg .svgStroke,
+      nav a:focus svg .svgStroke {
         stroke: var(--primary-color);
       }
-      nav a:hover svg .svgFill {
+      nav a:hover svg .svgFill,
+      nav a:active svg .svgFill,
+      nav a:focus svg .svgFill {
         stroke: var(--primary-color);
         fill: var(--primary-color);
       }
@@ -103,9 +125,65 @@ createComponent(
 
       }
 
+      #totalUnreads, #totalUnreadsMenu {
+        position: absolute;
+        font-size: 0.55em;
+        font-weight: bolder;
+        height: 1em;
+        width: 1em;
+        padding: 0.5em;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background: var(--primary-color);
+        color: var(--light-color);
+
+        transform: translate(0, -1em);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 0 1em var(--primary-color)
+      }
+
+      #totalUnreads {
+        transform: translate(-6.1em, -1em);
+      }
+
+      #totalUnreadsMenu {
+        transform: translate(0, -1em);
+      }
+
+      #totalUnreads.hidden, #totalUnreadsMenu.hidden {
+        visibility: hidden
+      }
+
+      .connectItem {
+        padding: 0 1em;
+        display: flex;
+        align-items: center;
+        justify-content: center
+      }
+
+      #connectButton {
+        transition: 300ms;
+        cursor: pointer;
+        padding: 0.35em 1em;
+        border: 0;
+        color: var(--light-color);
+        border-radius: 3px;
+        background: var(--primary-color);
+        animation: Glissen 3s ease-in-out infinite;
+      }
+
+      #connectButton:hover {
+        background: var(--light-color);
+        color: var(--primary-color);
+        animation: none;
+        box-shadow: 0 0 3em var(--primary-color);
+      }
 
 
-      @media (max-width: 780px) {
+
+      @media (max-width: 810px) {
         #mobileMenu {
           display: initial;
           user-select: none;
@@ -142,55 +220,10 @@ createComponent(
           border-bottom: 0;
         }
 
-      }
+        .connectItem {
+          padding: 1em;
+        }
 
-      #totalUnreads, #totalUnreadsMenu {
-        position: absolute;
-        font-size: 0.55em;
-        font-weight: bolder;
-        height: 1em;
-        width: 1em;
-        padding: 0.5em;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        background: var(--primary-color);
-        color: var(--light-color);
-
-        transform: translate(0, -1em);
-        border: 1px solid var(--border-color);
-        box-shadow: 0 0 1em var(--primary-color)
-      }
-
-      #totalUnreads {
-        transform: translate(-6.1em, -1em);
-      }
-
-      #totalUnreadsMenu {
-        transform: translate(0, -1em);
-      }
-
-      #totalUnreads.hidden, #totalUnreadsMenu.hidden {
-        visibility: hidden
-      }
-
-      #connectButton {
-        transition: 300ms;
-        cursor: pointer;
-        padding: 0.35em 1em;
-        border: 0;
-        color: var(--light-color);
-        border-radius: 3px;
-        background: var(--primary-color);
-        animation: Glissen 3s ease-in-out infinite;
-      }
-
-      #connectButton:hover {
-        background: var(--light-color);
-        color: var(--primary-color);
-        animation: none;
-        box-shadow: 0 0 3em var(--primary-color);
       }
 
       @keyframes Glissen {
@@ -228,13 +261,13 @@ createComponent(
           <!--<li><a href="#">VIP</a></li>-->
           <li><a href="/profile"><span class="icon">${profile}</span>Profile</a></li>
           <li><a href="/senders"><span class="icon">${winner}</span>Top Senders</a></li>
-          <li style="margin-right: 1em">
+          <li>
             <connect-wallet>
-              <div slot="noWeb3">
-                <em class="error">Please Connect in a <br>Web3-enabled Browser</em>
+              <div slot="noWeb3" class="connectItem">
+                <em class="error" style="text-align: center">Please Connect in a <br>Web3-enabled Browser</em>
               </div>
 
-              <div slot="notConnected">
+              <div slot="notConnected" class="connectItem">
                 <connect-button>
                   <button id="connectButton" slot="button">Connect</button>
                   <div slot="loading">Loading...</div>
@@ -243,9 +276,6 @@ createComponent(
 
               <div slot="connected" id="connected"></div>
 
-              <div slot="connectionError" class="error">
-
-              </div>
             </connect-wallet>
           </li>
         </ul>
@@ -275,9 +305,9 @@ createComponent(
       menuOpen = !menuOpen
     }
 
-    provider.onConnect(async (addr) => {
-      ctx.$connected.innerHTML = `<div style="color:var(--medium-color); padding: 0.5em">${await provider.formatAddr(addr)}</div>`
-    })
+    // provider.onConnect(async (addr) => {
+    //   ctx.$connected.innerHTML = `<div style="color:var(--medium-color); padding: 0.5em">${await provider.formatAddr(addr)}</div>`
+    // })
 
 
     // TODO make this a handler instead of an interval

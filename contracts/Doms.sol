@@ -11,6 +11,10 @@ interface IFinSexy {
   function owner() external view returns (address);
 }
 
+interface IERC20 {
+  function transfer(address to, uint256 value) external returns (bool);
+}
+
 
 abstract contract FinDom is Ownable {
   mapping(address => uint256) public tributes;
@@ -64,9 +68,37 @@ contract SamanthaJones is FinDom {
 }
 
 contract VinceSlickson is FinDom {
+  uint256 public erc20Price = 0.01 ether;
+  event ERC20SaleMade(address indexed from, uint256 amount);
+
+
   constructor(address fs) FinDom(3, 0.03 ether, 'VinceSlickson', fs) {}
 
-  function sellFastCash() external {}
+  function sellERC20(address erc20) external payable {
+    require(msg.value >= erc20Price, "Don't waste Vince's time");
+    require(tributes[msg.sender] >= 0.01 ether, "Must wet Vince's whistle");
+
+    uint256 amount = (msg.value / erc20Price) * 1 ether;
+    IERC20(erc20).transfer(msg.sender, amount);
+  }
+  function updateERC20Price(uint256 price) external onlyOwner {
+    erc20Price = price;
+  }
+
+}
+
+contract VinceSlicksonAlpha {
+  mapping(address => uint256) public stakedBalance;
+  mapping(address => uint256) public stakeTime;
+
+  function stake() external payable {
+    stakedBalance[msg.sender] = msg.value;
+
+  }
+
+  function unstake() external {
+
+  }
 }
 
 contract CrystalGoddess is FinDom {

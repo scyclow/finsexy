@@ -13,7 +13,8 @@ export const StevieProfile = {
   name: 'steviep',
   age: 34,
   distance: 0,
-  gender: '',
+  gender: 'Male',
+  display: 'm',
   maxPhotos: 4,
   description: ``,
   testimonials: [
@@ -82,6 +83,8 @@ const StevieMessages = {
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {
+    // TODO: if includes word 'error'
+      // oof, i dunno. maybe let's troubleshoot that error on discord or twitter instead. anyhow, where were we?
     if (userResponse && isMean(userResponse)) {
       return {
         messageText: ``,
@@ -98,6 +101,21 @@ const StevieMessages = {
 
 /*
 
+
+That's right, you're in the palm of my hand
+I'm controlling your entire aesthetic experience
+Give me your unconditional support
+If you really appreciated my art you'd fucking pay me
+Isn't experiencing my art good enough?
+Why should i subject my art to being a casino chip that you can gamble on?
+
+
+I feel like there are two ways to make a living as an artist on the internet. You can either be a dom or a sub. A lot of artists are subs. they're like cam girls who are dancing for the amusement of the viewer. They're just looking for sugar daddies. In a lot of ways they're also like strippers, dancing and trying to collect as much monetary ejaculation as they can.
+
+
+
+
+where their monetary ejaculate is thrown my way. strip clubs are funny because people will show how they're feeling by throwing a wad of money at someone. people express themselves with money. and it's funny how throwing that wad of money constitutes a taxable event. that's a transaction.
 
 
 

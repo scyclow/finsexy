@@ -2,7 +2,10 @@ import {} from './min.ethers.js'
 
 export const bnToN = bn => Number(bn.toString())
 export const ethVal = n => Number(ethers.utils.formatEther(n))
-export const truncateAddr = addr => addr.slice(0, 6) + '...' + addr.slice(-4)
+export const truncateAddr = (addr, len=13) => {
+  const padding = Math.floor((len - 5)/2)
+  return addr.slice(0, 2+padding) + '...' + addr.slice(-padding)
+}
 export const toETH = amt => ethers.utils.parseEther(String(amt))
 export const fromWei = amt => bnToN(amt)/1e18
 export const ethValue = amt => ({ value: toETH(amt) })
@@ -114,10 +117,10 @@ export class Web3Provider {
           ? ens.slice(0, nameLength-3) + '...'
           : ens
       } else {
-        return truncate ? truncateAddr(addr) : addr
+        return truncate ? truncateAddr(addr, nameLength) : addr
       }
     } catch (e) {
-      return truncate ? truncateAddr(addr) : addr
+      return truncate ? truncateAddr(addr, nameLength) : addr
     }
   }
 
@@ -148,13 +151,24 @@ export class Web3Provider {
     return { name, chainId, hasName, network, etherscanPrefix }
   }
 
+  async contractEvents(contract, event, filterArgs) {
+    const filter = contract.filters[event](...filterArgs)
+    return (await contract.queryFilter(filter)).map(e => ({
+      ...e.args,
+      blockNumber: e.blockNumber,
+      txHash: e.transactionHash
+    }))
+  }
+
   async steviepContracts() {
     let networkName = (await provider.getNetwork()).name
     if (networkName === 'local') networkName = 'mainnet'
     const signer = await this.isConnected()
 
     const erc20ABI = [
-      'function balanceOf(address owner) external view returns (uint256 balance)'
+      'function balanceOf(address owner) external view returns (uint256 balance)',
+      'function transfer(address, uint256) external',
+      'event Transfer(address indexed from, address indexed to, uint256 value)'
     ]
 
     const erc721ABI = [
@@ -219,6 +233,12 @@ export class Web3Provider {
       'function tributes(address) external view returns (uint256)'
     ]
 
+    const vinceABI = [
+      ...domABI,
+      'function erc20Price() external view returns (uint256)',
+      'function sellERC20(address) payable external returns ()',
+    ]
+
     const CONTRACTS = {
       local: {
         heatherHot: '0x084815D1330eCC3eF94193a19Ec222C0C73dFf2d',
@@ -241,7 +261,7 @@ export class Web3Provider {
       heatherHot: await this.contract(CONTRACTS.heatherHot, domABI),
       katFischer: await this.contract(CONTRACTS.katFischer, domABI),
       SamanthaJones: await this.contract(CONTRACTS.SamanthaJones, domABI),
-      VinceSlickson: await this.contract(CONTRACTS.VinceSlickson, domABI),
+      VinceSlickson: await this.contract(CONTRACTS.VinceSlickson, vinceABI),
       CrystalGoddess: await this.contract(CONTRACTS.CrystalGoddess, domABI),
       DrAndy: await this.contract(CONTRACTS.DrAndy, domABI),
       DungeonMistress: await this.contract(CONTRACTS.DungeonMistress, domABI),

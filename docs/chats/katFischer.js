@@ -10,6 +10,7 @@ export const KatProfile = {
   age: 23,
   distance: 69,
   gender: 'Female',
+  display: null,
   maxPhotos: 3,
   description: `I'm just doing my job`,
   testimonials: [
@@ -23,7 +24,7 @@ export const KatProfile = {
 
 
 
-const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
+const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 
 
@@ -50,11 +51,11 @@ export const KatMessages = {
 
   typingError: {
     messageText: `Oh my, I'm so sorry. Your user names are so similar I must have made a typing error.`,
-    followUp: { messageCode: 'funny', waitMs: 3000 }
+    followUp: { messageCode: 'funny', waitMs: 1000 }
   },
   funny: {
     messageText: `It's so funny that our paths should cross though.`,
-    followUp: { messageCode: 'sexy', waitMs: 4000 }
+    followUp: { messageCode: 'sexy', waitMs: 2000 }
   },
   sexy: {
     messageText: `You sound so sexy. We should have a conversation!`,
@@ -85,7 +86,7 @@ export const KatMessages = {
   },
   thankful: {
     messageText: () => `I'm so thankful that we have gotten to know each other like this. I wish we could meet in person, but ${getUserData().location} is so far away from where I live.`,
-    followUp: { messageCode: 'busTicket', waitMs: 4000 }
+    followUp: { messageCode: 'busTicket', waitMs: 3000 }
   },
 
   busTicket: {
@@ -101,7 +102,7 @@ export const KatMessages = {
   sendReq1: {
     messageText: (ur, ctx) => `Well, would you be okay with lending me ${ctx.global.premium * 0.01} ETH, just for a bus ticket? I'll pay you back as soon as I get my next paycheck.`,
     event: 'firstSendEvent',
-    followUp: { messageCode: 'sendReqFollowup1', waitMs: 3000 }
+    followUp: { messageCode: 'sendReqFollowup1', waitMs: 1000 }
 
   },
   sendReqFollowup1: {
@@ -119,7 +120,7 @@ export const KatMessages = {
 
   firstSendEvent: createEvent(0.01, {
     primary: fu('firstSendPause', 100),
-    wait: fu('stillThere', 3000),
+    wait: fu('stillThere', 2000),
     notEnough: fu('needMore', 4000)
   }),
 
@@ -186,7 +187,7 @@ export const KatMessages = {
 
   youGotMe: {
     messageText: `Okay, okay, you got me.`,
-    followUp: { messageCode: 'katherine', waitMs: 5000 }
+    followUp: { messageCode: 'katherine', waitMs: 3000 }
   },
 
   katherine: {
@@ -209,22 +210,22 @@ export const KatMessages = {
 
   honestWithYou: {
     messageText: `I'll be completely honest with you: my ex <em>was</em> a total scumbag, and ${genderSwitch({m: `he`, f: `she`, nb: `they`})} just left me in a pretty shitty financial place. I wouldn't be doing this if I didn't <em>really</em> need the money.`,
-    followUp: { messageCode: 'noOptions', waitMs: 4000 }
+    followUp: { messageCode: 'noOptions', waitMs: 3000 }
   },
 
   noOptions: {
     messageText: `I don't feel good about it, but I don't have any options left. My ${genderSwitch({m: `dad`, f: `mom`, nb: `mom`})}'s last medical bill pretty much cleaned out my bank account, and I'm already behind two months on rent. `,
-    followUp: { messageCode: 'zeroReason', waitMs: 8000 }
+    followUp: { messageCode: 'zeroReason', waitMs: 3000 }
   },
 
   zeroReason: {
     messageText: (ur, ctx) => `Look, I know you have absolutely zero reason to trust me, but sending me another ${ctx.global.premium * 0.01} ETH would really mean a lot to me`,
-    followUp: { messageCode: 'trulySorry', waitMs: 4000 }
+    followUp: { messageCode: 'trulySorry', waitMs: 2000 }
   },
 
   trulySorry: {
     messageText: `Either way, just know that I'm truly sorry, and it brings me no pleasure to do any of this.`,
-    followUp: { messageCode: 'meanALot', waitMs: 3000 }
+    followUp: { messageCode: 'meanALot', waitMs: 2000 }
   },
 
   secondSendEvent: createEvent(0.01, {
@@ -266,12 +267,12 @@ export const KatMessages = {
 
   jesusChrist: {
     messageText: `lol, jesus christ`,
-    followUp: { messageCode: 'fuckingMoron', waitMs: 2000 }
+    followUp: { messageCode: 'fuckingMoron', waitMs: 1000 }
   },
 
   fuckingMoron: {
     messageText: `what a fucking moron`,
-    followUp: { messageCode: 'fellForIt', waitMs: 3000 }
+    followUp: { messageCode: 'fellForIt', waitMs: 2000 }
   },
 
   fellForIt: {
@@ -280,13 +281,13 @@ export const KatMessages = {
   },
 
   prettyStupid: {
-    messageText: () => `you must feel pretty stupid right now`,
-    followUp: { messageCode: 'haveFunExplaining', waitMs: 4000 }
+    messageText: `you must feel pretty stupid right now`,
+    followUp: { messageCode: 'haveFunExplaining', waitMs: 1000 }
   },
 
   hilarious: {
     messageText: (r, ctx) => `this is hilarious. I thought you knew for sure when you said "${ctx.state.suspectResponse}"`,
-    followUp: { messageCode: 'haveFunExplaining', waitMs: 3000 }
+    followUp: { messageCode: 'haveFunExplaining', waitMs: 2000 }
   },
 
   haveFunExplaining: {
@@ -360,7 +361,7 @@ export const KatMessages = {
 
   thirdSendEvent: createEvent(0.01, {
     primary: fu('omfg', 5000),
-    notEnough: fu('niceTry', 3000)
+    notEnough: fu('niceTry', 2000)
   }),
 
 

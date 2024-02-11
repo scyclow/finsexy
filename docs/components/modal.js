@@ -8,6 +8,8 @@ createComponent(
         margin: 0;
         padding: 0;
         font-family: var(--default-font);
+        opacity: 1;
+        transition: 0.3s;
       }
 
       #bg {
@@ -26,7 +28,9 @@ createComponent(
       }
 
       .hidden, .hidden * {
-        display: none !important;
+        pointer-events: none;
+        opacity: 0;
+        /* display: none !important;*/
       }
 
       article {

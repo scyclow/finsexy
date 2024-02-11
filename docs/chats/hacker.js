@@ -12,6 +12,7 @@ export const HackerProfile = {
   maxPhotos: 1,
   description: ``,
   gender: null,
+  display: null,
   testimonials: [
     {
       name: '0x72f...daF',

@@ -1,7 +1,9 @@
 import {ls} from '../$.js'
 const profileLS = addr => ({
-  get() {
-    return ls.get('__PROFILE_DATA_' + addr) || {}
+  get(k) {
+    return k
+      ? (ls.get('__PROFILE_DATA_' + addr) || {})[k]
+      : ls.get('__PROFILE_DATA_' + addr) || {}
   },
 
   set(k, v) {
@@ -21,7 +23,7 @@ export function genderSwitch(mapping) {
 }
 
 export function interestedSwitch(mapping) {
-  return mapping[getUserData().interested || 'nb']
+  return mapping[getUserData().interested || 'all']
 }
 
 

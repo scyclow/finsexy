@@ -16,6 +16,10 @@ contract FastCashMock {
   function balanceOf(address owner) external view returns (uint256 balance) {
     return 1;
   }
+
+  function transfer(address to, uint256 value) external returns (bool) {
+    return true;
+  }
 }
 
 

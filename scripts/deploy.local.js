@@ -2,6 +2,7 @@ async function main() {
   const signers = await ethers.getSigners()
   const artist = signers[0]
   console.log('Deploying base contract for artist addr:', artist.address)
+  const steviep = await ethers.getImpersonatedSigner('0x47144372eb383466D18FC91DB9Cd0396Aa6c87A4')
 
   const Contracts = {}
 
@@ -49,6 +50,14 @@ async function main() {
     console.log(FinDoms[i], contract.address)
   }
 
+
+
+  const fcMock = await ethers.getContractFactory('FastCashMock', artist)
+  const FastCash = fcMock.attach('0xcA5228D1fe52D22db85E02CA305cddD9E573D752')
+
+  await FastCash.connect(steviep).transfer(Contracts.VinceSlickson.address, ethers.utils.parseEther('20'))
+
+  console.log(Contracts.VinceSlickson.address, '< FC BALANCE >', await FastCash.connect(steviep).balanceOf(Contracts.VinceSlickson.address))
 
 }
 

@@ -231,6 +231,7 @@
       const contract = contracts[dom]
       const sendFilter = contract.filters.Send()
       const sendEvents = await contract.queryFilter(sendFilter)
+      console.log(sendEvents.map(e => JSON.parse(JSON.stringify(e))))
 
 
       for (let send of sendEvents) {

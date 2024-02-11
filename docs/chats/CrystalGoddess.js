@@ -50,7 +50,7 @@ async function tributeEvent(ctx, contract, provider) {
 
 
 
-const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
+const fu = (messageCode, waitMs=1500) => ({ messageCode, waitMs })
 
 
 
@@ -60,8 +60,9 @@ export const CrystalGoddessProfile = {
   age: 31,
   distance: 16,
   gender: 'Female',
+  display: 'f',
   maxPhotos: 4,
-  description: `Bow down to Crystal Goddess. I'm going to suck you dry and drain you till it hurts. `,
+  description: `Bow down to Crystal Goddess. Atone for your monetary sins and seek enlightenment.`,
   testimonials: [
     {
       name: '0x1',
@@ -167,12 +168,13 @@ export const CrystalGoddessMessages = {
     (ur, ctx) => `${ctx.state.knowSoMuch ? 'But there' : 'There'} is ${ctx.state.knowSoMuch ? 'still ' : ''}so much you do not understand. I see you, staying up late at night, staring into the deep void of your computer screen, ${genderSwitch({m: 'erection', f: 'vulva', nb: 'genitals'})} in hand, praying to the false idol of market analysis`,
     `Seeking patterns in chaos. Trend lines, Candlesticks, Ichimoku Clouds. Religiously tracking memes and metas`,
     `You worship the aura of the rare, searching for a Holy Grail. You see monkeys with coins in their eyes and mistake that for wealth. You live your life believing you can take your money with you upon your death. But you do not understand that Charon's Obol will only get you across the lake of fire`,
-    `The simple fact that you are here shows that you've been lead astray`,
+    `The simple fact that you are here shows that you have been lead astray, and are living in a warped monetary reality`,
     `@SamanthaJones may have seen all of your transactions, but I've seen more`,
     `Goddess knows all`,
   ], {
-    followUp: fu('doYouWish', 6000)
+    responseHandler: 'doYouWish'
   }),
+
 
   doYouWish: {
     messageText: `Do you accept your follies and wish to repent for your sins?`,
@@ -181,7 +183,7 @@ export const CrystalGoddessMessages = {
 
 
   fool: {
-    messageText: `That is because you are truly a fool`,
+    messageText: ur => isNo(ur) ? `That is because you are truly a fool` : `You truly are a fool`,
     followUp: fu('relent')
   },
 
@@ -199,7 +201,7 @@ export const CrystalGoddessMessages = {
 
   vowDevotionFailure: {
     messageText: `I think the words your looking for are: "I make a vow of devotion to you, my goddess"`,
-    responseHandler: ur => responseParser(ur).includes('i make a vow of devotion to you my goddess')
+    responseHandler: ur => responseParser(ur).includes('a vow of devotion to you my goddess')
       ? 'vowDevotionSuccess'
       : 'vowDevotionFailure'
   },
@@ -211,6 +213,23 @@ export const CrystalGoddessMessages = {
     followUp: fu('divineOwnership')
   },
 
+
+
+// TODO: maybe monetary reality  stuff goes here (origin of money, where money's value comes from)
+  // then, cleanse the soul through a ritual burn
+  // then take the vow of devotion
+
+
+
+
+  /*
+    A false monetary reality
+      (this is where it can get into money having value due to faith)
+
+  */
+
+
+
   ...diatribe('divineOwnership', [
     () => `In taking this vow of devotion, you acknowledge that I, your Goddess, claim divine ownership over you, ${getUserData('name')}`,
     `You relenquish control over the entirety of your digital assets, as you have found the burden of self-sovereign ownership to be too much for your soul to bear. The responsibility of free will has overwhelmed you. Your stupid little mind collapses under the slightest pressure of decision making`,
@@ -220,7 +239,7 @@ export const CrystalGoddessMessages = {
     `Is this all making sense to your tiny little brain?`
   ], {
     responseHandler: 'divineOwnershipNext'
-  }, 5000),
+  }, 3500),
 
 
   divineOwnershipNext: {
@@ -235,6 +254,10 @@ export const CrystalGoddessMessages = {
     followUp: fu('evacuation')
   },
 
+
+  // TODO: I need you to show me that you're willing to sacrifice
+  // ritual sacrifice
+
   evacuation: {
     messageText: `First, we must cleanse your transactional pathways by burning 0.000666000 ETH. It is important that you do not refresh your web browser while the ritual is underway`,
     followUp: fu('initiateBurn')
@@ -242,13 +265,13 @@ export const CrystalGoddessMessages = {
 
   initiateBurn: {
     messageText: 'You can initiate a ritual burn with the sexy CLIT by typing <code>$sexy burn 0.000666000</code>',
-    event: ctx => ctx.state.totalBurnt >= 0.000666 ? { messageCode: 'aura', waitMs: 3000 } : null,
+    event: ctx => ctx.state.totalBurnt >= 0.000666 ? fu('aura') : null,
     responseHandler: 'doNotSpeak'
   },
 
   doNotSpeak: {
     messageText: `Do not speak until you have completed your burn`,
-    event: ctx => ctx.state.totalBurnt >= 0.000666 ? { messageCode: 'aura', waitMs: 3000 } : null,
+    event: ctx => ctx.state.totalBurnt >= 0.000666 ? fu('aura') : null,
     responseHandler: 'initiateBurn'
   },
 
@@ -282,6 +305,12 @@ export const CrystalGoddessMessages = {
 
 
 /*
+
+  - gets off on ritual
+  - TODO: look up pagan money rituals
+  - need to find a way to get more metaphysical money shit in there
+  - "You are living under a warped monetary reality"
+
 
 
 
@@ -322,13 +351,13 @@ feminist
 obedience
 
 
-you need stronger consequences.
+
+"You, ___, are my slave. You will do what you're told, and you will worship me."
 
 
-You're going to give me all of your money, and you're going to fucking like it
 
 
-I want you to spend until it hurts
+
 
 
 contract?
@@ -371,15 +400,10 @@ you know, the rise of monogmous relationships can be directly tied to capitalism
 
 
 
-"if you want to be a good boy/girl for Goddess Jessica, then you'll do exactly what you're told."
-"I want you to get on your knees, bow your head at my feet, and send until it hurts. "
 
-"You know you can't resist Goddess Jessica"
-"Your addiction is keeping you from letting go. You need to come back for more"
 
-"Every last cent in your wallet belongs to me"
-"You're going to send until it hurts"
-"You, ___, are my slave. You will do what you're told, and you will worship me."
+
+
 
 
 explore ideas of ownership over paypig
@@ -389,15 +413,12 @@ https://twitter.com/GoddessLizzie3
 
 
 
-There's nothing hotter than a man bowing down to a woman
 
 
 The problem with men is that they have idiotic standards of beauty
 all they want are skinny bitches
 
-95% of the largest companies in this country are run by men
-women only make $0.70 for every dollar a man makes
-so the way i see it, 30% of your wallet is mine
+
 
 
 
@@ -407,17 +428,14 @@ https://twitter.com/iwantnura/status/1688496905519517697
   men are the problem with this world
   the only way you can make yourself useful is by
 
-i love putting men in their place
 
 
 
 
 
-I'll train your beta sissy crypto cuck brain to
 
-Who said you're entitled to my time and attention? You have to earn that
 
-sex work is work
+
 
 
 
