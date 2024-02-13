@@ -1,6 +1,6 @@
 import { getUserData } from './profile.js'
 import { sexyCLIT, clitLS } from './clit.js'
-import {ls} from '../$.js'
+import {ls, $} from '../$.js'
 import {provider} from '../eth.js'
 
 
@@ -354,6 +354,10 @@ class ChatContext {
         this.lastLSRead = Date.now()
         this.history = existingContext.history || []
 
+        MessageHandler.updateGlobalUnread()
+        // if (chatName === 'katFischer') {
+        //   console.log(this.history, existingContext.history)
+        // }
 
         onRehydrate(this.history)
       },
@@ -388,8 +392,11 @@ class ChatContext {
   }
 
   resetUnread() {
-    this.unread = 0
-    this.updateLS()
+    if (!document.hidden) {
+      this.unread = 0
+      this.updateLS()
+      MessageHandler.updateGlobalUnread()
+    }
   }
 }
 
@@ -484,6 +491,20 @@ export class MessageHandler {
     return Object.keys(MessageHandler.chats).reduce((sum, k) => sum + MessageHandler.chats[k].ctx.unread, 0)
   }
 
+  static updateGlobalUnread() {
+    const unreadCount = MessageHandler.totalUnreads()
+    const originalTitle = document.title
+    const cleanedTitle = originalTitle.replace(/\((\d+)\)/, '').trim()
+    if (unreadCount > 0) {
+      document.title = `(${unreadCount}) ${cleanedTitle}`
+      $.id('favicon').href = $.id('favicon').href.replace('kiss.svg', 'kissNotification.svg')
+
+    } else {
+      document.title = cleanedTitle
+      $.id('favicon').href = $.id('favicon').href.replace('kissNotification.svg', 'kiss.svg')
+    }
+  }
+
   async handleQueue() {
     if (!this.ctx.eventQueue.length) return
     const nextMessage = this.ctx.eventQueue[0]
@@ -530,7 +551,9 @@ export class MessageHandler {
       })
     }
 
-    this.ctx.lastDomCodeSent = messageCode
+    if (messageToSend.followUp || messageToSend.responseHandler) {
+      this.ctx.lastDomCodeSent = messageCode
+    }
 
 
     if (messageToSend.ignoreSend) return
@@ -597,8 +620,9 @@ export class MessageHandler {
   updateHistory({ from, messageText, messageCode, helpMessage }) {
     if (!messageText) return
 
-    if (!this.isActive) {
+    if (!this.isActive || document.hidden) {
       this.ctx.unread += 1
+      MessageHandler.updateGlobalUnread()
     }
     if (from === 'you') {
       this.ctx.lastUserMessageTimestamp = Date.now()
@@ -698,4 +722,15 @@ export class MessageHandler {
   }
 }
 
+setTimeout(() => {
+  MessageHandler.updateGlobalUnread()
+}, 2000)
+
 window.MessageHandler = MessageHandler
+
+
+document.onvisibilitychange = () => {
+  if (!document.hidden) MessageHandler.updateGlobalUnread()
+}
+
+

@@ -194,6 +194,7 @@ const SamanthaMessages = {
 
       const isConnected = await provider.isConnected()
       if (isConnected) return 'pleaseHold'
+      else if (!window.ethereum) return 'onlyWeb3'
       else return 'onlyConnected'
     }
   },
@@ -203,11 +204,22 @@ const SamanthaMessages = {
   // TODO: "naughty"
   // TODO: if sent to other doms, mention potential tax fraud
 
-  onlyConnected: {
-    messageText: `I'm sorry, but only talk to people who connect their wallets. I like to know who I'm speaking with.`,
+  onlyWeb3: {
+    messageText: `I like to know who I'm speaking with, and frankly that isn't possible unless you are using a web3-enabled browser.`,
     responseHandler: async (ur, ctx, contract, provider) => {
       const isConnected = await provider.isConnected()
       if (isConnected) return 'pleaseHold'
+      else if (!window.ethereum) return 'onlyWeb3'
+      else return 'onlyConnected'
+    }
+  },
+
+  onlyConnected: {
+    messageText: `I'm sorry, but I don't talk to anyone who isn't willing connect their wallet. I like to know who I'm speaking with.`,
+    responseHandler: async (ur, ctx, contract, provider) => {
+      const isConnected = await provider.isConnected()
+      if (isConnected) return 'pleaseHold'
+      else if (!window.ethereum) return 'onlyWeb3'
       else return 'onlyConnected'
     }
   },

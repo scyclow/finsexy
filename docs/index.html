@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <title>FinSexy</title>
-  <link rel="shortcut icon" type="image/x-icon" href="./assets/kiss.png">
+  <link rel="shortcut icon" type="image/x-icon" href="./assets/kiss.svg" id="favicon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <meta name="description" content="">
@@ -46,7 +46,7 @@
 
 
     h2 {
-      text-shadow: 2px 2px var(--dark-color), 3px 3px 2px var(--primary-color);
+      text-shadow: 0 0 2px var(--dark-color), 0 0 5px var(--medium-color), 0 0 8px var(--border-color);
       text-decoration: none;
       color: var(--light-color);
       text-align: center;
@@ -83,6 +83,13 @@
       font-size: 8px;
     }
 
+    details {
+      cursor: pointer;
+    }
+
+    p {
+      font-size: 0.9em;
+    }
 
     select {
       padding: 0.25em;
@@ -91,8 +98,6 @@
       background: var(--input-color);
       border:  1px solid var(--border-color);
     }
-
-
 
     select {
       cursor: pointer;
@@ -129,7 +134,7 @@
     }
 
     .filterRow button {
-      color: var(--primary-color);
+      color: var(--medium-color);
       border: 1px solid;
       background: var(--dark-color);
       transition: 0.3s;
@@ -139,7 +144,7 @@
     }
 
     .filterRow button:hover, .filterRow button:active, .filterRow button:focus {
-      color: var(--primary-color);
+      color: var(--medium-color);
       background: var(--light-color);
       border-color: var(--light-color);
       outline: none;
@@ -153,6 +158,12 @@
       color: var(--light-color);
       background: var(--primary-color);
       border-color: var(--primary-color);
+    }
+
+
+    #connectedAs, #balance {
+      font-family: var(--code-font);
+      color: var(--medium-color);
     }
 
     .mainSection {
@@ -390,10 +401,6 @@
       z-index: 10;
     }
 
-    #connectedAs, #balance {
-      font-family: var(--code-font);
-      color: var(--primary-color);
-    }
 
 
     #tributes td {
@@ -405,6 +412,27 @@
       color: var(--primary-color);
     }
 
+
+
+    .faq {
+      border: 1px solid var(--border-color);
+    }
+    .faq + .faq {
+      border-top: 0;
+    }
+
+    .faqQ {
+      /*border-bottom: 1px solid var(--border-color);*/
+      /*background: var(--gray-color);*/
+      /*cursor: pointer;*/
+    }
+    .faqQ span {
+      cursor: no-drop;
+    }
+
+    .faqQ, .faqA {
+      padding: 0.75em;
+    }
 
 
 
@@ -429,12 +457,7 @@
             <em class="error">Please Connect in a <br>Web3-enabled Browser</em>
           </div>
 
-          <div slot="notConnected">
-            <connect-button>
-              <button id="connectButton" slot="button">Connect</button>
-              <div slot="loading">Loading...</div>
-            </connect-button>
-          </div>
+
 
           <div slot="connected">
             <div class="filterRow"><h3>Connected As</h3> <div id="connectedAs"></div></div>
@@ -463,6 +486,62 @@
             </div>
           </div>
         </connect-wallet>
+
+
+        <div>
+          <h2>FAQs</h2>
+          <details class="faq">
+            <summary class="faqQ">What is FinDom?</summary>
+            <p class="faqA">FinDom is short for "Financial Domination", and refers to the hot new fetish in which financial submissives (or, "paypigs") get off on the power exchange of being dominated</p>
+          </details>
+
+          <details class="faq">
+            <summary class="faqQ">How does FinSexy Work?</summary>
+            <p class="faqA">FinDom is short for "Financial Domination", and refers to the hot new fetish in which financial submissives (or, "paypigs") get off on the power exchange of being dominated</p>
+          </details>
+
+          <details class="faq">
+            <summary class="faqQ">How do I send FinDoms ETH?</summary>
+            <p class="faqA">FinDom is short for "Financial Domination", and refers to the hot new fetish in which financial submissives (or, "paypigs") get off on the power exchange of being dominated</p>
+          </details>
+
+          <details class="faq">
+            <summary class="faqQ">Why do the FinSexy doms only accept crypto?</summary>
+            <p class="faqA">FinDom is short for "Financial Domination", and refers to the hot new fetish in which financial submissives (or, "paypigs") get off on the power exchange of being dominated</p>
+          </details>
+
+          <details class="faq">
+            <summary class="faqQ">Do FinDoms accept FastCash?</summary>
+            <p class="faqA">FinDom is short for "Financial Domination", and refers to the hot new fetish in which financial submissives (or, "paypigs") get off on the power exchange of being dominated</p>
+          </details>
+
+          <details class="faq">
+            <summary class="faqQ">How do I connect my wallet?</summary>
+            <p class="faqA">FinDom is short for "Financial Domination", and refers to the hot new fetish in which financial submissives (or, "paypigs") get off on the power exchange of being dominated</p>
+          </details>
+
+          <details class="faq">
+            <summary class="faqQ">What do I do if I have an unhealthy relationship with FinDom?</summary>
+            <p class="faqA">FinDom is short for "Financial Domination", and refers to the hot new fetish in which financial submissives (or, "paypigs") get off on the power exchange of being dominated</p>
+          </details>
+        </div>
+        <!--
+          FAQs
+            What is FinDom?
+            How does finsexy work?
+            How do I send FinSexy Doms ETH?
+
+            Do FinDoms accept <a>FastCash</a>?
+
+            how do I connect my wallet?
+            What do I do if I have an unhealthy problem with FinDom?
+
+          Terms of Service
+          Technical Support
+          (c) steviep.xyz
+
+
+         -->
 
         <footer style="margin-top: 30em">
 
@@ -557,7 +636,6 @@
 
 
   function setFilter(f) {
-    console.log(f);
     ['all', 'm', 'f', 'nb'].forEach(g => {
       if (g === f) {
         $.id('links').classList.add(`filter-${g}`)
@@ -571,7 +649,7 @@
 
     defaultProfileLS.set('interested', f)
   }
-  setFilter(defaultProfileLS.get('interested'))
+  setFilter(defaultProfileLS.get('interested') || 'all')
 
 
   ;['all', 'm', 'f', 'nb'].forEach(g => {

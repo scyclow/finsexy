@@ -83,8 +83,10 @@ const QueenMessages = {
 
   helloResponse: {
     async messageText(ur, ctx, contract, provider) {
-
-      if (!ctx.global.isConnected) {
+      if (!provider.isWeb3) {
+        if (ctx.state.rejected0) return ''
+        return `Are you lost?`
+      } else if (!ctx.global.isConnected) {
         if (ctx.state.rejected1) return ''
         return `Ha, you think you can talk to me without even connecting your wallet? `
 
@@ -108,7 +110,12 @@ const QueenMessages = {
       }
     },
     async followUp(ur, ctx, contract, provider) {
-      if (!ctx.global.isConnected) {
+      if (!provider.isWeb3) {
+        if (ctx.state.rejected0) return
+        ctx.state.introResponded = false
+        ctx.state.rejected0 = true
+        return fu('helloRejected0')
+      } else if (!ctx.global.isConnected) {
         if (ctx.state.rejected1) return
         ctx.state.introResponded = false
         ctx.state.rejected1 = true
@@ -144,6 +151,14 @@ const QueenMessages = {
           else return 'serveMeNo'
         }
       }
+    }
+  },
+
+  helloRejected0: {
+    messageText: `You don't even have a web3 browser. What a fucking loser 😂`,
+    responseHandler: (ur, ctx) => {
+      ctx.state.introResponded = true
+      return 'helloResponse'
     }
   },
 

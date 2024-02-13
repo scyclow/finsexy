@@ -98,29 +98,15 @@ function css(style) {
 }
 
 
-function setMetadata(usedContent) {
+function setMetadata() {
   $html.translate = false
   $html.lang = 'en'
   $html.className = 'notranslate'
 
-  const title = usedContent.join(' ')
-
-  document.title = title
-
   addMetaTag({ name: 'google', content: 'notranslate' })
-  addMetaTag({ name: 'description', content: title })
-  addMetaTag({ name: 'keywords', content: usedContent.join(', ').toLowerCase() })
-
-  setRunInterval(() => {
-    addThumbnail(
-      BW
-        ? prb(0.5) ? '#000' : '#fff'
-        : getShadowColor(chooseHue())
-    )
-  }, 1000)
-
-  console.log(title)
 }
+
+setMetadata()
 
 export const ls = {
   get(key) {

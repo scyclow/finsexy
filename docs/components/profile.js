@@ -109,6 +109,9 @@ createComponent(
         margin-right: 0.5em;
       }
 
+     #imgLeft2, #imgRight2 {
+      text-shadow: 3px 3px 0px var(--dark-color), 3px 3px 8px var(--dark-color);
+     }
       #imgLeft, #imgRight,
       #imgLeft2, #imgRight2 {
         user-select: none;
@@ -190,6 +193,7 @@ createComponent(
         width: 80vmin;
         height: 80vmin;
         border: 2px solid var(--primary-color);
+        box-shadow: 0 0 90px var(--primary-color);
       }
 
 

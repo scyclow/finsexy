@@ -166,7 +166,7 @@ createComponent(
       #connectButton {
         transition: 300ms;
         cursor: pointer;
-        padding: 0.35em 1em;
+        padding: 0.5em 1em;
         border: 0;
         color: var(--light-color);
         border-radius: 3px;
@@ -269,7 +269,7 @@ createComponent(
 
               <div slot="notConnected" class="connectItem">
                 <connect-button>
-                  <button id="connectButton" slot="button">Connect</button>
+                  <button id="connectButton" slot="button">Connect Wallet</button>
                   <div slot="loading">Loading...</div>
                 </connect-button>
               </div>

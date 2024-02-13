@@ -125,7 +125,7 @@ createComponent(
 
       .message a {
         color: var(--light-link-color);
-        text-shadow: 1px 1px 9px var(--secondary-color), 1px 1px 1px var(--dark-color);
+        text-shadow: 1px 1px 1px var(--dark-color);
       }
 
       .message a:hover {

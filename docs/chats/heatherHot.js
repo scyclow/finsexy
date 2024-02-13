@@ -18,10 +18,10 @@ https://www.reddit.com/r/findomsupportgroup/comments/18qvg29/i_try_to_be_an_ethi
 
 import { isYes, isNo, isGreeting, isNegative, isPositive, isMean, isMatch, createEvent,MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
-import {bnToN} from '../eth.js'
+import {bnToN, DOM_CONTRACTS} from '../eth.js'
 
 
-const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
+const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 /*
 
@@ -77,7 +77,7 @@ export const HeatherHotProfile = {
 
 
 const HeatherHotMessages = {
-  TYPING_SPEED: 1.5,
+  TYPING_SPEED: 1,
 
 
 
@@ -221,7 +221,7 @@ const HeatherHotMessages = {
         return `So what do you say? Are you ready for me to ${ctx.state.isNew ? 'pop your findom cherry' : 'suck your wallet dry'}? Or do you want to me to tell you more about finsexy?`
       }
     },
-    responseHandler: (ur, ctx) => {
+    responseHandler: async (ur, ctx, contract, provider) => {
       if (
         isMatch(ur, ['finsexy', 'more', 'question', 'tell me', 'info', 'help', 'ok', 'okay', 'k', 'yes', 'yeah'])
       ) {
@@ -240,6 +240,8 @@ const HeatherHotMessages = {
           return 'moreInfo4'
         }
 
+      } else if (!provider.isWeb3) {
+        return 'noWeb3'
       } else {
         return ctx.global.isConnected ? 'getStarted' : 'waitForConnect'
       }
@@ -367,6 +369,21 @@ const HeatherHotMessages = {
   moreInfo4e: {
     messageText: `And lastly, this is an adult website!! If you're not 18+ then please please please go use a kid-friendly app instead, like tiktok or friendworld`,
     followUp: { messageCode: 'nextSteps', waitMs: 5000 }
+  },
+
+  noWeb3: {
+    messageText: `Oops, it looks like you need to install a web3 wallet like <a href="https://metamask.io/" target="_blank" rel="nofollow">MetaMask</a> or <a href="https://rainbow.me/" target="_blank" rel="nofollow">Rainbow</a>. Or visit in a web browser like <a href="https://brave.com" target="_blank" rel="nofollow">Brave</a>.`,
+    followUp: fu('orSendDirect')
+  },
+
+  orSendDirect: {
+    messageText: (ur, ctx, contract) => `Or you can send ETH directly to my wallet: ${DOM_CONTRACTS.mainnet.address}`,
+    followUp: 'moreFun'
+  },
+
+  moreFun: {
+    messageText: `But we'll have waaaay more fun if you can connect your wallet 😉`,
+    responseHandler: 'nextSteps'
   },
 
   waitForConnect: {

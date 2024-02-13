@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" translate="no" class="notranslate">
 <head>
   <meta charset="utf-8">
   <title>FinSexy</title>
-  <link rel="shortcut icon" type="image/x-icon" href="./assets/kiss.png">
+  <link rel="shortcut icon" type="image/x-icon" href="./assets/kiss.svg" id="favicon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <meta name="description" content="">
@@ -172,6 +172,7 @@
       }
       #messageSelectorSection .active {
         background: none;
+        box-shadow: none;
       }
       #messageSelectorSection li:after {
         content: '→';
@@ -312,6 +313,7 @@
 
     if (!ignoreHistory && existingActiveChat !== id) window.history.pushState({ activeChat }, '', url.toString())
 
+
     if (!ignoreHistory && activeChat === id) return
     activeChat = id
 
@@ -331,8 +333,12 @@
 
     Object.keys(MessageHandler.chats).forEach(k => {
       if (k === activeChat) {
-        MessageHandler.chats[k].isActive = true
-        MessageHandler.chats[k].ctx.resetUnread()
+
+        if (queryParams.activeChat || window.innerWidth > 520) {
+          MessageHandler.chats[k].isActive = true
+          MessageHandler.chats[k].ctx.resetUnread()
+        }
+
       } else {
         MessageHandler.chats[k].isActive = false
       }
@@ -412,8 +418,9 @@
 
 
   function updateViewedPanels() {
-
-    MessageHandler.chats[activeChat].ctx.resetUnread()
+    if (!document.hidden && queryParams.activeChat || window.innerWidth > 520) {
+      MessageHandler.chats[activeChat].ctx.resetUnread()
+    }
 
     const order = sortChats()
 
