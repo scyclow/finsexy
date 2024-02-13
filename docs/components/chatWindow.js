@@ -338,6 +338,7 @@ createComponent(
         position: static;
         overflow: visible;
         height: 0;
+        pointer-events: none;
       }
       #newMessage * {
         position: relative;
@@ -520,7 +521,8 @@ createComponent(
 
     if (isAtBottom) {
       ctx.scroll()
-    } else if (!ctx.state.isTyping) {
+    } else if (!ctx.state.isTyping && lastMessage.from !== 'you') {
+      console.log(lastMessage)
       ctx.$newMessage.classList.remove('hidden')
     }
   }

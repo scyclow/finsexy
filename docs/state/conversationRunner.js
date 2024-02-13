@@ -247,7 +247,7 @@ export const diatribe = (baseCode, messages, endAction, waitMs=2000) => {
 }
 
 
-// primary, wait, notEnough
+// primary, wait, notEnough, postEvent
 export function createEvent(amount, responses={}, waitMs=600000) {
   return {
     async preEvent(ur, ctx, contract, provider) {
@@ -275,6 +275,10 @@ export function createEvent(amount, responses={}, waitMs=600000) {
           return responses.notEnough
         }
       }
+    },
+
+    async postEvent(ur, ctx, contract, provider) {
+      if (responses.postEvent) return responses.postEvent(ur, ctx, contract, provider)
     },
   }
 }
@@ -471,14 +475,24 @@ export class MessageHandler {
       const currentNode = this.getMessageToSend(this.ctx.lastDomCodeSent)
       const eventNode = currentNode.event
       if (eventNode) {
-        const event = await this.messages[eventNode].check(
+        const node = this.messages[eventNode]
+        const event = await node.check(
           this.ctx.lastUserResponse,
           this.ctx,
           this.contract,
           this.provider
         )
 
-        if (event) this.ctx.addToEventQueue(event)
+
+        if (event) {
+          if (node.postEvent) await node.postEvent(
+            this.ctx.lastUserResponse,
+            this.ctx,
+            this.contract,
+            this.provider
+          )
+          this.ctx.addToEventQueue(event)
+        }
       }
     }, 1000)
 

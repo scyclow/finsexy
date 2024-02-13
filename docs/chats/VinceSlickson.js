@@ -542,8 +542,17 @@ const VinceMessages = {
     followUp: fu('verbalConfirmation')
   },
 
-  verbalConfirmation: {
-    messageText: 'I just need a verbal confirmation from you, and we can get this show on the road',
+  ...diatribe('fcOrderDirections', [
+    `Don't send the money to me directly`,
+    `Well, you can if you want, but I can't send you any FastCash that way`,
+    `The back office payment rail system is really particular`,
+    `I just need a <em>verbal confirmation</em> from you, and I'll submit the transaction on my end`,
+  ],{
+    followUp: fu('showOnRoad')
+  }, 1000),
+
+  showOnRoad: {
+    messageText: 'Then we can get this show on the road',
     responseHandler: (ur, ctx, contract, provider) => {
       if (hasNumber(ur) && hasNumber(ur) !== ctx.state.fcOrderAmount) {
         return fastCashOrderHandler(ur, ctx, contract, provider)

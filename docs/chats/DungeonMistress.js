@@ -98,7 +98,7 @@ https://m.thegazette.co.uk/all-notices/content/100723#:~:text=A%20bankrupt%20wou
 
 
 
-import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch, interestedSwitch} from '../state/profile.js'
 
 const fu = (messageCode, waitMs=1500) => ({ messageCode, waitMs })
@@ -118,22 +118,14 @@ export const MistressProfile = {
 
 
 
+/*
+TODO - tavern
+  - buy beer with eth
+  - harlots recognize beer, unlock dialogue
+  - integrate poker players
 
-async function sendEvent1(ctx, contract, provider) {
-  const addr = await provider.isConnected()
+*/
 
-  ctx.state.rounds = ctx.state.rounds || 0
-
-  if (contract && addr) {
-    const t = bnToN(await contract.tributes(addr))
-
-    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: '', waitMs: 3000 }
-  }
-
-}
-
-
-const retreatPhrases = ['turn around', 'stand up', 'retreat', 'back', 'exit', 'cancel', 'something else']
 
 const MistressMessages = {
   TYPING_SPEED: 0.8,
@@ -160,12 +152,12 @@ const MistressMessages = {
 
   hello: {
     messageText: `You awaken in a dingy tavern, the sour taste of day-old ale clinging to your breath. As the room slowly comes into focus you realize that you are not alone. A bartender washes beer steins behind the counter. Two harlots cackle over a glass of wine. Three men silently play poker in the corner. In front of you, across the room, is a door leading outside.`,
-    responseHandler: barActions
+    responseHandler: tavernActions
   },
 
   tavernDeliberate: {
     messageText: `You ponder your next move: talk to the bartender, approach the harlots, join the poker players, or open the door.`,
-    responseHandler: barActions
+    responseHandler: tavernActions
   },
 
   bartender: {
@@ -175,14 +167,19 @@ const MistressMessages = {
         : `The bartender stops washing the stein when he notices you. He throws his towel on the floor and leans on the counter, looking you dead in the eye.`
     }`,
     followUp: (ur, ctx) => {
-      if (ctx.state.visitedBartender) return fu('bartenderPending')
-      else ctx.state.visitedBartender = true
-      return !ctx.state.bartenderGoodSide && fu('bartender1')
+      if (ctx.state.bartenderGoodSide) return
+      else if (ctx.state.visitedBartender) return fu('bartenderPending')
+      else {
+        ctx.state.visitedBartender = true
+        return !ctx.state.bartenderGoodSide && fu('bartender1')
+      }
     },
     responseHandler: (ur, ctx) => {
-      if (ctx.state.visitedBartender) return bartenderActions('bartenderPending')(ur, ctx)
-      else ctx.state.visitedBartender = true
-      return bartenderActions('bartender1')(ur, ctx)
+      if (ctx.state.visitedBartender || ctx.state.bartenderGoodSide) return bartenderActions('bartenderPending')(ur, ctx)
+      else {
+        ctx.state.visitedBartender = true
+        return bartenderActions('bartender1')(ur, ctx)
+      }
     }
   },
 
@@ -193,14 +190,66 @@ const MistressMessages = {
   },
 
   orderDrink: {
-    messageText: `Before the words finish leaving your mouth, the bartender fills a glass to the brim with beer and slams it down on the counter`,
-    followUp: fu('orderDrink1')
+    messageText: async (ur, ctx, contract) => {
+      try {
+        const tributesPaid = fromWei(await contract.tributes(ctx.global.connectedAddr))
+
+        if (ctx.state.preDrinkTributeAmount + 0.01 <= tributesPaid) {
+          return `Before the words finish leaving your mouth, the bartender fills a glass to the brim with beer and slams it down on the counter`
+        }
+      } catch (e) {
+        console.log(e)
+      }
+
+      return `Before the words finish leaving your mouth the bartender cuts you off: "If you want a drink, you're paying up front this time. And for you, a special price." He winks.`
+    },
+    followUp: async (ur, ctx, contract) => {
+      try {
+        const tributesPaid = fromWei(await contract.tributes(ctx.global.connectedAddr))
+
+        if (ctx.state.preDrinkTributeAmount + 0.01 <= tributesPaid) {
+          ctx.state.beerCount = (ctx.state.beerCount||0) + 1
+          ctx.state.preDrinkTributeAmount = tributesPaid
+          return fu('tavernDeliberate')
+        }
+      } catch (e) {
+        console.log(e)
+      }
+      return fu('orderDrink1')
+    }
   },
 
   orderDrink1: {
-    messageText: `"That'll be 0.01 ETH"`,
-    // TODO
+    messageText: (ur, ctx) => `"That'll be ${ctx.global.premium * 0.01} ETH. You gonna pay me or what?"`,
+    responseHandler: (ur, ctx) => {
+      console.log(ur, isYes(ur))
+      if (isYes(ur) || isMatch(ur, ['pay'])) {
+        return 'processDrinkOrder'
+      } else if (isNo(ur)) {
+        return 'bartenderPending'
+      } else {
+        return bartenderActions('bartenderPending')(ur, ctx)
+      }
+    }
   },
+
+  processDrinkOrder: {
+    messageText: `"Alright, well I actually owe a bit of ETH to @DungeonMistress myself, so why don't you pay her directly? Then I'll give you your drink"`,
+    followUp: async (ur, ctx, contract) => {
+      ctx.state.preDrinkTributeAmount = fromWei(await contract.tributes(ctx.global.connectedAddr))
+      return fu('processDrinkOrderExplain')
+
+    },
+  },
+
+  processDrinkOrderExplain: {
+    messageText: (ur, ctx) => `<em>(You can send me the ${ctx.global.premium * 0.01} ETH through my profile page or the Sexy CLIT. Then the bartender will give you your drink)</em>`,
+    followUp: fu('bartenderPending')
+  },
+
+
+
+
 
   orderDrinkBadSide: {
     messageText: `"I don't think so. You ain't getting another drink out of me until you pay your tab"`,
@@ -208,8 +257,8 @@ const MistressMessages = {
 
 
   bartenderIgnore: {
-    messageText: `The bartender clearly grows tired listening to you talk, and goes abck to washing his stein.`,
-    followUp: fu('tavernDeliberate')
+    messageText: `The bartender clearly grows tired listening to you talk, and goes back to washing his stein.`,
+    followUp: fu('bartenderPending')
   },
 
   bartender1: {
@@ -246,7 +295,7 @@ const MistressMessages = {
     `"Right now?"`,
     `The bartender looks around at the nearly empty room. No one seems to be paying much attention, nor do they seem to care.`,
     `"Alright, get back here"`,
-    `You walk around to the other side of the bar and drop to you knees. The bartender throws his apron over you and caresses the side of your head.`,
+    `You walk around to the other side of the bar and drop to you knees. The bartender throws his apron over your head and caresses the bak of your skull.`,
     `You slowly unbuckle the bartender's belt, pull his pants down to his knees, and come face-to-face with a partially erect member nestled in an overgrowth of pubic hair. The hair on the back of your neck stands up in excitement as the auroma of stale urine fills your nostrils.`,
     `You close your eyes and get to work.`,
     `The second you put your lips around the bartender's penis he pulls your head closer. You feel the head of his cock poke the back or your throat, causing you to gag.`,
@@ -258,9 +307,14 @@ const MistressMessages = {
   ], {
     followUp: (ur, ctx) => {
       ctx.state.bartenderGoodSide = true
-      return fu('bartenderPending')
+      return fu('blowjobEnd')
     }
   }, 2000),
+
+  blowjobEnd: {
+    messageText: `You stand there awkwardly, unsure what to do. Perhaps order a beer?`,
+    responseHandler: (ur, ctx, contract, provider) => isYes(ur) ? 'orderDrink' : bartenderActions('bartenderPending')(ur, ctx, contract, provider)
+  },
 
   harlots: {
     messageText: `You meekly approach the pair of harlots. Looking up from their wine, they smirk at you`,
@@ -286,7 +340,7 @@ const MistressMessages = {
   },
 
   harlots3: {
-    messageText: `You turn away in shame, but arousal you feel in that moments forces the hint of a smile onto your face`,
+    messageText: `You turn away in shame, but the arousal you feel in that moments forces the hint of a smile onto your face`,
     followUp: fu('tavernDeliberate')
   },
 
@@ -317,7 +371,7 @@ const MistressMessages = {
 
   townSquareDeliberate: {
     messageText: `You ponder your next move: enter the market, approach the beautiful woman, retreat to the tavern, or escape into the dark forest.`,
-    responseHandler: barActions
+    responseHandler: tavernActions
   },
 
   enterTavern: {
@@ -337,15 +391,17 @@ const MistressMessages = {
 
 }
 
+const retreatPhrases = ['turn around', 'stand up', 'retreat', 'back', 'exit', 'cancel', 'something else']
 
-function barActions(ur, ctx, contract, provider) {
-  if (isMatch(ur, ['bar', 'bartender', 'stein', 'counter', 'left', '1', 'first'])) {
+
+function tavernActions(ur, ctx, contract, provider) {
+  if (isMatch(ur, ['bar', 'bartender', 'stein', 'counter', 'left', '1', 'first', 'order', 'beer', 'wine', 'cider'])) {
     return 'bartender'
   } else if (isMatch(ur, ['harlot', 'harlots', 'prostitutes', 'cackle', 'cackling', 'women', 'wine', 'right', 'two', '2', 'second'])) {
     return 'harlots'
   } else if (isMatch(ur, ['men', 'poker', 'players', 'corner', 'silent', 'fellows', 'gamblers', 'three', '3', 'third'])) {
     return 'poker'
-  } else if (isMatch(ur, ['door', 'outside', 'across the room', 'forward', 'fourth', '4'])) {
+  } else if (isMatch(ur, ['door', 'outside', 'across the room', 'forward', 'fourth', '4', 'exit', 'leave'])) {
     return 'exitTavern'
   } else {
     return 'tavernDeliberate'
@@ -355,11 +411,11 @@ function barActions(ur, ctx, contract, provider) {
 function bartenderActions(defaultAction) {
   return (ur, ctx, contract, provider) => {
 
-    if (isMatch(ur, [...retreatPhrases, 'poker', 'harlots'])) return 'tavernDeliberate'
+    if (isMatch(ur, [...retreatPhrases, 'poker', 'harlots', 'tavern'])) return 'tavernDeliberate'
     else if (isMatch(ur, ['mop', 'back room', 'clean', 'cleaning'])) return 'mop'
     else if (isMatch(ur, ['harlot', 'harlots', 'prostitutes', 'women'])) return 'harlots'
     else if (isMatch(ur, ['poker', 'men'])) return 'poker'
-    else if (isMatch(ur, ['cock', 'dick', 'knees', 'penis', 'erection', 'behind the bar', 'blowjob', 'blow the bartender', 'suck', 'deepthroat'])) return 'blowBartender'
+    else if (isMatch(ur, ['cock', 'dick', 'knees', 'penis', 'erection', 'behind the bar', 'blowjob', 'blow the bartender', 'suck', 'deepthroat', 'cum'])) return 'blowBartender'
     else if (ctx.state.bartenderGoodSide) {
       if (!ctx.global.isConnected) return 'orderDrinkConnectFail'
       else if (isMatch(ur, ['drink', 'beer', 'ale', 'wine', 'cider', 'order'])) return 'orderDrink'
