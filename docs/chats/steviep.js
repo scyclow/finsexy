@@ -1,4 +1,8 @@
-
+/*
+TODO
+  - figure out general dynamic
+  - maybe incorporate stake/unstake challenge here
+*/
 
 
 

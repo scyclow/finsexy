@@ -1,4 +1,10 @@
+/*
 
+TODO
+  - figure out general dynamic
+  - incorporate dialogue at bottom
+
+*/
 
 
 

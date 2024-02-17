@@ -1,3 +1,10 @@
+/*
+  TODO
+    - think of dynamics after ritual burn
+    - incorporate other numismatic lore
+
+*/
+
 import { isYes, isNo, isGreeting, isMean, MessageHandler, responseParser, diatribe, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 import {provider, bnToN} from '../eth.js'

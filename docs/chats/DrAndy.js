@@ -1,4 +1,11 @@
+/*
+  TODO
+    - tighten up first couple therapy sessions
+      - one analysis session
+      - one roleplay session
+      - one mind control session
 
+*/
 
 import { isYes, isNo, isGreeting, isMean, isPositive, isNegative, isMatch, diatribe, responseParser, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'

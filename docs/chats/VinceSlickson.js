@@ -1,3 +1,14 @@
+/*
+
+TODO
+  - alpha
+    - new shitcoin?
+    - pitch fastcash as alpha?
+
+
+*/
+
+
 import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, createEvent, responseParser, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 

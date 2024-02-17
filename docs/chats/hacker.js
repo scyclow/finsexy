@@ -1,4 +1,9 @@
+/*
 
+TODO
+  - add "you've been the victim of identity theft" dom
+
+*/
 
 import { isYes, isNo, isGreeting, isMean, MessageHandler, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'

@@ -1,4 +1,34 @@
 /*
+
+TODO
+  - better integrate harlots <> poker players
+  - poker player has key to tavern door, needs something from harlots before he unlocks it
+
+  - town square
+    - punishment stocks in distance
+    - talk to merchent, maybe you need to buy something to enter the dark forest
+    - mistress on horse chases you
+    - escape through dark forest
+
+  - dark forest
+    - some challenge?
+    - you get captured
+
+  - dungeon
+    - old man wants to role play being sick to get out
+    - dungeon mistress takes you out of your cell
+
+  - you're put into the punishment stocks, made to scream "i declare bankruptcy!"
+    - (must say it in all caps. "louder!")
+
+  - think of a way to charge for full experience
+
+
+
+
+
+
+
 goth, dungeon, classic dominatrix torturess, medieval banker
 
 
