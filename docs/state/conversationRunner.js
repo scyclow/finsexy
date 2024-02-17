@@ -334,19 +334,25 @@ class ChatContext {
     this.chatLS = chatNameLS(chatName)
     this.global = {}
     this.lastLSRead = 0
+    this.lastLSWrite = 0
 
     setRunInterval(
       () => {
-        const existingContext = this.chatLS.get()
+        const lastReadAfterClear = this.lastLSRead > ls.get('__LAST_CLEAR_TIME')
+        this.lastLSRead = Date.now()
 
-        if (
+        const existingContext = this.chatLS.get()
+        const lsHistoryShorter = (
           this.history
           && existingContext.history
           && existingContext.history.length < this.history.length
-          && this.lastLSRead < ls.get('__LAST_CLEAR_TIME')
-        ) return
+        )
+        const lsWriteOld = this.lastLSWrite > existingContext.lastLSWrite
 
-        this.lastLSRead = Date.now()
+        if (lsWriteOld || (lsHistoryShorter && lastReadAfterClear)) {
+          return
+        }
+
         this.lastMessageTimestamp = existingContext.lastMessageTimestamp || 0
         this.lastUserMessageTimestamp = existingContext.lastUserMessageTimestamp || 0
         this.lastUserResponse = existingContext.lastUserResponse || ''
@@ -355,14 +361,9 @@ class ChatContext {
         this.state = existingContext.state || {}
         this.eventQueue = existingContext.eventQueue || []
         this.unread = existingContext.unread || 0
-        this.lastLSRead = Date.now()
         this.history = existingContext.history || []
 
         MessageHandler.updateGlobalUnread()
-        // if (chatName === 'katFischer') {
-        //   console.log(this.history, existingContext.history)
-        // }
-
         onRehydrate(this.history)
       },
       4000
@@ -374,6 +375,8 @@ class ChatContext {
   updateLS() {
     if (this.lastLSRead < ls.get('__LAST_CLEAR_TIME')) return
 
+    this.lastLSWrite = Date.now()
+    this.chatLS.set('lastLSWrite', this.lastLSWrite)
     this.chatLS.set('lastDomCodeSent', this.lastDomCodeSent)
     this.chatLS.set('state', this.state)
     this.chatLS.set('eventQueue', this.eventQueue)
@@ -536,8 +539,6 @@ export class MessageHandler {
 
     if (nextMessage.timestamp > now) return
 
-    console.log(this.ctx.eventQueue[0])
-
     const { messageCode, userResponse, isFollowup } = this.ctx.eventQueue.shift()
     const messageToSend = this.getMessageToSend(messageCode, userResponse, isFollowup)
 
@@ -697,7 +698,7 @@ export class MessageHandler {
     const domTypingSpeed = this.messages.TYPING_SPEED
 
     if (clitLS.get('devIgnoreWait')) {
-      return [50, 50]
+      return [25, 25]
     } else {
       const typingWait = waitMs + random(typingWaitFactor)
       const wait = Math.floor(

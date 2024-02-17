@@ -333,6 +333,11 @@ Lunar Goddess
 
 
 
+maybe something about a sacrafice to ba'al
+  (used to sacrifice children for plant fertility)
+
+
+
 
 
 

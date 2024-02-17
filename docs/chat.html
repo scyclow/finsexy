@@ -251,11 +251,18 @@
   const messageNames = Object.keys(MessageHandler.chats)
 
   const sortChats = () => Object.keys(MessageHandler.chats)
-    .filter(c => MessageHandler.chats[c].ctx.lastUserMessageTimestamp > 0)
-    .sort(
-    (a, b) =>
+    .filter(c => MessageHandler.chats[c].ctx.lastUserMessageTimestamp > 0 || c === activeChat)
+    .sort((a, b) => (
       MessageHandler.chats[a].ctx.lastUserMessageTimestamp
       - MessageHandler.chats[b].ctx.lastUserMessageTimestamp
+    )
+  )
+
+  const sortUnrespondedChats = () => Object.keys(MessageHandler.chats)
+    .filter(c => !MessageHandler.chats[c].ctx.lastUserMessageTimestamp && MessageHandler.chats[c].ctx.lastMessageTimestamp)
+    .sort((a, b) =>
+      MessageHandler.chats[b].ctx.lastMessageTimestamp
+      - MessageHandler.chats[a].ctx.lastMessageTimestamp
   )
 
 
@@ -348,7 +355,8 @@
   }
 
 
-  const topChat = last(sortChats()) || 'heatherHot'
+  const topChat = (last(sortChats()) || 'heatherHot')
+
 
   activeChat = Object.keys(MessageHandler.chats).includes(queryParams.activeChat)
     ? queryParams.activeChat
@@ -416,13 +424,15 @@
   // }, 300)
 
 
-
+  let orderedChats = []
   function updateViewedPanels() {
     if (!document.hidden && queryParams.activeChat || window.innerWidth > 520) {
       MessageHandler.chats[activeChat].ctx.resetUnread()
     }
 
-    const order = sortChats()
+    const order = [...sortUnrespondedChats(), ...sortChats()]
+
+    let _orderedChats = []
 
     Object.keys(MessageHandler.chats).forEach(m => {
       const $unread = $.id(`${m}-unread`)
@@ -447,11 +457,19 @@
       }
 
 
-      if ($select) {
-        $select.style.order = order.findIndex(name => name === m)
+      if (m === activeChat && !messageCount) {
+        $select.style.order = 99
+        _orderedChats.push({ name: m, order: 99 })
+
+      } else if ($select) {
+        const o = order.findIndex(name => name === m)
+        $select.style.order = o
+        if (messageCount) _orderedChats.push({ name: m, order: o })
       }
     })
+    orderedChats = _orderedChats.sort((a, b) => b.order - a.order)
     adjustUI()
+
   }
   updateViewedPanels()
 
@@ -497,6 +515,21 @@
     }
   }
 
+
+
+  document.body.addEventListener('keydown', (e) => {
+
+    if (e.key === 'ArrowDown' && e.metaKey) {
+      const activeIx = orderedChats.findIndex(s => activeChat === s.name)
+      const newActiveChat = orderedChats[(activeIx + 1) % orderedChats.length]
+      onConvoSelect(newActiveChat.name)
+    }
+    else if (e.key === 'ArrowUp' && e.metaKey) {
+      const activeIx = orderedChats.findIndex(s => activeChat === s.name)
+      const newActiveChat = orderedChats[(orderedChats.length + activeIx - 1) % orderedChats.length]
+      onConvoSelect(newActiveChat.name)
+    }
+  })
 
 
 

@@ -152,17 +152,22 @@
     margin-top: 1em;
   }
 
+  legend {
+    font-family: var(--code-font);
+  }
+
   textarea, input, select {
     padding: 0.25em;
     font-size: 1.25em;
     color: var(--light-color);
     background: var(--input-color);
     border:  1px solid var(--border-color);
+    font-family: var(--code-font);
   }
 
   textarea {
     width: 15em;
-    height: 3em;
+    height: 4em;
   }
 
   fieldset, input {
@@ -180,6 +185,7 @@
   textarea:focus,
   select:active,
   select:focus {
+    color: var(--medium-color);
     box-shadow: inset 0 0 3px var(--primary-color);
     outline: none;
     border-color: var(--primary-color);
@@ -227,10 +233,10 @@
 
     <h1>Financial Submissive Application</h1>
 
-    <div id="skip">
+<!--     <div id="skip">
       <a href="/">Skip for now →</a>
     </div>
-
+ -->
     <form onsubmit="onSubmit(event)">
       <fieldset>
         <legend>Name</legend>
@@ -356,12 +362,12 @@ become a VIP -->
 
   $birthday.max = `${maxDateYear}-${maxDateMonth}-${maxDateDay}`
 
-  if (!defaultProfileLS.get().profileCompleted) {
-    $.id('header').setState({ hideNav: 'true' })
-  } else {
+  // if (!defaultProfileLS.get().profileCompleted) {
+  //   $.id('header').setState({ hideNav: 'true' })
+  // } else {
 
-    $.id('skip').classList.add('hidden')
-  }
+  //   $.id('skip').classList.add('hidden')
+  // }
 
   function onSubmit(e) {
     e.preventDefault()
@@ -387,13 +393,16 @@ become a VIP -->
   $submit.onclick = (e) => {
     const fieldsValid = fields.every(field => $.id(field).checkValidity())
 
-    defaultProfileLS.set('profileCompleted', true)
+    // defaultProfileLS.set('profileCompleted', true)
 
 
     if (fieldsValid) {
+        ls.set('completedProfile', true)
+        window.location.href = document.referrer
+        // window.location.href = '/'
+
       // try {
 
-        window.location.href = '/'
       //   window.location.replace('/');
       // } catch (e) {
       //   debugger

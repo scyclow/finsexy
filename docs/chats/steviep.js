@@ -94,9 +94,44 @@ const StevieMessages = {
   },
 
   hello: {
-    messageText: `hello`,
+    messageText: `hey, what's up?`,
     // followUp: { messageCode: 'hello2', waitMs: 2000 },
   },
+
+
+
+  // what do you think of the website?
+  // yeah, it's pretty great, isn't it?
+    // some of my best work, if i do say so myself
+    // you know, i built this whole thing from scratch
+    // no frameworks or libraries. just raw html, css, and javascript
+    // well, i used ethers.js to interface with the blockchain, but that's the one exception
+    // totally worth it
+    // all the engineering, the writing, the meticulous UI design
+    // choosing colors, adjusting spacing, tweaking animation speeds
+    // a lot of work went into this
+    // all so you could have a good <em>experience</em>
+    // don't get me wrong, it's my life's passion
+    // but there's an opportunity cost to spending my life doing these projects
+    // making stupid NFTs and websites for your amusement
+    // i could be
+
+
+
+
+
+
+  // so how about you fucking pay me?
+    // you're really just short changing yourself if you don't
+    // I don't think it's possible to get the full experience of this website without sending me money
+    //
+    // one of the main themes of this website is that spending money can be an aesthetic experience
+    // so don't you want to have an aesthetic experience, ${getUserData('name')}?
+
+
+
+  // I'll tell you what
+    // send me 0.01 ETH and I'll tell you a secret
 }
 
 /*
@@ -273,9 +308,10 @@ But don't take it personally.
 None of them actually have the capacity of horniness.
 The doms you've been talking to are really the result of cutting edge, highly sophisticated artificial intelligence.
 Not just Dr Andy. <em>All</em> of them.
+You must feel pretty fucking stupid
 The wool has been pulled over your eyes this entire time.
 You've been living in a den of lies
-You've been wlaking through a hall of mirrors
+You've been walking through a hall of mirrors
 
 But I'll tell you another secret:
 I've been watching you this entire time, sending money to my creations

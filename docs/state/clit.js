@@ -53,21 +53,27 @@ export const sexyCLIT = {
       return cb(`
         <h3>$sexy Command Line Interface Tool (CLIT) commands</h3>
 
-        <h5 style="margin-top: 2em; margin-bottom: 0.25em">Display Help</h5>
+        <h5 style="margin-top: 1.5em">Display Help</h5>
         <p><code>$sexy help</code></p>
 
-        <h5 style="margin-top: 2em; margin-bottom: 0.25em">Send ETH</h5>
+        <h5 style="margin-top: 1.5em">Connect Wallet</h5>
+        <p><code>$sexy connect</code></p>
+
+        <h5 style="margin-top: 1.5em">Send ETH</h5>
         <p><code>$sexy send [recipient name] [amount in ETH]</code></p>
 
-        <h5 style="margin-top: 2em; margin-bottom: 0.25em">Burn ETH</h5>
+        <h5 style="margin-top: 1.5em">Burn ETH</h5>
         <p><code>$sexy burn [amount in ETH]</code></p>
 
-        <h5 style="margin-top: 2em; margin-bottom: 0.25em">Input Premium Code</h5>
+        <h5 style="margin-top: 1.5em">Input Premium Code</h5>
         <p><code>$sexy premium [premium-code]</code> </p>
 
-        <h5 style="margin-top: 2em; margin-bottom: 0.25em">Purchase VIP Membership</h5>
+        <h5 style="margin-top: 1.5em">Purchase VIP Membership</h5>
         <p><code>$sexy vip buy</code></p>
       `)
+    }
+    else if (command === 'connect') {
+      this.connect(cb, cb)
     }
     else if (command === 'send') {
       this.send(args[0], args[1], cb, cb)
@@ -113,16 +119,16 @@ export const sexyCLIT = {
         return cb(`
           <h3>$sexy Command Line Interface Tool (CLIT) Dev commands</h3>
 
-          <h5 style="margin-top: 2em; margin-bottom: 0.25em">Toggle Debug Mode</h5>
+          <h5 style="margin-top: 1.5em">Toggle Debug Mode</h5>
           <p><code>$sexy dev debug [bool]</code></p>
 
-          <h5 style="margin-top: 2em; margin-bottom: 0.25em">Toggle Message Wait Time</h5>
+          <h5 style="margin-top: 1.5em">Toggle Message Wait Time</h5>
           <p><code>$sexy dev ignoreWait [bool]</code></p>
 
-          <h5 style="margin-top: 2em; margin-bottom: 0.25em">GoTo Conversation Node</h5>
+          <h5 style="margin-top: 1.5em">GoTo Conversation Node</h5>
           <p><code>$sexy dev node [dom name] [node name]</code></p>
 
-          <h5 style="margin-top: 2em; margin-bottom: 0.25em">Clear Chat History</h5>
+          <h5 style="margin-top: 1.5em">Clear Chat History</h5>
           <p><code>$sexy dev clear</code></p>
 
         `)
@@ -165,6 +171,22 @@ export const sexyCLIT = {
         <p>Invalid command: <code>${command || 'undefined'}</code></p>
         <p>Run <code>$sexy help</code> for more options</p>
       `)
+    }
+  },
+
+
+  async connect(cb, errorCb) {
+    const alreadyConnectedAddr = await provider.isConnected()
+    if (alreadyConnectedAddr) return cb(`Already connected as ${alreadyConnectedAddr}`)
+    try {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }, [])
+      const address = await provider.isConnected()
+      provider.connect()
+      cb(`Connected as ${address}`)
+
+    } catch (error) {
+      console.error(error)
+      errorCb(`Error connecting wallet: ${error?.message}` || `Error connecting wallet`)
     }
   },
 

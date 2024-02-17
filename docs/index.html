@@ -557,10 +557,10 @@
           <h3>Show Me</h3>
           <select id="interested">
             <option value="" selected disabled hidden></option>
+            <option value="all">Everyone</option>
             <option value="m">Men</option>
             <option value="f">Women</option>
             <option value="nb">Other</option>
-            <option value="all">Everyone</option>
           </select>
         </div>
         <section id="links" class="grid">
@@ -589,11 +589,11 @@
 
 
   $.id('links').innerHTML = Object.keys(ProfileStats).map((name, i) => `
-    <article id="${name}-link" class="${ProfileStats[name].display ? 'display-' + ProfileStats[name].display : 'hidden'}">
+    <article id="${name}-link" class="domView ${ProfileStats[name].display ? 'display-' + ProfileStats[name].display : 'hidden'}">
       <div class="unreadContainer">
         <div id="${name}-unread" class="unreadMessage hidden">New Message!</div>
       </div>
-      <a href="./profiles/${name}">
+      <a href="./profiles/${name}" class="domViewLink">
         <img src="./thumbnails/${name}/0.png">
       </a>
       <figcaption>
@@ -711,6 +711,7 @@
       // ls.set('returnVisit', true)
     }, 1000)
   // }
+
 
 
 

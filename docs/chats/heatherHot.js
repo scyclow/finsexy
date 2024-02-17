@@ -395,6 +395,14 @@ const HeatherHotMessages = {
   },
 
   waitForConnect2: {
+    messageText: `You can connect your wallet by clicking the "CONNECT" button in the menu, or by using the Sexy CLIT. To use the Sexy CLIT, just type <code>$sexy connect</code>`,
+    async event(ctx, contract, provider) {
+      if (await provider.isConnected()) return { messageCode: 'getStarted' }
+    },
+    responseHandler: 'waitForConnect3'
+  },
+
+  waitForConnect3: {
     messageText: `Don't you want to connect? Connecting is soooo hot`,
     async event(ctx, contract, provider) {
       if (await provider.isConnected()) return { messageCode: 'getStarted' }

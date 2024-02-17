@@ -1,6 +1,6 @@
 
 
-import { isYes, isNo, isGreeting, isMean, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, MessageHandler, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
@@ -67,23 +67,58 @@ const HackerMessages = {
 
   hello: {
     async messageText(ur, ctx, contract, provider) {
-      return `
-        Send 0.1 in eth to the underneath address (remove***from it):
+      if (!ctx.global.isConnected) return
+      else return `
+        <p>Send ${0.05 * ctx.global.premium} in eth to the underneath address (remove***from it):</p>
 
-        ${hackerContractInfo(provider)[0].slice(0, 4)}***${hackerContractInfo(provider)[0].slice(4)}
+        <p>${contract.address.slice(0, 4)}***${contract.address.slice(4)}</p>
 
-        You may be thinking why the heck would you do that? Well, prepare yourself simply because I am going to move your world right now. I had a dangerous malware infect your laptop or computer and also record video of YOU (using your cam) when you looked at 'adult' web sites.
+        <p>You may be thinking why the heck would you do that? Well, prepare yourself simply because I am going to move your world right now. I had a dangerous malware infect your laptop or computer and also record video of YOU (using your cam) when you looked at 'adult' web sites.</p>
 
-        Here's one of your password ${getUserData('password')}
+        <p>Here's one of your password ${getUserData('password')}</p>
 
-        Still don't believe me? Reply 7 and I will be randomly share your video with 7 people you recognize (Yes, I've access to your address book also).
+        <p>Still don't believe me? Reply 7 and I will be randomly share your video with 7 people you recognize (Yes, I've access to your address book also).</p>
 
-        Now, what can I want to get this to entire thing go away? Very well, I have already pointed out the particular offer in beginning of the message. Should you not fulfill it within Twenty-four hrs, I'm going to create your life horrible by mailing that video to Everyone you know. Your time frame begins now.
+        <p>Now, what can I want to get this to entire thing go away? Very well, I have already pointed out the particular offer in beginning of the message. Should you not fulfill it within Twenty-four hrs, I'm going to create your life horrible by mailing that video to Everyone you know. Your time frame begins now.</p>
       `
     },
-    // followUp: { messageCode: 'hello2', waitMs: 2000 },
+    responseHandler: (ur) => {
+      if (ur.includes('7')) {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      }
+    },
+
+    event: 'blackmailEvent'
   },
+
+  finished: {
+    responseHandler: (ur) => {
+      if (ur.includes('7')) {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      }
+    },
+  },
+
+  blackmailEvent: createEvent(0.05, {
+    primary: { messageCode: 'finished' },
+    postEvent: () => {console.log('identity theft')}
+  })
+
+
 }
+
+// TODO
+  // after you send to 0x0, you get another message saying that you've been the victim of identity theft
+  // -> need to get an audit from Samantha
+  // -> Samantha wont give oyu an audi certificate until you're done
+  // -> Samantha makes you talk to vince or steviep to complete challenge
+
+
+  /*
+
+
+
+  */
 
 
 

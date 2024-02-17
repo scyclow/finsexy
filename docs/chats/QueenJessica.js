@@ -48,6 +48,12 @@ export const QueenProfile = {
       name: '0x',
       review: `I haven't lost this much money since I aped into Fake Internet Money in 2021`,
     },
+
+    {
+      name: '0x',
+      review: `She makes me feel useful. Sending to Queen gives my life purpose`,
+
+    }
   ]
 }
 
@@ -345,7 +351,7 @@ const QueenMessages = {
 
 
 
-
+// TODO: incorporate all of this
 
 
   loveMakingMeRich: {
@@ -422,6 +428,16 @@ function firstPaymentEvent() {
 
 /*
 
+Do you think you deserve that money in your wallet?
+I don't think so
+
+where do you think all that money came from?
+it came from exploiting the local poor
+it came from extracting
+
+But that's my job. I'm the only one who's allowed to exploit and etract money
+
+
 if (m)
   There's nothing hotter than a man bowing down to a woman
 
@@ -430,6 +446,10 @@ if (m)
 women only make $0.70 for every dollar a man makes
 so the way i see it, 30% of your wallet is mine
 sex work is work
+
+
+
+
 
 
 

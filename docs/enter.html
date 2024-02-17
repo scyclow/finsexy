@@ -214,7 +214,7 @@ TODO
     if ($over18.checked) {
       ls.set('is18', true)
     }
-    window.location.replace('./profile.html')
+    window.location.pathname = './'
   })
 
   // mountComponents(
@@ -237,11 +237,11 @@ TODO
   $money.addEventListener('change', onCheck)
   $humiliation.addEventListener('change', onCheck)
 
-  // provider.onConnect(async () => {
-    if ($over18.checked && $money.checked && $humiliation.checked) {
-      ls.set('is18', true)
-      window.location.replace('./profile.html')
-    }
+  // // provider.onConnect(async () => {
+  //   if ($over18.checked && $money.checked && $humiliation.checked) {
+  //     ls.set('is18', true)
+  //     window.location.replace('./profile.html')
+  //   }
   // })
 
 

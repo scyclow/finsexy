@@ -1,5 +1,6 @@
 
-import {createComponent} from '../$.js'
+import {createComponent, ls} from '../$.js'
+import { clitLS } from '../state/clit.js'
 
 
 // TODO
@@ -168,6 +169,12 @@ createComponent(
         align-self: center;
         box-shadow: 0 0 20px var(--help-color);
         padding: 1.5em 3em;
+        font-family: var(--code-font);
+        padding: 1.25em;
+      }
+      .help-message .messageContent {
+        font-family: var(--code-font);
+        padding-bottom: 0;
       }
       .from-you {
         border-bottom-right-radius: 0;
@@ -423,7 +430,13 @@ createComponent(
     const name = ctx.getAttribute('name')
 
     const submit = () => {
+      if (!ls.get('completedProfile')) {
+        window.location.pathname = './profile'
+        return
+      }
+
       const message = ctx.$input.value
+      ls.set(`__${name}_chat_cache`, null)
       if (!message.trim()) return
 
       ctx.events?.submit?.forEach(onSubmit => onSubmit(message))
@@ -437,6 +450,7 @@ createComponent(
 
     ctx.$submit.addEventListener('click', submit)
     ctx.$input.addEventListener('keypress', (e) => {
+      ls.set(`__${name}_chat_cache`, JSON.stringify({ value: ctx.$input.value }))
       if (e.key === 'Enter') submit()
     })
 
@@ -445,6 +459,11 @@ createComponent(
     ctx.isAtBottom = () => ctx.$displayContainer.scrollTop + window.innerHeight >= ctx.$displayContainer.scrollHeight //+ 75
     ctx.scroll = () => {
       ctx.$displayContainer.scrollTop = ctx.$displayContainer.scrollHeight
+    }
+
+    const chatCache = ls.get(`__${name}_chat_cache`)
+    if (chatCache) {
+      ctx.$input.value = chatCache.value
     }
 
 
@@ -519,10 +538,9 @@ createComponent(
     }
 
 
-    if (isAtBottom) {
+    if (isAtBottom || clitLS.get('devIgnoreWait')) {
       ctx.scroll()
-    } else if (!ctx.state.isTyping && lastMessage.from !== 'you') {
-      console.log(lastMessage)
+    } else if (!ctx.state.isTyping && lastMessage?.from !== 'you') {
       ctx.$newMessage.classList.remove('hidden')
     }
   }
