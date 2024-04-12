@@ -133,7 +133,7 @@ https://m.thegazette.co.uk/all-notices/content/100723#:~:text=A%20bankrupt%20wou
 
 
 
-import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, isMatch, responseParser, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch, interestedSwitch} from '../state/profile.js'
 
 const fu = (messageCode, waitMs=1500) => ({ messageCode, waitMs })
@@ -162,39 +162,7 @@ TODO - tavern
 */
 
 
-const MistressMessages = {
-  TYPING_SPEED: 0.8,
-
-  START: {
-    responseHandler: `hello`,
-    ignoreSend: true,
-    ignoreType: true
-  },
-
-  async __contract(provider) {
-    return await provider.domContract('DungeonMistress')
-
-  },
-
-  __precheck(userResponse, ctx, contract, provider, isFollowup) {
-    if (userResponse && isMean(userResponse)) {
-      return {
-        messageText: ``,
-        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
-      }
-    }
-  },
-
-  hello: {
-    messageText: `You awaken in a dingy tavern, the sour taste of day-old ale clinging to your breath. As the room slowly comes into focus you realize that you are not alone. A bartender washes beer steins behind the counter. Two harlots cackle over a glass of wine. Three men silently play poker in the corner. In front of you, across the room, is a door leading outside.`,
-    responseHandler: tavernActions
-  },
-
-  tavernDeliberate: {
-    messageText: `You ponder your next move: talk to the bartender, approach the harlots, join the poker players, or open the door?`,
-    responseHandler: tavernActions
-  },
-
+const BartenderNodes = {
   bartender: {
     messageText: (ur, ctx) => `You walk over to the bar and take a seat. ${
       ctx.state.bartenderGoodSide
@@ -256,8 +224,13 @@ const MistressMessages = {
       const tributesPaid = fromWei(await contract.tributes(ctx.global.connectedAddr))
       ctx.state.beerCount = (ctx.state.beerCount||0) + 1
       ctx.state.preDrinkTributeAmount = tributesPaid
-      return fu('tavernDeliberate')
+      return fu('beerNotifier')
     }
+  },
+
+  beerNotifier: {
+    messageText: (ur, ctx) => `<em>(You now have ${ctx.state.beerCount} Beer${ctx.state.beerCount === 1 ? '' : 's'} in your inventory)</em>`,
+    followUp: fu('tavernDeliberate')
   },
 
 
@@ -360,39 +333,205 @@ const MistressMessages = {
     messageText: `You stand there awkwardly, unsure what to do. Perhaps order a beer?`,
     responseHandler: (ur, ctx, contract, provider) => isYes(ur) ? 'orderDrink' : bartenderActions('bartenderPending')(ur, ctx, contract, provider)
   },
+}
+
+const HarlotsNodes = {
 
   harlots: {
-    messageText: `You meekly approach the pair of harlots. Looking up from their wine, they smirk at you`,
+    messageText: `You meekly approach the pair of harlots. Looking up from their wine, they smirk at you. A key dangles on necklace between the breasts of harlot to your right`,
     followUp: (ur, ctx) => {
-      // TODO if you have a drink, something happens
-      if (ctx.state.spokeToHarlets) {
+
+      ctx.state.harlotState = ctx.state.harlotState || 'fresh'
+
+      if (ctx.state.beerCount) ctx.state.harlotState = 'drink'
+
+      if (ctx.state.harlotState === 'fresh') {
+        ctx.state.harlotState = 'rebuff'
+        return fu('harlotsFresh1')
+      } else if (ctx.state.harlotState === 'rebuff') {
         return fu('harlotsRebuffed')
-      } else {
-        ctx.state.spokeToHarlets = true
-        return fu('harlots1')
+      } else if (ctx.state.harlotState === 'finished') {
+        return fu('harlotsFinished')
+      } else if (ctx.state.harlotState === 'friendly') {
+        return fu('harlotsFriendly')
+      } else if (ctx.state.harlotState === 'drink') {
+        ctx.state.harlotState = 'friendly'
+        ctx.state.beerCount -= 1
+        return fu('harlotsDrink')
       }
     }
   },
 
-  harlots1: {
+  harlotsFresh1: {
     messageText: () => `"I didn't think you'd have the gall to show your face here, ${getUserData('name')}. Not considering how much you owe us..."`,
-    followUp: fu('harlots2')
+    followUp: fu('harlotsFresh2')
   },
 
-  harlots2: {
-    messageText: `"But if you buy us a drink then perhaps we will consider talking to you. The bartender seems to like you, so maybe he'll make it extra special." They both giggle. The condescension behind their laughs turns you on.`,
-    followUp: fu('harlots3')
+  harlotsFresh2: {
+    messageText: `"But if you buy us a drink then perhaps we will consider talking to you. The bartender seems to like you, so maybe he'll make it extra special." They both giggle. The condescension behind their laughs makes you blush.`,
+    followUp: fu('harlotsFresh3')
   },
 
-  harlots3: {
-    messageText: `You turn away in shame, but the arousal you feel in that moments forces the hint of a smile onto your face`,
+  harlotsFresh3: {
+    messageText: `You turn away in shame, but the arousal you feel in that moments forces the hint of a smile to your face.`,
     followUp: fu('tavernDeliberate')
   },
 
   harlotsRebuffed: {
-    messageText: `"I don't see a drink in your hands." They giggle once more, and you turn away in shame`,
+    messageText: `"I don't see a drink in your hands." They giggle once more, and you turn away in shame.`,
     followUp: fu('tavernDeliberate')
   },
+
+  harlotsFriendly: {
+    messageText: `"Oh, it's you again. What do you want?"`,
+    responseHandler: (ur, ctx) => {
+      if (isMatch(ur, ['key', 'necklace', 'breasts', 'boobs', 'cleavage'])) {
+        return 'harlotsKey'
+      } else {
+        return 'harlotsBored'
+      }
+    }
+  },
+
+
+  ...diatribe('harlotsDrink', [
+    `"Oh, is that drink for us?"`,
+    (ur, ctx) => `The harlot on your left snatches ${ctx.state.beerCount+1 > 1 ? 'a' : 'the'} beer out of your hand, spilling half of it on your pants. The two of them cackle uncontrollably. You hear the poker players laugh behind you.`,
+    (ur, ctx) => `<em>(You now have ${ctx.state.beerCount} Beer${ctx.state.beerCount === 1 ? '' : 's'} in your inventory)</em>`,
+    `The harlots catch their breath. The one on the right plays with the key between her breasts before looking back up at you.`,
+    `"Oh, you're still here. What do you want?"`
+  ], {
+    responseHandler: (ur, ctx) => {
+      if (isMatch(ur, ['key', 'necklace', 'breasts', 'boobs', 'cleavage'])) {
+        return 'harlotsKey'
+      } else {
+        return 'harlotsBored'
+      }
+    }
+  }),
+
+  ...diatribe('harlotsBored', [
+    `Before you can finish speaking, you're cut off.`,
+    () => `"We grow tired of your presence, ${getUserData('name')}. Be gone!"`,
+    `The harlot clutches her necklace and smirks. You slink away`,
+  ], {
+    followUp: fu('tavernDeliberate')
+  }),
+
+  harlotsFinished: {
+    messageText: `"I have nothing more to say to you"`,
+    followUp: fu('tavernDeliberate')
+  },
+
+  harlotsKey: {
+    messageText: `"You want my key so you can leave the tavern, is that it? Well, I'm not going to just <em>give</em> it to you. I want to see you beg."`,
+    responseHandler: 'harlotNotEnough'
+  },
+
+  ...diatribe('harlotNotEnough', [
+    `"That's not good enough. get on your knees..."`,
+    `You involuntarily fall to your knees, interlace your fingers, and look up at the harlot with puppy dog eyes`,
+    `"...and fucking beg."`
+  ], {
+    responseHandler: 'harlotsHelp'
+  }),
+
+  harlotsHelp: {
+    messageText: `"I think the words you're looking for are: Please, Mistress. I'm begging you for your key"`,
+    responseHandler: ur => {
+      if (responseParser(ur) === `please mistress im begging you for your key`) {
+        return 'harlotsFeet'
+      } else {
+        return 'harlotsHelp'
+      }
+    }
+  },
+
+  ...diatribe('harlotsFeet', [
+    `The harlot uncrosses her legs and places her dirt-encrusted foot in front of you`,
+    `"If you want my key that bad, then you'll lick my foot"`,
+    `She spits directly in your face for good measure. ${genderSwitch({
+      m: 'Your erection throbs beyond control.',
+      f: 'Your panties are soaked with arousal.',
+      nb: 'You are drunk with arousal.'
+    })}`,
+    `The bartender stops washing a glass and looks on.`,
+    `The poker players halt their game and wait to see what you do.`,
+  ], {
+    responseHandler: (ur) => {
+      if (isMatch(ur, ['lick', 'foot'])) {
+        return 'harlotsKeySuccess'
+      } else {
+        return 'harlotsFeetWaiting'
+      }
+    }
+  }),
+
+
+  harlotsFeetWaiting: {
+    messageText: `"I'm waiting"`,
+    responseHandler: (ur) => {
+      if (isMatch(ur, ['lick', 'foot'])) {
+        return 'harlotsKeySuccess'
+      } else {
+        return 'harlotsFeetWaiting'
+      }
+    }
+  },
+
+  ...diatribe('harlotsKeySuccess', [
+    `You lick the harlot's foot, which tastes of salt and cow dung.`,
+    () => `"Good ${genderSwitch({m: 'boy', f: 'girl', nb: 'pet'})}," she says as she pets your head.`,
+    `She rips the key off of her necklace and throws it across the room.`,
+    `"Now fetch!"`,
+    `You crawl on your hands and knees across the room and pick up the key with your mouth.`,
+    `The poker players let out a chuckle before shaking their heads and returning back to their game.`,
+    `The harlot winks at you.`,
+    `<em>(You know have the Tavern Key in your inventory)</em>`
+  ], {
+    followUp: (ur, ctx) => {
+      ctx.state.harlotState = 'finished'
+      ctx.state.hasKey = true
+      return fu('tavernDeliberate')
+    }
+  })
+}
+
+const MistressMessages = {
+  TYPING_SPEED: 0.8,
+
+  START: {
+    responseHandler: `hello`,
+    ignoreSend: true,
+    ignoreType: true
+  },
+
+  async __contract(provider) {
+    return await provider.domContract('DungeonMistress')
+
+  },
+
+  __precheck(userResponse, ctx, contract, provider, isFollowup) {
+    if (userResponse && isMean(userResponse)) {
+      return {
+        messageText: ``,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+      }
+    }
+  },
+
+  hello: {
+    messageText: `You awaken in a dingy tavern, the sour taste of day-old ale clinging to your breath. As the room slowly comes into focus you realize that you are not alone. A bartender washes beer steins behind the counter. Two harlots cackle over a glass of wine. Three men silently play poker in the corner. In front of you, across the room, is a door leading outside.`,
+    responseHandler: tavernActions
+  },
+
+  tavernDeliberate: {
+    messageText: `You ponder your next move: talk to the bartender, approach the harlots, join the poker players, or open the door?`,
+    responseHandler: tavernActions
+  },
+
+  ...BartenderNodes,
+  ...HarlotsNodes,
 
   poker: {
     messageText: `The men stop playing poker and stare at you in disbelief.`,
@@ -409,7 +548,19 @@ const MistressMessages = {
     followUp: fu('tavernDeliberate')
   },
 
+
   exitTavern: {
+    messageText: '',
+    followUp: (ur, ctx) => ctx.state.hasKey ? fu('exitTavernSucceed') : fu('exitTavernFail')
+  },
+
+  exitTavernFail: {
+    messageText: 'You try the doorknob, but it appears to be locked. If only you had the key...',
+    followUp: fu('tavernDeliberate')
+  },
+
+
+  exitTavernSucceed: {
     messageText: `You exit the tavern, squinting as the sun hits your eyes. As your retinas adjust to the light you can make out a market 10 meters in front of you. A dark forest sits to your left, a beautiful and stern woman on a horse to your right, and the tavern behind you.`,
     responseHandler: townSquareActions
   },
@@ -456,11 +607,11 @@ function tavernActions(ur, ctx, contract, provider) {
 function bartenderActions(defaultAction) {
   return (ur, ctx, contract, provider) => {
 
-    if (isMatch(ur, [...retreatPhrases, 'poker', 'harlots', 'tavern'])) return 'tavernDeliberate'
+    if (isMatch(ur, [...retreatPhrases, 'poker', 'harlots', 'tavern', 'leave'])) return 'tavernDeliberate'
     else if (isMatch(ur, ['mop', 'back room', 'clean', 'cleaning'])) return 'mop'
     else if (isMatch(ur, ['harlot', 'harlots', 'prostitutes', 'women'])) return 'harlots'
     else if (isMatch(ur, ['poker', 'men'])) return 'poker'
-    else if (isMatch(ur, ['cock', 'dick', 'knees', 'penis', 'erection', 'behind the bar', 'blowjob', 'blow the bartender', 'suck', 'deepthroat', 'cum'])) return 'blowBartender'
+    else if (isMatch(ur, ['cock', 'dick', 'knees', 'penis', 'erection', 'behind the bar', 'bj', 'blowjob', 'blow the bartender', 'suck', 'deepthroat', 'cum'])) return 'blowBartender'
     else if (ctx.state.bartenderGoodSide) {
       if (!ctx.global.isConnected) return 'orderDrinkConnectFail'
       else if (isMatch(ur, ['drink', 'beer', 'ale', 'wine', 'cider', 'order'])) return 'orderDrink'
@@ -490,6 +641,9 @@ function townSquareActions(ur, ctx, contract, provider) {
     return 'townSquarenDeliberate'
   }
 }
+
+
+
 
 
 
