@@ -2,6 +2,66 @@
 TODO
   - figure out general dynamic
   - maybe incorporate stake/unstake challenge here
+
+  - incorporate more shit about how
+    - our digital relationships are changing with ai
+    - it symbolizes our relationship to computers in general
+    - specifically, how our relationship to computers is largely extractive
+    - computers are sexy, but they're really domming us and taking our money
+    - they're pretending to help us, but they're really observing us, swindling us, tricking us, mind controlling us, bossing us around, constructing artificial realities for us, seek our worship, pray on our fears of vulnerability,
+
+  - money is a medium. Spending money is a form of expression.
+
+  - these are all bots, need a beta tester
+  - do you want to beta (sissy boy/girl) test?
+    -> I'm working on a new findom. would you mind testig it out for me? (xpress)
+      - and what happened when you sent it money?
+      - okay, maybe it's a little too aggressive
+    -> send X some money. I want to see something really quick
+    -> find bug in cli
+
+
+
+
+    - "lol jk"
+    - "but seriously though, i need someone to user experience beta test"
+    - "talk to a few of the doms and come back to me" (if not talked to doms: "come on now, you need to spend more time than that")
+    - "ok, i have a few questions for you. please take a second to think deeply about each question before oyu answer:"
+      - "the findoms you interacted with: would you consider them real or fake?"
+      - "what would make them realer? or faker?"
+      - "would anything feel different about your findom experience if all the doms were humans? (nothing else about the experience has changed)"
+      - "how does the act of actually paying real money affect your experience? do you think that paying fake money would make you feel any differently?"
+      - "does it feel like the doms have distinct personalities? do you feel like your relationship with the doms are closer to your relationship with a fictional character in a movie or tv show, with a social media influencer you've never spoken to directly before, or an internet friend you've never met in person?"
+
+    - "oh yeah, i want to extract as much money from the ecosystem as possible"
+
+
+
+
+
+Testimonials
+  - I've been collecting stevie's work since 2021, and given him i dont know how much money. It just felt good to support an artist I love. But it wasn't until FinSexy that I realized how sexually attracted I was to him!
+
+  - Hey asshole, this stupid fucking website has totally ruined my life! I don't have any money, but I can't stop talking to the sexy doms. Ever since I created my account, I can't stop thinking about FinDom. It's the first thing I think about when I wake up, and the last thing I think about before I fall asleep. I just want to be financially dominated by hot doms, but all they want is money that I dont' have. It's driving me insane!
+
+  - I have a highly addictive personality. I've thankfully avoided substance abuse, but I need to get my kicks in other ways. Staring at social media for hours on end, compulsive masturbation, and gambling are the big three. So you could imagine how I felt when I finally came across FinSexy! I've never found a website that so deftly combined my three biggest passions in life. Keep up the good work, Steve!
+
+  - This website is fucking bullshit. I'm trying to give my money away to REAL findoms, and steviep tricked me into giving it to FAKE findoms! I hope you enjoy a full investigation from the Consumer Financial Protection Bureau after I file my complaint, asshole.
+
+
+  - It's soooo hot knowing that stevie is getting all the money from this website in the end. the fact that all the doms and comments are written by him just gets me uncontrolably aroused
+
+  - What Steve is doing here is really disgusting. What a shame that is how such a brilliant and prolific artist chooses to direct his efforts: pandering to vulnerable sexual degenerates. He knows that they can't control themselves, and what does he do? He creates a highly addictive environment that triggers all of the reward centers in their brain. And it's all to his benefit. It's opportunistic is what it is.
+
+  - Steve shows once again that he's a truly brilliant entrepreneur. As a perpetually single and lonely man who spends 15 hours a day on my computer, it's crystal clear to me that this is where the dating market is headed. It's hard to put a price on having an empathetic relationship with a sexy woman who's always there for me, always knows how to cheer me up, and is always willing to take my money.
+
+  - I really have to wonder who steviep is if _this_ is the fantasy world that he's made for himself. Whoever he is, he's got _amazing_ taste.
+
+  - I don't know what the fuck @steviep did to my head, but since I first stumbled upon this stupid website the only thing that's been able to give me the slightest bit of pleasure is sending doms money on FinSexy. It's like the rest of my life is stuck in black and white. Music jsut feels like noise. Food is jsut a vehicle to make me less hungry. Other people are just an annoyance. Even masturbating when I'm not in a findom session feels like I'm simply emptying my ball sack. It feels like all the energy and zest and meaning has been sucked out of my life.
+
+  - @steviep is an artistic genius, and FinSexy is his masterpiece. Perhaps even his magnum opus. Of all the projects from this prolific artist, none so deftly tie together the themes that fans love him so much for: the nuanced social implications of spending money, scam aesthetics, the tension between authenticity and artificiality/simulation, the parody of crypto culture, the critique of the dopamine-driven manipulation of user interfaces -- it's all there. And at the same time, he's not just playing his greatest hits; FinSexy refreshingly explores new thematic ground. In particular, FinSexy does an amazing job of bringing exploring the nuance of sexual i
+
+  something's really fucked up about this website, and I don't like it.
 */
 
 
@@ -104,6 +164,9 @@ const StevieMessages = {
 
 
 
+
+
+
   // what do you think of the website?
   // yeah, it's pretty great, isn't it?
     // some of my best work, if i do say so myself
@@ -122,6 +185,8 @@ const StevieMessages = {
 
 
 
+    // you're going to give me your money and you're going to fucking like it
+    // I get so hot extracting as much money from my collectors as possible
 
 
 
@@ -139,6 +204,22 @@ const StevieMessages = {
 }
 
 /*
+
+
+Thought Prompts
+  - sending money is an aesthetic experience. it's worth doing in and of itself.
+  - sending money is emotional. "look, i'll show you what i mean. send me 0.01 ETH really quick. "
+    - no send: "okay, sure. i don't think you can really understand the point i'm trying to make without sending, but you do you."
+  - NFT-findom-content creator power dynamic
+  - rewards
+  - https://twitter.com/Aella_Girl/status/1750722719438536825
+
+  - how does it feel to findommed by a bunchg of fucking chatbots in your web browser? they're not even LLMs!
+
+  - yeah, you like it when i sell you totally worthless NFTs, don't you?
+
+
+
 
 
 That's right, you're in the palm of my hand

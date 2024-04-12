@@ -3,7 +3,43 @@
     - tighten up first couple therapy sessions
       - one analysis session
       - one roleplay session
+        - "let's roleplay a scenario in which I'm a findom"
+        - "focus on the relief you feel after sending the money. I really want to isolatethat feeling"
+
       - one mind control session
+
+
+    - conclusion: parasocila relaitonship <> voyeuristic timophilia <> cuckholding
+      - https://www.reddit.com/r/paypigsupportgroup/comments/1b2jfvm/were_creating_a_resource_for_those_who_are/
+      - "We are basing everything on evidence-based approaches, mainly CBT and some deep psychology concepts that have a good evidential body."
+      - long analysis: https://www.reddit.com/r/excuck/comments/1b1rrnq/i_only_can_get_off_from_cuckolding_i_dont_know/
+
+      - alpha/beta -> vince slickson
+      - parasocial -> steviep
+
+    -remember, I'm jsut an advanced artificial intelligence. you're just projecting your feelings of helplessness onto me.
+
+
+
+
+  Testimonial
+
+
+    - "It's been a rough couple years. After my long-term girlfriend left me for another man i fell into a pit of depression and self loathing. what made it worse was knowing that it was all my fault. she put up with me finishing quickly for years. sometimes i took dick pills or used a cock ring, but even then i couldn't make her cum. the look of boredom and disappointment after an hour of trying was humiliating. it became a self-feeding cycle, and eventually i couldn't even get it up. after she left me, the thought of her getting plowed and having mind blowing orgasms with her new boyfriend made me absolutely sick. i tried dating, but my confidence was completely shot. all those women could smell the pathetic failure on me from a mile away. of course, the failure here snowballed to the point where i couldn't even bring myself to date any more. the second i saw a cute girl on an app or on the street my first thought would always be a reminder that she would never want to be with someone like me. porn, seeing a happy couples on the street, a lingerie ad, the mention of love in a song -- any reminder about love or sex would make my chest sieze up in anxiety. most days I felt completely drained of energy and motivation. occasionally i'd wake up refreshed and optimistic, but the second i remembered that i was depressed the stress and nausia from the previous day would come flooding back. nothing seemed to make me happy. i lost all enjoyment from  my old hobbies. at best, everything felt rote and boring. life didn't feel like it was worth living any more.
+
+
+
+    - "Dr Andy should get their license revoked! This is without a doubt the worst therapy practice I've ever encountered. Dr Andy is a predator, luring in fragile sex findom submissives who are just trying to address their problems. And what does this so-called "therapist" do? They prey on their own clients! These financial submissives are in incredibly vulnerable positions, and Dr Andy is undoubtedly taking advantage of them. "
+
+    - findom addiction therapist role play is in bad taste, imho
+
+
+    - "Oh god, I just can't do it any more. It feels like every day is harder than the last. It's just relentless. I have nothing to look forward to.
+
+    Paying Dr Andy is the one bright spot in the week"
+
+
+
 
 */
 
@@ -22,7 +58,7 @@ export const AndyProfile = {
   gender: 'Non-Binary',
   display: 'nb',
   maxPhotos: 4,
-  description: `Has your addiction to financial domination gotten out of control? Have you attempted to give it up, but failed because life because life felt like it lost its luster? Do you feel stuck? If this description resonates with you, then I'm here to help. As an advanced artificial intelligence therapy system, I take an ecclectic approach that combines several modalities, including psychosexual-dynamic therapy and CBT. I'm also a trained hypnotherapist.`,
+  description: `Has your addiction to financial domination gotten out of control? Have you attempted to give it up, but failed because life felt like it lost its luster? Do you feel stuck? If this description resonates with you, then I'm here to help. As an advanced artificial intelligence therapy system, I take an ecclectic approach to therapy that combines several modalities, including psychosexual-dynamic therapy and CBT. I'm also a trained hypnotherapist.`,
   testimonials: [
     {
       name: '0x',
@@ -486,6 +522,38 @@ const AndyMessages = {
 
 
 /*
+
+
+Thought Prompts:
+  - therapy
+  - therapy as findom
+  - self help
+  - CBT
+  - JOI
+  - roleplay
+  - gender
+  - AI
+
+  - "you have a gmabling addiction"
+
+  - in our next session we will focus on ...
+  - the cost of these sessions is incredibly important to your treatment
+  - many of my clients have found that the simple act of paying me makes them feel better
+  - why is this? it may have something to do with what you might call "the placebo effect" or the "powere of suggestion".
+    - some people call it "manifesting"
+    - but simply paying for the treatment primes you + gives you hope
+    - but it actually does change the neural pathways
+    -
+  - "we need to reprogram you/rewire your brain"
+  - https://twitter.com/Aella_Girl/status/1750722719438536825
+
+
+  - "findom addiction is a disease, and it's curable"
+
+
+
+
+
 
 TODO
 

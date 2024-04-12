@@ -623,11 +623,11 @@
   setInterval(() => {
     Object.keys(MessageHandler.chats).forEach(name => {
       if (MessageHandler.chats[name].ctx.unread) {
-        $.id(`${name}-unread`).classList.remove('hidden')
-        $.id(`${name}-link`).classList.add('pulsing')
+        $.id(`${name}-unread`)?.classList?.remove('hidden')
+        $.id(`${name}-link`)?.classList?.add('pulsing')
       } else {
-        $.id(`${name}-unread`).classList.add('hidden')
-        $.id(`${name}-link`).classList.remove('pulsing')
+        $.id(`${name}-unread`)?.classList?.add('hidden')
+        $.id(`${name}-link`)?.classList?.remove('pulsing')
 
       }
     })

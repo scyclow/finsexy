@@ -1,8 +1,40 @@
 /*
 
 TODO
-  - figure out general dynamic
+  Challenge:
+    go to casino and lose money
+      "Okay, I'm in the casino right now. Just sat down at a slot machine"
+      "Oops, I lost."
+
   - incorporate dialogue at bottom
+
+
+  "You know, I have to admit... You're really fucking boring"
+
+  "loser"
+
+  Get cucked by vinceslickson/steviep. "They can provide me the pleasure that you never could because you're inadequate."; "he can make more money than you ever could"
+    If woman: how does it feel to have a man make more than you?
+
+
+  - let's keep something in mind: I don't owe you anything. You pay me compensation for having to talk to you. Consider it an "idiot tax". You're paying for the privilege ofspeaking to me
+  - i'm in control of this conversation, not you
+
+
+
+  // TODO: why don't you send 0.01 ETH to my wallet and see what happens?
+  //       have you checked your wallet to see what's there?
+  //       that's right, nothing 😈
+  //       you're going to need to send a lot more than that
+
+
+
+Testimonial:
+  "i dont deserve my money. Queen deserves every cent"
+
+  - I'm a little sissy boy oink oink oink
+
+  - Men are truly the weaker of the two sexes...
 
 */
 
@@ -189,7 +221,7 @@ const QueenMessages = {
     }
   },
   helloRejected3: {
-    messageText: (ur, ctx) => `What don't you understand about "${ctx.global.premium * 0.01} ETH tribute to talk"?`,
+    messageText: (ur, ctx) => `Have you even read my profile? What don't you understand about "${ctx.global.premium * 0.01} ETH tribute to talk"?`,
     responseHandler: (ur, ctx) => {
       ctx.state.introResponded = true
       return 'helloResponse'
@@ -312,18 +344,24 @@ const QueenMessages = {
   },
 
   timeToSend3: {
-    messageText: `You thought I was going to be <em>cheap</em>? 🤣`,
+    messageText: `I don't want to hear any fucking sass`,
     event: 'send1',
     responseHandler: 'timeToSend4'
   },
 
   timeToSend4: {
-    messageText: `Remember: if you're not sending then you don't fucking exist`,
+    messageText: `You thought I was going to be <em>cheap</em>? 🤣`,
     event: 'send1',
     responseHandler: 'timeToSend5'
   },
 
   timeToSend5: {
+    messageText: `Remember: if you're not sending then you don't fucking exist`,
+    event: 'send1',
+    responseHandler: 'timeToSend6'
+  },
+
+  timeToSend6: {
     messageText: () => `What part of "send me ${MessageHandler.globalCtx.premium * 0.02} ETH" do you not understand?`,
     event: 'send1',
     responseHandler: 'timeToSend3'
@@ -433,6 +471,30 @@ function firstPaymentEvent() {
 
 
 /*
+
+Thought Prompts:
+  - this is really about ruining your life, not just with findom, but also with gambling and obsession. crypto. losing track of everything else going on due to one singular goal
+
+
+  - gambling
+  - hard feminism/misandry
+  - bratty
+  - life ruin fetish
+  - humiliation
+  - mean
+  - degrading
+  - hello idiot
+    - you think you're worthy of talking to me? *I don't think so*
+  - royalty power fantasy
+  - influencer
+  - parasocial
+  - shows off how much money she's made
+  - https://twitter.com/Aella_Girl/status/1750722719438536825
+
+
+
+
+
 
 Do you think you deserve that money in your wallet?
 I don't think so

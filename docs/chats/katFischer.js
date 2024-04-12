@@ -3,6 +3,18 @@ import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 import {provider, bnToN} from '../eth.js'
 
 
+/*
+
+Testimonials
+- "DON'T TRUST KAT! This is a scam. classic pig butchering. first she fattens you up, and then she slaughters you"
+- "I don't agree with the rest of the comments here. Kat was really sweet to me."
+- "scam"
+- "cut the girl some slack. she's jsut doing her job!"
+- "nothing gets me hotter than some good old fashioned catfish role playing, and Kat's a real pro! for a second I thought I was really being scammed! "
+- not knowing who i'm actually talking to gets me so fucking hot. guy, girl, robot, whatever! just knowing that they're sitting there laughing at me is a huge thrill
+- Not even the cat fishers want to match with me on dating apps, so at least this is an improvement
+*/
+
 
 
 export const KatProfile = {

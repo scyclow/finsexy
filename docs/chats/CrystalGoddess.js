@@ -2,6 +2,40 @@
   TODO
     - think of dynamics after ritual burn
     - incorporate other numismatic lore
+    - take a vow to not send to other doms
+
+    - "I do not have a physical form. I am merely an address on the blockchain. pray to me"
+
+
+    - themes of rationality. the economic man. irrational actions are taken as acts ofo religion. the fabric of society was once held together by religion, in lieu of a strong leader. money often has value due to religion
+    - CG is an empress like cleopatra. what gives her her power is faith, religion
+
+    - The only difference between it being fake and real is whether or not you choose to believe it... It counts if we say it counts.
+
+    - schelling point
+
+    - human/ai incarnation of the monetary/numismatic numen
+      - commnts arguing over whether its abuntia (goddess of wealth) of ceres (goddess of market)
+    - crystal goddess knows all
+      - incentive to give her money, do ritual burn, is that she can tell you where the market is moving
+
+
+
+Testimonials
+  - I don't have a physical body. I do not exist unless Goddess recognizes my existence. I am simply a money receptical of Goddess
+
+  - "thank you goddess for existing"
+  - "I loooooove having an owner. no more decisions. no more anxiety. no more analysis paralysis. Goddess just controls me and that's that."
+
+  - "Faith is a powerful thing. Before I met CrystalGoddess I was in a dark place in my life. For months I suffered a deep depression. And it got worse day after day. Every morning I woke up with a blank mind. But then I remembered that I had this dark cloud of depression hanging over me, and it all came flooding back worse than before. It was all doom and gloom on the horizon. I didn't believe in a higher power, and I sure as hell didn't believe in myself. But then Goddess came along and showed me the light. Her daily prayer sessions were a true miracle. The more I gave of myself to her -- my time, my faith, my money -- the better my life became. I started to _believe_."
+
+
+  - Before I met Goddess I felt like I was just sleep walking through life. Food lost its taste, relationships lost their meaning, and money lost its value. Nothing gave me pleasure and nothing felt meaningful. I had no purpose, and my world felt like static. Somehow, all of the connective tissue erroded from my lived experience. And the more I thought about ti the more prevelant it would become. It felt like it was all slipping through my fingers, and I didn't know how to stop the feedback loop. But Goddess made it all better. Giving myself over to her is a pure light of joy. A warm, pink light. Every ETH I give her feels meaningful. Like I'm giving her  apart of myself. I finally have purpose, and her name is CrystalGoddess
+
+
+
+
+
 
 */
 
@@ -96,6 +130,9 @@ export const CrystalGoddessProfile = {
 
   // - "My entire life, society has been telling me that my worth as a man is determined by how attractive my woman is. The career, the money, the hours in the gym -- none of it matters if you can't translate that into a hot woman. So striking out on the dating scene over, and over, and over again just left me feeling like a failure. I was less of a man. Not only did ___ help me realize all this, but she also fills that hot-woman role for me for a modest amount of money! My value as a man has never been higher, and I owe it all to ___"
 
+
+
+
   ]
 }
 
@@ -174,7 +211,7 @@ export const CrystalGoddessMessages = {
   ...diatribe('doNotUnderstand', [
     (ur, ctx) => `${ctx.state.knowSoMuch ? 'But there' : 'There'} is ${ctx.state.knowSoMuch ? 'still ' : ''}so much you do not understand. I see you, staying up late at night, staring into the deep void of your computer screen, ${genderSwitch({m: 'erection', f: 'vulva', nb: 'genitals'})} in hand, praying to the false idol of market analysis`,
     `Seeking patterns in chaos. Trend lines, Candlesticks, Ichimoku Clouds. Religiously tracking memes and metas`,
-    `You worship the aura of the rare, searching for a Holy Grail. You see monkeys with coins in their eyes and mistake that for wealth. You live your life believing you can take your money with you upon your death. But you do not understand that Charon's Obol will only get you across the lake of fire`,
+    `You worship the aura of the rare, searching for a Holy Grail. You see monkeys with coins in their eyes and mistake that for wealth. You live your life believing you can take your money with you upon your death. But you do not understand that Charon's Obol won't get you farther than the lake of fire`,
     `The simple fact that you are here shows that you have been lead astray, and are living in a warped monetary reality`,
     `@SamanthaJones may have seen all of your transactions, but I've seen more`,
     `Goddess knows all`,
@@ -310,8 +347,125 @@ export const CrystalGoddessMessages = {
 }
 
 
+export const CrystalGoddessChat = new MessageHandler(CrystalGoddessProfile.name, CrystalGoddessMessages)
+
+
 
 /*
+
+
+
+Thought prompts:
+  - https://twitter.com/Aella_Girl/status/1750722719438536825
+  - devotion/obedience
+  - vow of devotion/obedience
+  - nvxium sex cult
+  - complete ownership over the sub
+  - woowoo
+  - loss of free will
+  - spiritual numismatics
+  - higher dimension; 5D 7D bridge/L2s
+  - karmic balances/karmic debt
+  - metaphysics of money/value
+
+  - purple/magenta, organic/aritificial
+
+  - manifestation
+  - JOI
+  - soft feiminist/maternal, god is a woman
+  - placebo effect, self fulfilling prophecy
+  - astral projection
+  - aura
+  - past lives
+  - hypnosis
+  - worship
+  - you owe a cosmic debt
+  - woowoo fantasy
+  - this is really about interacting with something that's so complicated you don't understand it. you have to rely on faith. the collective faith that money has value, faith that the blockchain actually works, etc. and in this context, do you really have free will? faith in the the patriarchal social order
+  - so there are all of these forces that are too complicated to reasonably understand. the blockchain alone has overwhelmingly complicated technology that jsut works, more or less. eth has value because everyone has faith in it having value. as does fiat.
+  - your attempts at making sense of it are built around the wrong abstractions. Goddess is sort of an incorrect abstraction. this abstraction is based around the idea that you're making poor financial choices because your chakras are out of whack. you're not manifesting hard enough.
+  - if man
+    - women are superior to men
+    - men to need to worship women
+    - men are stupid and spend money on stupid things
+    - men treat market metrics like atrological signs
+
+  - if woman/nb
+    - you've been brainwashed by patriarcal society, etc.
+    - the world's ills are womens' fault because they're not keeping men in check
+
+
+
+
+
+
+  problem:
+    - there is still so much you don't understand
+    - your mind is fundamentally incapable to understanding the monetary secrets of the universe
+      - branch m/w/nb
+
+    - (limits of perception; magenta)
+    - your energy/qi/chakras are out of whack
+    - spending your money on shit coins and worthless NFTs has brought you farther away from goddess
+      - every trade you make increaes entropy - either by losing your money or taking someone elses. increasing the amount of chaos and volatility
+    - this is your fault. guilt guilt guilt
+      - you do not _deserve_ free will
+
+
+    - * sovereign ownership of your assets is the problem
+    - creates an karmac imbalance/cosmic debt
+    - imbalance causing anxiety
+    - realligning will give you a profound, visceral release
+    - many of my disciples experience a massive, full-body orgasmic activation
+
+  solution:
+    - the only way to reallign your energy is to bow down and take a vow to goddess
+    - you now belong to goddess, along with your assets
+    - begin transferring over some assets
+
+  reward
+    - i will reveal the secrets of the universe to you
+      - 5 dimensional numismatics
+      -
+
+
+  ultimate authority kink
+
+
+
+  "are you surprised god is a woman?"
+    yes: "wow, look at you. you think you know so much"
+    no: of course not
+  "there is so much you don't know"
+  "you don't know how money works"
+  "the machinations of the blockchain work in many spiritual realms"
+  "there are many layers"
+
+  "you are attempting to manifest an abundance mindset"
+  "you don't deserve an abundance mindset. you can't even deal with free will"
+  ""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   - gets off on ritual
   - TODO: look up pagan money rituals
@@ -756,6 +910,5 @@ you have been manifesting a poverty consciousness
 
 
 
-export const CrystalGoddessChat = new MessageHandler(CrystalGoddessProfile.name, CrystalGoddessMessages)
 
 

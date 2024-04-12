@@ -49,7 +49,7 @@ export const sexyCLIT = {
       : noop
     if (sexy !== '$sexy') return cb('Something went wrong...')
 
-    if (command === 'help') {
+    if (command === 'help' || !command) {
       return cb(`
         <h3>$sexy Command Line Interface Tool (CLIT) commands</h3>
 
@@ -133,7 +133,10 @@ export const sexyCLIT = {
 
         `)
       } else if (args[0] === 'debug') {
-        const debugVal = args[1] === 'true' ? true : false
+        const debugVal = args[1] === undefined
+          ? !clitLS.get('devMode')
+          : args[1] === 'true' ? true : false
+
 
         clitLS.set('devMode', debugVal)
 

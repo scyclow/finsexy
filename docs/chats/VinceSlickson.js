@@ -4,6 +4,21 @@ TODO
   - alpha
     - new shitcoin?
     - pitch fastcash as alpha?
+    - normally this would be a fincial security, but being on findom website gives us a perfect cover
+    - i'm "selling" you a shit coin because it's your kink, got it?
+
+    - make you beg "please give me some of your alpha, daddy"
+  - dom type: role play
+
+  - "i only sell at the top because i'm a top. you're a bottom. you're my exit liquidity. oh yeah, take all my liquidity"
+
+
+
+Testimonial
+  "it makes me so hot watching vince get rich"
+  "I just want to please my man. watching him take my money get's me sooo wet"
+  "call me crazy, but i just don't get off on making money any more. i've been in crypto for years, and I guess all the volatile ups and downs just desensitized me or something. to get off i need a little something extra. that's why when vince put me into one of his 'investment producs' i came so goddamn hard. it was exactly what i needed"
+  "On one hand I'm a complete degenerate sex addict, but on the other hand I can't find any women who want to have sex with me. I think it's because I have a suboptimal facial bone structure. Women really want a man like Vince. Not only does he have an optimal facial bone structure, but also he also has a very high level of charisma, and his monetary displays of status really seal the deal. I'm just hoping that I can pick up some of his charisma and make some money so I can finally engage in the sexually addictive lifestyle I've always dreamed of."
 
 
 */

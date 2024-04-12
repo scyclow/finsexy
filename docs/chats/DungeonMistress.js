@@ -23,8 +23,13 @@ TODO
 
   - think of a way to charge for full experience
 
+  - reveal that DM is a vampiress/succubus
+  - i want to _drain_ your wallet and suck you dry until there's nothing left
 
 
+Testimonials
+ - "I love a good role play"
+ - RPGs are so much fun! its such a relief to have a safe space to act out my fantasies. i feel like there's a part of me that I always have to repress, so it's nice to finally have a way to explore it.
 
 
 
@@ -186,7 +191,7 @@ const MistressMessages = {
   },
 
   tavernDeliberate: {
-    messageText: `You ponder your next move: talk to the bartender, approach the harlots, join the poker players, or open the door.`,
+    messageText: `You ponder your next move: talk to the bartender, approach the harlots, join the poker players, or open the door?`,
     responseHandler: tavernActions
   },
 
@@ -220,41 +225,52 @@ const MistressMessages = {
   },
 
   orderDrink: {
-    messageText: async (ur, ctx, contract) => {
-      try {
-        const tributesPaid = fromWei(await contract.tributes(ctx.global.connectedAddr))
-
-        if (ctx.state.preDrinkTributeAmount + 0.01 <= tributesPaid) {
-          return `Before the words finish leaving your mouth, the bartender fills a glass to the brim with beer and slams it down on the counter`
-        }
-      } catch (e) {
-        console.log(e)
-      }
-
-      return `Before the words finish leaving your mouth the bartender cuts you off: "If you want a drink, you're paying up front this time. And for you, a special price." He winks.`
-    },
+    messageText: '',
     followUp: async (ur, ctx, contract) => {
       try {
         const tributesPaid = fromWei(await contract.tributes(ctx.global.connectedAddr))
-
-        if (ctx.state.preDrinkTributeAmount + 0.01 <= tributesPaid) {
-          ctx.state.beerCount = (ctx.state.beerCount||0) + 1
-          ctx.state.preDrinkTributeAmount = tributesPaid
-          return fu('tavernDeliberate')
+        ctx.state.preDrinkTributeAmount = ctx.state.preDrinkTributeAmount || 0
+        if (ctx.state.preDrinkTributeAmount + 0.00999999 <= tributesPaid) {
+          return fu('orderDrinkSucceed', 100)
+        } else {
+          return fu('orderDrinkFail', 100)
         }
       } catch (e) {
         console.log(e)
       }
-      return fu('orderDrink1')
     }
   },
 
-  orderDrink1: {
+
+  orderDrinkFail: {
+    messageText: `Before the words finish leaving your mouth the bartender cuts you off: "If you want a drink, you're paying up front this time. And for you, a special price." He winks.`,
+    followUp: async (ur, ctx, contract) => {
+      ctx.state.preDrinkTributeAmount = fromWei(await contract.tributes(ctx.global.connectedAddr))
+      return fu('orderDrinkFail1')
+    }
+  },
+
+  orderDrinkSucceed: {
+    messageText: `Before the words finish leaving your mouth, the bartender fills a glass to the brim with beer and slams it down on the counter`,
+    followUp: async (ur, ctx, contract) => {
+      const tributesPaid = fromWei(await contract.tributes(ctx.global.connectedAddr))
+      ctx.state.beerCount = (ctx.state.beerCount||0) + 1
+      ctx.state.preDrinkTributeAmount = tributesPaid
+      return fu('tavernDeliberate')
+    }
+  },
+
+
+  orderDrinkFail1: {
     messageText: (ur, ctx) => `"That'll be ${ctx.global.premium * 0.01} ETH. You gonna pay me or what?"`,
-    responseHandler: (ur, ctx) => {
-      console.log(ur, isYes(ur))
+    responseHandler: async (ur, ctx, contract) => {
       if (isYes(ur) || isMatch(ur, ['pay'])) {
-        return 'processDrinkOrder'
+        const tributesPaid = fromWei(await contract.tributes(ctx.global.connectedAddr))
+        if (ctx.state.preDrinkTributeAmount + 0.00999999 <= tributesPaid) {
+          return 'orderDrinkSucceed'
+        } else {
+          return 'processDrinkOrder'
+        }
       } else if (isNo(ur)) {
         return 'bartenderPending'
       } else {
@@ -266,7 +282,6 @@ const MistressMessages = {
   processDrinkOrder: {
     messageText: `"Alright, well I actually owe a bit of ETH to @DungeonMistress myself, so why don't you pay her directly? Then I'll give you your drink"`,
     followUp: async (ur, ctx, contract) => {
-      ctx.state.preDrinkTributeAmount = fromWei(await contract.tributes(ctx.global.connectedAddr))
       return fu('processDrinkOrderExplain')
 
     },
@@ -325,7 +340,7 @@ const MistressMessages = {
     `"Right now?"`,
     `The bartender looks around at the nearly empty room. No one seems to be paying much attention, nor do they seem to care.`,
     `"Alright, get back here"`,
-    `You walk around to the other side of the bar and drop to you knees. The bartender throws his apron over your head and caresses the bak of your skull.`,
+    `You walk around to the other side of the bar and drop to you knees. The bartender throws his apron over your head and caresses the back of your skull.`,
     `You slowly unbuckle the bartender's belt, pull his pants down to his knees, and come face-to-face with a partially erect member nestled in an overgrowth of pubic hair. The hair on the back of your neck stands up in excitement as the auroma of stale urine fills your nostrils.`,
     `You close your eyes and get to work.`,
     `The second you put your lips around the bartender's penis he pulls your head closer. You feel the head of his cock poke the back or your throat, causing you to gag.`,
@@ -479,3 +494,22 @@ function townSquareActions(ur, ctx, contract, provider) {
 
 
 export const MistressChat = new MessageHandler(MistressProfile.name, MistressMessages)
+
+
+
+/*
+Thought Prompts
+  - punishment
+  - debt
+  - roleplay
+  - vampire
+  - extraction
+  - punishement fantasy:
+    - every time you cum, money comes out of your dick/vagina.
+    - you stop cumming, so she pegs you for the prostate stimulation to extract more
+  - modes of financial domination
+  - dark forest
+  - https://twitter.com/Aella_Girl/status/1750722719438536825}
+
+
+*/

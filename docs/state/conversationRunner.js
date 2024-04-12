@@ -58,6 +58,9 @@ const positives = [
   'ok',
   'okay',
   'alright',
+]
+
+const negativeNegatives = [
   'not bad',
   'not too bad',
 ]
@@ -215,9 +218,10 @@ const isNegate = txt => responseParser(txt).split(' ').some(word => ['no', 'not'
 export const isGreeting = txt => isMatch(txt, greetings)
 export const isYes = txt => isMatch(txt, yeses) && !isNegate(txt)
 export const isNo = txt => isMatch(txt, noes)
-export const isPositive = txt => isMatch(txt, positives) && !isNegate(txt)
+export const isPositive = txt => isMatch(txt, negativeNegatives) || isMatch(txt, positives) && !isNegate(txt)
 export const isNegative = txt => isMatch(txt, negatives)
 export const isMean = txt => isMatch(txt, meanResponses)
+
 
 export const diatribe = (baseCode, messages, endAction, waitMs=2000) => {
   return messages.reduce((nodes, messageText, i) => {
@@ -666,7 +670,7 @@ export class MessageHandler {
   }
 
   async toDom(userResponse) {
-    const is$sexy = userResponse.match(/^(\$sexy\s)/)
+    const is$sexy = userResponse.match(/^(\$sexy\s)/) || userResponse === '$sexy'
 
     this.updateHistory({
       from: 'you',

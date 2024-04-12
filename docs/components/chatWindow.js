@@ -315,6 +315,11 @@ createComponent(
         background: var(--code-color);
         color: var(--light-color);
         border-radius: 0.25em;
+        cursor: pointer;
+      }
+
+      code:hover {
+        opacity: 0.85;
       }
 
       ::selection, .message ::selection  {
@@ -427,6 +432,8 @@ createComponent(
     ctx.$profileLink = ctx.$('#profileLink')
     ctx.$newMessage = ctx.$('#newMessage')
 
+    ctx.codeFns = {}
+
     const name = ctx.getAttribute('name')
 
     const submit = () => {
@@ -499,7 +506,7 @@ createComponent(
           : h.from === 'you' ? 'from-you' : 'from-dom'
       }">
         ${h.helpMessage ? '' : `<h6 class="from">${h.from}</h6>`}
-        <div class="messageContent">${linkify(h.messageText)}</div>
+        <div class="messageContent">${codify(linkify(h.messageText), ctx)}</div>
       </div>
       ${
         h.helpMessage
@@ -543,6 +550,10 @@ createComponent(
     } else if (!ctx.state.isTyping && lastMessage?.from !== 'you') {
       ctx.$newMessage.classList.remove('hidden')
     }
+
+    Object.keys(ctx.codeFns).forEach(id => {
+      if (ctx.$(`#code-${id}`)) ctx.$(`#code-${id}`).onclick = ctx.codeFns[id]
+    })
   }
 )
 
@@ -556,6 +567,30 @@ function linkify(txt) {
       (match, mention) => `<a href="/chat?activeChat=${mention}">${match}</a>`
     )
     : txt
+}
+
+function codify(txt, ctx) {
+  const matches = txt.match(/<code>\$sexy([\s\S]*?)<\/code>/g)
+
+  if (matches) matches.forEach(match => {
+    const id = String(Math.random()).replace('0.', '')
+    const sexyCommand = match.replace('<code>', '').replace('</code>', '')
+    // const code = `document.getElementById('input').value = '${sexyCommand}'`
+    // const replacement = match.replace('<code>', `<code onclick="${code}">`)
+    ctx.codeFns[id] = () => {
+      ctx.$('#input').value = sexyCommand
+      ctx.$('#input').focus()
+    }
+
+    const replacement = match.replace('<code>', `<code id="code-${id}">`)
+
+    txt = txt.replace(match, replacement)
+
+
+  })
+
+
+  return txt
 
 }
 

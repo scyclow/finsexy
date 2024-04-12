@@ -3,6 +3,11 @@
 TODO
   - add "you've been the victim of identity theft" dom
 
+
+
+Testimonials
+- i love being watched ☺️
+
 */
 
 import { isYes, isNo, isGreeting, isMean, MessageHandler, createEvent } from '../state/conversationRunner.js'
@@ -11,7 +16,7 @@ import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 export const HackerProfile = {
-  name: '0x0',
+  name: '0x000000000000000000000000000000000',
   age: NaN,
   distance: NaN,
   maxPhotos: 1,
