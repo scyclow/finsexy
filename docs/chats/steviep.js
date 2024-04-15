@@ -68,7 +68,7 @@ Testimonials
 
 
 
-import { isYes, isNo, isGreeting, isMean, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, MessageHandler, diatribe, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
@@ -133,7 +133,7 @@ async function sendEvent1(ctx, contract, provider) {
 
 
 const StevieMessages = {
-  TYPING_SPEED: 1,
+  TYPING_SPEED: 0.7,
 
   START: {
     responseHandler: `hello`,
@@ -160,28 +160,124 @@ const StevieMessages = {
   hello: {
     messageText: `hey, what's up?`,
     // followUp: { messageCode: 'hello2', waitMs: 2000 },
+    responseHandler: 'prettyGreat'
   },
 
+  ...diatribe('prettyGreat', [
+    `yeah, it's pretty great, isn't it?`,
+    `some of my best work, if I do say so myself.`,
+    `you know, i built this whole website from scratch`,
+    `no frameworks, libraries, or anything. just raw html, css, and javascript.`,
+    `well, i did use ethers.js to interface with the blockchain, but that's the one exception`,
+    `but aside from that, it's all me`,
+    `the writing, the smart contracts, the meticulous UI design`,
+    `choosing colors, adjusting spacing, tweaking animation speeds`,
+    `and lemme tell you, parts of this website were not trivial engineering efforts`,
+    `a lot of work went into this!`,
+    `all so you could have a good <em>experience</em>`,
+    `don't get me wrong, it's my life's passion`,
+    `this is what gets me up out of bed in the morning`,
+    `but there's an opportunity cost to spending my time building this sort of shit`,
+    `making stupid NFTs and websites and shitposts on twitter for your amusement`,
+    `I could be pulling in a lot of money at google or facebook right now. really, any of the MAAAM companies`,
+    `Or, I could start my own hedgefund. not many people have my level of financial <em>and</em> technology industry expertise`,
+    `not to mention my domain specific knowledge in crypto or AI`,
+    `really, the world is my oyster. I could be raking it in on any number of business ventures`,
+    `but instead, i chose to spend months building this ridiculous website, and now I'm wasting my time talking to <em>you</em>`,
+    `I think I'm entitled to a little compensation for my effort here, don't you?`
+  ], {
+    responseHandler: ur => isYes(ur) ? 'payNow' : 'payDelay'
+  }),
+
+  payDelay: {
+    messageText: `what do you think I'm going to do, beg you?`,
+    responseHandler: ur => isYes(ur) ? 'begYou' : 'noBeg'
+  },
+
+  begYou: {
+    messageText: `lol, okay ${genderSwitch({ m: 'buddy', f: 'sweetheart', nb: 'buddy'})}, whatever you say`,
+    followUp: 'wasteTime'
+  },
+
+  wasteTime: {
+    messageText: `I don't need to waste my time with you. enjoy being a fucking leech`,
+    responseHandler: 'noBeg'
+  },
+
+  ...diatribe('noBeg', [
+    `look, i don't think you understand`,
+    `the adoration is great, and making money is also great, but putting those two together is a neurochemical cocktail like you wouldn't believe`,
+    `talk is cheap, but when people put their money where their mouth is it's a totally different ballgame`,
+    `not only does someone like your work, but they like it <em>so much</em> that they're willing to spend hundreds (and in some case <em>thousands</em>) of dollars to own it`,
+    `nothing beats that high. you can't imagine what it feels like`,
+    `I dont need drugs. what I need is to extract every last cent and bit of worship from my collectors`,
+    `I need to wring them dry until they have nothing left to give`,
+    `I need to see that <em>I'm</em> their favorite artist, and that they're willing to give up <em>everything</em> to show their affection for my artistic genius`,
+    `So here's what's going to happen: you're going to pay me, and you're going to fucking like it`,
+  ], {
+    responseHandler: (ur, ctx) => {
+      if (ctx.state.noBegPlayed) {
+        return 'payNowPending1'
+      }
+      ctx.state.noBegPlayed = true
+      return 'dontCare'
+    },
+    event: 'pay1Event'
+  }),
+
+  dontCare: {
+    messageText: (ur, ctx) => `I don't care where gas is at the moment: ${0.02 * ctx.global.premium} ETH in my wallet, asap`,
+    event: 'pay1Event',
+    followUp: 'tellYouSecret'
+  },
+
+  payNow: {
+    messageText: (ur, ctx) => `Great, glad we're on the same page. ${0.02 * ctx.global.premium} ETH sounds pretty reasonable, don't you think?`,
+    followUp: fu('tellYouSecret')
+  },
+
+  tellYouSecret: {
+    messageText: `I'll even tell you a little secret about FinSexy after you pay ;)`,
+    responseHandler: (ur, ctx) => {
+      if (ctx.state.noBegPlayed) {
+        return 'payNowPending1'
+      }
+
+      ctx.state.noBegPlayed = true
+      return 'noBeg'
+    },
+    event: 'pay1Event'
+  },
+
+  ...diatribe('payNowPending1', [
+    `this isn't just for my benefit`,
+    `i don't think you'd get the full artistic experience of this website without sending money`,
+    `it's as much a narrative device as it is anything else`,
+    `you read a book, watch a movie, play a video game, and you're off in fantasy land. nothing has consequences and it's all hypothetical`,
+    `but how cool is it that here <em>your actions have real world consequences</em>!`,
+    `you're not having the emotional experience of spending money simply described to you. it's not jsut some simulation. you actually get to experience it directly`,
+    `and you can show all your friends! your action will be enshrined on the blockchain forever, and you get to participate in the spectacle`,
+    `you've seen this before with some of my other projects: the act of spending money is an aesthetic social experience. it's a form of expression`,
+    (ur, ctx) => `in 100 years when art historians are revisiting this project, they're going to see <em>your</em> transactions where you pay me ${0.02 * ctx.global.premium} ETH for nothing in return`,
+    (ur, ctx) => `they'll go: "wow, i can't believe stevie convinced this many fucking morons to pay him ${0.02 * ctx.global.premium} ETH. he truly was a genius. a maestro of degen idiots"`,
+    `you could be one of those degen idiots!`,
+    `remembered in 100 years and leaving your mark in the history books`,
+    `and let's face it, no one is going to remember your stupid, pathetic life otherwise. this is your only shot`
+  ], {
+    event: 'pay1Event',
+  }),
+
+  pay1Event: createEvent(0.02, {
+    primary: { messageCode: 'TODO', waitMs: 3000 },
+    notEnough: {messageCode: 'TODO', waitMs: 2000}
+  }),
 
 
 
 
 
-  // what do you think of the website?
-  // yeah, it's pretty great, isn't it?
-    // some of my best work, if i do say so myself
-    // you know, i built this whole thing from scratch
-    // no frameworks or libraries. just raw html, css, and javascript
-    // well, i used ethers.js to interface with the blockchain, but that's the one exception
-    // totally worth it
-    // all the engineering, the writing, the meticulous UI design
-    // choosing colors, adjusting spacing, tweaking animation speeds
-    // a lot of work went into this
-    // all so you could have a good <em>experience</em>
-    // don't get me wrong, it's my life's passion
-    // but there's an opportunity cost to spending my life doing these projects
-    // making stupid NFTs and websites for your amusement
-    // i could be
+
+
 
 
 
@@ -200,7 +296,7 @@ const StevieMessages = {
 
 
   // I'll tell you what
-    // send me 0.01 ETH and I'll tell you a secret
+    // send me 0.02 ETH and I'll tell you a secret
 }
 
 /*

@@ -96,7 +96,7 @@ const yeses = [
   'fuck yes',
   'fine',
   'true',
-  'i do',
+  // 'i do',
   'i did',
   'i am',
   'i sure am',
@@ -214,7 +214,7 @@ export function isMatch(txt, phrases) {
   )
 }
 
-const isNegate = txt => responseParser(txt).split(' ').some(word => ['no', 'not'].includes(word))
+const isNegate = txt => responseParser(txt).split(' ').some(word => ['no', 'not', 'dont'].includes(word))
 export const isGreeting = txt => isMatch(txt, greetings)
 export const isYes = txt => isMatch(txt, yeses) && !isNegate(txt)
 export const isNo = txt => isMatch(txt, noes)

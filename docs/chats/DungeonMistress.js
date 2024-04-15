@@ -1,8 +1,10 @@
 /*
 
 TODO
+  - bartender mentions that you're on private property, and that door's locked. so you gotta do what i say
+
   - better integrate harlots <> poker players
-  - poker player has key to tavern door, needs something from harlots before he unlocks it
+
 
   - town square
     - punishment stocks in distance
