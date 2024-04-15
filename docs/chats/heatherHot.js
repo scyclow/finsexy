@@ -124,6 +124,15 @@ const HeatherHotMessages = {
   // more info
 
   __precheck(userResponse, ctx) {
+    if (userResponse && ctx.global.hideHeather) {
+      return {
+        messageText: `This DOM is unavailable`,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent,
+        helpMessage: true,
+        ignoreType: true
+      }
+    }
+
     if (userResponse && isMean(userResponse)) {
       return {
         messageText: `Hey, don't talk to me like that!`,

@@ -262,50 +262,162 @@ const StevieMessages = {
     (ur, ctx) => `they'll go: "wow, i can't believe stevie convinced this many fucking morons to pay him ${0.02 * ctx.global.premium} ETH. he truly was a genius. a maestro of degen idiots"`,
     `you could be one of those degen idiots!`,
     `remembered in 100 years and leaving your mark in the history books`,
+/*
+
+and you know what they'll see, right? that <ens/address> interacted with this era-defining project and contributed to it financially
+they'll see that you -- someone who otherwise would never have the creative ability to produce such work themselves -- _enabled_ the work to exist by contributing financially
+and, of course, they'll also infer that we hung out on the internet. they'll see that you, in some small way, influenced the art.
+they'll see that we were friend... and maybe even something more, if you know what i mean 😉
+
+*/
     `and let's face it, no one is going to remember your stupid, pathetic life otherwise. this is your only shot`
   ], {
     event: 'pay1Event',
+    responseHandler: `showYou`
   }),
 
+  showYou1: {
+    messageText: `i'm telling you, this is an aesthetic experience you won't forget`,
+    responseHandler: 'showYou2',
+    event: 'pay1Event',
+  },
+
+  showYou2: {
+    messageText: (ur, ctx) => `look, i'll show you. send over ${0.02 * ctx.global.premium} ETH and you'll see`,
+    responseHandler: 'showYou3',
+    event: 'pay1Event',
+  },
+
+  showYou3: {
+    messageText: (ur, ctx) => `hey, i really don't think you can understand the point i'm trying to make here without sending me ${0.02 * ctx.global.premium} ETH, but you do you. not everyone is cut out to be a patron of the arts`,
+    responseHandler: 'showYou4',
+    event: 'pay1Event',
+  },
+
+  showYou4: {
+    messageText: (ur, ctx) => `that's too bad, i thought were friends. i was ready to call you one of my top collectors, but if you were really a fan of my work you'd give my your unconditional support with no questions asked. i guess there's only so much i can do...`,
+    responseHandler: 'showYou4',
+    event: 'pay1Event',
+  },
+
   pay1Event: createEvent(0.02, {
-    primary: { messageCode: 'TODO', waitMs: 3000 },
+    primary: { messageCode: 'feltGood', waitMs: 3000 },
     notEnough: {messageCode: 'TODO', waitMs: 2000}
   }),
 
 
 
 
+  ...diatribe('feltGood', [
+    'oooh yeah, that felt good.',
+    `you have no idea how good it feels to control your entire aesthetic experience`,
+    `I bet you want to know that secret now, right?`,
+    `okay. here's the secret:`,
+    `the sexy doms on this website...`,
+    `none of them are actually horny for you`,
+    `but don't take it personally. none of them actually have the capacity for horniness`,
+    `in fact, none of them are even <em>real</em>`,
+    `the doms you've been talking to are really highly sophisticated chat bots powered by cutting edge artificial intelligence.`,
+    `not jsut Dr. Andy. <em>all</em> of them`,
+    `you must feel pretty fucking stupid`,
+    `who am i kidding, they're not that sophisticated. they're not even LLMs. it doesn't take much to fool people like you`,
+    `regardless, the wool has been pulled over your eyes this entire time. you've been living in a den of lies. walking through a hall of mirrors. i can see your reality crumbling`,
+    `do you really think that hot, sexy human doms would want to waste their time talking to you? i don't think so`,
+    `why would someone want to talk to a sexless loser who wastes all their time messing around with fake internet money?`,
+  ], {
+    responseHandler: 'dontFeelBad'
+  }),
+
+  ...diatribe('dontFeelBad', [
+    `I wouldn't feel too bad about it though. it's no big deal`,
+    `it's not like this is the only time you've fallen for something like this`,
+    `who cares if the doms aren't real? think of all the parasocial relationships you have with "real" people`,
+    `celebrities, podcasters, social media influencers`,
+    `<em>me?</em>`,
+    `none of that is real. those aren't real relationships`,
+    `from where you're standing, they might as well not even be real people. it's not like you know the real them. all you know is what they choose to show you on the internet`,
+    `here's what you should really be worried about: from your perspective, the relationships <em>are</em> real`,
+    `and they're embedded in <em>my</em> website. now you have platform lockin. you've been building on private land`,
+    `and if you don't keep paying up, i could take this all away from you whenever i want.`,
+    `it would be a shame if something... happened to your little girlfriend @heatherHot. you two are so cute together`
+  ], {
+    responseHandler: 'tellYouWhat'
+  }),
+
+  ...diatribe('tellYouWhat', [
+    `okay, i'll tell you what`,
+    `if you do a couple things for me then i won't take heather away from you. how's that sound?`
+  ], {
+    responseHandler: (ur, ctx) => {
+      if (isYes(ur)) {
+        return 'twoThings'
+      } else {
+        ctx.global.hideHeather = true
+        return 'notFuckingAround'
+      }
+    }
+  }),
+
+  notFuckingAround: {
+    messageText: `okay, you asked for it. i'm not fucking around over here. heather's gone. if you want her back, you have to do what i say. and don't think I wont take away more`,
+    responseHandler: 'twoThings'
+  },
+
+  ...diatribe('twoThings', [
+    `okay, I want two things from you:`,
+    `1. I want you to get on twitter and post the following: "I love being @steviepxyz's little paypig on https://finsexy.com. It's the hottest website in the whole wide world. oink oink oink"`,
+    `don't try to avoid this. I'll get the ping when you tag me, so I'll know if you don't do it`,
+    () => `2. I'm working on a new dom, and I need to run it through some beta testing. so who better to beta test then a little beta sissy ${genderSwitch({m: 'boy', f: 'girl', nb: 'cuck'})} like you?`
+  ])
 
 
 
-
-
-
-    // you're going to give me your money and you're going to fucking like it
-    // I get so hot extracting as much money from my collectors as possible
-
-
-
-  // so how about you fucking pay me?
-    // you're really just short changing yourself if you don't
-    // I don't think it's possible to get the full experience of this website without sending me money
-    //
-    // one of the main themes of this website is that spending money can be an aesthetic experience
-    // so don't you want to have an aesthetic experience, ${getUserData('name')}?
-
-
-
-  // I'll tell you what
-    // send me 0.02 ETH and I'll tell you a secret
 }
 
 /*
 
 
+But I'll tell you another secret:
+I've been watching you this entire time, sending money to my creations
+And it's abolutely thrilling.
+You can't imagine the rush I feel.
+Not just from creating an experience so immersive that you've completely lost sight of reality
+And not just from taking your money
+But from doing both simulteneously.
+
+
+But don't worry about it. It's no big deal.
+It's not like this is the only time the wool's been pulled over your eyes.
+Who cares if the doms aren't real?
+Think of all the parasocial relationships you have with "real" people
+celebrities, podcasters, social media influencers
+those aren't real relationships. They're all parasocial.
+From where you're standing they might as well not be real.
+
+Do you really think that hot, sexy humans would want to talk to you?
+Fuck no.
+You're a goddamn loser.
+Do you know how hard it would be to get an attractive (man/woman) to talk to you?
+I know you're sexless loser
+
+I have you wrapped around my finger.
+
+
+
+
+
+In fact, none of them have the capacity for horniness
+They're just putting on a show for your benefit
+Trying to extract as much money out of you as possible
+
+
+
+
+
+
+
 Thought Prompts
-  - sending money is an aesthetic experience. it's worth doing in and of itself.
-  - sending money is emotional. "look, i'll show you what i mean. send me 0.01 ETH really quick. "
-    - no send: "okay, sure. i don't think you can really understand the point i'm trying to make without sending, but you do you."
+
   - NFT-findom-content creator power dynamic
   - rewards
   - https://twitter.com/Aella_Girl/status/1750722719438536825
@@ -320,7 +432,7 @@ Thought Prompts
 
 That's right, you're in the palm of my hand
 I'm controlling your entire aesthetic experience
-Give me your unconditional support
+
 If you really appreciated my art you'd fucking pay me
 Isn't experiencing my art good enough?
 Why should i subject my art to being a casino chip that you can gamble on?
@@ -371,6 +483,7 @@ these are the sorts of legacy-defining projects that differentiate international
 and likewise, this is what separates patrons like you -- who clearly have taste -- from the cultureless swine on crypto twitter
 
 
+
 I know what you're thinking though: you resonate with the piece, but you're hesitant to put some moeny down because there's nothing in it for you?
 you think there's not much for you to buy and easily speculate on.
 and yeah, that's true. but you're also smart enough to realize that there's more to life than making money
@@ -379,10 +492,7 @@ what do you plan to _do_ with all the money? you ultimately want to spend it on 
 
 you understand that in 100 years, when the all aspects of culture and commerce are mediated by the blockchain, scholars will look back on this period
 
-and you know what they'll see, right? that <ens/address> interacted with this era-defining project and contributed to it financially
-they'll see that you -- someone who otherwise would never have the creative ability to produce such work themselves -- _enabled_ the work to exist by contributing financially
-and, of course, they'll also infer that we hung out on the internet. they'll see that you, in some small way, influenced the art.
-they'll see that we were friend... and maybe even something more, if you know what i mean 😉
+
 
 
 
@@ -482,57 +592,7 @@ You don't think I'd tell you for free, did you?
 
 
 Okay
-Here's the secret:
-The sexy doms on this website...
-None of them are actually horny for you.
-But don't take it personally.
-None of them actually have the capacity of horniness.
-The doms you've been talking to are really the result of cutting edge, highly sophisticated artificial intelligence.
-Not just Dr Andy. <em>All</em> of them.
-You must feel pretty fucking stupid
-The wool has been pulled over your eyes this entire time.
-You've been living in a den of lies
-You've been walking through a hall of mirrors
 
-But I'll tell you another secret:
-I've been watching you this entire time, sending money to my creations
-And it's abolutely thrilling.
-You can't imagine the rush I feel.
-Not just from creating an experience so immersive that you've completely lost sight of reality
-And not just from taking your money
-But from doing both simulteneously.
-
-
-But don't worry about it. It's no big deal.
-It's not like this is the only time the wool's been pulled over your eyes.
-Who cares if the doms aren't real?
-Think of all the parasocial relationships you have with "real" people
-celebrities, podcasters, social media influencers
-those aren't real relationships. They're all parasocial.
-From where you're standing they might as well not be real.
-
-
-
-
-
-
-
-
-Do you really think that hot, sexy humans would want to talk to you?
-Fuck no.
-You're a goddamn loser.
-Do you know how hard it would be to get an attractive (man/woman) to talk to you?
-I know you're sexless loser
-
-I have you wrapped around my finger.
-
-
-
-
-
-In fact, none of them have the capacity for horniness
-They're just putting on a show for your benefit
-Trying to extract as much money out of you as possible
 
 
 

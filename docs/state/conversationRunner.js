@@ -581,6 +581,7 @@ export class MessageHandler {
       messageCode: messageCode,
       messageText: await this.sendMessage(messageToSend, userResponse),
       from: this.chatName,
+      helpMessage: messageToSend.helpMessage
     })
   }
 

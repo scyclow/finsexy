@@ -448,9 +448,10 @@
       }
 
       const isActive = activeChat === m
+      const hideHeather = !isActive && m === 'heatherHot' && MessageHandler.globalCtx.hideHeather
 
       const messageCount = MessageHandler.chats[m].ctx.history.length
-      if ($select && !messageCount && !isActive) {
+      if (hideHeather || $select && !messageCount && !isActive) {
         $select.classList.add('hidden')
       } else if ($select && messageCount) {
         $select.classList.remove('hidden')
