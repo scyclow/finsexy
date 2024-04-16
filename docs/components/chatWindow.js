@@ -126,7 +126,7 @@ createComponent(
 
       .message a {
         color: var(--light-link-color);
-        text-shadow: 1px 1px 1px var(--dark-color);
+        text-shadow: 1px 1px 1px var(--dark-color), -1px 0px 3px var(--secondary-color);
       }
 
       .message a:hover {
@@ -437,7 +437,7 @@ createComponent(
     const name = ctx.getAttribute('name')
 
     const submit = () => {
-      if (!ls.get('completedProfile')) {
+      if (!ls.get('profileCompleted')) {
         window.location.pathname = './profile'
         return
       }

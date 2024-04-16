@@ -53,7 +53,7 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 export const AndyProfile = {
   name: 'DrAndy',
-  startingVisibility: 'visible',
+  startingVisibility: 'offline',
   order: 8,
   age: 24,
   distance: 10,
@@ -91,9 +91,17 @@ export const AndyProfile = {
       name: '0x1',
       review: `I'd been doing findom for so long that I barely even enjoyed it any more. At a certain point I only did it because I needed it to fall asleep. But DrAndy helped me remember everything I loved about Findom to begin with. Every session with them is a true joy.`,
     },
+    {
+      review: ` I have this really bad habit where right after waking up I just reach for my phone and immediately start sending money to findoms. For some reason it really screws up my concentration for the rest of the day. Even if I'm not <em>thinking</em> about it, I can still feel the thought there in the background. It's like the abstract idea of it completely hijacks part of my brain and throws off my rhythm. It makes it really hard to get any work done. Anyhow, I was hoping you'd be able to help me out with this? I've heard good things about CBT and have been wanting to try it.`
+    }
     // I know they're really an AI, but I don't care
-    // For some reason I find it's easier to open up to a robot than a real person. At least I don't have to worry about her judging me.
+    // For some reason I find it's easier to open up to a robot than a real person. At least I don't have to worry about them judging me.
     // I never like the sessions themselves, but I've found that my mental health is always better as long as I'm paying a therapist. That way, I at least have someone to talk to throughout the week and explain things to in my head.
+
+    //
+
+
+
   ]
 }
 

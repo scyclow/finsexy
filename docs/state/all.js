@@ -46,10 +46,12 @@ export const ProfileStats = {
 }
 
 setTimeout(() => {
-  if (ls.get('is18')) {
+  const pastProfile = ls.get('profileDeferred') || ls.get('profileCompleted')
+
+  if (ls.get('is18') && pastProfile) {
     if (!KatChat.ctx.history.length && !KatChat.ctx.eventQueue.length) {
       KatChat.queueEvent('steviep', 120000)
-      MessageHandler.visibilityCtx.katFischer = 'visible'
+      MessageHandler.visibilityCtx.katFischer = 'online'
 
     }
     if (!HHChat.ctx.history.length && !HHChat.ctx.eventQueue.length) {

@@ -154,6 +154,14 @@
       justify-content: space-between;
     }
 
+    .online {
+      height: 0.5em;
+      width: 0.5em;
+      margin-right: 0.35em;
+      border-radius: 100%;
+      background: var(--green-color);
+      display: inline-block;
+    }
 
 
     @media (max-width: 900px) {
@@ -195,7 +203,6 @@
   <sexy-header style="flex: 1"></sexy-header>
   <main id="main">
     <aside id="messageSelectorSection">
-      <!-- <message-selector id="messageSelector"></message-selector> -->
       <ul id="messageSelector"></ul>
     </aside>
 
@@ -280,6 +287,7 @@
   messageNames.forEach(name => {
 
     const li = $.li([
+      // $.span([$.span('', {class: 'online'}),name]),
       $.span(name),
       $.span('', {
         id: `${name}-unread`,

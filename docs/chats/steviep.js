@@ -75,7 +75,7 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 export const StevieProfile = {
   name: 'steviep',
-  startingVisibility: 'visible',
+  startingVisibility: 'offline',
   order: 5,
   age: 34,
   distance: 0,
@@ -84,6 +84,10 @@ export const StevieProfile = {
   maxPhotos: 4,
   description: ``,
   testimonials: [
+    {
+      name: '0x4',
+      review: `What a hunk 😍`,
+    },
     {
       name: '0x',
       review: `Stevie P is my favorite artist of all time. I'm so glad that I have the opportunity to be a patron of his brilliant artwork!`,
@@ -99,10 +103,6 @@ export const StevieProfile = {
     {
       name: '0x3',
       review: `I've been writing erotica about stevie for years. I'm thrilled that I can finally act out on those fantasies where he takes all of my money`
-    },
-    {
-      name: '0x4',
-      review: `What a hunk 😍`,
     },
     {
       name: '0x5',

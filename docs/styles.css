@@ -5,6 +5,11 @@
 }
 
 :root {
+
+
+
+
+
   --primary-color: #ff00c7;
   /*--border-color: #887888;*/
   --border-color: #524552;
@@ -24,9 +29,9 @@
   --code-color: rgba(17, 5, 17, 0.7);
 
 
-
-  --green1-color: #339966;
-  --green2-color: #66cc99;
+  --green-color: #19c72c;
+  --dark-green-color: #339966;
+  --light-green-color: #66cc99;
   --blue-color: #003366;
   --red-color: #ff3333;
   --purple-color: #49155b;
@@ -43,6 +48,8 @@
   --code-font: monospace;
 
 
+/*  --bg-color: #fff8ff;
+  --light-color: #120211;*/
 }
 
 html {
@@ -187,10 +194,36 @@ button, img {
   user-select: none;
 }
 
+#connectButton {
+  transition: 300ms;
+  cursor: pointer;
+  padding: 0.5em 1em;
+  border: 0;
+  color: var(--light-color);
+  border-radius: 3px;
+  background: var(--primary-color);
+  animation: Glissen 3s ease-in-out infinite;
+}
+
+#connectButton:hover {
+  background: var(--light-color);
+  color: var(--primary-color);
+  animation: none;
+  box-shadow: 0 0 3em var(--primary-color);
+}
 
 
 
 
+
+@keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 
 
 @keyframes PreOrgasm {
@@ -235,6 +268,18 @@ button, img {
 
   55% {
     filter: brightness(0.5) blur(0.5px) saturate(2) hue-rotate(40deg);
+  }
+}
+
+@keyframes Glissen {
+  0%, 100% {
+    background: var(--primary-color);
+    box-shadow: 0 0 3em var(--primary-color);
+  }
+
+  50% {
+    background: var(--secondary-color);
+    box-shadow: 0 0 3em var(--secondary-color);
   }
 }
 

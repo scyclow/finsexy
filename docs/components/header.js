@@ -243,7 +243,7 @@ createComponent(
     <header id="header">
       <h1><a href="/">💋 FINSEXY</a></h1>
       <nav id="nav">
-        <h4 id="mobileMenu">Menu<span id="totalUnreadsMenu"><span></a></h4>
+        <h4 id="mobileMenu">Menu<span id="totalUnreadsMenu" class="hidden"><span></a></h4>
         <ul id="navItems">
           <li>
             <a href="/">
@@ -265,7 +265,7 @@ createComponent(
           <li>
             <connect-wallet>
               <div slot="noWeb3" class="connectItem">
-                <em class="error" style="text-align: center">Please Connect in a <br>Web3-enabled Browser</em>
+                <!-- <em class="error" style="text-align: center">Please Connect in a <br>Web3-enabled Browser</em> -->
               </div>
 
               <div slot="notConnected" class="connectItem">

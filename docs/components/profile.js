@@ -38,7 +38,6 @@ createComponent(
       header {
         margin-top: 1em;
         margin-bottom: 2em;
-        display: flex;
       }
 
       figcaption {
@@ -58,24 +57,53 @@ createComponent(
         */
       }
 
-      figcaption * {
+      #onlineStatus {
+        display: flex;
+        align-items: center;
+        font-style: italic;
+        font-size: 0.9em;
+        padding-top: 0.5em;
+        padding-left: 1.5em;
+      }
+      .online {
+        height: 0.5em;
+        width: 0.5em;
+        margin-right: 0.35em;
+        border-radius: 100%;
+        background: var(--green-color);
+        display: inline-block;
+      }
+
+      .offline {
+        height: 0.5em;
+        width: 0.5em;
+        margin-right: 0.35em;
+        border-radius: 100%;
+        border: 1px solid var(--light-color);
+        box-sizing: border-box;
+        display: inline-block;
       }
 
       h1 {
+        font-family: var(--fancy-font);
+        line-height: 1.1;
         font-size: 3em;
         text-shadow: 0 0 5px var(--medium-color), 0 0 8px var(--border-color);
       }
 
       h2 {
+        font-family: var(--fancy-font);
         text-align: center;
         // text-decoration: underline;
         margin-bottom: 0.1em;
+        text-shadow: 0 0 2px var(--medium-color), 0 0 4px var(--border-color);
       }
 
       h3 {
         text-align: center;
         font-size: 0.75em;
         margin-bottom: 1em;
+        text-shadow: 0 0 2px var(--medium-color), 0 0 4px var(--border-color);
       }
 
       a {
@@ -173,7 +201,7 @@ createComponent(
       }
 
       .actionContainer {
-        margin: 1em 0;
+        margin-bottom: 1em;
         padding: 1em;
         width: 100%;
       }
@@ -204,7 +232,7 @@ createComponent(
 
 
       #sendModule {
-        box-shadow: 0 0 20px var(--green1-color);
+        box-shadow: 0 0 20px var(--dark-green-color);
       }
       #sendModule * {
         font-size: 1.15em;
@@ -213,7 +241,7 @@ createComponent(
       #sendButton {
         border: 1px solid var(--border-color);
         border-left: 0px;
-        background: var(--green1-color);
+        background: var(--dark-green-color);
         color: var(--light-color);
         padding: 0.5em 1em;
         cursor: pointer;
@@ -235,14 +263,14 @@ createComponent(
 
       }
       #sendInput:focus, #sendInput:active {
-        border: 1px solid var(--green1-color);
+        border: 1px solid var(--dark-green-color);
         border-right: 0;
         outline: none;
       }
 
       #sendInput:focus + button,
       #sendInput:active + button {
-        border: 1px solid var(--green1-color);
+        border: 1px solid var(--dark-green-color);
         border-left: 0;
       }
 
@@ -275,7 +303,7 @@ createComponent(
 
       #sendButton:hover, #sendButton:active, #sendButton:focus {
         outline: none;
-        background: var(--green2-color);
+        background: var(--light-green-color);
       }
 
       #sendButton:active, #buySexyPic:active {
@@ -323,6 +351,16 @@ createComponent(
         header {
           flex-direction: column;
         }
+        #onlineStatus {
+          justify-content: center;
+          margin-top: 0.5em;
+          padding: 0;
+        }
+
+        #name {
+          margin-right: 0;
+        }
+
 
         h1 {
           text-align: center;
@@ -359,9 +397,20 @@ createComponent(
       .sideWindow header {
         padding: 0;
       }
+      .sideWindow header {
+        margin-bottom: 1em;
+        margin-top: 0.5em;
+      }
 
-      .sideWindow h1 {
-        font-size: 2.5em
+      .sideWindow #onlineStatus {
+        justify-content: center;
+        margin: 0.5em 0;
+        padding: 0;
+      }
+
+      .sideWindow h1#name {
+        font-size: 2.5em;
+        margin-right: 0;
       }
 
       .sideWindow #chat {
@@ -386,15 +435,11 @@ createComponent(
 
       .sideWindow #photoContainer {
         width: 300px;
-        height: 300px;
-        }
+
+      }
 
       .sideWindow .actions {
         flex-direction: column;
-      }
-
-      .sideWindow #sendModule {
-        margin-top: 1em
       }
 
       .hidden {
@@ -446,6 +491,7 @@ createComponent(
         line-height: 0;
         position: relative;
         top: 0.35em;
+        padding-right: 0.15em;
       }
 
       .testimonial + .testimonial {
@@ -471,6 +517,7 @@ createComponent(
 
       .testimonialReview {
         box-shadow: inset 0 0 10px #777;
+        line-height: 1.25;
       }
 
       ::selection {
@@ -488,7 +535,7 @@ createComponent(
         user-select: none !important;
       }
       .disconnected #sendButton:hover {
-        background: var(--green1-color);
+        background: var(--dark-green-color);
       }
 
       #sexyPicSection {
@@ -521,6 +568,7 @@ createComponent(
     <article id="parent">
       <header>
         <h1 id="name"></h1>
+        <div id="onlineStatus"></div>
       </header>
 
       <main>
@@ -594,7 +642,7 @@ createComponent(
 
         <section id="content">
           <section id="profileInfo">
-            <h2>Profile</h2>
+            <h2>About Me</h2>
             <div id="info"></div>
             <blockquote id="description"></blockquote>
           </section>
@@ -630,6 +678,7 @@ createComponent(
     ctx.$testimonialContent = ctx.$('#testimonialContent')
     ctx.$sendError = ctx.$('#sendError')
     ctx.$activeThumbnail = ctx.$('#activeThumbnail')
+    ctx.$onlineStatus = ctx.$('#onlineStatus')
 
     if (ctx.getAttribute('sideWindow')) ctx.parent.classList.add('sideWindow')
 
@@ -647,6 +696,15 @@ createComponent(
     `
 
     ctx.$chat.href = `../chat?activeChat=${name}`
+
+
+    if (MessageHandler.visibilityCtx[name] === 'online') {
+      ctx.$onlineStatus.innerHTML = `<span class="online"></span>Online now!`
+    } else {
+      ctx.$onlineStatus.innerHTML = `<span class="offline"></span>Offline`
+
+    }
+
 
     const getActiveThumbnail = () => `../thumbnails/${ctx.getAttribute('name')}/${ctx.state.activePhoto}.png`
 

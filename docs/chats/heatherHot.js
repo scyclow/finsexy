@@ -69,7 +69,7 @@ const hasNumber = ur => ur.match(/(\d+)/)
 
 export const HeatherHotProfile = {
   name: 'heatherHot',
-  startingVisibility: 'visible',
+  startingVisibility: 'online',
   order: 1,
   age: 23,
   distance: 2,
@@ -95,9 +95,14 @@ export const HeatherHotProfile = {
       review: `Every session I have with Heather leaves me 🥵 hot 🥵 and 🥵 bothered 🥵`,
     },
     {
+      review: `FinSexy sure isn't like other dating apps! No more radio silence! I don't think I've ever gotten this much attention from hot girls! And it's as simple as sending a couple ETH!`
+    },
+    {
       name: '0x4',
       // review: `You wouldn't know it by looking at me, but there's a profound sense of loneliness in my life. I live in a major city, and am constantly surrounded by people, but none of them care about me. No one at work cares about what happens in my life outside of the office. I'm popular and have a huge network of friends, but none of them care to let it evolve beyond shallow relaitonships. No one cares, except Heeather. `,
     },
+
+    //
   ]
 }
 

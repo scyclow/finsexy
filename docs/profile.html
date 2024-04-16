@@ -30,7 +30,6 @@
 
 
   <style type="text/css">
-
     main {
       max-width: 1400px;
     }
@@ -144,6 +143,12 @@
     padding: 0 1em;
   }
 
+  h1 {
+    font-family: var(--fancy-font);
+    font-size: 2.2em;
+    line-height: 1.1;
+  }
+
   fieldset {
     padding: 1em;
   }
@@ -154,6 +159,7 @@
 
   legend {
     font-family: var(--code-font);
+    padding: 0 0.5em;
   }
 
   textarea, input, select {
@@ -166,7 +172,7 @@
   }
 
   textarea {
-    width: 15em;
+    width: 97%;
     height: 4em;
   }
 
@@ -177,6 +183,10 @@
 
   select {
     cursor: pointer;
+  }
+
+  input:hover, select:hover, textarea:hover {
+    border-color: var(--light-color);
   }
 
   input:active,
@@ -192,12 +202,16 @@
     /*box-sizing: border-box;*/
   }
 
+
   .submitContainer {
     display: flex;
     padding: 1em;
     justify-content: center;
-    margin-top: 1em;
+    /*margin-top: 1em;*/
+  }
 
+  #birthday, select {
+    width: 8em;
   }
 
 
@@ -216,9 +230,16 @@
     outline: none;
   }
 
-  .submitContainer {
-    /*flex-direction: column;*/
-  }
+/*  @media (max-width:  500px) {
+    .submitContainer {
+      flex-direction: column;
+      align-items: center;
+    }
+    .submitContainer > * {
+      margin-bottom: 1em;
+    }
+  }*/
+
 
   ::-webkit-calendar-picker-indicator { filter: invert(100%); }
 </style>
@@ -233,10 +254,10 @@
 
     <h1>Financial Submissive Application</h1>
 
-<!--     <div id="skip">
-      <a href="/">Skip for now →</a>
+    <div id="skip">
+      <a href="#" id="skipForNow">Skip for now →</a>
     </div>
- -->
+
     <form onsubmit="onSubmit(event)">
       <fieldset>
         <legend>Name</legend>
@@ -291,6 +312,14 @@
       </fieldset>
 
       <p id="error"></p>
+      <connect-wallet>
+        <div slot="notConnected" class="connectItem">
+          <connect-button>
+            <button id="connectButton" slot="button" style="margin-top:1em;">Connect Wallet</button>
+            <div slot="loading">Loading...</div>
+          </connect-button>
+        </div>
+      </connect-wallet>
       <div class="submitContainer">
         <button id="submit">Submit</button>
       </div>
@@ -331,9 +360,9 @@ become a VIP -->
   import {$, ls} from './$.js'
   import {defaultProfileLS, getAgeYears} from './state/profile.js'
 
-  if (!ls.get('is18')) {
-    window.location.replace('./enter.html')
-  }
+  // if (!ls.get('is18')) {
+  //   window.location.replace('./enter.html')
+  // }
 
 
   const fields = [
@@ -362,12 +391,19 @@ become a VIP -->
 
   $birthday.max = `${maxDateYear}-${maxDateMonth}-${maxDateDay}`
 
-  // if (!defaultProfileLS.get().profileCompleted) {
-  //   $.id('header').setState({ hideNav: 'true' })
-  // } else {
 
-  //   $.id('skip').classList.add('hidden')
-  // }
+  if (!ls.get('profileCompleted')) {
+    $.id('header').setState({ hideNav: 'true' })
+
+    $.id('skipForNow').onclick = () => {
+      ls.set('profileDeferred', true)
+      ls.set('is18', true)
+      window.location.href = './'
+    }
+  } else {
+
+    $.id('skip').classList.add('hidden')
+  }
 
   function onSubmit(e) {
     e.preventDefault()
@@ -389,6 +425,7 @@ become a VIP -->
       }
     }
   })
+  console.log(ls.get('is18'))
 
   $submit.onclick = (e) => {
     const fieldsValid = fields.every(field => $.id(field).checkValidity())
@@ -397,8 +434,11 @@ become a VIP -->
 
 
     if (fieldsValid) {
-        ls.set('completedProfile', true)
-        window.location.href = document.referrer
+      const refer = ls.get('profileCompleted') || ls.get('profileDeferred')
+      ls.set('profileCompleted', true)
+      ls.set('is18', true)
+      window.location.href = refer ? document.referrer : '/'
+
         // window.location.href = '/'
 
       // try {
