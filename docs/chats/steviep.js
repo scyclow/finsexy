@@ -75,6 +75,8 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 export const StevieProfile = {
   name: 'steviep',
+  startingVisibility: 'visible',
+  order: 5,
   age: 34,
   distance: 0,
   gender: 'Male',
@@ -367,7 +369,8 @@ they'll see that we were friend... and maybe even something more, if you know wh
     `okay, I want two things from you:`,
     `1. I want you to get on twitter and post the following: "I love being @steviepxyz's little paypig on https://finsexy.com. It's the hottest website in the whole wide world. oink oink oink"`,
     `don't try to avoid this. I'll get the ping when you tag me, so I'll know if you don't do it`,
-    () => `2. I'm working on a new dom, and I need to run it through some beta testing. so who better to beta test then a little beta sissy ${genderSwitch({m: 'boy', f: 'girl', nb: 'cuck'})} like you?`
+    () => `2. I'm working on a new dom, and I need to run it through some beta testing. so who better to beta test then a little beta sissy ${genderSwitch({m: 'boy', f: 'girl', nb: 'cuck'})} like you?`,
+    `It's not public yet, so there might be a few kinks in there`
   ])
 
 
@@ -386,13 +389,6 @@ And not just from taking your money
 But from doing both simulteneously.
 
 
-But don't worry about it. It's no big deal.
-It's not like this is the only time the wool's been pulled over your eyes.
-Who cares if the doms aren't real?
-Think of all the parasocial relationships you have with "real" people
-celebrities, podcasters, social media influencers
-those aren't real relationships. They're all parasocial.
-From where you're standing they might as well not be real.
 
 Do you really think that hot, sexy humans would want to talk to you?
 Fuck no.
@@ -608,7 +604,7 @@ CHALLENGE:
 
 
 */
-export const StevieChat = new MessageHandler(StevieProfile.name, StevieMessages)
+export const StevieChat = new MessageHandler(StevieProfile, StevieMessages)
 
 
 

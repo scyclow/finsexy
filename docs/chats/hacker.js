@@ -17,12 +17,14 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 export const HackerProfile = {
   name: '0x000000000000000000000000000000000',
+  startingVisibility: 'hidden',
+  order: 10,
   age: NaN,
   distance: NaN,
   maxPhotos: 1,
   description: ``,
   gender: null,
-  display: null,
+  display: 'nb',
   testimonials: [
     {
       name: '0x72f...daF',
@@ -132,4 +134,4 @@ const HackerMessages = {
 
 
 
-export const HackerChat = new MessageHandler(HackerProfile.name, HackerMessages)
+export const HackerChat = new MessageHandler(HackerProfile, HackerMessages)

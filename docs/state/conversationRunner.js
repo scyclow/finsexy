@@ -2,6 +2,7 @@ import { getUserData } from './profile.js'
 import { sexyCLIT, clitLS } from './clit.js'
 import {ls, $} from '../$.js'
 import {provider} from '../eth.js'
+import {ProfileStats} from './all.js'
 
 
 
@@ -337,6 +338,7 @@ class ChatContext {
     this.chatName = chatName
     this.chatLS = chatNameLS(chatName)
     this.global = {}
+    this.visibility = {}
     this.lastLSRead = 0
     this.lastLSWrite = 0
 
@@ -412,17 +414,19 @@ class ChatContext {
 }
 
 
-function createGlobalCtx(init) {
-  const ctx = ls.get('__CHAT_GLOBAL_CONTEXT') || init
+function createGlobalCtx(lsKey, init) {
+  const ctx = ls.get(lsKey) || init
 
-  setInterval(() => {
-    Object.assign(ctx, ls.get('__CHAT_GLOBAL_CONTEXT') || init)
+  setRunInterval(() => {
+    Object.assign(ctx, ls.get(lsKey) || init)
   }, 4000)
+
 
   return new Proxy(ctx, {
     set(obj, key, val) {
       obj[key] = val
-      ls.set('__CHAT_GLOBAL_CONTEXT', JSON.stringify(ctx))
+      ls.set(lsKey, JSON.stringify(ctx))
+
       return val
     },
     get(obj, key) {
@@ -435,17 +439,22 @@ function createGlobalCtx(init) {
 
 export class MessageHandler {
   static chats = {}
-  static globalCtx = createGlobalCtx({
+  static globalCtx = createGlobalCtx('__CHAT_GLOBAL_CONTEXT', {
     premium: 1
   })
 
+  static visibilityCtx = createGlobalCtx('__CHAT_VISIBILITY_CONTEXT', {})
+
   static provider = provider
 
-  constructor(chatName, messages, startingCode='START') {
-    this.chatName = chatName
+  constructor(profile, messages, startingCode='START') {
+    this.chatName = profile.name
     this.messages = messages
     this.registeredChatWindows = []
-    this.ctx = new ChatContext(chatName, startingCode, (history) =>
+
+    MessageHandler.visibilityCtx[this.chatName] = MessageHandler.visibilityCtx[this.chatName] ?? profile.startingVisibility
+
+    this.ctx = new ChatContext(this.chatName, startingCode, (history) =>
       this.registeredChatWindows.forEach(chatWindow => {
         if (chatWindow.state.history.length !== history.length) {
           chatWindow.setState({ history })
@@ -453,6 +462,7 @@ export class MessageHandler {
       })
     )
     this.ctx.global = MessageHandler.globalCtx
+    this.ctx.visibility = MessageHandler.visibilityCtx
     this.isActive = false
     this.provider = MessageHandler.provider
 
@@ -465,13 +475,14 @@ export class MessageHandler {
             MessageHandler.globalCtx.connectedAddr = addr
             res()
           } catch (e) {
+            console.log(profile.name)
             rej(e)
           }
         })
       })
     }
 
-    sexyCLIT.register(chatName, '', this.ctx, messageText =>
+    sexyCLIT.register(this.chatName, '', this.ctx, messageText =>
       this.updateHistory({
         helpMessage: true,
         messageText
@@ -505,7 +516,7 @@ export class MessageHandler {
 
     setRunInterval(this.handleQueue.bind(this), 100)
 
-    MessageHandler.chats[chatName] = this
+    MessageHandler.chats[this.chatName] = this
   }
 
   static totalUnreads() {
@@ -518,11 +529,11 @@ export class MessageHandler {
     const cleanedTitle = originalTitle.replace(/\((\d+)\)/, '').trim()
     if (unreadCount > 0) {
       document.title = `(${unreadCount}) ${cleanedTitle}`
-      $.id('favicon').href = $.id('favicon').href.replace('kiss.svg', 'kissNotification.svg')
+      $.id('favicon').href = $.id('favicon').href.replace('kiss.png', 'kissNotification.png')
 
     } else {
       document.title = cleanedTitle
-      $.id('favicon').href = $.id('favicon').href.replace('kissNotification.svg', 'kiss.svg')
+      $.id('favicon').href = $.id('favicon').href.replace('kissNotification.png', 'kiss.png')
     }
   }
 

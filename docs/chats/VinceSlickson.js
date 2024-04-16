@@ -36,6 +36,9 @@ const hasNumber = ur => {
 
 
 export const VinceProfile = {
+  name: 'VinceSlickson',
+  startingVisibility: 'visible',
+  order: 3,
   age: 42,
   distance: 10,
   gender: '100% Man',
@@ -954,7 +957,7 @@ besides, you're on a findom website for crying out loud
 
 
 
-export const VinceChat = new MessageHandler('VinceSlickson', VinceMessages)
+export const VinceChat = new MessageHandler(VinceProfile, VinceMessages)
 
 
 

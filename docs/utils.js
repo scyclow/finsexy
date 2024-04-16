@@ -76,6 +76,13 @@ function setRunInterval(fn, ms, i=0) {
   return setInterval(run, ms)
 }
 
+
+function ellipse(txt) {
+  return txt.length >= 25
+    ? txt.slice(0, 22) + '...'
+    : txt
+}
+
 // const lineStats = (x1, y1, x2, y2) => ({
 //   d: dist(x1, y1, x2, y2),
 //   angle: atan2(x2 - x1, y2 - y1)

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <title>FinSexy</title>
-  <link rel="shortcut icon" type="image/x-icon" href="./assets/kiss.svg" id="favicon">
+  <link rel="shortcut icon" type="image/x-icon" href="./assets/kiss.png" id="favicon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <meta name="description" content="">
@@ -580,16 +580,22 @@
   import {provider} from './eth.js'
   import {MessageHandler, ProfileStats} from './state/all.js'
   import {defaultProfileLS} from './state/profile.js'
-  import {HHChat} from './chats/heatherHot.js'
-  import {KatChat} from './chats/katFischer.js'
+
+
+Object.keys(MessageHandler.chats)
+  .forEach(name => console.log(name,
+    MessageHandler.visibilityCtx[name]
+  ))
 
 
 
-
-
-
-  $.id('links').innerHTML = Object.keys(ProfileStats).map((name, i) => `
-    <article id="${name}-link" class="domView ${ProfileStats[name].display ? 'display-' + ProfileStats[name].display : 'hidden'}">
+  $.id('links').innerHTML = Object.keys(MessageHandler.chats)
+  .filter(name => (
+    MessageHandler.visibilityCtx[name] !== 'hidden'
+    && (name !== 'heatherHot' || !MessageHandler.globalCtx.hideHeather)
+  ))
+  .map((name, i) => `
+    <article id="${name}-link" class="domView ${ProfileStats[name].display ? 'display-' + ProfileStats[name].display : 'hidden'}" style="order: ${ProfileStats[name].order}">
       <div class="unreadContainer">
         <div id="${name}-unread" class="unreadMessage hidden">New Message!</div>
       </div>
@@ -597,28 +603,29 @@
         <img src="./thumbnails/${name}/0.png">
       </a>
       <figcaption>
-        <div>${name}, ${ProfileStats[name].age}</div>
+        <div>${ellipse(name)}, ${ProfileStats[name].age}</div>
       </figcaption>
     </article>
-  `).join('') + `
-        <article class="display-nb">
-          <a href="#">
-            <img src="./thumbnails/utilityMonster/0.png">
-          </a>
-          <figcaption>
-            <div>$$$, 27</div>
-          </figcaption>
-        </article>
-        <article class="display-f">
-          <a href="#">
-            <img src="./thumbnails/candyCrush/0.png">
-          </a>
-          <figcaption>
-            <div>CandyCrush, 21</div>
-          </figcaption>
-        </article>
+  `).join('')
+  // + `
+  //       <article class="display-nb">
+  //         <a href="#">
+  //           <img src="./thumbnails/utilityMonster/0.png">
+  //         </a>
+  //         <figcaption>
+  //           <div>$$$, 27</div>
+  //         </figcaption>
+  //       </article>
+  //       <article class="display-f">
+  //         <a href="#">
+  //           <img src="./thumbnails/candyCrush/0.png">
+  //         </a>
+  //         <figcaption>
+  //           <div>CandyCrush, 21</div>
+  //         </figcaption>
+  //       </article>
 
-  `
+  // `
 
   setInterval(() => {
     Object.keys(MessageHandler.chats).forEach(name => {
@@ -699,17 +706,17 @@
 
   // if (!ls.get('returnVisit')) {
 
-    setTimeout(() => {
-      if (!KatChat.ctx.history.length && !KatChat.ctx.eventQueue.length) {
-        KatChat.queueEvent('steviep', 120000)
-      }
-      if (!HHChat.ctx.history.length && !HHChat.ctx.eventQueue.length) {
-        HHChat.queueEvent('hi', 6000)
-      }
+    // setTimeout(() => {
+    //   if (!KatChat.ctx.history.length && !KatChat.ctx.eventQueue.length) {
+    //     KatChat.queueEvent('steviep', 120000)
+    //   }
+    //   if (!HHChat.ctx.history.length && !HHChat.ctx.eventQueue.length) {
+    //     HHChat.queueEvent('hi', 6000)
+    //   }
 
 
-      // ls.set('returnVisit', true)
-    }, 1000)
+    //   // ls.set('returnVisit', true)
+    // }, 1000)
   // }
 
 

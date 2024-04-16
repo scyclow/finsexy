@@ -68,8 +68,14 @@ createComponent(
 
       h2 {
         text-align: center;
-        text-decoration: underline;
-        margin-bottom: 0.5em;
+        // text-decoration: underline;
+        margin-bottom: 0.1em;
+      }
+
+      h3 {
+        text-align: center;
+        font-size: 0.75em;
+        margin-bottom: 1em;
       }
 
       a {
@@ -241,7 +247,7 @@ createComponent(
       }
 
       #chat {
-        font-size: 1.8em;
+        font-size: 1.7em;
         box-shadow: 0 0 2em #b47aa7;
         transition: 300ms;
         display: inline-block;
@@ -435,6 +441,12 @@ createComponent(
         max-width: 500px;
       }
 
+      .quote {
+        font-size: 2em;
+        line-height: 0;
+        position: relative;
+        top: 0.35em;
+      }
 
       .testimonial + .testimonial {
         margin-top: 2em;
@@ -584,13 +596,13 @@ createComponent(
           <section id="profileInfo">
             <h2>Profile</h2>
             <div id="info"></div>
-            <p id="description"></p>
+            <blockquote id="description"></blockquote>
           </section>
 
           <section id="testimonials">
-            <h2>Testimonials</h2>
+            <h2>What Subs are Saying:</h2>
+            <h3>Powered by <a href="https://friendworld.social" target="_blank">friendworld.social</a></h3>
             <div id="testimonialContainer">
-              <h3>Powered by <a href="https://friendworld.social" target="_blank">friendworld.social</a></h3>
               <div id="testimonialContent"></div>
             </div>
           </section>
@@ -626,7 +638,7 @@ createComponent(
     const name = ctx.getAttribute('name')
     const {age, distance, gender, maxPhotos, description, testimonials} = ProfileStats[name]
 
-    ctx.$description.innerHTML = `"${description}"`
+    ctx.$description.innerHTML = `<span class="quote">“</span>${description}<span class="quote">”</span>`
     ctx.$name.innerHTML = name
     ctx.$info.innerHTML = `
       <div>Age: ${age}</div>
@@ -686,7 +698,7 @@ createComponent(
 
     ctx.$testimonialContent.innerHTML = testimonials.map(t => `
       <div class="testimonial">
-        <div class="testimonialName"><span>${t.name}</span></div>
+        <div class="testimonialName"><span>anonymous</span></div>
         <div class="testimonialReview">${t.review}</div>
       </div>
     `).join('')

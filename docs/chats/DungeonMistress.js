@@ -142,6 +142,8 @@ const fu = (messageCode, waitMs=1500) => ({ messageCode, waitMs })
 
 export const MistressProfile = {
   name: 'DungeonMistress',
+  startingVisibility: 'visible',
+  order: 7,
   display: 'f',
   age: 27,
   distance: 666,
@@ -649,7 +651,7 @@ function townSquareActions(ur, ctx, contract, provider) {
 
 
 
-export const MistressChat = new MessageHandler(MistressProfile.name, MistressMessages)
+export const MistressChat = new MessageHandler(MistressProfile, MistressMessages)
 
 
 

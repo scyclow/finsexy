@@ -33,6 +33,7 @@ createComponent(
 
       h1 a {
         font-family: var(--fancy-font);
+        line-height: 1.6;
         text-shadow: 2px 2px var(--dark-color), 3px 3px 2px var(--primary-color);
         font-size: 1em;
         text-decoration: none;

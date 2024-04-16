@@ -98,6 +98,8 @@ const fu = (messageCode, waitMs=1500) => ({ messageCode, waitMs })
 
 export const CrystalGoddessProfile = {
   name: 'CrystalGoddess',
+  startingVisibility: 'visible',
+  order: 4,
   age: 31,
   distance: 16,
   gender: 'Female',
@@ -347,7 +349,7 @@ export const CrystalGoddessMessages = {
 }
 
 
-export const CrystalGoddessChat = new MessageHandler(CrystalGoddessProfile.name, CrystalGoddessMessages)
+export const CrystalGoddessChat = new MessageHandler(CrystalGoddessProfile, CrystalGoddessMessages)
 
 
 

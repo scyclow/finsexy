@@ -19,10 +19,12 @@ Testimonials
 
 export const KatProfile = {
   name: 'katFischer',
+  startingVisibility: 'hidden',
+  order: 9,
   age: 23,
   distance: 69,
   gender: 'Female',
-  display: null,
+  display: 'f',
   maxPhotos: 3,
   description: `I'm just doing my job`,
   testimonials: [
@@ -460,7 +462,7 @@ export const KatMessages = {
 
 }
 
-export const KatChat = new MessageHandler(KatProfile.name, KatMessages)
+export const KatChat = new MessageHandler(KatProfile, KatMessages)
 
 
 

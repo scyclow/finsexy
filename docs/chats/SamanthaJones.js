@@ -25,6 +25,8 @@ https://www.loyalfans.com/countessdiamond/video/bank-manager-tricks-you-into-sen
 
 export const SamanthaProfile = {
   name: 'SamanthaJones',
+  startingVisibility: 'visible',
+  order: 2,
   age: 46,
   distance: 6,
   gender: 'Female',
@@ -994,7 +996,7 @@ const SamanthaMessages = {
 
 
 
-export const SamanthaChat = new MessageHandler(SamanthaProfile.name, SamanthaMessages)
+export const SamanthaChat = new MessageHandler(SamanthaProfile, SamanthaMessages)
 
 
 

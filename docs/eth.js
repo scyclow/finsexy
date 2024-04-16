@@ -58,7 +58,7 @@ export const DOM_CONTRACTS = {
     CrystalGoddess: '0xEb0fCBB68Ca7Ba175Dc1D3dABFD618e7a3F582F6',
     DrAndy: '0x8B342f4Ddcc71Af65e4D2dA9CD00cc0E945cFD12',
     DungeonMistress: '0xD28F3246f047Efd4059B24FA1fa587eD9fa3e77F',
-    '0x0': '0x0B32a3F8f5b7E5d315b9E52E640a49A89d89c820',
+    '0x000000000000000000000000000000000': '0x0B32a3F8f5b7E5d315b9E52E640a49A89d89c820',
     QueenJessica: '0x519b05b3655F4b89731B677d64CEcf761f4076f6',
     steviep: '0xb6057e08a11da09a998985874FE2119e98dB3D5D',
   },
@@ -272,7 +272,7 @@ export class Web3Provider {
       CrystalGoddess: await this.contract(CONTRACTS.CrystalGoddess, domABI),
       DrAndy: await this.contract(CONTRACTS.DrAndy, domABI),
       DungeonMistress: await this.contract(CONTRACTS.DungeonMistress, domABI),
-      '0x0': await this.contract(CONTRACTS['0x0'], domABI),
+      '0x000000000000000000000000000000000': await this.contract(CONTRACTS['0x000000000000000000000000000000000'], domABI),
       QueenJessica: await this.contract(CONTRACTS.QueenJessica, domABI),
       steviep: await this.contract(CONTRACTS.steviep, domABI),
     }

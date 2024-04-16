@@ -13,10 +13,10 @@ export * from '../chats/hacker.js'
 export * from '../chats/QueenJessica.js'
 export * from '../chats/steviep.js'
 
-import {HeatherHotProfile} from '../chats/heatherHot.js'
+import {HeatherHotProfile, HHChat} from '../chats/heatherHot.js'
 import {SamanthaProfile} from '../chats/SamanthaJones.js'
 import {VinceProfile} from '../chats/VinceSlickson.js'
-import {KatProfile} from '../chats/katFischer.js'
+import {KatProfile, KatChat} from '../chats/katFischer.js'
 import {CrystalGoddessProfile} from '../chats/CrystalGoddess.js'
 import {AndyProfile} from '../chats/DrAndy.js'
 import {MistressProfile} from '../chats/DungeonMistress.js'
@@ -33,14 +33,30 @@ if (!ls.get('is18')) {
 
 
 export const ProfileStats = {
-  heatherHot: HeatherHotProfile,
-  SamanthaJones: SamanthaProfile,
-  VinceSlickson: VinceProfile,
-  CrystalGoddess: CrystalGoddessProfile,
-  steviep: StevieProfile,
-  QueenJessica: QueenProfile,
-  katFischer: KatProfile,
-  DrAndy: AndyProfile,
-  DungeonMistress: MistressProfile,
-  '0x0': HackerProfile,
+  [HeatherHotProfile.name]: HeatherHotProfile,
+  [SamanthaProfile.name]: SamanthaProfile,
+  [VinceProfile.name]: VinceProfile,
+  [CrystalGoddessProfile.name]: CrystalGoddessProfile,
+  [StevieProfile.name]: StevieProfile,
+  [QueenProfile.name]: QueenProfile,
+  [KatProfile.name]: KatProfile,
+  [AndyProfile.name]: AndyProfile,
+  [MistressProfile.name]: MistressProfile,
+  [HackerProfile.name]: HackerProfile,
 }
+
+setTimeout(() => {
+  if (ls.get('is18')) {
+    if (!KatChat.ctx.history.length && !KatChat.ctx.eventQueue.length) {
+      KatChat.queueEvent('steviep', 120000)
+      MessageHandler.visibilityCtx.katFischer = 'visible'
+
+    }
+    if (!HHChat.ctx.history.length && !HHChat.ctx.eventQueue.length) {
+      HHChat.queueEvent('hi', 6000)
+    }
+  }
+
+
+  // ls.set('returnVisit', true)
+}, 1000)

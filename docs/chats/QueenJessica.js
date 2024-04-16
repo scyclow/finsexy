@@ -54,6 +54,8 @@ const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 export const QueenProfile = {
   name: 'QueenJessica',
+  startingVisibility: 'visible',
+  order: 6,
   age: 29,
   distance: 13,
   gender: 'F',
@@ -659,4 +661,4 @@ you dont exist to me unless you're sending
 */
 
 
-export const QueenChat = new MessageHandler(QueenProfile.name, QueenMessages)
+export const QueenChat = new MessageHandler(QueenProfile, QueenMessages)

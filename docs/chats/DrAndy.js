@@ -53,6 +53,8 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 export const AndyProfile = {
   name: 'DrAndy',
+  startingVisibility: 'visible',
+  order: 8,
   age: 24,
   distance: 10,
   gender: 'Non-Binary',
@@ -937,7 +939,7 @@ Session 3
 
 
 
-export const AndyChat = new MessageHandler(AndyProfile.name, AndyMessages)
+export const AndyChat = new MessageHandler(AndyProfile, AndyMessages)
 
 
 

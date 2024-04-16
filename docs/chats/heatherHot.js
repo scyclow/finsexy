@@ -69,6 +69,8 @@ const hasNumber = ur => ur.match(/(\d+)/)
 
 export const HeatherHotProfile = {
   name: 'heatherHot',
+  startingVisibility: 'visible',
+  order: 1,
   age: 23,
   distance: 2,
   gender: 'Female',
@@ -776,7 +778,7 @@ const HeatherHotMessages = {
 
 
 
-export const HHChat = new MessageHandler(HeatherHotProfile.name, HeatherHotMessages)
+export const HHChat = new MessageHandler(HeatherHotProfile, HeatherHotMessages)
 
 
 
