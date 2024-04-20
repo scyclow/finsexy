@@ -208,7 +208,6 @@ const BartenderNodes = {
   orderDrinkConnectFail: {
     messageText: `The bartender looks you up and down before saying "You gotta connect your wallet before ordering a drink, pal"`,
     responseHandler: bartenderActions('bartenderPending')
-
   },
 
   orderDrink: {
@@ -736,7 +735,9 @@ const HorseWomanNodes = {
     `You turn to run, but immediately trip over a rock and fall face first into a pile of pig dung. Townspeople take notice and watch the spectacle in amusement.`,
     `The Dungeon Mistress sits on your back and hog ties you like the little piggie that you are. She stuffs a wet cloth into your mouth, which carries an unknown auroma.`,
     `You lose consciosness.`,
-  ]),
+  ], {
+    responseHandler: 'dungeon'
+  }),
 
 
   horseWomanVisited: {
@@ -939,6 +940,82 @@ const MistressMessages = {
 
   ...TownSquareNodes,
 
+
+  ...diatribe('dungeon', [
+    `You awaken several hours later, shackled to the wall of a dungeon. Daylight seeps through iron bars of a small window overhead.`,
+    `You turn your head to see an old, naked man shivering next to you. He mumbles to himself, but you can't make out what he says. He appears to be awake, but you are unsure if he notices you. You look down and notice that you are completely naked as well.`,
+    `A faint drip echoes throughout the room. Your head aches.`
+  ], {
+    followUp: fu('dungeonDecision')
+  }),
+
+  dungeonDecision: {
+    messageText: `Do you talk to the old man? Or do you sit in silence?`,
+    responseHandler: (ur, ctx) => {
+      if (isMatch(ur, ['silence', 'nothing', 'quiet', 'sit'])) return 'silence'
+      else return 'oldMan'
+    }
+  },
+
+  silence: {
+    messageText: '',
+    responseHandler: 'oldMan'
+  },
+
+  oldMan: {
+    messageText: '"Oh, hello there. Can you spare a few pence?"',
+    responseHandler: 'oldMan2'
+  },
+
+  oldMan2: {
+    messageText: `"None for me, thanks. I've had too much already."`,
+    responseHandler: 'oldMan3'
+  },
+
+  oldMan3: {
+    messageText: `"Impossible to know, but I did owe quite a bit of money. So I suspect it's been a long time. Impossible to know."`,
+    responseHandler: 'oldMan4'
+  },
+
+  oldMan4: {
+    messageText: `"Impossible to know, but I've had a lot of time to think. I've concocted a plan, in fact. Do you want to hear it?"`,
+    responseHandler: 'oldMan5'
+  },
+
+  oldMan5: {
+    messageText: `"I'm quite sick. I think I can convince the guards of that. When they see this they will unshackle me and let me go free. I've needed a conspirator all this time. Someone to confirm my illness. And now I have one."`,
+    responseHandler: 'oldMan6'
+  },
+
+  oldMan6: {
+    messageText: `"Ah yes, that is an excellent point. When the guards come in, I will chomp my teeth. That is when you will tell them how sick I've been."`,
+    responseHandler: 'oldMan7'
+  },
+
+  ...diatribe('oldMan7', [
+    `"Impossible to know. Can you spare a few pence?"`,
+    `The old man starts rocking back and forth, and resumes incoherently mumbling to himself.`,
+    `You wait in silence.`,
+    `Finally, the cell door opens. Two guards walk in and begin unchaining the man.`,
+    () => `"Guards, I've been quite sick! In fact, I think it's something to do with my liver. My liver has been painful for several months. Ask ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}! ${genderSwitch({m: 'He\'ll', f: 'She\'ll', nb: 'THey\'ll'})} tell you! ${genderSwitch({m: 'He\'ll', f: 'She\'ll', nb: 'THey\'ll'})} tell you how much my liver hurts!"`,
+    `The old man begins furiously chomping his teeth.`,
+    `Do you help the old man? Or remain silent?`
+  ], {
+    responseHandler: 'oldMan8'
+  }),
+
+  ...diatribe('oldMan8', [
+    `The guards remove the old man from the cell as he wimpers. They close and lock the door behind them`,
+    `You sit in silence`
+
+  ], {
+    responseHandler: 'oldMan8'
+  }),
+
+  oldMan8: {
+    messageText:'',
+    responseHandler: 'oldMan7'
+  },
 
 
 }
