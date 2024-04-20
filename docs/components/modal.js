@@ -72,10 +72,6 @@ createComponent(
     }
 
     ctx.$bg.onclick = ctx.close
-
-    console.log(ctx.state.display)
-
-
   },
   (ctx) => {
     const escClose = e => {

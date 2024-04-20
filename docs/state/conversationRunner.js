@@ -272,7 +272,7 @@ export function createEvent(amount, responses={}, waitMs=600000) {
       if (contract && addr) {
         const t = fromWei(await contract.tributes(addr))
         if (Number((t - ctx.state.alreadyPaid).toFixed(6)) >= price) {
-console.log('...', responses.primary)
+
           return responses.primary
         } else if (Date.now() - ctx.state.lastResponded > waitMs && !ctx.state.nodeResponses[ctx.lastDomCodeSent]) {
           return responses.wait
@@ -501,7 +501,6 @@ export class MessageHandler {
           this.provider
         )
 
-
         if (event) {
           if (node.postEvent) await node.postEvent(
             this.ctx.lastUserResponse,
@@ -509,7 +508,20 @@ export class MessageHandler {
             this.contract,
             this.provider
           )
-          this.ctx.addToEventQueue(event)
+
+          const now = Date.now()
+          const {messageCode, waitMs} = event
+          const messageToSend = this.getMessageToSend(messageCode, '', true)
+          const estimatedMessageText = await this.sendMessage(messageToSend, '')
+          const [typingWait, wait] = this.waitTimes(estimatedMessageText, 250, waitMs)
+
+          this.ctx.addToEventQueue({
+            userResponse: '',
+            messageCode,
+            timestamp: now + wait,
+            startTyping: now + typingWait,
+            isFollowup: true
+          })
         }
       }
     }, 1000)
