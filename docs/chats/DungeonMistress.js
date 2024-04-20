@@ -1,20 +1,28 @@
 /*
 
 TODO
-  - bartender mentions that you're on private property, and that door's locked. so you gotta do what i say
 
-  - better integrate harlots <> poker players
+  - handle case where you ask bartender for the key
+
+  - maybe the bartender just gives you a beer every time you blow him
+    - poker players sit in front of the door. to even see that it's locked you need to get past them with a beer from blowing the bartender
+    - you just want to pay your debst with ETH and be done with it, but
+    - you aren't actually charged any ETH until the end (you need it to cum)
 
 
-  - town square
-    - punishment stocks in distance
-    - talk to merchent, maybe you need to buy something to enter the dark forest
-    - mistress on horse chases you
-    - escape through dark forest
+    - ultimately you're caught. you're put in a cage with an old man. he tries to concoct a plan to get out where he pretends he's sick and you play along. the cage opens, he plays his schtick, but is pulled out before you have a chance to play along
 
-  - dark forest
-    - some challenge?
-    - you get captured
+
+  - sex it up even more. elaborate on what user should be feeling
+    - maybe look at actual erotica that matches up with the scenarios
+
+
+
+
+
+  - golden shower description
+
+
 
   - dungeon
     - old man wants to role play being sick to get out
@@ -22,16 +30,24 @@ TODO
 
   - you're put into the punishment stocks, made to scream "i declare bankruptcy!"
     - (must say it in all caps. "louder!")
+    - you cum harder than you ever had before. with each pump, a thick liquid gold shoots out of your erect cock/drips out of your pussy/ shoots out of your mouth. you feel pleasure in every cell of your body. you've never felt like more of a man/woman/human in your entire life.
 
-  - think of a way to charge for full experience
 
   - reveal that DM is a vampiress/succubus
   - i want to _drain_ your wallet and suck you dry until there's nothing left
 
 
+  "this is the part where you're supposed to pay me, asshole. do you know how long it took to write this story? "
+
+
+
+
+
+
+
+
+
 Testimonials
- - "I love a good role play"
- - RPGs are so much fun! its such a relief to have a safe space to act out my fantasies. i feel like there's a part of me that I always have to repress, so it's nice to finally have a way to explore it.
 
 
 
@@ -149,21 +165,22 @@ export const MistressProfile = {
   distance: 666,
   gender: '',
   maxPhotos: 4,
-  description: ``,
+  description: `I like roleplay, sadomasochism, and humiliation. And if you're not careful I'm going to suck every last cent out of your wallet,`,
   testimonials: [
+  /*
+- "I love a good role play"
+- "this is fucking disgusting"
+- RPGs are so much fun! its such a relief to have a safe space to act out my fantasies. i feel like there's a part of me that I always have to repress, so it's nice to finally have a way to explore it.
+- I'll be honest, I've extensively fantasized about a lot of the scenarios that Mistress touched on here. But actually experiencing them first hand left me a little nausious.
+- this all sounds
+ */
 
   ]
 }
 
 
 
-/*
-TODO - tavern
-  - buy beer with eth
-  - harlots recognize beer, unlock dialogue
-  - integrate poker players
 
-*/
 
 
 const BartenderNodes = {
@@ -171,21 +188,19 @@ const BartenderNodes = {
     messageText: (ur, ctx) => `You walk over to the bar and take a seat. ${
       ctx.state.bartenderGoodSide
         ? `Unceremoniously, the bartender asks "What'll it be?"`
-        : `The bartender stops washing the stein when he notices you. He throws his towel on the floor and leans on the counter, looking you dead in the eye.`
+        : `The bartender stops washing the stein and slowly leans on the counter, looking first at the harlots with a grin, then back at you.`
     }`,
     followUp: (ur, ctx) => {
       if (ctx.state.bartenderGoodSide) return
       else if (ctx.state.visitedBartender) return fu('bartenderPending')
       else {
-        ctx.state.visitedBartender = true
-        return !ctx.state.bartenderGoodSide && fu('bartender1')
+        return !ctx.state.bartenderGoodSide && fu('bartenderPreBJ')
       }
     },
     responseHandler: (ur, ctx) => {
       if (ctx.state.visitedBartender || ctx.state.bartenderGoodSide) return bartenderActions('bartenderPending')(ur, ctx)
       else {
-        ctx.state.visitedBartender = true
-        return bartenderActions('bartender1')(ur, ctx)
+        return bartenderActions('bartenderPreBJ')(ur, ctx)
       }
     }
   },
@@ -270,11 +285,14 @@ const BartenderNodes = {
   },
 
 
-
-
-
   orderDrinkBadSide: {
-    messageText: `"I don't think so. You ain't getting another drink out of me until you pay your tab"`,
+    messageText: `"I don't think so. You ain't getting another drink out of me until you pay your tab... one way or another" He winks.`,
+    responseHandler: (ur, ctx) => isMatch(ur, ['how']) ? 'bartenderHow' : bartenderActions('bartenderPending')(ur, ctx)
+  },
+
+  bartenderHow: {
+    messageText: `Oh, I can think of one way. Why don't you come back here, get on your knees, and I'll show you?`,
+    responseHandler: bartenderActions('bartenderPending')
   },
 
 
@@ -283,20 +301,18 @@ const BartenderNodes = {
     followUp: fu('bartenderPending')
   },
 
-  bartender1: {
+  bartenderPreBJ: {
     messageText: `"Well, well, well. Look who finally decided to wake up from their beauty nap. Did you sleep well, sleeping beauty?"`,
     responseHandler: bartenderActions('bartender2')
   },
 
-  bartender2: {
-    messageText: `"That's nice. I hope you got a good rest because you're gonna be working here all night paying off all that money you owe me. The afternoon rush should start in a couple hours, so I suggest you either get real familiar with the mop in the back room, or get real comfortable on your knees behind the bar with your mouth around my cock."`,
-    followUp: fu('bartender3')
-  },
-
-  bartender3: {
-    messageText: `"I hear you owe money all over town. One more complaint and your ass is gonna end up in debtor's prison."`,
+  ...diatribe('bartender2', [
+    `"That's nice. I hope you got a good rest because you're gonna be working here all night paying off all that money you owe me. The afternoon rush should start in a couple hours, so I suggest you either get real familiar with the mop in the back room, or get real comfortable on your knees behind the bar with your mouth around my cock."`,
+    `He waits a beat before continuing in a lower voice.`,
+    `"I hear you owe money all over town. One more complaint to you-know-who and your ass is gonna end up in debtor's prison."`,
+  ], {
     followUp: fu('bartenderPending')
-  },
+  }),
 
   bartenderPending: {
     messageText: `He waits for you to say something, his patience wearing thin. Should you let him take you to your knees? Do something else? Or perhaps try to order a beer?`,
@@ -315,17 +331,17 @@ const BartenderNodes = {
 
   ...diatribe('blowBartender', [
     `"Right now?"`,
-    `The bartender looks around at the nearly empty room. No one seems to be paying much attention, nor do they seem to care.`,
+    `You catch the bartender briefly locking eyes with one of the harlots. She nods.`,
     `"Alright, get back here"`,
     `You walk around to the other side of the bar and drop to you knees. The bartender throws his apron over your head and caresses the back of your skull.`,
-    `You slowly unbuckle the bartender's belt, pull his pants down to his knees, and come face-to-face with a partially erect member nestled in an overgrowth of pubic hair. The hair on the back of your neck stands up in excitement as the auroma of stale urine fills your nostrils.`,
+    `You slowly unbuckle the bartender's belt, pull his pants down past knees, and come face-to-face with a partially erect member nestled in an overgrowth of pubic hair. The hair on the back of your neck stands up in excitement as the auroma of stale urine fills your nostrils.`,
     `You close your eyes and get to work.`,
     `The second you put your lips around the bartender's penis he pulls your head closer. You feel the head of his cock poke the back or your throat, causing you to gag.`,
     () => `Each bob of your head sends waves of euphoria down your spine, reminding you that you've been a bad little ${genderSwitch({m: 'boy', f: 'girl', nb: 'debtor'})}, owing money all over town. Nothing turns you on more than taking punishment for your debts.`,
     `Soon enough, a warm, viscous liquid fills your mouth, accompanied by a single grunt from the bartender.`,
     `He pulls you off of himself by the hair and pulls his pants up.`,
     `"Okay, let's call it square," says the bartender, before patting you on the head and getting back to work.`,
-    `You stand up and collect yourself, still quivering from excitement. You catch a glance from one of the harlots. She whispers something to her friend and they both giggle.`,
+    `You stand up and collect yourself, still quivering from excitement. You catch a glance from one of the harlots. She whispers something to her friend and they both giggle once more.`,
   ], {
     followUp: (ur, ctx) => {
       ctx.state.bartenderGoodSide = true
@@ -339,19 +355,40 @@ const BartenderNodes = {
   },
 }
 
+function bartenderActions(defaultAction) {
+  return (ur, ctx, contract, provider) => {
+    ctx.state.visitedBartender = true
+
+    if (isMatch(ur, [...retreatPhrases, 'poker', 'harlots', 'tavern', 'leave'])) return 'tavernDeliberate'
+    else if (isMatch(ur, ['mop', 'back room', 'clean', 'cleaning'])) return 'mop'
+    else if (isMatch(ur, ['harlot', 'harlots', 'prostitutes', 'women'])) return 'harlots'
+    else if (isMatch(ur, ['poker', 'men'])) return 'poker'
+    else if (isMatch(ur, ['cock', 'dick', 'knees', 'penis', 'erection', 'behind the bar', 'bj', 'blowjob', 'blow the bartender', 'suck', 'deepthroat', 'cum'])) return 'blowBartender'
+    else if (ctx.state.bartenderGoodSide) {
+      if (!ctx.global.isConnected) return 'orderDrinkConnectFail'
+      else if (isMatch(ur, ['drink', 'beer', 'ale', 'wine', 'cider', 'order'])) return 'orderDrink'
+      else return 'bartenderIgnore'
+    } else {
+      if (isMatch(ur, ['drink', 'beer', 'ale', 'wine', 'cider', 'order'])) return 'orderDrinkBadSide'
+
+      else return defaultAction
+    }
+  }
+}
+
+
 const HarlotsNodes = {
 
   harlots: {
-    messageText: `You meekly approach the pair of harlots. Looking up from their wine, they smirk at you. A key dangles on necklace between the breasts of harlot to your right`,
+    messageText: (ur, ctx) => ctx.state.hasKey ? `You meekly approach the pair of harlots.` : `You meekly approach the pair of harlots. They both smirk in unison as they look up from their wine. A key dangles on a necklace between the breasts of the harlot to your right.`,
     followUp: (ur, ctx) => {
-
       ctx.state.harlotState = ctx.state.harlotState || 'fresh'
 
       if (ctx.state.beerCount) ctx.state.harlotState = 'drink'
 
       if (ctx.state.harlotState === 'fresh') {
         ctx.state.harlotState = 'rebuff'
-        return fu('harlotsFresh1')
+        return fu('harlotsFresh')
       } else if (ctx.state.harlotState === 'rebuff') {
         return fu('harlotsRebuffed')
       } else if (ctx.state.harlotState === 'finished') {
@@ -366,13 +403,13 @@ const HarlotsNodes = {
     }
   },
 
-  harlotsFresh1: {
+  harlotsFresh: {
     messageText: () => `"I didn't think you'd have the gall to show your face here, ${getUserData('name')}. Not considering how much you owe us..."`,
     followUp: fu('harlotsFresh2')
   },
 
   harlotsFresh2: {
-    messageText: `"But if you buy us a drink then perhaps we will consider talking to you. The bartender seems to like you, so maybe he'll make it extra special." They both giggle. The condescension behind their laughs makes you blush.`,
+    messageText: `"But if you buy us a drink then perhaps we will consider talking to you. The bartender seems to like you, so maybe he'll make one extra special." They giggle. The condescension behind their laughter makes you blush.`,
     followUp: fu('harlotsFresh3')
   },
 
@@ -402,7 +439,7 @@ const HarlotsNodes = {
     `"Oh, is that drink for us?"`,
     (ur, ctx) => `The harlot on your left snatches ${ctx.state.beerCount+1 > 1 ? 'a' : 'the'} beer out of your hand, spilling half of it on your pants. The two of them cackle uncontrollably. You hear the poker players laugh behind you.`,
     (ur, ctx) => `<em>(You now have ${ctx.state.beerCount} Beer${ctx.state.beerCount === 1 ? '' : 's'} in your inventory)</em>`,
-    `The harlots catch their breath. The one on the right plays with the key between her breasts before looking back up at you.`,
+    `The harlots catch their breath. The one on the right plays with the key between her breasts before looking back at you.`,
     `"Oh, you're still here. What do you want?"`
   ], {
     responseHandler: (ur, ctx) => {
@@ -427,14 +464,15 @@ const HarlotsNodes = {
     followUp: fu('tavernDeliberate')
   },
 
+
   harlotsKey: {
-    messageText: `"You want my key so you can leave the tavern, is that it? Well, I'm not going to just <em>give</em> it to you. I want to see you beg."`,
+    messageText: `"You want my key so you can leave the tavern, is that it? Well, I'm not going to just <em>give</em> it to you. Why don't we play a game? Let's pretend that you're my pet, and I'm your master. That means that you do whatever I say, and maybe I'll give you a treat. Now, I want to see you beg."`,
     responseHandler: 'harlotNotEnough'
   },
 
   ...diatribe('harlotNotEnough', [
-    `"That's not good enough. get on your knees..."`,
-    `You involuntarily fall to your knees, interlace your fingers, and look up at the harlot with puppy dog eyes`,
+    `"That's not good enough. I want you to get on your knees..."`,
+    `You involuntarily fall to your knees, interlace your fingers, and look up at her with puppy dog eyes`,
     `"...and fucking beg."`
   ], {
     responseHandler: 'harlotsHelp'
@@ -453,13 +491,13 @@ const HarlotsNodes = {
 
   ...diatribe('harlotsFeet', [
     `The harlot uncrosses her legs and places her dirt-encrusted foot in front of you`,
+    `The bartender stops washing and looks on.`,
     `"If you want my key that bad, then you'll lick my foot"`,
     `She spits directly in your face for good measure. ${genderSwitch({
       m: 'Your erection throbs beyond control.',
       f: 'Your panties are soaked with arousal.',
       nb: 'You are drunk with arousal.'
     })}`,
-    `The bartender stops washing a glass and looks on.`,
     `The poker players halt their game and wait to see what you do.`,
   ], {
     responseHandler: (ur) => {
@@ -478,18 +516,29 @@ const HarlotsNodes = {
       if (isMatch(ur, ['lick', 'foot'])) {
         return 'harlotsKeySuccess'
       } else {
+        return 'harlotsFeetWaiting2'
+      }
+    }
+  },
+
+  harlotsFeetWaiting2: {
+    messageText: `"Do it: lick my foot"`,
+    responseHandler: (ur) => {
+      if (isMatch(ur, ['lick', 'foot'])) {
+        return 'harlotsKeySuccess'
+      } else {
         return 'harlotsFeetWaiting'
       }
     }
   },
 
   ...diatribe('harlotsKeySuccess', [
-    `You lick the harlot's foot, which tastes of salt and cow dung.`,
+    `You lick the harlot's foot, which tastes of salt and cow manure.`,
     () => `"Good ${genderSwitch({m: 'boy', f: 'girl', nb: 'pet'})}," she says as she pets your head.`,
     `She rips the key off of her necklace and throws it across the room.`,
     `"Now fetch!"`,
     `You crawl on your hands and knees across the room and pick up the key with your mouth.`,
-    `The poker players let out a chuckle before shaking their heads and returning back to their game.`,
+    `The poker players let out a chuckle before shaking their heads and returning back to their game. You hear one say the word "pathetic".`,
     `The harlot winks at you.`,
     `<em>(You know have the Tavern Key in your inventory)</em>`
   ], {
@@ -500,6 +549,285 @@ const HarlotsNodes = {
     }
   })
 }
+
+
+const MerchantNodes = {
+  ...diatribe('marketFresh', [
+    `As you enter the market you feel the electricity of commerce in the air. A merchant calls out your name...`,
+    () => `"${getUserData('name')}! Is that ${getUserData('name')}? Get over here at once!"`,
+    `You approach the merchant's stand with caution. He appears to be seething with rage.`,
+    `"Do you have <em>any</em> idea how much money you owe me? I hope not, because you continue to gamble and galavant around town with prostitutes. Clearly all of the credit I've extended to you and your family has been squandered on hedonistic pursuits. And I suspect your wife knows nothing of it. You should be ashamed of yourself. You're just a filthy debtor!"`,
+  ], {
+    responseHandler: 'marketFreshContinued'
+  }),
+
+  ...diatribe('marketFreshContinued', [
+    `The merchant cuts you off: "I don't want to hear it. I've heard your lies before. You won't deceive me again, I'll make sure of it!"`,
+    `Passerbys stop to watch the scene unfold. They shake their heads in disappointment. The merchant winks at you as if this is part of a joke that only the two of you understand. He continues, even louder than before,`,
+    `"I've heard rumors that I'm not the only person you owe money to. Prostitutes. Loan sharks. The State. People have been saying that you and your family will be kicked off your land at this rate."`,
+    `He walks inside and motions you to follow him. You stand there pondering your next move: follow him or leave?`
+  ], {
+    responseHandler: (ur, ctx) => {
+      if (isYes(ur) || isMatch(ur, ['follow', 'enter'])) return 'marketInside'
+      else return 'townSquareDeliberate'
+    }
+  }),
+
+
+  marketCompleted: {
+    messageText: `You walk up to the merchant's house, but the door is locked. You hear screams of pleasure from the inside.`,
+    followUp: fu('townSquareDeliberate')
+  },
+
+  market: {
+    messageText: `You enter the market and return the merchant's stand from before. He sticks his head out from the building next door, and motions you inside. You follow him in.`,
+    followUp: fu('marketInside')
+  },
+
+  ...diatribe('marketInside', [
+    `You enter a room filled with the merchant's inventory. A thick layer of dust sits on top of every item on every shelf.`,
+    `"Sorry about that. The Merchant Guild flagged you as a severe credit risk, so I'm technically barred from transacting with you. Most of them know what's really going on, but putting on a little performance leaves everyone feeling better. You understand."`,
+    `He catches you staring at his shelves`,
+    `"The market for Nordic Fortune Telling amulets isn't what it once was. The money appears to have dried up in the last two years. But I've been diversifying my inventory. You know the old saying: do not put all of your eggs in a single basket."`,
+    `An awkward pause.`,
+    `"I won't waste your time. The reason I called you in here is because I have a proposition for you. I wasn't lying before. You do owe me a <em>lot</em> of money. You know this. And your last interest payment was... well, I don't even remember when it was. Some other merchants might take this to a higher power, but I subscribe to the philosophy that these things are best handled through negotiation rather than force."`,
+    `You break out in a nervous sweat, but are unsure why.`,
+    `"Oh, don't worry. It won't be like last time. Although, your wife did seem to enjoy it. She even said that when she got home, after I fucked her silly, she couldn't look at you the same way again. She said you were simply a pathetic little ${genderSwitch({m: 'man', f: 'woman', nb: 'person'})} sitting there. She realized that you completely failed her -- not just as the provider of your family, but also in bringing her any meaningful pleasure. It sounds like she really needed a ${genderSwitch({m: '<em>real</em> man', f: '<em>man</em>', nb: 'competent lover'})} to give her a mind-blowing orgasm. Something you could never do. In fact, she came so hard the first time around that she decided to come back the next day. That one was on the house."`,
+    `Your stomach drops and your chest tightens, but a strange warmth softens your anxiety.`,
+    `"So I understand why you woldn't be excited to repeat that. You probably want to keep me as far away from her as possible. This time though, I was thinking maybe you could return the favor."`,
+    `You hear a door open behind you. The merchant's wife walks out wearing nothing but a mask. You can tell by the way she walks that her bladder is full.`,
+    `"Your wife has a thing for men with huge cocks who know how to make women cum, and my wife has a thing for peeing on helpless, pathetic losers. Who am I to judge? I try not to kink shame. But looking at this logically, it seems there's a mutual coincidence of want. You're in dire need of some gold, and she... well, let's just say she's looking forward to showering you in gold. And if you don't want to play along, then I don't think there's much more I can do to help you you. So what do you say?"`,
+    `Do you stay and play along? Or do you leave and try your luck outside?`
+  ], {
+    responseHandler: ur => {
+      if (isMatch(ur, ['piss', 'urine', 'pee', 'peeing', 'urinate', 'shower', 'gold', 'golden shower', 'stay', 'play', 'wife'])) return 'goldenShower'
+      else if (isMatch(ur, ['leave', 'outside', 'escape', 'try my luck', 'exit', 'square', 'run away', 'out of there'])) return 'tryLuckOutside'
+      else return 'goldenShowerPending'
+    }
+  }),
+
+  goldenShowerPending: {
+    messageText: `"I didn't quite catch that. Are you going to play with my beautiful wife, or try your luck outside?"`,
+    responseHandler: ur => {
+      if (isMatch(ur, ['piss', 'urine', 'pee', 'peeing', 'urinate', 'shower', 'gold', 'golden shower', 'stay', 'play', 'wife'])) return 'goldenShower'
+      else if (isMatch(ur, ['leave', 'outside', 'escape', 'try my luck', 'exit', 'square', 'run away', 'out of there'])) return 'tryLuckOutside'
+      else return 'goldenShowerPending'
+    }
+  },
+
+
+  ...diatribe('goldenShower', [
+    `"Excellent"!`,
+    `The merchant rubs his hands together in anticipation and he leads the three of you into another room. You see a wooden board on the floor with one side propped up by stones. He motions for you to lie down. With your feet flat on the floor, the board comes up to the bend of your knees. When you lie down, your head rests centemeteres from the floor at about a 25 degree angle. The merchant then drags over an X-shaped iron chain, which he connects to your wrists and ankles.`,
+    () => `An unknown amount of time passes. ${genderSwitch({m: 'You can feel your tiny erect cock nestling up against your left leg', f: 'Your pussy becomes so wet tha tit soaks through your pants and onto the board', nb: 'Your arousal becomes so strong that you want to crawl out of your skin'})}. The anticipation is palpable, and every passing second is torturous.`,
+    `She saunters over to your helpless body and squats over your face. You smell her feminine essence and feel the tips of her pubic hair against your nose. The tension is too much for you to bear.`,
+    `Finally, she relieves herself. The warm, golden liquid gushes out of her body and onto your face in one long, steady stream. It hits your upper lip first, splattering and dripping its way into your nostrils. It runs up your face and into your eyes, soaking your entire face. As more of the piss makes its way into your nose it becomes harder and harder to breather. You involuntarily open your mouth, letting it enter your mouth and pool in the back of your throat. With your air supply cut off you accidentlaly inhale, allowing the it to make its way into your windpipe. You cough, spraying it out of your mouth and across the room. A brief moment of terror comes over you as you can neither see nor breathe. But eventually she makes her way down your mouth to your neck, and then your chest. As the stream begins to slow down, she moves towards the top of your head. The last few drops drip onto your forehead.`,
+    `She forces out two more short streams, and then walks away. Given the pungent smell, you're suprised that she was able to pee as much volume as she did.`,
+    `After a couple minutes of the piss soaking into your hair and your clothes the merchant comes over to unlock your shackles. You roll over onto the floor with your heart racing, feeling both filthy and cleansed at the same time. The tension is stronger than ever, as you have not had an opportunity to cum. You notice the merchant looming over you.`,
+    () => `"Okay, ${getUserData('name')}. It's been a pleasure doing business with you. Now if you don't mind, I'm going to go fuck my wife. And if I were you, I'd try to lay low."`,
+  ], {
+    responseHandler: (ur, ctx) => {
+      ctx.state.goldenShowerComplete = true
+      if (ctx.state.visitedHorseWoman) {
+        return 'walkBackToTown'
+      } else {
+        return 'walkBackToTownAlt'
+      }
+    }
+  }),
+
+
+  ...diatribe('walkBackToTown', [
+    `You begin walking back to town, but your stench draws the attention of everyone you pass.`,
+    `Thoughts circulate in your head: Why are you like this? Such shame has completely ruined your finances, your marraige, and your social standing. And yet, you still seek it out. In fact, you enjoy it. Is there any way out? Must you seek help with a therapist? Or maybe repent with a Goddess?`,
+    `But suddenly, your thoughts are interrupted by an angry townsman.`,
+    () => `"Wait a second, that is ${getUserData('name')}! The one who stinks of urine!"`,
+    `Passerbys murmur, and you increase your pace. But off in the distance you see the Dungeon Mistress galloping towards you.`
+  ], {
+    followUp: fu('fightOrFlight')
+  }),
+
+  ...diatribe('walkBackToTownAlt', [
+    `You begin walking back to town, but your stench draws the attention of everyone you pass.`,
+    `Thoughts circulate in your head: Why are you like this? Such shame has completely ruined your finances, your marraige, and your social standing. And yet, you still seek it out. In fact, you enjoy it. Is there any way out? Must you seek help with a therapist? Or maybe repent with a Goddess?`,
+  ], {
+    followUp: fu('townSquareDeliberate')
+  }),
+
+
+  tryLuckOutside: {
+    messageText: (ur, ctx) =>
+      ctx.state.visitedHorseWoman
+        ? `You leave the merchant's house as fast as you can and make your way back to the town square. But off in the distance you see the Dungeon Mistress galloping towards you.`
+        : `You leave the merchant's house as fast as you can and make your way back to the town square. But off in the distance you see the beautiful woman galloping towards you. This is the Dungeon Mistress, the collector of all debts within the realm, as well as the administrator of all punishment and debt bondage. You do not want to run afoul of her.`,
+    followUp: fu('fightOrFlight')
+  },
+}
+
+const HorseWomanNodes = {
+
+  fightOrFlight: {
+    messageText: `Do you give up and turn youself in? Or attempt to retreat into the Dark Forest?`,
+    responseHandler: (ur) => {
+      if (isMatch(ur, ['dark', 'forest', 'retreat', 'run', 'exit', 'escape', 'leave'])) return 'darkForestEnter'
+      else if (isMatch(ur, ['give up', 'stay', 'concede', 'dungeon', 'mistress', 'surrender', 'out of'])) return 'catchup'
+      else return 'fightOrFlight'
+    }
+  },
+
+
+  ...diatribe('catchup', [
+    `You decide to stay and deal with your fate directly instead of retreating like a coward. At least, for now.`,
+    `The horse slows down as it approaches you before finally coming to a halt.`,
+  ], {
+    followUp: fu('horseWomanConfess')
+  }),
+
+
+  approachHorseWoman: {
+    messageText: '',
+    followUp: (ur, ctx) => {
+      if (ctx.state.goldenShowerComplete) {
+        return fu('approachHorseWomanStink')
+
+      } else if (ctx.state.visitedHorseWoman) {
+        return fu('horseWomanVisited')
+      } else {
+        ctx.state.visitedHorseWoman = true
+        return fu('approachHorseWomanFresh')
+      }
+    }
+  },
+
+  ...diatribe('approachHorseWomanStink', [
+    `You make your way towards the beautiful woman.`,
+    () => `"Wait a second, that is ${getUserData('name')}! The one who stinks of urine!"`,
+    `Passerbys murmur, and you increase your pace. But off in the distance you see the beautiful woman galloping towards you. This is the Dungeon Mistress, the collector of all debts within the realm, as well as the administrator of all punishment and debt bondage. You do not want to run afoul of her.`
+  ], {
+    followUp: fu('fightOrFlight')
+  }),
+
+  ...diatribe('approachHorseWomanFresh', [
+    `You approah the woman perched atop her horse. As you get closer to her left side, you notice the horse's massive erection -- no doubt an effect of touching this absolutely gorgeous woman.`,
+    `You now stand before the Dungeon Mistress. The collector of all debts within the realm, as well as the administrator of all punishment and debt bondage. You do not want to run afoul of her. As she looks over the town, she speaks,`,
+    () => `"Good day. I'm wondering if you could help me. I'm looking for a ${genderSwitch({m: 'man', f: 'woman', nb: 'person'})} named ${getUserData('name')}. ${genderSwitch({m: 'He owes', f: 'She owes', nb: 'They owe'})} quite a bit of money to a number of different parties. In fact, this amount has become so unmanageably high that I expect ${genderSwitch({m: 'him', f: 'her', nb: 'them'})} to enter debt bondage under the authority of the local court for a significant period of time. Perhaps the rest of their life. This is quite serious, and I wonder if ${genderSwitch({m: 'he is', f: 'she is', nb: 'they are'})} aware of the danger ${genderSwitch({m: 'he is', f: 'she is', nb: 'they are'})} in."`,
+    `She glances down at you with a sly grin before returning her gaze to the town.`,
+    `"If I were ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}, I would seek refuge in the market, or perhaps even the Dark Forest. Otherwise, there's no telling what brutal punishment awaits ${genderSwitch({m: 'him', f: 'her', nb: 'them'})} when I catch ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}."`,
+  ], {
+    followUp: fu('horseWomanConfessMaybe')
+  }),
+
+  horseWomanConfessMaybe: {
+    messageText: `Do you confess, or do you scurry away in fear?`,
+    responseHandler: ur => {
+      if (isMatch(ur, ['confess', 'confession', 'reveal', 'admit', 'admission', 'it was me', 'i am'])) {
+        ctx.state.confessed = true
+        return 'horseWomanConfess'
+      } else {
+        return 'horseWomanRetreat'
+      }
+    }
+  },
+
+  ...diatribe('horseWomanConfess', [
+    () => `"Aha! <em>You</em> are ${getUserData('name')}."`,
+    `She dismounts and removes some rope from her pouch.`,
+    (ur, ctx) => ctx.state.confessed ? `"Do not think that I will grant mercy to you simply because you have confessed your wrongdoings."` : '',
+    `You turn to run, but immediately trip over a rock and fall face first into a pile of pig dung. Townspeople take notice and watch the spectacle in amusement.`,
+    `The Dungeon Mistress sits on your back and hog ties you like the little piggie that you are. She stuffs a wet cloth into your mouth, which carries an unknown auroma.`,
+    `You lose consciosness.`,
+  ]),
+
+
+  horseWomanVisited: {
+    messageText: `Looking out over the town, the beautiful woman asks: "Do you have something to tell me?"`,
+    followUp: fu('horseWomanConfessMaybe')
+  },
+
+  horseWomanRetreat: {
+    messageText: `You open your mouth to speak, but nothing comes out. Instead, you back away in cowerdice.`,
+    followUp: fu('townSquareDeliberate')
+  }
+}
+
+const TownSquareNodes = {
+  townSquareDeliberate: {
+    messageText: `You ponder your next move: enter the market, approach the beautiful woman, retreat to the tavern, or escape into the Dark Forest.`,
+    responseHandler: townSquareActions
+  },
+
+  enterTavern: {
+    messageText: '',
+    followUp: (ur, ctx) => ctx.state.visitedHorseWoman ? fu('enterTavernFailure') : fu('enterTavernSuccess')
+  },
+
+  enterTavernSuccess: {
+    messageText: `You open the door to the tavern and enter the building.`,
+    followUp: fu('tavernDeliberate')
+  },
+  enterTavernFailure: {
+    messageText: `You try the door to the tavern, but it won't budge. The key does not appear to work either.`,
+    followUp: fu('townSquareDeliberate')
+  },
+
+  ...MerchantNodes,
+
+  ...HorseWomanNodes,
+
+  darkForestRebuff: {
+    messageText: `You approach the Dark Forest, but an overwhelming fear prevents you from entering. Perhaps you can overcome this fear at a later point.`,
+    followUp: fu('townSquareDeliberate')
+  },
+
+  darkForestEnter: {
+    messageText: `You retreat into the Dark Forest. The deeper you venture into the wilderness the darker it becomes. The noises of the town begin to fade, and soon the noises of wild life begin to fade as well. You soon find yourself engulfed in total darkness and complete silence. Your heart beats -- the only thing that breaks the stillness. But each beat becomes slower. And slower. And slower. As you dissolve into nothingness you become aware of a vague and abstract Presence looming close to you. But it is unaware of your existence, and as long as you stay completely still and silent you realize that you will remain unobserved and undetected.
+    `,
+    responseHandler: (ur, ctx) => {
+      ctx.state.enteredDarkForest = true
+      return 'darkForestDetected'
+    }
+  },
+
+  darkForestDetected: {
+    messageText: ur => `You feel the Presence has become aware of you. It stares deep into your soul, scrutenizing the entire history of your life's transactions. It reduces your humanity to every debt, every purchase, every title, every designation, every piece of property you own. Your mind and body melt away. You are no longer a ${genderSwitch({m: 'man', f: 'woman', nb: 'person'})} -- you are simply a wallet.`,
+    followUp: fu('darkForestDetected2')
+  },
+  darkForestDetected2: {
+    messageText:`In a daze, you wander back towards town, stripped of your ${genderSwitch({m: 'manhood', f: 'womanhood', nb: 'personhood'})}. When you reach the edge of the Dark Forest the Dungeon Mistress walks up to you on her horse.`,
+    followUp: fu('horseWomanConfess')
+  },
+
+}
+
+
+function townSquareActions(ur, ctx, contract, provider) {
+  if (isMatch(ur, ['market', 'forward', 'buy', 'forward', 'front', 'north', 'merchant'])) {
+    if (ctx.state.goldenShowerComplete) {
+      return 'marketCompleted'
+    }
+    else if (ctx.state.enteredMarket) {
+      return 'market'
+    } else {
+      ctx.state.enteredMarket = true
+      return 'marketFresh'
+    }
+
+  } else if (isMatch(ur, ['forest', 'darkness', 'left', 'west', 'trees', 'escape'])) {
+    return 'darkForestRebuff'
+
+  } else if (isMatch(ur, ['right', 'east', 'woman', 'horse', 'beautiful', 'lady', 'stern'])) {
+    return 'approachHorseWoman'
+
+  } else if (isMatch(ur, ['back', 'retreat', 'tavern', 'door', 'south', 'behind', 'turn around', 'bar'])) {
+    return 'enterTavern'
+
+  } else {
+    return 'townSquareDeliberate'
+  }
+}
+
+
+
 
 const MistressMessages = {
   TYPING_SPEED: 0.8,
@@ -516,6 +844,15 @@ const MistressMessages = {
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {
+    if (userResponse && responseParser(userResponse).includes('inventory')) {
+      const i = []
+      if (ctx.state.beerCount) i.push(`${ctx.state.beerCount} Beer${ctx.state.beerCount === 1 ? '' : 's'}`)
+      if (ctx.state.hasKey) i.push(`Tavern Key`)
+      return {
+        messageText: i.length ? ['Inventory:', ...i].join('<br>') : `Your inventory is empty.`,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+      }
+    }
     if (userResponse && isMean(userResponse)) {
       return {
         messageText: ``,
@@ -525,7 +862,7 @@ const MistressMessages = {
   },
 
   hello: {
-    messageText: `You awaken in a dingy tavern, the sour taste of day-old ale clinging to your breath. As the room slowly comes into focus you realize that you are not alone. A bartender washes beer steins behind the counter. Two harlots cackle over a glass of wine. Three men silently play poker in the corner. In front of you, across the room, is a door leading outside.`,
+    messageText: `You awaken in a dingy tavern, the sour taste of day-old ale clinging to your breath. As the room slowly comes into focus you realize that you are not alone: you feel six glances on you. A bartender washing a beer stein behind the counter. Two harlots cackling over a glass of wine. Three men silently play poker. Across the room, a door leads outside to the town square.`,
     responseHandler: tavernActions
   },
 
@@ -537,20 +874,51 @@ const MistressMessages = {
   ...BartenderNodes,
   ...HarlotsNodes,
 
+
   poker: {
-    messageText: `The men stop playing poker and stare at you in disbelief.`,
-    followUp: fu('poker1')
+    messageText: '',
+    followUp: (ur, ctx) => {
+      if (ctx.state.hasKey) return fu('pokerIgnore')
+      if (ctx.state.visitedPokerPlayers) return fu('pokerVisited')
+
+      ctx.state.visitedPokerPlayers = true
+      return fu('pokerFresh')
+    }
   },
 
-  poker1: {
-    messageText: `"You've got a lot of nerve coming back here and talking to us after the last game. You owe us a lot of money, you know that?"`,
-    followUp: fu('poker2')
-  },
+  ...diatribe('pokerFresh', [
+    `As you approach the poker table you notice the dealer's hand: 9,2 unsuited. He confidently takes a puff of his cigar and pushes all his chips forward. The other two players immediately throw their hands down in resignation.`,
+    `They realize your presence and stop playing, smirks plastered across their faces. They wait for you to speak, but you freeze with intimadation.`,
+    `"You know, you've got a lot of nerve coming back here after that last game. You owe us a lot of money. You remember, <em>don't you</em>?"`,
+    `The dealer quickly jerks towards you. You flinch. They burst out laughing.`,
+    () => `"Typical ${getUserData('name')}! Can never tell a bluff from the real thing!"`,
+    `They laugh some more at your expense. But the dealer stops and looks you dead in the eye.`,
+    `"Seriously though, I have half a mind to bend you over my knee and beat your ass until you cough up that money. Or even worse, maybe I'll <em>escalate</em> my complaint."`,
+    `You gulp. With the other players, the bartender, and the harlots now looking on, you feel a deep humiliation. Your heart skips a beat and blood rushes to your loins.`,
+    (ur, ctx) => ctx.state.harlotState === 'friendly' ? '' : `"But I tell you what. You buy that lady over there a beer..." He nods in the direction of one of the harlots. She winks. He winks back. "...and maybe we just forget the whole thing."`,
+    `The dealer sizes you up once more, and turns back around to resume his game. You decide not to try your luck.`
+  ], {
+    followUp: fu('tavernDeliberate')
+  }),
 
-  poker2: {
-    messageText: `You sense that the men may physiclly harm you if you stick around, so you carefully back away.`,
+
+
+  pokerIgnore: {
+    messageText: `The poker players see you, but each decide they would rather keep playing than dignify your presence.`,
     followUp: fu('tavernDeliberate')
   },
+
+
+  ...diatribe('pokerVisited', [
+    `You approach the poker table with caution. The players don't stop their game`,
+    `"We'd invite your to play, but we all know how that will end."`,
+    `They laugh. You sense that the men may physiclly harm you if you stick around, so you carefully back away.`
+  ], {
+    followUp: (ur, ctx) => {
+      ctx.state.visitedPokerPlayers = true
+      return fu('tavernDeliberate')
+    }
+  }),
 
 
   exitTavern: {
@@ -565,29 +933,13 @@ const MistressMessages = {
 
 
   exitTavernSucceed: {
-    messageText: `You exit the tavern, squinting as the sun hits your eyes. As your retinas adjust to the light you can make out a market 10 meters in front of you. A dark forest sits to your left, a beautiful and stern woman on a horse to your right, and the tavern behind you.`,
+    messageText: `You exit the tavern, squinting as the sun hits your eyes. As your retinas adjust to the light you can make out a market 10 meters in front of you. A Dark Forest sits to your left, a beautiful and stern woman on a horse to your right, and the tavern behind you.`,
     responseHandler: townSquareActions
   },
 
-  townSquareDeliberate: {
-    messageText: `You ponder your next move: enter the market, approach the beautiful woman, retreat to the tavern, or escape into the dark forest.`,
-    responseHandler: tavernActions
-  },
+  ...TownSquareNodes,
 
-  enterTavern: {
-    messageText: `You open the door to the tavern and enter the building`,
-    followUp: fu('tavernDeliberate')
-  },
 
-  market: {
-    messageText: ``,
-  },
-  enterDarkForest: {
-    messageText: ``,
-  },
-  approachHorseWoman: {
-    messageText: ``,
-  },
 
 }
 
@@ -597,54 +949,19 @@ const retreatPhrases = ['turn around', 'stand up', 'retreat', 'back', 'exit', 'c
 function tavernActions(ur, ctx, contract, provider) {
   if (isMatch(ur, ['bar', 'bartender', 'stein', 'counter', 'left', '1', 'first', 'order', 'beer', 'wine', 'cider'])) {
     return 'bartender'
-  } else if (isMatch(ur, ['harlot', 'harlots', 'prostitutes', 'cackle', 'cackling', 'women', 'wine', 'right', 'two', '2', 'second'])) {
+  } else if (isMatch(ur, ['harlot', 'harlots', 'prostitutes', 'cackle', 'cackling', 'women', 'wine', 'right', 'two', '2', 'second', 'girls'])) {
     return 'harlots'
   } else if (isMatch(ur, ['men', 'poker', 'players', 'corner', 'silent', 'fellows', 'gamblers', 'three', '3', 'third'])) {
     return 'poker'
-  } else if (isMatch(ur, ['door', 'outside', 'across the room', 'forward', 'fourth', '4', 'exit', 'leave'])) {
+  } else if (isMatch(ur, ['door', 'outside', 'across the room', 'forward', 'fourth', '4', 'exit', 'leave', ...(ctx.state.hasKey ? ['key'] : [])])) {
     return 'exitTavern'
   } else {
     return 'tavernDeliberate'
   }
 }
 
-function bartenderActions(defaultAction) {
-  return (ur, ctx, contract, provider) => {
 
-    if (isMatch(ur, [...retreatPhrases, 'poker', 'harlots', 'tavern', 'leave'])) return 'tavernDeliberate'
-    else if (isMatch(ur, ['mop', 'back room', 'clean', 'cleaning'])) return 'mop'
-    else if (isMatch(ur, ['harlot', 'harlots', 'prostitutes', 'women'])) return 'harlots'
-    else if (isMatch(ur, ['poker', 'men'])) return 'poker'
-    else if (isMatch(ur, ['cock', 'dick', 'knees', 'penis', 'erection', 'behind the bar', 'bj', 'blowjob', 'blow the bartender', 'suck', 'deepthroat', 'cum'])) return 'blowBartender'
-    else if (ctx.state.bartenderGoodSide) {
-      if (!ctx.global.isConnected) return 'orderDrinkConnectFail'
-      else if (isMatch(ur, ['drink', 'beer', 'ale', 'wine', 'cider', 'order'])) return 'orderDrink'
-      else return 'bartenderIgnore'
-    } else {
-      if (isMatch(ur, ['drink', 'beer', 'ale', 'wine', 'cider', 'order'])) return 'orderDrinkBadSide'
 
-      else return defaultAction
-    }
-  }
-}
-
-function townSquareActions(ur, ctx, contract, provider) {
-  if (isMatch(ur, ['market', 'forward', 'buy', 'forward', 'front', 'north'])) {
-    return 'market'
-
-  } else if (isMatch(ur, ['forest', 'darkness', 'left', 'west', 'trees', 'escape'])) {
-    return 'enterDarkForest'
-
-  } else if (isMatch(ur, ['right', 'east', 'woman', 'horse', 'beautiful', 'lady', 'stern'])) {
-    return 'approachHorseWoman'
-
-  } else if (isMatch(ur, ['back', 'retreat', 'tavern', 'door', 'south', 'behind', 'turn around'])) {
-    return 'enterTavern'
-
-  } else {
-    return 'townSquarenDeliberate'
-  }
-}
 
 
 
@@ -666,7 +983,7 @@ Thought Prompts
     - every time you cum, money comes out of your dick/vagina.
     - you stop cumming, so she pegs you for the prostate stimulation to extract more
   - modes of financial domination
-  - dark forest
+  - Dark Forest
   - https://twitter.com/Aella_Girl/status/1750722719438536825}
 
 

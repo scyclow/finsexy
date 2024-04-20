@@ -59,7 +59,20 @@ Testimonials
 
   - I don't know what the fuck @steviep did to my head, but since I first stumbled upon this stupid website the only thing that's been able to give me the slightest bit of pleasure is sending doms money on FinSexy. It's like the rest of my life is stuck in black and white. Music jsut feels like noise. Food is jsut a vehicle to make me less hungry. Other people are just an annoyance. Even masturbating when I'm not in a findom session feels like I'm simply emptying my ball sack. It feels like all the energy and zest and meaning has been sucked out of my life.
 
-  - @steviep is an artistic genius, and FinSexy is his masterpiece. Perhaps even his magnum opus. Of all the projects from this prolific artist, none so deftly tie together the themes that fans love him so much for: the nuanced social implications of spending money, scam aesthetics, the tension between authenticity and artificiality/simulation, the parody of crypto culture, the critique of the dopamine-driven manipulation of user interfaces -- it's all there. And at the same time, he's not just playing his greatest hits; FinSexy refreshingly explores new thematic ground. In particular, FinSexy does an amazing job of bringing exploring the nuance of sexual i
+  - @steviep is an artistic genius, and FinSexy is his masterpiece. Perhaps even his magnum opus. At once, it is wholey different from anything he's ever produced -- but also, it could not have been created by anyone else.
+
+
+
+
+
+  Of all the projects from this prolific artist, none so deftly tie together the themes that fans love him so much for: the nuanced social implications of spending money, scam aesthetics, the tension between authenticity and artificiality/simulation, the parody of crypto culture, the critique of the dopamine-driven manipulation of user interfaces -- it's all there. In fact, this might be his most advanced projected yet in terms of forcing the user to question their reality. When you find yourself sending money to someone who's either cat fishing you or pretending to cat fish you as part of a mutual sexual fantasy (or, pretending to pretend to catfish you as part of a fake mutual sexual fantasy) it's hard not to count how many layers deep you are.
+
+  But at the same time, Pikelny's not just playing his greatest hits; FinSexy refreshingly explores new thematic ground, taking focus on AI, sexual psychology, and free will. And even though his work has often been characterized as ironic and detached, FinSexy has an emotional core to it. This may just be a website, but websites are built for human users, and one finds oneself asking: In the narrative universe that this website exists, who was it built for?
+
+
+
+
+  this is the most manipulative website i've ever been to. it's jsut designed to extract money from people! if you pay close attention, you can find subliminal messages embedded in the UI. for example, you ever wonder why everything on this site is magenta? ask yourself: what's the opposite color from magenta? that's right, it's green! the color of money. the longer you stare at your computer screen the more your brain wants to balance the visual scale by sending all your green to it. think about it
 
   something's really fucked up about this website, and I don't like it.
 */

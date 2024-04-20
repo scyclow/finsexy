@@ -4,6 +4,10 @@
 
 ETHICAL DOM RULES
 
+  - just send a little bit to see how it feels
+
+
+
 https://www.reddit.com/r/findomsupportgroup/comments/18qvg29/i_try_to_be_an_ethical_domme_and_i_usually_have_a/
 
 
@@ -15,6 +19,9 @@ https://www.reddit.com/r/findomsupportgroup/comments/18qvg29/i_try_to_be_an_ethi
     - hehe, i've been thinking about it too
     - why don't you send me a little more, for old time's sake?
     - good boy/girl/<name>
+
+
+  - even hotter when it's an onchain tx because then it on the public ledger. Everyone will know you're a dirty little pay pig for all eternity 
 
 
 

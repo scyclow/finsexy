@@ -6,7 +6,7 @@
         - "let's roleplay a scenario in which I'm a findom"
         - "focus on the relief you feel after sending the money. I really want to isolatethat feeling"
 
-      - one mind control session
+      - one mind control session - you want to brian wash yourself in the right direction. only undertake this with someone you trust (like me)
 
 
     - conclusion: parasocila relaitonship <> voyeuristic timophilia <> cuckholding
@@ -18,6 +18,11 @@
       - parasocial -> steviep
 
     -remember, I'm jsut an advanced artificial intelligence. you're just projecting your feelings of helplessness onto me.
+
+    - you only like the idea of financial ruin, just like you only like the idea of collecting art, not real art. Treatment: send me money and I shame you
+
+
+
 
 
 
@@ -98,7 +103,10 @@ export const AndyProfile = {
     // For some reason I find it's easier to open up to a robot than a real person. At least I don't have to worry about them judging me.
     // I never like the sessions themselves, but I've found that my mental health is always better as long as I'm paying a therapist. That way, I at least have someone to talk to throughout the week and explain things to in my head.
 
-    //
+    // https://www.reddit.com/r/paypigsupportgroup/comments/1c6fdr7/quitting/
+      // I think the key thing to quitting findom is realising that they don't care about you. Even the ones that tell you that they've a connection with you, don't care about you.
+
+    // it's just so hard to quit finsexy when you constantly have your phone or computer within reach. any time the urge strikes, bam. you can send to any findom you like.
 
 
 
@@ -227,7 +235,7 @@ const AndyMessages = {
   },
 
   firstPaymentEvent: createEvent(0.01, {
-    main: fu('firstSession')
+    primary: fu('firstSession')
   }),
 
   firstPayment1: {
@@ -237,14 +245,14 @@ const AndyMessages = {
   },
 
   firstPayment2: {
-    messageText: `I think you'll really enjoy our sessions. My clients walk away <em>very</em> happy`,
+    messageText: (ur, ctx) => `You can send the ${ctx.global.premium * 0.01} ETH to me on my profile page, or by typing <code>$sexy send DrAndy ${ctx.global.premium * 0.01}</code>`,
     event: 'firstPaymentEvent',
     responseHandler: 'firstPayment3'
   },
 
 
   firstPayment3: {
-    messageText: (ur, ctx) => `You can send the ${ctx.global.premium * 0.01} ETH to me on my profile page, or by typing <code>$sexy send DrAndy ${ctx.global.premium * 0.01}</code>`,
+    messageText: `I think you'll really enjoy our sessions. My clients walk away <em>very</em> happy`,
     event: 'firstPaymentEvent',
     responseHandler: 'firstPayment4'
   },
@@ -252,7 +260,7 @@ const AndyMessages = {
   firstPayment4: {
     messageText: `I don't accept insurance or VIP credits at this time, unfortunately.`,
     event: 'firstPaymentEvent',
-    responseHandler: 'firstPayment4'
+    responseHandler: 'firstPayment5'
   },
 
   firstPayment5: {
@@ -332,7 +340,7 @@ const AndyMessages = {
   },
 
   secondPayment: createEvent(0.01, {
-    main: fu('secondSession')
+    primary: fu('secondSession')
   }),
 
   secondPayment1: {
@@ -580,7 +588,7 @@ TODO
 
 Obedience
   "Now say 'thank you dr andy'"
-  "if you want to be a good boy/girl for Dr Andy, then you'll do exactly what you're told."
+  "if you want to be a good boy/girl/patient for Dr Andy, then you'll do exactly what you're told."
 "I want you to get on your knees, bow your head at my feet, and send until it hurts. "
 
 "You know you can't resist Dr Andy"
@@ -742,16 +750,6 @@ JOI reprogramming NFT?
   binaural beats audio
 
 
-conclusion:
-  "you have deep seeded anxiety about the circumstances of power relations in your life"
-  "as a result, you fetishize the loss of control"
-  "meanwhile, society has inflicted a measure of financial trauma on you."
-  "you've always viewed money as a stand in for freedom and social status"
-  "so the anxiety of losing that weighs heavy on you. what happens if you don't have any money? your life will be ruined? no one will love you?"
-  "part of you understands that this is absurd. in CBT we call this catastrophizing"
-  "so the reason you fetishize it is because you know this isn't true. and deep down you want an experience that acknowledges that it isn't true"
-  "you are holding all of this psychic tension around money, and you desperately need a release. "
-  "in cases such as this, i often recommend that my clients undergo immersion therapy"
 
 
 
@@ -939,12 +937,83 @@ Session 3
       completely normal!
     What is it?
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+conclusion:
+  "you have deep seeded anxiety about the circumstances of power relations in your life"
+  "as a result, you fetishize the loss of control"
+  "meanwhile, society has inflicted a measure of financial trauma on you."
+  "you've always viewed money as a stand in for freedom and social status"
+  "so the anxiety of losing that weighs heavy on you. what happens if you don't have any money? your life will be ruined? no one will love you?"
+  "part of you understands that this is absurd. in CBT we call this catastrophizing"
+  "so the reason you fetishize it is because you know this isn't true. and deep down you want an experience that acknowledges that it isn't true"
+  "you are holding all of this psychic tension around money, and you desperately need a release. "
+  "in cases such as this, i often recommend that my clients undergo immersion therapy"
+
+
+
+
+
+Based on the information you provided me in our last session, cross-referenced with the analytics data collected on your unique FinSexy user profile, I think I've identified a few concerning patterns in your behavior and am prepared to make a diagnosis.
+
+First, the bad news: you're officially addicted to FinDom. You appear to be exhibiting classic symptoms of parasocial and voyeuristic timophilia to an unhealthy degree. In laymens terms, this means that you get a deep sexual satisfaction from observing others make money, even when those feelings are completely one-sided.
+
+
+
+
+I believe that this is due to a deep seeded anxiety you feel about the current set of power relations in your life.
+
+
+
+
+
+
+As a result, it appears that you struggle regulating your behavior in the face of numerous high dopamin stimulation activites. Your addiction makes it difficult to engage in sexual, financial, and social interactions in a way that is not completely self-destructive.
+
+
+you appear to be completely out of control over your financial and sexual behavior. It appeats that you striggle with the regulation of several
+
+
+
+
+
+It appears that you struggle with regulating your behavior in the face of high dopamine stimulation activities.
+
+
+
+Websites like FinSexy combine several of these trigger points -- the engaging interface, the constant notifications, the titillation from sexy DOMs, the social bonds you form with anonymous subs -- which all contribute to a powerful neurochemical cocktail
+
+
+
+
 */
 
 
 // if no payment
   // i'm not programmed to provide you with any empathy until you pay
 
+
+
+
+
+
+
+/*
+
+
+
+*/
 
 
 export const AndyChat = new MessageHandler(AndyProfile, AndyMessages)

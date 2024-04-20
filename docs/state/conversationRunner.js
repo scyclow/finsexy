@@ -269,10 +269,10 @@ export function createEvent(amount, responses={}, waitMs=600000) {
     async check(ur, ctx, contract, provider) {
       const addr = await provider.isConnected()
       const price = ctx.global.premium * amount
-
       if (contract && addr) {
         const t = fromWei(await contract.tributes(addr))
         if (Number((t - ctx.state.alreadyPaid).toFixed(6)) >= price) {
+console.log('...', responses.primary)
           return responses.primary
         } else if (Date.now() - ctx.state.lastResponded > waitMs && !ctx.state.nodeResponses[ctx.lastDomCodeSent]) {
           return responses.wait

@@ -19,6 +19,9 @@
     - crystal goddess knows all
       - incentive to give her money, do ritual burn, is that she can tell you where the market is moving
 
+    - your money only has value within its context; faith that other people will take it
+
+
 
 
 Testimonials
