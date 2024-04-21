@@ -45,7 +45,7 @@ Testimonial:
 
 
 import { isYes, isNo, isGreeting, isMean, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
-import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
+import {getUserData, genderSwitch } from '../state/profile.js'
 import {fromWei} from '../eth.js'
 
 

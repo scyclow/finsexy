@@ -1,5 +1,5 @@
 import { isYes, isNo, isGreeting, createEvent, MessageHandler } from '../state/conversationRunner.js'
-import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
+import {getUserData, genderSwitch } from '../state/profile.js'
 import {provider, bnToN} from '../eth.js'
 
 

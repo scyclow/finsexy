@@ -49,7 +49,7 @@
 */
 
 import { isYes, isNo, isGreeting, isMean, isPositive, isNegative, isMatch, diatribe, responseParser, createEvent, MessageHandler } from '../state/conversationRunner.js'
-import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
+import {getUserData, genderSwitch } from '../state/profile.js'
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 

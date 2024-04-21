@@ -145,8 +145,9 @@
 
   h1 {
     font-family: var(--fancy-font);
-    font-size: 2.2em;
+    font-size: 2.1em;
     line-height: 1.1;
+    margin-bottom: 1em;
   }
 
   fieldset {
@@ -204,8 +205,10 @@
 
 
   .submitContainer {
+    margin-top: 0.5em;
     display: flex;
     padding: 1em;
+    padding-bottom: 0em;
     justify-content: center;
     /*margin-top: 1em;*/
   }
@@ -214,6 +217,9 @@
     width: 8em;
   }
 
+  #submit {
+
+  }
 
   button {
     font-size: 1.5em;
@@ -240,6 +246,32 @@
     }
   }*/
 
+    .doubleRow {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1em;
+
+    }
+    .doubleRow > *:last-child {
+      flex: 1;
+      margin-left: 1em;
+      margin-top: 0;
+    }
+
+
+
+
+    @media (max-width: 600px) {
+      .doubleRow {
+        flex-direction: column
+      }
+      .doubleRow > *:last-child {
+        margin-left: 0;
+        margin-top: 1em;
+
+      }
+    }
+
 
   ::-webkit-calendar-picker-indicator { filter: invert(100%); }
 </style>
@@ -254,20 +286,27 @@
 
     <h1>Financial Submissive Application</h1>
 
-    <div id="skip">
+<!--     <div id="skip">
       <a href="#" id="skipForNow">Skip for now →</a>
-    </div>
+    </div> -->
 
     <form onsubmit="onSubmit(event)">
-      <fieldset>
-        <legend>Name</legend>
-        <input required type="text" name="name" id="name" placeholder="paypiggie123">
-      </fieldset>
+      <div class="doubleRow">
+        <fieldset>
+          <legend>Name</legend>
+          <input required type="text" name="name" id="name" placeholder="paypiggie123">
+        </fieldset>
 
-      <fieldset>
-        <legend>Location</legend>
-        <input required type="text" name="location" id="location" placeholder="New York, NY">
-      </fieldset>
+        <fieldset>
+          <legend>Gender</legend>
+          <select required id="gender">
+            <option value="" selected disabled hidden></option>
+            <option value="m">Male</option>
+            <option value="f">Female</option>
+            <option value="nb">undefined</option>
+          </select>
+        </fieldset>
+      </div>
 
       <fieldset>
         <legend>Birthday</legend>
@@ -275,14 +314,10 @@
       </fieldset>
 
       <fieldset>
-        <legend>Gender</legend>
-        <select required id="gender">
-          <option value="" selected disabled hidden></option>
-          <option value="m">Male</option>
-          <option value="f">Female</option>
-          <option value="nb">undefined</option>
-        </select>
+        <legend>Location</legend>
+        <input required type="text" name="location" id="location" placeholder="New York, NY">
       </fieldset>
+
 
 <!--       <fieldset>
         <legend>Interested In</legend>
@@ -392,18 +427,18 @@ become a VIP -->
   $birthday.max = `${maxDateYear}-${maxDateMonth}-${maxDateDay}`
 
 
-  if (!ls.get('profileCompleted')) {
-    $.id('header').setState({ hideNav: 'true' })
+  // if (!ls.get('profileCompleted')) {
+  //   $.id('header').setState({ hideNav: 'true' })
 
-    $.id('skipForNow').onclick = () => {
-      ls.set('profileDeferred', true)
-      ls.set('is18', true)
-      window.location.href = './'
-    }
-  } else {
+  //   $.id('skipForNow').onclick = () => {
+  //     ls.set('profileDeferred', true)
+  //     ls.set('is18', true)
+  //     window.location.href = './'
+  //   }
+  // } else {
 
-    $.id('skip').classList.add('hidden')
-  }
+  //   $.id('skip').classList.add('hidden')
+  // }
 
   function onSubmit(e) {
     e.preventDefault()

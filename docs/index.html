@@ -35,6 +35,9 @@
       animation: FadeIn 0.25s linear;
     }
 
+    .fadein {
+      animation: FadeIn 0.25s linear;
+    }
     main {
 /*      max-width: 1400px;
       margin: 0 auto;*/
@@ -365,6 +368,7 @@
       border-radius: 100%;
       background: var(--green-color);
       display: inline-block;
+      animation: BlinkOnline 4s linear infinite;
     }
 
 
@@ -422,6 +426,16 @@
       }
     }
 
+    @keyframes BlinkOnline {
+      0%, 60%, 100% {
+        opacity: 1;
+      }
+
+      80% {
+        opacity: 0.2;
+      }
+    }
+
     .mainSection, .filter > * {
       /*margin-top: 60px;*/
     }
@@ -475,7 +489,7 @@
 
 </head>
 
-<body>
+<body class="fadein">
   <sexy-header></sexy-header>
 
 
@@ -599,6 +613,11 @@
     </section>
   </main>
 
+  <sexy-modal id="profileModal" blur="true" >
+
+    <sexy-user-profile slot="content"></sexy-user-profile>
+  </sexy-modal>
+
 </body>
 
 
@@ -612,12 +631,19 @@
   import {defaultProfileLS} from './state/profile.js'
 
 
+
+  const $profileModal = $.id('profileModal')
+
+  if (!ls.get('profileCompleted')) {
+    $profileModal.open()
+  }
+
+
 // Object.keys(MessageHandler.chats)
 //   .forEach(name => console.log(name,
 //     MessageHandler.visibilityCtx[name]
 //   ))
 
-document.onunload = () => console.log('blah')
 
 
   $.id('links').innerHTML = Object.keys(MessageHandler.chats)
@@ -706,6 +732,7 @@ document.onunload = () => console.log('blah')
     provider.onConnect(async (addr) => {
       $.id('connectedAs').innerHTML = await provider.formatAddr(addr, true,31)
       $.id('balance').innerHTML = `${(await provider.getETHBalance(addr)).toFixed(4)} ETH`
+      let tributeContent = ''
 
       let anyTributesPaid
       await Promise.all(Object.keys(ProfileStats).map(async d => {
@@ -714,8 +741,7 @@ document.onunload = () => console.log('blah')
         const tributes = fromWei(await contract.tributes(addr))
         if (tributes > 0) {
           anyTributesPaid = true
-          $.id('tributes').innerHTML += `
-
+          tributeContent += `
             <tr>
               <td style="font-size: 0.9em"><a href="./chat?activeChat=${d}">${d}</a></td>
               <td style="color: var(--medium-color)">${tributes} ETH</td>
@@ -723,6 +749,8 @@ document.onunload = () => console.log('blah')
           `
         }
       }))
+
+      $.id('tributes').innerHTML = tributeContent
 
       if (!anyTributesPaid) {
         $.id('tributeTitle').classList.add('hidden')

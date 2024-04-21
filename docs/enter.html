@@ -219,7 +219,7 @@ TODO
     if ($over18.checked) {
       ls.set('is18', true)
     }
-    window.location.pathname = './profile'
+    window.location.pathname = './'
   })
 
   // mountComponents(
@@ -248,39 +248,6 @@ TODO
   //     window.location.replace('./profile.html')
   //   }
   // })
-
-
-
-  async function getEthUsd(uniswapV2) {
-    const decimals = 2
-    const { _reserve0, _reserve1 } = await uniswapV2.getReserves()
-    return _reserve0.mul(1000000000000).mul(10**decimals).div(_reserve1).toNumber() / 10**decimals
-  }
-
-
-
-
-  function formatMinBid(amt) {
-    return Math.ceil(amt * 1000) / 1000
-  }
-
-  function isENS(ens) {
-    return ens.slice(-4) === '.eth'
-  }
-  async function formatAddr(addr, provider, truncate=true) {
-    try {
-      const ens = await provider.getENS(addr)
-      if (ens.slice(-4) === '.eth') {
-        return ens.length > 10
-          ? ens.slice(0, 10) + '...'
-          : ens
-      } else {
-        return truncate ? truncateAddr(addr) : addr
-      }
-    } catch (e) {
-      return truncate ? truncateAddr(addr) : addr
-    }
-  }
 
 
   function unhide(element) {

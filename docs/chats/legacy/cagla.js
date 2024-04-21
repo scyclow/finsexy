@@ -7,7 +7,7 @@ after first message: Talking to International DOMs requires VIP membership (or p
 
 */
 import { isYes, isNo, isGreeting, MessageHandler } from '../state/conversationRunner.js'
-import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
+import {getUserData, genderSwitch } from '../state/profile.js'
 
 
 

@@ -25,7 +25,7 @@ Testimonial
 
 
 import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, createEvent, responseParser, MessageHandler } from '../state/conversationRunner.js'
-import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
+import {getUserData, genderSwitch } from '../state/profile.js'
 
 const fu = (messageCode, waitMs=1000) => ({ messageCode, waitMs })
 const hasNumber = ur => {

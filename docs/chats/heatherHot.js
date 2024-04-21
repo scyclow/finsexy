@@ -52,7 +52,7 @@ Testimonials
 
 
 import { isYes, isNo, isGreeting, isNegative, isPositive, isMean, isMatch, createEvent, MessageHandler } from '../state/conversationRunner.js'
-import {getUserData, genderSwitch , interestedSwitch} from '../state/profile.js'
+import {getUserData, genderSwitch } from '../state/profile.js'
 import {bnToN, DOM_CONTRACTS} from '../eth.js'
 
 

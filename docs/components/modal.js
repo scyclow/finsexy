@@ -19,8 +19,13 @@ createComponent(
         height: 100vh;
         width: 100vw;
         background: #000;
-        opacity: 0.6;
         cursor: pointer;
+        background: rgba(0,0,0,0.6);
+      }
+
+      .blur {
+        backdrop-filter: blur(7px);
+        -webkit-backdrop-filter: blur(7px);
       }
 
       #modal {
@@ -47,6 +52,7 @@ createComponent(
       }
 
 
+
     </style>
 
 
@@ -62,6 +68,12 @@ createComponent(
     ctx.$bg = ctx.$('#bg')
     ctx.$modal = ctx.$('#modal')
     ctx.$modelParent = ctx.$('#modelParent')
+
+
+    const blur = ctx.getAttribute('blur')
+    if (blur) {
+      ctx.$bg.classList.add('blur')
+    }
 
     ctx.close = () => {
       ctx.setState({ display: false })

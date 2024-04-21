@@ -19,13 +19,8 @@ const profileLS = addr => ({
 })
 
 export function genderSwitch(mapping) {
-  return mapping[getUserData().gender || 'nb']
+  return mapping[getUserData('gender')]
 }
-
-export function interestedSwitch(mapping) {
-  return mapping[getUserData().interested || 'all']
-}
-
 
 export const getAgeYears = bd => {
   const ageMs = new Date() - new Date(bd)
@@ -42,13 +37,13 @@ export const defaultProfileLS = profileLS('DEFAULT')
 export function getUserData(key) {
   const profileInfo = defaultProfileLS.get()
   const info = {
-    name: profileInfo.name,
-    gender: profileInfo.gender,
-    location: profileInfo.location,
-    birthday: profileInfo.birthday,
-    age: getAgeYears(profileInfo.birthday),
-    interested: profileInfo.interested,
-    fantasy: profileInfo.fantasy,
+    name: profileInfo.name || '${name}',
+    gender: profileInfo.gender || 'nb',
+    location: profileInfo.location || 'null',
+    birthday: profileInfo.birthday || '1970-1-1',
+    age: getAgeYears(profileInfo.birthday || '1970-1-1'),
+    interested: profileInfo.interested || 'all',
+    fantasy: profileInfo.fantasy || 'FinDom',
   }
 
   if (key) return info[key]

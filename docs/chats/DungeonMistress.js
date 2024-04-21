@@ -152,7 +152,7 @@ https://m.thegazette.co.uk/all-notices/content/100723#:~:text=A%20bankrupt%20wou
 
 
 import { isYes, isNo, isGreeting, isMean, isMatch, responseParser, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
-import {getUserData, genderSwitch, interestedSwitch} from '../state/profile.js'
+import {getUserData, genderSwitch } from '../state/profile.js'
 
 const fu = (messageCode, waitMs=1500) => ({ messageCode, waitMs })
 

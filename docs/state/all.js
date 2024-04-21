@@ -45,7 +45,7 @@ export const ProfileStats = {
   [HackerProfile.name]: HackerProfile,
 }
 
-setTimeout(() => {
+setRunInterval(() => {
   const pastProfile = ls.get('profileDeferred') || ls.get('profileCompleted')
 
   if (ls.get('is18') && pastProfile) {
