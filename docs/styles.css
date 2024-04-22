@@ -17,7 +17,7 @@
   --light-color: #fff8ff;
   --medium-color: #ff66ff;
   --dark-color: #120211;
-  --bg-color: #120211;
+  --bg-color: var(--dark-color);
   --light-link-color: #00ffef;
 
   /*--input-color: #292929;*/
@@ -30,12 +30,14 @@
 
 
   --green-color: #19c72c;
-  --dark-green-color: #339966;
+  --dark-green-color: #06974e;
+  /*#339966;*/
   --light-green-color: #66cc99;
-  --blue-color: #003366;
-  --red-color: #ff3333;
+  --blue-color: #021593;
+  --red-color: #df1a1b;
   --purple-color: #49155b;
   --gray-color: #3f304a;
+  --yellow-color: #f3ba00;
   /*#470061;*/
 
 

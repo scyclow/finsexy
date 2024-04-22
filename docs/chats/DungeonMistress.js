@@ -167,14 +167,19 @@ export const MistressProfile = {
   maxPhotos: 4,
   description: `I like roleplay, sadomasochism, and humiliation. And if you're not careful I'm going to suck every last cent out of your wallet,`,
   testimonials: [
-  /*
-- "I love a good role play"
-- "this is fucking disgusting"
-- RPGs are so much fun! its such a relief to have a safe space to act out my fantasies. i feel like there's a part of me that I always have to repress, so it's nice to finally have a way to explore it.
-- I'll be honest, I've extensively fantasized about a lot of the scenarios that Mistress touched on here. But actually experiencing them first hand left me a little nausious.
-- this all sounds
- */
-
+    {
+      name:'0x72f...daF',
+      review: `I love a good role play`
+    }, {
+      name:'0x72f...daF',
+      review: `this is fucking disgusting`
+    }, {
+      name:'0x72f...daF',
+      review: `RPGs are so much fun! its such a relief to have a safe space to act out my fantasies. i feel like there's a part of me that I always have to repress, so it's nice to finally have a way to explore it.`
+    }, {
+      name:'0x72f...daF',
+      review: `I'll be honest, I've extensively fantasized about a lot of the scenarios that Mistress touched on here. But actually experiencing them first hand left me a little nausious.`
+    }
   ]
 }
 
@@ -247,7 +252,7 @@ const BartenderNodes = {
 
   bartenderHow: {
     messageText: `Oh, I can think of one way. Why don't you come back here, get on your knees, and I'll show you?`,
-    responseHandler: (ur, ctx) => isYes(ur) ? 'blowBartender' : bartenderActions('bartenderPending')
+    responseHandler: (ur, ctx) => isYes(ur) ? 'blowBartender' : bartenderActions('bartenderPending')(ur, ctx)
   },
 
 
@@ -258,11 +263,21 @@ const BartenderNodes = {
 
   bartenderPreBJ: {
     messageText: `"Well, well, well. Look who finally decided to wake up from their beauty nap. Did you sleep well, sleeping beauty?"`,
-    responseHandler: bartenderActions('bartender2')
+    responseHandler: (ur, ctx) => isMatch(ur, ['beer', 'drink', 'order', 'cider', 'ale', 'wine']) ? 'notSoFast' : bartenderActions('bartender2')(ur, ctx)
+    // responseHandler: bartenderActions('bartender2')
   },
 
-  ...diatribe('bartender2', [
-    `"That's nice. I hope you got a good rest because you're gonna be working here all night paying off all that money you owe me. The afternoon rush should start in a couple hours, so I suggest you either get real familiar with the mop in the back room, or get real comfortable on your knees behind the bar with your mouth around my cock."`,
+  bartender2: {
+    messageText: `"That's nice. I hope you got a good rest because you're gonna be working here all night paying off all that money you owe me. The afternoon rush should start in a couple hours, so I suggest you either get real familiar with the mop in the back room, or get real comfortable on your knees behind the bar with your mouth around my cock."`,
+    followUp: fu('bartender3')
+  },
+
+  notSoFast: {
+    messageText: `"Whoa there, you're not getting shit until you pay off all that money you owe me. The afternoon rush should start in a couple hours, so I suggest you either get real familiar with the mop in the back room, or get real comfortable on your knees behind the bar with your mouth around my cock."`,
+    followUp: fu('bartender3')
+  },
+
+  ...diatribe('bartender3', [
     `He waits a beat before continuing in a lower voice.`,
     `"I hear you owe money all over town. One more complaint to you-know-who and your ass is gonna end up in debtor's prison."`,
   ], {

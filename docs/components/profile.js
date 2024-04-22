@@ -246,6 +246,7 @@ createComponent(
         padding: 0.5em 1em;
         cursor: pointer;
         transition: 0.2s;
+        text-shadow: 0 0 1px var(--dark-color);
       }
 
       #sendError {

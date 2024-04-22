@@ -437,10 +437,10 @@ createComponent(
     const name = ctx.getAttribute('name')
 
     const submit = () => {
-      if (!ls.get('profileCompleted')) {
-        window.location.pathname = './profile'
-        return
-      }
+      // if (!ls.get('profileCompleted')) {
+      //   window.location.pathname = './profile'
+      //   return
+      // }
 
       const message = ctx.$input.value
       ls.set(`__${name}_chat_cache`, null)

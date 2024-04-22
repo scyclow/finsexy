@@ -94,6 +94,10 @@
       display: initial;
     }
 
+    .__debug #profilePanel {
+      display: none;
+    }
+
     #devPanel {
       border-left: 1px solid var(--border-color);
       padding: 0.5em;
@@ -191,6 +195,11 @@
       }
     }
 
+    #closeDev {
+      cursor: pointer;
+      float: right;
+    }
+
   </style>
 
   <script src="./utils.js"></script>
@@ -213,6 +222,7 @@
     <aside id="profilePanel"></aside>
 
     <aside id="devPanel">
+      <span id="closeDev">X</span>
       <h1>Dev Panel</h1>
       <div style="display: flex; justify-content: center; margin: 1em auto;">
         <button id="clearChat" style="background: var(--red-color); font-size: 1.5em;">
@@ -245,11 +255,13 @@
   import {$, queryParams} from './$.js'
   import {clitLS, clearChat} from './state/clit.js'
 
+
   const $messageSelector = $.id('messageSelector')
   const $chatWindow = $.id('chatWindow')
   const $profilePanel = $.id('profilePanel')
   const $clearChat = $.id('clearChat')
   const $main = $.id('main')
+  const $closeDev = $.id('closeDev')
 
 
   $clearChat.onclick = clearChat
@@ -540,6 +552,10 @@
     }
   })
 
+
+  $.id('closeDev').onclick = (e) => {
+    clitLS.set('devMode', false)
+  }
 
 
 </script>

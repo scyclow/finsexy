@@ -54,6 +54,8 @@ Testimonials
 import { isYes, isNo, isGreeting, isNegative, isPositive, isMean, isMatch, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {bnToN, DOM_CONTRACTS} from '../eth.js'
+import {ls} from '../$.js'
+
 
 
 const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
@@ -175,7 +177,9 @@ const HeatherHotMessages = {
 
   hiHowAreYou: {
     messageText: 'how are you today??',
-    responseHandler: 'intro'
+    responseHandler: userResponse => userResponse.includes('?') || userResponse.includes('are you')
+      ? { messageCode: 'imGood', waitMs: 1000 }
+      : { messageCode: 'newHere', waitMs: 2000 }
   },
 
 
@@ -194,9 +198,9 @@ const HeatherHotMessages = {
 
 
   intro: {
-    messageText: (userResponse) => isNegative(userResponse)
-      ? `i'm sorry to hear that 😞`
-      : 'glad to hear that! 🙂',
+    messageText: (userResponse) => isPositive(userResponse)
+      ? 'glad to hear that! 🙂'
+      : `i'm sorry to hear that 😞`,
     followUp: userResponse => userResponse.includes('?') || userResponse.includes('are you')
       ? { messageCode: 'imGood', waitMs: 1000 }
       : { messageCode: 'newHere', waitMs: 2000 }
@@ -211,6 +215,13 @@ const HeatherHotMessages = {
 
   newHere: {
     messageText: `i see you're new here! let me be the first to welcome you!`,
+    followUp: () => ls.get('profileCompleted')
+      ? { messageCode: 'newToFindom', waitMs: 2000 }
+      : { messageCode: 'fillOutProfile', waitMs: 2000 }
+  },
+
+  fillOutProfile: {
+    messageText: `don't forget to fill out your profile when you get a chance!`,
     followUp: { messageCode: 'newToFindom', waitMs: 2000 }
   },
 

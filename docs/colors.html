@@ -2,6 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+
   <style type="text/css">
     body {
       background: #000;
@@ -9,64 +11,134 @@
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
       grid-gap: 20px;
+      padding: 1em;
     }
 
     div {
       /*padding: 0.1em;*/
       padding-left: 1em;
       /*margin: 20px;*/
+      border: 1px solid var(--border-color);
 
     }
 
     h6 {
       color: #fff;
+      text-shadow: 1px 1px #000;
+      margin: 1em 0;
     }
   </style>
   <title></title>
 </head>
 <body>
+  <div style="background: var(--light-color)">
+    <h6>Light</h6>
+    <h6>#fff8ff</h6>
+  </div>
 
-  <div style="background: #ff00c7;">
+  <div style="background: var(--medium-color)">
+    <h6>Medium</h6>
+    <h6>#ff66ff</h6>
+  </div>
+
+  <div style="background: var(--primary-color)">
     <h6>Primary</h6>
     <h6>#ff00c7</h6>
   </div>
 
-  <div style="background: #7202c6;">
+  <div style="background: var(--secondary-color)">
     <h6>Secondary</h6>
     <h6>#7202c6</h6>
   </div>
 
-  <div style="background: #ff66ff;">
-    <h6>SecondaryLight</h6>
-    <h6>#ff66ff</h6>
-  </div>
 
-  <div style="background: #888;">
-    <h6>Border</h6>
-    <h6>#888</h6>
-  </div>
-
-  <div style="background: #4e0066;">
-    <h6>Secondary1</h6>
+  <div style="background: var(--bg-color)">
+    <h6>Dark/BG</h6>
     <h6>#4e0066</h6>
   </div>
 
-  <div style="background: #883399;">
-    <h6>Secondary2</h6>
-    <h6>#883399</h6>
-  </div>
 
-  <div style="background: #330033;">
-    <h6>Purple1</h6>
-    <h6>#330033</h6>
-  </div>
 
-  <div style="background: #ff99ff;">
-    <h6>Pink3</h6>
-    <h6>#ff99ff</h6>
+
+  <div style="background: var(--border-color)">
+    <h6>Border</h6>
+    <h6>#524552</h6>
   </div>
 
 
+
+  <div style="background: var(--border2-color)">
+    <h6>Border2</h6>
+    <h6>#29202a</h6>
+  </div>
+
+  <div style="background: var(--input-color)">
+    <h6>Input</h6>
+    <h6>#25051e</h6>
+  </div>
+
+
+
+
+  <div style="background: var(--tertiary-color)">
+    <h6>Tertiary</h6>
+    <h6>#b40066</h6>
+  </div>
+
+  <div style="background: var(--red-color);">
+    <h6>Red</h6>
+    <h6>#df1a1b</h6>
+  </div>
+  <div style="background: var(--purple-color);">
+    <h6>Purple</h6>
+    <h6>#49155b</h6>
+  </div>
+
+  <div style="background: var(--blue-color);">
+    <h6>Blue</h6>
+    <h6>#003366</h6>
+  </div>
+
+
+
+
+
+  <div style="background: var(--light-link-color)">
+    <h6>Light Link</h6>
+    <h6>#00ffef</h6>
+  </div>
+
+
+  <div style="background: var(--help-color)">
+    <h6>Help</h6>
+    <h6>#00ff98</h6>
+  </div>
+
+
+
+
+  <div style="background: var(--green-color);">
+    <h6>Green</h6>
+    <h6>#19c72c</h6>
+  </div>
+  <div style="background: var(--dark-green-color);">
+    <h6>Dark Green</h6>
+    <h6>#06974e</h6>
+  </div>
+  <div style="background: var(--light-green-color);">
+    <h6>Light Green</h6>
+    <h6>#66cc99</h6>
+  </div>
+  <div style="background: var(--gray-color);">
+    <h6>Gray</h6>
+    <h6>#3f304a</h6>
+  </div>
+
+
+  <div style="background: var(--yellow-color)">
+    <h6>Yellow</h6>
+    <h6>#f3ba00</h6>
+  </div>
 
 
   <div style="background: #005599;">
@@ -78,32 +150,7 @@
     <h6>Blue2</h6>
     <h6>#003366</h6>
   </div>
-
-  <div style="background: #339966;">
-    <h6>Green1</h6>
-    <h6>#339966</h6>
-  </div>
-
-  <div style="background: #66cc99;">
-    <h6>Green2</h6>
-    <h6>#66cc99</h6>
-  </div>
-
-  <div style="background: #df0;">
-    <h6>Green2</h6>
-    <h6>#df0</h6>
-  </div>
-
-  <div style="background: #ffcc00;">
-    <h6>Yellow1</h6>
-    <h6>#ffcc00</h6>
-  </div>
-
-  <div style="background: #ffdb4d;">
-    <h6>Yellow2</h6>
-    <h6>#ffdb4d</h6>
-  </div>
-
+<!--
   <div style="background: #ff6600;">
     <h6>Orange1</h6>
     <h6>#ff6600</h6>
@@ -114,6 +161,15 @@
     <h6>#ff9900</h6>
   </div>
 
+
+
+  <div style="background: #df0;">
+    <h6>Yellow2</h6>
+    <h6>#df0</h6>
+  </div>
+
+
+
   <div style="background: #cc0000;">
     <h6>Red1</h6>
     <h6>#cc0000</h6>
@@ -122,7 +178,7 @@
   <div style="background: #ff3333;">
     <h6>Red2</h6>
     <h6>#ff3333</h6>
-  </div>
+  </div> -->
 
 
 </body>

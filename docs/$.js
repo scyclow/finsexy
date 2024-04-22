@@ -157,8 +157,6 @@ export const createComponent = (tag, templateStr, initialState, onInit, onRender
         }
       }
 
-      console.log(this.parentElement, tag)
-
       this.onRender = onRender
       onInit(this)
     }
