@@ -61,6 +61,7 @@ export const DOM_CONTRACTS = {
     '0x000000000000000000000000000000000': '0x0B32a3F8f5b7E5d315b9E52E640a49A89d89c820',
     QueenJessica: '0x519b05b3655F4b89731B677d64CEcf761f4076f6',
     steviep: '0xb6057e08a11da09a998985874FE2119e98dB3D5D',
+    Hedonitronica: '0x31403b1e52051883f2Ce1B1b4C89f36034e1221D',
   },
   goerli: {},
   mainnet: {},
@@ -275,6 +276,7 @@ export class Web3Provider {
       '0x000000000000000000000000000000000': await this.contract(CONTRACTS['0x000000000000000000000000000000000'], domABI),
       QueenJessica: await this.contract(CONTRACTS.QueenJessica, domABI),
       steviep: await this.contract(CONTRACTS.steviep, domABI),
+      Hedonitronica: await this.contract(CONTRACTS.Hedonitronica, domABI),
     }
 
 

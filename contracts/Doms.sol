@@ -56,6 +56,28 @@ abstract contract FinDom is Ownable {
 }
 
 
+abstract contract FinDomLight is Ownable {
+  mapping(address => uint256) public tributes;
+  event Send(address indexed from, uint256 amount);
+  uint256 public immutable findomId;
+  string public name;
+
+  constructor(uint256 id, string memory _name) {
+    findomId = id;
+    name = _name;
+  }
+
+  receive() external payable {
+    emit Send(msg.sender, msg.value);
+    tributes[msg.sender] += msg.value;
+  }
+
+  function withdraw() external onlyOwner {
+    payable(owner()).transfer(address(this).balance);
+  }
+}
+
+
 contract HeatherHot is FinDom {
   constructor(address fs) FinDom(0, 0.01 ether, 'heatherHot', fs) {}
 }
@@ -123,6 +145,11 @@ contract QueenJessica is FinDom {
 
 contract StevieP is FinDom {
   constructor(address fs) FinDom(9, 0.03 ether, 'steviep', fs) {}
+}
+
+
+contract Hedonitronica is FinDomLight {
+  constructor() FinDomLight(11, 'Hedonitronica') {}
 }
 
 // contract Cagla is FinDom {

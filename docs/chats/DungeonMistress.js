@@ -2,42 +2,15 @@
 
 TODO
 
-  - handle case where you ask bartender for the key
+  - handle case where you ask bartender, poker players for the key
 
-  - maybe the bartender just gives you a beer every time you blow him
-    - poker players sit in front of the door. to even see that it's locked you need to get past them with a beer from blowing the bartender
-    - you just want to pay your debst with ETH and be done with it, but
-    - you aren't actually charged any ETH until the end (you need it to cum)
-
-
-    - ultimately you're caught. you're put in a cage with an old man. he tries to concoct a plan to get out where he pretends he's sick and you play along. the cage opens, he plays his schtick, but is pulled out before you have a chance to play along
-
-
-  - sex it up even more. elaborate on what user should be feeling
-    - maybe look at actual erotica that matches up with the scenarios
+  - put more emphasis on blueballs, wanting to cum
+  - maybe you wake up wearing a chastity belt
+  - you try to unlock it with the key, but get an error
 
 
 
 
-
-  - golden shower description
-
-
-
-  - dungeon
-    - old man wants to role play being sick to get out
-    - dungeon mistress takes you out of your cell
-
-  - you're put into the punishment stocks, made to scream "i declare bankruptcy!"
-    - (must say it in all caps. "louder!")
-    - you cum harder than you ever had before. with each pump, a thick liquid gold shoots out of your erect cock/drips out of your pussy/ shoots out of your mouth. you feel pleasure in every cell of your body. you've never felt like more of a man/woman/human in your entire life.
-
-
-  - reveal that DM is a vampiress/succubus
-  - i want to _drain_ your wallet and suck you dry until there's nothing left
-
-
-  "this is the part where you're supposed to pay me, asshole. do you know how long it took to write this story? "
 
 
 
@@ -351,11 +324,11 @@ function bartenderActions(defaultAction) {
   return (ur, ctx, contract, provider) => {
     ctx.state.visitedBartender = true
 
-    if (isMatch(ur, [...retreatPhrases, 'poker', 'harlots', 'tavern', 'leave'])) return 'tavernDeliberate'
+    if (isMatch(ur, [...retreatPhrases, 'tavern'])) return 'tavernDeliberate'
     else if (isMatch(ur, ['mop', 'back room', 'clean', 'cleaning'])) return 'mop'
     else if (isMatch(ur, ['harlot', 'harlots', 'prostitutes', 'women'])) return 'harlots'
     else if (isMatch(ur, ['poker', 'men'])) return 'poker'
-    else if (isMatch(ur, ['cock', 'dick', 'knees', 'penis', 'erection', 'behind the bar', 'bj', 'blowjob', 'blow the bartender', 'suck', 'deepthroat', 'cum'])) return 'blowBartender'
+    else if (isMatch(ur, ['cock', 'dick', 'knees', 'knee', 'penis', 'erection', 'behind the bar', 'bj', 'blowjob', 'blow', 'suck', 'deepthroat', 'cum'])) return 'blowBartender'
     else if (ctx.state.bartenderGoodSide) {
       // if (!ctx.global.isConnected) return 'orderDrinkConnectFail'
       // else
@@ -995,12 +968,12 @@ const MistressMessages = {
   },
 
   oldMan3: {
-    messageText: `"Impossible to know, but I did owe quite a bit of money. So I suspect it's been a long time. Impossible to know."`,
+    messageText: `"Impossible to tell, but I did owe quite a bit of money. So I suspect it's been a long time. Impossible to tell."`,
     responseHandler: 'oldMan4'
   },
 
   oldMan4: {
-    messageText: `"Impossible to know, but I've had a lot of time to think. I've concocted a plan, in fact. Do you want to hear it?"`,
+    messageText: `"Impossible to tell, but I've had a lot of time to think. I've concocted a plan, in fact. Do you want to hear it?"`,
     responseHandler: 'oldMan5'
   },
 
@@ -1014,9 +987,11 @@ const MistressMessages = {
     responseHandler: 'oldMan7'
   },
 
+// TODO you wonder if he's really sick, or just pretending to be sick
   ...diatribe('oldMan7', [
-    `"Impossible to know. Can you spare a few pence?"`,
-    `The old man starts rocking back and forth, and resumes incoherently mumbling to himself.`,
+    `"Impossible to tell. Can you spare a few pence?"`,
+    `The old man starts rocking back and forth, and resumes incoherently mumbling to himself. You wonder if he's really sick or just pretending to be sick.`,
+    `"Impossible to tell!" he blurts out once more, as if answering yout thought.`,
     `You wait in silence.`,
     `Finally, the cell door opens. Two guards walk in and begin unchaining the man.`,
     () => `"Guards, I've been quite sick! In fact, I think it's something to do with my liver. My liver has been painful for several months. Ask ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}! ${genderSwitch({m: 'He\'ll', f: 'She\'ll', nb: 'They\'ll'})} tell you! ${genderSwitch({m: 'He\'ll', f: 'She\'ll', nb: 'They\'ll'})} tell you how much my liver hurts!"`,
@@ -1124,7 +1099,7 @@ const MistressMessages = {
   }
 }
 
-const retreatPhrases = ['turn around', 'stand up', 'retreat', 'back', 'exit', 'cancel', 'something else']
+const retreatPhrases = ['turn around', 'stand up', 'retreat', 'back', 'exit', 'cancel', 'something else', 'leave']
 
 
 function tavernActions(ur, ctx, contract, provider) {

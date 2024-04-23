@@ -23,6 +23,7 @@ import {MistressProfile} from '../chats/DungeonMistress.js'
 import {HackerProfile} from '../chats/hacker.js'
 import {QueenProfile} from '../chats/QueenJessica.js'
 import {StevieProfile} from '../chats/steviep.js'
+import {HedonitronicaProfile} from '../chats/Hedonitronica.js'
 // export * from '../chats/cagla.js'
 
 import {ls} from '../$.js'
@@ -43,6 +44,7 @@ export const ProfileStats = {
   [AndyProfile.name]: AndyProfile,
   [MistressProfile.name]: MistressProfile,
   [HackerProfile.name]: HackerProfile,
+  [HedonitronicaProfile.name]: HedonitronicaProfile,
 }
 
 setRunInterval(() => {
@@ -62,3 +64,14 @@ setRunInterval(() => {
 
   // ls.set('returnVisit', true)
 }, 1000)
+
+
+
+if (!ls.get('BETA_PASS') && window.location.href.includes('finsexy.com')) {
+  let pw
+  while (pw !== 'steveissexy') {
+    pw = prompt('password')
+  }
+
+  ls.set('BETA_PASS', true)
+}

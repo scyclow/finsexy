@@ -26,6 +26,7 @@ if (clitLS.get().devMode) {
 
 export const clearChat = (ignoreReload=false) => {
   localStorage.removeItem('__CHAT_CONTEXT')
+  localStorage.removeItem('__CHAT_GLOBAL_CONTEXT')
   ls.set('__LAST_CLEAR_TIME', Date.now())
   if (!ignoreReload) window.location.reload()
 }
@@ -193,7 +194,7 @@ export const sexyCLIT = {
     }
   },
 
-  send(recipient, amount, cb, errorCb) {
+  send(recipient, amount, cb, errorCb, successCb) {
     document.documentElement.classList.remove('orgasm')
 
     setTimeout(async () => {
@@ -211,6 +212,7 @@ export const sexyCLIT = {
         })
         await tx.wait()
         document.body.classList.remove('preOrgasm')
+        successCb(tx)
         if (!clitLS.get('devIgnoreWait')) document.documentElement.classList.add('orgasm')
       } catch (e) {
         console.log(e)

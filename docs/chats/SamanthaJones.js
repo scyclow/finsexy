@@ -17,6 +17,7 @@ TODO
   - expand on VS story
   - you're bad with money, so you need to approve
   - work in "probing", spreading your little butt cheeks to poke around deep inside yout tx history
+  - ETF
 
 0x47144372eb383466D18FC91DB9Cd0396Aa6c87A4, 0x7ccd2EE72a75F7e4776f598c1Be11A119fD8d191, 0xbc3Ced9089e13C29eD15e47FFE3e0cAA477cb069
 

@@ -233,6 +233,7 @@ createComponent(
 
       #sendModule {
         box-shadow: 0 0 20px var(--dark-green-color);
+        border-radius: 5px;
       }
       #sendModule * {
         font-size: 1.15em;
@@ -247,6 +248,8 @@ createComponent(
         cursor: pointer;
         transition: 0.2s;
         text-shadow: 0 0 1px var(--dark-color);
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
       }
 
       #sendError {
@@ -261,7 +264,8 @@ createComponent(
         border-right: 0;
         width: 6em;
         box-shadow: inset 0px 0px 10px #555;
-
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
       }
       #sendInput:focus, #sendInput:active {
         border: 1px solid var(--dark-green-color);
@@ -293,7 +297,6 @@ createComponent(
 
       img {
         user-select: none;
-
       }
 
       #chat:hover, #chat:active, #chat:focus {
@@ -315,6 +318,10 @@ createComponent(
       #imgContainer {
         display: flex;
         align-items: center;
+      }
+
+      #photos, img {
+        border-radius: 3px;
       }
 
       .imgControl {
@@ -734,8 +741,8 @@ createComponent(
 
     const send$ = () => {
       const val = Number(ctx.$sendInput.value)
+      ctx.$sendError.innerHTML = ''
       if (val) {
-        ctx.$sendError.innerHTML = ''
         sexyCLIT//.run(name, `$sexy send ${name} ${val}`, {}, true)
           .send(name, val,
             (msg) => {},
@@ -743,8 +750,11 @@ createComponent(
               console.log(msg)
               ctx.$sendError.innerHTML = msg
             },
+            (tx) => {
+              ctx.$sendError.innerHTML = ''
+              ctx.$sendInput.value = ''
+            }
           )
-        ctx.$sendInput.value = ''
       }
     }
     ctx.$sendButton.onclick = send$

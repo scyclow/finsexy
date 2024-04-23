@@ -17,6 +17,10 @@ async function main() {
     'Hacker',
     'QueenJessica',
     'StevieP',
+    'Hedonitronica',
+  ]
+  const FinDomsLight = [
+    'Hedonitronica',
   ]
 
   const contracts = [
@@ -43,12 +47,18 @@ async function main() {
 
   for (let i = 0; i < FinDoms.length; i++) {
     const factory = await ethers.getContractFactory(FinDoms[i], artist)
-    const contract = await factory.deploy(Contracts.FinSexy.address)
+
+    const contract = FinDomsLight.includes(FinDoms[i])
+      ? await factory.deploy()
+      : await factory.deploy(Contracts.FinSexy.address)
+
     await Contracts.FinSexy.setFindom(i, contract.address)
     await contract.deployed()
     Contracts[FinDoms[i]] = contract
     console.log(FinDoms[i], contract.address)
   }
+
+
 
 
 

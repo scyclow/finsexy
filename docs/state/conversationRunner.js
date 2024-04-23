@@ -473,6 +473,7 @@ export class MessageHandler {
             this.contract = await messages.__contract(this.provider)
             MessageHandler.globalCtx.isConnected = !!addr
             MessageHandler.globalCtx.connectedAddr = addr
+            MessageHandler.globalCtx.ens = await this.provider.formatAddr(addr, false)
             res()
           } catch (e) {
             console.log(profile.name)

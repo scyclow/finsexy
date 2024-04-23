@@ -5,6 +5,7 @@
     - take a vow to not send to other doms
 
     - "I do not have a physical form. I am merely an address on the blockchain. pray to me"
+    - "I do not exist in the physical world, but you will worship me, nonetheless"
 
 
     - themes of rationality. the economic man. irrational actions are taken as acts ofo religion. the fabric of society was once held together by religion, in lieu of a strong leader. money often has value due to religion

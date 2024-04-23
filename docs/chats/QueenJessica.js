@@ -2,11 +2,14 @@
 
 TODO
   Challenge:
+    - game where she pings you at various points, you need to respond within 1 minute
     go to casino and lose money
       "Okay, I'm in the casino right now. Just sat down at a slot machine"
       "Oops, I lost."
 
   - incorporate dialogue at bottom
+
+  - https://www.tiktok.com/@findomgoddesssj
 
 
   "You know, I have to admit... You're really fucking boring"
