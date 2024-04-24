@@ -1,6 +1,11 @@
 /*
 
 TODO
+
+  - give eth to vince, trust him to invest it on your behalf; sign something that says that you make him sole fiduciary, and it's a discretionary account, at his discretion.
+    - oh, it just went up! don't take it out now
+    - it jsut went down. better let me hold onto it. i need to protect you from yourself, and that's what daddy does.
+
   - alpha
     - new shitcoin?
     - pitch fastcash as alpha?

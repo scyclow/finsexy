@@ -49,6 +49,7 @@ const HedonitronicaMessages = {
     //     responseHandler: (ur, ctx) => ctx.lastDomCodeSent
     //   }
     // }
+    ctx.global.hedonitronicaIntroduced = true
   },
 
   ...diatribe('hello', [
@@ -96,6 +97,7 @@ const HedonitronicaMessages = {
   helloF: {
     messageText: (ur, ctx) => `I don't have much time, you little shit stain. I NEED to cum so bad, and I'll do whatever I have to do to make you send it to me. If you don't send me ETH RIGHT NOW then you're going to regret it`,
     responseHandler: (ur, ctx, contract) => {
+      ctx.global.hedonitronicaTalked = true
       return nextOrMore('hello')(ur, ctx, contract)
     }
   },
@@ -109,8 +111,8 @@ const HedonitronicaMessages = {
   more3: { messageText: `I said MORE`, responseHandler: 'more4'},
   more4: { messageText: `Give. Me. MORE.`, responseHandler: 'more5'},
   more5: { messageText: `MORE MORE MORE`, responseHandler: 'more6'},
-  more6: { messageText: `MORE MORE MORE MORE MORE`, responseHandler: 'more7'},
-  more7: { messageText: `MOOOOOOOOOOOOOOOOOOOOOOOOOOORE`, responseHandler: 'more8'},
+  more6: { messageText: `MORE MORE MORE MORE MORE MORE MORE`, responseHandler: 'more7'},
+  more7: { messageText: `MOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOORRRRRRREE`, responseHandler: 'more8'},
   more8: { messageText: () => times(100, () => `MORE`).join(''), responseHandler: '_error'},
   _error: {
     messageText: `Error [Fatal]: Maximum call stack size exceeded`,

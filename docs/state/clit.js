@@ -194,7 +194,7 @@ export const sexyCLIT = {
     }
   },
 
-  send(recipient, amount, cb, errorCb, successCb) {
+  send(recipient, amount, cb, errorCb, successCb=noop) {
     document.documentElement.classList.remove('orgasm')
 
     setTimeout(async () => {
