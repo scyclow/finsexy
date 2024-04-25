@@ -262,6 +262,11 @@ export class Web3Provider {
       'function sellERC20(address) payable external returns ()',
     ]
 
+    const stevieABI = [
+      ...domABI,
+      'function sexyGame() external view returns (address)',
+    ]
+
     const CONTRACTS = DOM_CONTRACTS[networkName]
 
 

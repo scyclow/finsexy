@@ -132,7 +132,7 @@ contract DrAndy is FinDom {
 }
 
 contract DungeonMistress is FinDom {
-  constructor(address fs) FinDom(6, 0.03 ether, 'DungeonMistress', fs) {}
+  constructor(address fs) FinDom(6, 0.05 ether, 'DungeonMistress', fs) {}
 }
 
 contract Hacker is FinDom {
@@ -144,12 +144,59 @@ contract QueenJessica is FinDom {
 }
 
 contract StevieP is FinDom {
-  constructor(address fs) FinDom(9, 0.03 ether, 'steviep', fs) {}
+  SexyGame public sexyGame;
+  constructor(address fs) FinDom(9, 10000 ether, 'steviep', fs) {
+    sexyGame = new SexyGame(msg.sender);
+  }
+
+  function mint(address to) {
+    require(msg.sender == address(sexyGame), 'Only the sexy game contract can mint');
+    _mint(to);
+  }
 }
 
 
 contract Hedonitronica is FinDomLight {
   constructor() FinDomLight(11, 'Hedonitronica') {}
+}
+
+
+contract SexyGame is Ownable {
+  mapping(address => uint256) public addrToAmount;
+  mapping(address => uint256) public addrToInsertTime;
+
+  StevieP public steviep;
+
+  constructor(address _owner) {
+    transferOwnership(_owner);
+    steviep = StevieP(msg.sender);
+  }
+
+  function insert() external payable {
+    require(addrToAmount[msg.sender] == 0, 'Cannot insert twice');
+    require(msg.value == 1 ether, 'Can only insert 1 ETH');
+
+    addrToAmount[msg.sender] = msg.value;
+    addrToInsertTime[msg.sender] = block.timestamp;
+  }
+
+  function pullout() external {
+    require(addrToAmount[msg.sender] == 1 ether, 'Nothing to pull out');
+
+    if (block.timestamp >= addrToInsertTime[msg.sender] + 1 hours) {
+      steviep.mint(msg.sender);
+    }
+
+    addrToAmount[msg.sender] = 0;
+    payable(msg.sender).transfer(1 ether);
+  }
+
+  function take(address paypig) external onlyOwner {
+    require(addrToAmount[paypig] == 1 ether, 'Nothing to pull out');
+
+    addrToAmount[paypig] = 0;
+    payable(msg.sender).transfer(1 ether);
+  }
 }
 
 // contract Cagla is FinDom {

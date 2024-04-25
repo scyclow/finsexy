@@ -55,9 +55,15 @@
       border-bottom: 1px solid var(--border2-color);
       user-select: none;
     }
+
+    #messageSelector li > * {
+      display: flex;
+      align-items: center;
+    }
     #messageSelector li:hover {
       background: var(--light-color);
       color: var(--primary-color);
+      box-shadow: inset 0 0 5px var(--primary-color);
     }
     #messageSelector .active:hover {
       background: var(--light-color);
@@ -147,9 +153,7 @@
       border-radius: 50%;
       background: var(--primary-color);
       color: var(--light-color);
-
-      transform: translateY(-.2em);
-        box-shadow: 0 0 1em var(--primary-color)
+      box-shadow: 0 0 1em var(--primary-color)
 
     }
 
@@ -173,6 +177,20 @@
         display: none;
       }
     }
+
+    #messageSelectorSection {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #messageSelector {
+      /*box-shadow: -3px 5px 10px  var(--border-color);*/
+
+    }
+    /*#messageSelectorFiller {
+      flex: 1;
+      box-shadow: inset 0 0 10px var(--border-color);
+    }*/
 
     @media (max-width: 520px) {
       .activeChat #messageSelectorSection {
@@ -213,6 +231,7 @@
   <main id="main">
     <aside id="messageSelectorSection">
       <ul id="messageSelector"></ul>
+      <div id="messageSelectorFiller"></div>
     </aside>
 
     <section id="chatWindow">

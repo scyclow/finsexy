@@ -241,7 +241,10 @@ createComponent(
     </style>
 
     <header id="header">
-      <h1><a href="/">💋 FINSEXY</a></h1>
+      <h1><a href="/" style="display:flex; align-items:center">💋 FINSEXY</a></h1>
+      <!--
+        <h1><a href="/" style="display:flex; align-items:center"><img src="/assets/kiss.png" style="width: 1em; margin-right:0.25em"> FINSEXY</a></h1>
+        -->
       <nav id="nav">
         <h4 id="mobileMenu">Menu<span id="totalUnreadsMenu" class="hidden"><span></a></h4>
         <ul id="navItems">

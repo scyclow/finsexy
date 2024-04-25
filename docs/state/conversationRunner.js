@@ -427,7 +427,7 @@ function createGlobalCtx(lsKey, init) {
       obj[key] = val
       ls.set(lsKey, JSON.stringify(ctx))
 
-      return val
+      return Reflect.set(...arguments)
     },
     get(obj, key) {
       return obj[key]

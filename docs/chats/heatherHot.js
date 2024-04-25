@@ -7,6 +7,9 @@ ETHICAL DOM RULES
   - just send a little bit to see how it feels
 
 
+  - instead of linear help flow: "so what do you want to talk about?", then list options
+
+
 
 https://www.reddit.com/r/findomsupportgroup/comments/18qvg29/i_try_to_be_an_ethical_domme_and_i_usually_have_a/
 

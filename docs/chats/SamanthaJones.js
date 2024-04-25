@@ -12,6 +12,8 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 /*
 TODO
   - ignore first payment if user has already paid
+  - let user skip audits on specific positions
+
 
   - after you've paid a couple doms, enter "this looks like money laundering" module
   - expand on VS story

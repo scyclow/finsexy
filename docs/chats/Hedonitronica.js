@@ -8,7 +8,7 @@ const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 export const HedonitronicaProfile = {
   name: 'Hedonitronica',
   startingVisibility: 'hidden',
-  order: 2,
+  order: 11,
   age: 0,
   distance: 0,
   gender: 'Gender Fluid',
@@ -75,6 +75,11 @@ const HedonitronicaMessages = {
 
 
   helloD: {
+    messageText: `Stop playing around and send me some ETH, baby. You know it'll feel good`,
+    responseHandler: nextOrMore('helloD2'),
+  },
+
+  helloD2: {
     messageText: `Stop playing around and send me some ETH, baby. You know it'll feel good`,
     responseHandler: nextOrMore('helloE'),
   },

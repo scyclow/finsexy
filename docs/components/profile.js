@@ -400,6 +400,9 @@ createComponent(
       }
 
 
+      .sideWindow#parent {
+        box-shadow: inset 0 0 10px var(--border-color);
+      }
       .sideWindow #content,
       .sideWindow aside,
       .sideWindow header {
@@ -474,11 +477,9 @@ createComponent(
         width: 100%;
         max-width: 500px;
         box-sizing: border-box;
-        border: 1px solid var(--border-color);
-        box-shadow: 0 0 5px var(--border-color);
-/*
-        background: var(--border2-color);
-*/
+
+        box-shadow: 0 0 5px var(--border-color), inset 0 0 5px var(--border-color);
+        background: linear-gradient(335deg, var(--gray-color), var(--bg-color) 60%);
       }
       #testimonialContainer {
         border: 2px dotted var(--border-color);
@@ -507,6 +508,7 @@ createComponent(
       }
       .testimonial {
         border: 1px solid var(--border-color);
+        border-radius: 5px;
       }
 
       .testimonialName {
@@ -514,6 +516,8 @@ createComponent(
         background: var(--gray-color);
         text-decoration: underline;
         user-select: none;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
       }
       .testimonialName span {
         cursor: no-drop;
@@ -526,6 +530,8 @@ createComponent(
       .testimonialReview {
         box-shadow: inset 0 0 10px #777;
         line-height: 1.25;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
       }
 
       ::selection {

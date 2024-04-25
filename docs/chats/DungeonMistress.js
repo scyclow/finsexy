@@ -151,7 +151,7 @@ export const MistressProfile = {
       review: `RPGs are so much fun! its such a relief to have a safe space to act out my fantasies. i feel like there's a part of me that I always have to repress, so it's nice to finally have a way to explore it.`
     }, {
       name:'0x72f...daF',
-      review: `I'll be honest, I've extensively fantasized about a lot of the scenarios that Mistress touched on here. But actually experiencing them first hand left me a little nausious.`
+      review: `I'll be honest, I've extensively fantasized about a lot of the scenarios that Mistress touched on here. But actually experiencing them first hand left me a little nauseous.`
     }
   ]
 }
