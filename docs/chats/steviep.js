@@ -659,7 +659,8 @@ const StevieMessages = {
 
 
   ...diatribe('wrappingUp', [
-    `anyhow, i've got shit to do`,
+    `anyhow, i've got shit to do so i'll talk to you later`,
+    `'oh yeah`,
     `i suppose you want an nft or something for helping me out though, right?`
   ], {
     responseHandler: (ur, ctx) => isYes(ur) ? 'nftYes' : 'nftNo'
@@ -670,24 +671,24 @@ const StevieMessages = {
     `it sort of goes against the spirit of the project, you know?`,
   ], {
     followUp: fu('nftContinued')
-  },
+  }),
 
   ...diatribe('nftNo', [
     `yeah, I hear you. I also feel kind of conflicted about it`,
     `it kind of goes against the spirit of the project, right?`,
   ], {
     followUp: fu('nftContinued')
-  },
+  }),
 
   ...diatribe('nftContinued', [
-    `on one hand, if i sell it to you then it kind of misses the point. I don't think either of us want an equal economic transaction here`,
-    `to get the real, authentic finsub experience you need to unconditionally give me money, ideally in an humiliating way`,
-    `isn't just straight up giving me the money enough?`,
-    `if you're expecting something in return, then it just sort of negates the whole thing`,
-    `on the other hand, I can't just give it to you for free, can I?`,
+    'just giving it to you for free',
     `we both know that you're probably going to sell it eventually, so that would be like if I jsut gave you free money`,
     `and let's be real, that's not gonna happen lol`,
-    `besides, not all art needs to be a speculative investment vehicle`,
+    `on the other hand, selling it to you doesn't make much sense either. I don't think either of us want an equal exchange of value here`,
+    `to get the real, authentic finsub experience you need to unconditionally give me money, ideally in an humiliating way`,
+    `straight up giving me should be enough for you, right?`,
+    `if you're expecting something in return, then it just sort of negates the whole thing`,
+    `besides, not all art needs to be a speculative investment vehicle for you`,
     `what right do you have to turn my art into a casino chip?`,
     `oh, actually...`,
     `I have an idea. we can have a little fun with this 😈`,
@@ -698,7 +699,7 @@ const StevieMessages = {
     `but if I win...`,
     `then I get 1 ETH of your money`,
     `let me explain`,
-    `I have a smart contract deployed that will let you insert 1 ETH. no more, no less. you can pull it out whenever you want. after all, it's your money. and if you leave it in the contract for at least an hour, then you'll get an NFT when you pull out. But here's the catch: if I see that 1 ETH inside my contract I can take it whenever I want. that 1 ETH belongs to me. no questions asked. end of story.`,
+    `I have a smart contract deployed that will let you insert 1 ETH into it. no more, no less. you can pull it out whenever you want. after all, it's your money. and if you leave it in the contract for at least one hour, then you'll get an NFT when you pull out. But here's the catch: if I see that 1 ETH inside my contract I can take it whenever I want. that 1 ETH belongs to me. no questions asked. end of story.`,
     `and if I see and feel your 1 ETH deep inside my contract, you better believe i'm going to take it. I don't care who you are or how much you beg. once it's in my wallet it's mine.`,
     `no flashbots on my end. I pinky swear. and I expect the same from you. we're running these transactions raw. no protection.`,
     `what do you think? do you want to put your 1 ETH in my contract? 😏`
