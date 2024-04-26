@@ -86,7 +86,7 @@ contract KatFischer is FinDom {
 }
 
 contract SamanthaJones is FinDom {
-  constructor(address fs) FinDom(2, 0.06 ether, 'SamanthaJones', fs) {}
+  constructor(address fs) FinDom(2, 0.04 ether, 'SamanthaJones', fs) {}
 }
 
 contract VinceSlickson is FinDom {
@@ -149,7 +149,7 @@ contract StevieP is FinDom {
     sexyGame = new SexyGame(msg.sender);
   }
 
-  function mint(address to) {
+  function mint(address to) external {
     require(msg.sender == address(sexyGame), 'Only the sexy game contract can mint');
     _mint(to);
   }
@@ -169,7 +169,7 @@ contract SexyGame is Ownable {
 
   constructor(address _owner) {
     transferOwnership(_owner);
-    steviep = StevieP(msg.sender);
+    steviep = StevieP(payable(msg.sender));
   }
 
   function insert() external payable {

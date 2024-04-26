@@ -1,11 +1,11 @@
-import { isYes, isNo, isGreeting, isMean, responseParser, createEvent, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, responseParser, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch} from '../state/profile.js'
 import {fromWei} from '../eth.js'
 
 
 
 
-const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
+const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 
 
@@ -99,6 +99,7 @@ function generateRemainingBalanceText(ctx, ignoreAlreadyAudited) {
     CASH,
     FastCash,
     TenEth,
+    ETF,
   } = ctx.state.steviepBalances
 
   let balanceText = []
@@ -112,6 +113,7 @@ function generateRemainingBalanceText(ctx, ignoreAlreadyAudited) {
   const ignoreCASH = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.CASH)
   const ignoreTenEth = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.TenEth)
   const ignoreFastCash = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.FastCash)
+  const ignoreETF = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.ETF)
 
   if (!ignoreFIM && FIM) balanceText.push(`Fake Internet Money: ${FIM}`)
   if (!ignoreUFIM && UFIM) balanceText.push(`Uncirculated Fake Internet Money: ${UFIM}`)
@@ -121,7 +123,8 @@ function generateRemainingBalanceText(ctx, ignoreAlreadyAudited) {
   if (!ignoreMMO && MMO) balanceText.push(`Money Making Opportunity: ${MMO}`)
   if (!ignoreCASH && CASH) balanceText.push(`Cold Hard Cash: ${CASH}`)
   if (!ignoreTenEth && TenEth) balanceText.push(`10 ETH Giveaway: ${TenEth}`)
-  if (!ignoreFastCash && FastCash) balanceText.push(`FastCash: ${FastCash % 1 ? FastCash : FastCash.toFixed(2)}`)
+  if (!ignoreFastCash && FastCash) balanceText.push(`FastCash: ${FastCash.toFixed(2)}`)
+  if (!ignoreETF && ETF) balanceText.push(`ETF: ${ETF.toFixed(2)}`)
 
   return balanceText.length ? `<br><code>${balanceText.join('<br>')}</code>` : ''
 }
@@ -129,26 +132,30 @@ function generateRemainingBalanceText(ctx, ignoreAlreadyAudited) {
 
 function steviepAssetResponseHandler(ur, ctx) {
   const cleanedUr = responseParser(ur)
-  const isMatch = phrases => phrases.some(x => cleanedUr.includes(x))
+  const _isMatch = phrases => phrases.some(x => cleanedUr.includes(x))
 
-  if (isMatch(['uncirculated', 'ufim'])) {
+  if (_isMatch(['skip', 'relent', 'max penalty', 'maximum penalty'])) {
+    return 'maxPenaltyConfirm'
+  } else if (_isMatch(['uncirculated', 'ufim'])) {
     return 'ufimAudit'
-  } else if (isMatch(['fake', 'internet', 'fim'])) {
+  } else if (_isMatch(['fake', 'internet', 'fim'])) {
     return 'fimAudit'
-  } else if (isMatch(['iou'])) {
+  } else if (_isMatch(['iou'])) {
     return 'iouAudit'
-  } else if (isMatch(['negative', 'value', 'cert', 'nvc'])) {
+  } else if (_isMatch(['negative', 'value', 'cert', 'nvc'])) {
     return 'nvcAudit'
-  } else if (isMatch(['instructions', 'ifd', 'plottables', 'flex'])) {
+  } else if (_isMatch(['instructions', 'ifd', 'plottables', 'flex'])) {
     return 'ifdAudit'
-  } else if (isMatch(['making', 'opportunity', 'mmo'])) {
+  } else if (_isMatch(['making', 'opportunity', 'mmo'])) {
     return 'mmoAudit'
-  } else if (isMatch(['fastcash', 'fast'])) {
+  } else if (_isMatch(['fastcash', 'fast'])) {
     return 'fastCashAudit'
-  } else if (isMatch(['cold', 'hard', 'cash', 'chc',])) {
+  } else if (_isMatch(['cold', 'hard', 'cash', 'chc',])) {
     return 'cashAudit'
-  } else if (isMatch(['ten', '10', 'eth', 'giveaway'])) {
+  } else if (_isMatch(['ten', '10', 'eth', 'giveaway'])) {
     return 'tenEthAudit'
+  } else if (_isMatch(['etf', 'exchange', 'traded', 'fund'])) {
+    return 'etfAudit'
   } else {
     return 'confusedAudit'
   }
@@ -200,7 +207,8 @@ const SamanthaMessages = {
       ctx.state.messagedFirst = true
 
       const isConnected = await provider.isConnected()
-      if (isConnected) return 'pleaseHold'
+      if (isConnected && ctx.state.rounds > 0) return 'instructions'
+      else if (isConnected) return 'pleaseHold'
       else if (!window.ethereum) return 'onlyWeb3'
       else return 'onlyConnected'
     }
@@ -269,6 +277,7 @@ const SamanthaMessages = {
         CASH: 0,
         FastCash: 0,
         TenEth: 0,
+        ETF: 0
       }
       if (isYes(ur)) {
         return 'good'
@@ -351,7 +360,7 @@ const SamanthaMessages = {
   },
 
   instructions: {
-    messageText: `Follow my instructions as closely as possible, or else there will be severe consequences. We have a strict protocol to adhere to.`,
+    messageText: `Follow my instructions as closely as possible, and everything will be alright. If you don't, there will be severe consequences. We have a strict protocol to adhere to.`,
     followUp: fu('proceed')
   },
 
@@ -425,6 +434,8 @@ const SamanthaMessages = {
             CASHBalance,
             FastCashBalance,
             TenEthBalance,
+            ETFBalance,
+            KYCTokenId
           ] = await Promise.all([
             contracts.UFIM.balanceOf(addr),
             contracts.IOU.balanceOf(addr),
@@ -434,7 +445,18 @@ const SamanthaMessages = {
             contracts.CASH.balanceOf(addr),
             contracts.FastCash.balanceOf(addr),
             contracts.TenEth.balanceOf(addr),
+            contracts.ETF.balanceOf(addr),
+            contracts.KYC.addrToTokenId(addr),
           ])
+
+          try {
+            if (Number(KYCTokenId) > 0 && !ctx.state.kycName) {
+              const KYCInfo = await contracts.KYC.kycInfo(KYCTokenId)
+              ctx.state.kycName = `${KYCInfo.firstName} ${KYCInfo.lastName}`
+            }
+          } catch (e) {
+            console.log(e)
+          }
 
 
           ctx.state.FIMTokens = FIMTokens
@@ -448,12 +470,13 @@ const SamanthaMessages = {
           ctx.state.steviepBalances.CASH += Number(CASHBalance)
           ctx.state.steviepBalances.TenEth += Number(TenEthBalance)
           ctx.state.steviepBalances.FastCash += fromWei(FastCashBalance)
+          ctx.state.steviepBalances.ETF += fromWei(ETFBalance)
 
           ctx.state.auditsRemaining = Object.assign({}, ctx.state.steviepBalances)
         }
 
 
-        return { messageCode: 'addressesContinue1', waitMs: 3000 }
+        return { messageCode: 'addressesContinue0', waitMs: 3000 }
 
 
       } catch (e) {
@@ -470,6 +493,10 @@ const SamanthaMessages = {
     responseHandler: 'veryWell'
   },
 
+  addressesContinue0: {
+    messageText: (ur, ctx) => `Okay, ${getUserData('name')}. ${ctx.state.kycName ? `Or is it ${ctx.state.kycName}, based on your registered KYC information?` : ''}`,
+    followUp: fu('addressesContinue1')
+  },
   addressesContinue1: {
     async messageText(ur, ctx, contract, provider) {
       const signer = ctx.global.connectedAddr
@@ -576,6 +603,7 @@ const SamanthaMessages = {
         steviepBalances.CASH,
         steviepBalances.FastCash,
         steviepBalances.TenEth,
+        steviepBalances.ETF,
       ].some(x => !!x)
 
 
@@ -602,7 +630,7 @@ const SamanthaMessages = {
   oneByOneReview: {
     messageText: (ur, ctx) => {
       const remainingAuditText = generateRemainingBalanceText(ctx, true)
-      if (remainingAuditText) return `What should we work through next? Here's what we have left: ${remainingAuditText}`
+      if (remainingAuditText) return `What should we work through next? Here's what we have left: ${remainingAuditText} <p>We could also skip some of this if you want to relent and simply pay the maximum penalty, but I wouldn't recommend it.</p>`
       else return `Okay, I think that's all for your suspiscious asset activity. For now, at least. Shall we move on?`
     },
     responseHandler: (ur, ctx) => {
@@ -845,6 +873,7 @@ const SamanthaMessages = {
     responseHandler: ur => {
       if (ur.toLowerCase().includes('good')) return 'fastCashAudit5Good'
       else if (ur.toLowerCase().includes('bad')) return 'fastCashAudit5Bad'
+      else return 'fastCashAudit5Good'
     }
   },
 
@@ -887,12 +916,25 @@ const SamanthaMessages = {
   },
 
 
+  etfAudit: {
+    messageText: `You do realize that shares of this asset do not represent ownership in a 1940 Act Fund. Additionally, I have to wonder if you realize that there are more... straightforward ways of gaining exposure to Ethereum as an asset class. In any case, associating with illegal securities offerings such as this can bear significant consequences. I'll have to escalate this issue.`,
+    followUp(ur, ctx) {
+      ctx.state.auditsRemaining.ETF = 0
+      return fu('oneByOneReview')
+    }
+  },
+
+
   confusedAudit: {
     messageText: `I don't understand. That does not appear to be one of your flagged positions.`,
     responseHandler: steviepAssetResponseHandler
   },
 
 
+  maxPenaltyConfirm: {
+    messageText: `Are you sure you want to opt to pay the maximum penalty? It can be quite... punishing.`,
+    responseHandler: ur => isYes(ur) ? 'maxPenalty' : 'oneByOneReview'
+  },
 
   doesntAddUp: {
     messageText: `Hold on a second, something just doesn't add up here...`,
@@ -944,13 +986,25 @@ const SamanthaMessages = {
     followUp: fu('damage', 10000)
   },
 
-  sendEvent2: createEvent(0.05, {
-    primary: { messageCode: 'feltGood', waitMs: 3000 },
+  sendEvent2: createEvent(0.03, {
+    primary: { messageCode: 'wrappingUp', waitMs: 3000 },
     notEnough: { messageCode: 'wontDo', waitMs: 3000 }
   }),
 
+  maxPenalty: {
+    messageText: `Oh my, I can't believe you've opted to pay the maximum penalty without a proper audit. Normally the foreplay is my favorite part, but this is so <em>fiscally irresponsible</em>. I like it.`,
+    followUp: fu('maxPenalty2')
+  },
+
+  maxPenalty2: {
+    messageText: (ur, ctx) => `The damage comes out to ${ctx.global.premium * 0.03}.You can send to me either through my profile page or the sexy CLIT. To execute the latter, you jsut need to type <code>$sexy send SamanthaJones ${ctx.global.premium * 0.03}</code>. But if you want some more foreplay we can resume our audit ;)`,
+    event: 'sendEvent2',
+    responseHandler: (ur, ctx) => isMatch(ur, ['foreplay', 'resume', 'audit']) ? 'oneByOneReview' : ''
+  },
+
+
   damage: {
-    messageText: (ur, ctx) => `Alright, I can't take any more foreplay. The damage comes out to ${ctx.global.premium * 0.05}. You can send to me either through the sexy clit or my profile page.`,
+    messageText: (ur, ctx) => `Alright, I can't take any more foreplay. The damage comes out to ${ctx.global.premium * 0.03}. You can send to me either through my profile page or the sexy CLIT. To execute the latter, you just need to type <code>$sexy send SamanthaJones ${ctx.global.premium * 0.03}</code>.`,
     event: 'sendEvent2',
     responseHandler: 'penaltiesNow'
   },
@@ -969,32 +1023,27 @@ const SamanthaMessages = {
   },
 
   wontDo: {
-    messageText: (ur, ctx) => `Don't be a tease. Send me ${ctx.global.premium * 0.05} ETH or you could go to jail for a long, <em>long</em> time.`,
+    messageText: (ur, ctx) => `Don't be a tease. Send me ${ctx.global.premium * 0.03} ETH or you could go to jail for a long, <em>long</em> time.`,
     event: 'sendEvent2',
     responseHandler: 'damage'
   },
 
-  feltGood: {
-    messageText: `Ooooh, wow. That felt good. I really needed that. I've been incredibly wound up lately.`,
-    followUp: fu('beenFun')
-  },
-
-  beenFun: {
-    messageText: `This has been fun. I sent something to your wallet. Hopefully it will give you a little motivation to keep your taxes in good standing.`,
-    followUp: fu('keepInTouch')
-  },
-
-  keepInTouch: {
-    messageText: `If you ever need another audit, don't hesitate to get in touch.`,
+  ...diatribe('wrappingUp', [
+    `Ooooh, wow. That felt good. I really needed that. I've been incredibly wound up lately.`,
+    `You have no idea how much I love spreading apart your little financial butt cheeks and probing around deep inside your wallet.`,
+    `You can learn a lot about someone from looking through their transactions.`,
+    `And it's all out in the open, too. You must get pretty turned on with so many people watching you do your business in public. I know I do.`,
+    (ur, ctx, contract) => `If you ever want to take a look at me, you can see all my activity here: <a target="_blank" rel="nofollow" href="https://etherscan.io/address/${contract.address}">${contract.address}</a>.`,
+    `Just knowing that you might be watching makes every one of my transactions so much more erotic.`,
+    `Anyhow, I have a lot more work to catch up on before EOD. This was fun though. I sent something to your wallet. Hopefully it will give you a little motivation to keep your taxes in poor standing.`,
+    `If you ever need another audit, don't hesitate to get in touch.`,
+  ], {
     responseHandler: (ur, ctx) => {
       ctx.state.rounds += 1
       return 'helpYou'
     }
-  },
+  }),
 }
-
-
-// TODO: sign a contract?
 
 
 
@@ -1007,36 +1056,3 @@ export const SamanthaChat = new MessageHandler(SamanthaProfile, SamanthaMessages
 
 
 
-
-/*
-
-
-
-I'll be quite honest, name. Things aren't looking good for you.
-At best you're looking at substantial penalties, and at worst you're looking at quite a bit of jail time.
-
-I can make this all go away for you. For a small fee, of course
-
-
-
-
-
-throws shade at vince slickson
-
-
-
-
-Okay. Oof. I see a few problems right off the bat. Has this man (link to CPA) ever prepared your taxes?
-  No: are you sure?
-  Yes: that figures.
-
-I see you have some fastcash
-That being said, browsing your transactions gets me so hot. So many... incongruities.
-I just need the private key to your wallet to run something through our system.
-Don't be such a prude. It's not like I haven't seen a private key before. Are you afraid I'll think it's too small? Lol
-
-
-
-
-
-*/

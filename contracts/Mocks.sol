@@ -22,6 +22,12 @@ contract FastCashMock {
   }
 }
 
+contract ETFMock {
+  function balanceOf(address owner) external view returns (uint256 balance) {
+    return 1;
+  }
+}
+
 
 contract UFIMMock {
   function balanceOf(address owner) external view returns (uint256 balance) {
@@ -63,5 +69,22 @@ contract CASHMock {
 contract TenETHMock {
   function balanceOf(address owner) external view returns (uint256 balance) {
     return 1;
+  }
+}
+
+contract KYCMock {
+
+  struct KYCInfo {
+    string firstName;
+    string lastName;
+    address addr;
+  }
+
+  function addrToTokenId(address owner) external view returns (uint256 tokenId) {
+    return 1;
+  }
+
+  function kycInfo(uint256 tokenId) external view returns (KYCInfo memory) {
+    return KYCInfo('Steven', 'Pikelny', msg.sender);
   }
 }

@@ -23,15 +23,17 @@ window.fromWei = fromWei
 
 export const STEVIEP_CONTRACTS = {
   local: {
-    AB: '0xcb0A9835CDf63c84FE80Fcc59d91d7505871c98B',
-    FastCash: '0xFD296cCDB97C605bfdE514e9810eA05f421DEBc2',
-    UFIM: '0x8b9d5A75328b5F3167b04B42AD00092E7d6c485c',
-    IOU: '0x9BcA065E19b6d630032b53A8757fB093CbEAfC1d',
-    NVC: '0xd8A9159c111D0597AD1b475b8d7e5A217a1d1d05',
-    IFD: '0xCdb63c58b907e76872474A0597C5252eDC97c883',
-    MMO: '0x15BB2cc3Ea43ab2658F7AaecEb78A9d3769BE3cb',
-    CASH: '0xa4d0806d597146df93796A38435ABB2a3cb96677',
-    TenEth: '0xAE246E208ea35B3F23dE72b697D47044FC594D5F',
+    AB: '0xf93b0549cD50c849D792f0eAE94A598fA77C7718',
+    FastCash: '0x8CeA85eC7f3D314c4d144e34F2206C8Ac0bbadA1',
+    UFIM: '0x29023DE63D7075B4cC2CE30B55f050f9c67548d4',
+    IOU: '0xCA87833e830652C2ab07E1e03eBa4F2c246D3b58',
+    NVC: '0x9Bb65b12162a51413272d10399282E730822Df44',
+    IFD: '0x7A5EC257391817ef241ef8451642cC6b222d4f8C',
+    MMO: '0x90E75f390332356426B60FB440DF23f860F6A113',
+    CASH: '0x59c7D03d2E9893FB7bAa89dA50a9452e1e9B8b90',
+    TenEth: '0x834Ea01e45F9b5365314358159d92d134d89feEb',
+    ETF: '0x0dEe24C99e8dF7f0E058F4F48f228CC07DB704Fc',
+    KYC: '0xFcCa971FE9Ee20C1Cf22596E700aA993D8fD19c5',
   },
   goerli: {
 
@@ -46,22 +48,24 @@ export const STEVIEP_CONTRACTS = {
     MMO: '0x41d3d86a84c8507A7Bc14F2491ec4d188FA944E7',
     CASH: '0x6DEa3f6f1bf5ce6606054BaabF5452726Fe4dEA1',
     TenEth: '0x13bBBEfE251c94467D183821b663Ef0bD0a8A722',
+    ETF: '0x7102653225D537e2FE703723ad83edFeb606396e',
+    KYC: '0x0BB72cE0cFE446DD89129B4335e29c0fbbE0c93C',
   }
 }
 
 export const DOM_CONTRACTS = {
   local: {
-    heatherHot: '0x084815D1330eCC3eF94193a19Ec222C0C73dFf2d',
-    katFischer: '0x02e8910B3B89690d4aeC9fcC0Ae2cD16fB6A4828',
-    SamanthaJones: '0x9abb5861e3a1eDF19C51F8Ac74A81782e94F8FdC',
-    VinceSlickson: '0x9DBb24B10502aD166c198Dbeb5AB54d2d13AfcFd',
-    CrystalGoddess: '0xEb0fCBB68Ca7Ba175Dc1D3dABFD618e7a3F582F6',
-    DrAndy: '0x8B342f4Ddcc71Af65e4D2dA9CD00cc0E945cFD12',
-    DungeonMistress: '0xD28F3246f047Efd4059B24FA1fa587eD9fa3e77F',
-    '0x000000000000000000000000000000000': '0x0B32a3F8f5b7E5d315b9E52E640a49A89d89c820',
-    QueenJessica: '0x519b05b3655F4b89731B677d64CEcf761f4076f6',
-    steviep: '0xb6057e08a11da09a998985874FE2119e98dB3D5D',
-    Hedonitronica: '0x31403b1e52051883f2Ce1B1b4C89f36034e1221D',
+    heatherHot: '0xCC5Bc84C3FDbcF262AaDD9F76652D6784293dD9e',
+    katFischer: '0x273c507D8E21cDE039491B14647Fe9278D88e91D',
+    SamanthaJones: '0x8Aed6FE10dF3d6d981B101496C9c7245AE65cAEc',
+    VinceSlickson: '0x10537D7bD661C9c34F547b38EC662D6FD482Ae95',
+    CrystalGoddess: '0xfb6dAB6200b8958C2655C3747708F82243d3F32E',
+    DrAndy: '0xabebE9a2D62Af9a89E86EB208b51321e748640C3',
+    DungeonMistress: '0xbc71F5687CFD36f64Ae6B4549186EE3A6eE259a4',
+    '0x000000000000000000000000000000000': '0x28227B230d3945e580eD3B1c6c8ea1df658A7AA9',
+    QueenJessica: '0x41219a0a9C0b86ED81933c788a6B63Dfef8f17eE',
+    steviep: '0xF67e26649037695DdFAB19f4E22d5c9Fd1564592',
+    Hedonitronica: '0x6431AF84d34F0522cAA58b221d94A150B5AdAC69',
   },
   goerli: {},
   mainnet: {},
@@ -228,6 +232,11 @@ export class Web3Provider {
       'function tokensOfOwner(address owner) external view returns (uint256[])'
     ]
 
+    const KYCABI = [
+      'function addrToTokenId(address owner) external view returns (uint256 tokenId)',
+      `function kycInfo(uint256 tokenId) external view returns (string firstName, string lastName, address addr)`,
+    ]
+
 
     const CONTRACTS = STEVIEP_CONTRACTS[networkName]
 
@@ -241,6 +250,8 @@ export class Web3Provider {
       CASH: this.rawContract(CONTRACTS.CASH, erc721ABI).connect(signer),
       FastCash: this.rawContract(CONTRACTS.FastCash, erc20ABI).connect(signer),
       TenEth: this.rawContract(CONTRACTS.TenEth, erc721ABI).connect(signer),
+      ETF: this.rawContract(CONTRACTS.ETF, erc20ABI).connect(signer),
+      KYC: this.rawContract(CONTRACTS.KYC, KYCABI).connect(signer),
     }
   }
 

@@ -34,6 +34,8 @@ async function main() {
     'CASHMock',
     'TenETHMock',
     'FinSexy',
+    'ETFMock',
+    'KYCMock',
   ]
 
   for (let i = 0; i < contracts.length; i++) {
