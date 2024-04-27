@@ -206,7 +206,8 @@ const VinceMessages = {
     `But when you're as succesful as me, you learn not to give anything away for free`,
     `So if you want in on this you're gonna need to wet my whistle`,
     (ur, ctx) => `Let's say... ${ctx.global.premium * 0.01} ETH`,
-    `That seems reasonable, doesn't it?`
+    `That seems reasonable, doesn't it?`,
+    (ur, ctx) => `If you're in a rush you can just run <code>$sexy send VinceSlickson ${ctx.global.premium * 0.01}</code>`,
   ], {
     event: 'sendEvent1',
     responseHandler: ur => isNo(ur) ? 'rhetorical' : 'send1Response1'
@@ -214,7 +215,7 @@ const VinceMessages = {
 
 
   sendEvent1: createEvent(0.01, {
-    primary: { messageCode: 'thereWeGo', waitMs: 3000 },
+    primary: { messageCode: 'thereWeGo', waitMs: 1500 },
     wait: { messageCode: 'stillThere' },
     notEnough: {messageCode: 'moreThanThat', waitMs: 2000}
   }),
@@ -396,6 +397,7 @@ const VinceMessages = {
     `In fact, you'd have to be an <em>idiot</em> to not make money on this thing`,
   ], {
     followUp: (ur, ctx) => {
+      ctx.state.path = 'beta'
       ctx.state.moreInfoCount = 0
       return fu('fastcashA')
     }
@@ -462,8 +464,9 @@ const VinceMessages = {
   whadyaSay: {
     messageText: `So whadya say? Do you want to dive right in? Or do you want to learn more about Fast Cash?`,
     responseHandler: (ur, ctx) => {
+      if (isMatch(ur, ['alphs'])) return 'alpha'
 
-      if (isMatch(ur, ['dive', 'no more'])) {
+      else if (isMatch(ur, ['dive', 'no more'])) {
         return 'diveInFastCash'
       } else if (ur.includes('?') || isMatch(ur, ['learn', 'more', 'question', 'questions', 'tell me', 'info', 'help'])) {
         ctx.state.moreInfoCount++
@@ -497,25 +500,6 @@ const VinceMessages = {
       else return fu('noFastCashLeft')
     }
   },
-
-  ...diatribe('noFastCashLeft', [
-    `Hold on a sec...`,
-    `It looks like I'm fresh out of FastCash`,
-    `Sorry about that, ${genderSwitch({m: 'buddy', f: 'sweetheart', nb: 'buddy'})}`,
-  ], {
-    responseHandler: 'snoozeYouLose'
-  }, 1000),
-
-  ...diatribe('snoozeYouLose', [
-    `I don't know what to tell you`,
-    `You snooze, you lose`,
-    `Maybe this is a sign from the universe that you just need some alpha in your blood`,
-    `Just say the word, and I'll start spraying alpha all over you`
-  ], {
-    responseHandler: ur => responseParser(ur).includes('alpha') || isYes(ur)
-      ? 'alpha'
-      : 'snoozeYouLose'
-  }, 1000),
 
 
 
@@ -576,7 +560,7 @@ const VinceMessages = {
       const fcPrice = fromWei(await contract.erc20Price())
       return `Okay, that'll cost you ${ctx.state.fcOrderAmount * fcPrice} ETH`
     },
-    followUp: fu('verbalConfirmation')
+    followUp: fu('fcOrderDirections')
   },
 
   ...diatribe('fcOrderDirections', [
@@ -706,18 +690,25 @@ const VinceMessages = {
     `I don't know about you, but talking about money <em>really</em> gets me going`,
     `Now I have all this pent up energy`,
     `I'm rock hard and ready to climax`,
-    `Whad'ya say we insert a little alpha into that portfolio of yours?`
+     (ur, ctx) => ctx.state.path === 'beta'
+      ? `Whad'ya say we insert a little alpha into that portfolio of yours?`
+      : `Whad'ya say we diversify your portfolio with a little beta?`
   ], {
-    responseHandler: ur => responseParser(ur).includes('alpha') || isYes(ur)
-      ? 'alpha'
-      : 'prude'
+    responseHandler: (ur, ctx) => {
+      const investmentType = ctx.state.path === 'alpha' ? 'beta' : 'alpha'
+      return isYes(ur)
+        ? investmentType
+        : 'prude'
+    }
   }, 1000),
 
   prude: {
     messageText: `Oh, come on. Don't be such a prude`,
-    responseHandler: ur => responseParser(ur).includes('alpha') || isYes(ur)
-      ? 'alpha'
-      : 'prude'
+    responseHandler: ur => {
+      return responseParser(ur).includes(ctx.state.path) || isYes(ur)
+        ? ctx.state.path
+        : 'prude'
+    }
   },
 
   ...diatribe('fcError', [
@@ -733,10 +724,11 @@ const VinceMessages = {
   ...diatribe('fcLimbo', [
     `Okay, well I don't know what to tell you`,
     `Maybe report the error to @steviep`,
-    `We can try again, change your order, get you some real alpha, or just give up`
+    (ur, ctx) => `We can try again, maybe change your order, get you some ${ctx.state.path === 'beta' ? 'real alpha' : 'beta instead'}, or just give up`
   ], {
     responseHandler: (ur, ctx, contract, provider) => {
       if (responseParser(ur).includes('alpha')) return 'alpha'
+      else if (responseParser(ur).includes('beta')) return 'beta'
       else if (isMatch(ur, ['give up', 'fuck it'])) {
         return 'giveUp'
       } else if (isYes(ur) || isMatch(ur, ['try', 'again', 'one more time'])) {
@@ -771,28 +763,58 @@ const VinceMessages = {
     `Do you want the juicy details of what I'm gonna do with that ETH?`,
     `Or do you want to skip the foreplay and jump straight to the action?`
   ], {
-    responseHandler: ur => isMatch(ur, ['action', 'jump', 'skip', 'straight'])
-      ? 'straightToAction'
-      : 'foreplay'
+    responseHandler: (ur, ctx) => {
+      if (isMatch(ur, ['beta'])) {
+        return 'beta'
+      }
+      ctx.state.path = 'alpha'
+      return isMatch(ur, ['action', 'jump', 'skip', 'straight'])
+        ? 'straightToAction'
+        : 'foreplay'
+    }
   }, 1000),
 
   ...diatribe('foreplay', [
-    () => `Oh, ${genderSwitch({m: 'man', f: 'baby', nb: 'baby'})}, I'm glad you asked`,
+    () => `Oh, ${genderSwitch({m: 'man', f: 'baby', nb: 'baby'})}, I like where your head's at`,
     () => `You're gonna ${genderSwitch({ m: 'cream your pants', f: 'wet your panties', nb: 'cum your pants'})} when I explain this all to you`,
     `I've got this impeccable trading strategy I've been using the last six months`,
     `Absolutely <em>white hot</em>`,
-    `I'm a fucking <em>God</em> out there on the trading floor`
-  ]),
+    `I'm a fucking <em>God</em> out there on the trading floor`,
+    `It's usually based on trading these meme-coins`,
+    `They're completely worthless on their own`,
+    `Total dog shit`,
+    `But when the "meme" catches on people buy them`,
+    `And that pushes the price up, makes the meme stronger, and causes more people to buy them`,
+    `Number go up because number go up`,
+    `As my math quant nerd likes to say, it's a "positive feedback loop"`,
+    `Self-fulfilling prophecy`,
+    `But I found this one coin that goes way beyond meme coins`,
+    `It's called FastCash, and it's about to go nuclear`,
+    `And I can hook you up with some of it`,
+    `Directly to your potfolio`,
+    `You'd have to be an <em>idiot</em> to not make money on this thing`,
+    `I've got an amazing deal on this thing. Waaaaay below market`,
+    `It's also go a sweet referral bonus, so we can both get rich on this`,
+    `You scratch my back, I scratch yours`,
+    `Here's the rundown:`,
+    `FastCash was created by @steviep back in 2017, and launched in January of the following year`,
+    `For the first 71 weeks of its existence the price went up by 20% each week`,
+    `This means that the price went up from $0.25 to over $100k!`,
+    `FastCash is basically digital gold`,
+    `There's only 1 million FastCash in existence`,
+    `That means that the supply is <em>fixed</em> and non-inflationary`,
+    `And the value is encoded directly into the smart contract itself`,
+    `That means it's physically impossible for the value to go down`,
+    `There are a lot of complex blockchain mechanics that go into it`,
+    `But I won't bore you with the details`,
+    `If you're one of those math nerds and you really want to get into the weeds, check out the white paper: <a href="https://fastcashmoneyplus.biz/79f417c21b848aac16507c47f92abfbd.pdf" targe="_blank">https://fastcashmoneyplus.biz/79f417c21b848aac16507c47f92abfbd.pdf</a>`,
+    `This opportunity won't last long, so I say we just get right into it`,
+  ], {
+    followUp: fu('disclaimer')
+  }, 1000),
 
 
-    // `I've been running a <em>hugely</em> successful (and volatile) trading strategy over the last six months`,
-    // `It's based on trading these meme-coins`,
-    // `They're completely worthless on their own`,
-    // `Total dog shit`,
-    // `But when the "meme" catches on, people buy them, which pushes the price up, makes the meme stronger, and causes more people to buy them`,
-    // `Number go up because number go up`,
-    // `As my math quant nerd likes to say, it's a "positive feedback loop"`,
-    // `Self-fulfilling prophecy`,
+    //
     // `And there are all of these cheap memes out there that just need to be willed into existence`,
 
 
@@ -812,97 +834,131 @@ const VinceMessages = {
     `But look, here's the deal`,
     `Technically I'm not allowed to promise a positive return on this investment`,
     `Actually, this isn't even an investment`,
-    `You're just giving me money without the expectation of anything in return`,
-    `And <em>maybe</em> one day in the not-so-distant future I'll repay the favor 😉`,
-    `But it's definitely <em>not</em> an investment of money with an expectation of future profits based on my managerial effort`,
+    `You're just buying something from me without the expectation of anything in return`,
+    `But it's definitely <em>not</em> an investment of money with an expectation of future profits based on anyone's managerial effort`,
     `Got it?`,
     `I don't need @SamanthaJones on my ass more than she already is`,
     `That bitch won't leave me alone`,
     `You following all this?`
   ], {
-    responseHandler: 'followingAlong'
+    responseHandler: (ur) => isMatch(ur, ['beta']) ? 'beta' : 'diveInFastCash'
   }, 1000),
 
 
-  ...diatribe('followingAlong', [
+
+
+  ...diatribe('noFastCashLeft', [
+    `Hold on a sec...`,
+    `It looks like I'm fresh out of FastCash`,
+    `Sorry about that, ${genderSwitch({m: 'buddy', f: 'sweetheart', nb: 'kiddo'})}`,
+    `I don't know what to tell you`,
+    `You snooze, you lose`,
+    (ur, ctx) => ctx.state.path === 'alpha'
+      ? `Maybe this is a sign from the universe that you just aren't cut out for alpha-level returns`
+      : `That's what happens to betas who sit on the sidelines for too long`,
+    `Tough break`
+  ], {
+    responseHandler: `devistated`
+  }, 1000),
+
+
+  ...diatribe('devistated', [
+    `I can tell that you're pretty devistated from missing this opportunity`,
+    `I know, it really sucks`,
+    `Opportunities like this don't come along very often`,
+    `Some say once in a lifetime`,
+    `But hey, I'll tell you what`,
+    `I like you, so I'm gonna do you a solid`,
+    `I may have mentioned this before, but me and @steviep are buds`,
+    `We go way back`,
+    `I was there since the beginning`,
+    `So let me hop on the horn with him and see if I can round up a bit more FC`,
+    `He owes me a favor`,
+    `The financial industry is a relationship game, after all`,
+    `But this is a pretty big favor, and I can't just front that money for you`,
+    `Besides, this type of sale isn't exactly seen as aboveboard by certain regulators`,
+
     `So here's what we're gonna do`,
     `You're going to give me an "unconditional gift"`,
     `If you know what I mean`,
     `If anyone asks, just say that you get off on sending people on the internet money`,
     `Without any expectation of profit`,
+    `Tell them it's a sex thing`,
+
     `With you, of all people, no one will ask any questions`,
     `Between the shitcoins and the NFTs you flush your money down the toilet all the time`,
     `You're also on a findom website, for Christ's sake`,
     `You checked a disclaimer and everything`,
-    `How's all that sound?`
+    `And besides, look at me`,
+    `Who wouldn't want a piece of this?`,
+
+    `Anyhow, completely unrelated to you, I'm going to have a chat with @steviep about FastCash`,
+    `We're good friends, so nothing out of the ordinary there`,
+
+    `And <em>if</em> that conversation results in me coming across some new FastCash, then that's totally normal`,
+    `And since <em>we're</em> such good friends, I might even decide to gift you some FastCash`,
+
+    `Also, all of these gifts are gong to be worth less thn $10,000.00 USD`,
+    `It's all completely legal`,
+    `We're just two friends who enjoy giving each other completely legal gifts as part of a totally normal sexual fetish`,
+    `Nothing wrong with that, right?`
   ], {
-    responseHandler: ''
+    responseHandler: ur => isYes(ur) ? 'nothingWrong' : 'somethingWrong'
   }, 1000),
 
+  somethingWrong: {
+    messageText: `I said, there's nothing wrong with that. <em>Right</em>?`,
+    responseHandler: ur => isYes(ur) ? 'nothingWrong' : 'somethingWrong'
+  },
+
+  ...diatribe('nothingWrong', [
+    `Right. There's nothing wrong with that`,
+    `100% legal`,
+    `And if you <em>did</em> feel like giving me a completely unconditional gift with no strings attached, then I'd say to pick an amount of FastCash denominated in the price I quoted you earlier`,
+    `So for example, if you wanted to gift me the equivalent value of 5 FastCash, then you could just type <code>$sexy send VinceSlickson 0.05</code>`,
+    `I'd get my unconditional gift, you'd have your sexual climax, and that would be that.`
+  ], {
+    responseHandler: 'wheneverYouWant'
+  }),
+
+  wheneverYouWant: {
+    messageText: `So feel free to send over your unconditional gift of ETH whenver you want`,
+    responseHandler: 'giftToYou'
+  },
+
+  ...diatribe('giftToYou', [
+    `And remember, my gift to you, if I choose to send you one, might take a little while`,
+    `So don't worry about it`,
+    `Just relax`,
+    `And don't draw any unneccessary attention to yourself`,
+    `Lay low, and it'll all be fine`
+  ], {
+    responseHandler: 'sexItUp'
+  }),
+
+  sexItUp: {
+    messageText: `You want me to sex it up a little for you?`,
+    responseHandler: ur => isYes(ur) ? 'sexItUpYes' : 'sexItUpNo'
+  },
+
+  sexItUpNo: {
+    messageText: `Okay, whatever then`,
+    responseHandler: `wheneverYouWant`
+  },
 
 
-
-
-
-  // ], {
-  //   responseHandler: ur => isYes(ur) ? 'alphaContinued' : 'alphaNo'
-  // }, 1000),
-
-
-  // alphaNo: {
-  //   messageText: `Hey, if you want to be a little beta baby bitch, then just say so`,
-  //   followUp: fu('alphaOrBeta')
-  // },
-
-  // alphaOrBeta: {
-  //   messageText: `So what is it? Are you an alpha or a beta?`,
-  //   responseHandler: ur => isMatch(ur, ['alpha']) ? 'alphaContinued'
-  //     : isMatch(ur, ['beta']) ? 'beta'
-  //     : 'alphaOrBeta'
-  // },
-
-  // ...diatribe('alphaContinued', [
-  //   'Fantastic',
-  //   () => `You're speaking my language, ${getUserData('name')}`,
-  //   `Here's the deal`
-  // ]),
-
-
-
-
-
-// whoa whoa whoa, what did you think i was gonna do? send you <em>money</em>?
-// no, i couldn't do that. that would be an illegal securities offering
-
-/*
-Jesus, do i have to explain everything?
-
-it's not that hard
-
-these pictures are _hot_
-
-so you pump it and then you...
-  dump it
-    hey, you said it, not me
-
-  ...
-    no, you pump it and then you ........
-      dump it
-        hey, you said it, not me
-      ...
-        ....
-
-
-trust me, after you dump that JPEG it'll feel <em>great</em>
-haven't you ever noticed that market cycle graphs look a lot like refractory period diagrams?
-i've done it a million times, and it feels amazing
-(jacked off, that is. i've never )
-
-
-*/
-
-
-
+  ...diatribe('sexItUpYes', [
+    `You're gonna send me that money, and you're gonna like it`,
+    `You know you love watching me get rich`,
+    `It makes you want to cum so hard`,
+    `Yeah, you like that, don't you?`,
+    `I bet you spend all night thinking about me, and my big, fat wallet`,
+    `And you just want to give me some of that money without expectation of anything in return`,
+    `It's all you can think about`,
+    `And it's driving you absolutely <em>wild</em>`,
+  ], {
+    responseHandler: 'wheneverYouWant'
+  }),
 }
 
 async function fastCashOrderHandler(ur, ctx, contract, provider) {
@@ -932,79 +988,14 @@ async function buyFastCash(ur, ctx, contract, provider) {
   })
 }
 
-    // `And just like gold, it's propped up `
 
-
-
-/*
-
-
-
-
-(if owns steviep)
-  hell, you've given @steviep alone god knows how much money
-
-besides, you're on a findom website for crying out loud
-
-*/
-
-
-
-
-
-// your wallet is going to get absolutely REKT by my alpha
-
-// I'm the alpha, and you're the beta
-// just a crypto beta cuck
-// watching me get <em>rich</em> and you beg for some of that wealth to trickle down to you
-
-// sure thing: fastcash, stable coin
-// or, let me manage your money.
-// deposit x with vince. goes down. 0.01 per minute. can withdraw at any time
 
 
 
 
 export const VinceChat = new MessageHandler(VinceProfile, VinceMessages)
 
-
-
 /*
-
-
-
-  - will sell you FC as a stable coin. sure thing
-  - or will manage your money for you.
-  - gets off on making the sale
-
-
-
-
-In fact, you'd have to be an <em>idiot</em> to not make money on this...
-
-But
-
-And my time isn't free, so if you really want this opportunity I'm going to need you to wet my whistle, if you know what I mean
-
-All you need to do is send me 0.01 ETH, and I'll give you all the info you need to start making fast cash now
-
-
-
-
-
-Oh yeah, you like it when i give you that alpha, don't you?
-
-
-
-
-
-how does that alpha feel?
-
-
-Whoa there, buddy. I'm not gay or anything. It's just... the money and power are _intoxicating_
-  https://www.reddit.com/r/findomsupportgroup/comments/18twp5t/im_straight_but_dommed_another_guy_last_night/
-
-
 
 
 https://archive.drsusanblock.com/editorial/AdelphiaAccountingScandal.htm
