@@ -30,6 +30,9 @@ export const KatProfile = {
   description: `I'm just doing my job`,
   testimonials: [
     {
+      review: `I got my wallet drained within 30 minutes of talking to this dom, along with my balls`
+    },
+    {
       name:'0x72f...daF',
       review: `I don't trust Kat. She just messaged me out of the blue and thought I was someone else. This seems like a scam`
     }

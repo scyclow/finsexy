@@ -186,6 +186,13 @@ const negatives = [
   'not great',
   'not good',
   'not too good',
+  'depression',
+  'anxious',
+  'anxiety',
+  'anhedonic',
+  'anhedonia',
+  'nauseous',
+  'nausea',
 ]
 
 const meanResponses = [

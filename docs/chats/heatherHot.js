@@ -100,7 +100,7 @@ export const HeatherHotProfile = {
     },
     {
       name: '0x2',
-      review: `Heather was really helpful in giving me a lay of the land. A great way to start my findom journey`,
+      review: `Heather was really helpful in giving me a lay of the land. A great way to start my findom journey.`,
     },
     {
       name: '0x3',
@@ -108,6 +108,13 @@ export const HeatherHotProfile = {
     },
     {
       review: `FinSexy sure isn't like other dating apps! No more radio silence! I don't think I've ever gotten this much attention from hot girls! And it's as simple as sending a couple ETH!`
+    },
+
+    {
+      review: `I'm an absolute nervous mess around women. Every time I talk to someone sexy in real life my stomach turns into a knot. Am I saying the right things? Am I doing the right things? Am I attractive enough? Am I smart enough? Am I <em>good</em> enoough? Heather takes all the guesswork out of the equation. She tells me that she likes me for my money, I send her money, and she's happy. End of story. You don't find this sort of communication in IRL relationships. It really take a lot of the guesswork out of things!`
+    },
+    {
+      review: `heatherHot makes me so wet that I might put this fire out 💦🔥`
     },
     {
       name: '0x4',

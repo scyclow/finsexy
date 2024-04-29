@@ -126,6 +126,9 @@ export const sexyCLIT = {
           <h5 style="margin-top: 1.5em">Toggle Message Wait Time</h5>
           <p><code>$sexy dev ignoreWait [bool]</code></p>
 
+          <h5 style="margin-top: 1.5em">List All Conversation Nodes</h5>
+          <p><code>$sexy dev list [dom name]</code></p>
+
           <h5 style="margin-top: 1.5em">GoTo Conversation Node</h5>
           <p><code>$sexy dev node [dom name] [node name]</code></p>
 
@@ -152,6 +155,16 @@ export const sexyCLIT = {
 
       } else if (args[0] === 'clear') {
         clearChat()
+
+        // return cb(`Clearing`)
+
+      } else if (args[0] === 'list') {
+        const [_, chatName] = args
+
+        const nodeNames = Object.keys(MessageHandler.chats[chatName].messages).filter(n => !['START', 'TYPING_SPEED', '__contract', '__precheck'].includes(n))
+
+        cb(nodeNames.map(n => `${n}<br/>`).join(''))
+
 
         // return cb(`Clearing`)
       } else if (args[0] === 'node') {
