@@ -127,10 +127,12 @@ createComponent(
       .message a {
         color: var(--light-link-color);
         text-shadow: 1px 1px 1px var(--dark-color), -1px 0px 3px var(--secondary-color);
+        transition: 200ms;
       }
 
       .message a:hover {
         text-decoration: none;
+        text-shadow: 2px 2px 2px var(--dark-color), -2px 0px 5px var(--secondary-color);
       }
 
       .messageContent img, .messageContent code{

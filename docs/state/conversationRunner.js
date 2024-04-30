@@ -71,6 +71,7 @@ const yeses = [
   'yeah',
   'yea',
   'ya',
+  'yah',
   'y',
   'yup',
   'yep',
@@ -193,6 +194,7 @@ const negatives = [
   'anhedonia',
   'nauseous',
   'nausea',
+  'meh'
 ]
 
 const meanResponses = [

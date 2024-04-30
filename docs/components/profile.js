@@ -191,7 +191,12 @@ createComponent(
 
       #photos {
         border: 1px solid var(--border-color);
-        box-shadow: 0 0 10px #888;
+        box-shadow: 0 0 10px var(--gloss-color);
+        transition: 300ms;
+      }
+
+      #photos:hover {
+        box-shadow: 0 0 15px var(--medium-color);
       }
 
       .actions {
@@ -228,12 +233,17 @@ createComponent(
         height: 80vmin;
         border: 2px solid var(--primary-color);
         box-shadow: 0 0 90px var(--primary-color);
+        border-radius: 5px;
       }
 
 
       #sendModule {
         box-shadow: 0 0 20px var(--dark-green-color);
         border-radius: 5px;
+        transition: 300ms;
+      }
+      #sendModule:hover {
+        box-shadow: 0 0 30px var(--dark-green-color);
       }
       #sendModule * {
         font-size: 1.15em;
@@ -289,7 +299,7 @@ createComponent(
         color: var(--light-color);
         border: 0px solid;
         border-radius: 3px;
-        transition: 150ms;
+        transition: 200ms;
         padding: 0.35em 1em;
         text-decoration: none;
         user-select: none;
@@ -303,6 +313,7 @@ createComponent(
         outline: none;
         background: var(--medium-color);
         border-color: var(--light-color);
+        box-shadow: 0 0 3em #b47aa7;
       }
 
       #sendButton:hover, #sendButton:active, #sendButton:focus {
@@ -528,7 +539,7 @@ createComponent(
       }
 
       .testimonialReview {
-        box-shadow: inset 0 0 10px #777;
+        box-shadow: inset 0 0 10px var(--gloss-color);
         line-height: 1.25;
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;

@@ -161,6 +161,8 @@ export const sexyCLIT = {
       } else if (args[0] === 'list') {
         const [_, chatName] = args
 
+        if (!(chatName in MessageHandler.chats)) return cb(`Invalid chat name: ${chatName}`)
+
         const nodeNames = Object.keys(MessageHandler.chats[chatName].messages).filter(n => !['START', 'TYPING_SPEED', '__contract', '__precheck'].includes(n))
 
         cb(nodeNames.map(n => `${n}<br/>`).join(''))
