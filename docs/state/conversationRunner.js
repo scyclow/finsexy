@@ -59,6 +59,8 @@ const positives = [
   'ok',
   'okay',
   'alright',
+  'better',
+  'improving'
 ]
 
 const negativeNegatives = [

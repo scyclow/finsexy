@@ -7,6 +7,9 @@ TODO
       "Okay, I'm in the casino right now. Just sat down at a slot machine"
       "Oops, I lost."
 
+
+  - if talked to AI, mention relapsing
+
   - incorporate dialogue at bottom
 
   - https://www.tiktok.com/@findomgoddesssj

@@ -243,7 +243,7 @@ createComponent(
         transition: 300ms;
       }
       #sendModule:hover {
-        box-shadow: 0 0 30px var(--dark-green-color);
+        box-shadow: 0 0 30px var(--green-color);
       }
       #sendModule * {
         font-size: 1.15em;

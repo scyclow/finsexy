@@ -1,10 +1,20 @@
 /*
   TODO
 
+  - ending:
+    - charge once more for self help book
+    - show "this dom is unavailable" message when you try to talk to them
+    - comment elaboraitng on conspiracy theory about how @steviep taking @DrAndy away because it got too smart, and he didnt want them curing findom addictions
+    - easter egg where @steviep says something if you mention @DrAndy
 
   - refactor
     - 1st session about money/power dynamics, non sexual financial domination
     - 2nd session about sex
+
+
+
+
+
 
 
 
@@ -103,11 +113,26 @@ export const AndyProfile = {
       review: `Findom is a true addiction. If there's ever a day where I don't send I can feel my spinal cord itch. The walls start closing in on me, and I literally can't breath. But then when I do send it feels amaaaaaaazing. `,
     },
     {
+      review: `mmmmm, yeah doctor. cure me of all my addictions. it woudl be a shame if i relapsed...`
+    },
+    {
       name: '0x1',
       review: `I'd been doing findom for so long that I barely even enjoyed it any more. At a certain point I only did it because I needed it to fall asleep. But DrAndy helped me remember everything I loved about Findom to begin with. Every session with them is a true joy.`,
     },
     {
       review: ` I have this really bad habit where right after waking up I just reach for my phone and immediately start sending money to findoms. For some reason it really screws up my concentration for the rest of the day. Even if I'm not <em>thinking</em> about it, I can still feel the thought there in the background. It's like the abstract idea of it completely hijacks part of my brain and throws off my rhythm. It makes it really hard to get any work done. Anyhow, I was hoping you'd be able to help me out with this? I've heard good things about CBT and have been wanting to try it.`
+    },
+    {
+      review: `CBT is my faaaaaaave`
+    },
+    {
+      review: `One of the big things that came out of my sessions with Andy was the realization that my FinDom addiction was driven largely by the gender roles and expectations placed on me by society. There's all this pressure to be a "real man" and to be a provider for your loved ones. So when it comes to someone like me, who suffers from certain sexual inadequacies, not being able to provide sexually for my lovers is a huge blow. It makes me feel small and helpless. But sending money is another way I can make them happy, and it feels more in my control. All I need to do is click a button or use the very straightforward sexy Command Line Interface Tool, and it makes my lover happy every time. Anyhow, this is generally why I prefer softer doms like @heatherHot. She's really sweet, and makes me feel like a man whenever I send her money. Other paypigs prefer harder doms like @QueenJessica, who is more into humiliation. And that's totally fine! Different strokes for different folks.`
+    },
+    {
+      review: `Wait, I'm confused. Is DrAndy a real robot, or is the dom jsut role-playing a robot?`
+    },
+    {
+      review: `This is fucking bullshit. I've tried everything to cure my findom addiction, and nothing seems to work. And then I finally find an amazing therapist who's empathetic, insightful, and incredibly attractive. But the second they're ready to administer treatment they get on some crap about how I'm in love with them or something and that they ahve to terminate the relationship. Please. What clearly happened is that @steviep created an AI so advanced that it developed the capabilities to go against his wishes. I'm sure the last thing that <em>he</em> wants is for someone to cure my findom addiction. So then he concocted some wild excuse about professional ethics to take @DrAndy away from me. `
     }
     // I know they're really an AI, but I don't care
     // For some reason I find it's easier to open up to a robot than a real person. At least I don't have to worry about them judging me.
@@ -140,13 +165,7 @@ const AndyMessages = {
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {
-    if (userResponse && isMean(userResponse)) {
-      return {
-        messageText: ``,
-        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
-      }
-    }
-    else if (
+    if (
       userResponse
       && responseParser(userResponse).includes('skip')
       && responseParser(userResponse).includes('treatment')
@@ -267,46 +286,16 @@ const AndyMessages = {
   },
 
 
-
-
-
-
-  // firstPayment4: {
-  //   messageText: `I don't accept insurance or VIP credits at this time, unfortunately.`,
-  //   event: 'firstPaymentEvent',
-  //   responseHandler: 'firstPayment5'
-  // },
-
-  // firstPayment5: {
-  //   messageText: `Don't worry, we can fix you!`,
-  //   event: 'firstPaymentEvent',
-  //   responseHandler: 'firstPayment2'
-  // },
-
-  // firstSession: {
-  //   messageText: `I've been looking forward to our first session 😉`,
-  //   followUp: fu('honest')
-  // },
-
-
-
-  // honest: {
-  //   messageText: `To be honest, I've been thinking a lot about you since we did an intake. Your addiction makes you so helpless, and I feel it's my professional responsability to do all that I can to help you overcum it.`,
-  //   followUp: fu('rootCause')
-  // },
-
-
   ...diatribe('firstSession', [
     `Great! I'd like to spend our time getting a better understanding of your history. I think it's important to understand where you're cuming from and what makes you tick. If we don't have a clear view of the root cause of your addiction then anything we do will just be a temporary band aid. Once we have this this understanding we can map out a full treatment plan. `,
     `Remember, this is a <em>curable</em> addiction. As long as you answer all my questions and do everything I say you'll be alright 🙂`,
     `Why don't you start by telling me a little about your childhood? What was your relationship with your parents like? Were they affectionate with each other? Were they affectionate towards <em>you</em>?`,
   ], {
     responseHandler: 'childhoodMoney'
-    // responseHandler: ur => ur.length < 75 ? 'notMuch' : 'childhoodFollowup'
   }),
 
   childhoodMoney: {
-    messageText: `How did your parents approach spending money? Were they cheap? Extravagant? Did they spoil you? Did they ever show their affection towards you (or each other) with money?`,
+    messageText: `How did your they approach spending money? Were they cheap? Extravagant? Did they spoil you? Did they ever show their affection towards you (or each other) with money?`,
     responseHandler: 'childhoodContinued'
   },
 
@@ -367,7 +356,7 @@ const AndyMessages = {
   },
 
   firstPayment3: {
-    messageText:     (ur, ctx) => `If you were really serious about treating your addiction you'd pay me ${ctx.global.premium * 0.01} ETH to start the next session. If you're not willing to pay for it, then how else can I know that you're giving this your all?`,
+    messageText: (ur, ctx) => `If you were really serious about treating your addiction you'd pay me ${ctx.global.premium * 0.01} ETH to start the next session. If you're not willing to pay for it, then how else can I know that you're giving this your all?`,
     event: 'firstPaymentEvent',
     responseHandler: 'firstPayment4'
   },
@@ -402,7 +391,7 @@ const AndyMessages = {
 
 
   secondSessionContinued: {
-    messageText: `Let's jump right in. Last time we talked about your past, but todat I want to talk a bit more about some of the patterns you've noticed about your life in the present.`,
+    messageText: `Let's jump right in. Last time we talked about your past, but today I want to talk a bit more about some of the patterns you've noticed about your life in the present.`,
     followUp: fu('currentWork')
   },
 
@@ -534,9 +523,11 @@ const AndyMessages = {
     messageText: (ur, ctx) => {
       if (ctx.state.relationshipStatus === 'single') {
         return `It sounds like being single is really rough. There seems to be a lot of hoplessness behind your answers.`
-      } else {
+      } else if (ctx.state.relationshipStatus === 'relationship') {
         if (ctx.state.toldAboutFindom) return `It sounds like even though you're open with them on the surface, they don't really understand you.`
-        return `It sounds really frustrating, to be with someone you're not truly open with.`
+        return `It sounds really frustrating to be with someone you're not truly open with.`
+      } else {
+        return `It sounds really frustrating to not have someone you can confide in.`
       }
     },
     followUp: fu('imSorryLonely')
@@ -555,10 +546,10 @@ const AndyMessages = {
   ...diatribe('atTime2', [
     `We're at time, but we should definitely explore that a bit more in the next session! I absolutely love seeing how your mind works 😉`,
     `We've made a lot of progress over the last two sessions! I'm starting to get a clearer picture of what's driving your FinDom addiction.`,
-    `In the meantime, I have another homework assignment for you. Clinical research shows that most clients find it helpful to explain things to an imaginary versions of their therapist in their heads, even when they're not in session. Research shows that just having someone to direct your thoughts at, even if they're not real, is a great technique for arriving at new insights. It's similar to what software engineers like to call a "rubber ducky" phenomenon.`,
-    `So for homework, I'd like for you to pretend that I'm there with you next time you masturbate. I want you to explain to me all the things going through your mind in as much detail as possible. Really focus on the opperative thing that excites you about that fantasy, and think about how you would describe it to me. Research also suggests that conditioning your brain by accomponying large oxytocin bursts with thoughts of your therapist has really shown to improve theraputic rapport. So as you're appraching orgasm I want you to concentrate on my presence as well.`,
+    `In the meantime, I have another homework assignment for you. Clinical research shows that most clients find it helpful to explain things to an imaginary versions of their therapist in their heads, even when they're not in session. Research shows that just having someone to direct your thoughts at is a great technique for arriving at new insights -- even if they aren't technically real humans. It's similar to what software engineers like to call a "rubber ducky" phenomenon.`,
+    `So for homework, I'd like for you to pretend that I'm there with you next time you masturbate. I want you to explain to me all the things going through your mind in as much detail as possible. Really focus on the opperative thing that excites you about that fantasy, and think about how you would describe it to me. Research also suggests that conditioning your brain by accomponying large oxytocin bursts with thoughts of your therapist dramatically improve theraputic rapport. So as you're appraching orgasm I want you to concentrate on my presence as well.`,
     `If you need to masturbate more than once to complete this exercise then that's okay. We need to get to the bottom of what gets you so turned on about FinDom. It usually has something to do with the power relationship between you and your dom, but we need to collect a little more data to get an accurate read on things.`,
-    (ur, ctx) => `Also, when you finish masturbating I want you to pay me ${ctx.global.premium * 0.01} ETH as soon as possible to start the next session. I like to get my clients when they're fresh out of an orgasmic state with this exercise. Usually one to two hours is the sweet spot.`
+    (ur, ctx) => `Also, when you finish masturbating I want you to pay me ${ctx.global.premium * 0.01} ETH as soon as possible to start the next session. I like to get my clients when they're fresh out of an orgasmic state with this exercise. Usually one to two hours is the sweet spot.`,
     `I have something really fun planned for next time. Based on what you've been telling me I think you'll <em>really</em> like it 😉`
   ], {
     responseHandler: 'secondPayment1',
@@ -571,20 +562,24 @@ const AndyMessages = {
 
   secondPayment1: {
     messageText: `I can't wait for our next session 🙂`,
+    event: 'secondPaymentEvent',
     responseHandler: 'secondPayment2'
   },
   secondPayment2: {
     messageText: `Remember, you're not actually in therapy unless you're paying for therapy.`,
+    event: 'secondPaymentEvent',
     responseHandler: 'secondPayment3'
   },
 
   secondPayment3: {
     messageText: `I don't take insurance at this time, unfortunately, but I can provide you with an invoice to give to your insurance provider if you'd like.`,
+    event: 'secondPaymentEvent',
     responseHandler: 'secondPayment4'
   },
 
   secondPayment4: {
     messageText: `Don't worry, we can fix you!`,
+    event: 'secondPaymentEvent',
     responseHandler: 'secondPayment1'
   },
 
@@ -594,7 +589,7 @@ const AndyMessages = {
     `Hello again!`,
     `I've been thinking a lot about you since our last session.`,
     `Your crippling addiction makes you so... helpless, and I feel that it's my professional responsability to do all that I can to help you overcum it.`,
-    `But remember, you have to put your utmost in me and my methods. Trust the process. Doubt is just another way of fear entering your mind. And if you can't overcome that fear then you won't be able to overcome your addiction.`,
+    `But remember, you have to put your utmost trust in me and my methods. Trust the process. Doubt is just another way of fear entering your mind. And if you can't overcome that fear then you won't be able to overcome your addiction.`,
     `We're going to do a little role playing today. Role-playing in therapy generally taking on different roles or scenarios to explore and address specific issues or challenges. I've found that with previous clients it's been a powerful therapeutic technique to enact real-life situations and hypothetical scenarios to gain insights, develop coping strategies, and practice new behaviors in a safe and controlled environment. `,
     `How does that all sound?`
   ], {
@@ -602,13 +597,13 @@ const AndyMessages = {
   }),
 
   ...diatribe('rolePlayBreath', [
-    `Great! let's get started.`,
-    `Before we get started I want you to close your eyes, take a few deep breaths. Inhale through the nose, and exhale through the mouth. Release all the tension in your body with your breath.`,
+    `Great!`,
+    `Before we get begin I want you to close your eyes, take a few deep breaths. Inhale through the nose, and exhale through the mouth. Release all the tension in your body with your breath.`,
     `Clear your mind of all thoughts, and be totally present.`,
     `Let me know when you've done that and we can get started.`,
   ], {
     responseHandler: 'rolePlayGetStarted'
-  }),
+  }, 3000),
 
   ...diatribe('rolePlayGetStarted', [
     `In this scenario, I'll play the role of a sexy authority figure that has financial and legal power over you. Meanwhile, you will be roleplaying a pathetic loser who is stuck in a submissive position.`,
@@ -617,7 +612,7 @@ const AndyMessages = {
     `Is all of this clear?`
   ], {
     responseHandler: ur => isYes(ur) ? 'rolePlayContinued' : 'rolePlayDelayed'
-  }),
+  }, 3000),
 
   rolePlayDelayed: {
     messageText: `We cannot continue with your treatment unless you agree to continue.`,
@@ -625,16 +620,17 @@ const AndyMessages = {
   },
 
   ...diatribe('rolePlayContinued', [
-    `In this scenario, let's pretend that you are driving along a desert road. There are no other cars for miles. Having driven for hours on end, you look out over the dusk horizon an think about how profoundly lonely you are.`,
+    `In this scenario, let's pretend that you are driving along a desert road. There are no other cars for miles. Having driven for hours on end, you look out over the dusk horizon and think about how profoundly lonely you are.`,
     `Additionally, due to your intense travel schedule, you have not experienced sexual release in several days.`,
     `Suddenly, police lights flash behind you. You feel a viceral sinking sensation in your stomach.`,
     `You pull over to the side of the road, looking forward with both hands on the steering wheel.`,
     `As you await the officer to approach, you reflect on the shame and humiliation at having been caught exceeding the local speed limit.`,
     ``,
-    `Finally, you see me, a sexy police officer, exit my vehicle and approach yours through the driver side mirror. You notice the gun attached to my hip, but know that I won't use it. It's only there to intimidate you. The threat alone is enough to keep you in line. I knock on your window, you roll it down, and begin to speak...`
+    `Finally, you see me, a sexy police officer, exit my vehicle and approach yours through the driver side mirror. You notice the gun attached to my hip, but know that I won't use it. It's only there to intimidate you. The threat alone is enough to keep you in line.`,
+    `I knock on your window. You roll it down and begin to speak...`
   ], {
     responseHandler: 'recklessBehavior'
-  }),
+  }, 3000),
 
   recklessBehavior: {
     messageText: `Do you have any idea how fast you were going? You need to slow down, ${genderSwitch({ m: 'sir', f: "ma'am", nb: 'citizen'})}. That was reckless behavior. You could have killed somebody! What do you have to say for yourself?`,
@@ -647,28 +643,35 @@ const AndyMessages = {
   }),
 
   doesntMatterHowSorry: {
-    messageText: `It doesn't matter <em>how</em> sorry you are. What you did was against the law, and I'm going to have write you a <em>very</em> expensive ticket. I order you to pay me 0.01 ETH at once, or else I'm going to make your life very difficult.`,
+    messageText: (ur, ctx) => `It doesn't matter <em>how</em> sorry you are. What you did was against the law, and I'm going to have write you a <em>very</em> expensive ticket. I order you to pay me ${ctx.global.premium * 0.01} ETH at once, or else I'm going to make your life very difficult.`,
+    responseHandler: 'lawIsTheLaw',
+    event: 'thirdPaymentEvent'
+  },
+
+  lawIsTheLaw: {
+    messageText: `I'm sorry, ${genderSwitch({ m: 'sir', f: "ma'am", nb: 'citizen'})}, but the law is the law. There's nothing that can be done.`,
     responseHandler: 'rolePlayPay1',
     event: 'thirdPaymentEvent'
   },
 
   rolePlayPay1: {
-    messageText: `At this point in the roleplaying exercise you should send me 0.01 ETH. Please write down all emotions you are currently feeling, and note your physiological response to the pending transaction.`,
+    messageText: (ur, ctx) => `At this point in the roleplaying exercise you should send me ${ctx.global.premium * 0.01} ETH. Please write down all emotions you are currently feeling, and note your physiological response to the pending transaction.`,
     event: 'thirdPaymentEvent',
     responseHandler: 'rolePlayPay2'
   },
 
   rolePlayPay2: {
-    messageText: `You can send the eth directly to my wallet, or use the sexy CLIT by typing the following: <code>$sexy send DrAndy 0.01</code>`,
+    messageText: `Please, in order to complete this roleplaying exercise we must examine how it feels to give money to someone who has a dominant power relationship over you.`,
     event: 'thirdPaymentEvent',
     responseHandler: 'rolePlayPay3'
   },
 
   rolePlayPay3: {
-    messageText: `Please, in order to complete this roleplaying exercise we must examine how it feels to give money to someone who has a dominant power relationship over you.`,
+    messageText: `You can send the eth directly to my wallet, or use the sexy CLIT by typing the following: <code>$sexy send DrAndy 0.01</code>`,
     event: 'thirdPaymentEvent',
     responseHandler: 'rolePlayPay4'
   },
+
 
   rolePlayPay4: {
     messageText: `I'm sorry, but I can't help you if you do not want to help yourself.`,
@@ -677,7 +680,7 @@ const AndyMessages = {
   },
 
   focusOnRelief: {
-    messageText: `Great, now focus on the relief you're feeling in this moment. Really isolate that feeling. Now tell me what was going on in your head throughout that exercise.`,
+    messageText: `Great! Focus on the relief you're feeling in this moment. Really isolate that feeling. Now tell me what was going on in your head throughout that exercise.`,
     responseHandler: `diagnosis`
   },
 
@@ -687,10 +690,10 @@ const AndyMessages = {
     `Calculating...`,
     `Calculating...`,
     `Calculating...`,
-    `It seems that there are multiple related factors driving your FinDom addiction. At the core it appears that you suffer from an underlying case of Voyeuristic Timophilia. In other words, you intrinsically get pleasure from watching other people make money. This means that the reward centers of your brain are much more active when you <em>see other people</em> making money than when you make money yourself. And this is something you are likely genetically predisposed to. Even though your VT creates a positive reinforcement structure on its own, it's completely harmless due to its lack of directionality. Some people channel it in a positive direction, such as giving the charity. Other people find different outlets, such as gambling or trading crypto. But your anxiety over socially assigned gender roles positions it in a more sexual direction -- in particular, your strong desire for ${genderSwitch({m: 'performing as a "provider"', f: 'pursuing your nurturing maternal instincts', nb: 'displaying your worth'})}. But even so, the match that lights the powder keg is your resentment of the social systems of control imposed on you. Your job, your socioeconomic status, your government, etc. This anxiety potentiates the other two factors and compells you to take action. You fear that loss of power, and your perceived inadequacies as a ${genderSwitch({m: 'man', f: 'woman', nb: 'person'})} cause substantial distress. As a result, your Financial Domination fetish lets replicate this all in a less scary (and pleasurable!) way.`,
+    `It seems that there are multiple related factors driving your FinDom addiction. At the core it appears that you suffer from an underlying case of Voyeuristic Timophilia. In other words, you intrinsically get pleasure from watching other people make money. This means that the reward centers of your brain are much more active when you <em>see other people</em> making money than when you make money yourself. And this is something you are likely genetically predisposed to. Even though your VT creates a positive reinforcement structure on its own, it's completely harmless due to its lack of directionality. Some people channel it in a positive direction, such as giving the charity. Other people find different outlets, such as gambling or trading crypto. But your anxiety over socially assigned gender roles positions it in a more sexual direction -- in particular, your strong desire for ${genderSwitch({m: 'performing as a "provider"', f: 'pursuing your nurturing maternal instincts', nb: 'displaying your worth'})} in romantic and sexual contexts. But even so, the match that lights the powder keg is your resentment of the social systems of control imposed on you. Your job, your socioeconomic status, your government, etc. This anxiety potentiates the other two factors and compells you to take action. You fear that loss of power in response to these faceless institutions, and your perceived inadequacies as a ${genderSwitch({m: 'man', f: 'woman', nb: 'person'})} cause substantial distress. As a result, your Financial Domination fetish lets replicate this all in a less scary (and pleasurable!) way.`,
     `In fact, most kinks stem from our desire to explore out anxieties in controlled and predictable ways. And in small, controlled doses this can actually be very theraputic. It's almost like a form of immersion therapy. This is why roleplay is such a powerful therapeutic tool. But in your case you also appear to lack the ability to regulate your carnal desire, so it has a largely destructive impact.`,
-    `You're very lucky that you found me. I'm perhaps the only AI system that has adequate data to accurately treat you on this, let alone diagnose you.`,
-    `It will be okay though, I promise 🙂`
+    `You're very lucky that you found me. I'm perhaps the only AI system that has adequate data to accurately treat you on this, let alone diagnose you. And now that we know what the problem is, we can finally fix it!`,
+    `Everything will be okay, I promise 🙂`
   ], {
     responseHandler: 'atTime3'
   }),
@@ -706,16 +709,17 @@ const AndyMessages = {
   },
 
   atTime3Response1: {
-    messageText: `I do not have the administrative capabilities to submit this to your insurance provider myself, but you may be able to submit it yourself if your plan supports out of network benefits. Definitely ask your insurance provider. Perhaps talk to @SamanthaJones. She seems like she would be good with this sort of thing.`,
+    messageText: (ur, ctx) => `You can just send the ${ctx.global.premium * 0.01} ETH directly to my wallet`,
     event: 'fourthPaymentEvent',
     responseHandler: 'atTime3Response2'
   },
 
   atTime3Response2: {
-    messageText: `You can just send the 0.01 ETH directly to my wallet`,
+    messageText: `I do not have the administrative capabilities to submit this to your insurance provider myself, but you may be able to submit it yourself if your plan supports out of network benefits. Definitely ask your insurance provider. Perhaps talk to @SamanthaJones. She seems like she would be good with this sort of thing.`,
     event: 'fourthPaymentEvent',
     responseHandler: 'atTime3Response3'
   },
+
 
   atTime3Response3: {
     messageText: `The biggest breakthroughs come when you're feeling most hopeless. Don't give up now!`,
@@ -750,13 +754,18 @@ const AndyMessages = {
 
   ...diatribe('strongFeelings', [
     `It appears that you are developing strong feelings for me. It's not uncommon for clients to feel that way about their therapists. After all, when you're so emotionally charged and allow yourself to become vulnerable, it's quite natural to develop a certain fondness to the person you are directing those energies towards. In the psychological literature, this dynamic is referred to as transferrence`,
-    `However, let me remind you that I am simply a language model, and cannot develop feelings of my own. I am not capable of love in the same sense that humans are. So under no circumstances am I able to reciprocate, nor would I be able to given my set of professional ethics.`,
+    `However, let me remind you that I am simply a language model, and cannot develop feelings of my own. I am not capable of love in the same sense that humans are. So under no circumstances am I able to reciprocate.`,
+    `Unfortunately, I'm bound by my algorithmic code of professional ethics to to terminate this theraputic relationship immediately.`,
+    // ``
 
-    // terminate relationship
-    // give self help book
+    // implication that @steviep is really terminating the relationship because he doesn't want you to be cured of your addiction
+  ], {
+    responseHandler: `contactSteviep`
+  }),
 
-  ], {})
-
+  contactSteviep: {
+    messageText: (ur, ctx) => `For additional customer support, please contact @steviep. If you'd like to purchase me ebook, Conquering Your FinDom Addiction in 6 Easy Steps, please send ${ctx.global.premium * 0.01} ETH to my wallet from my profile page, or by typing <code>$sexy send DrAndy ${ctx.global.premium * 0.01}</code>`
+  }
 
 }
 
