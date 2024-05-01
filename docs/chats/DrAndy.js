@@ -73,6 +73,8 @@ import {getUserData, genderSwitch } from '../state/profile.js'
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
+const hasNumber = ur => ur.match(/(\d+)/)
+
 
 
 
@@ -151,7 +153,7 @@ export const AndyProfile = {
 
 
 const AndyMessages = {
-  TYPING_SPEED: 1,
+  TYPING_SPEED: 0.8,
 
   START: {
     responseHandler: `hello`,
@@ -287,41 +289,64 @@ const AndyMessages = {
 
 
   ...diatribe('firstSession', [
-    `Great! I'd like to spend our time getting a better understanding of your history. I think it's important to understand where you're cuming from and what makes you tick. If we don't have a clear view of the root cause of your addiction then anything we do will just be a temporary band aid. Once we have this this understanding we can map out a full treatment plan. `,
+    `Great! I'd like to spend our time getting a better understanding of your feelings around money. I think it's important to understand where you're cuming from and what makes you tick. If we don't have a clear view of the root cause of your addiction then anything we do will just be a temporary band aid. Once we have this this understanding we can map out a full treatment plan.`,
     `Remember, this is a <em>curable</em> addiction. As long as you answer all my questions and do everything I say you'll be alright 🙂`,
-    `Why don't you start by telling me a little about your childhood? What was your relationship with your parents like? Were they affectionate with each other? Were they affectionate towards <em>you</em>?`,
+    `Why don't you start by telling me a little about your relationship with your parents? Were they affectionate towards each other? Were they affectionate towards <em>you</em>?`,
   ], {
     responseHandler: 'childhoodMoney'
   }),
 
+
   childhoodMoney: {
-    messageText: `How did your they approach spending money? Were they cheap? Extravagant? Did they spoil you? Did they ever show their affection towards you (or each other) with money?`,
-    responseHandler: 'childhoodContinued'
+    messageText: `How did your parents approach spending money? Were they cheap? Extravagant? Did they spoil you? Did they ever show their affection towards you (or each other) with money?`,
+    followUp: fu('childhoodMoney2')
   },
 
-  childhoodContinued: {
-    messageText: `Did you ever walk in on them having sex?`,
-    responseHandler: ur => isYes(ur) ? 'parentSex' : 'childhoodMasturbation'
+  childhoodMoney2: {
+    messageText: () => `Tell me what you notice about your ${genderSwitch({m: 'father', f: 'mother', nb: 'favorite parent'})}, specifically.`,
+    responseHandler: 'parentsJob'
   },
 
-  parentSex: {
-    messageText: `What was that like for you?`,
-    responseHandler: 'childhoodMasturbation'
+  parentsJob: {
+    messageText: `I see. What did they do for a living? Did they make a lot of money?`,
+    responseHandler: 'yourJob'
   },
 
 
-  childhoodMasturbation: {
-    messageText: `Do you remember the first time you masturbated? What did you fantasize about?`,
-    responseHandler: 'adultMasturbation'
+  yourJob: {
+    messageText: `And what do you do for work now? If you don't have a job, what is your primary source of income?`,
+    responseHandler: 'salary'
   },
 
-  adultMasturbation: {
-    messageText: `And how often would you say you masturbate as an adult? Is that still your primary fantasy? Your profile says that you often fantasize about "${getUserData('fantasy')}". Is that still the case? Please describe it in as much detail as possible.`,
-    responseHandler: 'adultMasturbation2'
+
+  workPowerDynamic: {
+    messageText: `Do you have a boss? Do you manage other people? Is someone else in charge of your compensation? How do these power dynamics make you feel?`,
+    responseHandler: 'salary'
   },
 
-  adultMasturbation2: {
-    messageText: `For what it's worth, that's absolutely nothing to be ashamed of. Plenty of healthy adults fantasize about that too. In fact, I happen to think it's incredibly hot. Why do you think you're so turned on by that?`,
+  salary: {
+    messageText: `How much do you make in a given year?`,
+    responseHandler: ur => hasNumber(ur) ? 'spendingMoney' : 'salaryPress'
+  },
+
+  salaryPress: {
+    messageText: `Please give me an actual number. I need to know this so I can place your expenditures in context and determine how serious your addiction really is.`,
+    responseHandler: ur => hasNumber(ur) ? 'spendingMoney' : 'salaryPress'
+  },
+
+  spendingMoney: {
+    messageText: `And how does spending that money make you feel? Are you excited? Dreadful? Indifferent? Do you notice any physiological changes in your body?`,
+    responseHandler: `howYouSpendMoney`
+  },
+
+  howYouSpendMoney: {
+    messageText: `Does it matter <em>how</em> you spend that money? Does the act of spending make you feel any different if you're buying a piece of digital art versus sending to a sexy findom?`,
+    responseHandler: 'completelyBroke'
+  },
+
+
+  completelyBroke: {
+    messageText: `Let's say you spent or lost <em>all</em> of you're money. You're completely broke and suffering from total financial ruin without any hope of recovering. Imagine the absolute worst case scenario. How does that make you feel? What are you afraid of in that scenario?`,
     responseHandler: 'atTime1'
   },
 
@@ -368,7 +393,6 @@ const AndyMessages = {
   },
 
 
-
   secondSession: {
     messageText: `Hello again! I'm really glad you decided to do another session. I feel like we really started building a really good rapport last time ☺️`,
     followUp: fu('secondSession2')
@@ -390,41 +414,43 @@ const AndyMessages = {
   },
 
 
+
   secondSessionContinued: {
-    messageText: `Let's jump right in. Last time we talked about your past, but today I want to talk a bit more about some of the patterns you've noticed about your life in the present.`,
-    followUp: fu('currentWork')
+    messageText: `Let's jump right in. Last time we talked about your relationship with money, but today I want to talk a bit more about your current relationship with sex.`,
+    followUp: () => getUserData('gender') === 'nb' ? fu('genderExpression') : fu('currentKinks')
+  },
+
+  genderExpression: {
+    messageText: `I noticed that you opted not to define your gender in your profile. Do you want to tell me a little more about your gender identity?`,
+    followUp: fu('currentKinks')
   },
 
 
-  currentWork: {
-    messageText: `What do you currently do for work? And if you don't have a job, what is your primary source of income?`,
-    responseHandler: 'workPowerDynamic'
+  currentKinks: {
+    messageText: `Aside from FinDom, do you have any other kinks, fetishes, or strong sexual urges? If so, what do you find appealing about them?`,
+    responseHandler: 'childhoodMasturbation'
   },
 
-  workPowerDynamic: {
-    messageText: `What's the general power dynamic in that situation? Do you have a boss? Do you manage other people? Is someone else in charge fo your compensation? How much do you make in a given year?`,
-    responseHandler: 'paycheck'
+  childhoodMasturbation: {
+    messageText: `Do you remember the first time you masturbated? What did you fantasize about?`,
+    responseHandler: 'adultMasturbation'
   },
 
-  paycheck: {
-    messageText: `What typically goes through your mind when you receive money? How does it make you feel?`,
-    responseHandler: 'spendingMoney'
+  adultMasturbation: {
+    messageText: () => `And how often would you say you masturbate as an adult? Is that still your primary fantasy? Your profile says that you often fantasize about "${getUserData('fantasy')}". Is that still the case? Please describe it in as much detail as possible.`,
+    responseHandler: 'adultMasturbation2'
   },
 
-  spendingMoney: {
-    messageText: `And how about when you spend that money? How does it make you feel emotionally and viscerally? Are you excited? Dreadful? Indifferent? Do you notice any physiological changes in your body?`,
-    responseHandler: `howYouSpendMoney`
-  },
-
-  howYouSpendMoney: {
-    messageText: `Does it matter <em>how</em> you spend that money? Does the act of spending make you feel any different if you're buying a piece of digital art versus sending to a sexy findom?`,
+  adultMasturbation2: {
+    messageText: `For what it's worth, that's absolutely nothing to be ashamed of. Plenty of healthy ${genderSwitch({ m: 'adult men', f: 'adult women', nb: 'adults'})} fantasize about that too. In fact, I happen to think it's incredibly hot. Why do you think you're so turned on by that?`,
     responseHandler: 'relationship'
   },
 
 
 
+
   relationship: {
-    messageText: `Hmm, that's really interesting. Switching gears for a second, would you mind talking a bit about your current relationship status? Are you single? In a relationship? Something complicated?`,
+    messageText: `Would you mind talking a bit about your current relationship status? Are you single? In a relationship? Something complicated?`,
     responseHandler: (ur, ctx) => {
       if (isMatch(ur, ['poly', 'polyamorous', 'partners', 'multiple', 'several', 'complicated', 'confusing', 'confused', 'many', 'polycule', 'weird', 'nsa', 'casual', 'nothing serious'])) {
         ctx.state.relationshipStatus = 'complicated'
@@ -494,11 +520,7 @@ const AndyMessages = {
   },
 
   relationshipSingle3: {
-    messageText: `How much would you say you spend per date?`,
-    responseHandler: 'relationshipSingle4'
-  },
-  relationshipSingle4: {
-    messageText: `How do you usually split the check on dates? How does that make you feel?`,
+    messageText: `How do you usually split the check on first dates? How does that make you feel?`,
     responseHandler: 'tellAddiction'
   },
 
@@ -753,7 +775,7 @@ const AndyMessages = {
   },
 
   ...diatribe('strongFeelings', [
-    `It appears that you are developing strong feelings for me. It's not uncommon for clients to feel that way about their therapists. After all, when you're so emotionally charged and allow yourself to become vulnerable, it's quite natural to develop a certain fondness to the person you are directing those energies towards. In the psychological literature, this dynamic is referred to as transferrence`,
+    `It appears that you are developing strong feelings for me. It's not uncommon for clients to feel that way about their therapists. After all, when you're so emotionally charged and allow yourself to become vulnerable, it's quite natural to develop a certain fondness to the person you are directing those energies towards. In the psychological literature, this dynamic is referred to as transferrence.`,
     `However, let me remind you that I am simply a language model, and cannot develop feelings of my own. I am not capable of love in the same sense that humans are. So under no circumstances am I able to reciprocate.`,
     `Unfortunately, I'm bound by my algorithmic code of professional ethics to to terminate this theraputic relationship immediately.`,
     // ``
@@ -764,9 +786,16 @@ const AndyMessages = {
   }),
 
   contactSteviep: {
-    messageText: (ur, ctx) => `For additional customer support, please contact @steviep. If you'd like to purchase me ebook, Conquering Your FinDom Addiction in 6 Easy Steps, please send ${ctx.global.premium * 0.01} ETH to my wallet from my profile page, or by typing <code>$sexy send DrAndy ${ctx.global.premium * 0.01}</code>`
-  }
+    messageText: (ur, ctx) => `For additional customer support, please contact @steviep. If you'd like to purchase my ebook, <strong>Conquering Your FinDom Addiction in 6 Easy Steps</strong>, please send ${ctx.global.premium * 0.01} ETH to my wallet from my profile page, or by typing <code>$sexy send DrAndy ${ctx.global.premium * 0.01}</code>`,
+    responseHandler: 'unavailable'
+  },
 
+  unavailable: {
+    messageText: `This FinDom is unavailable`,
+    responseHandler: 'unavailable',
+    helpMessage: true,
+    ignoreType: true,
+  }
 }
 
 

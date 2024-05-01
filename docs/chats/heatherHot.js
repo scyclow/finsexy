@@ -152,7 +152,7 @@ const HeatherHotMessages = {
   __precheck(userResponse, ctx) {
     if (userResponse && ctx.global.hideHeather) {
       return {
-        messageText: `This DOM is unavailable`,
+        messageText: `This FinDom is unavailable`,
         responseHandler: (ur, ctx) => ctx.lastDomCodeSent,
         helpMessage: true,
         ignoreType: true
