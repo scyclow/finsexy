@@ -28,7 +28,7 @@ import {HedonitronicaProfile} from '../chats/Hedonitronica.js'
 
 import {ls} from '../$.js'
 
-if (!ls.get('is18')) {
+if (!ls.get('__enteredSite')) {
   window.location.replace('./enter')
 }
 
@@ -50,14 +50,14 @@ export const ProfileStats = {
 setRunInterval(() => {
   const pastProfile = ls.get('profileDeferred') || ls.get('profileCompleted')
 
-  if (ls.get('is18') && pastProfile) {
+  if (ls.get('__enteredSite') && pastProfile) {
     if (!KatChat.ctx.history.length && !KatChat.ctx.eventQueue.length) {
-      KatChat.queueEvent('steviep', 120000)
+      KatChat.queueEvent('steviep', 300000)
       MessageHandler.visibilityCtx.katFischer = 'online'
 
     }
     if (!HHChat.ctx.history.length && !HHChat.ctx.eventQueue.length) {
-      HHChat.queueEvent('hi', 6000)
+      HHChat.queueEvent('hi', 5000)
     }
   }
 

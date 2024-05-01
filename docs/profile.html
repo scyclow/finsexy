@@ -40,9 +40,12 @@
     }
 
     h1 {
-      text-shadow: 2px 2px var(--dark-color), 3px 3px 2px var(--primary-color);
       text-decoration: none;
       color: var(--light-color)
+    }
+
+    h1, legend {
+      text-shadow: 0px 0px 2px var(--dark-color), 0 0 5px var(--medium-color), 0 0 8px var(--border-color);
     }
 
     h2 {
@@ -284,7 +287,7 @@
 
   <main>
 
-    <h1>Financial Submissive Application</h1>
+    <h1>Paypig Profile</h1>
 
 <!--     <div id="skip">
       <a href="#" id="skipForNow">Skip for now →</a>
@@ -395,7 +398,7 @@ become a VIP -->
   import {$, ls} from './$.js'
   import {defaultProfileLS, getAgeYears} from './state/profile.js'
 
-  // if (!ls.get('is18')) {
+  // if (!ls.get('__enteredSite')) {
   //   window.location.replace('./enter.html')
   // }
 
@@ -432,7 +435,7 @@ become a VIP -->
 
   //   $.id('skipForNow').onclick = () => {
   //     ls.set('profileDeferred', true)
-  //     ls.set('is18', true)
+  //     ls.set('__enteredSite', true)
   //     window.location.href = './'
   //   }
   // } else {
@@ -460,7 +463,7 @@ become a VIP -->
       }
     }
   })
-  console.log(ls.get('is18'))
+  console.log(ls.get('__enteredSite'))
 
   $submit.onclick = (e) => {
     const fieldsValid = fields.every(field => $.id(field).checkValidity())
@@ -471,7 +474,7 @@ become a VIP -->
     if (fieldsValid) {
       const refer = ls.get('profileCompleted') || ls.get('profileDeferred')
       ls.set('profileCompleted', true)
-      ls.set('is18', true)
+      ls.set('__enteredSite', true)
       window.location.href = refer ? document.referrer : '/'
 
         // window.location.href = '/'

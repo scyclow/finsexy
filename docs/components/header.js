@@ -68,6 +68,7 @@ createComponent(
         text-decoration: none;
         transition: 0.2s;
         cursor: pointer;
+        text-shadow: 0 0 25px var(--medium-color);
       }
       nav a:hover, #mobileMenu:hover,
       nav a:active, #mobileMenu:active,

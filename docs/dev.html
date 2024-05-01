@@ -303,7 +303,7 @@
       __CHAT_CONTEXT: ls.get('__CHAT_CONTEXT'),
       __PROFILE_DATA_DEFAULT: ls.get('__PROFILE_DATA_DEFAULT'),
       __CHAT_GLOBAL_CONTEXT: ls.get('__CHAT_GLOBAL_CONTEXT'),
-      is18: ls.get('is18'),
+      __enteredSite: ls.get('__enteredSite'),
     }
     const strState = encodeURI(JSON.stringify(jsonState))
     return btoa(strState)
@@ -335,7 +335,7 @@
       ls.set('__CLIT_STATE', JSON.stringify(state.__CLIT_STATE))
       ls.set('__PROFILE_DATA_DEFAULT', JSON.stringify(state.__PROFILE_DATA_DEFAULT))
       ls.set('__CHAT_GLOBAL_CONTEXT', JSON.stringify(state.__CHAT_GLOBAL_CONTEXT))
-      ls.set('is18', JSON.stringify(state.is18))
+      ls.set('__enteredSite', JSON.stringify(state.__enteredSite))
 
     } catch (e) {
       $.id('stateEntered').classList.remove('hidden')

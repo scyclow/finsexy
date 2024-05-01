@@ -23,9 +23,9 @@ createComponent(
 
       max-height: 90vh;
       overflow: scroll;
-      padding: 2em 4em;
+      padding: 3em 4em;
       animation: FadeIn 0.25s linear;
-      box-shadow: 0 0 60px var(--border-color), 0 0 220px var(--secondary-color), inset 0 0 40px var(--border-color);
+      box-shadow: 0 0 60px var(--border-color), 0 0 220px var(--secondary-color), inset 0 0 30px var(--border-color);
       border-radius: 5px;
     }
 
@@ -39,15 +39,18 @@ createComponent(
 
 
     h1 {
-      text-shadow: 2px 2px var(--dark-color), 3px 3px 2px var(--primary-color);
       text-decoration: none;
       color: var(--light-color);
       font-family: var(--fancy-font);
       font-size: 2.2em;
       line-height: 1.1;
       text-align: center;
+      margin-bottom: 0.6em;
     }
 
+    h1, legend {
+      text-shadow: 0px 0px 2px var(--dark-color), 0 0 5px var(--medium-color), 0 0 8px var(--border-color);
+    }
 
     h2 {
       text-align: center;
@@ -69,12 +72,12 @@ createComponent(
     #skip {
       font-size: 1.5em;
       text-align: center;
-      margin: 0.75em 0;
 
     }
     #skip a {
-      text-decoration: underline;
+
       color: var(--primary-color);
+      transition: 0.3s;
     }
 
     #skip a:hover {
@@ -118,6 +121,9 @@ createComponent(
       cursor: pointer;
     }
 
+    input, select, textarea {
+      transition: 0.15s;
+    }
     input:hover, select:hover, textarea:hover {
       border-color: var(--light-color);
     }
@@ -144,6 +150,7 @@ createComponent(
     .doubleRow, .submitRow {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       margin-bottom: 1em;
     }
     .doubleRow > *:last-child, .submitRow > *:last-child {
@@ -169,6 +176,31 @@ createComponent(
 
     }
 
+    #page1, #page2, main {
+      transition: 1s;
+      overflow: hidden;
+      opacity: 1;
+      max-height: 999px;
+    }
+
+    #xClose {
+      cursor: pointer;
+      padding: 0.75em;
+      display: inline-block;
+      transform: translate(60%, -90%);
+      transition: 0.15s;
+    }
+
+    #xClose:hover {
+      color: var(--primary-color);
+      text-shadow: 0 0 5px var(--primary-color);
+    }
+
+    .hidden {
+      opacity: 0 !important;
+      max-height: 0px !important;
+      transition: 1s;
+    }
 
     button {
       font-size: 1.5em;
@@ -207,7 +239,13 @@ createComponent(
 
     ::-webkit-calendar-picker-indicator { filter: invert(100%); }
 
-    @media (max-width: 635px) {
+
+    button, img {
+      user-select: none;
+    }
+
+
+    @media (max-width: 600px) {
       h1 {
         font-size: 1.5em;
       }
@@ -215,25 +253,40 @@ createComponent(
       h2 {
         font-size: 1em;
       }
-    }
-    button, img {
-      user-select: none;
-    }
-
-
-    @media (max-width: 600px) {
       .doubleRow, .submitRow {
         flex-direction: column;
         align-items: center;
       }
       .doubleRow > *:last-child, .submitRow > *:last-child {
         margin-left: 0;
-        margin-top: 1em;
+        margin-top: 0.5em;
       }
 
       .doubleRow {
         align-items: stretch;
       }
+
+      legend {
+        text-align: center;
+      }
+
+      select, input {
+        display: block;
+        margin: auto;
+      }
+
+      main {
+        padding: 2em 2em;
+      }
+
+      #xClose {
+        transform: translate(-20%, -60%);
+      }
+
+      button, #skip {
+        font-size: 1.35em
+      }
+
     }
 
 
@@ -264,66 +317,65 @@ createComponent(
 
 
   <main>
+  <div style="height: 0; width: 0; float: right">
+    <span id="xClose">X</span>
+  </div>
 
-    <h1>Financial Submissive Application</h1>
+    <h1 id="headerText">Welcome to FinSexy</h1>
 
-    <div id="skip">
-      <a href="#" id="skipForNow">Remind me later →</a>
-    </div>
 
-    <form id="form" onsubmit="onSubmit(event)">
+    <form id="form" onsubmit="onSexyProfileSubmit(event)">
 
-      <div class="doubleRow">
+      <div id="page1">
+        <div class="doubleRow">
+          <fieldset>
+            <legend>Name</legend>
+            <input required type="text" name="name" id="name" placeholder="paypiggie123">
+          </fieldset>
+
+          <fieldset>
+            <legend>Gender</legend>
+            <select id="gender">
+              <option value="" selected disabled hidden></option>
+              <option value="m">Male</option>
+              <option value="f">Female</option>
+              <option value="nb">undefined</option>
+            </select>
+          </fieldset>
+        </div>
+
         <fieldset>
-          <legend>Name</legend>
-          <input required type="text" name="name" id="name" placeholder="paypiggie123">
-        </fieldset>
-
-        <fieldset>
-          <legend>Gender</legend>
-          <select required id="gender">
-            <option value="" selected disabled hidden></option>
-            <option value="m">Male</option>
-            <option value="f">Female</option>
-            <option value="nb">undefined</option>
-          </select>
+          <legend>Birthday (18+ only)</legend>
+          <input required type="date" name="birthday" id="birthday" style="cursor: pointer;" />
         </fieldset>
       </div>
 
-      <fieldset>
-        <legend>Birthday</legend>
-        <input required type="date" name="birthday" id="birthday" style="cursor: pointer;" />
-      </fieldset>
-
-      <fieldset>
-        <legend>Location</legend>
-        <input required type="text" name="location" id="location" placeholder="New York, NY">
-      </fieldset>
+      <div id="page2">
+        <fieldset>
+          <legend>Location</legend>
+          <input required type="text" name="location" id="location" placeholder="New York, NY">
+        </fieldset>
 
 
 
-      <fieldset>
-        <legend>What's your deepest, darkest sexual fantasy?</legend>
-        <textarea required name="fantasy" id="fantasy" placeholder="I want a sexy dom to drain my wallet until it hurts 💦"></textarea>
-      </fieldset>
+        <fieldset>
+          <legend>What's your deepest, darkest sexual fantasy?</legend>
+          <textarea required name="fantasy" id="fantasy" placeholder="I want a sexy dom to drain my wallet until it hurts 💦"></textarea>
+        </fieldset>
 
-      <fieldset>
-        <legend>Password</legend>
-        <input required type="text" minlength="6" name="pass" id="pass" placeholder="******">
-      </fieldset>
+        <fieldset>
+          <legend>Password</legend>
+          <input required type="text" minlength="6" name="pass" id="pass" placeholder="******">
+        </fieldset>
+      </div>
 
       <p id="error"></p>
       <div class="submitContainer submitRow">
-        <connect-wallet>
-          <div slot="notConnected" class="connectItem">
-            <connect-button>
-              <button id="connectButton" slot="button">Connect</button>
-              <div slot="loading">Loading...</div>
-            </connect-button>
-          </div>
-        </connect-wallet>
-        <div class="">
+        <div>
           <button id="submit">Submit</button>
+        </div>
+        <div id="skip">
+          <a href="#" id="skipForNow">Skip →</a>
         </div>
       </div>
 
@@ -333,7 +385,7 @@ createComponent(
   </main>
   `,
   {
-    // STATE
+    activePage: defaultProfileLS.get('name') && defaultProfileLS.get('birthday') ? 2 : 1
   },
   (ctx) => {
     // on load
@@ -357,6 +409,19 @@ createComponent(
     ctx.$submit = ctx.$('#submit')
     ctx.$birthday = ctx.$('#birthday')
 
+    ctx.$headerText = ctx.$('#headerText')
+    ctx.$xClose = ctx.$('#xClose')
+    ctx.$page1 = ctx.$('#page1')
+    ctx.$page2 = ctx.$('#page2')
+
+
+    if (ctx.state.activePage === 1) {
+      ctx.$page2.classList.add('hidden')
+    } else {
+      ctx.$headerText.innerHTML = 'Last Step!'
+      ctx.$page1.classList.add('hidden')
+
+    }
 
     const now = new Date()
 
@@ -370,7 +435,7 @@ createComponent(
     if (!ls.get('profileCompleted')) {
       ctx.$('#skipForNow').onclick = () => {
         ls.set('profileDeferred', true)
-        ls.set('is18', true)
+        ls.set('__enteredSite', true)
         ctx.parentElement.close()
       }
     } else {
@@ -378,11 +443,12 @@ createComponent(
       ctx.$('#skip').classList.add('hidden')
     }
 
-    function onSubmit(e) {
+    function onSexyProfileSubmit(e) {
       e.preventDefault()
+      submitForm(e)
     }
 
-    window.onSubmit = onSubmit
+    window.onSexyProfileSubmit = onSexyProfileSubmit
 
     fields.forEach(field => {
       const $elem = ctx.$('#'+field)
@@ -400,28 +466,44 @@ createComponent(
     })
 
 
+    ctx.$xClose.onclick = () => ctx.parentElement.close()
+
+
     const submitForm = (e) => {
-      const fieldsValid = fields.every(field => ctx.$('#'+field).checkValidity())
+      if (
+        ctx.state.activePage === 1
+        && ctx.$('#name').checkValidity()
+        && ctx.$('#birthday').checkValidity()
+      ) {
+        ctx.setState({ activePage: 2 })
 
-      // defaultProfileLS.set('profileCompleted', true)
+        // ctx.$page1.style.maxHeight = 0;
 
 
-      if (fieldsValid) {
-        const refer = ls.get('profileCompleted') || ls.get('profileDeferred')
+        ctx.$page1.classList.add('hidden')
+        setTimeout(() => {
+          ctx.$headerText.innerHTML = 'Last Step!'
+          ctx.$page2.classList.remove('hidden')
+      }, 700)
+
+
+
+        e.preventDefault()
+      } else if (
+        ctx.state.activePage === 2
+        && ctx.$('#location').checkValidity()
+        && ctx.$('#fantasy').checkValidity()
+      ) {
+
         ls.set('profileCompleted', true)
-        ls.set('is18', true)
-        ctx.parentElement.close()
-
-          // window.location.href = '/'
-
-        // try {
-
-        //   window.location.replace('/');
-        // } catch (e) {
-        //   debugger
-
-        // }
+        if (ctx.$('#pass').checkValidity()) ctx.parentElement.close()
       }
+
+
+
+
+      // const fieldsValid = fields.every(field => ctx.$('#'+field).checkValidity())
+
 
     }
     ctx.$submit.onclick = submitForm

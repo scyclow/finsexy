@@ -236,7 +236,7 @@ const HeatherHotMessages = {
   },
 
   newToFindom: {
-    messageText: `is this your first time playing with findom?`,
+    messageText: `is this your first time playing with FinDom?`,
     responseHandler: userResponse => {
       if (isYes(userResponse)) return 'newToFindomYes'
       else if (isNo(userResponse)) return 'newToFindomNo'

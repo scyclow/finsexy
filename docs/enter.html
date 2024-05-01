@@ -210,14 +210,14 @@ TODO
   // const provider = new Web3Provider()
 
   // provider.isConnected().then(isConnected => {
-  //   if (isConnected && !ls.get('is18')) {
+  //   if (isConnected && !ls.get('__enteredSite')) {
   //     window.location.replace('./index.html')
   //   }
   // })
 
   $proceedButton.addEventListener('click', () => {
     if ($over18.checked) {
-      ls.set('is18', true)
+      ls.set('__enteredSite', true)
     }
     window.location.pathname = './'
   })
@@ -244,7 +244,7 @@ TODO
 
   // // provider.onConnect(async () => {
   //   if ($over18.checked && $money.checked && $humiliation.checked) {
-  //     ls.set('is18', true)
+  //     ls.set('__enteredSite', true)
   //     window.location.replace('./profile.html')
   //   }
   // })

@@ -363,6 +363,7 @@
       text-shadow: 0 0 2px #000;
       text-align: center;
       pointer-events: none;
+      border-radius: 2px;
 
     }
 
@@ -772,7 +773,7 @@
     })
 
 
-  if (!ls.get('is18')) {
+  if (!ls.get('__enteredSite')) {
     window.location.replace('./enter')
   }
 
