@@ -3,6 +3,7 @@ import { sexyCLIT, clitLS } from './clit.js'
 import {ls, $} from '../$.js'
 import {provider} from '../eth.js'
 import {ProfileStats} from './all.js'
+import {tabs} from './tabs.js'
 
 
 
@@ -425,7 +426,7 @@ class ChatContext {
 }
 
 
-function createGlobalCtx(lsKey, init) {
+function createLSCtx(lsKey, init) {
   const ctx = ls.get(lsKey) || init
 
   setRunInterval(() => {
@@ -450,11 +451,12 @@ function createGlobalCtx(lsKey, init) {
 
 export class MessageHandler {
   static chats = {}
-  static globalCtx = createGlobalCtx('__CHAT_GLOBAL_CONTEXT', {
-    premium: 1
+  static globalCtx = createLSCtx('__CHAT_GLOBAL_CONTEXT', {
+    premium: 1,
+    isEthBrowser: false
   })
 
-  static visibilityCtx = createGlobalCtx('__CHAT_VISIBILITY_CONTEXT', {})
+  static visibilityCtx = createLSCtx('__CHAT_VISIBILITY_CONTEXT', {})
 
   static provider = provider
 
@@ -462,6 +464,7 @@ export class MessageHandler {
     this.chatName = profile.name
     this.messages = messages
     this.registeredChatWindows = []
+    this.followUpPending = {}
 
     MessageHandler.visibilityCtx[this.chatName] = MessageHandler.visibilityCtx[this.chatName] ?? profile.startingVisibility
 
@@ -472,10 +475,11 @@ export class MessageHandler {
         }
       })
     )
-    this.ctx.global = MessageHandler.globalCtx
     this.ctx.visibility = MessageHandler.visibilityCtx
     this.isActive = false
+    this.ctx.global = MessageHandler.globalCtx
     this.provider = MessageHandler.provider
+    this.ctx.global.isEthBrowser = this.provider.isEthBrowser
 
     if (messages.__contract) {
       this.connected = new Promise((res, rej) => {
@@ -578,7 +582,7 @@ export class MessageHandler {
 
     if (nextMessage.timestamp > now) return
 
-    const { messageCode, userResponse, isFollowup } = this.ctx.eventQueue.shift()
+    const { messageCode, userResponse, isFollowup, referrer } = this.ctx.eventQueue.shift()
     const messageToSend = this.getMessageToSend(messageCode, userResponse, isFollowup)
 
     this.ctx.lastUserResponse = userResponse || this.ctx.lastUserResponse
@@ -588,21 +592,33 @@ export class MessageHandler {
       await this.messages[messageToSend.event]?.preEvent?.(userResponse, this.ctx, this.contract, this.provider)
     }
 
-    const followUp = await this.sendFollowup(messageToSend, userResponse)
+
+    console.log(messageCode, this.followUpPending[messageCode], tabs.tabId, tabs.isLastActive())
+    if (!this.followUpPending[messageCode] && tabs.isLastActive()) {
+      this.followUpPending[messageCode] = true
 
 
-    if (followUp) {
-      const messageToSend = this.getMessageToSend(followUp.messageCode, userResponse, true)
-      const estimatedMessageText = await this.sendMessage(messageToSend, userResponse)
-      const [typingWait, wait] = this.waitTimes(estimatedMessageText, 250, followUp.waitMs)
+      const followUp = await this.sendFollowup(messageToSend, userResponse)
 
-      this.ctx.addToEventQueue({
-        userResponse,
-        messageCode: followUp.messageCode,
-        timestamp: now + wait,
-        startTyping: now + typingWait,
-        isFollowup: true
-      })
+      if (followUp) {
+        const messageToSend = this.getMessageToSend(followUp.messageCode, userResponse, true)
+        const estimatedMessageText = await this.sendMessage(messageToSend, userResponse)
+        const [typingWait, wait] = this.waitTimes(estimatedMessageText, 250, followUp.waitMs)
+
+        this.ctx.addToEventQueue({
+          userResponse,
+          messageCode: followUp.messageCode,
+          timestamp: now + wait,
+          startTyping: now + typingWait,
+          isFollowup: true,
+          referrer: messageCode
+        })
+      }
+
+    }
+
+    if (referrer) {
+      this.followUpPending[referrer] = false
     }
 
     if (messageToSend.followUp || messageToSend.responseHandler) {
@@ -784,8 +800,8 @@ setTimeout(() => {
 window.MessageHandler = MessageHandler
 
 
-document.onvisibilitychange = () => {
-  if (!document.hidden) MessageHandler.updateGlobalUnread()
-}
+tabs.onChange(hidden => {
+  if (!hidden) MessageHandler.updateGlobalUnread()
+})
 
 

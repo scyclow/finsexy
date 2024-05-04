@@ -182,7 +182,16 @@ code {
   animation: Orgasm 48s ease-out;
 }
 
+
+.ritualFade {
+  transition: 10s;
+}
+
 .burn {
+  filter: blur(0.8px) saturate(1.5) hue-rotate(45deg)
+}
+
+.burnAnimation {
   animation-iteration-count: 1;
   animation: Burn 24s ease-out;
 }
@@ -214,6 +223,7 @@ button, img {
   animation: none;
   box-shadow: 0 0 3em var(--primary-color);
 }
+
 
 
 

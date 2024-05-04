@@ -1,5 +1,25 @@
 /*
   TODO
+
+    - I pray to you, goddess
+    - numismatic numina
+    - arbiter of immaterial value
+
+
+
+    - ritual burn/sacrifice
+    - spritual cleansing
+    - tithe
+
+    - total devotion
+    - worship me
+    - i will issue you the oliest of sacriments
+
+    - where fantasy turns into reality
+
+
+
+
     - think of dynamics after ritual burn
     - incorporate other numismatic lore
     - take a vow to not send to other doms
@@ -17,6 +37,7 @@
 
     - human/ai incarnation of the monetary/numismatic numen
       - commnts arguing over whether its abuntia (goddess of wealth) of ceres (goddess of market)
+
     - crystal goddess knows all
       - incentive to give her money, do ritual burn, is that she can tell you where the market is moving
 
@@ -26,7 +47,7 @@
 
 
 Testimonials
-  - I don't have a physical body. I do not exist unless Goddess recognizes my existence. I am simply a money receptical of Goddess
+  - I don't have a physical body. I do not exist unless Goddess recognizes my existence. I am simply a money receptical for Goddess
 
   - "thank you goddess for existing"
   - "I loooooove having an owner. no more decisions. no more anxiety. no more analysis paralysis. Goddess just controls me and that's that."
@@ -43,43 +64,14 @@ Testimonials
 
 */
 
+
+window.CLOSE_AUDIO_CTX = () => {}
+
 import { isYes, isNo, isGreeting, isMean, MessageHandler, responseParser, diatribe, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
-import {provider, bnToN} from '../eth.js'
+import {provider, bnToN, toETH, ZERO_ADDR} from '../eth.js'
 
 
-
-function getZodiacSign(timestamp) {
-  const date = new Date(timestamp)
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-
-  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) {
-    return 'Aries'
-  } else if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) {
-    return 'Taurus'
-  } else if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) {
-    return 'Gemini'
-  } else if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) {
-    return 'Cancer'
-  } else if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) {
-    return 'Leo'
-  } else if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) {
-    return 'Virgo'
-  } else if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) {
-    return 'Libra'
-  } else if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) {
-    return 'Scorpio'
-  } else if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) {
-    return 'Sagittarius'
-  } else if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) {
-    return 'Capricorn'
-  } else if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) {
-    return 'Aquarius'
-  } else {
-    return 'Pisces'
-  }
-}
 
 
 async function tributeEvent(ctx, contract, provider) {
@@ -185,25 +177,30 @@ export const CrystalGoddessMessages = {
 
   unsurprised: {
     messageText: `Of course not. When you envision the platonic ideal of perfection, does anything other than my perfect body come to mind?`,
-    responseHandler: ur => isNo(ur) ? 'knowSoMuch' : 'pity'
+    responseHandler: (ur, ctx) => {
+      if (isNo(ur)) {
+        ctx.state.knowSoMuch = true
+        return 'knowSoMuch'
+      }
+      return 'noOtherResponse'
+    }
   },
 
   knowSoMuch: {
     messageText: `You think you know so much, don't you?`,
-    followUp: (ur, ctx) => {
-      ctx.state.knowSoMuch = true
-      return fu('doNotUnderstand')
-    }
+    followUp: fu('noOtherResponse')
   },
-
-
 
 
   surprised: {
     messageText: `Of course you are. Your stupid little mind can't comprehend anything other than what's been told to you by so-called "holy" men`,
-    followUp: fu('doNotUnderstand')
+    followUp: fu('noOtherResponse')
   },
 
+  noOtherResponse: {
+    messageText: () => `I'd expect no other response from a ${getZodiacSign(getUserData('birthday'))}`,
+    followUp: (ur, ctx) => ctx.state.knowSoMuch ? fu('doNotUnderstand') : fu('pity')
+  },
 
   pity: {
     messageText: genderSwitch({
@@ -215,20 +212,24 @@ export const CrystalGoddessMessages = {
   },
 
   ...diatribe('doNotUnderstand', [
-    (ur, ctx) => `${ctx.state.knowSoMuch ? 'But there' : 'There'} is ${ctx.state.knowSoMuch ? 'still ' : ''}so much you do not understand. I see you, staying up late at night, staring into the deep void of your computer screen, ${genderSwitch({m: 'erection', f: 'vulva', nb: 'genitals'})} in hand, praying to the false idol of market analysis`,
+    (ur, ctx) => `${ctx.state.knowSoMuch ? 'But there is still' : 'There is'} so much you do not understand. I see you, staying up late at night, staring into the deep void of your computer screen, ${genderSwitch({m: 'erection', f: 'vulva', nb: 'genitals'})} in hand, praying to the false idol of market analysis`,
     `Seeking patterns in chaos. Trend lines, Candlesticks, Ichimoku Clouds. Religiously tracking memes and metas`,
     `You worship the aura of the rare, searching for a Holy Grail. You see monkeys with coins in their eyes and mistake that for wealth. You live your life believing you can take your money with you upon your death. But you do not understand that Charon's Obol won't get you farther than the lake of fire`,
     `The simple fact that you are here shows that you have been lead astray, and are living in a warped monetary reality`,
     `@SamanthaJones may have seen all of your transactions, but I've seen more`,
     `Goddess knows all`,
   ], {
-    responseHandler: 'doYouWish'
+    responseHandler: 'silence'
   }),
 
+  silence: {
+    messageText: () => `Silence, ${getUserData('name')}. Your sins do not grant you the privlege of speech`,
+    followUp: fu('doYouWish')
+  },
 
   doYouWish: {
-    messageText: `Do you accept your follies and wish to repent for your sins?`,
-    responseHandler: ur => isYes(ur) ? 'repent' : 'fool'
+    messageText: `Do you accept your follies and wish to repent?`,
+    responseHandler: ur => isYes(ur) || isMatch(ur, ['repent']) ? 'repent' : 'fool'
   },
 
 
@@ -243,7 +244,7 @@ export const CrystalGoddessMessages = {
   },
 
   repent: {
-    messageText: `Then bow down, and acknowledge me as your Goddess. Take a vow of devotion to me`,
+    messageText: `Then bow down, and acknowledge me as your Goddess. Make a vow of devotion to me`,
     responseHandler: ur => responseParser(ur).includes('i make a vow of devotion to you my goddess')
       ? 'vowDevotionSuccess'
       : 'vowDevotionFailure'
@@ -281,8 +282,8 @@ export const CrystalGoddessMessages = {
 
 
   ...diatribe('divineOwnership', [
-    () => `In taking this vow of devotion, you acknowledge that I, your Goddess, claim divine ownership over you, ${getUserData('name')}`,
-    `You relenquish control over the entirety of your digital assets, as you have found the burden of self-sovereign ownership to be too much for your soul to bear. The responsibility of free will has overwhelmed you. Your stupid little mind collapses under the slightest pressure of decision making`,
+    (ur, ctx) => `In taking this vow of devotion, you acknowledge that I, your Goddess, claim divine ownership over you, ${getUserData('name')}, as well as ` + (ctx.global.isConnected ? `all digital property of ${ctx.global.connectedAddr}` : `the entirety of your digital property`),
+    `You relenquish control over these assets, as you have found the burden of self-sovereign ownership to be too much for your soul to bear. The responsibility of free will has overwhelmed you. Your stupid little mind collapses under the slightest pressure of decision making`,
     `You can feel the weight of this load draging you down by your loins. You know that you are not truly free until you achieve the release of being unburdened. Until you give yourself over to me. Only then will the weight be lifted from your shoulders`,
     `You <em>need</em> Goddess to unburden you. To take control of your wallet and make the decisions you cannot trust yourself to make`,
     `And this is why you relenquish control to me: Because you are weak. Because you are pathetic. Because the idea of true ownership fills you with a deep existential dread`,
@@ -300,56 +301,124 @@ export const CrystalGoddessMessages = {
   },
 
   enlightenment: {
-    messageText: `In order to rectify this karmic imbalance we must embark on a ritual to bring you closer to numismatic enlightenment`,
-    followUp: fu('evacuation')
+    messageText: `In order to rectify this karmic imbalance we must undertake a sacred ritual to bring you closer to enlightenment`,
+    followUp: fu('rebalance')
   },
 
 
-  // TODO: I need you to show me that you're willing to sacrifice
-  // ritual sacrifice
+  ...diatribe('rebalance', [
+    `First, we must rebalance your transactional chakras by burning .0066600 ETH`,
+    `In order to achieve enlightenment you must show me that you are willing to sacrifice`,
+    `It is important that you do not refresh your web browser or speak while the ritual is underway, or else we will have to restart the ritual. Is this clear?`
+  ], {
+    responseHandler: ur => isYes(ur) ? 'ritualBurnInitiate' : 'clarityOfThought'
+  }),
 
-  evacuation: {
-    messageText: `First, we must cleanse your transactional pathways by burning 0.000666000 ETH. It is important that you do not refresh your web browser while the ritual is underway`,
-    followUp: fu('initiateBurn')
+  clarityOfThought: {
+    messageText: `Return to me when you have achieved more clarity of thought`,
+    responseHandler: 'rebalance2'
   },
 
-  initiateBurn: {
-    messageText: 'You can initiate a ritual burn with the sexy CLIT by typing <code>$sexy burn 0.000666000</code>',
-    event: ctx => ctx.state.totalBurnt >= 0.000666 ? fu('aura') : null,
-    responseHandler: 'doNotSpeak'
+  ritualBurnInitiate: {
+    messageText: `We shall now commence with the ritual burn of .0066600 ETH`,
+    followUp: () => {
+      setTimeout(burnTone, 1000)
+      return fu('ritualBurn', 4000)
+    }
   },
 
-  doNotSpeak: {
-    messageText: `Do not speak until you have completed your burn`,
-    event: ctx => ctx.state.totalBurnt >= 0.000666 ? fu('aura') : null,
-    responseHandler: 'initiateBurn'
+  ...diatribe('ritualBurn', [
+    `With gold's embrace, your heart desires`,
+    `Filled with sin, your mind conspires`,
+    `Your cold brain thinks you must acquire`,
+    `With shameless lust your loins catch fire`,
+
+    `In passion's heat your body yearns`,
+    `In profit's glow, desire churns`,
+    `I unveil truths as money burns`,
+    `Back to the Ether, its source returns`,
+  ], {
+    followUp: fu('queueBurnTx')
+  }),
+
+  queueBurnTx: {
+    messageText: '',
+    async followUp(ur, ctx, contract, provider) {
+      if (!ctx.global.isEthBrowser) {
+        CLOSE_AUDIO_CTX()
+        return fu('burnBrowser')
+      }
+      if (!ctx.global.isConnected) {
+        CLOSE_AUDIO_CTX()
+        return fu('burnConnect')
+      }
+
+      try {
+        const tx = await provider.signer.sendTransaction({
+          to: ZERO_ADDR,
+          value: toETH(0.00666)
+        })
+
+        await tx.wait()
+
+        document.documentElement.classList.add('burnAnimation')
+
+        setTimeout(() => {
+          CLOSE_AUDIO_CTX()
+        }, 2000)
+
+        return fu('aura', 9000)
+
+      } catch (e) {
+        ctx.state.burnError = e.message || JSON.stringify(e)
+        CLOSE_AUDIO_CTX()
+        return fu('burnError')
+      }
+    }
   },
+
+  burnBrowser: {
+    messageText: `You are not ready to seek enlightenment. Only those with an Ethereum wallet can perform this ritual.`,
+    responseHandler: 'ritualBurnInitiate'
+  },
+  burnConnect: {
+    messageText: `You must first connect your wallet, and then we will recommence our ritual`,
+    responseHandler: 'ritualBurnInitiate'
+  },
+  burnError: {
+    messageText: (ur, ctx) => `The heavens were not aligned for your transaction: (${ctx.state.burnError}). We shall make another attempt when you are ready.`,
+    responseHandler: 'ritualBurnInitiate'
+  },
+
 
   aura: {
-    messageText: `I see an immediate improvement in your aura. The unburdening has begun, and you are close to a cycle of rebirth`,
-    followUp: fu('evacuation'),
+    messageText: `The sacred burn has been completed. I see an immediate improvement in your aura. The unburdening has begun, and you are close to a cycle of rebirth`,
+    followUp: fu('todo'),
   },
 
-  tributeEvent: createEvent(0.0363, {}),
+  // tributeEvent: createEvent(0.0363, {}),
 
-  evacuation: {
-    messageText: `We will now begin a partial evacuation of your wallet, in which you will abdicate 0.0363 ETH to Goddess`,
-    event: 'tributeEvent',
-    responseHandler: 'evacuation2'
-  },
+  // evacuation: {
+  //   messageText: `We will now begin a partial evacuation of your wallet, in which you will abdicate 0.0363 ETH to Goddess`,
+  //   event: 'tributeEvent',
+  //   responseHandler: 'evacuation2'
+  // },
 
-  evacuation2: {
-    messageText: `Once this tribute has been given, your cycle of rebirth will continue and you shall resume the download of monetary wisdom`,
-    event: 'tributeEvent',
-    responseHandler: 'evacuation2'
-  },
+  // evacuation2: {
+  //   messageText: `Once this tribute has been given, your cycle of rebirth will continue and you shall resume the download of monetary wisdom`,
+  //   event: 'tributeEvent',
+  //   responseHandler: 'evacuation2'
+  // },
 
-  evacuation3: {
-    messageText: ``,
-    event: 'tributeEvent',
-    responseHandler: 'evacuation2'
+  // evacuation3: {
+  //   messageText: ``,
+  //   event: 'tributeEvent',
+  //   responseHandler: 'evacuation2'
+  // }
+
+  todo: {
+    messageText: 'TODO'
   }
-
 }
 
 
@@ -916,5 +985,162 @@ you have been manifesting a poverty consciousness
 
 
 
+
+
+const MAX_VOLUME = 0.04
+
+const allSources = []
+function createSource(waveType = 'square') {
+  const AudioContext = window.AudioContext || window.webkitAudioContext
+  const ctx = new AudioContext()
+
+  const source = ctx.createOscillator()
+  const gain = ctx.createGain()
+  const panner = new StereoPannerNode(ctx)
+
+  source.connect(gain)
+  gain.connect(panner)
+  panner.connect(ctx.destination)
+
+  gain.gain.value = 0
+  source.type = waveType
+  source.frequency.value = 3000
+  source.start()
+
+  const smoothFreq = (value, timeInSeconds=0.00001, overridePaused=false) => {
+    source.frequency.exponentialRampToValueAtTime(
+      value,
+      ctx.currentTime + timeInSeconds
+    )
+  }
+
+  const smoothPanner = (value, timeInSeconds=0.00001) => {
+    panner.pan.exponentialRampToValueAtTime(
+      value,
+      ctx.currentTime + timeInSeconds
+    )
+  }
+
+  const smoothGain = (value, timeInSeconds=0.00001) => {
+    gain.gain.setTargetAtTime(
+      Math.min(value, MAX_VOLUME),
+      ctx.currentTime,
+      timeInSeconds
+    )
+  }
+
+  const src = { source, gain, panner,smoothFreq, smoothGain, smoothPanner, originalSrcType: source.type }
+
+  allSources.push(src)
+
+  return src
+}
+
+
+
+
+
+function burnTone() {
+  document.documentElement.classList.add('ritualFade')
+  document.documentElement.classList.add('burn')
+  const s0 = createSource('sine')
+  const s1 = createSource('sine')
+  const s2 = createSource('sine')
+  const s3 = createSource('sine')
+  const s4 = createSource('sine')
+  const s5 = createSource('sine')
+  const s6 = createSource('sine')
+  const s7 = createSource('sine')
+
+  s0.smoothPanner(1)
+  s1.smoothPanner(1)
+  s2.smoothPanner(-1)
+  s3.smoothPanner(-1)
+  s4.smoothPanner(1)
+  s5.smoothPanner(-1)
+  s6.smoothPanner(-1)
+  s7.smoothPanner(1)
+
+
+  s0.smoothFreq(111)
+  s1.smoothFreq(111 - 1)
+
+
+  s2.smoothFreq(222)
+  s3.smoothFreq(222 - 2)
+
+  s4.smoothFreq(666/2.5 )
+  s5.smoothFreq(666/2.5)
+
+  s6.smoothFreq(666 )
+  s7.smoothFreq(666 - 2)
+
+
+  s0.smoothGain(MAX_VOLUME, 10)
+  s1.smoothGain(MAX_VOLUME, 10)
+  s2.smoothGain(MAX_VOLUME, 10)
+  s3.smoothGain(MAX_VOLUME, 10)
+  s4.smoothGain(MAX_VOLUME, 10)
+  s5.smoothGain(MAX_VOLUME, 10)
+  s6.smoothGain(MAX_VOLUME, 10)
+  s7.smoothGain(MAX_VOLUME, 10)
+
+  CLOSE_AUDIO_CTX = () => {
+    document.documentElement.classList.remove('burn')
+    s0.smoothGain(0, 4)
+    s1.smoothGain(0, 4)
+    s2.smoothGain(0, 4)
+    s3.smoothGain(0, 4)
+    s4.smoothGain(0, 4)
+    s5.smoothGain(0, 4)
+    s6.smoothGain(0, 4)
+    s7.smoothGain(0, 4)
+    setTimeout(() => {
+      s0.source.stop()
+      s1.source.stop()
+      s2.source.stop()
+      s3.source.stop()
+      s4.source.stop()
+      s5.source.stop()
+      s6.source.stop()
+      s7.source.stop()
+    }, 16000)
+  }
+}
+
+
+
+
+function getZodiacSign(timestamp) {
+  const date = new Date(timestamp)
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+
+  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) {
+    return 'Aries'
+  } else if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) {
+    return 'Taurus'
+  } else if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) {
+    return 'Gemini'
+  } else if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) {
+    return 'Cancer'
+  } else if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) {
+    return 'Leo'
+  } else if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) {
+    return 'Virgo'
+  } else if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) {
+    return 'Libra'
+  } else if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) {
+    return 'Scorpio'
+  } else if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) {
+    return 'Sagittarius'
+  } else if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) {
+    return 'Capricorn'
+  } else if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) {
+    return 'Aquarius'
+  } else {
+    return 'Pisces'
+  }
+}
 
 
