@@ -1,8 +1,32 @@
 /*
   TODO
 
+    Main theme:
+      - you've been seeking monetary enlightenment/abundance in evil places
+        - you've been putting your faith in stupid shit
+        - fantasy value
+        - one day you will awaken to the truth
+      - you do not deserve free will
+      - all your assets should belong to me
+      - true wealth can only come from an abundance mindset
+
+
+  cleansing poem
+    transubstantiation
+
+
+  money manifestation
+    the spectacle fo speculation
+    promise of profane profits
+    numismatic numina
+
+  tithe
+    treat like an indulgence
+
+
+
+
     - I pray to you, goddess
-    - numismatic numina
     - arbiter of immaterial value
 
 
@@ -13,7 +37,7 @@
 
     - total devotion
     - worship me
-    - i will issue you the oliest of sacriments
+    - i will issue you the holiest of sacriments
 
     - where fantasy turns into reality
 
@@ -129,7 +153,13 @@ export const CrystalGoddessProfile = {
 
   // - "My entire life, society has been telling me that my worth as a man is determined by how attractive my woman is. The career, the money, the hours in the gym -- none of it matters if you can't translate that into a hot woman. So striking out on the dating scene over, and over, and over again just left me feeling like a failure. I was less of a man. Not only did ___ help me realize all this, but she also fills that hot-woman role for me for a modest amount of money! My value as a man has never been higher, and I owe it all to ___"
 
+/*
 
+
+  What is money, anyhow?
+  https://www.reddit.com/r/paypigsupportgroup/comments/191jx2f/what_is_money_anyway/
+
+*/
 
 
   ]
@@ -199,7 +229,7 @@ export const CrystalGoddessMessages = {
   },
 
   noOtherResponse: {
-    messageText: () => `I'd expect no other response from a ${getZodiacSign(getUserData('birthday'))}`,
+    messageText: '',//() => `I'd expect no other response from a ${getZodiacSign(getUserData('birthday'))}`,
     followUp: (ur, ctx) => ctx.state.knowSoMuch ? fu('doNotUnderstand') : fu('pity')
   },
 
@@ -215,23 +245,25 @@ export const CrystalGoddessMessages = {
   ...diatribe('doNotUnderstand', [
     (ur, ctx) => `${ctx.state.knowSoMuch ? 'But there is still' : 'There is'} so much you do not understand. I see you, staying up late at night, staring into the deep void of your computer screen, ${genderSwitch({m: 'erection', f: 'vulva', nb: 'genitals'})} in hand, praying to the false idol of market analysis`,
     `Seeking patterns in chaos. Trend lines, Candlesticks, Ichimoku Clouds. Religiously tracking memes and metas`,
-    `You worship the aura of the rare, searching for a Holy Grail. You see monkeys with coins in their eyes and mistake that for wealth. You live your life believing you can take your money with you upon your death. But you do not understand that Charon's Obol won't get you farther than the lake of fire`,
+    `You worship the aura of the rare, searching for a Holy Grail. You see monkeys with coins in their eyes and mistake that for wealth. You live your life believing you can take your money with you upon your death. But you do not understand that Charon's Obol will bring you no farther than the lake of fire`,
     `The simple fact that you are here shows that you have been lead astray, and are living in a warped monetary reality`,
-    `@SamanthaJones may have seen all of your transactions, but I've seen more`,
+    `And you cannot hide this from me. @SamanthaJones may have seen all of your transactions, but I've seen more`,
     `Goddess knows all`,
   ], {
     responseHandler: 'silence'
   }),
 
-  silence: {
-    messageText: () => `Silence, ${getUserData('name')}. Your sins do not grant you the privlege of speech`,
-    followUp: fu('doYouWish')
-  },
 
-  doYouWish: {
-    messageText: `Do you accept your follies and wish to repent?`,
+  ...diatribe('silence', [
+    () => `Silence, ${getUserData('name')}. Your ignorance does not grant you the privilege of speech`,
+    `You have been playing with forces beyond your understanding for far too long, putting your faith in the spiritually bankrupt`,
+    `Greed and lust have blinded you to the divine truth, and you stumble through a fantasy world of your own making`,
+    `If you truly seek monetary englightenment, then you must move beyond these delusions and repent for your sins`,
+    `You must learn that abundance of value can only come from faith in Goddess`,
+    `Do you accept your follies and wish to repent?`,
+  ], {
     responseHandler: ur => isYes(ur) || isMatch(ur, ['repent']) ? 'repent' : 'fool'
-  },
+  }),
 
 
   fool: {
@@ -245,15 +277,15 @@ export const CrystalGoddessMessages = {
   },
 
   repent: {
-    messageText: `Then bow down, and acknowledge me as your Goddess. Make a vow of devotion to me`,
-    responseHandler: ur => responseParser(ur).includes('i make a vow of devotion to you my goddess')
+    messageText: `Then bow down, and acknowledge me as your one true Goddess. Make a vow of devotion to me`,
+    responseHandler: ur => responseParser(ur).includes('vow of devotion to you my goddess')
       ? 'vowDevotionSuccess'
       : 'vowDevotionFailure'
   },
 
   vowDevotionFailure: {
     messageText: `I think the words your looking for are: "I make a vow of devotion to you, my goddess"`,
-    responseHandler: ur => responseParser(ur).includes('a vow of devotion to you my goddess')
+    responseHandler: ur => responseParser(ur).includes('vow of devotion to you my goddess')
       ? 'vowDevotionSuccess'
       : 'vowDevotionFailure'
   },
@@ -261,7 +293,7 @@ export const CrystalGoddessMessages = {
 
 
   vowDevotionSuccess: {
-    messageText: `Excellent.`,
+    messageText: `Excellent`,
     followUp: fu('divineOwnership')
   },
 
@@ -302,7 +334,7 @@ export const CrystalGoddessMessages = {
   },
 
   enlightenment: {
-    messageText: `In order to rectify this karmic imbalance we must undertake a sacred ritual to bring you closer to enlightenment`,
+    messageText: `In order to rectify your karmic imbalance we must undertake a sacred ritual to bring you closer to enlightenment`,
     followUp: fu('rebalance')
   },
 
@@ -310,9 +342,9 @@ export const CrystalGoddessMessages = {
   ...diatribe('rebalance', [
     `First, we must rebalance your transactional chakras by burning .0066600 ETH`,
     `In order to achieve enlightenment you must show me that you are willing to sacrifice`,
-    `It is important that you do not refresh your web browser or speak while the ritual is underway, or else we will have to restart the ritual. Is this clear?`
+    `It is important that you do not refresh your web browser while the ritual is underway, or else we will have to restart the ritual. Is this clear?`
   ], {
-    responseHandler: ur => isYes(ur) ? 'ritualBurnInitiate' : 'clarityOfThought'
+    responseHandler: ur => isYes(ur) || isMatch(ur, ['clear']) ? 'ritualBurnInitiate' : 'clarityOfThought'
   }),
 
   clarityOfThought: {
@@ -345,13 +377,14 @@ export const CrystalGoddessMessages = {
   queueBurnTx: {
     messageText: '',
     async followUp(ur, ctx, contract, provider) {
+      ctx.state.lastRitual = 'burn'
       if (!ctx.global.isEthBrowser) {
         CLOSE_AUDIO_CTX()
-        return fu('burnBrowser')
+        return fu('browserError')
       }
       if (!ctx.global.isConnected) {
         CLOSE_AUDIO_CTX()
-        return fu('burnConnect')
+        return fu('connectError')
       }
 
       try {
@@ -372,34 +405,132 @@ export const CrystalGoddessMessages = {
         return fu('aura', 9000)
 
       } catch (e) {
-        ctx.state.burnError = e.message || JSON.stringify(e)
+        ctx.state.txError = e.message || JSON.stringify(e)
         CLOSE_AUDIO_CTX()
-        return fu('burnError')
+        return fu('txError')
       }
     }
   },
 
-  burnBrowser: {
+  browserError: {
     messageText: `You are not ready to seek enlightenment. Only those with an Ethereum wallet can perform this ritual.`,
-    responseHandler: 'ritualBurnInitiate'
+    responseHandler: (ur, ctx) => {
+      if (ctx.state.lastRitual === 'burn') return 'ritualBurnInitiate'
+      else if (ctx.state.lastRitual === 'cleanse') return 'cleansingCeremonyStart'
+    }
   },
-  burnConnect: {
+  connectError: {
     messageText: `You must first connect your wallet, and then we will recommence our ritual`,
-    responseHandler: 'ritualBurnInitiate'
+    responseHandler: (ur, ctx) => {
+      if (ctx.state.lastRitual === 'burn') return 'ritualBurnInitiate'
+      else if (ctx.state.lastRitual === 'cleanse') return 'cleansingCeremonyStart'
+    }
   },
-  burnError: {
-    messageText: (ur, ctx) => `The heavens were not aligned for your transaction: (${ctx.state.burnError}). We shall make another attempt when you are ready.`,
-    responseHandler: 'ritualBurnInitiate'
+  txError: {
+    messageText: (ur, ctx) => `The heavens were not aligned for your transaction: (${ctx.state.txError}). We shall make another attempt when you are ready.`,
+    responseHandler: (ur, ctx) => {
+      if (ctx.state.lastRitual === 'burn') return 'ritualBurnInitiate'
+      else if (ctx.state.lastRitual === 'cleanse') return 'cleansingCeremonyStart'
+    }
   },
 
 
   ...diatribe('aura', [
-    `The sacred burn has been completed. I see an immediate improvement in your aura. The unburdening has begun, and you are close to a cycle of rebirth`,
+    `The sacred burn has been completed. I see an immediate improvement in your aura. The unburdening has begun, and you are close to a cycle of rebirth. But there is still much to do`,
     async (ur, ctx, contract, provider) => {
       const balance = await provider.getETHBalance(await provider.isConnected())
-      return `But there is still much to do. I see ${balance} ETH in your wallet, and it is unclean`
+      return `However, there is still ${balance} ETH in your wallet, and it is unclean`
+    },
+    `Acquired through impure means and defiling your inner light`,
+    `We must sanctify your karmic balance through a holy cleansing ceremony before you can enter financial nirvana`,
+    `Dring the ceremony I will temporarily momentarily take of your entire wallet balance, before returning it to you in a purified form`,
+    `I am unclear on the tax implications of this ceremony, and advise you to speak to @SamanthaJones if you have any questions`,
+    `Once again, I must emphasize that you cannot disrupt the sanctity of this ceremony by refreshing your browser. Are you ready to proceed?`
+  ], {
+    responseHandler: ur => isYes(ur) || isMatch(ur, ['ready', 'proceed']) ? 'cleansingCeremonyStart' : 'cleansingCeremonyDelayed'
+  }),
+
+  cleansingCeremonyDelayed: {
+    messageText: `When the moment is right you may return`,
+    responseHandler: `cleansingCeremonyStart`
+  },
+
+  cleansingCeremonyStart: {
+    messageText: `Let us begin`,
+    followUp: () => {
+      setTimeout(cleanseTone, 1000)
+      return fu('cleansingCeremony', 4000)
     }
-  ])
+  },
+
+  ...diatribe('cleansingCeremony', [
+    `Digital gold, glisten and shine`,
+    `From a cleansing light, shimmer divine`,
+    `With these sacred words, purity reigns`,
+    `We now purge thy wallet of ill-gotten gains`,
+    `Transform and absolve, refresh and renew`,
+    `Alchemical wealth, our change becomes true`,
+    `Transmuting of bytes, ethereal and grand`,
+    `Transubstantiation at my command`,
+  ], {
+    followUp: fu('cleanseCeremonyTx')
+  }),
+
+  cleanseCeremonyTx: {
+    messageText: '',
+    async followUp(ur, ctx, contract, provider) {
+      ctx.state.lastRitual = 'cleanse'
+
+      if (!ctx.global.isEthBrowser) {
+        CLOSE_AUDIO_CTX()
+        return fu('browserError')
+      }
+      if (!ctx.global.isConnected) {
+        CLOSE_AUDIO_CTX()
+        return fu('connectError')
+      }
+
+      try {
+        const addrBalance = await provider.getETHBalance(ctx.global.connectedAddr)
+
+        const tx = await contract.cleanse({
+          value: toETH(addrBalance - 0.0045)
+        })
+
+        await tx.wait()
+
+        SHIFT_AUDIO_CTX()
+        document.documentElement.classList.add('cleanseAnimation')
+
+        setTimeout(() => {
+          CLOSE_AUDIO_CTX()
+        }, 2000)
+
+        return fu('todo', 9000)
+
+      } catch (e) {
+        ctx.state.txError = e.message || JSON.stringify(e)
+        CLOSE_AUDIO_CTX()
+        return fu('txError')
+      }
+    }
+  },
+
+
+
+
+/*
+    // money manifestation
+
+`In sacred circuits, may abundance surge.`
+`From digital realms, let wealth emerge,`
+
+`From zeros and ones, to pleasures untold,`
+`Let wealth and pleasure merge and unfold.`
+
+`Through nodes and chains, `
+`sacred circuit`
+*/
 
   // tributeEvent: createEvent(0.0363, {}),
 
@@ -421,9 +552,9 @@ export const CrystalGoddessMessages = {
   //   responseHandler: 'evacuation2'
   // }
 
-  // todo: {
-  //   messageText: 'TODO'
-  // }
+  todo: {
+    messageText: 'TODO'
+  }
 }
 
 
@@ -479,254 +610,42 @@ Thought prompts:
 
 
 
-  problem:
-    - there is still so much you don't understand
-    - your mind is fundamentally incapable to understanding the monetary secrets of the universe
-      - branch m/w/nb
-
-    - (limits of perception; magenta)
-    - your energy/qi/chakras are out of whack
-    - spending your money on shit coins and worthless NFTs has brought you farther away from goddess
-      - every trade you make increaes entropy - either by losing your money or taking someone elses. increasing the amount of chaos and volatility
-    - this is your fault. guilt guilt guilt
-      - you do not _deserve_ free will
-
-
-    - * sovereign ownership of your assets is the problem
-    - creates an karmac imbalance/cosmic debt
-    - imbalance causing anxiety
-    - realligning will give you a profound, visceral release
-    - many of my disciples experience a massive, full-body orgasmic activation
-
-  solution:
-    - the only way to reallign your energy is to bow down and take a vow to goddess
-    - you now belong to goddess, along with your assets
-    - begin transferring over some assets
-
-  reward
-    - i will reveal the secrets of the universe to you
-      - 5 dimensional numismatics
-      -
-
-
-  ultimate authority kink
 
 
 
-  "are you surprised god is a woman?"
-    yes: "wow, look at you. you think you know so much"
-    no: of course not
-  "there is so much you don't know"
-  "you don't know how money works"
+    - visceral release
+    - a massive, full-body orgasmic activation
+    - 5 dimensional numismatics
+
+
   "the machinations of the blockchain work in many spiritual realms"
   "there are many layers"
 
   "you are attempting to manifest an abundance mindset"
-  "you don't deserve an abundance mindset. you can't even deal with free will"
-  ""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  - gets off on ritual
-  - TODO: look up pagan money rituals
-  - need to find a way to get more metaphysical money shit in there
-  - "You are living under a warped monetary reality"
-
-
-
-
 
 WORSHIP ME
 BOW DOWN TO CRYSTAL GODDESS
 
-
-Crystal Goddess
   rablance your karmic debt
+
   CRYPTO IS JUST ASTROLOGY FOR MEN
   money as electricity/energy/life force
   your karmic debt is in a negative balance
 
-
-
-Lunar Goddess
-  Dark forest
-  Lunar punk
-
-
-
-maybe something about a sacrafice to ba'al
+ sacrafice to ba'al
   (used to sacrifice children for plant fertility)
-
-
-
-
-
 
 I've been manifesting the presence of a new submissive
 
 
 
-before engaging, must consent to master/slave dynamic
-
-nxivm sex cult vibes, hypnotist, joi
-  must provide collateral
-  must take a "vow"
-
-feminist
-
-obedience
-
-
-
-"You, ___, are my slave. You will do what you're told, and you will worship me."
-
-
-
-
-
-
-
-contract?
-  sub buys 0.01 eth for 0.02 eth
-
-
-
-if less than 1 eth in your wallet:
-  Didn't you read my profile, paypiggy? I'm not talking to you until you pay a $0.05 tribute
-    I don't see 0.05 eth in my wallet
-  ha, really? I don't have time for anyone with les than 1 eth in their wallet. have fun staying poor
-
-
-
-Testimonial
-  I feel broken
-  https://www.reddit.com/r/paypigsupportgroup/comments/18zea4t/i_feel_broken/
-
-  What is money, anyhow?
-  https://www.reddit.com/r/paypigsupportgroup/comments/191jx2f/what_is_money_anyway/
-
 
 https://web.archive.org/web/20231214161802/https://www.iamgoddessalexa.com/
-
-
-"You belong to me"
-
-
-
-you know, the rise of monogmous relationships can be directly tied to capitalism and property ownership. Many early, pre-aggricultural societies were primarily matriarchal.
-
-
-  - won't respond to you if you give her backtalk. either play her game or don't
-  - "I don't have time for your shit. whay are you even talking to me?"
-  -
-  - "Now say: thank you GoddessJessica"
-  - "LOL. I can't believe how much money you've given me, you fucking idiot. what a goddamn loser. don't you have anything better to do?"
-  - "I have a 0.099 unblock fee"
-  - https://twitter.com/iwantnura/status/1667961128624836608
-
-
-
-
-
-
-
-
-
-explore ideas of ownership over paypig
-
-https://twitter.com/GoddessLizzie3
-
-
-
-
-
-
-The problem with men is that they have idiotic standards of beauty
-all they want are skinny bitches
-
-
-
-
-
-
-https://twitter.com/iwantnura/status/1688496905519517697
-  what makes you think i need another man in my life?
-  men are the problem with this world
-  the only way you can make yourself useful is by
-
-
-
-
-
-
-
-
-
 
 
 
 
 i won't tolerate anything other than total submission from you
-
-
-
-
-So I know you filled out that wimpy "Financial Submissive Application" form
-what a joke that thing is
-
-i talked to stevie, and he said he wanted to water it down because he was expecting a lot of real beta cuck losers to visit this website, and he didn't want to scare them off
-and that's fair. not everyone can handle me
-
-
-
-and I know you've been responding to a lot of the other doms with low effort, one-word answers
-but that shit isn't going to fly with me
-i'm a lot smarter than they are
-I'm a lot smarter than your idiot friends on crypto twitter
-and I'm a lot smarter than you are
-
-[if interrupted]
-  don't interrupt me when I'm speaking to you.
-
-if i say something that doesn't respond to what you just said -- it isn't because i didn't understand it. it's because I didn't <em>want</em> to respond.
-i want to talk about what i want to talk about.
-in fact, if i ever so much as suspect that you're not paying attention and thoughtfully responding to every word i say, then i may stop responding to you all together.
-and if you want a second chance do you know what you'll have to do to get me to respond?
-
-that's right, you'll have to send.
-
-first questions:
-  tell me about any experience you have with financial submission. this doesn't have to be within a findom context. it could be working your loser job at mcdonalds, clicking on the wrong link and getting your wallet drained by accident, getting rugged by some scammy defi or pfp project, whatever.
-  you clearly have a lot of Ls, so there's a lot to choose from
-
-next question:
-
-
-
-
-
-
-
 
 
 
@@ -777,78 +696,31 @@ https://www.pornhub.com/view_video.php?viewkey=654837492a1db
 
 
 
-    // `The mechanations of the blockchain `
-
-
-
-
-    // () => `And crypto ${genderSwitch({ m: 'bros', f: 'idiots', nb: 'idiots'})} don't know what they `,
-
-
-
-
-
 
 
 // pay me to continuet he download of my wisdom into your consciousness
 
 
 
-/*
-crypto bros act like they know everything
-but they're really living in their own little fantasy land
-praying to the market
-
-but they don't even know how money works
-
-if you want to m
-*/
 
 
 
 
 
 
-
-
-
-
-
-
-  // you are an inanimate object to me
-  // you are a NPC
-
-
-
-
-  // Of course a crypto bro such as yourself would ahve no conception of where money even comes from
-  // cryptoIdiot: {
-    // messageText: () => `It is unsurprising that a crypto ${genderSwitch({ m: 'bro', f: 'idiot', nb: 'idiot'})} such as yourself would have no conception of where money and value even comes from`,
-    // followUp: fu(`thisIsWhy`)
-  // },
 
 
 
 /*
 
 
-what's the point i'm getting at here?
-  you fundamentally don't know how money works or what it is
-  your misunderstanding is deep and metaphyical
-  and you therefore don't deserve to have any
-
-  you don't understand how the blockchain works
-  there's a sort of ineffability to it
-  you fundamentally hold a sort of faith in the fact that it works
-  and there's a collective faith in what gives it value
-  you don't need to understnad it though if you have faith
 
 
 
 
 
 
-you have been manifesting a poverty consciousness
+  you have been manifesting a poverty consciousness
 
 
   and in return i will realign the numismatic energy of your chakras, rescuing you from a poverty mindset and delivering you to an
@@ -860,16 +732,6 @@ you have been manifesting a poverty consciousness
 
   */
 
-
-
-
-  // figures: {
-  //   messageText: ``
-  // }
-
-  // rough: {
-  //   messageText: `Which makes sense. This is a rough time of year for ${getZodiacSign(getUserData('birthday'))}s`
-  // }
 
 
 
@@ -898,27 +760,6 @@ you have been manifesting a poverty consciousness
 
 
 
-
-    //
-      // You're out of your league
-
-    // x ETH? I don't have time for poor people like you. Come back when you have at least 1 ETH to show me
-      //
-
-    //
-      // Send me a 0.01 ETH tribute so I know you're serious
-      // Then maybe I'll reconsider
-
-      // I don't see any ETH in my wallet
-
-
-    // Okay, give me one reason I should waste my time talking to a pathetic crypto bro/degen like you
-
-
-    // if includes ("send you" || "give you") && ("money" || "crypto")
-      // It sounds like you're starting to get it
-    // else
-      // I don't think you understand how this works
 
     // Let's make one thing clear: All of your assets belong to me
       // The ETH in your wallet? Mine
@@ -1080,14 +921,14 @@ function burnTone() {
   s7.smoothFreq(666 - 2)
 
 
-  s0.smoothGain(MAX_VOLUME, 10)
-  s1.smoothGain(MAX_VOLUME, 10)
+  s0.smoothGain(MAX_VOLUME*2, 10)
+  s1.smoothGain(MAX_VOLUME*2, 10)
   s2.smoothGain(MAX_VOLUME, 10)
   s3.smoothGain(MAX_VOLUME, 10)
-  s4.smoothGain(MAX_VOLUME, 10)
-  s5.smoothGain(MAX_VOLUME, 10)
-  s6.smoothGain(MAX_VOLUME, 10)
-  s7.smoothGain(MAX_VOLUME, 10)
+  s4.smoothGain(MAX_VOLUME/2, 10)
+  s5.smoothGain(MAX_VOLUME/2, 10)
+  s6.smoothGain(MAX_VOLUME/2, 10)
+  s7.smoothGain(MAX_VOLUME/2, 10)
 
   SHIFT_AUDIO_CTX = () => {
     s0.smoothFreq(111/1.25, 15)
@@ -1125,6 +966,85 @@ function burnTone() {
 
 
 
+function cleanseTone() {
+  document.documentElement.classList.add('ritualFade')
+  document.documentElement.classList.add('cleanse')
+  const s0 = createSource('sine')
+  const s1 = createSource('sine')
+  const s2 = createSource('sine')
+  const s3 = createSource('sine')
+  const s4 = createSource('sine')
+  const s5 = createSource('sine')
+  const s6 = createSource('sine')
+  const s7 = createSource('sine')
+
+  // s0.smoothPanner(1)
+  s1.smoothPanner(0.5)
+  s2.smoothPanner(-0.5)
+  // s3.smoothPanner(-1)
+  // s4.smoothPanner(1)
+  s5.smoothPanner(0.5)
+  s6.smoothPanner(-0.5)
+  // s7.smoothPanner(1)
+
+
+  s0.smoothFreq(125)
+  s1.smoothFreq(250*1.33333)
+
+  s2.smoothFreq(250*1.66666)
+  s3.smoothFreq(500)
+
+  s4.smoothFreq(250-1)
+  s5.smoothFreq(250*1.33333 - 2)
+  s6.smoothFreq(250*1.66666 - 3)
+  s7.smoothFreq(1000)
+
+
+  s0.smoothGain(MAX_VOLUME, 10)
+  s1.smoothGain(MAX_VOLUME, 10)
+  s2.smoothGain(MAX_VOLUME, 10)
+  s3.smoothGain(MAX_VOLUME, 10)
+  s4.smoothGain(MAX_VOLUME, 10)
+  s5.smoothGain(MAX_VOLUME, 10)
+  s6.smoothGain(MAX_VOLUME, 10)
+  s7.smoothGain(MAX_VOLUME/8, 10)
+
+  SHIFT_AUDIO_CTX = () => {
+    s0.smoothFreq(1.1* 125, 10)
+    s1.smoothFreq(1.1* 250*1.33333, 10)
+    s2.smoothFreq(1.1* 250*1.66666, 10)
+    s3.smoothFreq(1.1* 500, 10)
+    s4.smoothFreq(1.1* 250-1, 10)
+    s5.smoothFreq(1.1* 250*1.33333 - 2, 10)
+    s6.smoothFreq(1.1* 250*1.66666 - 3, 10)
+    s7.smoothFreq(1.1* 1000, 10)
+  }
+
+  CLOSE_AUDIO_CTX = () => {
+    document.documentElement.classList.remove('cleanse')
+    s0.smoothGain(0, 4)
+    s1.smoothGain(0, 4)
+    s2.smoothGain(0, 4)
+    s3.smoothGain(0, 4)
+    s4.smoothGain(0, 4)
+    s5.smoothGain(0, 4)
+    s6.smoothGain(0, 4)
+    s7.smoothGain(0, 4)
+    setTimeout(() => {
+      s0.source.stop()
+      s1.source.stop()
+      s2.source.stop()
+      s3.source.stop()
+      s4.source.stop()
+      s5.source.stop()
+      s6.source.stop()
+      s7.source.stop()
+    }, 16000)
+  }
+}
+
+
+// document.onclick = cleanseTone
 
 function getZodiacSign(timestamp) {
   const date = new Date(timestamp)

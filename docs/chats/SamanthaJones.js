@@ -11,6 +11,11 @@ const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 /*
 TODO
+  - respond if user mentions @crystalgoddess or cleansing ceremony
+    -  normally this would be a taxable event, but it i exempt on religious grounds
+    - if ceremony completed in global conttext, mention offhandedly
+
+
   - ignore first payment if user has already paid
   - let user skip audits on specific positions
 

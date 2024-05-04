@@ -3,10 +3,9 @@ import {ls} from '../$.js'
 
 /*
 TODO
-  - make lastActiev king of the hill style; reset single var
-  - clean up idle tabs after a while
-
-
+  - aliveness check every 30 seconds or so. cleanup unalive entries every once in a while
+  - maybe refactor or use BroadcastChannels https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API
+  - maybe if leader tab is closed, pick the second in command
 
 */
 

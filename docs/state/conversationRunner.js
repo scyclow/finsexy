@@ -567,7 +567,10 @@ export class MessageHandler {
   }
 
   async handleQueue() {
+    const [isTabActive, isTabLastActive] = [tabs.isLastActive(), tabs.isActive()]
+    if (!(isTabActive || isTabLastActive)) return
     if (!this.ctx.eventQueue.length) return
+
     const nextMessage = this.ctx.eventQueue[0]
     const now = Date.now()
 
@@ -593,7 +596,7 @@ export class MessageHandler {
       await this.messages[messageToSend.event]?.preEvent?.(userResponse, this.ctx, this.contract, this.provider)
     }
 
-    if (!this.followUpPending[messageCode] && tabs.isLastActive()) {
+    if (!this.followUpPending[messageCode]) {
       this.followUpPending[messageCode] = true
 
 
@@ -610,7 +613,13 @@ export class MessageHandler {
           timestamp: now + wait,
           startTyping: now + typingWait,
           isFollowup: true,
-          referrer: messageCode
+          referrer: messageCode,
+          referrerDebugInfo: {
+            updaterTabId: tabs.tabId,
+            updaterIsTabActive: isTabActive,
+            updaterIsTabLastActive: isTabLastActive,
+            ts: Date.now()
+          }
         })
       }
     }
@@ -630,7 +639,14 @@ export class MessageHandler {
       messageCode: messageCode,
       messageText: await this.sendMessage(messageToSend, userResponse),
       from: this.chatName,
-      helpMessage: messageToSend.helpMessage
+      helpMessage: messageToSend.helpMessage,
+      debugInfo: {
+        updaterTabId: tabs.tabId,
+        updaterIsTabActive: isTabActive,
+        updaterIsTabLastActive: isTabLastActive,
+        ts: Date.now(),
+        referrerDebugInfo: messageToSend.referrerDebugInfo
+      }
     })
   }
 
@@ -686,7 +702,7 @@ export class MessageHandler {
     }
   }
 
-  updateHistory({ from, messageText, messageCode, helpMessage }) {
+  updateHistory({ from, messageText, messageCode, helpMessage, debugInfo }) {
     if (!messageText) return
 
     if (!this.isActive || document.hidden) {
@@ -705,7 +721,8 @@ export class MessageHandler {
       messageCode,
       helpMessage,
       id: this.ctx.history.length,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      debugInfo
     }
     this.ctx.history = [...this.ctx.history, historyItem]
     this.registeredChatWindows.forEach(chatWindow => {

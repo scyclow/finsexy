@@ -8,6 +8,14 @@ TODO
       "Oops, I lost."
 
 
+
+  - money only has value because you give it to me (taxes)
+
+
+
+  - you are an inanimate object to me
+  - you are a NPC
+
   - if talked to AI, mention relapsing
 
   - incorporate dialogue at bottom
@@ -638,7 +646,57 @@ The fact that you're even talking to me shows a complete lack of judgement on yo
 
 
 
+if less than 1 eth in your wallet:
+  Didn't you read my profile, paypiggy? I'm not talking to you until you pay a $0.05 tribute
+    I don't see 0.05 eth in my wallet
+  ha, really? I don't have time for anyone with les than 1 eth in their wallet. have fun staying poor
 
+
+you know, the rise of monogmous relationships can be directly tied to capitalism and property ownership. Many early, pre-aggricultural societies were primarily matriarchal.
+
+
+  - won't respond to you if you give her backtalk. either play her game or don't
+  - "I don't have time for your shit. whay are you even talking to me?"
+  -
+  - "Now say: thank you GoddessJessica"
+  - "LOL. I can't believe how much money you've given me, you fucking idiot. what a goddamn loser. don't you have anything better to do?"
+  - "I have a 0.099 unblock fee"
+  - https://twitter.com/iwantnura/status/1667961128624836608
+
+
+
+
+The problem with men is that they have idiotic standards of beauty
+all they want are skinny bitches
+
+
+https://twitter.com/GoddessLizzie3
+
+
+
+
+
+
+
+
+
+https://twitter.com/iwantnura/status/1688496905519517697
+  what makes you think i need another man in my life?
+  men are the problem with this world
+  the only way you can make yourself useful is by
+
+
+
+
+[if interrupted]
+  don't interrupt me when I'm speaking to you.
+
+if i say something that doesn't respond to what you just said -- it isn't because i didn't understand it. it's because I didn't <em>want</em> to respond.
+i want to talk about what i want to talk about.
+in fact, if i ever so much as suspect that you're not paying attention and thoughtfully responding to every word i say, then i may stop responding to you all together.
+and if you want a second chance do you know what you'll have to do to get me to respond?
+
+that's right, you'll have to send.
 
 
 

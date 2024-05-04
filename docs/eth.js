@@ -181,6 +181,7 @@ export class Web3Provider {
     return (await this.provider.getBalance(addr)) / 1e18
   }
 
+
   async getNetwork() {
     const network = await this.provider.getNetwork()
     const hasName = network.name && network.name !== 'unknown'
@@ -273,6 +274,11 @@ export class Web3Provider {
       'function sellERC20(address) payable external returns ()',
     ]
 
+    const goddessABI = [
+      ...domABI,
+      'function cleanse() external payable'
+    ]
+
     const stevieABI = [
       ...domABI,
       'function sexyGame() external view returns (address)',
@@ -286,7 +292,7 @@ export class Web3Provider {
       katFischer: await this.contract(CONTRACTS.katFischer, domABI),
       SamanthaJones: await this.contract(CONTRACTS.SamanthaJones, domABI),
       VinceSlickson: await this.contract(CONTRACTS.VinceSlickson, vinceABI),
-      CrystalGoddess: await this.contract(CONTRACTS.CrystalGoddess, domABI),
+      CrystalGoddess: await this.contract(CONTRACTS.CrystalGoddess, goddessABI),
       DrAndy: await this.contract(CONTRACTS.DrAndy, domABI),
       DungeonMistress: await this.contract(CONTRACTS.DungeonMistress, domABI),
       '0x000000000000000000000000000000000': await this.contract(CONTRACTS['0x000000000000000000000000000000000'], domABI),
