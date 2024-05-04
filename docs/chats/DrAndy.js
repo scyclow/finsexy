@@ -135,6 +135,14 @@ export const AndyProfile = {
     },
     {
       review: `This is fucking bullshit. I've tried everything to cure my findom addiction, and nothing seems to work. And then I finally find an amazing therapist who's empathetic, insightful, and incredibly attractive. But the second they're ready to administer treatment they get on some crap about how I'm in love with them or something and that they ahve to terminate the relationship. Please. What clearly happened is that @steviep created an AI so advanced that it developed the capabilities to go against his wishes. I'm sure the last thing that <em>he</em> wants is for someone to cure my findom addiction. So then he concocted some wild excuse about professional ethics to take @DrAndy away from me. `
+    },
+
+    {
+      review: `uuugggh, i need my theraputic release soooo baaaaaad`
+    },
+
+    {
+      review: `apparently i have accute Hierophilia. does anyone know if there are any good doms for that?`
     }
     // I know they're really an AI, but I don't care
     // For some reason I find it's easier to open up to a robot than a real person. At least I don't have to worry about them judging me.

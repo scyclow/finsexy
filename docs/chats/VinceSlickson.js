@@ -271,6 +271,12 @@ const VinceMessages = {
   send1Response5: {
     messageText: `You know you want to`,
     event: 'sendEvent1',
+    responseHandler: 'send1Response6'
+  },
+
+  send1Response6: {
+    messageText: `It's so close you can taste it`,
+    event: 'sendEvent1',
     responseHandler: 'send1Response1'
   },
 
@@ -352,7 +358,6 @@ const VinceMessages = {
     `They want to be <em>actively managed</em>`,
     () =>`They want to ride daddy like a ${genderSwitch({m: 'cowboy', f: 'cowgirl', nb: 'cowgirl'})}`,
     `Through all the ups and downs`,
-    // `Pumped full of alpha until they can't take it any more and it's coming out of every hole in their body`,
     `Pumped so hard full of my alpha that it comes out every hole in their body`,
     `Experiencing the pleasure and the pain of the full market cycle`,
     `Espescially the pain`,
@@ -759,6 +764,8 @@ const VinceMessages = {
     `You know how to make daddy happy 😉`,
     `You better reach into your back pocket and lube up that tight little wallet of yours`,
     `Because it's about to get absolutely REKT by my alpha`,
+    `You can't possibly imagine how good it feels`,
+    `Better than all of your wildest fantasies`,
     `In a couple minutes you'll send a bit of ETH my way and your life will never be the same`,
     `Do you want the juicy details of what I'm gonna do with that ETH?`,
     `Or do you want to skip the foreplay and jump straight to the action?`

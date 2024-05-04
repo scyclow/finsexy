@@ -66,6 +66,7 @@ Testimonials
 
 
 window.CLOSE_AUDIO_CTX = () => {}
+window.SHIFT_AUDIO_CTX = () => {}
 
 import { isYes, isNo, isGreeting, isMean, MessageHandler, responseParser, diatribe, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
@@ -361,6 +362,7 @@ export const CrystalGoddessMessages = {
 
         await tx.wait()
 
+        SHIFT_AUDIO_CTX()
         document.documentElement.classList.add('burnAnimation')
 
         setTimeout(() => {
@@ -391,10 +393,13 @@ export const CrystalGoddessMessages = {
   },
 
 
-  aura: {
-    messageText: `The sacred burn has been completed. I see an immediate improvement in your aura. The unburdening has begun, and you are close to a cycle of rebirth`,
-    followUp: fu('todo'),
-  },
+  ...diatribe('aura', [
+    `The sacred burn has been completed. I see an immediate improvement in your aura. The unburdening has begun, and you are close to a cycle of rebirth`,
+    async (ur, ctx, contract, provider) => {
+      const balance = await provider.getETHBalance(await provider.isConnected())
+      return `But there is still much to do. I see ${balance} ETH in your wallet, and it is unclean`
+    }
+  ])
 
   // tributeEvent: createEvent(0.0363, {}),
 
@@ -416,9 +421,9 @@ export const CrystalGoddessMessages = {
   //   responseHandler: 'evacuation2'
   // }
 
-  todo: {
-    messageText: 'TODO'
-  }
+  // todo: {
+  //   messageText: 'TODO'
+  // }
 }
 
 
@@ -1065,14 +1070,13 @@ function burnTone() {
   s0.smoothFreq(111)
   s1.smoothFreq(111 - 1)
 
-
   s2.smoothFreq(222)
   s3.smoothFreq(222 - 2)
 
-  s4.smoothFreq(666/2.5 )
+  s4.smoothFreq(666/2.5)
   s5.smoothFreq(666/2.5)
 
-  s6.smoothFreq(666 )
+  s6.smoothFreq(666)
   s7.smoothFreq(666 - 2)
 
 
@@ -1084,6 +1088,17 @@ function burnTone() {
   s5.smoothGain(MAX_VOLUME, 10)
   s6.smoothGain(MAX_VOLUME, 10)
   s7.smoothGain(MAX_VOLUME, 10)
+
+  SHIFT_AUDIO_CTX = () => {
+    s0.smoothFreq(111/1.25, 15)
+    s1.smoothFreq(111/1.25 - 1, 15)
+    s2.smoothFreq(222/1.25, 15)
+    s3.smoothFreq(222/1.25 - 2, 15)
+    s4.smoothFreq(666/3.125, 15)
+    s5.smoothFreq(666/3.125, 15)
+    s6.smoothFreq(666/1.25, 15)
+    s7.smoothFreq(666/1.25 - 2, 15)
+  }
 
   CLOSE_AUDIO_CTX = () => {
     document.documentElement.classList.remove('burn')

@@ -536,7 +536,8 @@ export class MessageHandler {
             messageCode,
             timestamp: now + wait,
             startTyping: now + typingWait,
-            isFollowup: true
+            isFollowup: true,
+            referrer: messageCode
           })
         }
       }
@@ -592,8 +593,6 @@ export class MessageHandler {
       await this.messages[messageToSend.event]?.preEvent?.(userResponse, this.ctx, this.contract, this.provider)
     }
 
-
-    console.log(messageCode, this.followUpPending[messageCode], tabs.tabId, tabs.isLastActive())
     if (!this.followUpPending[messageCode] && tabs.isLastActive()) {
       this.followUpPending[messageCode] = true
 
@@ -614,7 +613,6 @@ export class MessageHandler {
           referrer: messageCode
         })
       }
-
     }
 
     if (referrer) {
