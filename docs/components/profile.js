@@ -732,13 +732,14 @@ createComponent(
 
 
     const name = ctx.getAttribute('name')
-    const {age, distance, gender, maxPhotos, description, testimonials} = ProfileStats[name]
+    const {age, distance, gender, maxPhotos, description, testimonials, domType} = ProfileStats[name]
 
     ctx.$description.innerHTML = `<span class="quote">“</span>${description}<span class="quote">”</span>`
     ctx.$name.innerHTML = name
     ctx.$info.innerHTML = `
       <div>Age: ${age}</div>
       <div>Gender: ${gender}</div>
+      <div>Dom Type: ${domType}</div>
       <div>${distance} miles away!</div>
     `
 

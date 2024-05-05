@@ -95,6 +95,7 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 export const StevieProfile = {
   name: 'steviep',
   startingVisibility: 'offline',
+  domType: 'Sadist',
   order: 5,
   age: 34,
   distance: 0,

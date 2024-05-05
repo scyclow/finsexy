@@ -22,12 +22,13 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 export const HackerProfile = {
   name: '0x000000000000000000000000000000000',
   startingVisibility: 'hidden',
+  domType: null,
   order: 10,
   age: NaN,
   distance: NaN,
   maxPhotos: 1,
   description: ``,
-  gender: null,
+  gender: undefined,
   display: 'nb',
   testimonials: [
     {

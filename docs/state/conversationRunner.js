@@ -567,7 +567,7 @@ export class MessageHandler {
   }
 
   async handleQueue() {
-    const [isTabActive, isTabLastActive] = [tabs.isLastActive(), tabs.isActive()]
+    const [isTabActive, isTabLastActive] = [tabs.isActive(), tabs.isLastActive()]
     if (!(isTabActive || isTabLastActive)) return
     if (!this.ctx.eventQueue.length) return
 

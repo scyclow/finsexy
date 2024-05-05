@@ -72,6 +72,7 @@ TODO
 
 "hey baby, I'll always be here for you. Whenever you want to send money, I'll be here to take it."
 
+"I know you want me to be your girlfriend"
 
 
 */
@@ -82,6 +83,7 @@ const hasNumber = ur => ur.match(/(\d+)/)
 export const HeatherHotProfile = {
   name: 'heatherHot',
   startingVisibility: 'online',
+  domType: 'Soft',
   order: 1,
   age: 23,
   distance: 2,

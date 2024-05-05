@@ -8,6 +8,7 @@ const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 export const HedonitronicaProfile = {
   name: 'Hedonitronica',
   startingVisibility: 'hidden',
+  domType: '$$$',
   order: 11,
   age: 0,
   distance: 0,

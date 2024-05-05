@@ -21,6 +21,7 @@ Testimonials
 export const KatProfile = {
   name: 'katFischer',
   startingVisibility: 'hidden',
+  domType: 'Role-Play',
   order: 9,
   age: 23,
   distance: 69,

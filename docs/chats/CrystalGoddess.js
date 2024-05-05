@@ -11,12 +11,11 @@
       - true wealth can only come from an abundance mindset
 
 
-  cleansing poem
-    transubstantiation
+
 
 
   money manifestation
-    the spectacle fo speculation
+    the spectacle of speculation
     promise of profane profits
     numismatic numina
 
@@ -92,7 +91,7 @@ Testimonials
 window.CLOSE_AUDIO_CTX = () => {}
 window.SHIFT_AUDIO_CTX = () => {}
 
-import { isYes, isNo, isGreeting, isMean, MessageHandler, responseParser, diatribe, createEvent } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMatch, MessageHandler, responseParser, diatribe, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {provider, bnToN, toETH, ZERO_ADDR} from '../eth.js'
 
@@ -120,6 +119,7 @@ const fu = (messageCode, waitMs=1500) => ({ messageCode, waitMs })
 export const CrystalGoddessProfile = {
   name: 'CrystalGoddess',
   startingVisibility: 'offline',
+  domType: 'Protocol',
   order: 4,
   age: 31,
   distance: 16,
@@ -247,7 +247,7 @@ export const CrystalGoddessMessages = {
     `Seeking patterns in chaos. Trend lines, Candlesticks, Ichimoku Clouds. Religiously tracking memes and metas`,
     `You worship the aura of the rare, searching for a Holy Grail. You see monkeys with coins in their eyes and mistake that for wealth. You live your life believing you can take your money with you upon your death. But you do not understand that Charon's Obol will bring you no farther than the lake of fire`,
     `The simple fact that you are here shows that you have been lead astray, and are living in a warped monetary reality`,
-    `And you cannot hide this from me. @SamanthaJones may have seen all of your transactions, but I've seen more`,
+    `You cannot hide this from me. @SamanthaJones may have seen all of your transactions, but I've seen more`,
     `Goddess knows all`,
   ], {
     responseHandler: 'silence'
@@ -257,7 +257,7 @@ export const CrystalGoddessMessages = {
   ...diatribe('silence', [
     () => `Silence, ${getUserData('name')}. Your ignorance does not grant you the privilege of speech`,
     `You have been playing with forces beyond your understanding for far too long, putting your faith in the spiritually bankrupt`,
-    `Greed and lust have blinded you to the divine truth, and you stumble through a fantasy world of your own making`,
+    `Greed and lust have blinded you to the Divine Truth, causing you to stumble through a fantasy world of your own design`,
     `If you truly seek monetary englightenment, then you must move beyond these delusions and repent for your sins`,
     `You must learn that abundance of value can only come from faith in Goddess`,
     `Do you accept your follies and wish to repent?`,
@@ -273,7 +273,7 @@ export const CrystalGoddessMessages = {
 
   relent: {
     messageText: `But I am a merciful Goddess. I will be here when you ultimately relent`,
-    responseHandler: 'doYouWish'
+    responseHandler: 'silence5'
   },
 
   repent: {
@@ -293,24 +293,9 @@ export const CrystalGoddessMessages = {
 
 
   vowDevotionSuccess: {
-    messageText: `Excellent`,
+    messageText: `Very good`,
     followUp: fu('divineOwnership')
   },
-
-
-
-// TODO: maybe monetary reality  stuff goes here (origin of money, where money's value comes from)
-  // then, cleanse the soul through a ritual burn
-  // then take the vow of devotion
-
-
-
-
-  /*
-    A false monetary reality
-      (this is where it can get into money having value due to faith)
-
-  */
 
 
 
@@ -320,100 +305,59 @@ export const CrystalGoddessMessages = {
     `You can feel the weight of this load draging you down by your loins. You know that you are not truly free until you achieve the release of being unburdened. Until you give yourself over to me. Only then will the weight be lifted from your shoulders`,
     `You <em>need</em> Goddess to unburden you. To take control of your wallet and make the decisions you cannot trust yourself to make`,
     `And this is why you relenquish control to me: Because you are weak. Because you are pathetic. Because the idea of true ownership fills you with a deep existential dread`,
-    `Is this all making sense to your tiny little brain?`
+    `Does this all make sense to your tiny little brain?`
   ], {
     responseHandler: 'divineOwnershipNext'
   }, 3500),
+
+
+
 
 
   divineOwnershipNext: {
     messageText: ur => isYes(ur)
       ? 'Wonderful'
       : `Thankfully your feeble mind does not need to fully grasp my wisdom. Acting on faith is sufficient`,
-    followUp: fu('enlightenment')
+    followUp: async (ur, ctx, contract, provider) => {
+      const balance = await provider.getETHBalance(await provider.isConnected())
+      return balance >= 0.05 ? fu('enlightenment') : fu('notReadyEnlightenment')
+    }
   },
 
-  enlightenment: {
-    messageText: `In order to rectify your karmic imbalance we must undertake a sacred ritual to bring you closer to enlightenment`,
-    followUp: fu('rebalance')
+  notReadyEnlightenment: {
+    messageText: async (ur, ctx, contract, provider) => {
+      const balance = await provider.getETHBalance(await provider.isConnected())
+      return `Sadly, you are not worth my time, for your balance of ${balance} is a mere pittance. Only once you have acquired 0.05 ETH will you be ready to seek enlightenment`
+    },
+    responseHandler: async (ur, ctx, contract, provider) => {
+      const balance = await provider.getETHBalance(await provider.isConnected())
+      return balance >= 0.05 ? 'enlightenment' : 'notReadyEnlightenment'
+    }
   },
 
-
-  ...diatribe('rebalance', [
-    `First, we must rebalance your transactional chakras by burning .0066600 ETH`,
-    `In order to achieve enlightenment you must show me that you are willing to sacrifice`,
-    `It is important that you do not refresh your web browser while the ritual is underway, or else we will have to restart the ritual. Is this clear?`
+  ...diatribe('enlightenment', [
+    `But before I take possession of your numismatic essence we must cleanse your wallet and wash your mind`,
+    async (ur, ctx, contract, provider) => {
+      const balance = await provider.getETHBalance(await provider.isConnected())
+      return `Your ${balance} ETH is unclean, for every wei has been acquired through impure means`
+    },
+    `Your inner light is defiled, and we can only sanctify it by undertaking a holy cleansing ceremony`,
+    `During this ceremony I will momentarily take control of your entire wallet balance to perform the cleanse, marking it as truly mine. It shall then be returned to you in a purified form. You may then hold onto it until I say otherwise`,
+    `0.0066600 ETH will remain with you, marking your sinful transaction history. This shall be cleansed in a different way`,
+    `I am unclear on the tax implications for this ceremony, and advise you to speak to @SamanthaJones if you have any questions`,
+    `It is important that you <em>do not</em> refresh your web browser while the ceremony is underway, or else we will have to start from the beginning. Is this clear?`
   ], {
-    responseHandler: ur => isYes(ur) || isMatch(ur, ['clear']) ? 'ritualBurnInitiate' : 'clarityOfThought'
+    responseHandler: ur => isYes(ur) || isMatch(ur, ['clear']) ? 'cleansingCeremonyStart' : 'clarityOfThought'
   }),
 
   clarityOfThought: {
     messageText: `Return to me when you have achieved more clarity of thought`,
-    responseHandler: 'rebalance2'
+    responseHandler: 'cleansingCeremonyStart'
   },
 
-  ritualBurnInitiate: {
-    messageText: `We shall now commence with the ritual burn of .0066600 ETH`,
-    followUp: () => {
-      setTimeout(burnTone, 1000)
-      return fu('ritualBurn', 4000)
-    }
-  },
-
-  ...diatribe('ritualBurn', [
-    `With gold's embrace, your heart desires`,
-    `Filled with sin, your mind conspires`,
-    `Your cold brain thinks you must acquire`,
-    `With shameless lust your loins catch fire`,
-
-    `In passion's heat your body yearns`,
-    `In profit's glow, desire churns`,
-    `I unveil truths as money burns`,
-    `Back to the Ether, its source returns`,
-  ], {
-    followUp: fu('queueBurnTx')
-  }),
-
-  queueBurnTx: {
-    messageText: '',
-    async followUp(ur, ctx, contract, provider) {
-      ctx.state.lastRitual = 'burn'
-      if (!ctx.global.isEthBrowser) {
-        CLOSE_AUDIO_CTX()
-        return fu('browserError')
-      }
-      if (!ctx.global.isConnected) {
-        CLOSE_AUDIO_CTX()
-        return fu('connectError')
-      }
-
-      try {
-        const tx = await provider.signer.sendTransaction({
-          to: ZERO_ADDR,
-          value: toETH(0.00666)
-        })
-
-        await tx.wait()
-
-        SHIFT_AUDIO_CTX()
-        document.documentElement.classList.add('burnAnimation')
-
-        setTimeout(() => {
-          CLOSE_AUDIO_CTX()
-        }, 2000)
-
-        return fu('aura', 9000)
-
-      } catch (e) {
-        ctx.state.txError = e.message || JSON.stringify(e)
-        CLOSE_AUDIO_CTX()
-        return fu('txError')
-      }
-    }
-  },
 
   browserError: {
-    messageText: `You are not ready to seek enlightenment. Only those with an Ethereum wallet can perform this ritual.`,
+    messageText: `You are not ready to seek enlightenment. Only those with an Ethereum wallet can perform this ritual`,
     responseHandler: (ur, ctx) => {
       if (ctx.state.lastRitual === 'burn') return 'ritualBurnInitiate'
       else if (ctx.state.lastRitual === 'cleanse') return 'cleansingCeremonyStart'
@@ -427,34 +371,21 @@ export const CrystalGoddessMessages = {
     }
   },
   txError: {
-    messageText: (ur, ctx) => `The heavens were not aligned for your transaction: (${ctx.state.txError}). We shall make another attempt when you are ready.`,
+    messageText: (ur, ctx) => `The heavens were not aligned for your transaction: (${ctx.state.txError}). We shall make another attempt when you are ready`,
     responseHandler: (ur, ctx) => {
       if (ctx.state.lastRitual === 'burn') return 'ritualBurnInitiate'
       else if (ctx.state.lastRitual === 'cleanse') return 'cleansingCeremonyStart'
     }
   },
 
-
-  ...diatribe('aura', [
-    `The sacred burn has been completed. I see an immediate improvement in your aura. The unburdening has begun, and you are close to a cycle of rebirth. But there is still much to do`,
-    async (ur, ctx, contract, provider) => {
-      const balance = await provider.getETHBalance(await provider.isConnected())
-      return `However, there is still ${balance} ETH in your wallet, and it is unclean`
-    },
-    `Acquired through impure means and defiling your inner light`,
-    `We must sanctify your karmic balance through a holy cleansing ceremony before you can enter financial nirvana`,
-    `Dring the ceremony I will temporarily momentarily take of your entire wallet balance, before returning it to you in a purified form`,
-    `0.005 ETH shall be left in your wallet for gas`,
-    `I am unclear on the tax implications of this ceremony, and advise you to speak to @SamanthaJones if you have any questions`,
-    `Once again, I must emphasize that you cannot disrupt the sanctity of this ceremony by refreshing your browser. Are you ready to proceed?`
-  ], {
-    responseHandler: ur => isYes(ur) || isMatch(ur, ['ready', 'proceed']) ? 'cleansingCeremonyStart' : 'cleansingCeremonyDelayed'
-  }),
-
-  cleansingCeremonyDelayed: {
-    messageText: `When the moment is right you may return`,
-    responseHandler: `cleansingCeremonyStart`
+  speakError: {
+    messageText: `You have disrupted the sanctity of our ritual by speaking. We shall make another attempt when you are ready`,
+    responseHandler: (ur, ctx) => {
+      if (ctx.state.lastRitual === 'burn') return 'ritualBurnInitiate'
+      else if (ctx.state.lastRitual === 'cleanse') return 'cleansingCeremonyStart'
+    }
   },
+
 
   cleansingCeremonyStart: {
     messageText: `Let us begin`,
@@ -495,7 +426,7 @@ export const CrystalGoddessMessages = {
         const addrBalance = await provider.getETHBalance(ctx.global.connectedAddr)
 
         const tx = await contract.cleanse({
-          value: toETH(addrBalance - 0.0045)
+          value: toETH(addrBalance - 0.00666)
         })
 
         await tx.wait()
@@ -507,15 +438,183 @@ export const CrystalGoddessMessages = {
           CLOSE_AUDIO_CTX()
         }, 2000)
 
-        return fu('todo', 9000)
+        return fu('cleanseComplete', 9000)
 
       } catch (e) {
         ctx.state.txError = e.message || JSON.stringify(e)
         CLOSE_AUDIO_CTX()
         return fu('txError')
       }
+    },
+    responseHandler: (ur, ctx) => {
+      ctx.state.lastRitual = 'cleanse'
+      return 'speakError'
     }
   },
+
+
+
+  ...diatribe('cleanseComplete', [
+    `The holy cleansing ceremony has been completed. I see an immediate improvement in your aura. The unburdening has begun, and you are close to a cycle of rebirth`,
+    `But not everything can be cleansed so easily. Your heart still lusts for financial gain. You do not yet understand that spiritual riches can only come from loss`,
+    `To fully realign your transactional chakras we must undertake a sacred ritual of creative destruction`,
+    `This will remove your wallet's remaining impurities by burning 0.0066600 ETH`,
+    `In order to achieve enlightenment you must show me that you are willing to <em>sacrifice</em>`,
+    `Once again, I must emphasize that you cannot disrupt the sanctity of this ritual by refreshing your browser. Are you ready to proceed?`
+  ], {
+    responseHandler: ur => isYes(ur) || isMatch(ur, ['clear']) ? 'ritualBurnInitiate' : 'ritualBurnDelayed'
+  }),
+
+  ritualBurnDelayed: {
+    messageText: `When the moment is right you may return`,
+    responseHandler: `ritualBurnInitiate`
+  },
+
+
+  ritualBurnInitiate: {
+    messageText: `We shall now commence with the ritual burn of 0.0066600 ETH`,
+    followUp: () => {
+      document.documentElement.classList.remove('cleanseAnimation')
+      setTimeout(burnTone, 1000)
+      return fu('ritualBurn', 4000)
+    }
+  },
+
+  ...diatribe('ritualBurn', [
+    `With gold's embrace, your heart desires`,
+    `Filled with sin, your mind conspires`,
+    `Your cold brain thinks you must acquire`,
+    `With shameless lust your loins catch fire`,
+
+    `In passion's heat your body yearns`,
+    `In profit's glow, desire churns`,
+    `I unveil truths once money burns`,
+    `Back to the Ether, its source returns`,
+  ], {
+    followUp: fu('queueBurnTx')
+  }),
+
+  queueBurnTx: {
+    messageText: '',
+    async followUp(ur, ctx, contract, provider) {
+      ctx.state.lastRitual = 'burn'
+      if (!ctx.global.isEthBrowser) {
+        CLOSE_AUDIO_CTX()
+        return fu('browserError')
+      }
+      if (!ctx.global.isConnected) {
+        CLOSE_AUDIO_CTX()
+        return fu('connectError')
+      }
+
+      try {
+        const tx = await provider.signer.sendTransaction({
+          to: ZERO_ADDR,
+          value: toETH(0.00666)
+        })
+
+        await tx.wait()
+
+        SHIFT_AUDIO_CTX()
+        document.documentElement.classList.add('burnAnimation')
+
+        setTimeout(() => {
+          CLOSE_AUDIO_CTX()
+        }, 2000)
+
+        return fu('povertyConsciousness', 9000)
+
+      } catch (e) {
+        ctx.state.txError = e.message || JSON.stringify(e)
+        CLOSE_AUDIO_CTX()
+        return fu('txError')
+      }
+    },
+    responseHandler: (ur, ctx) => {
+      ctx.state.lastRitual = 'burn'
+      return 'speakError'
+    }
+  },
+
+
+  ...diatribe('povertyConsciousness', [
+    `Your Ethereal wealth has now reached a purer state, but you retain a poverty consciousness`,
+    `With your desire to experience higher numismatic dimensions your body has built  substantial tension`,
+    `You need a release`,
+    `You need to experience the bliss of monetary enlightenment`,
+    `Do you not?`,
+  ], {
+    responseHandler: ur => isYes(ur) ? 'submission' : ''
+  }),
+
+  ...diatribe('submission', [
+    `Then I need nothing less then your full and utter submission`,
+    `Give up your search for profane profits`,
+    `Embrace the numismatic numina`,
+    `Worship my body and my essence`,
+  ], {
+    responseHandler: ur => isMatch(ur, ['worship', 'body', 'essence']) ? 'release' : ''
+  }),
+
+
+  ...diatribe('release', [
+    `You are now ready for your spiritual release`,
+    `Repayment of your cosmic debt is the only Indulgence I shall allow`,
+    (ur, ctx) => `Send me your tithe of ${0.0111 * ctx.global.premium} ETH`,
+    `Release it to me`
+  ], {
+    responseHandler: 'releasePending',
+    event: 'releasePayment'
+  }),
+
+
+  releasePending: {
+    messageText: (ur, ctx) => `You can return this ${0.0111 * ctx.global.premium} ETH to me through either my profile page or the $sexy CLIT`,
+    event: 'releasePayment'
+  },
+
+
+  releasePayment: createEvent(0.0111, {
+    primary: fu('enlightenment', 7000)
+  }),
+
+  ...diatribe('enlightenment', [
+    `In sacred circuits, may abundance surge`,
+    `From digital realms, let value emerge`,
+    `From zeros and ones, to pleasures untold`,
+    `Let wealth and pleasure merge and unfold`
+  ], {
+    responseHandler: 'again'
+  }),
+
+  again: {
+    messageText: `Would you like to perform the sacred ritual once more?`,
+    responseHandler: ur => isYes(ur) ? 'cleansingCeremonyStart' : 'again2'
+  },
+
+  again2: {
+    messageText: ``,
+    responseHandler: 'again'
+  },
+
+  /*
+
+
+
+If you don't have
+
+
+
+
+
+in the same way that money rests on power and power rests on faith
+
+
+
+
+  */
+
+
 
 
 
@@ -535,20 +634,20 @@ money manifestation
 /*
     // money manifestation
 
-`In sacred circuits, may abundance surge.`
-`From digital realms, let wealth emerge,`
 
-`From zeros and ones, to pleasures untold,`
-`Let wealth and pleasure merge and unfold.`
+
+
+
+
 
 `Through nodes and chains, `
 `sacred circuit`
 */
 
-  // tributeEvent: createEvent(0.0363, {}),
+  // tributeEvent: createEvent(0.0111, {}),
 
   // evacuation: {
-  //   messageText: `We will now begin a partial evacuation of your wallet, in which you will abdicate 0.0363 ETH to Goddess`,
+  //   messageText: `We will now begin a partial evacuation of your wallet, in which you will abdicate 0.0111 ETH to Goddess`,
   //   event: 'tributeEvent',
   //   responseHandler: 'evacuation2'
   // },
@@ -690,6 +789,7 @@ https://www.pornhub.com/view_video.php?viewkey=654837492a1db
   Your money belongs to me. You belong to me. You are my property. Whatever is yours is now mine
   As my property, you will be my financial slave until i milk you dry
   You will completely lose everything. You will be in complete financial ruin. You will go bankrupt.
+
   You will take out loans because you're so desperate and obsesses. You will borrow money from people you love and care about.
   You'll take money away from your own future. Just to feed your findom addiction. You're sick. You know that.
   A tribute is a sign of respect and admiration

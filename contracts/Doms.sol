@@ -125,11 +125,11 @@ contract VinceSlicksonAlpha {
 
 contract CrystalGoddess is FinDom {
   mapping(address => uint256) public cleansedETH;
-  constructor(address fs) FinDom(4, 0.03 ether, 'CrystalGoddess', fs) {}
+  constructor(address fs) FinDom(4, 0.0111 ether, 'CrystalGoddess', fs) {}
 
   function cleanse() external payable {
-    require(msg.value >= 0.0363 ether, 'You must cleanse at least 0.0363 ether');
-    require(address(msg.sender).balance <= 0.005 ether, 'You must cleanse your entire balance');
+    require(msg.value >= 0.0111 ether, 'You must cleanse at least 0.0111 ether');
+    require(address(msg.sender).balance <= 0.00666 ether, 'You must cleanse your entire balance');
 
     cleansedETH[msg.sender] += msg.value;
     payable(msg.sender).transfer(msg.value);

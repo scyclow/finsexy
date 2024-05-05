@@ -132,6 +132,7 @@ const fu = (messageCode, waitMs=1500) => ({ messageCode, waitMs })
 export const MistressProfile = {
   name: 'DungeonMistress',
   startingVisibility: 'offline',
+  domType: 'Role-Play',
   order: 7,
   display: 'f',
   age: 27,

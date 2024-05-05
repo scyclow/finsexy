@@ -46,6 +46,7 @@ const hasNumber = ur => {
 export const VinceProfile = {
   name: 'VinceSlickson',
   startingVisibility: 'online',
+  domType: 'Daddy Dom',
   order: 3,
   age: 42,
   distance: 10,

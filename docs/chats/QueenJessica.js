@@ -35,6 +35,13 @@ TODO
   - i'm in control of this conversation, not you
 
 
+https://www.pornhub.com/view_video.php?viewkey=654837492a1db
+
+  You will completely lose everything. You will be in complete financial ruin. You will go bankrupt.
+  You will take out loans because you're so desperate and obsesses. You will borrow money from people you love and care about.
+  You'll take money away from your own future. Just to feed your findom addiction. You're sick. You know that.
+  A tribute is a sign of respect and admiration
+  Financial abuse gives you such a headrush. Such a spike in dopamine. All those happy chemicals.
 
   // TODO: why don't you send 0.01 ETH to my wallet and see what happens?
   //       have you checked your wallet to see what's there?
@@ -69,6 +76,7 @@ const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 export const QueenProfile = {
   name: 'QueenJessica',
   startingVisibility: 'offline',
+  domType: 'Hard',
   order: 6,
   age: 29,
   distance: 13,
