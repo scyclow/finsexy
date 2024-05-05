@@ -586,7 +586,29 @@ createComponent(
         outline: none;
         box-shadow: 0 0 50px var(--secondary-color);
         filter: saturate(2);
+      }
 
+      connect-button {
+        display: inline-flex;
+        width: 7em;
+      }
+
+      #connectButton {
+        background: var(--bg-color);
+        color: var(--primary-color);
+        text-decoration: underline;
+        cursor: pointer;
+        border: 0;
+        font-size: 1em;
+        transition: 200ms;
+        margin-left: 0.1em;
+        font-style: italic;
+        text-shadow: 0 0 10px var(--medium-color)
+      }
+
+      #connectButton:hover {
+        color: var(--light-link-color);
+        text-shadow: 0 0 15px var(--light-color)
       }
     </style>
 
@@ -656,10 +678,10 @@ createComponent(
 
               </div>
               <div slot="noWeb3" style="text-align: center; margin-top: 1em">
-                <em class="error">Please Connect in a Web3-enabled Browser to send</em>
+                <em class="error">Please Connect in a Web3-enabled Browser to Send</em>
               </div>
               <div slot="notConnected" style="text-align: center; margin-top: 1em">
-                <em class="error">Please Connect your wallet to send</em>
+                <em class="error">Please <connect-button ><button id="connectButton" slot="button">Connect Wallet</button></connect-button> to Send</em>
               </div>
             </connect-wallet>
           </div>

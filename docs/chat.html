@@ -45,7 +45,8 @@
     #messageSelector {
       list-style-type: none;
       display: flex;
-      flex-direction: column-reverse;
+      flex-direction: column;
+      overflow: scroll;
     }
     #messageSelector li {
       cursor: pointer;
@@ -57,8 +58,9 @@
     }
 
     #messageSelector li > * {
-      display: flex;
-      align-items: center;
+      line-height: 1.5;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     #messageSelector li:hover {
       background: var(--light-color);
@@ -69,6 +71,13 @@
       background: var(--light-color);
       color: var(--primary-color);
       text-shadow: none;
+    }
+
+    #messageSelector li.active > * {
+      line-height: 1.5;
+      overflow: visible;
+      text-overflow: none;
+      display: flex;
     }
 
     #messageSelector li:active {
@@ -352,7 +361,7 @@
 
 
   let activeChat
-  const onConvoSelect = (id, ignoreHistory=false) => {
+  const onConvoSelect = (id, ignoreHistory=false, delayFocus=false) => {
     const url = new URL(window.location)
     const existingActiveChat = url.searchParams.get('activeChat')
     url.searchParams.set('activeChat', id)
@@ -364,6 +373,12 @@
     activeChat = id
 
     const activeChatWindow = $.id(id + '-chat')
+
+    setTimeout(() => {
+      activeChatWindow.shadowRoot.getElementById('input').focus()
+      activeChatWindow.focus()
+    }, delayFocus ? 500 : 0)
+
 
     $.cls('message-selector').forEach(ms => {
       ms.classList.remove('active')
@@ -402,7 +417,7 @@
     : topChat
 
   setTimeout(() => {
-    onConvoSelect(activeChat, true)
+    onConvoSelect(activeChat, true, true)
   })
 
 
@@ -503,7 +518,7 @@
 
       } else if ($select) {
         const o = order.findIndex(name => name === m)
-        $select.style.order = o
+        $select.style.order = 100 - o
         if (messageCount) _orderedChats.push({ name: m, order: o })
       }
     })

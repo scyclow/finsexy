@@ -414,7 +414,7 @@ createComponent(
       </div>
       <div id="newMessage" class="hidden"><div style="position: relative">New Message!</div></div>
       <div id="inputArea">
-        <textarea id="input"></textarea>
+        <textarea id="input" autofocus></textarea>
         <button id="submit">SUBMIT</button>
       </div>
     </section>
@@ -556,7 +556,7 @@ createComponent(
     Object.keys(ctx.codeFns).forEach(id => {
       if (ctx.$(`#code-${id}`)) ctx.$(`#code-${id}`).onclick = ctx.codeFns[id]
     })
-  }
+  },
 )
 
 

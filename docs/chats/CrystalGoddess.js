@@ -444,6 +444,7 @@ export const CrystalGoddessMessages = {
     `Acquired through impure means and defiling your inner light`,
     `We must sanctify your karmic balance through a holy cleansing ceremony before you can enter financial nirvana`,
     `Dring the ceremony I will temporarily momentarily take of your entire wallet balance, before returning it to you in a purified form`,
+    `0.005 ETH shall be left in your wallet for gas`,
     `I am unclear on the tax implications of this ceremony, and advise you to speak to @SamanthaJones if you have any questions`,
     `Once again, I must emphasize that you cannot disrupt the sanctity of this ceremony by refreshing your browser. Are you ready to proceed?`
   ], {
@@ -515,6 +516,18 @@ export const CrystalGoddessMessages = {
       }
     }
   },
+
+
+
+/*
+money manifestation
+  ->
+
+
+
+*/
+
+
 
 
 
