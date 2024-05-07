@@ -1,5 +1,5 @@
 import { isYes, isNo, isMatch, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
-import {getUserData, genderSwitch } from '../state/profile.js'
+import {getUserData, genderSwitch, getAgeYears} from '../state/profile.js'
 import {fromWei} from '../eth.js'
 
 
@@ -8,9 +8,9 @@ const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 export const HedonitronicaProfile = {
   name: 'Hedonitronica',
   startingVisibility: 'hidden',
-  domType: '$$$',
+  domType: 'TODO',
   order: 11,
-  age: 0,
+  age: getAgeYears(0),
   distance: 0,
   gender: 'Gender Fluid',
   display: 'nb',

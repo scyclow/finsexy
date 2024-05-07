@@ -46,13 +46,13 @@ TODO
 
 
 Testimonials
-  - I've been collecting stevie's work since 2021, and given him i dont know how much money. It just felt good to support an artist I love. But it wasn't until FinSexy that I realized how sexually attracted I was to him!
+  -
 
   - Hey asshole, this stupid fucking website has totally ruined my life! I don't have any money, but I can't stop talking to the sexy doms. Ever since I created my account, I can't stop thinking about FinDom. It's the first thing I think about when I wake up, and the last thing I think about before I fall asleep. I just want to be financially dominated by hot doms, but all they want is money that I dont' have. It's driving me insane!
 
   - I have a highly addictive personality. I've thankfully avoided substance abuse, but I need to get my kicks in other ways. Staring at social media for hours on end, compulsive masturbation, and gambling are the big three. So you could imagine how I felt when I finally came across FinSexy! I've never found a website that so deftly combined my three biggest passions in life. Keep up the good work, Steve!
 
-  - This website is fucking bullshit. I'm trying to give my money away to REAL findoms, and steviep tricked me into giving it to FAKE findoms! I hope you enjoy a full investigation from the Consumer Financial Protection Bureau after I file my complaint, asshole.
+
 
 
   - It's soooo hot knowing that stevie is getting all the money from this website in the end. the fact that all the doms and comments are written by him just gets me uncontrolably aroused
@@ -78,7 +78,7 @@ Testimonials
 
 
 
-  this is the most manipulative website i've ever been to. it's jsut designed to extract money from people! if you pay close attention, you can find subliminal messages embedded in the UI. for example, you ever wonder why everything on this site is magenta? ask yourself: what's the opposite color from magenta? that's right, it's green! the color of money. the longer you stare at your computer screen the more your brain wants to balance the visual scale by sending all your green to it. think about it
+
 
   something's really fucked up about this website, and I don't like it.
 */
@@ -118,42 +118,39 @@ export const StevieProfile = {
       review: `I was SO happy when steviep launched a findom project. He is, without a doubt, the HOTTEST artist in the NFT space. I couldn't wait to give him my money!`,
     },
     {
-      name: '0x2',
-      review: `I'll do anything stevie p says, and buy anything stevie p makes. I'll even pay him money in exchange for less money. `,
+      review: `this is the most manipulative website i've ever been to. it's jsut designed to extract money from people! if you pay close attention, you can find subliminal messages embedded in the UI. for example, you ever wonder why everything on this site is magenta? ask yourself: what's the opposite color from magenta on the hue spectrum? it's green! the color of money. the longer you stare at your computer screen the more your brain wants to balance the visual scale by sending all your green to it. think about it`,
     },
     {
       name: '0x3',
       review: `I've been writing erotica about stevie for years. I'm thrilled that I can finally act out on those fantasies where he takes all of my money`
     },
     {
+      review: `This website is fucking bullshit. I'm trying to give my money to REAL findoms, and steviep tricked me into giving it to FAKE findoms! I hope you enjoy the investigation from the Consumer Financial Protection Bureau after I file my complaint, asshole.`
+    },
+    {
       name: '0x5',
       review: `I've always gottens uch a rush from clicking the mint button on his drops. I'm jsut glad that now I can get that same rush from sending him money whenever I want!`,
+    },
+    {
+      review: `I've been collecting stevie's work since 2021, and given him i dont know how much money. It just felt good to support an artist I love. But it wasn't until FinSexy that I realized how sexually attracted I was to him!`
+    },
+    {
+      name: '0x2',
+      review: `I'll do anything stevie p says, and buy anything stevie p makes. I'll even pay him money in exchange for less money. `,
     },
     {
       name: '0x6',
       review: `I don't know how he does it, but every time I send my orgasm is so powerful it disrupts my entire visual field! `,
     },
 
-    // scam me, stevie baby
+    {
+      review: `scam me, stevie baby`
+    },
     // I give to steviep to participate in his art. I do it for its own sake.
   ]
 }
 
 
-
-
-async function sendEvent1(ctx, contract, provider) {
-  const addr = await provider.isConnected()
-
-  ctx.state.rounds = ctx.state.rounds || 0
-
-  if (contract && addr) {
-    const t = bnToN(await contract.tributes(addr))
-
-    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: '', waitMs: 3000 }
-  }
-
-}
 
 
 const StevieMessages = {

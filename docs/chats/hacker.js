@@ -16,6 +16,8 @@ Testimonials
 
 import { isYes, isNo, isGreeting, isMean, MessageHandler, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
+import {DianeChat} from './SpecialAgentDiane.js'
+
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
@@ -26,7 +28,7 @@ export const HackerProfile = {
   order: 10,
   age: NaN,
   distance: NaN,
-  maxPhotos: 1,
+  maxPhotos: 2,
   description: ``,
   gender: undefined,
   display: 'nb',
@@ -45,18 +47,6 @@ export const HackerProfile = {
 
 
 
-async function sendEvent1(ctx, contract, provider) {
-  const addr = await provider.isConnected()
-
-  ctx.state.rounds = ctx.state.rounds || 0
-
-  if (contract && addr) {
-    const t = bnToN(await contract.tributes(addr))
-
-    if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: '', waitMs: 3000 }
-  }
-
-}
 
 
 const HackerMessages = {
@@ -69,7 +59,7 @@ const HackerMessages = {
   },
 
   async __contract(provider) {
-    return await provider.domContract('0x0')
+    return await provider.domContract('0x000000000000000000000000000000000')
 
   },
 
@@ -86,7 +76,7 @@ const HackerMessages = {
     async messageText(ur, ctx, contract, provider) {
       if (!ctx.global.isConnected) return
       else return `
-        <p>Send ${0.05 * ctx.global.premium} in eth to the underneath address (remove***from it):</p>
+        <p>Send ${0.25 * ctx.global.premium} in eth to the underneath address (remove***from it):</p>
 
         <p>${contract.address.slice(0, 4)}***${contract.address.slice(4)}</p>
 
@@ -101,25 +91,28 @@ const HackerMessages = {
     },
     responseHandler: (ur) => {
       if (ur.includes('7')) {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        DianeChat.queueEvent('hello', 1)
+        MessageHandler.visibilityCtx.SpecialAgentDiane = 'online'
+
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       }
     },
 
-    event: 'blackmailEvent'
+    // event: 'blackmailEvent'
   },
 
-  finished: {
-    responseHandler: (ur) => {
-      if (ur.includes('7')) {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-      }
-    },
-  },
+  // finished: {
+  //   responseHandler: (ur) => {
+  //     if (ur.includes('7')) {
+  //       navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+  //     }
+  //   },
+  // },
 
-  blackmailEvent: createEvent(0.05, {
-    primary: { messageCode: 'finished' },
-    postEvent: () => {console.log('identity theft')}
-  })
+  // blackmailEvent: createEvent(0.05, {
+  //   primary: { messageCode: 'finished' },
+  //   postEvent: () => {console.log('identity theft')}
+  // })
 
 
 }

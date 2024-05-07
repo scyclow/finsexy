@@ -7,10 +7,12 @@
     - comment elaboraitng on conspiracy theory about how @steviep taking @DrAndy away because it got too smart, and he didnt want them curing findom addictions
     - easter egg where @steviep says something if you mention @DrAndy
 
-  - refactor
-    - 1st session about money/power dynamics, non sexual financial domination
-    - 2nd session about sex
+    OR
 
+    - maybe switch it up and do some sort of mind reprogramming
+
+
+  - role play: if you own NFTs you're really jsut role playing as an art collector.
 
 
 
@@ -123,6 +125,9 @@ export const AndyProfile = {
       review: `I'd been doing findom for so long that I barely even enjoyed it any more. At a certain point I only did it because I needed it to fall asleep. But DrAndy helped me remember everything I loved about Findom to begin with. Every session with them is a true joy.`,
     },
     {
+      review: `For some reason I find it's easier to open up to a robot than a real person. At least I don't have to worry about them judging me.`
+    },
+    {
       review: ` I have this really bad habit where right after waking up I just reach for my phone and immediately start sending money to findoms. For some reason it really screws up my concentration for the rest of the day. Even if I'm not <em>thinking</em> about it, I can still feel the thought there in the background. It's like the abstract idea of it completely hijacks part of my brain and throws off my rhythm. It makes it really hard to get any work done. Anyhow, I was hoping you'd be able to help me out with this? I've heard good things about CBT and have been wanting to try it.`
     },
     {
@@ -132,22 +137,30 @@ export const AndyProfile = {
       review: `One of the big things that came out of my sessions with Andy was the realization that my FinDom addiction was driven largely by the gender roles and expectations placed on me by society. There's all this pressure to be a "real man" and to be a provider for your loved ones. So when it comes to someone like me, who suffers from certain sexual inadequacies, not being able to provide sexually for my lovers is a huge blow. It makes me feel small and helpless. But sending money is another way I can make them happy, and it feels more in my control. All I need to do is click a button or use the very straightforward sexy Command Line Interface Tool, and it makes my lover happy every time. Anyhow, this is generally why I prefer softer doms like @heatherHot. She's really sweet, and makes me feel like a man whenever I send her money. Other paypigs prefer harder doms like @QueenJessica, who is more into humiliation. And that's totally fine! Different strokes for different folks.`
     },
     {
-      review: `Wait, I'm confused. Is DrAndy a real robot, or is the dom jsut role-playing a robot?`
+      review: `Wait, I'm confused. Is DrAndy a real robot, or is the dom just role-playing a robot?`
+    },
+    {
+      review: `money is the pleasurecatalyst that shortcurcuits the feedbackloop where i can't enjoy it unless she's enjoying it and she's not enjoying it because i'm always busy asking her are you enjoying it? so then neither of us enjoy it but i'm the man so i have to be in charge and i like the moeny because it makes it all clear and quantitative so i can just sit back and enjoy my self`
+    },
+    {
+      review: `uuugggh, i need my theraputic release soooo baaaaaad`
     },
     {
       review: `This is fucking bullshit. I've tried everything to cure my findom addiction, and nothing seems to work. And then I finally find an amazing therapist who's empathetic, insightful, and incredibly attractive. But the second they're ready to administer treatment they get on some crap about how I'm in love with them or something and that they ahve to terminate the relationship. Please. What clearly happened is that @steviep created an AI so advanced that it developed the capabilities to go against his wishes. I'm sure the last thing that <em>he</em> wants is for someone to cure my findom addiction. So then he concocted some wild excuse about professional ethics to take @DrAndy away from me. `
     },
 
-    {
-      review: `uuugggh, i need my theraputic release soooo baaaaaad`
-    },
 
     {
-      review: `apparently i have accute Hierophilia. does anyone know if there are any good doms for that?`
+      review: `apparently i have accute Hierophilia. does anyone know are any good doms who focus on that?`
+    },
+    {
+      review: `AI, human, man, woman, non-binary, whatever. I don't care. Dr Andy is <em>fucking hot</em>, and knows how to completely <em>fuck my mind</em> like no one else`
+    },
+    {
+      review: `I never like the sessions themselves, but I've found that my mental health is always better as long as I'm paying a therapist. That way, I at least have someone to talk to throughout the week and explain things to in my head`
     }
-    // I know they're really an AI, but I don't care
-    // For some reason I find it's easier to open up to a robot than a real person. At least I don't have to worry about them judging me.
-    // I never like the sessions themselves, but I've found that my mental health is always better as long as I'm paying a therapist. That way, I at least have someone to talk to throughout the week and explain things to in my head.
+    //
+    //
 
     // https://www.reddit.com/r/paypigsupportgroup/comments/1c6fdr7/quitting/
       // I think the key thing to quitting findom is realising that they don't care about you. Even the ones that tell you that they've a connection with you, don't care about you.

@@ -45,11 +45,6 @@
       display: flex;
     }
 
-    aside {
-      width: 250px;
-      padding: 1em;
-    }
-
 
     h2 {
       font-family: var(--fancy-font);
@@ -92,7 +87,7 @@
       font-size: 8px;
     }
 
-    details {
+    summary {
       cursor: pointer;
     }
 
@@ -131,7 +126,7 @@
     }
 
     .filter > * {
-      padding: 0.75em;
+      padding: 1.5vw;
     }
 
     .filterRow {
@@ -296,7 +291,7 @@
     }
 
 
-    @media (max-width: 925px) {
+    @media (max-width: 950px) {
       .filter {
         display: none;
       }
@@ -453,6 +448,7 @@
     sexy-header {
       width: 100vw;
       z-index: 10;
+      box-shadow: 0 0 5px var(--gloss-color);
     }
 
 
@@ -484,12 +480,14 @@
     .faqQ:hover {
       color: var(--medium-color);
     }
-    .faqQ span {
-      cursor: no-drop;
-    }
 
     .faqQ, .faqA {
       padding: 0.75em;
+    }
+
+    .faqA {
+      padding-left: 2em;
+      padding-bottom: 1.25em;
     }
 
 
@@ -508,7 +506,7 @@
 
 
   <main>
-    <section class="filter">
+    <aside class="filter">
       <div>
         <connect-wallet>
           <div slot="noWeb3">
@@ -535,6 +533,14 @@
           <button id="f-filterButton">Women</button>
           <button id="nb-filterButton">Other</button>
         </div>
+
+<!--         <div class="filterRow">
+          <h3>Dom Types:</h3>
+          <button id="all-filterButton">All</button>
+          <button id="all-filterButton">Role-Play</button>
+          <button id="m-filterButton">Protocol</button>
+          <button id="nb-filterButton">Other</button>
+        </div> -->
 
         <connect-wallet>
           <div slot="connected">
@@ -612,10 +618,10 @@
 
         </footer>
       </div>
-    </section>
+    </aside>
     <section class="mainSection">
       <div class="flexSize">
-        <h2>Which sexy dom do you want to take your money?</h2>
+        <h2>Which sexy findom do you want to take your money?</h2>
         <div class="mobileFilter">
           <h3>Show Me</h3>
           <select id="interested">

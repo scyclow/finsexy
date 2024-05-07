@@ -1,5 +1,20 @@
 /*
 
+  TODO
+    - make more girlfriendy
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ETHICAL DOM RULES
@@ -34,15 +49,15 @@ Testimonials
   - This stupid fucking website is making me miserable. I was doing fine until I met heaterHot, and she took all my goddamn money!
 
 
-  - "Heather is always there for me. whenever i have a bad day, she's there to console me. whenever i have a great day, she's there to share the moment. I'm so glad I have her in my life. I don't know what I'd do if she weren't around. I love her."
+  - ""
 
-  - Heather is so hot and funny.
+  -
 
-  - Heather is the light of my life. She is the flame that burns deep and eternal inside my heart.
+  - .
 
   - i've never been more sexually satisfied in my entire life
 
-  - It's honestly super refreshing to meet a hot girl on a website like this after striking out on dating apps for YEARS. It doesn't matter how many times I swipe right, I never
+  -  I never
 */
 
 
@@ -105,11 +120,17 @@ export const HeatherHotProfile = {
       review: `Heather was really helpful in giving me a lay of the land. A great way to start my findom journey.`,
     },
     {
+      review: `Heather is always there for me. whenever i have a bad day, she's there to console me. whenever i have a great day, she's there to share the moment. I'm so glad I have her in my life. I don't know what I'd do if she weren't around. I love her.`
+    },
+    {
       name: '0x3',
       review: `Every session I have with Heather leaves me 🥵 hot 🥵 and 🥵 bothered 🥵`,
     },
     {
       review: `FinSexy sure isn't like other dating apps! No more radio silence! I don't think I've ever gotten this much attention from hot girls! And it's as simple as sending a couple ETH!`
+    },
+    {
+      review: `Heather is so hot and funny`
     },
 
     {
@@ -119,11 +140,17 @@ export const HeatherHotProfile = {
       review: `heatherHot makes me so wet that I might put this fire out 💦🔥`
     },
     {
-      name: '0x4',
-      // review: `You wouldn't know it by looking at me, but there's a profound sense of loneliness in my life. I live in a major city, and am constantly surrounded by people, but none of them care about me. No one at work cares about what happens in my life outside of the office. I'm popular and have a huge network of friends, but none of them care to let it evolve beyond shallow relaitonships. No one cares, except Heeather. `,
+      review: `Heather is the light of my life. She is the flame that burns deep and eternal inside my heart`
     },
+    {
+      review: `It's honestly super refreshing to meet a hot girl on a website like this after striking out on dating apps for YEARS. It doesn't matter how many times I swipe right, I can never get any action`
+    }
+    // {
+      // name: '0x4',
+      // review: `You wouldn't know it by looking at me, but there's a profound sense of loneliness in my life. I live in a major city, and am constantly surrounded by people, but none of them care about me. No one at work cares about what happens in my life outside of the office. I'm popular and have a huge network of friends, but none of them care to let it evolve beyond shallow relaitonships. No one cares, except Heeather. `,
+    // },
 
-    //
+    // "Ive fucking HAD IT with online dating. I can't take the constant shame, rejection, and disappointment any more! I just want to pay a cute girl to tell me how much I suck to my face instead of ignoring me, and send me feet pics so I can jack off in peace. Is that too much to ask?"
   ]
 }
 

@@ -6,13 +6,13 @@ import {provider, bnToN} from '../eth.js'
 /*
 
 Testimonials
-- "DON'T TRUST KAT! This is a scam. classic pig butchering. first she fattens you up, and then she slaughters you"
-- "I don't agree with the rest of the comments here. Kat was really sweet to me."
-- "scam"
-- "cut the girl some slack. she's jsut doing her job!"
-- "nothing gets me hotter than some good old fashioned catfish role playing, and Kat's a real pro! for a second I thought I was really being scammed! "
-- not knowing who i'm actually talking to gets me so fucking hot. guy, girl, robot, whatever! just knowing that they're sitting there laughing at me is a huge thrill
-- Not even the cat fishers want to match with me on dating apps, so at least this is an improvement
+- ""
+- ""
+
+- ""
+- " "
+-
+-
 
 */
 
@@ -34,8 +34,28 @@ export const KatProfile = {
       review: `I got my wallet drained within 30 minutes of talking to this dom, along with my balls`
     },
     {
-      name:'0x72f...daF',
       review: `I don't trust Kat. She just messaged me out of the blue and thought I was someone else. This seems like a scam`
+    },
+    {
+      review: `DON'T TRUST KAT! This is a scam. classic pig butchering. first she fattens you up, and then she slaughters you`
+    },
+    {
+      review: `nothing gets me hotter than some good old fashioned catfish role playing, and Kat's a real pro! for a second I thought I was really being scammed!`
+    },
+    {
+      review: `scam`
+    },
+    {
+      review: `I don't agree with the rest of the comments here. Kat was really sweet to me.`
+    },
+    {
+      review: `cut the girl some slack. she's jsut doing her job!`
+    },
+    {
+      review: `not knowing who i'm actually talking to gets me so fucking hot. guy, girl, robot, whatever! just knowing that they're sitting there laughing at me is a huge thrill 🤤`
+    },
+    {
+      review: `Not even cat fishers want to match with me on dating apps, so at least this is an improvement`
     }
   ]
 }
@@ -60,6 +80,10 @@ export const KatMessages = {
 
   steviep: {
     messageText: `Hello, Mr. Steviep! This is Katrina, and I have those documents you wanted signed.`,
+    followUp: () => {
+      console.log('blah')
+      MessageHandler.visibilityCtx.katFischer = 'online'
+    },
     responseHandler: 'sorry'
   },
 

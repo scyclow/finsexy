@@ -11,6 +11,7 @@ const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 /*
 TODO
+  - if completed @crystalgoddess cleansing ceremony, mention money laundering
   - respond if user mentions @crystalgoddess or cleansing ceremony
     -  normally this would be a taxable event, but it i exempt on religious grounds
     - if ceremony completed in global conttext, mention offhandedly
@@ -59,6 +60,9 @@ export const SamanthaProfile = {
     {
       name: '0x1',
       review: `Ever since 2021, when i first became involved in the crypto scene, I have been living in constant fear of an IRS audit. Samantha helped me work through some of those issues in a controlled environment. She was worth every penny`,
+    },
+    {
+      review: `Does anyone else enjoy jerking off to their etherscan transaction history? It's so hot seeing the ETH trickle out of my address`
     },
     {
       name: '0x3',

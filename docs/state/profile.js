@@ -36,7 +36,9 @@ export const defaultProfileLS = profileLS('DEFAULT')
 
 export function getUserData(key) {
   const profileInfo = defaultProfileLS.get()
+
   const info = {
+    password: profileInfo.pass || '',
     name: profileInfo.name || '${name}',
     gender: profileInfo.gender || 'nb',
     location: profileInfo.location || 'null',

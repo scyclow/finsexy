@@ -1,14 +1,13 @@
 /*
   TODO
+    - sex it up
+      - what's a sexual tie in to laundering/washing money?
+    - maybe rethink the ending
+    - try to incorporate schelling point/faith theme
+    - think of nft tie in
 
-    Main theme:
-      - you've been seeking monetary enlightenment/abundance in evil places
-        - you've been putting your faith in stupid shit
-        - fantasy value
-        - one day you will awaken to the truth
-      - you do not deserve free will
-      - all your assets should belong to me
-      - true wealth can only come from an abundance mindset
+
+
 
 
 
@@ -75,10 +74,10 @@ Testimonials
   - "thank you goddess for existing"
   - "I loooooove having an owner. no more decisions. no more anxiety. no more analysis paralysis. Goddess just controls me and that's that."
 
-  - "Faith is a powerful thing. Before I met CrystalGoddess I was in a dark place in my life. For months I suffered a deep depression. And it got worse day after day. Every morning I woke up with a blank mind. But then I remembered that I had this dark cloud of depression hanging over me, and it all came flooding back worse than before. It was all doom and gloom on the horizon. I didn't believe in a higher power, and I sure as hell didn't believe in myself. But then Goddess came along and showed me the light. Her daily prayer sessions were a true miracle. The more I gave of myself to her -- my time, my faith, my money -- the better my life became. I started to _believe_."
+  - ""
 
 
-  - Before I met Goddess I felt like I was just sleep walking through life. Food lost its taste, relationships lost their meaning, and money lost its value. Nothing gave me pleasure and nothing felt meaningful. I had no purpose, and my world felt like static. Somehow, all of the connective tissue erroded from my lived experience. And the more I thought about ti the more prevelant it would become. It felt like it was all slipping through my fingers, and I didn't know how to stop the feedback loop. But Goddess made it all better. Giving myself over to her is a pure light of joy. A warm, pink light. Every ETH I give her feels meaningful. Like I'm giving her  apart of myself. I finally have purpose, and her name is CrystalGoddess
+  -
 
 
 
@@ -130,11 +129,14 @@ export const CrystalGoddessProfile = {
   testimonials: [
     {
       name: '0x1',
-      review: `I came so hard that I don't even know what money is any more.`,
+      review: `i came so hard that I don't even know what money is any more`,
     },
 
     // I do not deserve this money
 
+    {
+      review: `Before I met Goddess I felt like I was just sleep walking through life. Food lost its taste, relationships lost their meaning, and money lost its value. Nothing gave me pleasure and nothing felt meaningful. I had no purpose, and my world felt like static. Somehow, all of the connective tissue erroded from my lived experience. And the more I thought about it the more prevelant it would become. It felt like it was all slipping through my fingers, and I didn't know how to stop the feedback loop. But Goddess made it all better. Giving myself over to her is a pure light of joy. A warm, pink light. Every ETH I give her feels meaningful. Like I'm giving her a part of myself. I finally have purpose, and her name is CrystalGoddess`
+    },
 
 
     // {
@@ -146,6 +148,10 @@ export const CrystalGoddessProfile = {
       name: '0x1',
       review: `Thank you so much Goddess for draining me. You give me purpose in my miserable, pathetic life 🙏`,
     },
+
+    {
+      review: `Faith is a powerful thing. Before I met CrystalGoddess I was in a dark place in my life. For months I suffered a deep depression. And it got worse day after day. Every morning I woke up with a blank mind. But then I remembered that I had this dark cloud of depression hanging over me, and it all came flooding back worse than before. It was all doom and gloom on the horizon. I didn't believe in a higher power, and I sure as hell didn't believe in myself. But then Goddess came along and showed me the light. Her daily prayer sessions were a true miracle. The more I gave of myself to her -- my time, my faith, my money -- the better my life became. I started to <em>believe</em>.`
+    }
 
   // - testimonials "i've always been afraid of approaching women in bars"
   // - SweetSalvation: "i'd rather be giving my hard earned money to this pretty girl than let the government pry it from y cold dead hand when they come around looking for taxes because the government can't tell either of us what to do as consenting adults who want to form a business relationship with one another that benefits her and it benefits me."

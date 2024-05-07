@@ -23,10 +23,10 @@ TODO
 
 
 Testimonial
-  "it makes me so hot watching vince get rich"
-  "I just want to please my man. watching him take my money get's me sooo wet"
-  "call me crazy, but i just don't get off on making money any more. i've been in crypto for years, and I guess all the volatile ups and downs just desensitized me or something. to get off i need a little something extra. that's why when vince put me into one of his 'investment producs' i came so goddamn hard. it was exactly what i needed"
-  "On one hand I'm a complete degenerate sex addict, but on the other hand I can't find any women who want to have sex with me. I think it's because I have a suboptimal facial bone structure. Women really want a man like Vince. Not only does he have an optimal facial bone structure, but also he also has a very high level of charisma, and his monetary displays of status really seal the deal. I'm just hoping that I can pick up some of his charisma and make some money so I can finally engage in the sexually addictive lifestyle I've always dreamed of."
+  ""
+  ""
+  ""
+  ""
 
 
 */
@@ -46,7 +46,7 @@ const hasNumber = ur => {
 export const VinceProfile = {
   name: 'VinceSlickson',
   startingVisibility: 'online',
-  domType: 'Daddy Dom',
+  domType: 'Daddy',
   order: 3,
   age: 42,
   distance: 10,
@@ -61,7 +61,25 @@ export const VinceProfile = {
     { name: '0x1', review: `Vince is a real dream boat. He also made me a TON of money!`},
     { name: '0x1', review: `vince has been a positive male role model in my life and is also very sexy. i like giving him my money`},
     { name: '0x1', review: `I like the photo where he's on the beach`},
-    // A lot of men like participating in no-nut November. But I like saving up my money in november. now my wallet is ready to burst
+    {
+      review: `it makes me so hot watching vince get rich`
+    },
+    {
+      review: `I just want to please my man. watching him take my money get's me sooo wet`
+    },
+    {
+      review: `call me crazy, but i just don't get off on making money any more. i've been in crypto for years, and I guess all the volatile ups and downs just desensitized me or something. to get off i need a little something extra. that's why when vince put me into one of his 'investment producs' i busted my nut so goddamn hard. it was exactly what i needed`
+    },
+    {
+      review: `A lot of men like participating in no-nut November. But I like saving up my money in november. now my wallet is ready to burst`
+    },
+    {
+      review: `On one hand I'm a complete degenerate sex addict, but on the other hand I can't find any women who want to have sex with me. I think it's because I have a suboptimal facial bone structure. Women really want a man like Vince. Not only does he have an optimal facial bone structure, but also he also has a very high level of charisma, and his monetary displays of status really seal the deal. I'm just hoping that I can pick up some of his charisma and make some money so I can finally engage in the sexually addictive lifestyle I've always dreamed of.`
+    },
+    {
+      review: `I'm such a goddamn loer that it's impossible for me to view myself in my own financial fantasies. I can only get off by seeing daddy make money`
+    }
+    //
   ]
 }
 

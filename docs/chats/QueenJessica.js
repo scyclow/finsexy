@@ -53,7 +53,7 @@ https://www.pornhub.com/view_video.php?viewkey=654837492a1db
 Testimonial:
   "i dont deserve my money. Queen deserves every cent"
 
-  - I'm a little sissy boy oink oink oink
+  -
 
   - Men are truly the weaker of the two sexes...
 
@@ -83,9 +83,8 @@ export const QueenProfile = {
   gender: 'F',
   display: 'f',
   maxPhotos: 4,
-  description: `
-    <p>I'm the reason your wife is going to leave you 💸 #findom 👑 #brat 🙇‍♀️🙇🙇‍♂️ #spoilme 🥵💦 #paypig 🐷</p>
-    <p>💵 ${MessageHandler.globalCtx.premium * 0.01} ETH tribute to talk 💵</p>
+  description: `I'm the reason your wife is going to leave you 💸 #findom 👑 #brat 🙇‍♀️🙇🙇‍♂️ #spoilme 🥵💦 #paypig 🐷
+  <br/>💵 ${MessageHandler.globalCtx.premium * 0.01} ETH tribute to talk 💵
   `,
   testimonials: [
     {
@@ -107,6 +106,10 @@ export const QueenProfile = {
     },
 
     {
+      review: `I'm a little sissy boy oink oink oink`
+    },
+
+    {
       name: '0x',
       review: `I haven't lost this much money since I aped into Fake Internet Money in 2021`,
     },
@@ -114,7 +117,14 @@ export const QueenProfile = {
     {
       name: '0x',
       review: `She makes me feel useful. Sending to Queen gives my life purpose`,
+    },
 
+    {
+      review: `it's soooo hot to see these amazing, strong women empowered to do this. sex work is work! it's a free market, and these women are making the decisions that best lead to their success. i see some of the other subs here don't like it, and that's too bad! Personally, i fund it unbearably hot watching these women work their magic. I just wish that I was able to do the same`
+    },
+
+    {
+      review: `There's just so much pressure to be a man and keep it together these days. I want someone to absolutely fucking ruin me`
     }
   ]
 }
@@ -307,14 +317,20 @@ const QueenMessages = {
   ...diatribe('leaveYou', [
     (ur, ctx) => `Well, ${{ m: `he's`, f: `she's`, nb: `they're`}[ctx.state.partnerGender]} about to leave you`,
     (ur, ctx) => `You thought ${{ m: `he was`, f: `she was`, nb: `they were`}[ctx.state.partnerGender]} mad after you lost all your money on NFTs? That was nothing`,
-    `I'm going ot absolutely <em>ruin</em> you`,
+    `I'm going to absolutely <em>ruin</em> you`,
     `And you're going to love it`,
-    `Do you have kids, ${getUserData('name')}?`,
+    `I won't feel any guilt about it either`,
+    `You're basically just an NPC in my world, and your only function is to send`,
   ], {
+    responseHandler: 'anyKids'
+  }),
+
+  anyKids: {
+    messageText: `Shut up. Next question: Do you have kids, ${getUserData('name')}?`,
     responseHandler: ur => isYes('ur')
       ? 'kidsYes'
       : isNo('ur') ? 'kidsNo' : 'kidsMaybe'
-  }),
+  },
 
 
   kidsYes: {
@@ -333,7 +349,7 @@ const QueenMessages = {
   },
 
   kidsNo: {
-    messageText: `Good. Because when I'm done with you there's no chance in hell you would be able to support them`,
+    messageText: `Good. Because when I'm done with you there's no chance in hell you'd be able to support any`,
     followUp: fu('timeToSend')
   },
 
@@ -347,7 +363,8 @@ const QueenMessages = {
     () => `Figures that no one would want to date a crypto sissy cuck ${genderSwitch({m: 'boy', f: 'girl', nb: 'degen'})} like you`,
     `You don't deserve any love`,
     `That is, not unless you make yourself useful and pay up`,
-    `Keep that in mind: if you're not sending me money you don't exist to me.`
+    `Keep that in mind: if you're not sending me money you don't exist.`,
+    `You're basically just an NPC in my world, and your only function is to send`
   ], {
     followUp: fu('timeToSend')
   }),
@@ -412,7 +429,8 @@ const QueenMessages = {
   },
 
   rhetorical: {
-    messageText: `Don't answer that. That was a rhetorical question, idiot.`
+    messageText: `Don't answer that. That was a rhetorical question, idiot.`,
+    responseHandler: 'loveMakingMeRich'
   },
 
 
@@ -445,7 +463,9 @@ const QueenMessages = {
     `But no. What do you do with it? You chose to give it to <em>me</em> instead. You decided to throw it all away for my benefit because that's what gets your idiot brain off`,
     `And I'm here for it. We both know that I'll make better use of your money than you ever would.`,
     `I deserve it and you don't `
-  ]),
+  ], {
+    responseHandler: 'tooStupid'
+  }),
 
 
 
@@ -463,6 +483,7 @@ const QueenMessages = {
     `So you think: why not give it to my Queen? At least I can make her rich`,
     // `You tell yourself that you play this crypto game to get generational wealth, but you know that's really bullshit.`
     // `Why do you want to make money in crypto? To give to me. I deserve it, and you want ot make me happy`
+    'TODO'
   ])
 
 

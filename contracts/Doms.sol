@@ -109,19 +109,6 @@ contract VinceSlickson is FinDom {
 
 }
 
-contract VinceSlicksonAlpha {
-  mapping(address => uint256) public stakedBalance;
-  mapping(address => uint256) public stakeTime;
-
-  function stake() external payable {
-    stakedBalance[msg.sender] = msg.value;
-
-  }
-
-  function unstake() external {
-
-  }
-}
 
 contract CrystalGoddess is FinDom {
   mapping(address => uint256) public cleansedETH;
@@ -144,17 +131,14 @@ contract DungeonMistress is FinDom {
   constructor(address fs) FinDom(6, 0.05 ether, 'DungeonMistress', fs) {}
 }
 
-contract Hacker is FinDom {
-  constructor(address fs) FinDom(7, 0.03 ether, '0x0', fs) {}
-}
 
 contract QueenJessica is FinDom {
-  constructor(address fs) FinDom(8, 0.03 ether, 'QueenJessica', fs) {}
+  constructor(address fs) FinDom(7, 0.03 ether, 'QueenJessica', fs) {}
 }
 
 contract StevieP is FinDom {
   SexyGame public sexyGame;
-  constructor(address fs) FinDom(9, 10000 ether, 'steviep', fs) {
+  constructor(address fs) FinDom(8, 10000 ether, 'steviep', fs) {
     sexyGame = new SexyGame(msg.sender);
   }
 
@@ -164,6 +148,9 @@ contract StevieP is FinDom {
   }
 }
 
+contract Hacker is FinDomLight {
+  constructor(address fs) FinDom(10, 0.03 ether, '0x0', fs) {}
+}
 
 contract Hedonitronica is FinDomLight {
   constructor() FinDomLight(11, 'Hedonitronica') {}
