@@ -315,10 +315,10 @@ const HeatherHotMessages = {
     followUp: { messageCode: 'newToFindomContinue', waitMs: 2000 }
   },
 
-  newToFindomContinue: {
-    messageText: `i mean, you clearly get off on losing money. you <em>are</em> into crypto and NFTs, afterall. LOL!`,
-    followUp: { messageCode: 'nextSteps', waitMs: 5000 }
-  },
+  // newToFindomContinue: {
+  //   messageText: `i mean, you clearly get off on losing money. you <em>are</em> into crypto and NFTs, afterall. LOL!`,
+  //   followUp: { messageCode: 'nextSteps', waitMs: 5000 }
+  // },
 
 
   nextSteps: {
@@ -386,7 +386,7 @@ const HeatherHotMessages = {
 
 
   moreInfo2b: {
-    messageText: `or, if you're just so caught up in the moment that you don't want to leave the chat window you can use the $sexy command line interface tool (CLIT)!`,
+    messageText: `or, if you're just so caught up in the moment that you don't want to leave the chat window you can use the $sexy Command Line Interface Tool (CLIT)!`,
     followUp: { messageCode: 'moreInfo2c', waitMs: 3000 }
   },
 
@@ -503,7 +503,7 @@ const HeatherHotMessages = {
   },
 
   waitForConnect2: {
-    messageText: `you can connect your wallet by clicking the "CONNECT" button in the menu, or by using the Sexy CLIT. To use the Sexy CLIT, just type <code>$sexy connect</code>`,
+    messageText: `you can connect your wallet by clicking the "CONNECT" button in the menu, or by using the $sexy CLIT. To use the $sexy CLIT, just type <code>$sexy connect</code>`,
     event: 'connectEvent',
     responseHandler: ur => isMatch(ur, ['more', 'tell me', 'question']) ? 'moreInfo' : 'waitForConnect3'
   },
@@ -757,7 +757,7 @@ const HeatherHotMessages = {
   },
 
   sendHelp2: {
-    messageText: (ur, ctx) => `or, you can just use the sexy CLIT by typing <code>$sexy send heatherHot ${ctx.global.premium * 0.01}</code>`,
+    messageText: (ur, ctx) => `or, you can just use the $sexy Command Line Interface Tool (CLIT) by typing <code>$sexy send heatherHot ${ctx.global.premium * 0.01}</code>`,
     event: 'sendEvent',
     responseHandler: 'sendMoreOkay'
   },

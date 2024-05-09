@@ -743,7 +743,7 @@ createComponent(
       <div>${distance} miles away!</div>
     `
 
-    ctx.$chat.href = `../chat?activeChat=${name}`
+    ctx.$chat.href = `../profiles/${name}`
 
 
     if (MessageHandler.visibilityCtx[name] === 'online') {

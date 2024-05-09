@@ -88,7 +88,7 @@ Testimonials
 
 
 import { isYes, isNo, isGreeting, isMean, isMatch, MessageHandler, diatribe, createEvent } from '../state/conversationRunner.js'
-import {getUserData, genderSwitch } from '../state/profile.js'
+import {getUserData, genderSwitch, getAgeYears } from '../state/profile.js'
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
@@ -97,8 +97,8 @@ export const StevieProfile = {
   startingVisibility: 'offline',
   domType: 'Sadist',
   order: 5,
-  age: 34,
-  distance: 0,
+  age: Math.floor(getAgeYears(616579260000)),
+  distance: 16,
   gender: 'Male',
   display: 'm',
   maxPhotos: 7,
@@ -193,7 +193,7 @@ const StevieMessages = {
   ...diatribe('prettyGreat', [
     `yeah, it's pretty great, isn't it?`,
     `some of my best work, if I do say so myself.`,
-    `I constantly have my ear to the ground for new ideas, so when I stumbled upon the FinDom industry I knew that there was something here`,
+    `I constantly have my ear to the ground for new business opportunities, so when I stumbled upon the FinDom industry I knew that there was something here`,
     `I saw findoms making absolute bank extracting money from their subs, and I thought, "man, I could totally do that!"`,
     `but then I realized: "wait a second... I'm already doing that!"`,
     `I don't know about you, but I can't think of a better way to describe the process of selling NFTs than financial domination`,
