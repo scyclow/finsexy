@@ -567,7 +567,7 @@ function linkify(txt) {
   return txt.includes('@')
     ? txt.replaceAll(
       /@(\w+)/g,
-      (match, mention) => `<a href="/chat?activeChat=${mention}">${match}</a>`
+      (match, mention) => `<a href="/profiles/${mention}">${match}</a>`
     )
     : txt
 }

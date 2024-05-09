@@ -561,13 +561,13 @@ const MerchantNodes = {
     `You break out in a nervous sweat, but are unsure why.`,
     `"Oh, don't worry. It won't be like last time. Although, your wife did seem to enjoy it. She even said that when she got home, after I fucked her silly, she couldn't look at you the same way again. She said you were simply a pathetic little ${genderSwitch({m: 'man', f: 'woman', nb: 'person'})} sitting there. She realized that you completely failed her -- not just as the provider of your family, but also in bringing her any meaningful pleasure. It sounds like she really needed a ${genderSwitch({m: '<em>real</em> man', f: '<em>man</em>', nb: 'competent lover'})} to give her a mind-blowing orgasm. Something you could never do. In fact, she came so hard the first time around that she decided to come back the next day. That one was on the house."`,
     `Your stomach drops and your chest tightens, but a strange warmth softens your anxiety.`,
-    `"So I understand why you woldn't be excited to repeat that. You probably want to keep me as far away from her as possible. This time though, I was thinking maybe you could return the favor."`,
+    `"So I understand why you wouldn't be excited to repeat that. You probably want to keep me as far away from her as possible. This time though, I was thinking maybe you could return the favor."`,
     `You hear a door open behind you. The merchant's wife walks out wearing nothing but a mask. You can tell by the way she walks that her bladder is full.`,
     `"Your wife has a thing for men with huge cocks who know how to make women cum, and my wife has a thing for peeing on helpless, pathetic losers. Who am I to judge? I try not to kink shame. But looking at this logically, it seems there's a mutual coincidence of want. You're in dire need of some gold, and she... well, let's just say she's looking forward to showering you in gold. And if you don't want to play along, then I don't think there's much more I can do to help you you. So what do you say?"`,
     `Do you stay and play along? Or do you leave and try your luck outside?`
   ], {
     responseHandler: ur => {
-      if (isMatch(ur, ['piss', 'urine', 'pee', 'peeing', 'urinate', 'shower', 'gold', 'golden shower', 'stay', 'play', 'wife'])) return 'goldenShower'
+      if (isMatch(ur, ['piss', 'urine', 'pee', 'peeing', 'urinate', 'shower', 'gold', 'golden shower', 'stay', 'play', 'wife', 'peed'])) return 'goldenShower'
       else if (isMatch(ur, ['leave', 'outside', 'escape', 'try my luck', 'exit', 'square', 'run away', 'out of there'])) return 'tryLuckOutside'
       else return 'goldenShowerPending'
     }
