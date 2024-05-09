@@ -307,7 +307,10 @@ const VinceMessages = {
 
   thereWeGo: {
     messageText: `Oh yeah, there we go!`,
-    followUp: fu('tellMe')
+    followUp: (ur, ctx) => {
+      ctx.global.securitiesFraud = true
+      return fu('tellMe')
+    }
   },
 
   tellMe: {

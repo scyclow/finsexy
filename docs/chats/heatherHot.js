@@ -2,6 +2,7 @@
 
   TODO
     - make more girlfriendy
+    - kinda sucks in general. need more
 
 
 
@@ -100,7 +101,7 @@ export const HeatherHotProfile = {
   startingVisibility: 'online',
   domType: 'Soft',
   order: 1,
-  age: 23,
+  age: 22,
   distance: 2,
   gender: 'Female',
   display: 'f',
@@ -519,7 +520,7 @@ const HeatherHotMessages = {
   },
 
   fantasyCheck: {
-    messageText: `your finsub application says that you're into "${getUserData('fantasy')}". that's soooo hot. i'm also into that`,
+    messageText: `your profile says that you're into "${getUserData('fantasy')}". that's soooo hot. i'm also into that`,
     followUp: { messageCode: 'ageCheck', waitMs: 3000 }
   },
 

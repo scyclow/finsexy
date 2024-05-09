@@ -137,7 +137,7 @@ export const MistressProfile = {
   display: 'f',
   age: 27,
   distance: 666,
-  gender: '',
+  gender: 'Female',
   maxPhotos: 4,
   description: `I like roleplay, sadomasochism, and humiliation. And if you're not careful I'm going to suck every last cent out of your wallet,`,
   testimonials: [

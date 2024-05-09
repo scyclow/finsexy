@@ -35,7 +35,7 @@ https://www.loyalfans.com/countessdiamond/video/bank-manager-tricks-you-into-sen
 export const SamanthaProfile = {
   name: 'SamanthaJones',
   startingVisibility: 'online',
-  domType: 'Protocol',
+  domType: 'Voyeur',
   order: 2,
   age: 46,
   distance: 6,

@@ -35,8 +35,18 @@ export const STEVIEP_CONTRACTS = {
     ETF: '0x0dEe24C99e8dF7f0E058F4F48f228CC07DB704Fc',
     KYC: '0xFcCa971FE9Ee20C1Cf22596E700aA993D8fD19c5',
   },
-  goerli: {
-
+  sepolia: {
+    AB: '0x0Fe369b47d8CbEed0586dbaa0dbfee2b249B1C64',
+    FastCash: '0xDd3075604272ecb847338Ee3C8A36cd4B6F25f9B',
+    UFIM: '0x6b066289884b71182f9fBB98EDfa1eA5Aa53AC2E',
+    IOU: '0xac2a54817D6Db0215f592cc50Bcf362A18257963',
+    NVC: '0x7689D9d97B767D93c98F85266C5C3c37a246B0C1',
+    IFD: '0x85E49424ca0074DB4F1Ae491b1AC02A6090F3d74',
+    MMO: '0xf4602A751bb3A5899c7D2C9851e9B1D7A95FCB3e',
+    CASH: '0xa24B9F0c2905b370BF2C4AA6bE9715361e86C1e1',
+    TenEth: '0x0BE1F7BE6996F969b8e2c68a6F532BE946b57c9a',
+    ETF: '0xBe79cF3F13Ded8334dbEe23c7aeE078118eEc45C',
+    KYC: '0x9fd04fafD998bfd1bA9aadd24ef1864A5620C05C',
   },
   mainnet: {
     AB: '0xa7d8d9ef8D8Ce8992Df33D8b8CF4Aebabd5bD270',
@@ -68,7 +78,20 @@ export const DOM_CONTRACTS = {
     steviep: '0xF67e26649037695DdFAB19f4E22d5c9Fd1564592',
     Hedonitronica: '0x6431AF84d34F0522cAA58b221d94A150B5AdAC69',
   },
-  goerli: {},
+  sepolia: {
+    heatherHot: '0xAc35C2714D7B721795334a166Ff8c4D4F8201776',
+    katFischer: '0x21949D2B84b158a03103A55AAd03523A3D4c3759',
+    SamanthaJones: '0x40f34B5DCc2b8182037b58Add64FD84Ebc60aF04',
+    VinceSlickson: '0xbCa00b868294E500d7f047E0C548A20967616330',
+    CrystalGoddess: '0x9765F904Efd22AF60A0426CFBEd9d649b5b42a44',
+    DrAndy: '0x0353a4df0166Ed29dad300BbF740F6Ad17b5cbDa',
+    DungeonMistress: '0xF9c7CB228f0348651F966d700ac927b2A1bd4848',
+    '0x000000000000000000000000000000000': '0x95d427A098Da43cB3990EDEFca5f1dECd2e00AbD',
+    SpecialAgentDiane: '0x95d427A098Da43cB3990EDEFca5f1dECd2e00AbD',
+    QueenJessica: '0x21949D2B84b158a03103A55AAd03523A3D4c3759',
+    steviep: '0xA2cdc432d3bAfAbE89b5BAC58A5fAfc9107cA76c',
+    Hedonitronica: '0x3f351312c0C1183FCe362Ef7f68e8c1895f23Ff6',
+  },
   mainnet: {},
 }
 
@@ -193,6 +216,8 @@ export class Web3Provider {
       name = 'mainnet'
     } else if (network.chainId === 31337) {
       name = 'local'
+    } else if (network.chainId === 11155111) {
+      name = 'sepolia'
     } else if (hasName) {
       name = network.name
     } else {
@@ -200,7 +225,7 @@ export class Web3Provider {
     }
 
 
-    const etherscanPrefix = name === 'goerli' ? 'goerli.' : ''
+    const etherscanPrefix = name === 'sepolia' ? 'sepolia.' : ''
 
 
     return { name, chainId, hasName, network, etherscanPrefix }

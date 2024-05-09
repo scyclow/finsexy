@@ -824,11 +824,13 @@ createComponent(
     })
 
     ctx.$activeThumbnail.src = getActiveThumbnail()
+    ctx.$activeThumbnail.alt = `Sexy findom ${name} #${ctx.state.activePhoto}`
 
 
     ctx.$activeThumbnail.onclick = () => {
       ctx.$('#activeThumbnailModal').open()
       ctx.$('#activeThumbnail2').src = getActiveThumbnail()
+      ctx.$('#activeThumbnail2').alt = `Sexy findom ${name} #${ctx.state.activePhoto}`
       ctx.$('#imgLeft2').onclick = ctx.changeImgLeft('#activeThumbnail2')
       ctx.$('#imgRight2').onclick = ctx.changeImgRight('#activeThumbnail2')
     }

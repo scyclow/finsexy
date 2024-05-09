@@ -31,6 +31,9 @@ export const clearChat = (ignoreReload=false) => {
   if (!ignoreReload) window.location.reload()
 }
 
+
+let downcasedChats
+
 export const sexyCLIT = {
   nameToAddress: {},
   nameToContext: {},
@@ -49,6 +52,12 @@ export const sexyCLIT = {
       ? this.nameToCallback[name]
       : noop
     if (sexy !== '$sexy') return cb('Something went wrong...')
+
+
+    downcasedChats = Object.keys(MessageHandler.chats).reduce((a, c) => {
+      a[c.toLowerCase()] = MessageHandler.chats[c]
+      return a
+    }, {})
 
     if (command === 'help' || !command) {
       return cb(`
@@ -159,24 +168,29 @@ export const sexyCLIT = {
         // return cb(`Clearing`)
 
       } else if (args[0] === 'list') {
-        const [_, chatName] = args
+        const [_, _chatName] = args
+        const chatName = _chatName.toLowerCase()
 
-        if (!(chatName in MessageHandler.chats)) return cb(`Invalid chat name: ${chatName}`)
 
-        const nodeNames = Object.keys(MessageHandler.chats[chatName].messages).filter(n => !['START', 'TYPING_SPEED', '__contract', '__precheck'].includes(n))
+        if (!(chatName in downcasedChats)) return cb(`Invalid chat name: ${_chatName}`)
+
+        const nodeNames = Object.keys(downcasedChats[chatName].messages).filter(n => !['START', 'TYPING_SPEED', '__contract', '__precheck'].includes(n))
 
         cb(nodeNames.map(n => `${n}<br/>`).join(''))
 
 
         // return cb(`Clearing`)
       } else if (args[0] === 'node') {
-        const [_, chatName, node] = args
+        const [_, _chatName, node] = args
 
-        if (!(chatName in MessageHandler.chats)) return cb(`Invalid chat name: ${chatName}`)
+        if (!node) cb(`Cannot move to empty node for ${_chatName}`)
+        const chatName = _chatName.toLowerCase()
 
-        cb(`Moving to node ${node} for ${chatName}`)
+        if (!(chatName in downcasedChats)) return cb(`Invalid chat name: ${_chatName}`)
 
-        MessageHandler.chats[chatName].queueEvent(node, 1000)
+        cb(`Moving to node ${node} for ${_chatName}`)
+
+        downcasedChats[chatName].queueEvent(node, 1000)
 
       } else {
         return cb(`
@@ -209,11 +223,17 @@ export const sexyCLIT = {
     }
   },
 
-  send(recipient, amount, cb, errorCb, successCb=noop) {
+  send(_recipient, amount, cb, errorCb, successCb=noop) {
     document.documentElement.classList.remove('orgasm')
+    const recipient = _recipient.toLowerCase()
+
+    const downcasedChats = Object.keys(MessageHandler.chats).reduce((a, c) => {
+      a[c.toLowerCase()] = MessageHandler.chats[c]
+      return a
+    }, {})
 
     setTimeout(async () => {
-      if (!MessageHandler.chats[recipient]) {
+      if (!downcasedChats[recipient]) {
         return cb(`Invalid recipient: ${recipient}`)
       } else if (isNaN(Number(amount))) {
         return cb(`Invalid amount: ${amount}`)
@@ -222,7 +242,7 @@ export const sexyCLIT = {
       try {
         document.body.classList.add('preOrgasm')
         const tx = await provider.signer.sendTransaction({
-          to: MessageHandler.chats[recipient].contract.address,
+          to: downcasedChats[recipient].contract.address,
           value: toETH(amount)
         })
         await tx.wait()

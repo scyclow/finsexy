@@ -4,7 +4,6 @@ pragma solidity ^0.8.23;
 
 import "./Dependencies.sol";
 
-import "hardhat/console.sol";
 
 interface IFinSexy {
   function mint(address to, uint256 domId) external;
@@ -106,9 +105,7 @@ contract VinceSlickson is FinDom {
   function updateERC20Price(uint256 price) external onlyOwner {
     erc20Price = price;
   }
-
 }
-
 
 contract CrystalGoddess is FinDom {
   mapping(address => uint256) public cleansedETH;
@@ -149,7 +146,7 @@ contract StevieP is FinDom {
 }
 
 contract Hacker is FinDomLight {
-  constructor(address fs) FinDom(10, 0.03 ether, '0x0', fs) {}
+  constructor() FinDomLight(10, '0x000000000000000000000000000000000') {}
 }
 
 contract Hedonitronica is FinDomLight {
@@ -194,6 +191,9 @@ contract SexyGame is Ownable {
     payable(msg.sender).transfer(1 ether);
   }
 }
+
+
+
 
 // contract Cagla is FinDom {
 //   constructor() FinDom(id, amount, _name) {}

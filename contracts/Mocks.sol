@@ -88,3 +88,32 @@ contract KYCMock {
     return KYCInfo('Steven', 'Pikelny', msg.sender);
   }
 }
+
+
+contract MockDeployer {
+  ABMock public ab;
+  FastCashMock public fc;
+  ETFMock public etf;
+  UFIMMock public ufim;
+  IOUMock public iou;
+  NVCMock public nvc;
+  IFDMock public ifd;
+  MMOMock public mmo;
+  CASHMock public cash;
+  TenETHMock public tenEth;
+  KYCMock public kyc;
+
+  constructor() {
+    ab = new ABMock();
+    fc = new FastCashMock();
+    etf = new ETFMock();
+    ufim = new UFIMMock();
+    iou = new IOUMock();
+    nvc = new NVCMock();
+    ifd = new IFDMock();
+    mmo = new MMOMock();
+    cash = new CASHMock();
+    tenEth = new TenETHMock();
+    kyc = new KYCMock();
+  }
+}

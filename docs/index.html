@@ -682,7 +682,7 @@
         <div id="${name}-unread" class="unreadMessage hidden">New Message!</div>
       </div>
       <a href="./profiles/${name}" class="domViewLink">
-        <img src="./thumbnails/${name}/0.png">
+        <img src="./thumbnails/${name}/0.png" alt="Sexy findom ${name}">
       </a>
       <figcaption>
         <div>${MessageHandler.visibilityCtx[name] === 'online' ? `<span class="online"></span>` : ''}${ellipse(name)}, ${ProfileStats[name].age}</div>
@@ -755,8 +755,11 @@
 
 
     provider.onConnect(async (addr) => {
+      const network = await provider.getNetwork()
       $.id('connectedAs').innerHTML = await provider.formatAddr(addr, true,31)
-      $.id('balance').innerHTML = `${(await provider.getETHBalance(addr)).toFixed(4)} ETH`
+      $.id('balance').innerHTML = `${(await provider.getETHBalance(addr)).toFixed(4)} ETH` + (
+        network.chainId === 1 ? '' : ` [${network.name.toUpperCase()}]`
+      )
       let tributeContent = ''
 
       let anyTributesPaid

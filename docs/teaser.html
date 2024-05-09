@@ -53,6 +53,7 @@
 
     main {
       background: var(--bg-color);
+      padding: 2em;
     }
     h1, h2, h3 {
       font-family: var(--fancy-font);
@@ -68,7 +69,7 @@
 
     h2 {
       text-shadow: 0 0 0 var(--dark-color), 0 0 5px var(--primary-color);
-      font-size: 7.5em;
+      font-size: 7em;
     }
 
     h3 {
@@ -78,10 +79,12 @@
 </head>
 
 <body>
-  <main>
+  <main style=" box-shadow: inset 0 0 25px var(--gloss-color);">
     <h1>TEASE ME, BABY</h1>
-    <h2>💋</h2>
-    <h3>6/9</h3>
+    <div style="display: flex; align-items: center;">
+      <h2 style="transform: translateY(15px);">💋</h2>
+      <h3 style="margin: 0.5em">6/9</h3>
+    </div>
   </main>
 </body>
 

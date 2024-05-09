@@ -4,7 +4,6 @@ pragma solidity ^0.8.23;
 
 import "./Dependencies.sol";
 import "./Doms.sol";
-import "hardhat/console.sol";
 
 
 contract FinSexy is ERC721, Ownable {
@@ -34,10 +33,9 @@ contract FinSexy is ERC721, Ownable {
     return _exists(tokenId);
   }
 
+  // TODO - set a bunch at a time
   function setFindom(uint256 id, address findom) external onlyOwner {
     idToFindom[id] = findom;
-
-    console.log(id, findom, idToFindom[id]);
   }
 
   function mint(address to, uint256 findomId) external {

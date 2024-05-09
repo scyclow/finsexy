@@ -24,7 +24,7 @@
 
 
 */
-import { isYes, isNo, isGreeting, isMatch, MessageHandler, createEvent } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMatch, MessageHandler, diatribe, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
@@ -41,14 +41,15 @@ export const DianeProfile = {
   gender: 'Female',
   display: 'f',
   testimonials: [
-    // {
-    //   name: '0x72f...daF',
-    //   review: `I don't like this dom at all. `
-    // },
-    // {
-    //   name: '0x72f...daF',
-    //   review: `I knew someone was watching me this entire time. This whole website gives me the creeps`
-    // }
+    {
+      review: `Boy, am I glad that Special Agent Diane found me! I was in a pretty rough spot!`
+    },
+    {
+      review: `Oh no, I fucking knew I shouldn't have given that hacker any money 🥵`
+    },
+    {
+      review: `I knew they were listening`
+    }
   ]
 }
 
@@ -78,37 +79,94 @@ const DianeMessages = {
     // }
   },
 
+
   hello: {
-    messageText: () => `Good ${timeOfDay()}, ${genderSwitch({m: 'Mr.', f: 'Ms.', nb: 'citizen'})} ${getUserData('name')}`
+    messageText: () => `Good ${timeOfDay()}, ${genderSwitch({m: 'Mr.', f: 'Ms.', nb: 'citizen'})} ${getUserData('name')}`,
+    followUp: fu('haveAMoment')
+  },
+
+  haveAMoment: {
+    messageText: `My name is Special Agent Diane. Do you have a moment?`,
+    responseHandler: ur => isYes(ur) ? 'concerningNews' : 'makeTime'
+  },
+
+  makeTime: {
+    messageText: `Well, this is quite serious, so I suggest you make some time to speak with me.`,
+    responseHandler: 'concerningNews'
   },
 
 
+  concerningNews: {
+    messageText: `I have some very concerning news for you: its recently come to my attention that you may have been the victim of identity theft.`,
+    responseHandler: 'quiteSerious'
+  },
+
+  ...diatribe('quiteSerious', [
+    `I know, it is quite serious. My intel suggests that this was the work of an incredibly dangerous hacker.`,
+    `If we don't act quickly then your entire digital life could be at risk.`,
+    `Bank accounts, crypto balances, social media profiles... everything.`,
+    `This hacker is highly sophisticated, and will stop at nothing until they have completely ruined your life.`,
+    `It is only a matter of time before all of your funds are completely drained and your loved ones are made aware of your disgusting, shameful FinDom fetish.`,
+    `It would be absolutely devistating.`,
+    `Additionally, it appears that they have already conducted a fair amount of illegal activity using your identity, which opens you up to substantial legal ramifications.`,
+    (ur, ctx) => {
+      let output = ctx.global.walletCleansed ? `I'm seeing that they've already conducted a massive money laundering operation with one @CrystalGoddess where they "cleansed" your entire ETH balance.` : ''
+
+      if (ctx.global.securitiesFraud) {
+        if (output) output += ` Additionally, it `
+        else output += `It `
+        output += `seems that they attempted to commit securities fraud with one @VinceSlickson.`
+      }
+
+      return output
+    },
+    (ur, ctx) => {
+      let output = `I don't think `
+      if (ctx.global.walletCleansed && ctx.global.securitiesFraud) output += 'OFAC or the SEC need'
+      else if (ctx.global.walletCleansed && !ctx.global.securitiesFraud) output += 'OFAC needs'
+      else if (!ctx.global.walletCleansed && ctx.global.securitiesFraud) output += 'the SEC needs'
+      else output += 'the relevant authorities need'
+
+      return output + ` to be notified about this, do you?`
+    },
+    `Surely we can work something out.`
+  ], {
+    responseHandler: 'rightDecision'
+  }),
+
+
+
+  ...diatribe('rightDecision', [
+    `You're making the right decision. `
+  ], {
+    responseHandler: 'rightDecision'
+  }),
 /*
-  My name is Special Agent Diane. Do you have a moment?
+
 
 
   (no)
-    Well, this is quite serious, so I suggest you make some time to speak with me
 
 
-  I have some very concerning news for you: its recently come to my attention that you may have been the victim of identity theft.
+
+
 
   ()
 
 
-  I know, it's quite serious. My intel suggests that this was the work of an incredibly dangerous hacker.
 
-  If we don't act quickly then your entire digital footprint could be at risk.
 
-  Bank accounts, crypto balances, social media profiles... everything.
 
-  This hacker is highly sophisticated, and will stop at nothing until they've extracted every last penny from you and completely ruined your life.
 
-  It's only a matter of time before all of your funds are completely drained and your loved ones are made aware of your disgusting, shameful FinDom fetish.
 
-  It would be absolutely devistating.
 
-  Additionally, it appears that they have already conducted a fair amount of illegal activity using your identity, which opens you up to substantial legal ramifications
+
+
+
+
+
+
+
 
   [if CG cleanse, mention washing. if VS, mention securities fraud. if SJ, mention accounting fraud]
 

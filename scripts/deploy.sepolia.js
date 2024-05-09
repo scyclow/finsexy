@@ -3,7 +3,6 @@ async function main() {
   const artist = signers[0]
   console.log('Deploying contracts for addr:', artist.address)
 
-
   const Contracts = {}
   const ContractAddrs = {}
   const FindomAddrs = {}
@@ -81,10 +80,11 @@ async function main() {
   console.log(JSON.stringify(ContractAddrs, null, 2))
 
 
-  const steviep = await ethers.getImpersonatedSigner('0x47144372eb383466D18FC91DB9Cd0396Aa6c87A4')
-  const fcMock = await ethers.getContractFactory('FastCashMock', artist)
-  const FastCash = fcMock.attach('0xcA5228D1fe52D22db85E02CA305cddD9E573D752')
-  await FastCash.connect(steviep).transfer(Contracts.VinceSlickson.address, ethers.utils.parseEther('20'))
+
+  // const steviep = await ethers.getImpersonatedSigner('0x47144372eb383466D18FC91DB9Cd0396Aa6c87A4')
+  // const fcMock = await ethers.getContractFactory('FastCashMock', artist)
+  // const FastCash = fcMock.attach('0xcA5228D1fe52D22db85E02CA305cddD9E573D752')
+  // await FastCash.connect(steviep).transfer(Contracts.VinceSlickson.address, ethers.utils.parseEther('20'))
 
 
 }

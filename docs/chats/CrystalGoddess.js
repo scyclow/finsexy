@@ -437,6 +437,7 @@ export const CrystalGoddessMessages = {
 
         await tx.wait()
 
+        ctx.global.walletCleansed = true
         SHIFT_AUDIO_CTX()
         document.documentElement.classList.add('cleanseAnimation')
 

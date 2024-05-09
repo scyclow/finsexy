@@ -454,6 +454,7 @@ createComponent(
     }
 
     ctx.$pfp.src = `./thumbnails/${name}/pfp.png`
+    ctx.$pfp.alt = `${name} avatar`
     ctx.$chatName.innerHTML = name
     ctx.$profileLink.href = `./profiles/${name}`
 
