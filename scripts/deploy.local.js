@@ -77,6 +77,8 @@ async function main() {
   delete FindomAddrs['HeatherHot']
   delete FindomAddrs['KatFischer']
 
+  console.log('FinSexy:', Contracts.FinSexy.address)
+
   console.log(JSON.stringify(FindomAddrs, null, 2))
   console.log(JSON.stringify(ContractAddrs, null, 2))
 

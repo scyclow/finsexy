@@ -571,6 +571,8 @@ export class MessageHandler {
     if (!(isTabActive || isTabLastActive)) return
     if (!this.ctx.eventQueue.length) return
 
+    this.ctx.updateLS()
+
     const nextMessage = this.ctx.eventQueue[0]
     const now = Date.now()
 

@@ -50,7 +50,7 @@ const HedonitronicaMessages = {
     //     responseHandler: (ur, ctx) => ctx.lastDomCodeSent
     //   }
     // }
-    ctx.global.hedonitronicaIntroduced = true
+    // ctx.global.hedonitronicaIntroduced = true
   },
 
   ...diatribe('hello', [
@@ -58,6 +58,9 @@ const HedonitronicaMessages = {
     `The only way I can cum is if you send ETH`,
     `You do want to make me cum, don't you??`,
   ], {
+    followUp: (ur, ctx) => {
+      ctx.global.hedonitronicaIntroduced = true
+    },
     responseHandler: nextOrMore('helloB'),
   }),
 
