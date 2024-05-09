@@ -686,7 +686,7 @@ const HorseWomanNodes = {
 
   horseWomanConfessMaybe: {
     messageText: `Do you confess, or do you scurry away in fear?`,
-    responseHandler: ur => {
+    responseHandler: (ur, ctx) => {
       if (isMatch(ur, ['confess', 'confession', 'reveal', 'admit', 'admission', 'it was me', 'i am'])) {
         ctx.state.confessed = true
         return 'horseWomanConfess'
