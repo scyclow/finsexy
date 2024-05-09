@@ -70,7 +70,7 @@ Testimonials
 
 
 
-import { isYes, isNo, isGreeting, isNegative, isPositive, isMean, isMatch, createEvent, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isNegative, isPositive, isMean, isMatch, createEvent, MessageHandler, diatribe } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {bnToN, DOM_CONTRACTS} from '../eth.js'
 import {ls} from '../$.js'
@@ -276,43 +276,29 @@ const HeatherHotMessages = {
 
   newToFindomConfused: {
     messageText: `i'm confused. have you ever done findom before?`,
-    responseHandler: userResponse => {
+    responseHandler: (ur, ctx) => {
+      ctx.state.isNew = true
       if (isYes(userResponse)) return 'newToFindomNo'
       else if (isNo(userResponse)) return 'newToFindomYes'
       else return 'newToFindomNo'
     }
   },
 
-  newToFindomYes: {
-    messageText: `omg. findom is like the <em>hottest thing ever</em>!`,
-    followUp: (ur, ctx) => {
-      ctx.state.isNew = true
-      return { messageCode: 'newToFindomYes2', waitMs: 1500 }
-    }
-  },
 
-  newToFindomYes2: {
-    messageText: `Fin Dom is short for Financial Domination. it's similar to a lot of other kinds of BDSM, where the submissive (that's you 😉) gets to an experience a total loss of control at the hands of their sexy dom`,
-    followUp: { messageCode: 'newToFindomYes3', waitMs: 3000 }
-  },
+  ...diatribe('newToFindomYes', [
+    `omg. findom is like the <em>hottest thing ever</em>!`,
+    `Fin Dom is short for Financial Domination. it's similar to a lot of other kinds of BDSM, where the submissive (that's you 😉) gets to an experience a total loss of control at the hands of their sexy dom`,
+    `it's a win-win for both of us. you get off on sending to the hottest doms around, and we get off on receiving that money`,
+    `i know, i know. being sent money is a bit of a strange fetish, but i can't help myself. something about it makes me uncontrolably aroused. i fantasize about findom aaaaall day. the thought of seeing money enter my wallet makes me quiver. i just know that you'll love it too`,
+  ], {
+    followUp: fu('nextSteps')
+  }),
 
-  newToFindomYes3: {
-    messageText: `it's a win-win for both of us. you get off on sending to the hottest doms around, and we get off on receiving that money`,
-    followUp: { messageCode: 'newToFindomYes4', waitMs: 4000 }
-  },
-
-  newToFindomYes4: {
-    messageText: `i know, i know. being sent money is a bit of a strange fetish, but i can't help myself. something about it makes me uncontrolably aroused. i fantasize about findom aaaaall day. the thought of seeing money enter my wallet makes me quiver. i just know that you'll love it too`,
-    followUp: { messageCode: 'newToFindomContinue', waitMs: 3000 }
-  },
-
-
-// I'm excited to pop your findom cherry😘
 
 
   newToFindomNo: {
     messageText: `of course you've done findom before. you have paypig written all over you 😉`,
-    followUp: { messageCode: 'newToFindomContinue', waitMs: 2000 }
+    followUp: { messageCode: 'nextSteps', waitMs: 2000 }
   },
 
   // newToFindomContinue: {

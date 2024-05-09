@@ -198,7 +198,7 @@ const QueenMessages = {
         ctx.state.introResponded = false
         ctx.state.rejected1 = true
         return fu('helloRejected1')
-      } else if (await provider.getETHBalance(ctx.global.connectedAddr) < 1) {
+      } else if (await provider.getETHBalance(ctx.global.connectedAddr) < 0.01) {
         if (ctx.state.rejected2) return
         ctx.state.introResponded = false
         ctx.state.rejected2 = true
