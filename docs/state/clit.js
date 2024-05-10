@@ -1,6 +1,7 @@
 import {ls} from '../$.js'
 import { provider, toETH, ZERO_ADDR } from '../eth.js'
 import {MessageHandler} from './conversationRunner.js'
+import {analyticsLS} from './analytics.js'
 
 
 export const clitLS = {
@@ -25,8 +26,10 @@ if (clitLS.get().devMode) {
 
 
 export const clearChat = (ignoreReload=false) => {
+  analyticsLS.set('firstEntry', Date.now())
   localStorage.removeItem('__CHAT_CONTEXT')
   localStorage.removeItem('__CHAT_GLOBAL_CONTEXT')
+  localStorage.removeItem('__CHAT_VISIBILITY_CONTEXT')
   ls.set('__LAST_CLEAR_TIME', Date.now())
   if (!ignoreReload) window.location.reload()
 }
@@ -253,7 +256,7 @@ export const sexyCLIT = {
         console.log(e)
         document.body.classList.remove('preOrgasm')
 
-        errorCb(`ERROR: ${e.message || JSON.stringify(e)}`)
+        errorCb(`ERROR: ${e?.data?.message || e.message || JSON.stringify(e)}`)
       }
     }, 300)
     return cb(`Sending ${recipient} ${amount} ETH...`)

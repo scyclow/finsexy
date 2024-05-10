@@ -92,6 +92,7 @@ const yeses = [
   'certainly',
   'aye',
   'affirmative',
+  'absolutely',
   'very well',
   'you got it',
   'sure thing',
@@ -599,31 +600,7 @@ export class MessageHandler {
     }
 
     if (!this.followUpPending[messageCode]) {
-      this.followUpPending[messageCode] = true
-
-
-      const followUp = await this.sendFollowup(messageToSend, userResponse)
-
-      if (followUp) {
-        const messageToSend = this.getMessageToSend(followUp.messageCode, userResponse, true)
-        const estimatedMessageText = await this.sendMessage(messageToSend, userResponse)
-        const [typingWait, wait] = this.waitTimes(estimatedMessageText, 250, followUp.waitMs)
-
-        this.ctx.addToEventQueue({
-          userResponse,
-          messageCode: followUp.messageCode,
-          timestamp: now + wait,
-          startTyping: now + typingWait,
-          isFollowup: true,
-          referrer: messageCode,
-          referrerDebugInfo: {
-            updaterTabId: tabs.tabId,
-            updaterIsTabActive: isTabActive,
-            updaterIsTabLastActive: isTabLastActive,
-            ts: Date.now()
-          }
-        })
-      }
+      const followUp = await this.sendFollowUp(messageToSend, userResponse, messageCode)
     }
 
     if (referrer) {
@@ -677,23 +654,59 @@ export class MessageHandler {
       : msg.messageText(userResponse, this.ctx, this.contract, this.provider)
   }
 
-  async sendFollowup(msg, userResponse) {
+  async getFollowUpMessage(msg, userResponse) {
     if (!msg.followUp) return
 
     if (typeof msg.followUp === 'string') {
       console.log(`INCORRECT FOLLOWUP FORMAT: ${msg.followUp}`)
-      return { messageCode: msg.followUp, waitMs: 3000}
+      return { messageCode: msg.followUp, waitMs: 2000}
     }
     return msg?.followUp instanceof Function
       ? msg.followUp(userResponse, this.ctx, this.contract, this.provider)
       : msg.followUp
   }
 
+  async sendFollowUp(messageToSend, userResponse, referrer) {
+    this.followUpPending[referrer] = true
+    const now = Date.now()
+    const followUp = await this.getFollowUpMessage(messageToSend, userResponse)
+
+    if (typeof followUp === 'string') console.error(`Incorrect followUp object: ${followUp}`)
+
+    if (followUp) {
+      const messageToSend = this.getMessageToSend(followUp.messageCode, userResponse, true)
+      const estimatedMessageText = await this.sendMessage(messageToSend, userResponse)
+      const [typingWait, wait] = this.waitTimes(estimatedMessageText, 250, followUp.waitMs)
+      const [isTabActive, isTabLastActive] = [tabs.isActive(), tabs.isLastActive()]
+
+      this.ctx.addToEventQueue({
+        userResponse,
+        messageCode: followUp.messageCode,
+        timestamp: now + wait,
+        startTyping: now + typingWait,
+        isFollowup: true,
+        ignoreType: messageToSend.ignoreType,
+        referrer,
+        referrerDebugInfo: {
+          updaterTabId: tabs.tabId,
+          updaterIsTabActive: isTabActive,
+          updaterIsTabLastActive: isTabLastActive,
+          ts: now
+        }
+      })
+    }
+  }
+
   async findNextNode(msg, userResponse) {
-    if (!msg.responseHandler) return
-    return typeof msg.responseHandler === 'string'
-      ? msg.responseHandler
-      : msg.responseHandler(userResponse, this.ctx, this.contract, this.provider)
+    if (msg.responseHandler) {
+      return typeof msg.responseHandler === 'string'
+        ? msg.responseHandler
+        : msg.responseHandler(userResponse, this.ctx, this.contract, this.provider)
+
+    } else if (msg.followUp && this.ctx.eventQueue.length === 0) {
+      const {messageCode} = await this.getFollowUpMessage(msg, userResponse)
+      return messageCode
+    }
   }
 
   addChatWindow(chatWindow) {
@@ -752,10 +765,26 @@ export class MessageHandler {
 
     const lastMessage = this.getMessageToSend(this.ctx.lastDomCodeSent, userResponse)
 
-    if (lastMessage && (lastMessage.responseHandler || lastMessage.followUp)) {
+    if (lastMessage) {
       const codeToSend = await this.findNextNode(lastMessage, userResponse)
       this.next(userResponse, codeToSend)
+
+      // if (lastMessage.responseHandler) {
+
+      // }
+      // else if (lastMessage.followUp && this.ctx.eventQueue.length === 0) {
+      //   this.followUpPending[this.ctx.lastDomCodeSent]
+      //   this.sendFollowUp({messageCode: codeToSend}, userResponse)
+      // } else {
+      // }
+
+
     }
+
+    // if (lastMessage && !lastMessage.responseHandler && lastMessage.followUp) {
+
+    // }
+
   }
 
   queueEvent(codeToSend, wait) {

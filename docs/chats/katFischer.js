@@ -81,7 +81,6 @@ export const KatMessages = {
   steviep: {
     messageText: `Hello, Mr. Steviep! This is Katrina, and I have those documents you wanted signed.`,
     followUp: () => {
-      console.log('blah')
       MessageHandler.visibilityCtx.katFischer = 'online'
     },
     responseHandler: 'sorry'

@@ -146,11 +146,11 @@ contract StevieP is FinDom {
 }
 
 contract Hacker is FinDomLight {
-  constructor() FinDomLight(10, '0x000000000000000000000000000000000') {}
+  constructor() FinDomLight(9, '0x000000000000000000000000000000000') {}
 }
 
 contract Hedonitronica is FinDomLight {
-  constructor() FinDomLight(11, 'Hedonitronica') {}
+  constructor() FinDomLight(10, 'Hedonitronica') {}
 }
 
 

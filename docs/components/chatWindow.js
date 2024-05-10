@@ -3,10 +3,6 @@ import {createComponent, ls} from '../$.js'
 import { clitLS } from '../state/clit.js'
 
 
-// TODO
-  // make @ link to other profiles
-  // uptade text to include @
-
 const FIRST_LOAD = Date.now()
 
 createComponent(

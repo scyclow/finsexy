@@ -36,6 +36,7 @@ import {analyticsLS} from './analytics.js'
 
 
 if (!ls.get('__enteredSite')) {
+  // TODO ad referer ? param + redirect there
   window.location.replace('./enter')
 }
 

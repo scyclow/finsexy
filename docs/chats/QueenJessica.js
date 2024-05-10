@@ -65,7 +65,7 @@ Testimonial:
 
 
 
-import { isYes, isNo, isGreeting, isMean, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {fromWei} from '../eth.js'
 
@@ -156,116 +156,175 @@ const QueenMessages = {
 
   hello: {
     messageText: `Hello, idiot`,
-    followUp: { messageCode: 'helloResponse', waitMs: 2000 },
+    followUp: { messageCode: 'helloResponseRouter', waitMs: 2000 },
   },
 
-  helloResponse: {
-    async messageText(ur, ctx, contract, provider) {
-      if (!provider.isWeb3) {
-        if (ctx.state.rejected0) return ''
-        return `Are you lost?`
-      } else if (!ctx.global.isConnected) {
-        if (ctx.state.rejected1) return ''
-        return `Ha, you think you can talk to me without even connecting your wallet? `
 
-      } else if (await provider.getETHBalance(ctx.global.connectedAddr) < 0.5) {
-        if (ctx.state.rejected2) return ''
-        return `${await provider.getETHBalance(ctx.global.connectedAddr)} ETH? I don't have time for poor people like you. Come back when you have at least 0.5 ETH in your wallet to show me.`
 
-      } else if (contract) {
-        const sendFilter = contract.filters.Send(ctx.global.connectedAddr)
-        const sendEvents = await contract.queryFilter(sendFilter)
-        const totalSent = sendEvents.reduce((sum, event) => sum + fromWei(event.args.amount), 0)
-        if (totalSent >= ctx.global.premium * 0.01) {
-          // return `You think you're worth my time just because you sent me ${totalSent} ETH?`
-          return `Are you ready to serve me today?`
-        } else {
-          if (ctx.state.rejected3) return ''
-          return `Did you even read my profile?`
-        }
-      } else {
-        return `You think you deserve to talk to me? I don't think so`
-      }
-    },
+
+  helloResponseRouter: {
+    messageText: '',
+    ignoreType: true,
     async followUp(ur, ctx, contract, provider) {
-      if (!provider.isWeb3) {
-        if (ctx.state.rejected0) return
-        ctx.state.introResponded = false
-        ctx.state.rejected0 = true
-        return fu('helloRejected0')
-      } else if (!ctx.global.isConnected) {
-        if (ctx.state.rejected1) return
-        ctx.state.introResponded = false
-        ctx.state.rejected1 = true
-        return fu('helloRejected1')
-      } else if (await provider.getETHBalance(ctx.global.connectedAddr) < 0.01) {
-        if (ctx.state.rejected2) return
-        ctx.state.introResponded = false
-        ctx.state.rejected2 = true
-        return fu('helloRejected2')
-      } else if (contract) {
-        if (ctx.state.rejected3) return
-        ctx.state.introResponded = false
-        ctx.state.rejected3 = true
-        const sendFilter = contract.filters.Send(ctx.global.connectedAddr)
-        const sendEvents = await contract.queryFilter(sendFilter)
-        const totalSent = sendEvents.reduce((sum, event) => sum + fromWei(event.args.amount), 0)
-        if (totalSent < ctx.global.premium * 0.01) {
-          return fu('helloRejected3')
-        }
-      }
-    },
-    async responseHandler(ur, ctx, contract, provider) {
-      const {introResponded} = ctx.state
-      if (!ctx.global.isConnected || await provider.getETHBalance(ctx.global.connectedAddr) < 1) return
-
-      if (ctx.global.isConnected) {
-        const sendFilter = contract.filters.Send(ctx.global.connectedAddr)
-        const sendEvents = await contract.queryFilter(sendFilter)
-        const totalSent = sendEvents.reduce((sum, event) => sum + fromWei(event.args.amount), 0)
-        if (totalSent >= ctx.global.premium * 0.01) {
-          if (introResponded) return 'serveMe'
-          else if (isYes(ur)) return 'serveMeYes'
-          else return 'serveMeNo'
-        }
+      if (!provider.isWeb3 && !ctx.state.rejected1) return fu('helloResponse1', 1)
+      else if (!ctx.global.isConnected && !ctx.state.rejected2) return fu('helloResponse2', 1)
+      else if (await provider.getETHBalance(ctx.global.connectedAddr) < 0.25 && !ctx.state.rejected3) return fu('helloResponse3', 1)
+      else if (bnToN(await contract.tributes(ctx.global.connectedAddr)) < 0.01 && !ctx.state.rejected4) return fu('helloResponse4', 1)
+      else if (bnToN(await contract.tributes(ctx.global.connectedAddr)) >= 0.01) return fu('helloContinue', 1)
+      else  {
+        return fu('helloResponseNothing', 1)
       }
     }
   },
 
-  helloRejected0: {
-    messageText: `You don't even have a web3 browser. What a fucking loser 😂`,
-    responseHandler: (ur, ctx) => {
-      ctx.state.introResponded = true
-      return 'helloResponse'
-    }
+  helloResponseNothing: {
+    ignoreType: true,
+    responseHandler: 'helloResponseRouter'
   },
 
-  helloRejected1: {
-    messageText: `You're out of your league.`,
-    responseHandler: (ur, ctx) => {
-      ctx.state.introResponded = true
-      return 'helloResponse'
+  ...diatribe('helloResponse1', [
+    `Are you lost?`,
+    `You don't even have a web3 browser`,
+    `What a fucking loser 😂`
+  ], {
+    responseHandler(ur, ctx) {
+      ctx.state.rejected1 = true
+      return 'helloResponseRouter'
     }
-  },
-  helloRejected2: {
-    messageText: `Go talk to @VinceSlickson. Maybe he can help you get some cash`,
-    responseHandler: (ur, ctx) => {
-      ctx.state.introResponded = true
-      return 'helloResponse'
-    }
-  },
-  helloRejected3: {
-    messageText: (ur, ctx) => `Have you even read my profile? What don't you understand about "${ctx.global.premium * 0.01} ETH tribute to talk"?`,
-    responseHandler: (ur, ctx) => {
-      ctx.state.introResponded = true
-      return 'helloResponse'
-    }
-  },
+  }),
 
-  helloAccepted: {
-    messageText: `You're going to need to do more than that`,
-    followUp: fu('serveMe')
-  },
+  ...diatribe('helloResponse2', [
+    `Ha, you think you can talk to me without even connecting your wallet?`,
+    `You're out of your league`
+  ], {
+    responseHandler(ur, ctx) {
+      ctx.state.rejected2 = true
+      return 'helloResponseRouter'
+    }
+  }),
+
+  ...diatribe('helloResponse3', [
+    async (ur, ctx, contract, provider) => `${await provider.getETHBalance(ctx.global.connectedAddr)} ETH? I don't have time for poor people like you`,
+    `Come back when you have at least 0.25 ETH in your wallet to show me`,
+    `Go talk to @VinceSlickson. Maybe he can help you get some cash 🤣`,
+  ], {
+    responseHandler(ur, ctx) {
+      ctx.state.rejected3 = true
+      return 'helloResponseRouter'
+    }
+  }),
+
+  ...diatribe('helloResponse4', [
+    `Did you even read my profile?`,
+    (ur, ctx) => `What don't you understand about "${ctx.global.premium * 0.01} ETH tribute to talk"?`
+  ], {
+    responseHandler(ur, ctx) {
+      ctx.state.rejected4 = true
+      return 'helloResponseRouter'
+    }
+  }),
+
+
+
+  // helloResponse: {
+  //   async messageText(ur, ctx, contract, provider) {
+  //     if (!provider.isWeb3) {
+  //       if (ctx.state.rejected0) return ''
+  //       return `Are you lost?`
+  //     } else if (!ctx.global.isConnected) {
+  //       if (ctx.state.rejected1) return ''
+  //       return `Ha, you think you can talk to me without even connecting your wallet? `
+
+  //     } else if (await provider.getETHBalance(ctx.global.connectedAddr) < 0.25) {
+  //       if (ctx.state.rejected2) return ''
+  //       return `${await provider.getETHBalance(ctx.global.connectedAddr)} ETH? I don't have time for poor people like you. Come back when you have at least 0.25 ETH in your wallet to show me.`
+
+  //     } else if (contract) {
+  //       const sendFilter = contract.filters.Send(ctx.global.connectedAddr)
+  //       const sendEvents = await contract.queryFilter(sendFilter)
+  //       const totalSent = sendEvents.reduce((sum, event) => sum + fromWei(event.args.amount), 0)
+  //       if (totalSent >= ctx.global.premium * 0.01) {
+  //         // return `You think you're worth my time just because you sent me ${totalSent} ETH?`
+  //         return `Are you ready to serve me today?`
+  //       } else {
+  //         if (ctx.state.rejected3) return ''
+  //         return `Did you even read my profile?`
+  //       }
+  //     } else {
+  //       return `You think you deserve to talk to me? I don't think so`
+  //     }
+  //   },
+  //   async followUp(ur, ctx, contract, provider) {
+  //     if (!provider.isWeb3) {
+  //       if (ctx.state.rejected0) return
+  //       return fu('helloRejected0')
+  //     } else if (!ctx.global.isConnected) {
+  //       if (ctx.state.rejected1) return
+  //       return fu('helloRejected1')
+  //     } else if (await provider.getETHBalance(ctx.global.connectedAddr) < 0.25) {
+  //       if (ctx.state.rejected2) return
+  //       return fu('helloRejected2')
+  //     } else if (contract) {
+  //       if (ctx.state.rejected3) return
+  //       const sendFilter = contract.filters.Send(ctx.global.connectedAddr)
+  //       const sendEvents = await contract.queryFilter(sendFilter)
+  //       const totalSent = sendEvents.reduce((sum, event) => sum + fromWei(event.args.amount), 0)
+  //       if (totalSent < ctx.global.premium * 0.01) {
+  //         return fu('helloRejected3')
+  //       }
+  //     }
+  //   },
+  //   async responseHandler(ur, ctx, contract, provider) {
+  //     const {introResponded} = ctx.state
+  //     if (!ctx.global.isConnected || await provider.getETHBalance(ctx.global.connectedAddr) < 1) return
+
+  //     if (ctx.global.isConnected) {
+  //       const sendFilter = contract.filters.Send(ctx.global.connectedAddr)
+  //       const sendEvents = await contract.queryFilter(sendFilter)
+  //       const totalSent = sendEvents.reduce((sum, event) => sum + fromWei(event.args.amount), 0)
+  //       if (totalSent >= ctx.global.premium * 0.01) {
+  //         if (introResponded) return 'serveMe'
+  //         else if (isYes(ur)) return 'serveMeYes'
+  //         else return 'serveMeNo'
+  //       }
+  //     }
+  //   }
+  // },
+
+  // helloRejected0: {
+  //   messageText: `You don't even have a web3 browser. What a fucking loser 😂`,
+  //   responseHandler: (ur, ctx) => {
+  //     ctx.state.introResponded = true
+  //     ctx.state.rejected0 = true
+  //     return 'helloResponse'
+  //   }
+  // },
+
+  // helloRejected1: {
+  //   messageText: `You're out of your league.`,
+  //   responseHandler: (ur, ctx) => {
+  //     ctx.state.introResponded = true
+  //     ctx.state.rejected1 = true
+  //     return 'helloResponse'
+  //   }
+  // },
+  // helloRejected2: {
+  //   messageText: `Go talk to @VinceSlickson. Maybe he can help you get some cash`,
+  //   responseHandler: (ur, ctx) => {
+  //     ctx.state.introResponded = true
+  //     ctx.state.rejected2 = true
+  //     return 'helloResponse'
+  //   }
+  // },
+  // helloRejected3: {
+  //   messageText: (ur, ctx) => `What don't you understand about "${ctx.global.premium * 0.01} ETH tribute to talk"?`,
+  //   responseHandler: (ur, ctx) => {
+  //     ctx.state.introResponded = true
+  //     ctx.state.rejected3 = true
+  //     return 'helloResponse'
+  //   }
+  // },
+
 
   serveMe: {
     messageText: `Are you ready to serve me today?`,
@@ -320,7 +379,7 @@ const QueenMessages = {
     `I'm going to absolutely <em>ruin</em> you`,
     `And you're going to love it`,
     `I won't feel any guilt about it either`,
-    `You're basically just an NPC in my world, and your only function is to send`,
+    `You're just an NPC in my world, and your only function is to send`,
   ], {
     responseHandler: 'anyKids'
   }),

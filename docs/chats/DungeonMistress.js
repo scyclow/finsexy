@@ -2,7 +2,11 @@
 
 TODO
 
-  - handle case where you ask bartender, poker players for the key
+  - Nordic Fortune Telling amulet -> useless amulet
+    - Useless Amulet gets added to your inventory whenyou complete merchant quest.
+    - if you don't complete quest it gets added some otehr way
+    - DM nft?
+
 
   - put more emphasis on blueballs, wanting to cum
   - maybe you wake up wearing a chastity belt

@@ -239,11 +239,13 @@ const StevieMessages = {
     `so why don't you show a little appreciation?`,
     `I think I'm entitled to a little compensation for my effort here, don't you?`
   ], {
-    responseHandler: ur => isYes(ur) ? 'payNow' : 'payDelay'
+    responseHandler: ur => isYes(ur) ? 'payNow' : 'payDelay',
+    event: 'pay1Event',
   }),
 
   payDelay: {
     messageText: `what do you think I'm going to do, beg you?`,
+    event: 'pay1Event',
     responseHandler: (ur, ctx) => {
       ctx.state.paymentDifficult = true
 
@@ -257,6 +259,7 @@ const StevieMessages = {
 
   begYou: {
     messageText: `lol, okay ${genderSwitch({ m: 'buddy', f: 'sweetheart', nb: 'buddy'})}, whatever you say`,
+    event: 'pay1Event',
     followUp: 'wasteTime'
   },
 
@@ -296,6 +299,7 @@ const StevieMessages = {
 
   payNow: {
     messageText: (ur, ctx) => `Great, glad we're on the same page. ${0.02 * ctx.global.premium} ETH sounds pretty reasonable, don't you think?`,
+    event: 'pay1Event',
     followUp: fu('tellYouSecret')
   },
 

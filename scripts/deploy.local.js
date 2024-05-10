@@ -16,9 +16,9 @@ async function main() {
     'CrystalGoddess',
     'DrAndy',
     'DungeonMistress',
-    'Hacker',
     'QueenJessica',
     'StevieP',
+    'Hacker',
     'Hedonitronica',
   ]
   const FinDomsLight = [
@@ -47,9 +47,9 @@ async function main() {
     const contract = await factory.deploy()
     await contract.deployed()
 
-    Contracts[contracts[i]] = contract
+    Contracts[contracts[i].replace('Mock', '')] = contract
 
-    ContractAddrs[contracts[i]] = contract.address
+    ContractAddrs[contracts[i].replace('Mock', '')] = contract.address
   }
   console.log('==================================')
 
@@ -64,7 +64,6 @@ async function main() {
     await Contracts.FinSexy.setFindom(i, contract.address)
     await contract.deployed()
     Contracts[FinDoms[i]] = contract
-
     FindomAddrs[FinDoms[i]] = contract.address
   }
 
@@ -72,10 +71,12 @@ async function main() {
   FindomAddrs['heatherHot'] = FindomAddrs['HeatherHot']
   FindomAddrs['katFischer'] = FindomAddrs['KatFischer']
   FindomAddrs['SpecialAgentDiane'] = FindomAddrs['Hacker']
+  FindomAddrs['steviep'] = FindomAddrs['StevieP']
   FindomAddrs['0x000000000000000000000000000000000'] = FindomAddrs['Hacker']
   delete FindomAddrs['Hacker']
   delete FindomAddrs['HeatherHot']
   delete FindomAddrs['KatFischer']
+  delete FindomAddrs['StevieP']
 
   console.log('FinSexy:', Contracts.FinSexy.address)
 
@@ -83,10 +84,10 @@ async function main() {
   console.log(JSON.stringify(ContractAddrs, null, 2))
 
 
-  const steviep = await ethers.getImpersonatedSigner('0x47144372eb383466D18FC91DB9Cd0396Aa6c87A4')
-  const fcMock = await ethers.getContractFactory('FastCashMock', artist)
-  const FastCash = fcMock.attach('0xcA5228D1fe52D22db85E02CA305cddD9E573D752')
-  await FastCash.connect(steviep).transfer(Contracts.VinceSlickson.address, ethers.utils.parseEther('20'))
+  // const steviep = await ethers.getImpersonatedSigner('0x47144372eb383466D18FC91DB9Cd0396Aa6c87A4')
+  // const fcMock = await ethers.getContractFactory('FastCashMock', artist)
+  // const FastCash = fcMock.attach('0xcA5228D1fe52D22db85E02CA305cddD9E573D752')
+  // await FastCash.connect(steviep).transfer(Contracts.VinceSlickson.address, ethers.utils.parseEther('20'))
 
 
 }

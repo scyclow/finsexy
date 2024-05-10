@@ -79,7 +79,7 @@ export const VinceProfile = {
     {
       review: `I'm such a goddamn loer that it's impossible for me to view myself in my own financial fantasies. I can only get off by seeing daddy make money`
     }
-    //
+    // IF YOU WANT TO MAKE FAST CASH NOW THEN CLICK HERE
   ]
 }
 
