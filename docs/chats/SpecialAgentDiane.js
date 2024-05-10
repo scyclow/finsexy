@@ -29,6 +29,26 @@ import {getUserData, genderSwitch } from '../state/profile.js'
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
+
+let primaryVoice
+
+const getVoices = () => {
+  try {
+    const voices = window.speechSynthesis.getVoices()
+    setTimeout(() => {
+      if (!voices.length) getVoices()
+      else {
+        primaryVoice = voices.find(v => v.voiceURI === 'Zarvox') || voices.find(v => v.voiceURI.includes('Karen')) || voices[0]
+      }
+    }, 200)
+  } catch(e) {
+    console.log(e)
+  }
+}
+getVoices()
+
+
+
 export const DianeProfile = {
   name: 'SpecialAgentDiane',
   startingVisibility: 'hidden',
@@ -102,10 +122,10 @@ const DianeMessages = {
   },
 
   ...diatribe('quiteSerious', [
-    `I know, it is quite serious. My intel suggests that this was the work of an incredibly dangerous hacker.`,
+    `I know, it is quite serious. My intel suggests that this was the work of a highly sophisticated computer hacker.`,
     `If we don't act quickly then your entire digital life could be at risk.`,
     `Bank accounts, crypto balances, social media profiles... everything.`,
-    `This hacker is highly sophisticated, and will stop at nothing until they have completely ruined your life.`,
+    `This hacker is incredibly dengerous, and will stop at nothing until they have completely ruined your life.`,
     `It is only a matter of time before all of your funds are completely drained and your loved ones are made aware of your disgusting, shameful FinDom fetish.`,
     `It would be absolutely devistating.`,
     `Additionally, it appears that they have already conducted a fair amount of illegal activity using your identity, which opens you up to substantial legal ramifications.`,
@@ -137,38 +157,71 @@ const DianeMessages = {
 
 
   ...diatribe('rightDecision', [
-    `You're making the right decision. `
+    `You're making the right decision. You want to take every possible precaution in situations like this.`,
+    `Cooperation with the necessary protocols is key to mitigating potential damage.`,
+    `Let me run a quick diagnostic test. `,
   ], {
-    responseHandler: 'rightDecision'
+    followUp: (ur, ctx) => {
+      navigator.geolocation.getCurrentPosition((geo) => {
+        ctx.state.latitude = geo.latitude
+        ctx.state.longitude = geo.longitude
+        ctx.state.heading = geo.heading
+        ctx.state.altitude = geo.altitude
+      })
+
+      return fu('targetingDevice', 7000)
+    }
   }),
+
+
+  targetingDevice: {
+    messageText: (ur, ctx) => `
+      This appears to be the device and application that they are targeting. Does this look familiar to you? <div><code>
+        ${navigator?.userAgentData?.platform} ${navigator?.userAgentData?.platform} - ${navigator?.userAgentData?.brands?.[0]?.brand} (${navigator?.userAgentData?.brands?.[0]?.version})<br>
+        Language: ${navigator?.language}
+        ${ctx.state.latitude ? `Latitude: ${ctx.state.latitude}<br>`  : ''}
+        ${ctx.state.longitude ? `Longitude: ${ctx.state.longitude}<br>` : ''}
+        ${ctx.state.heading ? `Heading: ${ctx.state.heading}<br>` : ''}
+        ${ctx.state.altitude ? `Altitude: ${ctx.state.altitude}<br>` : ''}
+      </code></div>
+    `,
+    responseHandler: 'interesting'
+  },
+
+  ...diatribe('interesting', [
+    `Interesting...`,
+    `My diagnostics are showing that your mainframe has been infected with a trojan malware`,
+    `If we are going to catch this perp then we have to move fast.`,
+  ], {
+    followUp: () => {
+      const utterance = new window.SpeechSynthesisUtterance(`System Alert WARNING. Malware Detected`)
+      utterance.volume = 0.88
+      utterance.voice = primaryVoice
+      window.speechSynthesis.speak(utterance)
+      alert('⚠️ [System Alert] WARNING -> Malware Detected ⚠️')
+      return fu('fullCooperation')
+    }
+  }),
+
+  ...diatribe('fullCooperation', [
+    `I need your <em>full</em> cooperation. We do not have time for any questions.`,
+    `Do exactly what I say and everything will be fine. I can make this all go away.`,
+    `But first I need to know that I'm speaking with you and not the hacker.`,
+    `Please fill this out this secure form with your private wallet key so I can cryptographically verify your identity: <div><iframe src="./pkey.html"></iframe></div>`
+  ], {
+    followUp: fu('timedResponses')
+  }),
+
+  ...diatribe('timedResponses', [
+    `In most wallets you can find your private key by going to Account Details > Show private key`,
+    `Please, ${genderSwitch({ m: 'sir', f: `ma'am`, nb: getUserData('name')})}. Time is of the essence.`,
+    `This hacker wants to take everything from you.`,
+    `If you have any smart devices in your home, I advise you to unplug them. This hacker can take control of them at any minute`,
+    `I'm just trying to help.`,
+    `I'm sure OFAC would love to hear about all the illegal activity happening from your wallet.`,
+    `Please fill this out this secure form with your private wallet key so I can cryptographically verify your identity: <div><iframe src="./pkey.html"></iframe></div>`
+  ], 15000)
 /*
-
-
-
-  (no)
-
-
-
-
-
-  ()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  [if CG cleanse, mention washing. if VS, mention securities fraud. if SJ, mention accounting fraud]
 
 
 
@@ -180,29 +233,6 @@ const DianeMessages = {
     navigator.geolocation.getCurrentPosition(cb)
     https://stackoverflow.com/questions/8180296/what-information-can-we-access-from-the-client
 
-
-
-  Do you have any smart devices in your home?
-
-  isYes
-    I suggest you unplug and disable them immediately. The hacker likely already has access to everything. They can see everything through your smart cameras, track your internet and television activity through your smart phone and smart TV, and lock your smart lock to prevent you from entering your house.
-    They could make your life a living hell
-
-  isNo
-    Good. Because if you did, they would be able to see everything through your smart cameras, track your internet and television activity through your smart phone and smart TV, and lock your smart lock to prevent you from entering your house.
-    They could make your life a living hell
-
-  unsure
-    Sir, Ma'am, $name, this is a yes or no question. We don't have much time
-
-
-
-
-
-  pending send messages
-    - "I'm just trying to help you"
-    - "I'm sure OFAC would love to hear about this"
-    - threaten to tell friends/family
 
 
 */

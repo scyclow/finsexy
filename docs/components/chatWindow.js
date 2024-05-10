@@ -37,6 +37,11 @@ createComponent(
         user-select: none;
       }
 
+      iframe {
+        max-width: 100%;
+        margin-top: 0.25em;
+      }
+
       #input {
         resize: none;
         width: 100%;

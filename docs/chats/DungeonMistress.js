@@ -161,6 +161,30 @@ export const MistressProfile = {
 
 
 
+const drinksWords = ['drink', 'beer', 'ale', 'wine', 'cider', 'order', 'drinks', 'buy']
+function bartenderActions(defaultAction) {
+  return (ur, ctx, contract, provider) => {
+    ctx.state.visitedBartender = true
+
+    if (isMatch(ur, [...retreatPhrases, 'tavern'])) return 'tavernDeliberate'
+    else if (isMatch(ur, ['mop', 'back room', 'clean', 'cleaning'])) return 'mop'
+    else if (isMatch(ur, ['harlot', 'harlots', 'prostitutes', 'women'])) return 'harlots'
+    else if (isMatch(ur, ['poker', 'men'])) return 'poker'
+    else if (isMatch(ur, ['cock', 'dick', 'knees', 'knee', 'penis', 'erection', 'behind the bar', 'bj', 'blowjob', 'blow', 'suck', 'deepthroat', 'cum'])) return 'blowBartender'
+    else if (isMatch(ur, ['money'])) return 'bartenderMoney'
+    else if (ctx.state.bartenderGoodSide) {
+      // if (!ctx.global.isConnected) return 'orderDrinkConnectFail'
+      // else
+      if (isMatch(ur, drinksWords)) return 'orderDrink'
+      else return 'bartenderIgnore'
+    } else {
+      if (isMatch(ur, drinksWords)) return 'orderDrinkBadSide'
+
+      else return defaultAction
+    }
+  }
+}
+
 
 const BartenderNodes = {
   bartender: {
@@ -225,10 +249,14 @@ const BartenderNodes = {
   },
 
   bartenderHow: {
-    messageText: `Oh, I can think of one way. Why don't you come back here, get on your knees, and I'll show you?`,
+    messageText: `"Oh, I can think of one way. Why don't you come back here, get on your knees, and I'll show you?"`,
     responseHandler: (ur, ctx) => isYes(ur) ? 'blowBartender' : bartenderActions('bartenderPending')(ur, ctx)
   },
 
+  bartenderMoney: {
+    messageText: `"It's a little late for that. If you want that drink I have a different form of payment in mind"`,
+    followUp: fu('bartenderPending')
+  },
 
   bartenderIgnore: {
     messageText: `The bartender clearly grows tired listening to you talk, and goes back to washing his stein.`,
@@ -237,7 +265,7 @@ const BartenderNodes = {
 
   bartenderPreBJ: {
     messageText: `"Well, well, well. Look who finally decided to wake up from their beauty nap. Did you sleep well, sleeping beauty?"`,
-    responseHandler: (ur, ctx) => isMatch(ur, ['beer', 'drink', 'order', 'cider', 'ale', 'wine']) ? 'notSoFast' : bartenderActions('bartender2')(ur, ctx)
+    responseHandler: (ur, ctx) => isMatch(ur, drinksWords) ? 'notSoFast' : bartenderActions('bartender2')(ur, ctx)
     // responseHandler: bartenderActions('bartender2')
   },
 
@@ -321,27 +349,7 @@ const BartenderNodes = {
   },
 }
 
-function bartenderActions(defaultAction) {
-  return (ur, ctx, contract, provider) => {
-    ctx.state.visitedBartender = true
 
-    if (isMatch(ur, [...retreatPhrases, 'tavern'])) return 'tavernDeliberate'
-    else if (isMatch(ur, ['mop', 'back room', 'clean', 'cleaning'])) return 'mop'
-    else if (isMatch(ur, ['harlot', 'harlots', 'prostitutes', 'women'])) return 'harlots'
-    else if (isMatch(ur, ['poker', 'men'])) return 'poker'
-    else if (isMatch(ur, ['cock', 'dick', 'knees', 'knee', 'penis', 'erection', 'behind the bar', 'bj', 'blowjob', 'blow', 'suck', 'deepthroat', 'cum'])) return 'blowBartender'
-    else if (ctx.state.bartenderGoodSide) {
-      // if (!ctx.global.isConnected) return 'orderDrinkConnectFail'
-      // else
-      if (isMatch(ur, ['drink', 'beer', 'ale', 'wine', 'cider', 'order'])) return 'orderDrink'
-      else return 'bartenderIgnore'
-    } else {
-      if (isMatch(ur, ['drink', 'beer', 'ale', 'wine', 'cider', 'order'])) return 'orderDrinkBadSide'
-
-      else return defaultAction
-    }
-  }
-}
 
 
 const HarlotsNodes = {
@@ -799,7 +807,7 @@ function townSquareActions(ur, ctx, contract, provider) {
 
 
 const MistressMessages = {
-  TYPING_SPEED: 0.8,
+  TYPING_SPEED: 0.75,
 
   START: {
     responseHandler: `hello`,

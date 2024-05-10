@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+<body>
+  <main id="main"></main>
+
+</body>
+
+<script type="text/javascript">
+  let voices
+
+const getVoices = () => {
+  try {
+    voices = window.speechSynthesis.getVoices()
+    setTimeout(() => {
+      if (!voices.length) getVoices()
+      else {
+        voices.forEach((v, i) => {
+          document.getElementById('main').innerHTML += `
+            <div>${i} <button onclick="speak(${i})">${v.name}</button> ${v.lang} -- ${v.voiceURI}</div>
+          `
+        })
+      }
+    }, 200)
+  } catch(e) {
+    console.log(e)
+  }
+}
+getVoices()
+
+
+function speak(i) {
+  const utterance = new window.SpeechSynthesisUtterance(`System Alert WARNING Malware Detected`)
+  utterance.volume = 0.88
+  utterance.voice = voices[i]
+  window.speechSynthesis.speak(utterance)
+      alert('⚠️ [System Alert] WARNING -> Malware Detected ⚠️')
+
+}
+
+//79
+
+</script>
+</html>
+

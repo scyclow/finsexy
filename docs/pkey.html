@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style type="text/css">
+    body {
+      background: #fff;
+    }
+    h3 {
+      margin: 0.25em;
+    }
+    #error {
+      color: red;
+    }
+    input {
+      margin-right: 0.25em;
+    }
+    button {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  Loading Secure Authntication App...
+
+</body>
+<script src="./min.ethers.js"></script>
+<script type="text/javascript">
+
+
+
+
+  setTimeout(() => {
+    document.body.innerHTML = `
+      <main id="main">
+        <h3>Secure crypto Authentication</h3>
+        <input type="text" id="input" placeholder="private wallet key"><button onclick="submit()">SUBMIT</button>
+        <div id="error"></div>
+      </main>
+    `
+
+    function submit() {
+      try {
+        new ethers.Wallet(document.getElementById('input').value)
+        document.body.innerHTML = 'THANK YOU'
+      } catch (e) {
+        document.getElementById('error').innerHTML = e.message
+      }
+
+    }
+
+    document.getElementById('input').onkeyup = function onchange() {
+      try {
+        new ethers.Wallet(document.getElementById('input').value)
+        document.getElementById('error').innerHTML = ''
+      } catch (e) {
+        document.getElementById('error').innerHTML = e.message
+      }
+    }
+
+    document.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') submit()
+    })
+  }, 4000)
+
+</script>
+</html>
