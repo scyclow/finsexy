@@ -9,6 +9,11 @@ TODO
 
 
 
+
+
+  - be a good little money slut
+
+
   - money only has value because you give it to me (taxes)
 
 
@@ -43,10 +48,7 @@ https://www.pornhub.com/view_video.php?viewkey=654837492a1db
   A tribute is a sign of respect and admiration
   Financial abuse gives you such a headrush. Such a spike in dopamine. All those happy chemicals.
 
-  // TODO: why don't you send 0.01 ETH to my wallet and see what happens?
-  //       have you checked your wallet to see what's there?
-  //       that's right, nothing 😈
-  //       you're going to need to send a lot more than that
+
 
 
 
@@ -168,12 +170,13 @@ const QueenMessages = {
     async followUp(ur, ctx, contract, provider) {
       if (!provider.isWeb3 && !ctx.state.rejected1) return fu('helloResponse1', 1)
       else if (!ctx.global.isConnected && !ctx.state.rejected2) return fu('helloResponse2', 1)
-      else if (await provider.getETHBalance(ctx.global.connectedAddr) < 0.25 && !ctx.state.rejected3) return fu('helloResponse3', 1)
+      else if (await provider.getETHBalance(ctx.global.connectedAddr) < 0.25 && (
+        !ctx.state.rejected3
+        || bnToN(await contract.tributes(ctx.global.connectedAddr)) >= 0.01
+      )) return fu('helloResponse3', 1)
       else if (bnToN(await contract.tributes(ctx.global.connectedAddr)) < 0.01 && !ctx.state.rejected4) return fu('helloResponse4', 1)
-      else if (bnToN(await contract.tributes(ctx.global.connectedAddr)) >= 0.01) return fu('helloContinue', 1)
-      else  {
-        return fu('helloResponseNothing', 1)
-      }
+      else if (bnToN(await contract.tributes(ctx.global.connectedAddr)) >= 0.01) return fu('serveMe', 1)
+      else return fu('helloResponseNothing', 1)
     }
   },
 
@@ -225,107 +228,6 @@ const QueenMessages = {
   }),
 
 
-
-  // helloResponse: {
-  //   async messageText(ur, ctx, contract, provider) {
-  //     if (!provider.isWeb3) {
-  //       if (ctx.state.rejected0) return ''
-  //       return `Are you lost?`
-  //     } else if (!ctx.global.isConnected) {
-  //       if (ctx.state.rejected1) return ''
-  //       return `Ha, you think you can talk to me without even connecting your wallet? `
-
-  //     } else if (await provider.getETHBalance(ctx.global.connectedAddr) < 0.25) {
-  //       if (ctx.state.rejected2) return ''
-  //       return `${await provider.getETHBalance(ctx.global.connectedAddr)} ETH? I don't have time for poor people like you. Come back when you have at least 0.25 ETH in your wallet to show me.`
-
-  //     } else if (contract) {
-  //       const sendFilter = contract.filters.Send(ctx.global.connectedAddr)
-  //       const sendEvents = await contract.queryFilter(sendFilter)
-  //       const totalSent = sendEvents.reduce((sum, event) => sum + fromWei(event.args.amount), 0)
-  //       if (totalSent >= ctx.global.premium * 0.01) {
-  //         // return `You think you're worth my time just because you sent me ${totalSent} ETH?`
-  //         return `Are you ready to serve me today?`
-  //       } else {
-  //         if (ctx.state.rejected3) return ''
-  //         return `Did you even read my profile?`
-  //       }
-  //     } else {
-  //       return `You think you deserve to talk to me? I don't think so`
-  //     }
-  //   },
-  //   async followUp(ur, ctx, contract, provider) {
-  //     if (!provider.isWeb3) {
-  //       if (ctx.state.rejected0) return
-  //       return fu('helloRejected0')
-  //     } else if (!ctx.global.isConnected) {
-  //       if (ctx.state.rejected1) return
-  //       return fu('helloRejected1')
-  //     } else if (await provider.getETHBalance(ctx.global.connectedAddr) < 0.25) {
-  //       if (ctx.state.rejected2) return
-  //       return fu('helloRejected2')
-  //     } else if (contract) {
-  //       if (ctx.state.rejected3) return
-  //       const sendFilter = contract.filters.Send(ctx.global.connectedAddr)
-  //       const sendEvents = await contract.queryFilter(sendFilter)
-  //       const totalSent = sendEvents.reduce((sum, event) => sum + fromWei(event.args.amount), 0)
-  //       if (totalSent < ctx.global.premium * 0.01) {
-  //         return fu('helloRejected3')
-  //       }
-  //     }
-  //   },
-  //   async responseHandler(ur, ctx, contract, provider) {
-  //     const {introResponded} = ctx.state
-  //     if (!ctx.global.isConnected || await provider.getETHBalance(ctx.global.connectedAddr) < 1) return
-
-  //     if (ctx.global.isConnected) {
-  //       const sendFilter = contract.filters.Send(ctx.global.connectedAddr)
-  //       const sendEvents = await contract.queryFilter(sendFilter)
-  //       const totalSent = sendEvents.reduce((sum, event) => sum + fromWei(event.args.amount), 0)
-  //       if (totalSent >= ctx.global.premium * 0.01) {
-  //         if (introResponded) return 'serveMe'
-  //         else if (isYes(ur)) return 'serveMeYes'
-  //         else return 'serveMeNo'
-  //       }
-  //     }
-  //   }
-  // },
-
-  // helloRejected0: {
-  //   messageText: `You don't even have a web3 browser. What a fucking loser 😂`,
-  //   responseHandler: (ur, ctx) => {
-  //     ctx.state.introResponded = true
-  //     ctx.state.rejected0 = true
-  //     return 'helloResponse'
-  //   }
-  // },
-
-  // helloRejected1: {
-  //   messageText: `You're out of your league.`,
-  //   responseHandler: (ur, ctx) => {
-  //     ctx.state.introResponded = true
-  //     ctx.state.rejected1 = true
-  //     return 'helloResponse'
-  //   }
-  // },
-  // helloRejected2: {
-  //   messageText: `Go talk to @VinceSlickson. Maybe he can help you get some cash`,
-  //   responseHandler: (ur, ctx) => {
-  //     ctx.state.introResponded = true
-  //     ctx.state.rejected2 = true
-  //     return 'helloResponse'
-  //   }
-  // },
-  // helloRejected3: {
-  //   messageText: (ur, ctx) => `What don't you understand about "${ctx.global.premium * 0.01} ETH tribute to talk"?`,
-  //   responseHandler: (ur, ctx) => {
-  //     ctx.state.introResponded = true
-  //     ctx.state.rejected3 = true
-  //     return 'helloResponse'
-  //   }
-  // },
-
-
   serveMe: {
     messageText: `Are you ready to serve me today?`,
     responseHandler: ur => isYes(ur) ? 'serveMeYes' : 'serveMeNo'
@@ -341,8 +243,88 @@ const QueenMessages = {
 
   serveMeYes: {
     messageText: `Good`,
+    followUp: fu('budget')
+  },
+
+
+  budget: {
+    messageText: `Do you have a budget you're trying to stick to?`,
+    responseHandler: ur => isNo(ur) ? 'budgetNo' : 'budgetYes'
+  },
+
+  ...diatribe('budgetYes', [
+    `Well too bad lol`,
+     async (ur, ctx, contract, provider) => `I see ${await provider.getETHBalance(ctx.global.connectedAddr)} ETH left in your wallet. That's your budget`,
+     `The real question is, are you going to send it to me all at once? Or am I going to drain you slowly and <em>really</em> savor it?`
+  ], {
+    responseHandler: 'rhetorical'
+  }),
+
+  ...diatribe('budgetNo', [
+    `That's what I thought`,
+     `The real question is, are you going to send it to me all at once? Or am I going to drain you slowly and <em>really</em> savor it?`
+  ], {
+    responseHandler: 'rhetorical'
+  }),
+
+  ...diatribe('rhetorical', [
+    `That was a rhetorical question, dummy`,
+     `I don't care what you think`,
+     `You're basically just an NPC living in my world, and your only function is to send to me whenever I feel like it`,
+     `If you're not sending then you don't fucking exist`,
+     `In fact, I think it's time to send again right now`,
+     (ur, ctx) => `Let's do ${ctx.global.premium * 0.02} this time`
+  ], {
+    responseHandler: 'timeToSend1',
+    event: 'send1',
+  }),
+
+  send1: createEvent(0.02, {
+    primary: fu('congrats', 8000)
+  }),
+
+  timeToSend1: {
+    messageText: `You thought I was going to be <em>cheap</em>? 🤣`,
+    event: 'send1',
+    responseHandler: 'timeToSend5'
+  },
+
+  timeToSend2: {
+    messageText: `I don't want to hear any fucking sass`,
+    event: 'send1',
+    responseHandler: 'timeToSend3'
+  },
+
+
+  timeToSend3: {
+    messageText: `I know how stupid you are, so if you forgot how to send then don't waste my time. Ask someone else`,
+    event: 'send1',
+    responseHandler: 'timeToSend4'
+  },
+
+  timeToSend4: {
+    messageText: `Remember: if you're not sending then you don't fucking exist`,
+    event: 'send1',
+    responseHandler: 'timeToSend5'
+  },
+
+  timeToSend5: {
+    messageText: () => `What part of "send me ${MessageHandler.globalCtx.premium * 0.02} ETH" do you not understand?`,
+    event: 'send1',
+    responseHandler: 'timeToSend2'
+  },
+
+
+  congrats: {
+    messageText: `Congrats, idiot. You bought yourself some more time before I stop caring about you`,
+    followUp: fu('tellMeSomething')
+  },
+
+  tellMeSomething: {
+    messageText: `I hope no one else has to put up with your stupidity`,
     followUp: fu('married')
   },
+
 
   married: {
     messageText: `Are you married?`,
@@ -365,7 +347,7 @@ const QueenMessages = {
   marriedNo: {
     messageText: `Boyfriend? Girlfriend?`,
     responseHandler: (ur, ctx) => {
-      if (isNo(ur)) return 'isSingle'
+      if (isNo(ur) || isMatch(ur, ['single', 'alone', 'nothing', 'i wish'])) return 'isSingle'
       if (isMatch(ur, ['husband', 'boy', 'boyfriend', 'male', 'man', 'masc', 'transmasc', 'masculine', 'ftm'])) ctx.state.partnerGender = 'm'
       else if (isMatch(ur, ['wife', 'girl', 'girlfriend', 'female', 'woman', 'fem', 'transfem', 'feminine', 'mtf'])) ctx.state.partnerGender = 'f'
       else ctx.state.partnerGender = 'nb'
@@ -375,20 +357,19 @@ const QueenMessages = {
 
   ...diatribe('leaveYou', [
     (ur, ctx) => `Well, ${{ m: `he's`, f: `she's`, nb: `they're`}[ctx.state.partnerGender]} about to leave you`,
-    (ur, ctx) => `You thought ${{ m: `he was`, f: `she was`, nb: `they were`}[ctx.state.partnerGender]} mad after you lost all your money on NFTs? That was nothing`,
+    (ur, ctx) => `You thought ${{ m: `he was`, f: `she was`, nb: `they were`}[ctx.state.partnerGender]} mad after you lost all your money on your dumb little crypto investments? That was nothing`,
     `I'm going to absolutely <em>ruin</em> you`,
     `And you're going to love it`,
     `I won't feel any guilt about it either`,
-    `You're just an NPC in my world, and your only function is to send`,
   ], {
     responseHandler: 'anyKids'
   }),
 
   anyKids: {
-    messageText: `Shut up. Next question: Do you have kids, ${getUserData('name')}?`,
-    responseHandler: ur => isYes('ur')
+    messageText: `Shut up. Next question: Do you have any kids?`,
+    responseHandler: ur => isYes(ur)
       ? 'kidsYes'
-      : isNo('ur') ? 'kidsNo' : 'kidsMaybe'
+      : isNo(ur) ? 'kidsNo' : 'kidsMaybe'
   },
 
 
@@ -404,78 +385,103 @@ const QueenMessages = {
 
   yourFault: {
     messageText: `And it'll all. be. your. fault.`,
-    followUp: fu('timeToSend')
+    responseHandler: 'iDontCare'
   },
 
   kidsNo: {
-    messageText: `Good. Because when I'm done with you there's no chance in hell you'd be able to support any`,
-    followUp: fu('timeToSend')
+    messageText: `Good, because you wouldn't be able to support them anyhow when I'm done with you`,
+    responseHandler: 'iDontCare'
   },
 
   kidsMaybe: {
-    messageText: (ur, ctx) => `It doesn't matter. Your ${{ m: ctx.state.isMarried ? 'husband' : 'boyfriend', f: ctx.state.isMarried ? 'wife' : 'girlfriend', nb: `partner`}[ctx.state.partnerGender]} is going to leave you anyhow`,
-    followUp: fu('timeToSend')
+    messageText: (ur, ctx) => `It doesn't matter. Kids or no kids, I'm the most important person in your life now`,
+    responseHandler: 'iDontCare'
   },
 
 
   ...diatribe('isSingle', [
-    () => `Figures that no one would want to date a crypto sissy cuck ${genderSwitch({m: 'boy', f: 'girl', nb: 'degen'})} like you`,
+    `That's probably for the best lol`,
+    () => `I don't see why anyone would would want to date a little sissy cuck ${genderSwitch({m: 'boy', f: 'girl', nb: 'degen'})} like you`,
     `You don't deserve any love`,
-    `That is, not unless you make yourself useful and pay up`,
-    `Keep that in mind: if you're not sending me money you don't exist.`,
-    `You're basically just an NPC in my world, and your only function is to send`
+    // `That is, not unless you make yourself useful and pay up`,
+    // `Keep that in mind: if you're not sending me money you don't exist.`,
   ], {
-    followUp: fu('timeToSend')
+    responseHandler: 'iDontCare'
   }),
 
-  send1: createEvent(0.02, {
-    main: 'congrats'
-  }),
-
-  timeToSend: {
-    messageText: `In fact, I think it's time for you to send right now.`,
-    followUp: fu('timeToSend2')
-  },
-
-  timeToSend2: {
-    messageText: () => `Let's say... ${MessageHandler.globalCtx.premium * 0.02} this time`,
-    event: 'send1',
-    responseHandler: 'timeToSend3'
-  },
-
-  timeToSend3: {
-    messageText: `I don't want to hear any fucking sass`,
-    event: 'send1',
-    responseHandler: 'timeToSend4'
-  },
-
-  timeToSend4: {
-    messageText: `You thought I was going to be <em>cheap</em>? 🤣`,
-    event: 'send1',
-    responseHandler: 'timeToSend5'
-  },
-
-  timeToSend5: {
-    messageText: `Remember: if you're not sending then you don't fucking exist`,
-    event: 'send1',
-    responseHandler: 'timeToSend6'
-  },
-
-  timeToSend6: {
-    messageText: () => `What part of "send me ${MessageHandler.globalCtx.premium * 0.02} ETH" do you not understand?`,
-    event: 'send1',
-    responseHandler: 'timeToSend3'
+  iDontCare: {
+    messageText: `iDontCare TODO`
   },
 
 
 
+  // send1: createEvent(0.02, {
+  //   main: 'congrats'
+  // }),
 
 
 
-  congrats: {
-    messageText: `Congrats, idiot. You just bought yourself a few more minutes of my precious time. Do you have any questions?`,
-    responseHandler: 'noQuestions'
-  },
+  // timeToSend: {
+  //   messageText: `In fact, I think it's time for you to send right now.`,
+  //   followUp: fu('timeToSend2')
+  // },
+
+  // timeToSend2: {
+  //   messageText: () => `Let's say... ${MessageHandler.globalCtx.premium * 0.02} this time`,
+  //   event: 'send1',
+  //   responseHandler: 'timeToSend3'
+  // },
+
+
+
+
+
+
+
+
+
+
+  // TODO: why don't you send 0.01 ETH to my wallet and see what happens?
+  //       have you checked your wallet to see what's there?
+  //       that's right, nothing 😈
+  //       you're going to need to send a lot more than that to get an nft from me
+
+
+
+
+
+
+  /*
+
+    do you know why you like sending to me?
+
+    (if man)
+      because men make $1 for every $0.70 a woman makes
+      and you know, deep down, that this is to keep women down
+      you know that women are the superior sex
+
+    (if womane)
+      because you're a woman
+      you see men making $1 for your $0.70
+      the only way for you to advance in your career is to perform sexual favors for them
+      so whenever you see a strong, beautiful woman like me making bank you swoon
+
+
+
+
+
+
+  */
+
+
+
+
+
+
+  // congrats: {
+  //   messageText: `Congrats, idiot. You just bought yourself a few more minutes of my precious time. Do you have any questions?`,
+  //   responseHandler: 'noQuestions'
+  // },
 
   noQuestion: {
     messageText: `Well, I don't care lol`,
@@ -487,10 +493,10 @@ const QueenMessages = {
     followUp: fu('rhetorical', 6000)
   },
 
-  rhetorical: {
-    messageText: `Don't answer that. That was a rhetorical question, idiot.`,
-    responseHandler: 'loveMakingMeRich'
-  },
+  // rhetorical: {
+  //   messageText: `Don't answer that. That was a rhetorical question, idiot.`,
+  //   responseHandler: 'loveMakingMeRich'
+  // },
 
 
 
@@ -800,8 +806,7 @@ that's right, you'll have to send.
 wallet ratings - sort of like dick ratings, but based on what's in your wallet
 
 
-https://www.reddit.com/r/paypigsupportgroup/comments/19df9jo/budget_schmudget/
-  "you have a _budget_? I don't think so lol"
+
 
 
 

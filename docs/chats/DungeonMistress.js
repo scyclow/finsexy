@@ -1004,7 +1004,7 @@ const MistressMessages = {
   ...diatribe('oldMan7', [
     `"Impossible to tell. Can you spare a few pence?"`,
     `The old man starts rocking back and forth, and resumes incoherently mumbling to himself. You wonder if he's really sick or just pretending to be sick.`,
-    `"Impossible to tell!" he blurts out once more, as if answering yout thought.`,
+    `"Impossible to tell!" he blurts out once more, as if answering your thought.`,
     `You wait in silence.`,
     `Finally, the cell door opens. Two guards walk in and begin unchaining the man.`,
     () => `"Guards, I've been quite sick! In fact, I think it's something to do with my liver. My liver has been painful for several months. Ask ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}! ${genderSwitch({m: 'He\'ll', f: 'She\'ll', nb: 'They\'ll'})} tell you! ${genderSwitch({m: 'He\'ll', f: 'She\'ll', nb: 'They\'ll'})} tell you how much my liver hurts!"`,
@@ -1018,7 +1018,7 @@ const MistressMessages = {
     `The guards remove the old man from the cell as he wimpers. They close cell door and lock it behind them.`,
     `You sit in silence, alone with your thoughts.`,
     `You have no idea where you are, how long you've been there, or what will happen to you. But the tension from the suspense makes you unimaginably horny, and it becomes hard to think about anything else.`,
-    `The inside of your head is an absolute cluttered mess. All of a sudden the old man's state of mind makes perfect sense. Without some sort of release you feel you will go insane.`,
+    `The inside of your head is an absolute cluttered mess. All of a sudden the old man's state of mind makes perfect sense. Without some sort of release you feel you will go insane as well.`,
     `You start ${genderSwitch({m: 'jacking off', f: 'masturbating', nb: 'masturbating'})} in the hope that you can relieve some of this tension. But after several minutes you discover that you cannot cum, regardless of how ${genderSwitch({m: 'hard', f: 'wet', nb: 'aroused'})} you are.`,
     `At last, the guards come in to put you out of your misery. They unshackle your limbs and drag you out of the cell. You faint.`
   ], {
@@ -1029,7 +1029,7 @@ const MistressMessages = {
     `A rotten tomato hits your face, and you awaken once more with your head and arms locked in a pillory.`,
     `"${genderSwitch({m: 'He\'s', f: 'She\'s', nb: 'They\'re'})} awake!"`,
     `You look up to see the entire town gathered around your naked and restrained body on display.`,
-    `"Debtor!" -- "Degenorate!" -- "Loser!"`,
+    `"Debtor! Degenorate! Loser!"`,
     `You hear all manners of jeers and insults hurled at you.`,
     `A few friendly faces in populate the crowd: the bartender, the harlots, the poker players, the merchant, his wife, your wife. But they cease to be individuals. They are simply components of the mob.`,
     `You hear steps behind you, creaking on the wooden stage. A leather whip touchs your rear, and glides along your back. You feel a hot breath on your ear.`,

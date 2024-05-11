@@ -529,8 +529,10 @@ export class MessageHandler {
           const now = Date.now()
           const {messageCode, waitMs} = event
           const messageToSend = this.getMessageToSend(messageCode, '', true)
+
           const estimatedMessageText = await this.sendMessage(messageToSend, '')
           const [typingWait, wait] = this.waitTimes(estimatedMessageText, 250, waitMs)
+          console.log(typingWait, wait)
 
           this.ctx.addToEventQueue({
             userResponse: '',

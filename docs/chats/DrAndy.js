@@ -1,6 +1,9 @@
 /*
   TODO
 
+  - fit in more about how capitalism puts us into boxes and discrete categories (like gender!)
+    - findom is a natural reaction to capitalism
+
   - ending:
     - charge once more for self help book
     - show "this dom is unavailable" message when you try to talk to them
