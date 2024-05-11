@@ -603,7 +603,7 @@ const AndyMessages = {
     event: 'secondPaymentEvent'
   }),
 
-  secondPaymentEvent: createEvent(0.01, {
+  secondPaymentEvent: createEvent(0.02, {
     primary: fu('thirdSession', 7000)
   }),
 
@@ -685,7 +685,7 @@ const AndyMessages = {
   },
 
 
-  thirdPaymentEvent: createEvent(0.01, {
+  thirdPaymentEvent: createEvent(0.03, {
     primary: fu('focusOnRelief', 7000)
   }),
 
@@ -755,7 +755,7 @@ const AndyMessages = {
     responseHandler: 'atTime3'
   }),
 
-  fourthPaymentEvent: createEvent(0.01, {
+  fourthPaymentEvent: createEvent(0.04, {
     primary: fu('fourthSession', 7000)
   }),
 

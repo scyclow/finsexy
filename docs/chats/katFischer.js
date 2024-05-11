@@ -161,7 +161,7 @@ export const KatMessages = {
 
 
   firstSendEvent: createEvent(0.01, {
-    primary: fu('firstSendPause', 100),
+    primary: { messageCode: 'firstSendPause', waitMs: 100, ignoreType: true},
     wait: fu('stillThere', 2000),
     notEnough: fu('needMore', 4000)
   }),
@@ -270,7 +270,7 @@ export const KatMessages = {
     followUp: { messageCode: 'meanALot', waitMs: 2000 }
   },
 
-  secondSendEvent: createEvent(0.01, {
+  secondSendEvent: createEvent(0.02, {
     primary: fu('jesusChrist', 5000),
     wait: fu('beggingYou', 100),
     notEnough: fu('stillMore', 4000)
@@ -401,7 +401,7 @@ export const KatMessages = {
     followUp: { messageCode: 'processingFee', waitMs: 2000 }
   },
 
-  thirdSendEvent: createEvent(0.01, {
+  thirdSendEvent: createEvent(0.03, {
     primary: fu('omfg', 5000),
     notEnough: fu('niceTry', 2000)
   }),
@@ -485,7 +485,10 @@ export const KatMessages = {
 
   startOver: {
     messageText: () => `If you really want we can just start over LOL, but i'm sure as hell not sending you any money back`,
-    responseHandler: 'steviep'
+    responseHandler: async (ur, ctx, contract) => {
+      ctx.state.paymentOffset = (await contract.tributes(ctx.global.connectedAddr)).toString()
+      return 'steviep'
+    }
   },
 
 }

@@ -217,7 +217,7 @@ const SamanthaMessages = {
       ctx.state.messagedFirst = true
 
       const isConnected = await provider.isConnected()
-      if (isConnected && ctx.state.rounds > 0) return 'instructions'
+      if (isConnected && ctx.state.paymentOffset) return 'instructions'
       else if (isConnected) return 'pleaseHold'
       else if (!window.ethereum) return 'onlyWeb3'
       else return 'onlyConnected'
@@ -996,7 +996,7 @@ const SamanthaMessages = {
     followUp: fu('damage', 10000)
   },
 
-  sendEvent2: createEvent(0.03, {
+  sendEvent2: createEvent(0.04, {
     primary: { messageCode: 'wrappingUp', waitMs: 3000 },
     notEnough: { messageCode: 'wontDo', waitMs: 3000 }
   }),
@@ -1048,8 +1048,8 @@ const SamanthaMessages = {
     `Anyhow, I have a lot more work to catch up on before EOD. This was fun though. I sent something to your wallet. Hopefully it will give you a little motivation to keep your taxes in poor standing.`,
     `If you ever need another audit, don't hesitate to get in touch.`,
   ], {
-    responseHandler: (ur, ctx) => {
-      ctx.state.rounds += 1
+    responseHandler: async (ur, ctx, contract) => {
+      ctx.state.paymentOffset = (await contract.tributes(ctx.global.connectedAddr)).toString()
       return 'helpYou'
     }
   }),

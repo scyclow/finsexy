@@ -108,6 +108,7 @@ export const DOM_CONTRACTS = {
 
 export class Web3Provider {
   onConnectCbs = []
+  ens = ''
 
   constructor() {
     if (window.ethereum) {
@@ -128,6 +129,16 @@ export class Web3Provider {
             this.connect()
           }
         }, 500)
+
+        this.isConnected()
+          .then(async addr => {
+            try {
+              if (addr) {
+                const ens = await this.getENS(addr)
+                if (isENS(ens)) this.ens = ens
+              }
+            } catch(_e) {}
+          })
       } catch (e) {
         console.error(e)
       }
@@ -142,7 +153,6 @@ export class Web3Provider {
     this.onConnectCbs.push(cb)
     this.isConnected()
       .then(addr => {
-        console.log(`New connection: ${addr}`)
         if (addr) {
           cb(addr)
         }
@@ -187,6 +197,9 @@ export class Web3Provider {
     return ethers.utils.isAddress(addr)
   }
 
+  BN(n) {
+    return ethers.BigNumber.from(n)
+  }
 
   async getENS(addr) {
     return this.provider.lookupAddress(addr)
@@ -200,7 +213,7 @@ export class Web3Provider {
   async formatAddr(addr, truncate=true, nameLength=19) {
     try {
       const ens = await this.getENS(addr)
-      if (ens.slice(-4) === '.eth') {
+      if (isENS(ens)) {
         return ens.length > nameLength
           ? ens.slice(0, nameLength-3) + '...'
           : ens

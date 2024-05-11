@@ -266,14 +266,14 @@ export const diatribe = (baseCode, messages, endAction, waitMs=2000) => {
 
 
 // primary, wait, notEnough, postEvent
-export function createEvent(amount, responses={}, waitMs=600000) {
+export function createEvent(threshold, responses={}, waitMs=600000) {
   return {
     async preEvent(ur, ctx, contract, provider) {
       const addr = await provider.isConnected()
       ctx.state.nodeResponses = ctx.state.nodeResponses || {}
+      ctx.state.alreadyPaid = ctx.state.alreadyPaid || '0'
 
       if (addr) {
-        ctx.state.alreadyPaid = fromWei(await contract.tributes(addr))
         ctx.state.lastResponded = Date.now()
         ctx.state.nodeResponses[ctx.lastDomCodeSent] = true
       }
@@ -281,21 +281,27 @@ export function createEvent(amount, responses={}, waitMs=600000) {
 
     async check(ur, ctx, contract, provider) {
       const addr = await provider.isConnected()
-      const price = ctx.global.premium * amount
-      if (contract && addr) {
-        const t = fromWei(await contract.tributes(addr))
-        if (Number((t - ctx.state.alreadyPaid).toFixed(6)) >= price) {
 
+      const paymentOffset =  provider.BN(ctx.state.paymentOffset || '0')
+      const amount = ctx.global.premium * threshold
+      const alreadyPaid = provider.BN(ctx.state.alreadyPaid)
+
+      if (contract && addr) {
+        const t = await contract.tributes(addr)
+        // if (Number((t - ctx.state.alreadyPaid).toFixed(6)) >= amount) {
+        if ((t.sub(paymentOffset)).gte(toETH(amount))) {
           return responses.primary
         } else if (Date.now() - ctx.state.lastResponded > waitMs && !ctx.state.nodeResponses[ctx.lastDomCodeSent]) {
           return responses.wait
-        } else if (t > ctx.state.alreadyPaid && t - ctx.state.alreadyPaid < price) {
+        } else if (t.gt(alreadyPaid) && (t.sub(alreadyPaid)).lt(amount)) {
           return responses.notEnough
         }
       }
     },
 
     async postEvent(ur, ctx, contract, provider) {
+      const addr = await provider.isConnected()
+      ctx.state.alreadyPaid = (await contract.tributes(addr)).toString()
       if (responses.postEvent) return responses.postEvent(ur, ctx, contract, provider)
     },
   }
@@ -527,12 +533,11 @@ export class MessageHandler {
           )
 
           const now = Date.now()
-          const {messageCode, waitMs} = event
+          const {messageCode, waitMs, ignoreType} = event
           const messageToSend = this.getMessageToSend(messageCode, '', true)
 
           const estimatedMessageText = await this.sendMessage(messageToSend, '')
           const [typingWait, wait] = this.waitTimes(estimatedMessageText, 250, waitMs)
-          console.log(typingWait, wait)
 
           this.ctx.addToEventQueue({
             userResponse: '',
@@ -540,7 +545,8 @@ export class MessageHandler {
             timestamp: now + wait,
             startTyping: now + typingWait,
             isFollowup: true,
-            referrer: messageCode
+            referrer: messageCode,
+            ignoreType,
           })
         }
       }

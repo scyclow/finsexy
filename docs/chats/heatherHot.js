@@ -309,7 +309,7 @@ const HeatherHotMessages = {
 
   nextSteps: {
     messageText: (ur, ctx) => {
-      if (ctx.state.cherryPopped) {
+      if (ctx.state.paymentOffset) {
         return 'hello again. are you ready for me to suck your wallet dry? or do you want me to tell you more about finsexy?'
       } else {
         return `so what do you say? are you ready for me to ${ctx.state.isNew ? 'pop your findom cherry' : 'suck your wallet dry'}? or do you want to me to tell you more about finsexy?`
@@ -563,7 +563,7 @@ const HeatherHotMessages = {
         })}. lol jk`
       } else {
 
-        return `jesus fucking christ you're <em>old</em>. ${age}?! how are you even using a computer?`
+        return `jesus fucking christ you're <em>old</em>. ${Math.floor(age)} years?! how are you even using a computer?`
       }
     },
     followUp: (ur, ctx) => {
@@ -607,7 +607,7 @@ const HeatherHotMessages = {
     async messageText(ur, ctx, contract, provider) {
       const balance = await provider.getETHBalance(await provider.isConnected())
 
-      return `aw, look at that cute little wallet of yours. ${balance.toFixed(4)} ETH${
+      return `aw, look at that cute little wallet of yours. ${balance.toFixed(2)} ETH${
         balance < 10
           ? balance < 0.01 ? ' lol. you might need more than that...' : ` lol. that's not very much`
           : '!'
@@ -807,8 +807,8 @@ const HeatherHotMessages = {
 
   again: {
     messageText: `this was fun. If you ever want to send me more money then you know where to find me 😘`,
-    responseHandler: (ur, ctx) => {
-      ctx.state.cherryPopped = true
+    responseHandler: async (ur, ctx, contract) => {
+      ctx.state.paymentOffset = (await contract.tributes(ctx.global.connectedAddr)).toString()
       return 'nextSteps'
     }
   },

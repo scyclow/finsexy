@@ -596,7 +596,14 @@ export const CrystalGoddessMessages = {
 
   again: {
     messageText: `Would you like to perform the sacred ritual once more?`,
-    responseHandler: ur => isYes(ur) ? 'cleansingCeremonyStart' : 'again2'
+    responseHandler: async (ur, ctx, contract) => {
+      if (isYes(ur)) {
+        ctx.state.paymentOffset = (await contract.tributes(ctx.global.connectedAddr)).toString()
+        return 'cleansingCeremonyStart'
+      } else {
+        return 'again2'
+      }
+    }
   },
 
   again2: {

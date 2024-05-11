@@ -1090,8 +1090,10 @@ const MistressMessages = {
 
   epilogue: {
     messageText: `That's the only story I have written right now. If you liked it then I'd be happy to accept a tip 😘`,
-    responseHandler: (ur, ctx) => {
-      if (isMatch(ur, ['again', 'one more time', 'once more', 'refresh'])) {
+    responseHandler: async (ur, ctx, contract) => {
+      if (isMatch(ur, ['again', 'one more time', 'once more', 'refresh', 'reset', 'tavern'])) {
+        ctx.state.paymentOffset = (await contract.tributes(ctx.global.connectedAddr)).toString()
+
         ctx.state.visitedBartender = false
         ctx.state.visitedHorseWoman = false
         ctx.state.harlotState = 'fresh'
