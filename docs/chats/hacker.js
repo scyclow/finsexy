@@ -74,11 +74,14 @@ const HackerMessages = {
 
   hello: {
     async messageText(ur, ctx, contract, provider) {
-      if (!ctx.global.isConnected) return
-      else return `
+      let blackmailAddress = '0x47144372eb383466D18FC91DB9Cd0396Aa6c87A4'
+
+      if (ctx.global.isConnected) blackmailAddress = contract.address
+
+      return `
         <p>Send ${0.25 * ctx.global.premium} in eth to the underneath address (remove***from it):</p>
 
-        <p>${contract.address.slice(0, 4)}***${contract.address.slice(4)}</p>
+        <p>${blackmailAddress.slice(0, 4)}***${blackmailAddress.slice(4)}</p>
 
         <p>You may be thinking why the heck would you do that? Well, prepare yourself simply because I am going to move your world right now. I had a dangerous malware infect your laptop or computer and also record video of YOU (using your cam) when you looked at 'adult' web sites.</p>
 

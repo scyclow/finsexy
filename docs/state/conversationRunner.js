@@ -269,14 +269,12 @@ export const diatribe = (baseCode, messages, endAction, waitMs=2000) => {
 export function createEvent(threshold, responses={}, waitMs=600000) {
   return {
     async preEvent(ur, ctx, contract, provider) {
-      const addr = await provider.isConnected()
+
       ctx.state.nodeResponses = ctx.state.nodeResponses || {}
       ctx.state.alreadyPaid = ctx.state.alreadyPaid || '0'
-
-      if (addr) {
-        ctx.state.lastResponded = Date.now()
-        ctx.state.nodeResponses[ctx.lastDomCodeSent] = true
-      }
+      ctx.state.paymentOffset = ctx.state.paymentOffset || '0'
+      ctx.state.lastResponded = Date.now()
+      ctx.state.nodeResponses[ctx.lastDomCodeSent] = true
     },
 
     async check(ur, ctx, contract, provider) {
@@ -284,14 +282,14 @@ export function createEvent(threshold, responses={}, waitMs=600000) {
 
       const paymentOffset =  provider.BN(ctx.state.paymentOffset || '0')
       const amount = ctx.global.premium * threshold
-      const alreadyPaid = provider.BN(ctx.state.alreadyPaid)
+      const alreadyPaid = provider.BN(ctx.state.alreadyPaid || '0')
 
       if (contract && addr) {
         const t = await contract.tributes(addr)
         // if (Number((t - ctx.state.alreadyPaid).toFixed(6)) >= amount) {
         if ((t.sub(paymentOffset)).gte(toETH(amount))) {
           return responses.primary
-        } else if (Date.now() - ctx.state.lastResponded > waitMs && !ctx.state.nodeResponses[ctx.lastDomCodeSent]) {
+        } else if (Date.now() - ctx.state.lastResponded > waitMs && !ctx.state?.nodeResponses?.[ctx.lastDomCodeSent]) {
           return responses.wait
         } else if (t.gt(alreadyPaid) && (t.sub(alreadyPaid)).lt(amount)) {
           return responses.notEnough
@@ -602,8 +600,7 @@ export class MessageHandler {
 
     this.ctx.lastUserResponse = userResponse || this.ctx.lastUserResponse
 
-    if (messageToSend.event && MessageHandler.globalCtx.isConnected) {
-      await this.connected
+    if (messageToSend.event) {
       await this.messages[messageToSend.event]?.preEvent?.(userResponse, this.ctx, this.contract, this.provider)
     }
 

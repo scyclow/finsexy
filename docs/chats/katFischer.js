@@ -36,6 +36,7 @@ export const KatProfile = {
     {
       review: `I don't trust Kat. She just messaged me out of the blue and thought I was someone else. This seems like a scam`
     },
+
     {
       review: `DON'T TRUST KAT! This is a scam. classic pig butchering. first she fattens you up, and then she slaughters you`
     },
@@ -56,7 +57,10 @@ export const KatProfile = {
     },
     {
       review: `Not even cat fishers want to match with me on dating apps, so at least this is an improvement`
-    }
+    },
+    {
+      review: `I feel like the best thing to do in these scenarios is to just not engage. Most internet scammers are really people who have been sold into debt bondage and don't have a choice except to play along. It doesn't matter how hot you or I think it is, it's usually not consensual, and that makes it not right`
+    },
   ]
 }
 

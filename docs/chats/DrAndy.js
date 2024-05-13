@@ -4,6 +4,10 @@
   - fit in more about how capitalism puts us into boxes and discrete categories (like gender!)
     - findom is a natural reaction to capitalism
 
+
+  - when we role play we get to explore different aspects of ourselves
+
+
   - ending:
     - charge once more for self help book
     - show "this dom is unavailable" message when you try to talk to them

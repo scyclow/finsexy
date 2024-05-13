@@ -539,10 +539,10 @@ createComponent(
       }
 
       .testimonialReview {
-        box-shadow: inset 0 0 10px var(--gloss-color);
+        box-shadow: inset 0 0 5px var(--gloss-color);
         line-height: 1.25;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
       }
 
       ::selection {

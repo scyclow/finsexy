@@ -91,3 +91,34 @@ if (!ls.get('BETA_PASS') && window.location.href.includes('finsexy.com')) {
 
   ls.set('BETA_PASS', true)
 }
+
+
+
+
+
+const wordCount = M => Object.keys(M).reduce((a, c) => {
+  const messageText = M[c]
+  if (messageText) {
+    a += messageText.toString().split(' ').length
+    return a
+  }
+  else return a
+}, 0)
+
+
+const commentCount = P => P.testimonials.reduce((a, c) => {
+  return a + c.review.split(' ').length
+}, 0)
+
+console.log(Object.keys(MessageHandler.chats).reduce((a, c) => {
+  console.log(c, wordCount(MessageHandler.chats[c].messages))
+  console.log(c, commentCount(ProfileStats[c]))
+
+
+  return a + wordCount(MessageHandler.chats[c].messages) + commentCount(ProfileStats[c])
+}, 0))
+
+
+
+
+

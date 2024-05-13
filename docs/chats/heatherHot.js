@@ -267,9 +267,9 @@ const HeatherHotMessages = {
 
   newToFindom: {
     messageText: `is this your first time playing with FinDom?`,
-    responseHandler: userResponse => {
-      if (isYes(userResponse)) return 'newToFindomYes'
-      else if (isNo(userResponse)) return 'newToFindomNo'
+    responseHandler: ur => {
+      if (isYes(ur) || isMatch(ur, ['first time'])) return 'newToFindomYes'
+      else if (isNo(ur)) return 'newToFindomNo'
       else return 'newToFindomConfused'
     }
   },
@@ -278,8 +278,8 @@ const HeatherHotMessages = {
     messageText: `i'm confused. have you ever done findom before?`,
     responseHandler: (ur, ctx) => {
       ctx.state.isNew = true
-      if (isYes(userResponse)) return 'newToFindomNo'
-      else if (isNo(userResponse)) return 'newToFindomYes'
+      if (isYes(ur) || isMatch(ur, ['first time'])) return 'newToFindomNo'
+      else if (isNo(ur)) return 'newToFindomYes'
       else return 'newToFindomNo'
     }
   },

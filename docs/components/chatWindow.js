@@ -106,7 +106,7 @@ createComponent(
 
       #displayContainer {
         height: 100%;
-        overflow: scroll;
+        overflow-y: scroll;
         padding: 0.5em;
         padding-top: 80px;
       }
@@ -136,18 +136,14 @@ createComponent(
         text-shadow: 2px 2px 2px var(--dark-color), -2px 0px 5px var(--secondary-color);
       }
 
-      .messageContent img, .messageContent code{
-        margin-top: 0.5em;
+      .messageContent img, .messageContent code, .messageContent p + p {
+        margin-top: 0.6em;
       }
 
       .messageContent img {
         width: 100%;
         border: 1px solid var(--light-color);
         box-shadow: 0 0 10px var(--light-color);
-      }
-
-      .messageContent p + p {
-        margin-top: 0.5em;
       }
 
       .messageContent {

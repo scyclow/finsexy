@@ -5,6 +5,7 @@
     - maybe rethink the ending
     - try to incorporate schelling point/faith theme
     - think of nft tie in
+    - maybe break up first diatribe a bit
 
 
 

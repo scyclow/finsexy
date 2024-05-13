@@ -120,8 +120,6 @@ export class Web3Provider {
 
         this.provider.listAccounts().then(accounts => currentAccount = accounts[0])
 
-        window.ethereum.on('accounsChanged', console.log)
-
         setRunInterval(async () => {
           const [connectedAccount, ...accounts] = await this.provider.listAccounts()
           if (currentAccount !== connectedAccount) {

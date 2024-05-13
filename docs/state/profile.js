@@ -21,7 +21,7 @@ const profileLS = addr => ({
 })
 
 export function genderSwitch(mapping) {
-  return mapping[getUserData('gender')]
+  return mapping[getUserData('gender')] || ''
 }
 
 export const getAgeYears = bd => {

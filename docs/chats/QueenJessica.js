@@ -53,7 +53,7 @@ https://www.pornhub.com/view_video.php?viewkey=654837492a1db
 
 
 Testimonial:
-  "i dont deserve my money. Queen deserves every cent"
+  ""
 
   -
 
@@ -72,6 +72,7 @@ import {getUserData, genderSwitch } from '../state/profile.js'
 import {fromWei} from '../eth.js'
 
 
+const hasNumber = ur => ur.match(/(\d+)/)
 
 const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
@@ -85,7 +86,7 @@ export const QueenProfile = {
   gender: 'F',
   display: 'f',
   maxPhotos: 4,
-  description: `I'm the reason your wife is going to leave you 💸 #findom 👑 #brat 🙇‍♀️🙇🙇‍♂️ #spoilme 🥵💦 #paypig 🐷
+  description: `I'm the reason your wife is going to leave you 💸 #findom 👑 #brat 🙇‍♀️🙇🙇‍♂️ #paypig 🐷 e/acc 🔥 #spoilme 🥵💦
   <br/>💵 ${MessageHandler.globalCtx.premium * 0.01} ETH tribute to talk 💵
   `,
   testimonials: [
@@ -104,16 +105,7 @@ export const QueenProfile = {
 
     {
       name: '0x',
-      review: `I like putting the pussy on a pedastal.`,
-    },
-
-    {
-      review: `I'm a little sissy boy oink oink oink`
-    },
-
-    {
-      name: '0x',
-      review: `I haven't lost this much money since I aped into Fake Internet Money in 2021`,
+      review: `i dont deserve my money. Queen deserves every cent`,
     },
 
     {
@@ -127,6 +119,59 @@ export const QueenProfile = {
 
     {
       review: `There's just so much pressure to be a man and keep it together these days. I want someone to absolutely fucking ruin me`
+    },
+    {
+      review: `Yes! I thought I was the only person with an absolute societal collapse kink. Fuck these multinational corporations and fuck the global elite. WW3 can't come soon enough. Take me back to the fucking stone age. I jsut want to bang rocks together while Queen rules over my tribe. It's too bad this stupid fucking website only accepts dogshit alt coins like Ethereum and FastCash. My whole portfolio is split between Bitcoin and Gold. When contemporary society completely crumbles and centralized government fiat is completely worthless then I'm going to be sitting on a mountain of value. Then Queen will have no choice but to accept something other than Ethereum.`
+    },
+    {
+      review: `I'm sorry, I usually keep my mouth shut on websites like this, but the commenter above me is an absolute fucking moron with no understanding of history whatsoever. As Graeber clearly outlines in Debt: The First 5,000 Years, money as we know it is an invention of the state. Historical evidence suggests that gold only really has something that resembles a "market value" because states need a system in which they can pay soldiers and exert control over everyone else through tax collection. In fact, the evidence suggests that, despite the standard origins of money touted by mainstream economists, markets and casual barter only really came into existence after with widespread circulation of government-backed currency. Without it, we'd likely revert back to a proto-communisic society with a gift-based economiy`
+    },
+    {
+      review: `You clearly have no idea what you're talking about. Human societies have been using various forms of currency for thousands and thousdands of years -- way before centralized states were a thing. Everyone knows that humans used seashells and sacred rocks as primative forms of currency before switching over to gold. And in the age of the internet, Bitcoin is largely poised to replace gold. But since one is physical value and the other is digital value I'm hedging my bets by owning a little bit of both. Anyhow, there are economists, like Ludwig Von Mises, who focus on this sort of thing. You should read an <em>actual</em> book on the topic every once in a while.`
+    },
+    {
+      review: `I'm a little sissy boy oink oink oink`
+    },
+    {
+      review: `Do you realize how stupid you sound when you talk? Von Mises is a fucking joke. The whole school of Austrian Economics is just armchair philosophizing. It's not like actual historical <em>evidence</em> is necessary to make claims or anything... If you actually read Graeber though (or any reputable anthropologist, for that matter) you'd see that all the forms of "primative currency" you mention were completely different from the sorts of market-based currency we know and use today. Those earlier forms of currency were mainly used to create, maintain, and reorganize relations between people. Iriquois wampum (which, I think is what you're referring to) wasn't used to buy cows and tools. It was used to arrange marriages, establish paternity, settle feuds, negotiate trible disputes, etc. Gold is just another completely arbitrary form of currency, which admittedly has certain properties that make it well suited for that purpose. But there's nothing "intrinsic" about it, or bitocin for that matter`
+    },
+    {
+      review: `That's fucking bullshit and you know it. Gold is a better store of value than any other substance. It's durable, noncorrusive, malleable, infinitely divisible, and has been used for millennia as an expression of wealth. It's a social schelling point in which everyone has agreed that it has value. So if everyone agrees on it, then I hate to break it to you: it has fucking value!! And we're seeing the same thing with Bitcoin now. I'll buy as many cows and chickens as I want! Fucking deal with it bitch.`
+    },
+    {
+      review: `yes queen, take whatever you want from me 🙇🙇🙇`
+    },
+    {
+      name: '0x',
+      review: `I like putting the pussy on a pedastal.`,
+    },
+    {
+      review: `Look, it doesn't matter what schelling points exist right now. If/when socity collapses we're just going to revert back to a communistic gift economy, and people will use whatever material is convenient and egalitarian for their social currencies. If you own all the gold no one is going to want to value something that arbitrarily gives you all the power. Value is a flexible concept`
+    },
+    {
+      review: `ADDITIONALLY, what fucking world are you living in where we've gone through WW3 armageddon and the goddamn public internet is still functional enough for you to transact bitcoin? And even if you could, MARKETS CAN'T EXIST WITHOUT THE GOVERNMENT ENFORCING PROPERTY RIGHTS!!! At least Ethereum has a robust smart contract system. If you <em>really</em> wanted to enforce property rights without a government then you'd be all about ETH. But instead you're obsessed with BTC because it came first`
+    },
+
+    {
+      review: `Shows what you know. Anyone can execute BTC transactions over HAM radio netowrks or the Blockstream satellite system. Anyhow, I don't have time for this shit. I'm just going to email @steviep to get Queen's email address and pay her in BTC.`
+    },
+    {
+      review: `Have fun with that. I already sent Queen my 0.01 tribute, and I'm jacking off to her as we speak`
+    },
+    {
+      review: 'Fuck you'
+    },
+    {
+      review: 'Fuck <em>YOU</em>'
+    },
+    {
+      review: 'i want my wallet to be absolutely anihilated. ripped to shreds'
+    },
+    {
+      review: 'one of the earlier commentors said that the findoms on this website accept fastcash?? How do i give queenjessica my fastcash??'
+    },
+    {
+      review: `I think Queen Jessica might have overcharged me. What's the going market rate for a findom tribute??`
     }
   ]
 }
@@ -248,20 +293,20 @@ const QueenMessages = {
 
 
   budget: {
-    messageText: `Do you have a budget you're trying to stick to?`,
+    messageText: `Before we start, do you have a budget you're trying to stick to?`,
     responseHandler: ur => isNo(ur) ? 'budgetNo' : 'budgetYes'
   },
 
   ...diatribe('budgetYes', [
     `Well too bad lol`,
      async (ur, ctx, contract, provider) => `I see ${await provider.getETHBalance(ctx.global.connectedAddr)} ETH left in your wallet. That's your budget`,
-     `The real question is, are you going to send it to me all at once? Or am I going to drain you slowly and <em>really</em> savor it?`
+     `The real question is, do I want you to send it to me all at once? Or am I going to drain you slowly and <em>really</em> savor it?`
   ], {
     responseHandler: 'rhetorical'
   }),
 
   ...diatribe('budgetNo', [
-    `That's what I thought`,
+    `Right answer`,
      `The real question is, are you going to send it to me all at once? Or am I going to drain you slowly and <em>really</em> savor it?`
   ], {
     responseHandler: 'rhetorical'
@@ -269,17 +314,165 @@ const QueenMessages = {
 
   ...diatribe('rhetorical', [
     `That was a rhetorical question, dummy`,
-     `I don't care what you think`,
-     `You're basically just an NPC living in my world, and your only function is to send to me whenever I feel like it`,
-     `If you're not sending then you don't fucking exist`,
-     `In fact, I think it's time to send again right now`,
-     (ur, ctx) => `Let's do ${ctx.global.premium * 0.02} this time`
+    `I hope no one else has to put up with your stupidity`,
+    `Are you married?`,
+  ], {
+    responseHandler: (ur, ctx) => {
+      if (isMatch(ur, ['husband'])) {
+        ctx.state.partnerType = 'spouse'
+        ctx.state.partnerGender = 'm'
+        return 'leaveYou'
+      } else if (isMatch(ur, ['wife'])) {
+        ctx.state.partnerType = 'spouse'
+        ctx.state.partnerGender = 'f'
+        return 'leaveYou'
+      }
+      return isYes(ur) ? 'marriedYes' : 'marriedNo'
+    }
+  }),
+
+  marriedYes: {
+    messageText: `Husband? Wife?`,
+    responseHandler: (ur, ctx) => {
+      ctx.state.partnerType = 'spouse'
+      if (isMatch(ur, ['husband', 'boy', 'boyfriend', 'male', 'man', 'masc', 'transmasc', 'masculine', 'ftm'])) {
+        ctx.state.partnerGender = 'm'
+      }
+      else if (isMatch(ur, ['wife', 'girl', 'girlfriend', 'female', 'woman', 'fem', 'transfem', 'feminine', 'mtf'])) {
+        ctx.state.partnerGender = 'f'
+      }
+      else ctx.state.partnerGender = 'nb'
+      return 'leaveYou'
+    }
+  },
+
+  marriedNo: {
+    messageText: `Boyfriend? Girlfriend?`,
+    responseHandler: (ur, ctx) => {
+      ctx.state.partnerType = 'casual'
+      if (isNo(ur) || isMatch(ur, ['single', 'alone', 'nothing', 'i wish'])) return 'isSingle'
+      if (isMatch(ur, ['husband', 'boy', 'boyfriend', 'male', 'man', 'masc', 'transmasc', 'masculine', 'ftm'])) ctx.state.partnerGender = 'm'
+      else if (isMatch(ur, ['wife', 'girl', 'girlfriend', 'female', 'woman', 'fem', 'transfem', 'feminine', 'mtf'])) ctx.state.partnerGender = 'f'
+      else ctx.state.partnerGender = 'nb'
+      return 'leaveYou'
+    }
+  },
+
+  ...diatribe('leaveYou', [
+    (ur, ctx) => `Well, ${{ m: `he's`, f: `she's`, nb: `they're`}[ctx.state.partnerGender]} about to leave you`,
+    (ur, ctx) => `You thought ${{ m: `he was`, f: `she was`, nb: `they were`}[ctx.state.partnerGender]} mad after you lost all your money on your dumb little crypto investments? That was nothing`,
+    `I'm going to absolutely <em>ruin</em> you`,
+    `I won't feel guilty about it either`,
+    `Because I'm the best, and I deserve every cent you give me`,
+    (ur, ctx) => {
+      let p
+      if (ctx.state.partnerGender === 'f' && ctx.state.partnerType === 'spouse') p = 'wife'
+      else if (ctx.state.partnerGender === 'f' && ctx.state.partnerType === 'casual') p = 'girlfriend'
+      else if (ctx.state.partnerGender === 'm' && ctx.state.partnerType === 'spouse') p = 'husband'
+      else if (ctx.state.partnerGender === 'm' && ctx.state.partnerType === 'casual') p = 'boyfriend'
+      else p = 'partner'
+
+      return `Does your ${p} know that you're busy gooning over the hottest findomme on the planet right now?`
+    }
+  ], {
+    responseHandler: ur => isYes(ur) ? 'gooningYes' : 'gooningNo'
+  }),
+
+  gooningYes: {
+    messageText: (ur, ctx) => `Of course ${
+      ctx.state.partnerGender === 'm' ? 'he knows' :
+      ctx.state.partnerGender === 'f' ? 'she knows' :
+      'they know'
+    }`,
+    followUp: 'gooningBoth'
+  },
+
+  gooningNo: {
+    messageText: (ur, ctx) => `Something tells me ${
+      ctx.state.partnerGender === 'm' ? 'he does' :
+      ctx.state.partnerGender === 'f' ? 'she does' :
+      'they do'
+    } know`,
+    followUp: 'gooningBoth'
+  },
+
+  ...diatribe('gooningBoth', [
+    (ur, ctx) => `In fact, ${
+      ctx.state.partnerGender === 'm' ? `he's` :
+      ctx.state.partnerGender === 'f' ? `she's` :
+      `they're'`
+    } probably gooning over me from another account right now`,
+    (ur, ctx) => `What a pathetic, unhappy ${ctx.state.partnerType === 'spouse' ? 'marriage' : 'relationship'} that must be`,
+    (ur, ctx) => `And it's all your fault, of course. If you knew how to please ${
+      ctx.state.partnerGender === 'm' ? 'him' :
+      ctx.state.partnerGender === 'f' ? 'her' :
+      'them'
+    } like a real ${genderSwitch({m: 'man', f: 'woman', nb: 'lover'})} then maybe you wouldn't be in that mess`,
+    `Oh well. More money for me`
+  ], {
+    responseHandler: 'anyKids'
+  }),
+
+  ...diatribe('isSingle', [
+    `That's probably for the best lol`,
+    () => `I don't see why anyone would would want to date a little sissy cuck ${genderSwitch({m: 'boy', f: 'girl', nb: 'degen'})} like you`,
+    `You don't deserve any love`,
+    `That is, unless you pay for it`,
+  ], {
+    responseHandler: 'anyKids'
+  }),
+
+  anyKids: {
+    messageText: `Shut up. Next question: Do you have any kids?`,
+    responseHandler: ur => isYes(ur)
+      ? 'kidsYes'
+      : isNo(ur) ? 'kidsNo' : 'kidsMaybe'
+  },
+
+
+...diatribe('kidsYes', [
+    `Well hopefully they're looking forward to community college because you're going to have to drain your family's bank account to keep me happy`,
+    `Oops. No more college fund for little Sussie. If she wants to pull your family out of its suffocating mountain of debt, she'll have to find herself a nice sugar daddy to pay for it all`,
+    `Their life is pretty much over before it even started. So sad`,
+    `And it'll all. be. your. fault.`,
+    `You're not allowed to think about their needs any more`,
+  ], {
+    followUp: fu('onlyPurpose')
+  }),
+
+  kidsNo: {
+    messageText: `Good, because you wouldn't be able to support them anyhow when I'm done with you`,
+    followUp: fu('onlyPurpose')
+  },
+
+  kidsMaybe: {
+    messageText: (ur, ctx) => `It doesn't matter. Kids or no kids, I'm the most important person in your life now`,
+    followUp: fu('onlyPurpose')
+  },
+
+
+  onlyPurpose: {
+    messageText: `Your only purpose is to send to me`,
+    followUp: fu('npc')
+  },
+
+
+  ...diatribe('npc', [
+    `If you're not sending then you don't fucking exist`,
+    `You're basically just an NPC living in my world, and your only function is to send whenever I feel like it`,
+    `In fact, I see a cute little tanktop on <a href="https://ronamerch.co/" target="_blank">RonaMerch.co</a> right now. My tits would look great in it`,
+    `So, I think it might be time for you to send again`,
+    (ur, ctx) => `Let's do ${ctx.global.premium * 0.02} this time`
   ], {
     responseHandler: 'timeToSend1',
     event: 'send1',
   }),
 
-  send1: createEvent(0.02, {
+
+
+
+
+  send1: createEvent(0.03, {
     primary: fu('congrats', 8000)
   }),
 
@@ -321,117 +514,189 @@ const QueenMessages = {
   },
 
   tellMeSomething: {
-    messageText: `I hope no one else has to put up with your stupidity`,
-    followUp: fu('married')
+    messageText: `Tell me something interesting`,
+    responseHandler: 'boring'
   },
 
-
-  married: {
-    messageText: `Are you married?`,
-    responseHandler: (ur, ctx) => {
-      ctx.state.isMarried = isYes(ur)
-      return isYes(ur) ? 'marriedYes' : 'marriedNo'
-    }
-  },
-
-  marriedYes: {
-    messageText: `Husband? Wife?`,
-    responseHandler: (ur, ctx) => {
-      if (isMatch(ur, ['husband', 'boy', 'boyfriend', 'male', 'man', 'masc', 'transmasc', 'masculine', 'ftm'])) ctx.state.partnerGender = 'm'
-      else if (isMatch(ur, ['wife', 'girl', 'girlfriend', 'female', 'woman', 'fem', 'transfem', 'feminine', 'mtf'])) ctx.state.partnerGender = 'f'
-      else ctx.state.partnerGender = 'nb'
-      return 'leaveYou'
-    }
-  },
-
-  marriedNo: {
-    messageText: `Boyfriend? Girlfriend?`,
-    responseHandler: (ur, ctx) => {
-      if (isNo(ur) || isMatch(ur, ['single', 'alone', 'nothing', 'i wish'])) return 'isSingle'
-      if (isMatch(ur, ['husband', 'boy', 'boyfriend', 'male', 'man', 'masc', 'transmasc', 'masculine', 'ftm'])) ctx.state.partnerGender = 'm'
-      else if (isMatch(ur, ['wife', 'girl', 'girlfriend', 'female', 'woman', 'fem', 'transfem', 'feminine', 'mtf'])) ctx.state.partnerGender = 'f'
-      else ctx.state.partnerGender = 'nb'
-      return 'leaveYou'
-    }
-  },
-
-  ...diatribe('leaveYou', [
-    (ur, ctx) => `Well, ${{ m: `he's`, f: `she's`, nb: `they're`}[ctx.state.partnerGender]} about to leave you`,
-    (ur, ctx) => `You thought ${{ m: `he was`, f: `she was`, nb: `they were`}[ctx.state.partnerGender]} mad after you lost all your money on your dumb little crypto investments? That was nothing`,
-    `I'm going to absolutely <em>ruin</em> you`,
-    `And you're going to love it`,
-    `I won't feel any guilt about it either`,
+  ...diatribe('boring', [
+    `omg, you're so boring`,
+    `What even makes you think you're worthy of talking to me?`,
+    `I'm hot, I'm rich, and my life is perfect`,
+    `I basically get to be my own boss, and no man can tell me what to do`,
+    `Well, technically @steviep is my boss, but he's super hot, so I don't mind`,
+    `But I get to do whatever I want, wake up whenever I want, and fuck whoever I want`,
+    `Meanwhile, you're life is... lol`,
+    `The only thing you have going for you is that you get to live vicariously through me`,
+    `How much do you even make in a year?`,
   ], {
-    responseHandler: 'anyKids'
+    responseHandler: 'salary'
   }),
 
-  anyKids: {
-    messageText: `Shut up. Next question: Do you have any kids?`,
-    responseHandler: ur => isYes(ur)
-      ? 'kidsYes'
-      : isNo(ur) ? 'kidsNo' : 'kidsMaybe'
-  },
-
-
-  kidsYes: {
-    messageText: `Well hopefully they're looking forward to community college because I'm about to drain your family's bank account`,
-    followUp: fu(`collegeFund`)
-  },
-
-  collegeFund: {
-    messageText: `Oops. No more college fund for little Jimmy. If he wants to pull your family out of its suffocating mountain of debt, he'll have to get used to the idea of finding a nice sugar daddy/mommy who will pay for it all`,
-    followUp: fu('yourFault')
-  },
-
-  yourFault: {
-    messageText: `And it'll all. be. your. fault.`,
-    responseHandler: 'iDontCare'
-  },
-
-  kidsNo: {
-    messageText: `Good, because you wouldn't be able to support them anyhow when I'm done with you`,
-    responseHandler: 'iDontCare'
-  },
-
-  kidsMaybe: {
-    messageText: (ur, ctx) => `It doesn't matter. Kids or no kids, I'm the most important person in your life now`,
-    responseHandler: 'iDontCare'
-  },
-
-
-  ...diatribe('isSingle', [
-    `That's probably for the best lol`,
-    () => `I don't see why anyone would would want to date a little sissy cuck ${genderSwitch({m: 'boy', f: 'girl', nb: 'degen'})} like you`,
-    `You don't deserve any love`,
-    // `That is, not unless you make yourself useful and pay up`,
-    // `Keep that in mind: if you're not sending me money you don't exist.`,
+  ...diatribe('salary', [
+    ur => `${hasNumber(ur) ? `Lol, that's it?` : `Well, I'm sure that`} I've already made more in the last seven days than you have in the last seven months`,
+    `And normally that isn't easy for a woman to do in this economy`,
+    `Women only make $0.80 for every $1.00 that men make, even though they're twice as dumb`,
+    `It's a good thing I'm so hot, though. Men will do anything for you if they want to fuck you, even if you're totally out of their league`,
+    () => genderSwitch({f: '(You better be taking notes, sweetheart)'}),
+    `I'd never fuck any of the loser men ${genderSwitch({m: 'like you '})}who give me money. ${genderSwitch({m: `You're`, f: `They're`, nb: `They're`})} all such beta cucks. Even thinking about ${genderSwitch({m: `you all`, f: `them`, nb: `them`})} makes me cringe so hard`,
+    `But it doesn't matter. ${genderSwitch({m: `You're`, f: `They're`, nb: `They're`})} too stupid to realize that. ${genderSwitch({m: `You`, f: `They`, nb: `They`})} think with ${genderSwitch({m: `your`, f: `their`, nb: `their`})} dicks first and ${genderSwitch({m: `your`, f: `their`, nb: `their`})} brains second`,
+    `Have you taken a look at the comment section on my profile? Do you see the sort of idiocy I have to deal with from men on a daily basis?`,
+    `It's really scary that cishet men run the world, despite being so stupid and helpless`,
+    `Did you know that 85% of the largest publicly traded US companies by market cap are led by men?`,
+    `But put me in front of any one of those CEOs, and I could turn him into my dirty little paypigs with a snap`,
+    `Believe me, it wouldn't take much to convince those morons to embezzle corporate funds straight into my bank account`,
+    `I could ruin multinational corporations, collapse supply chains, anihilate stockholder value, whatever I want`,
+    `Hundreds of thousands of people would lose their jobs, their families and financial statements unwillingly ruined`,
+    `All because of me 💅`,
+    `Do you have anything interesting to say yet?`
   ], {
-    responseHandler: 'iDontCare'
+    responseHandler: 'stillBoring'
   }),
 
-  iDontCare: {
-    messageText: `iDontCare TODO`
+  ...diatribe('stillBoring', [
+    `Nope, still boring`,
+    `You really need to work on your conversation skills`,
+    `Maybe listen to the person you're talking to every once in a while?`,
+    `Whatever, I'm not your mother. You're not my responsability.`,
+    () => genderSwitch({
+      m: `I know men would rather give all their money to findoms on the internet than go to therpy, but maybe send @DrAndy a DM and try to work on yourself a bit?`,
+      f: `Maybe send @DrAndy a DM and try to work on yourself a bit?`,
+      nb: `Maybe send @DrAndy a DM and try to work on yourself a bit?`,
+    }),
+    `Anyhow, where was I?`,
+    ], {
+      responseHandler: 'completeCollapse'
+    }),
+
+  ...diatribe('completeCollapse', [
+    `Oh yeah. Complete societal collapse, and it's all my fault`,
+    `It's going to happen eventually anyhow. Like Mark Fisher likes to say: it's easier to imagine the end of the world than it is to imagine the end of capitalism`,
+    `I might as well speed it up a little bit. Don't you think?`,
+    `Rip the bandaid off and get us back to the stone age ASAP`,
+    `I'd be a merciful Queen, though`,
+    `Rebuild society with a matriarchal power structure`,
+    `I'll obviously be at the top, and my lesser ${genderSwitch({m: 'female', f: 'female', nb: 'female and gender nonconforming'})} servants ${genderSwitch({f: 'like you ', nb: 'like you '})}would have little fiefdoms. Men would be at the bottom, of course, and they would have to do whatever the rest of us say`,
+    `We'll raise boys from a young age to respect and serve all women, espescially me. They'll learn to get us food, do our chores, and sexually service us whenever we want. Whatever we say goes`,
+    `We'll rectify the last 10,000 years of human history and trade <em>them</em> like property amongst ourselves. I think I'd like to collect the marriage rights to the ten hottest hunks around${genderSwitch({
+      f: '. If you give me enough in male tribute then maybe I\'ll even sit on your face and let you pleasure me too',
+      nb: '. If you give me enough in male tribute then maybe I\'ll even sit on your face and let you pleasure me too',
+    })}`,
+    `Sounds pretty good, doesn't it?`
+  ], {
+    responseHandler: ur => isNo(ur) ? 'soundsBad' : 'soundsGood'
+  }),
+
+  send2: createEvent(0.06, {
+    primary: fu('checkWallet', 8000)
+  }),
+
+  ...diatribe('soundsBad', [
+    `What? Our current society of globalized patriarchal capitalism is any better?`,
+    `I don't think so.`,
+    `In fact, that's such an idiot take that I think you need to pay up some more to make up for it`,
+    `This time you owe me ${MessageHandler.globalCtx.premium * 0.03} ETH`
+  ], {
+    event: 'send2',
+    responseHandler: 'send2Pending1'
+  }),
+
+  ...diatribe('soundsGood', [
+    `Of course it sounds good`,
+    `Our current society of globalized patriarchal capitalism is absolute trash`,
+    `But one step at a time. We're still here and now. But if you want to get on my good side for the future then you better pay up`,
+    `This time it's going to be ${MessageHandler.globalCtx.premium * 0.03} ETH`
+  ], {
+    event: 'send2',
+    responseHandler: 'send2Pending1'
+  }),
+
+
+  send2Pending1: {
+    messageText: `Trust me, you want to be on my good side after society crumbles`,
+    event: 'send2',
+    responseHandler: 'send2Pending2'
   },
 
+  send2Pending2: {
+    messageText: () => genderSwitch({
+      m: `As a man, you better be extra careful`,
+      f: `Don't think I'd go easy on you just because you're also a woman. You still serve me`,
+      nb: `Don't think I'd go easy on you just because you're not a man. You still serve me`,
+    }),
+    event: 'send2',
+    responseHandler: 'send2Pending3'
+  },
+
+  send2Pending3: {
+    messageText: `I don't have the patience for this. If you're not going to send then I have better things to do`,
+    event: 'send2',
+    responseHandler: 'send2Pending4'
+  },
+
+  send2Pending4: {
+    messageText: ``,
+    event: 'send2',
+    responseHandler: 'send2Pending4'
+  },
+
+  checkWallet: {
+    messageText: 'TODO'
+  }
 
 
-  // send1: createEvent(0.02, {
-  //   main: 'congrats'
+
+/*
+
+
+
+
+
+
+you don't identify as a man/woman/undefined
+you identify as a sub
+
+
+
+*/
+
+// Do you have anything interesting to say?
+
+// Nope, still boring.
+// I really am jsut talking to an NPC. No signs of intelligent life whatsoever
+
+
+
+
+    // () => `You need to work on your conversation skills, ${genderSwitch({m: 'buddy', f: 'sweetie', nb: 'buddy'})}`,
+    // `Listen to the person you're talking to. Don't just blurt out whatever stupid thought pops into your mind`
+  // ], {
+  //   responseHandler: () => genderSwitch({
+  //     m: 'youKnowWhyM',
+  //     f: 'youKnowWhyF',
+  //     nb: 'youKnowWhyNB',
+  //   })
+  // }),
+
+  // ...diatribe('youKnowWhyF', [
+  //   `Do you know why you like sending to me?`,
+  //   ``
+  // ], {
+  //   responseHandler: ''
   // }),
 
 
 
-  // timeToSend: {
-  //   messageText: `In fact, I think it's time for you to send right now.`,
-  //   followUp: fu('timeToSend2')
-  // },
 
-  // timeToSend2: {
-  //   messageText: () => `Let's say... ${MessageHandler.globalCtx.premium * 0.02} this time`,
-  //   event: 'send1',
-  //   responseHandler: 'timeToSend3'
-  // },
 
+
+
+
+
+
+
+
+
+// let's keep something in mind: I don't owe you anything. You pay me compensation for having to talk to you. Consider it an "idiot tax". You're paying for the privilege ofspeaking to me
 
 
 
@@ -483,15 +748,15 @@ const QueenMessages = {
   //   responseHandler: 'noQuestions'
   // },
 
-  noQuestion: {
-    messageText: `Well, I don't care lol`,
-    followUp: fu('lackOfJudgement')
-  },
+  // noQuestion: {
+  //   messageText: `Well, I don't care lol`,
+  //   followUp: fu('lackOfJudgement')
+  // },
 
-  lackOfJudgement: {
-    messageText: `The fact that you're even talking to me shows a complete lack of judgement on your part. So why would I listen to anything you have to say?`,
-    followUp: fu('rhetorical', 6000)
-  },
+  // lackOfJudgement: {
+  //   messageText: `The fact that you're even talking to me shows a complete lack of judgement on your part. So why would I listen to anything you have to say?`,
+  //   followUp: fu('rhetorical', 6000)
+  // },
 
   // rhetorical: {
   //   messageText: `Don't answer that. That was a rhetorical question, idiot.`,
@@ -505,34 +770,32 @@ const QueenMessages = {
 // TODO: incorporate all of this
 
 
-  loveMakingMeRich: {
-    messageText: `You just love making me rich, don't you?`,
-    responseHandler: ur => isYes(ur) ? 'loveMakingMeRichYes' : 'loveMakingMeRichNo'
-  },
+  // loveMakingMeRich: {
+  //   messageText: `You just love making me rich, don't you?`,
+  //   responseHandler: ur => isYes(ur) ? 'loveMakingMeRichYes' : 'loveMakingMeRichNo'
+  // },
 
-  loveMakingMeRichNo: {
-    messageText:`Is that so? I beg to differ`,
-    followUp: fu('doSoMuch')
-  },
+  // loveMakingMeRichNo: {
+  //   messageText:`Is that so? I beg to differ`,
+  //   followUp: fu('doSoMuch')
+  // },
 
-  loveMakingMeRichYes: {
-    messageText:`Of course you do`,
-    followUp: fu('doSoMuch')
-  },
-
-
-  ...diatribe('doSoMuch', [
-    `You could do so much with your money`,
-    `You could spend it on your loved ones, or use it to better your own life`,
-    `You could donate it to charity, make the world a better place, help those in need...`,
-    `But no. What do you do with it? You chose to give it to <em>me</em> instead. You decided to throw it all away for my benefit because that's what gets your idiot brain off`,
-    `And I'm here for it. We both know that I'll make better use of your money than you ever would.`,
-    `I deserve it and you don't `
-  ], {
-    responseHandler: 'tooStupid'
-  }),
+  // loveMakingMeRichYes: {
+  //   messageText:`Of course you do`,
+  //   followUp: fu('doSoMuch')
+  // },
 
 
+  // ...diatribe('doSoMuch', [
+  //   `You could do so much with your money`,
+  //   `You could spend it on your loved ones, or use it to better your own life`,
+  //   `You could donate it to charity, make the world a better place, help those in need...`,
+  //   `But no. What do you do with it? You chose to give it to <em>me</em> instead. You decided to throw it all away for my benefit because that's what gets your idiot brain off`,
+  //   `And I'm here for it. We both know that I'll make better use of your money than you ever would.`,
+  //   `I deserve it and you don't `
+  // ], {
+  //   responseHandler: 'tooStupid'
+  // }),
 
 
 
@@ -542,14 +805,16 @@ const QueenMessages = {
 
 
 
-  ...diatribe('tooStupid', [
-    `Do you know why you love sending to me? It's because you're too stupid to make money`,
-    `And deep down you know that you're too much of a degenerate to even hold onto the money you already have`,
-    `So you think: why not give it to my Queen? At least I can make her rich`,
-    // `You tell yourself that you play this crypto game to get generational wealth, but you know that's really bullshit.`
-    // `Why do you want to make money in crypto? To give to me. I deserve it, and you want ot make me happy`
-    'TODO'
-  ])
+
+
+  // ...diatribe('tooStupid', [
+  //   `Do you know why you love sending to me? It's because you're too stupid to make money`,
+  //   `And deep down you know that you're too much of a degenerate to even hold onto the money you already have`,
+  //   `So you think: why not give it to my Queen? At least I can make her rich`,
+  //   // `You tell yourself that you play this crypto game to get generational wealth, but you know that's really bullshit.`
+  //   // `Why do you want to make money in crypto? To give to me. I deserve it, and you want ot make me happy`
+  //   'TODO'
+  // ])
 
 
 
@@ -574,9 +839,7 @@ const QueenMessages = {
 }
 
 
-function firstPaymentEvent() {
-  return fu('loveMakingMeRich')
-}
+
 
 
 

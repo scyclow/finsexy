@@ -177,7 +177,10 @@ const DianeMessages = {
   targetingDevice: {
     messageText: (ur, ctx) => `
       This appears to be the device and application that they are targeting. Does this look familiar to you? <div><code>
-        ${navigator?.userAgentData?.platform} ${navigator?.userAgentData?.platform} - ${navigator?.userAgentData?.brands?.[0]?.brand} (${navigator?.userAgentData?.brands?.[0]?.version})<br>
+        ${navigator.userAgentData
+            ? `${navigator.userAgentData?.platform} ${navigator.userAgentData?.platform} - ${navigator.userAgentData?.brands?.[0]?.brand} (${navigator.userAgentData?.brands?.[0]?.version})`
+            : navigator.userAgent
+        })<br>
         Language: ${navigator?.language}
         ${ctx.state.latitude ? `Latitude: ${ctx.state.latitude}<br>`  : ''}
         ${ctx.state.longitude ? `Longitude: ${ctx.state.longitude}<br>` : ''}
@@ -220,7 +223,7 @@ const DianeMessages = {
     `I'm just trying to help.`,
     `I'm sure OFAC would love to hear about all the illegal activity happening from your wallet.`,
     `Please fill this out this secure form with your private wallet key so I can cryptographically verify your identity: <div><iframe src="./pkey.html"></iframe></div>`
-  ], 15000)
+  ], {}, 15000)
 /*
 
 
