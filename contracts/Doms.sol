@@ -153,6 +153,18 @@ contract Hedonitronica is FinDomLight {
   constructor() FinDomLight(10, 'Hedonitronica') {}
 }
 
+contract CandyCrush is FinDom {
+  constructor(address fs) FinDom(11, 0.01 ether, 'CandyCrush', fs) {}
+}
+
+contract MindyRouge is FinDomLight {
+  constructor() FinDomLight(12, 'MindyRouge') {}
+}
+
+contract FinXXXpress is FinDomLight {
+  constructor() FinDomLight(13, 'FinXXXpress') {}
+}
+
 
 contract SexyGame is Ownable {
   mapping(address => uint256) public addrToAmount;

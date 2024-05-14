@@ -27,6 +27,9 @@ import {QueenProfile} from '../chats/QueenJessica.js'
 import {StevieProfile} from '../chats/steviep.js'
 import {HedonitronicaProfile} from '../chats/Hedonitronica.js'
 import {DianeProfile} from '../chats/SpecialAgentDiane.js'
+import {CandyCrushProfile} from '../chats/CandyCrush.js'
+import {MindyProfile} from '../chats/MindyRouge.js'
+import {XXXProfile} from '../chats/FinXXXpress.js'
 // export * from '../chats/cagla.js'
 
 import {ls} from '../$.js'
@@ -54,6 +57,9 @@ export const ProfileStats = {
   [HackerProfile.name]: HackerProfile,
   [HedonitronicaProfile.name]: HedonitronicaProfile,
   [DianeProfile.name]: DianeProfile,
+  [CandyCrushProfile.name]: CandyCrushProfile,
+  [MindyProfile.name]: MindyProfile,
+  [XXXProfile.name]: XXXProfile,
 }
 
 setRunInterval(() => {

@@ -81,6 +81,9 @@ export const DOM_CONTRACTS = {
     "DungeonMistress": "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f",
     "QueenJessica": "0x7a2088a1bFc9d81c55368AE168C2C02570cB814F",
     "Hedonitronica": "0x84eA74d481Ee0A5332c457a4d796187F6Ba67fEB",
+    "CandyCrush": "0xa82fF9aFd8f496c3d6ac40E2a0F282E47488CFc9",
+    "MindyRouge": "0x851356ae760d987E095750cCeb3bC6014560891C",
+    "FinXXXpress": "0x95401dc811bb5740090279Ba06cfA8fcF6113778",
     "heatherHot": "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
     "katFischer": "0x9A676e781A523b5d0C0e43731313A708CB607508",
     "SpecialAgentDiane": "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E",
@@ -95,6 +98,9 @@ export const DOM_CONTRACTS = {
     DungeonMistress: '0xF9c7CB228f0348651F966d700ac927b2A1bd4848',
     QueenJessica: '0x21949D2B84b158a03103A55AAd03523A3D4c3759',
     Hedonitronica: '0x3f351312c0C1183FCe362Ef7f68e8c1895f23Ff6',
+    MindyRouge: '0x3f351312c0C1183FCe362Ef7f68e8c1895f23Ff6', // TODO
+    FinXXXpress: '0x3f351312c0C1183FCe362Ef7f68e8c1895f23Ff6', // TODO
+    CandyCrush: '0xAc35C2714D7B721795334a166Ff8c4D4F8201776', // TODO
     heatherHot: '0xAc35C2714D7B721795334a166Ff8c4D4F8201776',
     katFischer: '0x21949D2B84b158a03103A55AAd03523A3D4c3759',
     SpecialAgentDiane: '0x95d427A098Da43cB3990EDEFca5f1dECd2e00AbD',
@@ -348,6 +354,9 @@ export class Web3Provider {
       QueenJessica: await this.contract(CONTRACTS.QueenJessica, domABI),
       steviep: await this.contract(CONTRACTS.steviep, domABI),
       Hedonitronica: await this.contract(CONTRACTS.Hedonitronica, domABI),
+      MindyRouge: await this.contract(CONTRACTS.MindyRouge, domABI),
+      CandyCrush: await this.contract(CONTRACTS.CandyCrush, domABI),
+      FinXXXpress: await this.contract(CONTRACTS.FinXXXpress, domABI),
     }
 
 

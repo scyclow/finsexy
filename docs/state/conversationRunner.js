@@ -102,7 +102,7 @@ const yeses = [
   'fuck yes',
   'fine',
   'true',
-  // 'i do',
+  'i do',
   'i did',
   'i am',
   'i sure am',

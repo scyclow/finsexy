@@ -122,7 +122,7 @@ export const CrystalGoddessProfile = {
   domType: 'Protocol',
   order: 4,
   age: 31,
-  distance: 16,
+  distance: 7,
   gender: 'Female',
   display: 'f',
   maxPhotos: 4,

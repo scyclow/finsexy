@@ -53,7 +53,7 @@ export const DianeProfile = {
   name: 'SpecialAgentDiane',
   startingVisibility: 'hidden',
   domType: 'Protocol',
-  order: 11,
+  order: 13,
   age: 31,
   distance: 1,
   maxPhotos: 3,

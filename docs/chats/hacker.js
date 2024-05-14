@@ -25,7 +25,7 @@ export const HackerProfile = {
   name: '0x000000000000000000000000000000000',
   startingVisibility: 'hidden',
   domType: null,
-  order: 10,
+  order: 12,
   age: NaN,
   distance: NaN,
   maxPhotos: 2,

@@ -20,10 +20,15 @@ async function main() {
     'StevieP',
     'Hacker',
     'Hedonitronica',
+    'CandyCrush',
+    'MindyRouge',
+    'FinXXXpress',
   ]
   const FinDomsLight = [
     'Hedonitronica',
     'Hacker',
+    'MindyRouge',
+    'FinXXXpress',
   ]
 
   const contracts = [
