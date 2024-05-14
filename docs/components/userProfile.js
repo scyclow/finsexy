@@ -75,9 +75,11 @@ createComponent(
 
     }
     #skip a {
-
       color: var(--primary-color);
       transition: 0.3s;
+      animation: SkipGlow 3s ease-in-out infinite;
+      text-decoration: underline;
+
     }
 
     #skip a:hover {
@@ -187,9 +189,12 @@ createComponent(
       cursor: pointer;
       padding: 0.75em;
       display: inline-block;
-      transform: translate(60%, -90%);
+      font-size: 1.8em;
+      transform: translate(7%, -65%);
       transition: 0.15s;
     }
+
+
 
     #xClose:hover {
       color: var(--primary-color);
@@ -289,6 +294,15 @@ createComponent(
 
     }
 
+    @keyframes SkipGlow {
+      0%, 100% {
+        text-shadow: 0px 0px 5px var(--primary-color);
+      }
+
+      50% {
+        text-shadow: none;
+      }
+    }
 
 
     @keyframes FadeIn {

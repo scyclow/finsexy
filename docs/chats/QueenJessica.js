@@ -375,7 +375,7 @@ const QueenMessages = {
       return `Does your ${p} know that you're busy gooning over the hottest findomme on the planet right now?`
     }
   ], {
-    responseHandler: ur => isYes(ur) ? 'gooningYes' : 'gooningNo'
+    responseHandler: ur => isYes(ur) || isMatch(ur, ['he knows', 'she knows']) ? 'gooningYes' : 'gooningNo'
   }),
 
   gooningYes: {

@@ -228,12 +228,39 @@ createComponent(
         cursor: pointer
       }
 
-      .modalContent {
-        width: 80vmin;
+      .modalContent, #imgOverlay, #imgOverlayLeft, #imgOverlayRight {
         height: 80vmin;
+      }
+
+      .modalContent, #imgOverlay {
+        width: 80vmin;
+      }
+
+      #imgOverlay {
+        display: flex;
+      }
+
+      #imgOverlayLeft {
+        flex: 1;
+      }
+
+      #imgOverlayRight {
+        flex: 3;
+      }
+
+      #imgOverlayLeft, #imgOverlayRight {
+        cursor: pointer;
+
+        user-select: none;
+      }
+      .modalContent {
         border: 2px solid var(--primary-color);
         box-shadow: 0 0 90px var(--primary-color);
         border-radius: 5px;
+      }
+
+      #imgOverlay {
+        position: absolute;
       }
 
 
@@ -571,6 +598,14 @@ createComponent(
           margin-top: 2em;
       }
 
+      .noWeb3Error {
+        width: 60%;
+        display: block;
+        margin: auto;
+        padding: 0.5em;
+        border: 1px solid var(--primary-color);
+      }
+
       #buySexyPic {
         font-size: 1.1em;
         padding: 0.5em;
@@ -635,6 +670,10 @@ createComponent(
                 <sexy-modal id="activeThumbnailModal">
                   <div slot="content">
                     <div class="modalContent">
+                      <div id="imgOverlay">
+                        <div id="imgOverlayLeft"></div>
+                        <div id="imgOverlayRight"></div>
+                      </div>
                       <img id="activeThumbnail2" >
                     </div>
                     <figcaption>
@@ -675,10 +714,10 @@ createComponent(
                   <button id="buySexyPic">Buy Sexy Pic</button>
                   <div id="sexyPicText">(0.069 ETH)</div>
                 </div>
-
               </div>
+
               <div slot="noWeb3" style="text-align: center; margin-top: 1em">
-                <em class="error">Please Connect in a Web3-enabled Browser to Send</em>
+                <em class="noWeb3Error">Please revisit this page in a Web3-enabled browser to Send</em>
               </div>
               <div slot="notConnected" style="text-align: center; margin-top: 1em">
                 <em class="error">Please <connect-button ><button id="connectButton" slot="button">Connect Wallet</button></connect-button> to Send</em>
@@ -813,6 +852,8 @@ createComponent(
     `).join('')
 
 
+    if (!window.ethereum) ctx.$sendModule.remove()
+
     provider.onConnect((addr) => {
       if (addr) {
         ctx.$sendModule.classList.remove('disconnected')
@@ -832,7 +873,9 @@ createComponent(
       ctx.$('#activeThumbnail2').src = getActiveThumbnail()
       ctx.$('#activeThumbnail2').alt = `Sexy findom ${name} #${ctx.state.activePhoto}`
       ctx.$('#imgLeft2').onclick = ctx.changeImgLeft('#activeThumbnail2')
+      ctx.$('#imgOverlayLeft').onclick = ctx.changeImgLeft('#activeThumbnail2')
       ctx.$('#imgRight2').onclick = ctx.changeImgRight('#activeThumbnail2')
+      ctx.$('#imgOverlayRight').onclick = ctx.changeImgRight('#activeThumbnail2')
     }
 
     ctx.$('#imgLeft2').onclick = ctx.changeImgLeft

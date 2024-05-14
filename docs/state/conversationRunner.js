@@ -587,25 +587,29 @@ export class MessageHandler {
       nextMessage.startTyping <= now
       && !nextMessage.ignoreType
     ) {
-      this.registeredChatWindows.forEach(chatWindow =>
+      this.registeredChatWindows.forEach(chatWindow => {
         chatWindow.setState({ isTyping: true })
-      )
+      })
     }
 
-
-    if (nextMessage.timestamp > now) return
+    if (nextMessage.timestamp > now || this.delayed) return
 
     const { messageCode, userResponse, isFollowup, referrer } = this.ctx.eventQueue.shift()
-    const messageToSend = this.getMessageToSend(messageCode, userResponse, isFollowup)
 
-    this.ctx.lastUserResponse = userResponse || this.ctx.lastUserResponse
+
+    const ur = this.reducedUserResponse || userResponse || this.ctx.lastUserResponse
+
+    this.ctx.lastUserResponse = ur
+
+    const messageToSend = this.getMessageToSend(messageCode, ur, isFollowup)
+
 
     if (messageToSend.event) {
-      await this.messages[messageToSend.event]?.preEvent?.(userResponse, this.ctx, this.contract, this.provider)
+      await this.messages[messageToSend.event]?.preEvent?.(ur, this.ctx, this.contract, this.provider)
     }
 
     if (!this.followUpPending[messageCode]) {
-      const followUp = await this.sendFollowUp(messageToSend, userResponse, messageCode)
+      const followUp = await this.sendFollowUp(messageToSend, ur, messageCode)
     }
 
     if (referrer) {
@@ -621,7 +625,7 @@ export class MessageHandler {
 
     this.updateHistory({
       messageCode: messageCode,
-      messageText: await this.sendMessage(messageToSend, userResponse),
+      messageText: await this.sendMessage(messageToSend, ur),
       from: this.chatName,
       helpMessage: messageToSend.helpMessage,
       debugInfo: {
@@ -632,6 +636,14 @@ export class MessageHandler {
         referrerDebugInfo: messageToSend.referrerDebugInfo
       }
     })
+
+    this.reducedUserResponse = ''
+  }
+
+  setResponseDelay(ms) {
+    clearTimeout(this.delayTimeout)
+    this.delayed = true
+    this.delayTimeout = setTimeout(() => this.delayed = false, ms)
   }
 
 
@@ -717,7 +729,11 @@ export class MessageHandler {
   addChatWindow(chatWindow) {
     if (chatWindow) {
       this.registeredChatWindows.push(chatWindow)
-      chatWindow.registerEventHandler('submit', message => this.toDom(message))
+      chatWindow.registerEventHandler('submit', message => {
+        this.reducedUserResponse = [this.reducedUserResponse, message].filter(x => x).join(' ')
+        this.toDom(message)
+      })
+      chatWindow.registerEventHandler('type', ms => this.setResponseDelay(ms))
       chatWindow.setState({ history: this.ctx.history })
     }
   }
@@ -828,9 +844,11 @@ export class MessageHandler {
       const [typingWait, wait] = this.waitTimes(estimatedMessageText, 750)
 
       if (estimatedMessageText) setTimeout(() => {
-        this.registeredChatWindows.forEach(chatWindow =>
-          !messageToSend.ignoreType && chatWindow.setState({ isTyping: true })
-        )
+        this.registeredChatWindows.forEach(chatWindow => {
+          if (this.ctx.eventQueue.length && !messageToSend.ignoreType) {
+            chatWindow.setState({ isTyping: true })
+          }
+        })
       }, typingWait)
 
 

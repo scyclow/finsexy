@@ -459,6 +459,9 @@ createComponent(
     ctx.$input.addEventListener('keypress', (e) => {
       ls.set(`__${name}_chat_cache`, JSON.stringify({ value: ctx.$input.value }))
       if (e.key === 'Enter') submit()
+      else {
+        ctx.events?.type?.forEach(onType => onType(1000))
+      }
     })
 
     ctx.$isTyping.innerHTML = `${name} is typing<span class="dance" >.</span><span class="dance" style="animation-delay:0.2s">.</span><span class="dance" style="animation-delay:0.4s">.</span>`
