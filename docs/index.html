@@ -250,6 +250,9 @@
       /*margin-top: -0.6em;*/
     }
 
+    .age {
+      padding-left: 0.4em;
+    }
 
 
     .hidden {
@@ -685,7 +688,7 @@
         <img src="./thumbnails/${name}/0.png" alt="Sexy findom ${name}">
       </a>
       <figcaption>
-        <div>${MessageHandler.visibilityCtx[name] === 'online' ? `<span class="online"></span>` : ''}${ellipse(name)}, ${ProfileStats[name].age}</div>
+        <div>${MessageHandler.visibilityCtx[name] === 'online' ? `<span class="online"></span>` : ''}${ellipse(name)}, <span class="age">${ProfileStats[name].age}</span></div>
       </figcaption>
     </article>
   `).join('')

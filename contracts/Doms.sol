@@ -88,24 +88,24 @@ contract SamanthaJones is FinDom {
   constructor(address fs) FinDom(2, 0.04 ether, 'SamanthaJones', fs) {}
 }
 
-contract VinceSlickson is FinDom {
-  uint256 public erc20Price = 0.01 ether;
-  event ERC20SaleMade(address indexed from, uint256 amount);
+// contract VinceSlickson is FinDom {
+//   uint256 public erc20Price = 0.01 ether;
+//   event ERC20SaleMade(address indexed from, uint256 amount);
 
 
-  constructor(address fs) FinDom(3, 0.03 ether, 'VinceSlickson', fs) {}
+//   constructor(address fs) FinDom(3, 0.03 ether, 'VinceSlickson', fs) {}
 
-  function sellERC20(address erc20) external payable {
-    require(msg.value >= erc20Price, "Don't waste Vince's time");
-    require(tributes[msg.sender] >= 0.01 ether, "Must wet Vince's whistle");
+//   function sellERC20(address erc20) external payable {
+//     require(msg.value >= erc20Price, "Don't waste Vince's time");
+//     require(tributes[msg.sender] >= 0.01 ether, "Must wet Vince's whistle");
 
-    uint256 amount = (msg.value / erc20Price) * 1 ether;
-    IERC20(erc20).transfer(msg.sender, amount);
-  }
-  function updateERC20Price(uint256 price) external onlyOwner {
-    erc20Price = price;
-  }
-}
+//     uint256 amount = (msg.value / erc20Price) * 1 ether;
+//     IERC20(erc20).transfer(msg.sender, amount);
+//   }
+//   function updateERC20Price(uint256 price) external onlyOwner {
+//     erc20Price = price;
+//   }
+// }
 
 contract CrystalGoddess is FinDom {
   mapping(address => uint256) public cleansedETH;
@@ -133,17 +133,17 @@ contract QueenJessica is FinDom {
   constructor(address fs) FinDom(7, 0.03 ether, 'QueenJessica', fs) {}
 }
 
-contract StevieP is FinDom {
-  SexyGame public sexyGame;
-  constructor(address fs) FinDom(8, 10000 ether, 'steviep', fs) {
-    sexyGame = new SexyGame(msg.sender);
-  }
+// contract StevieP is FinDom {
+//   SexyGame public sexyGame;
+//   constructor(address fs) FinDom(8, 10000 ether, 'steviep', fs) {
+//     sexyGame = new SexyGame(msg.sender);
+//   }
 
-  function mint(address to) external {
-    require(msg.sender == address(sexyGame), 'Only the sexy game contract can mint');
-    _mint(to);
-  }
-}
+//   function mint(address to) external {
+//     require(msg.sender == address(sexyGame), 'Only the sexy game contract can mint');
+//     _mint(to);
+//   }
+// }
 
 contract Hacker is FinDomLight {
   constructor() FinDomLight(9, '0x000000000000000000000000000000000') {}
@@ -166,43 +166,43 @@ contract FinXXXpress is FinDomLight {
 }
 
 
-contract SexyGame is Ownable {
-  mapping(address => uint256) public addrToAmount;
-  mapping(address => uint256) public addrToInsertTime;
+// contract SexyGame is Ownable {
+//   mapping(address => uint256) public addrToAmount;
+//   mapping(address => uint256) public addrToInsertTime;
 
-  StevieP public steviep;
+//   StevieP public steviep;
 
-  constructor(address _owner) {
-    transferOwnership(_owner);
-    steviep = StevieP(payable(msg.sender));
-  }
+//   constructor(address _owner) {
+//     transferOwnership(_owner);
+//     steviep = StevieP(payable(msg.sender));
+//   }
 
-  function insert() external payable {
-    require(addrToAmount[msg.sender] == 0, 'Cannot insert twice');
-    require(msg.value == 1 ether, 'Can only insert 1 ETH');
+//   function insert() external payable {
+//     require(addrToAmount[msg.sender] == 0, 'Cannot insert twice');
+//     require(msg.value == 1 ether, 'Can only insert 1 ETH');
 
-    addrToAmount[msg.sender] = msg.value;
-    addrToInsertTime[msg.sender] = block.timestamp;
-  }
+//     addrToAmount[msg.sender] = msg.value;
+//     addrToInsertTime[msg.sender] = block.timestamp;
+//   }
 
-  function pullout() external {
-    require(addrToAmount[msg.sender] == 1 ether, 'Nothing to pull out');
+//   function pullout() external {
+//     require(addrToAmount[msg.sender] == 1 ether, 'Nothing to pull out');
 
-    if (block.timestamp >= addrToInsertTime[msg.sender] + 1 hours) {
-      steviep.mint(msg.sender);
-    }
+//     if (block.timestamp >= addrToInsertTime[msg.sender] + 1 hours) {
+//       steviep.mint(msg.sender);
+//     }
 
-    addrToAmount[msg.sender] = 0;
-    payable(msg.sender).transfer(1 ether);
-  }
+//     addrToAmount[msg.sender] = 0;
+//     payable(msg.sender).transfer(1 ether);
+//   }
 
-  function take(address paypig) external onlyOwner {
-    require(addrToAmount[paypig] == 1 ether, 'Nothing to pull out');
+//   function take(address paypig) external onlyOwner {
+//     require(addrToAmount[paypig] == 1 ether, 'Nothing to pull out');
 
-    addrToAmount[paypig] = 0;
-    payable(msg.sender).transfer(1 ether);
-  }
-}
+//     addrToAmount[paypig] = 0;
+//     payable(msg.sender).transfer(1 ether);
+//   }
+// }
 
 
 

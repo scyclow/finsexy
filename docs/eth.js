@@ -1,4 +1,5 @@
 import {} from './min.ethers.js'
+import {clitLS} from './state/clit.js'
 
 export const bnToN = bn => Number(bn.toString())
 export const ethVal = n => Number(ethers.utils.formatEther(n))
@@ -193,7 +194,19 @@ export class Web3Provider {
   async contract(contractAddr, abi) {
     const signer = await this.isConnected()
     if (signer) {
-      return (new ethers.Contract(contractAddr, abi, this.provider)).connect(this.signer)
+      const c = (new ethers.Contract(contractAddr, abi, this.provider)).connect(this.signer)
+      return {
+        ...c,
+        async tributes(addr) {
+          const t = await c.tributes(addr)
+
+          const fakedPaymentAmount = clitLS.get(`__${contractAddr}_fakedPayments`)
+          const amountToAdd = ethers.utils.parseEther(String(fakedPaymentAmount || 0))
+          console.log(fakedPaymentAmount)
+
+          return t.add(amountToAdd)
+        }
+      }
     }
   }
 
@@ -324,8 +337,8 @@ export class Web3Provider {
 
     const vinceABI = [
       ...domABI,
-      'function erc20Price() external view returns (uint256)',
-      'function sellERC20(address) payable external returns ()',
+      'function fastcashPrice() external view returns (uint256)',
+      'function buyFastCash() payable external returns ()',
     ]
 
     const goddessABI = [

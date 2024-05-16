@@ -99,16 +99,24 @@ export const sexyCLIT = {
     else if (command === 'premium') {
       const code = args[0]
 
-      if (code === 'SingleSissySub') {
+      if (code === 'NothingToLose') {
         MessageHandler.globalCtx.premium = 1
+        clitLS.set('paymentsFaked', true)
+        return cb(`All prayments faked`)
+
+      } else if (code === 'SingleSissySub') {
+        MessageHandler.globalCtx.premium = 1
+        clitLS.set('paymentsFaked', false)
         return cb(`All prices: 1x`)
 
       } else if (code === 'DoubleTheFun') {
         MessageHandler.globalCtx.premium = 2
+        clitLS.set('paymentsFaked', false)
         return cb(`All prices: 2x`)
 
       } else if (code === 'ThirdTimesTheCharm') {
         MessageHandler.globalCtx.premium = 3
+        clitLS.set('paymentsFaked', false)
         return cb(`All prices: 3x`)
 
       } else if (!code || ['list', 'ls'].includes(code.toLowerCase())) {
@@ -235,6 +243,7 @@ export const sexyCLIT = {
       return a
     }, {})
 
+    const addr = downcasedChats[recipient].contract.address
     setTimeout(async () => {
       if (!downcasedChats[recipient]) {
         return cb(`Invalid recipient: ${recipient}`)
@@ -244,13 +253,23 @@ export const sexyCLIT = {
 
       try {
         document.body.classList.add('preOrgasm')
-        const tx = await provider.signer.sendTransaction({
-          to: downcasedChats[recipient].contract.address,
-          value: toETH(amount)
-        })
-        await tx.wait()
-        document.body.classList.remove('preOrgasm')
-        successCb(tx)
+
+        if (clitLS.get('paymentsFaked')) {
+          await new Promise(res => setTimeout(res, 1000))
+          const fakedKey = `__${addr}_fakedPayments`
+          const fakedPayments = clitLS.get(fakedKey) || 0
+          clitLS.set(fakedKey, fakedPayments + Number(amount))
+          document.body.classList.remove('preOrgasm')
+          successCb({})
+        } else {
+          const tx = await provider.signer.sendTransaction({
+            to: addr,
+            value: toETH(amount)
+          })
+          await tx.wait()
+          document.body.classList.remove('preOrgasm')
+          successCb(tx)
+        }
         if (!clitLS.get('devIgnoreWait')) document.documentElement.classList.add('orgasm')
       } catch (e) {
         console.log(e)

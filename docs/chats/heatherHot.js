@@ -316,7 +316,9 @@ const HeatherHotMessages = {
       }
     },
     responseHandler: async (ur, ctx, contract, provider) => {
-      if (
+      if (isMatch(ur, ['suck', 'dry'])) {
+        return ctx.global.isConnected ? 'getStarted' : 'waitForConnect'
+      } else if (
         isMatch(ur, ['finsexy', 'more', 'question', 'tell me', 'info', 'help', 'ok', 'okay', 'k', 'yes', 'yeah'])
       ) {
         const infoCount = (ctx.state.moreInfoCount||0) % 4
@@ -337,7 +339,6 @@ const HeatherHotMessages = {
       } else if (!provider.isWeb3) {
         return 'noWeb3'
       } else {
-        console.log(ctx.global)
         return ctx.global.isConnected ? 'getStarted' : 'waitForConnect'
       }
     }

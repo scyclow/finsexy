@@ -523,7 +523,7 @@ const VinceMessages = {
     followUp: async (ur, ctx, contract, provider) => {
       const {FastCash} = await provider.steviepContracts()
       const fastcashBalance = fromWei(await FastCash.balanceOf(contract.address))
-      if (fastcashBalance) return fu('fastcashLeft')
+      if (fastcashBalance >= 1) return fu('fastcashLeft')
       else return fu('noFastCashLeft')
     }
   },
@@ -540,7 +540,7 @@ const VinceMessages = {
     `But it's going fast!`,
     `Espescially since I'm selling them so far under market value`,
     async (ur, ctx, contract, provider) => {
-      const fcPrice = fromWei(await contract.erc20Price())
+      const fcPrice = fromWei(await contract.fastcashPrice())
       return `For you, and you only, I'm selling them for ${fcPrice} a pop`
     },
     `I dare you to try and find a better price somewhere else`,
@@ -584,7 +584,7 @@ const VinceMessages = {
 
   fastcashOrderConfirmYes: {
     messageText: async (ur, ctx, contract, provider) => {
-      const fcPrice = fromWei(await contract.erc20Price())
+      const fcPrice = fromWei(await contract.fastcashPrice())
       return `Okay, that'll cost you ${ctx.state.fcOrderAmount * fcPrice} ETH`
     },
     followUp: fu('fcOrderDirections')
@@ -743,9 +743,16 @@ const VinceMessages = {
     (ur, ctx) => `Whatever the hell this means: <code>${ctx.state.fcErrorMsg}</code>`,
     `Do you want to try again?`,
   ], {
-    responseHandler: ur => responseParser(ur).includes('try again') || isYes(ur)
-      ? 'processingOrder'
-      : 'fcLimbo'
+    async responseHandler(ur, ctx, contract, provider) {
+      const {FastCash} = await provider.steviepContracts()
+      const fastcashBalance = fromWei(await FastCash.balanceOf(contract.address))
+
+      if (fastcashBalance < 1) return 'noFastCashLeft'
+
+      return responseParser(ur).includes('try again') || isYes(ur)
+        ? 'processingOrder'
+        : 'fcLimbo'
+    }
   }, 1000),
 
   ...diatribe('fcLimbo', [
@@ -997,7 +1004,9 @@ async function fastCashOrderHandler(ur, ctx, contract, provider) {
   const amount = hasNumber(ur)
   ctx.state.fcOrderAmount = amount
 
-  if (amount === null) {
+  if (fastcashBalance < 1) {
+    return 'noFastCashLeft'
+  } else if (amount === null) {
     return 'didntGetThat'
   } else if (amount < 1) {
     return 'wasteTime'
@@ -1010,9 +1019,9 @@ async function fastCashOrderHandler(ur, ctx, contract, provider) {
 
 async function buyFastCash(ur, ctx, contract, provider) {
   const {FastCash} = await provider.steviepContracts()
-  const fcPrice = fromWei(await contract.erc20Price())
+  const fcPrice = fromWei(await contract.fastcashPrice())
 
-  await contract.sellERC20(FastCash.address, {
+  await contract.sellFastCash({
     value: toETH(ctx.state.fcOrderAmount * fcPrice)
   })
 }

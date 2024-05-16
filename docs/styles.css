@@ -1,15 +1,5 @@
-* {
-  padding: 0;
-  margin: 0;
-  font-family: var(--default-font);
-}
 
 :root {
-
-
-
-
-
   --primary-color: #ff00c7;
   /*--border-color: #887888;*/
   --border-color: #524552;
@@ -54,6 +44,15 @@
 /*  --bg-color: #fff8ff;
   --light-color: #120211;*/
 }
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: var(--default-font);
+  scrollbar-color: slateblue black;
+  scrollbar-width: thin;
+}
+
 
 html {
   background: var(--bg-color);
