@@ -43,7 +43,8 @@ export const STEVIEP_CONTRACTS = {
     "TenETH": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
     "FinSexy": "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
     "ETF": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
-    "KYC": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
+    "KYC": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
+    "SexyGame": "0xa4f61052A3f497130834C342eb2feeAd04e9366A"
   },
   sepolia: {
     AB: '0x0Fe369b47d8CbEed0586dbaa0dbfee2b249B1C64',
@@ -75,21 +76,21 @@ export const STEVIEP_CONTRACTS = {
 
 export const DOM_CONTRACTS = {
   local: {
-    "SamanthaJones": "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1",
-    "VinceSlickson": "0x68B1D87F95878fE05B998F19b66F4baba5De1aed",
-    "CrystalGoddess": "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d",
-    "DrAndy": "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1",
-    "DungeonMistress": "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f",
-    "QueenJessica": "0x7a2088a1bFc9d81c55368AE168C2C02570cB814F",
-    "Hedonitronica": "0x84eA74d481Ee0A5332c457a4d796187F6Ba67fEB",
-    "CandyCrush": "0xa82fF9aFd8f496c3d6ac40E2a0F282E47488CFc9",
-    "MindyRouge": "0x851356ae760d987E095750cCeb3bC6014560891C",
-    "FinXXXpress": "0x95401dc811bb5740090279Ba06cfA8fcF6113778",
-    "heatherHot": "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
-    "katFischer": "0x9A676e781A523b5d0C0e43731313A708CB607508",
-    "SpecialAgentDiane": "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E",
-    "steviep": "0xc5a5C42992dECbae36851359345FE25997F5C42d",
-    "0x000000000000000000000000000000000": "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E"
+    "heatherHot": "0xf41B47c54dEFF12f8fE830A411a09D865eBb120E",
+    "SamanthaJones": "0x05242D4AC717Cdf38C36AF290F2b0DA99AA82c67",
+    "QueenJessica": "0x1655f30B495586cDC5E1E332844FabF7363b3667",
+    "DungeonMistress": "0x1E01182454073691d6190FC0F977cB7D646981E1",
+    "DrAndy": "0x436932D6361Db21CbDf440A39046093a1C12D2B4",
+    "katFischer": "0x235B28c74f19083a5CAce20C506513417a90BE29",
+    "CandyCrush": "0x46A9cF43B44f5CEb06747aF10955A02fD6671783",
+    "CrystalGoddess": "0xa8F7C1571e3522ED545F949558eCB7B8e72529B2",
+    "steviep": "0x72D1fE35eB1aEb7437eEeCa567A93F67dD76A9dA",
+    "VinceSlickson": "0x9ace813B1adA8a75DF6518A6d1b50f1A418CdAB7",
+    "FinXXXpress": "0xc72500B2CA87DF8f964662A6bd3E4D94fA6Cf90d",
+    "Hedonitronica": "0x9493016297994dfb1556C39339675383BF0eEc27",
+    "MindyRouge": "0x0323e8a6B4d618A268dD8Aa64FB5A94970daa8bD",
+    "0x000000000000000000000000000000000": "0x758a51350Ee373B0A149E6d9A114fd4c9934919b",
+    "SpecialAgentDiane": "0x758a51350Ee373B0A149E6d9A114fd4c9934919b"
   },
   sepolia: {
     SamanthaJones: '0x40f34B5DCc2b8182037b58Add64FD84Ebc60aF04',
@@ -365,7 +366,7 @@ export class Web3Provider {
       '0x000000000000000000000000000000000': await this.contract(CONTRACTS['0x000000000000000000000000000000000'], domABI),
       'SpecialAgentDiane': await this.contract(CONTRACTS['0x000000000000000000000000000000000'], domABI),
       QueenJessica: await this.contract(CONTRACTS.QueenJessica, domABI),
-      steviep: await this.contract(CONTRACTS.steviep, domABI),
+      steviep: await this.contract(CONTRACTS.steviep, stevieABI),
       Hedonitronica: await this.contract(CONTRACTS.Hedonitronica, domABI),
       MindyRouge: await this.contract(CONTRACTS.MindyRouge, domABI),
       CandyCrush: await this.contract(CONTRACTS.CandyCrush, domABI),

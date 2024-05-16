@@ -1,5 +1,16 @@
 /*
 TODO
+  - seems to be some sort of bug when i reach twoThingsEnd, respond immediately
+
+
+
+
+
+
+
+
+
+
   - figure out general dynamic
   - maybe incorporate stake/unstake challenge here
 
@@ -498,8 +509,9 @@ const StevieMessages = {
   }),
 
   twoThingsEnd: {
-    messageText: `okay, i'll leave you to it. I gotta run. hit me up when you finish those two things, then we'll chat more.`,
+    messageText: `okay, i'll leave you to it. I gotta run. I'll be back in like 15 minute. hit me up when you finish those two things, then we'll chat more.`,
     responseHandler(ur, ctx) {
+      console.log(ctx.global.hedonitronicaPaid)
       if (ctx.global.hedonitronicaComplete) {
         return 'hedonitronicaCompleteFull'
       } else if (ctx.global.hedonitronicaPaid) {
@@ -655,13 +667,13 @@ const StevieMessages = {
     `okay, that's all I got for you`,
     `thanks for the help, I really appreciate it`,
     `this is the sort of work that needs to happen for FinSexy to be all it can be`,
+    `anyhow, i've got shit to do so i'll talk to you later`,
   ], {
-    followUp: fu('wrappingUp')
+    followUp: fu('wrappingUp', 10000)
   }),
 
 
   ...diatribe('wrappingUp', [
-    `anyhow, i've got shit to do so i'll talk to you later`,
     `'oh yeah`,
     `i suppose you want an nft or something for helping me out though, right?`
   ], {
@@ -688,9 +700,9 @@ const StevieMessages = {
     `and let's be real, that's not gonna happen lol`,
     `on the other hand, selling it to you doesn't make much sense either. I don't think either of us want an equal exchange of value here`,
     `to get the real, authentic finsub experience you need to unconditionally give me money, ideally in an humiliating way`,
-    `straight up giving me should be enough for you, right?`,
+    `straight up giving it to me should be enough for you, right?`,
     `if you're expecting something in return, then it just sort of negates the whole thing`,
-    `besides, not all art needs to be a speculative investment vehicle for you`,
+    `besides, not all art needs to be a speculative investment vehicle`,
     `what right do you have to turn my art into a casino chip?`,
     `oh, actually...`,
     `I have an idea. we can have a little fun with this 😈`,
@@ -701,7 +713,7 @@ const StevieMessages = {
     `but if I win...`,
     `then I get 1 ETH of your money`,
     `let me explain`,
-    `I have a smart contract deployed that will let you insert 1 ETH into it. no more, no less. you can pull it out whenever you want. after all, it's your money. and if you leave it in the contract for at least one hour, then you'll get an NFT when you pull out. But here's the catch: if I see that 1 ETH inside my contract I can take it whenever I want. that 1 ETH belongs to me. no questions asked. end of story.`,
+    `I have a smart contract that will let you insert 1 ETH into it. no more, no less. you can pull it out whenever you want. after all, it's your money. and if you leave it in the contract for at least one hour, then you'll get an NFT when you pull out. But here's the catch: if I see that 1 ETH inside my contract I can take it whenever I want. that 1 ETH belongs to me. no questions asked. end of story.`,
     `and if I see and feel your 1 ETH deep inside my contract, you better believe i'm going to take it. I don't care who you are or how much you beg. once it's in my wallet it's mine.`,
     `no flashbots on my end. I pinky swear. and I expect the same from you. we're running these transactions raw. no protection.`,
     `what do you think? do you want to put your 1 ETH in my contract? 😏`
@@ -733,7 +745,7 @@ const StevieMessages = {
   letsHaveFun: {
     messageText: async (ur, ctx, contract) => {
       const addr = await contract.sexyGame()
-      return `I was too lazy to build a ui for this, but you can hit the contract directly on etherscan: <a target="_blank" rel="nofollow" href="https://etherscan.io/address/${addr}#writeContract">${addr}</a>`
+      return `cool. I was too lazy to build a ui for this, but you can hit the contract directly on etherscan: <a target="_blank" rel="nofollow" href="https://etherscan.io/address/${addr}#writeContract">${addr}</a>`
     },
     followUp: fu('excitement')
   },
