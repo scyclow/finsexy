@@ -52,7 +52,7 @@ const MindyMessages = {
 
 
   hello: {
-    messageText: `Let's get off this site <a href="https://0ms.co/sexydating/" target="_blank">https://0ms.co/sexydating/</a>`,
+    messageText: () => `${getUserData('name')}, hey. <br> Do you know who I am? <br> Today I found your username, are you still looking for someone? <br> Are you interested in erotic romance? <br> I found you on this special site so I decided to say hi...<br>If you want to view my pics, you can see them: <a href="https://0ms.co/sexydating/" target="_blank">https://0ms.co/sexydating/</a>`,
     responseHandler: 'hello'
   },
 }

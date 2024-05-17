@@ -28,7 +28,7 @@ import {StevieProfile} from '../chats/steviep.js'
 import {HedonitronicaProfile} from '../chats/Hedonitronica.js'
 import {DianeProfile} from '../chats/SpecialAgentDiane.js'
 import {CandyCrushProfile} from '../chats/CandyCrush.js'
-import {MindyProfile} from '../chats/MindyRouge.js'
+import {MindyProfile, MindyChat} from '../chats/MindyRouge.js'
 import {XXXProfile} from '../chats/FinXXXpress.js'
 // export * from '../chats/cagla.js'
 
@@ -80,6 +80,11 @@ setRunInterval(() => {
     if (!HackerChat.ctx.history.length &&  !HackerChat.ctx.eventQueue.length && pw && timeElapsed >= 1200000) {
       HackerChat.queueEvent('hello', 1)
       MessageHandler.visibilityCtx['0x000000000000000000000000000000000'] = 'offline'
+    }
+
+    if (!MindyChat.ctx.history.length &&  !MindyChat.ctx.eventQueue.length && timeElapsed >= 2400000) {
+      MindyChat.queueEvent('hello', 1)
+      MessageHandler.visibilityCtx.MindyRouge = 'online'
     }
   }
 

@@ -129,6 +129,47 @@
     animation: Glow 4s ease-in-out infinite;
   }
 
+  .mintSection {
+    margin-top: 3em;
+  }
+
+  #mint {
+    font-size: 2em;
+    box-shadow: 0 0 2em #b47aa7;
+    transition: 300ms;
+  }
+
+
+
+
+
+    .filterRow button {
+      color: var(--medium-color);
+      border: 1px solid;
+      background: var(--bg-color);
+      transition: 0.3s;
+      display: inline-block;
+      margin-bottom: 0.5em;
+      margin-bottom: 0.5em;
+    }
+
+    .filterRow button:hover, .filterRow button:active, .filterRow button:focus {
+      color: var(--medium-color);
+      background: var(--light-color);
+      border-color: var(--light-color);
+      outline: none;
+
+    }
+    .filterRow button:active {
+      opacity: 0.8;
+    }
+
+    .filterRow button.activeFilter, .filterRow button.activeFilter:active {
+      color: var(--light-color);
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
   @keyframes Glow {
     0%, 100% {
       color: var(--light-color);
@@ -176,24 +217,7 @@
       <h2>Don't you want to be a Very Important Paypig?</h2>
     </section>
 
-    <!--
 
- VIP (100 @ 0.1)
-                                  Standard Membership | VIP Membership (0.1 ETH) | VIP Gold (0.15)
-      Talk to Doms!                          ✓               ✓                         ✓
-      25 FREE  $SEXY Credits!                X               ✓                         ✓
-        (sexy credit button, sexy credit cli)
-      Gold Star                              X               X                         ✓
-      Faster DOM responses
-      A11y voice!
-      Message sound on/off!
-      International Chat!
-      custom website colors!
-      24/7 support!
-      Fully on-chain comments!
-
-
-     -->
    <section class="center">
       <table>
         <thead>
@@ -272,8 +296,24 @@
       </table>
    </section>
 
+   <section class="mintSection">
+     <div class="filterRow" style="display: flex;">
+       <h3 style="margin-right: 0.5em;">Membership Type:</h3>
+       <button id="standardSelection" style="margin-right: 0.5em;">Standard</button>
+       <button id="goldSelection">Gold</button>
+     </div>
+     <div id="vipPreview"></div>
+
+     <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-top: 1em;">
+       <button id="mint">Mint</button>
+       <h3 style="margin-top: 0.5em">0.1 ETH (32/100 remaining)</h3>
+     </div>
+   </section>
+
 
   </main>
+
+  <footer style="margin-top: 2em"></footer>
 
 
 </body>
@@ -284,8 +324,118 @@
 <script type="module">
 
   import {$, ls} from './$.js'
-  import {defaultProfileLS, getAgeYears} from './state/profile.js'
+  import {provider, fromWei} from './eth.js'
+  import {getUserData } from '../state/profile.js'
 
+
+  $.id('standardSelection').classList.add('activeFilter')
+
+
+
+  provider.onConnect(async (addr) => {
+    const name = getUserData('name')
+
+    const totalSupply = 69
+    const isGold = false
+
+    let tokenId
+    if (totalSupply < 10) tokenId = '00' + totalSupply
+    else if (totalSupply < 100) tokenId = '0' + totalSupply
+    else tokenId = totalSupply
+
+    $.id('vipPreview').innerHTML = vipCard(name, tokenId, isGold)
+
+    $.id('standardSelection').onclick = () => {
+      $.id('standardSelection').classList.add('activeFilter')
+      $.id('goldSelection').classList.remove('activeFilter')
+
+      $.id('vipPreview').innerHTML = vipCard(name, tokenId, false)
+    }
+
+    $.id('goldSelection').onclick = () => {
+      $.id('standardSelection').classList.remove('activeFilter')
+      $.id('goldSelection').classList.add('activeFilter')
+
+      $.id('vipPreview').innerHTML = vipCard(name, tokenId, true)
+    }
+
+  })
+
+
+
+  function vipCard(name, tokenId, isGold) {
+    return `
+      <svg viewBox="0 0 850 525" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="Gradient1" x1="0.8" x2="0" y1="-0.25" y2="1.15">
+            <stop stop-color="#ff00c7" offset="0%"></stop>
+            <stop stop-color="#120211" offset="20%"></stop>
+            <stop stop-color="#120211" offset="58%"></stop>
+            <stop stop-color="#ff00c7" offset="100%"></stop>
+          </linearGradient>
+
+          <filter id="insetShadow">
+              <feOffset dx="0"dy="0"/>
+
+              <feGaussianBlur
+                stdDeviation="10"
+                result="offset-blur"
+              />
+
+              <feComposite
+                operator="out"
+                in="SourceGraphic"
+                in2="offset-blur"
+                result="inverse"
+              />
+
+              <feFlood
+                flood-color="#888"
+                flood-opacity=".95"
+                result="color"
+              />
+              <feComposite
+                operator="in"
+                in="color"
+                in2="inverse"
+                result="shadow"
+              />
+
+              <feComposite
+                operator="over"
+                in="shadow"
+                in2="SourceGraphic"
+              />
+          </filter>
+        </defs>
+        <style>
+          text {
+            fill: ${isGold ? '#f3ba00': '#fff8ff'};
+            font-family: monospace;
+            font-size: 35px;
+            filter: drop-shadow(1px 1px 0px #ff00c7) drop-shadow(2px 2px 0px #120211);
+          }
+          .t {
+            font-family: cursive;
+            font-size: 95px;
+            dominant-baseline: middle;
+            text-anchor: middle;
+            filter: drop-shadow(4px 4px 1px #120211) drop-shadow(3px 3px 6px #ff00c7);
+          }
+        </style>
+        <rect x="5" y="5" width="840" height="515" fill="url(#Gradient1)" stroke="#524552" stroke-width="4" stroke-location="outside" rx="15" filter="url(#insetShadow)"></rect>
+
+        <text x="50%" y="26%" class="t" style="font-size: 90px">💋 FINSEXY V.I.P.</text>
+        <text x="50%" y="41%" class="t" style="font-size: 50px">Very Important Paypig</text>
+
+
+        <text x="7%" y="78%">${name}</text>
+        <text x="7%" y="88%">Sexy Credits: 25</text>
+        <text x="73%" y="88%">ID: ${tokenId}</text>
+        ${isGold ?'<text x="85%" y="78%" stroke="#f3ba00" stroke-width="9" style="filter: drop-shadow(0 0 20px #888) drop-shadow(0 0 15px #f3ba00);">⭑</text>' : ''}
+      </svg>
+    `
+  }
   // if (!ls.get('__enteredSite')) {
   //   window.location.replace('./enter.html')
   // }
