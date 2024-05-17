@@ -27,6 +27,7 @@ contract FinDomBase is ERC721, FinDomTribute {
 
   bool private _isInitialized;
 
+  address public vip;
   address public externalMinter;
   bool public internalMintCheck;
   uint256 public totalSupply;
@@ -41,6 +42,7 @@ contract FinDomBase is ERC721, FinDomTribute {
     string memory symbol_,
     uint256 mintThreshold_,
     address owner_,
+    address vip_,
     address externalMinter_,
     bool internalMintCheck_
   ) external {
@@ -49,6 +51,7 @@ contract FinDomBase is ERC721, FinDomTribute {
     _name = name_;
     _symbol = symbol_;
     mintThreshold = mintThreshold_;
+    vip = vip_;
     externalMinter = externalMinter_;
     internalMintCheck = internalMintCheck_;
     tokenURIContract = new TokenURI();
@@ -83,25 +86,34 @@ contract FinDomBase is ERC721, FinDomTribute {
     totalSupply++;
   }
 
+  function creditTribute(address recipient, uint256 amount) external {
+    require(vip == msg.sender, 'Only VIP contract can credit tributes');
+    _receive(recipient, amount);
+  }
 
   receive() external payable {
-    emit Send(msg.sender, msg.value);
-    tributes[msg.sender] += msg.value;
+    _receive(msg.sender, msg.value);
+  }
+
+  function _receive(address sender, uint256 value) private {
+    emit Send(sender, value);
+    tributes[sender] += value;
 
     if (internalMintCheck) {
-      if (!InternalMintCheck(address(this)).mintCheck(msg.sender, msg.value)) return;
+      if (!InternalMintCheck(address(this)).mintCheck(sender, value)) return;
     }
 
     if (
-      msg.value >= mintThreshold
+      value >= mintThreshold
       || (
-        tributes[msg.sender] % mintThreshold
-        < (tributes[msg.sender] - msg.value) % mintThreshold
+        tributes[sender] % mintThreshold
+        < (tributes[sender] - value) % mintThreshold
       )
     ) {
-      _mint(msg.sender, totalSupply);
+      _mint(sender, totalSupply);
       totalSupply++;
     }
+
   }
 
   function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
@@ -146,7 +158,8 @@ contract FindomProxy is ProxyBase {
     string memory symbol,
     uint256 mintThreshold,
     address implementationAddr,
-    address _owner
+    address owner_,
+    address vip
   ) {
     getAddressSlot(_IMPLEMENTATION_SLOT).value = implementationAddr;
 
@@ -154,8 +167,8 @@ contract FindomProxy is ProxyBase {
     Address.functionDelegateCall(
         implementationAddr,
         abi.encodeWithSignature(
-          "initialize(string,string,uint256,address,address,bool)",
-          name, symbol, mintThreshold, _owner, address(0), false
+          "initialize(string,string,uint256,address,address,address,bool)",
+          name, symbol, mintThreshold, owner_, vip, address(0), false
         ),
         "Address: low-level delegate call failed"
     );
@@ -165,8 +178,17 @@ contract FindomProxy is ProxyBase {
 
 
 contract FinDomBaseLight is FinDomTribute {
-  constructor(address _owner) {
-    transferOwnership(_owner);
+  address public vip;
+
+  constructor(address owner_, address vip_) {
+    transferOwnership(owner_);
+    vip = vip_;
+  }
+
+  function creditTribute(address recipient, uint256 amount) external {
+    require(vip == msg.sender, 'Only VIP contract can credit tributes');
+    emit Send(recipient, amount);
+    tributes[recipient] += amount;
   }
 
   receive() external payable {
@@ -178,8 +200,14 @@ contract FinDomBaseLight is FinDomTribute {
 
 
 contract CandyCrushProxy is FindomProxy {
-  constructor(string memory name, string memory symbol, uint256 mintThreshold, address implementation, address _owner)
-    FindomProxy(name, symbol, mintThreshold, implementation, _owner) {}
+  constructor(
+    string memory name,
+    string memory symbol,
+    uint256 mintThreshold,
+    address implementation,
+    address owner_,
+    address vip
+  ) FindomProxy(name, symbol, mintThreshold, implementation, owner_, vip) {}
 
   function safeTransferFrom(address from, address to, uint256 tokenId) external {
     revert('Cannot transfer tattoo');
@@ -205,7 +233,8 @@ contract CrystalGoddessProxy is ProxyBase, InternalMintCheck {
     string memory symbol,
     uint256 mintThreshold,
     address implementationAddr,
-    address _owner
+    address owner_,
+    address vip
   ) {
     getAddressSlot(_IMPLEMENTATION_SLOT).value = implementationAddr;
 
@@ -213,8 +242,8 @@ contract CrystalGoddessProxy is ProxyBase, InternalMintCheck {
     Address.functionDelegateCall(
         implementationAddr,
         abi.encodeWithSignature(
-          "initialize(string,string,uint256,address,address,bool)",
-          name, symbol, mintThreshold, _owner, address(0), true
+          "initialize(string,string,uint256,address,address,address,bool)",
+          name, symbol, mintThreshold, owner_, vip, address(0), true
         ),
         "Address: low-level delegate call failed"
     );
@@ -225,7 +254,7 @@ contract CrystalGoddessProxy is ProxyBase, InternalMintCheck {
   }
 
   function cleanse() external payable {
-    require(msg.value >= 0.0111 ether, 'You must cleanse at least 0.0111 ether');
+    require(msg.value >= 0.01 ether, 'You must cleanse at least 0.01 ether');
     require(address(msg.sender).balance <= 0.00666 ether, 'You must cleanse your entire balance');
 
     emit Cleanse(msg.sender, msg.value);
@@ -244,7 +273,7 @@ contract VinceSlickson is FinDomBaseLight {
   uint256 public fastcashPrice = 0.01 ether;
   event FastCashSaleMade(address indexed to, uint256 amount);
 
-  constructor(address fastcashAddr, address _owner) FinDomBaseLight(_owner) {
+  constructor(address fastcashAddr, address owner_, address vip) FinDomBaseLight(owner_, vip) {
     fastcash = FastCash(fastcashAddr);
   }
 
@@ -279,9 +308,10 @@ contract SteviePProxy is ProxyBase, InternalMintCheck {
     string memory name,
     string memory symbol,
     address implementationAddr,
-    address _owner
+    address owner_,
+    address vip
   ) {
-    sexyGame = new SexyGame(_owner);
+    sexyGame = new SexyGame(owner_);
 
     getAddressSlot(_IMPLEMENTATION_SLOT).value = implementationAddr;
 
@@ -289,8 +319,8 @@ contract SteviePProxy is ProxyBase, InternalMintCheck {
     Address.functionDelegateCall(
         implementationAddr,
         abi.encodeWithSignature(
-          "initialize(string,string,uint256,address,address,bool)",
-          name, symbol, 69 ether, _owner, address(sexyGame), false
+          "initialize(string,string,uint256,address,address,address,bool)",
+          name, symbol, 69 ether, owner_, vip, address(sexyGame), false
         ),
         "Address: low-level delegate call failed"
     );
@@ -307,8 +337,8 @@ contract SexyGame is Ownable {
 
   FinDomBase public steviep;
 
-  constructor(address _owner) {
-    transferOwnership(_owner);
+  constructor(address owner_) {
+    transferOwnership(owner_);
     steviep = FinDomBase(payable(msg.sender));
   }
 
@@ -349,39 +379,43 @@ contract SexyDeployer {
   FindomProxy public DungeonMistress;
   FindomProxy public DrAndy;
   FindomProxy public katFischer;
+  FindomProxy public FinXXXpress;
 
   CandyCrushProxy public CandyCrush;
-  VinceSlickson public vinceSlickson;
   SteviePProxy public steviep;
   CrystalGoddessProxy public CrystalGoddess;
 
-  FinDomBaseLight public FinXXXpress;
+  FinDomBase public baseContract;
+
+  constructor(address vip) {
+    baseContract = new FinDomBase();
+    address baseAddr = address(baseContract);
+
+    heatherHot = new FindomProxy('heatherHot Money on Fire', 'SEXY-HH', 0.01 ether, baseAddr, msg.sender, vip);
+    SamanthaJones = new FindomProxy('SamanthaJones ...', 'SEXY-SJ', 0.04 ether, baseAddr, msg.sender, vip);
+    QueenJessica = new FindomProxy('QueenJessica Hot Little Pussy', 'SEXY-QJ', 0.04 ether, baseAddr, msg.sender, vip);
+    DungeonMistress = new FindomProxy('DungeonMistress ...', 'SEXY-DM', 0.05 ether, baseAddr, msg.sender, vip);
+    DrAndy = new FindomProxy('DrAndy ...', 'SEXY-AI', 0.04 ether, baseAddr, msg.sender, vip);
+    katFischer = new FindomProxy('katFischer ...', 'SEXY-KF', 0.03 ether, baseAddr, msg.sender, vip);
+    FinXXXpress = new FindomProxy('FinXXXpress Sexy Pics', 'SEXY-XXX', 0.01 ether, baseAddr, msg.sender, vip);
+
+    CandyCrush = new CandyCrushProxy('CandyCrush Tattoo', 'SEXY-CC', 0.01 ether, baseAddr, msg.sender, vip);
+    steviep = new SteviePProxy('steviep Dick Pics', 'SEXY-SP', baseAddr, msg.sender, vip);
+    CrystalGoddess = new CrystalGoddessProxy('CrystalGoddess ...', 'SEXY-CG', 0.01 ether, baseAddr, msg.sender, vip);
+  }
+}
+
+
+contract SexyDeployer2 {
+  VinceSlickson public vinceSlickson;
   FinDomBaseLight public Hacker;
   FinDomBaseLight public Hedonitronica;
   FinDomBaseLight public MindyRouge;
 
-  FinDomBase public baseContract;
-
-  constructor(address fcAddr) {
-    baseContract = new FinDomBase();
-    address baseAddr = address(baseContract);
-
-    heatherHot = new FindomProxy('heatherHot Money on Fire', 'SEXY-HH', 0.01 ether, baseAddr, msg.sender);
-    SamanthaJones = new FindomProxy('SamanthaJones ...', 'SEXY-SJ', 0.04 ether, baseAddr, msg.sender);
-    QueenJessica = new FindomProxy('QueenJessica Hot Little Pussy', 'SEXY-QJ', 0.04 ether, baseAddr, msg.sender);
-    DungeonMistress = new FindomProxy('DungeonMistress ...', 'SEXY-DM', 0.05 ether, baseAddr, msg.sender);
-    DrAndy = new FindomProxy('DrAndy ...', 'SEXY-AI', 0.04 ether, baseAddr, msg.sender);
-    katFischer = new FindomProxy('katFischer ...', 'SEXY-KF', 0.03 ether, baseAddr, msg.sender);
-
-    CandyCrush = new CandyCrushProxy('CandyCrush Tattoo', 'SEXY-CC', 0.01 ether, baseAddr, msg.sender);
-    steviep = new SteviePProxy('steviep Dick Pics', 'SEXY-SP', baseAddr, msg.sender);
-    CrystalGoddess = new CrystalGoddessProxy('CrystalGoddess ...', 'SEXY-CG', 0.0111 ether, baseAddr, msg.sender);
-
-    vinceSlickson = new VinceSlickson(fcAddr, msg.sender);
-
-    FinXXXpress = new FinDomBaseLight(msg.sender);
-    Hacker = new FinDomBaseLight(msg.sender);
-    Hedonitronica = new FinDomBaseLight(msg.sender);
-    MindyRouge = new FinDomBaseLight(msg.sender);
+  constructor(address vip, address fcAddr) {
+    vinceSlickson = new VinceSlickson(fcAddr, msg.sender, vip);
+    Hacker = new FinDomBaseLight(msg.sender, vip);
+    Hedonitronica = new FinDomBaseLight(msg.sender, vip);
+    MindyRouge = new FinDomBaseLight(msg.sender, vip);
   }
 }

@@ -6,6 +6,7 @@
     - try to incorporate schelling point/faith theme
     - think of nft tie in
     - maybe break up first diatribe a bit
+    - work in manifestation into the comments
 
 
 
@@ -568,7 +569,7 @@ export const CrystalGoddessMessages = {
   ...diatribe('release', [
     `You are now ready for your spiritual release`,
     `Repayment of your cosmic debt is the only Indulgence I shall allow`,
-    (ur, ctx) => `Send me your tithe of ${0.0111 * ctx.global.premium} ETH`,
+    (ur, ctx) => `Send me your tithe of ${0.01 * ctx.global.premium} ETH`,
     `Release it to me`
   ], {
     responseHandler: 'releasePending',
@@ -577,12 +578,12 @@ export const CrystalGoddessMessages = {
 
 
   releasePending: {
-    messageText: (ur, ctx) => `You can return this ${0.0111 * ctx.global.premium} ETH to me through either my profile page or the $sexy CLIT`,
+    messageText: (ur, ctx) => `You can return this ${0.01 * ctx.global.premium} ETH to me through either my profile page or the $sexy CLIT`,
     event: 'releasePayment'
   },
 
 
-  releasePayment: createEvent(0.0111, {
+  releasePayment: createEvent(0.01, {
     primary: fu('enlightenment', 7000)
   }),
 
@@ -659,10 +660,10 @@ money manifestation
 `sacred circuit`
 */
 
-  // tributeEvent: createEvent(0.0111, {}),
+  // tributeEvent: createEvent(0.01, {}),
 
   // evacuation: {
-  //   messageText: `We will now begin a partial evacuation of your wallet, in which you will abdicate 0.0111 ETH to Goddess`,
+  //   messageText: `We will now begin a partial evacuation of your wallet, in which you will abdicate 0.01 ETH to Goddess`,
   //   event: 'tributeEvent',
   //   responseHandler: 'evacuation2'
   // },

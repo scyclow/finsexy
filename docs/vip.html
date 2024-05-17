@@ -1,0 +1,302 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>FinSexy</title>
+  <link rel="shortcut icon" type="image/x-icon" href="./assets/kiss.png" id="favicon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="">
+  <meta name="keywords" content="steviep, steve pikelny, pikelny, crypto, ethereum, bitcoin">
+
+  <meta name="twitter:image" content="https://steviep.xyz/">
+  <meta name="twitter:image:alt" content="">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@steviepxyz">
+  <meta name="twitter:site" content="@steviepxyz">
+  <meta property="twitter:description" content="">
+
+  <meta name="og:image" property="og:image" content="https://steviep.xyz/">
+  <meta name="og:image:alt" content="">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://steviep.xyz/">
+  <meta property="og:title" content="">
+  <meta property="og:site_name" content="">
+  <meta property="og:description" content="">
+
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+
+
+  <style type="text/css">
+    main {
+      max-width: 1400px;
+    }
+
+    aside {
+      width: 250px;
+      padding: 1em;
+    }
+
+
+
+  </style>
+
+
+<script src="./utils.js"></script>
+<script type="module" src="./state/all.js"></script>
+<script type="module" src="./components/all.js"></script>
+
+<style type="text/css">
+  main {
+    max-width: 510px;
+    margin: 2em auto;
+    padding: 0 1em;
+  }
+
+  h1 {
+    font-family: var(--fancy-font);
+    font-size: 2.1em;
+    line-height: 1.1;
+    margin-bottom: 0.25em;
+    text-shadow: 0px 0px 2px var(--dark-color), 0 0 5px var(--medium-color), 0 0 8px var(--border-color);
+  }
+
+  h2 {
+    font-size: 1.2em;
+    color: var(--medium-color);
+    text-align: center;
+    font-style: italic;
+  }
+
+  .cta {
+    margin-bottom: 2em;
+  }
+
+  table {
+    border-spacing: 0;
+  }
+
+  td:not(:first-child) {
+    outline: 1px solid var(--light-color);
+    text-align: center;
+    width: 80px;
+    box-shadow: inset 0 0 5px var(--light-color), 0 0 5px var(--light-color);
+  }
+
+  td {
+    padding: 0.75em 0.5em;
+  }
+
+  th {
+    padding-bottom: 0.75em;
+  }
+
+  td:first-child {
+    font-size: 0.9em;
+    font-style: italic;
+    text-align: left;
+    padding-right: 1em;
+  }
+
+  .center {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .vip {
+    text-shadow: 0 0 5px var(--light-color);
+  }
+
+  .standard {
+    font-weight: normal;
+  }
+
+
+  .red {
+    color: var(--red-color);
+    text-shadow: 1px 1px 5px var(--red-color), 0px 0px 20px var(--light-color)
+  }
+
+  .green {
+    color: var(--green-color);
+    text-shadow: 1px 1px 5px var(--green-color), 0px 0px 20px var(--yellow-color)
+  }
+
+  .yellow {
+    animation: Glow 4s ease-in-out infinite;
+  }
+
+  @keyframes Glow {
+    0%, 100% {
+      color: var(--light-color);
+      text-shadow: 0 0 5px var(--light-color);
+    }
+    50% {
+      color: var(--yellow-color);
+      text-shadow: 1px 1px 5px var(--yellow-color), 0px 0px 20px var(--yellow-color)
+    }
+  }
+
+  @media (max-width: 540px) {
+    main{
+      padding: 0 0.75em;
+    }
+
+    h1 {
+      font-size: 1.7em;
+    }
+
+    h2 {
+      font-size: 1em;
+    }
+
+    th, td:first-child {
+      font-size: 0.75em;
+      /*padding-bottom: 0.5em;*/
+    }
+
+    td {
+      height: 25px;
+      padding: 0.5em;
+    }
+  }
+</style>
+</head>
+
+<body>
+  <sexy-header id="header"></sexy-header>
+
+
+  <main>
+    <section class="cta">
+      <h1>Purchase a V.I.P. Membership Today!</h1>
+      <h2>Don't you want to be a Very Important Paypig?</h2>
+    </section>
+
+    <!--
+
+ VIP (100 @ 0.1)
+                                  Standard Membership | VIP Membership (0.1 ETH) | VIP Gold (0.15)
+      Talk to Doms!                          ✓               ✓                         ✓
+      25 FREE  $SEXY Credits!                X               ✓                         ✓
+        (sexy credit button, sexy credit cli)
+      Gold Star                              X               X                         ✓
+      Faster DOM responses
+      A11y voice!
+      Message sound on/off!
+      International Chat!
+      custom website colors!
+      24/7 support!
+      Fully on-chain comments!
+
+
+     -->
+   <section class="center">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th class="standard">Standard Membership</th>
+            <th class="vip">VIP <br>(0.1 ETH)</th>
+            <th><em class="yellow">VIP Gold <br>(0.15 ETH)</em></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Talk to Sexy Findoms</td>
+            <td class="green">✓</td>
+            <td class="green">✓</td>
+            <td class="green">✓</td>
+          </tr>
+
+          <tr>
+            <td>25 FREE SexyCredits</td>
+            <td class="red">✕</td>
+            <td class="green">✓</td>
+            <td class="green">✓</td>
+          </tr>
+
+          <tr>
+            <td>24/7 Customer Support!</td>
+            <td class="red">✕</td>
+            <td class="green">✓</td>
+            <td class="green">✓</td>
+          </tr>
+
+          <tr>
+            <td>International Chats!</td>
+            <td class="red">✕</td>
+            <td class="green">✓</td>
+            <td class="green">✓</td>
+          </tr>
+
+          <tr>
+            <td>Faster Findom Responses!</td>
+            <td class="red">✕</td>
+            <td class="green">✓</td>
+            <td class="green">✓</td>
+          </tr>
+
+          <tr>
+            <td>A11y Features!</td>
+            <td class="red">✕</td>
+            <td class="green">✓</td>
+            <td class="green">✓</td>
+          </tr>
+
+          <tr>
+            <td>Custom Color Schemes!</td>
+            <td class="red">✕</td>
+            <td class="green">✓</td>
+            <td class="green">✓</td>
+          </tr>
+
+          <tr>
+            <td style="padding-top: 0.25em; padding-bottom: 0.25em">Digital VIP Membership Card!</td>
+            <td class="red">✕</td>
+            <td class="green">✓</td>
+            <td class="green">✓</td>
+          </tr>
+
+          <tr>
+            <td>Gold Star!</td>
+            <td class="red">✕</td>
+            <td class="red">✕</td>
+            <td class="green">✓</td>
+          </tr>
+        </tbody>
+      </table>
+   </section>
+
+
+  </main>
+
+
+</body>
+
+
+<!-- <script src="./min.ethers.js"></script> -->
+
+<script type="module">
+
+  import {$, ls} from './$.js'
+  import {defaultProfileLS, getAgeYears} from './state/profile.js'
+
+  // if (!ls.get('__enteredSite')) {
+  //   window.location.replace('./enter.html')
+  // }
+
+
+
+
+
+
+
+</script>
+
+
+</html>

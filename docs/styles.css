@@ -49,7 +49,7 @@
   padding: 0;
   margin: 0;
   font-family: var(--default-font);
-  scrollbar-color: slateblue black;
+  scrollbar-color: darkgray black;
   scrollbar-width: thin;
 }
 
@@ -116,8 +116,8 @@ button {
 }
 
 button:hover {
-  background: #fff;
-  color: #000;
+  background: var(--light-color);
+  color: var(--bg-color);
 }
 
 button:disabled {
@@ -128,7 +128,7 @@ button:disabled {
 }
 button:disabled:hover {
   background: var(--primary-color);
-  color: #fff;
+  color: var(--light-color);
 }
 
 code {

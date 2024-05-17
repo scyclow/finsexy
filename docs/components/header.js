@@ -4,7 +4,7 @@ import {provider} from '../eth.js'
 import './connectWallet.js'
 
 
-import {winner, profile, chat, house} from './svg.js'
+import {winner, profile, chat, house, star} from './svg.js'
 
 
 createComponent(
@@ -34,7 +34,7 @@ createComponent(
       h1 a {
         font-family: var(--fancy-font);
         line-height: 1.6;
-        text-shadow: 2px 2px var(--dark-color), 3px 3px 2px var(--primary-color);
+        text-shadow: 2px 2px 0px var(--dark-color), 3px 3px 2px var(--primary-color);
         font-size: 1em;
         text-decoration: none;
         color: var(--light-color);
@@ -265,6 +265,7 @@ createComponent(
           <!--<li><a href="/">Browse</a></li>-->
           <!--<li><a href="#">VIP</a></li>-->
           <li><a href="/profile"><span class="icon">${profile}</span>Profile</a></li>
+          <li><a href="/vip"><span class="icon">${star}</span>VIP</a></li>
           <li><a href="/senders"><span class="icon">${winner}</span>Top Senders</a></li>
           <li>
             <connect-wallet>

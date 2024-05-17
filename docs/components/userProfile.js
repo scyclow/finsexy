@@ -57,7 +57,7 @@ createComponent(
     }
 
     a {
-      color: #fff;
+      color: var(--light-color);
       text-decoration: none;
       height: 280px;
       width: 280px;
@@ -222,8 +222,6 @@ createComponent(
     }
 
     button:hover, button:active, button:focus {
-      background: #fff;
-      color: #000;
       color: var(--light-color);
       background: var(--medium-color);
       border-color: var(--light-color);
@@ -239,7 +237,7 @@ createComponent(
 
     button:disabled:hover {
       background: var(--primary-color);
-      color: #fff;
+      color: var(--light-color);
     }
 
     ::-webkit-calendar-picker-indicator { filter: invert(100%); }
