@@ -4,7 +4,7 @@ import {provider} from '../eth.js'
 import './connectWallet.js'
 
 
-import {winner, profile, chat, house, star} from './svg.js'
+import {winner, profile, chat, house, star } from './svg.js'
 
 
 createComponent(
@@ -185,7 +185,7 @@ createComponent(
 
 
 
-      @media (max-width: 810px) {
+      @media (max-width: 865px) {
         #mobileMenu {
           display: initial;
           user-select: none;
@@ -264,8 +264,8 @@ createComponent(
           </li>
           <!--<li><a href="/">Browse</a></li>-->
           <!--<li><a href="#">VIP</a></li>-->
-          <li><a href="/profile"><span class="icon">${profile}</span>Profile</a></li>
           <li><a href="/vip"><span class="icon">${star}</span>VIP</a></li>
+          <li><a href="/profile"><span class="icon">${profile}</span>Profile</a></li>
           <li><a href="/senders"><span class="icon">${winner}</span>Top Senders</a></li>
           <li>
             <connect-wallet>

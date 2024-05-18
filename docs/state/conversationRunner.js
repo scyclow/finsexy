@@ -138,6 +138,10 @@ const yeses = [
   `lets do it`,
   `lets do this`,
   `im in`,
+  `i will`,
+  `i want to`,
+  `i want it`,
+  `i was`,
   ...positives
 ]
 
@@ -166,6 +170,11 @@ const noes = [
   `i do not`,
   `i dont`,
   `i cant`,
+  `i can not`,
+  `i wont`,
+  `i will not`,
+  `i wasnt`,
+  `i am not`,
   `wrong`,
   `incorrect`,
   `not bad`,

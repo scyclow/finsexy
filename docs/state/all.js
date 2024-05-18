@@ -29,7 +29,7 @@ import {HedonitronicaProfile} from '../chats/Hedonitronica.js'
 import {DianeProfile} from '../chats/SpecialAgentDiane.js'
 import {CandyCrushProfile} from '../chats/CandyCrush.js'
 import {MindyProfile, MindyChat} from '../chats/MindyRouge.js'
-import {XXXProfile} from '../chats/FinXXXpress.js'
+import {XXXProfile} from '../chats/FDXXXpress.js'
 // export * from '../chats/cagla.js'
 
 import {ls} from '../$.js'

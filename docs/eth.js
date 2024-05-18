@@ -11,6 +11,7 @@ export const toETH = amt => ethers.utils.parseEther(String(amt))
 export const fromWei = amt => bnToN(amt)/1e18
 export const ethValue = amt => ({ value: toETH(amt) })
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000'
+export const txValue = amt => ({ value: toETH(amt) })
 
 
 function isENS(ens) {
@@ -23,11 +24,11 @@ window.fromWei = fromWei
 
 
 
-export const FINSEXY_CONTRACT = {
-  local: '0x8A791620dd6260079BF849Dc5567aDC3F2FdC318',
-  sepolia: '0x42714cC3fffC02BCCEafEAD06f9Eb644Df6BcBC6',
-  mainnet: ''
-}
+// export const FINSEXY_CONTRACT = {
+//   local: '0x8A791620dd6260079BF849Dc5567aDC3F2FdC318',
+//   sepolia: '0x42714cC3fffC02BCCEafEAD06f9Eb644Df6BcBC6',
+//   mainnet: ''
+// }
 
 
 export const STEVIEP_CONTRACTS = {
@@ -41,10 +42,11 @@ export const STEVIEP_CONTRACTS = {
     "MMO": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
     "CASH": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
     "TenETH": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
-    "FinSexy": "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
-    "ETF": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
-    "KYC": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
-    "SexyGame": "0xa4f61052A3f497130834C342eb2feeAd04e9366A"
+    "ETF": "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
+    "KYC": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+    "SexyGame": "0xF8Fbd197365ACbA81D250FE4Bc2d1B5019e7d306",
+    "SexyVIP": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
+    "SexyMinter": "0x8dAF17A20c9DBA35f005b6324F493785D239719d"
   },
   sepolia: {
     AB: '0x0Fe369b47d8CbEed0586dbaa0dbfee2b249B1C64',
@@ -55,9 +57,12 @@ export const STEVIEP_CONTRACTS = {
     IFD: '0x85E49424ca0074DB4F1Ae491b1AC02A6090F3d74',
     MMO: '0xf4602A751bb3A5899c7D2C9851e9B1D7A95FCB3e',
     CASH: '0xa24B9F0c2905b370BF2C4AA6bE9715361e86C1e1',
-    TenEth: '0x0BE1F7BE6996F969b8e2c68a6F532BE946b57c9a',
+    TenETH: '0x0BE1F7BE6996F969b8e2c68a6F532BE946b57c9a',
     ETF: '0xBe79cF3F13Ded8334dbEe23c7aeE078118eEc45C',
     KYC: '0x9fd04fafD998bfd1bA9aadd24ef1864A5620C05C',
+    "SexyGame": "",
+    "SexyVIP": "",
+    "SexyMinter": ""
   },
   mainnet: {
     AB: '0xa7d8d9ef8D8Ce8992Df33D8b8CF4Aebabd5bD270',
@@ -68,9 +73,12 @@ export const STEVIEP_CONTRACTS = {
     IFD: '0xf49b26cF118Db11A7DD1D9B88C7E1bC153851757',
     MMO: '0x41d3d86a84c8507A7Bc14F2491ec4d188FA944E7',
     CASH: '0x6DEa3f6f1bf5ce6606054BaabF5452726Fe4dEA1',
-    TenEth: '0x13bBBEfE251c94467D183821b663Ef0bD0a8A722',
+    TenETH: '0x13bBBEfE251c94467D183821b663Ef0bD0a8A722',
     ETF: '0x7102653225D537e2FE703723ad83edFeb606396e',
     KYC: '0x0BB72cE0cFE446DD89129B4335e29c0fbbE0c93C',
+    "SexyGame": "",
+    "SexyVIP": "",
+    "SexyMinter": ""
   }
 }
 
@@ -82,15 +90,15 @@ export const DOM_CONTRACTS = {
     "DungeonMistress": "0x1E01182454073691d6190FC0F977cB7D646981E1",
     "DrAndy": "0x436932D6361Db21CbDf440A39046093a1C12D2B4",
     "katFischer": "0x235B28c74f19083a5CAce20C506513417a90BE29",
-    "CandyCrush": "0x46A9cF43B44f5CEb06747aF10955A02fD6671783",
-    "CrystalGoddess": "0xa8F7C1571e3522ED545F949558eCB7B8e72529B2",
-    "steviep": "0x72D1fE35eB1aEb7437eEeCa567A93F67dD76A9dA",
-    "VinceSlickson": "0x9ace813B1adA8a75DF6518A6d1b50f1A418CdAB7",
-    "FinXXXpress": "0xc72500B2CA87DF8f964662A6bd3E4D94fA6Cf90d",
-    "Hedonitronica": "0x9493016297994dfb1556C39339675383BF0eEc27",
-    "MindyRouge": "0x0323e8a6B4d618A268dD8Aa64FB5A94970daa8bD",
-    "0x000000000000000000000000000000000": "0x758a51350Ee373B0A149E6d9A114fd4c9934919b",
-    "SpecialAgentDiane": "0x758a51350Ee373B0A149E6d9A114fd4c9934919b"
+    "CandyCrush": "0x72D1fE35eB1aEb7437eEeCa567A93F67dD76A9dA",
+    "CrystalGoddess": "0x9ace813B1adA8a75DF6518A6d1b50f1A418CdAB7",
+    "steviep": "0xa8F7C1571e3522ED545F949558eCB7B8e72529B2",
+    "VinceSlickson": "0x32467b43BFa67273FC7dDda0999Ee9A12F2AaA08",
+    "FDXXXpress": "0x46A9cF43B44f5CEb06747aF10955A02fD6671783",
+    "Hedonitronica": "0x4AE5AF759E17599107c1C688bfaCF6131C376D51",
+    "MindyRouge": "0x1881d02D05a44713a69d6eDDE3e7167792A636d6",
+    "0x000000000000000000000000000000000": "0x4ABEaCA4b05d8fA4CED09D26aD28Ea298E8afaC8",
+    "SpecialAgentDiane": "0x4ABEaCA4b05d8fA4CED09D26aD28Ea298E8afaC8"
   },
   sepolia: {
     SamanthaJones: '0x40f34B5DCc2b8182037b58Add64FD84Ebc60aF04',
@@ -101,7 +109,7 @@ export const DOM_CONTRACTS = {
     QueenJessica: '0x21949D2B84b158a03103A55AAd03523A3D4c3759',
     Hedonitronica: '0x3f351312c0C1183FCe362Ef7f68e8c1895f23Ff6',
     MindyRouge: '0x3f351312c0C1183FCe362Ef7f68e8c1895f23Ff6', // TODO
-    FinXXXpress: '0x3f351312c0C1183FCe362Ef7f68e8c1895f23Ff6', // TODO
+    FDXXXpress: '0x3f351312c0C1183FCe362Ef7f68e8c1895f23Ff6', // TODO
     CandyCrush: '0xAc35C2714D7B721795334a166Ff8c4D4F8201776', // TODO
     heatherHot: '0xAc35C2714D7B721795334a166Ff8c4D4F8201776',
     katFischer: '0x21949D2B84b158a03103A55AAd03523A3D4c3759',
@@ -318,9 +326,40 @@ export class Web3Provider {
       MMO: this.rawContract(CONTRACTS.MMO, erc721ABI).connect(signer),
       CASH: this.rawContract(CONTRACTS.CASH, erc721ABI).connect(signer),
       FastCash: this.rawContract(CONTRACTS.FastCash, erc20ABI).connect(signer),
-      TenEth: this.rawContract(CONTRACTS.TenEth, erc721ABI).connect(signer),
+      TenETH: this.rawContract(CONTRACTS.TenETH, erc721ABI).connect(signer),
       ETF: this.rawContract(CONTRACTS.ETF, erc20ABI).connect(signer),
       KYC: this.rawContract(CONTRACTS.KYC, KYCABI).connect(signer),
+    }
+  }
+
+  async sexyContracts() {
+    let networkName = (await provider.getNetwork()).name
+    const signer = await this.isConnected()
+    const GameABI = []
+
+    const VIPABI = [
+      'function totalSupply() external view returns (uint256)',
+      'function balanceOf(address owner) external view returns (uint256)',
+      'function maxSupply() external view returns (uint256)',
+      'function ownerOf(uint256 tokenId) external view returns (address)',
+      'function transferCredits(uint256 fromTokenId, uint256 toTokenId, uint256 amount) external',
+      'function approveCredits(uint256 tokenId, address operator) external',
+      'function creditBalance(uint256 tokenId) external view returns (uint256)',
+      'function spendCredit(uint256 tokenId, address domAddr, uint256 amount) external'
+    ]
+
+    const VIPMinterABI = [
+      'function mint(string name, bool isGold) external payable',
+      'function mintPrice() external view returns (uint256)',
+      'function goldPrice() external view returns (uint256)',
+    ]
+
+    const CONTRACTS = STEVIEP_CONTRACTS[networkName]
+
+    return {
+      SexyGame: await this.contract(CONTRACTS.SexyGame, GameABI),
+      SexyVIP: await this.contract(CONTRACTS.SexyVIP, VIPABI),
+      SexyMinter: await this.contract(CONTRACTS.SexyMinter, VIPMinterABI),
     }
   }
 
@@ -370,7 +409,7 @@ export class Web3Provider {
       Hedonitronica: await this.contract(CONTRACTS.Hedonitronica, domABI),
       MindyRouge: await this.contract(CONTRACTS.MindyRouge, domABI),
       CandyCrush: await this.contract(CONTRACTS.CandyCrush, domABI),
-      FinXXXpress: await this.contract(CONTRACTS.FinXXXpress, domABI),
+      FDXXXpress: await this.contract(CONTRACTS.FDXXXpress, domABI),
     }
 
 

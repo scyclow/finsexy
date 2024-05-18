@@ -264,22 +264,36 @@ createComponent(
       }
 
 
-      #sendModule {
-        box-shadow: 0 0 20px var(--dark-green-color);
+      #sendModule, #creditSendModule {
         border-radius: 5px;
         transition: 300ms;
       }
+
+      #sendModule {
+        box-shadow: 0 0 20px var(--dark-green-color);
+      }
+
+      #creditSendModule {
+        box-shadow: 0 0 20px var(--yellow-color);
+        display: inline-block;
+        margin-top: 1.5em
+
+      }
+
       #sendModule:hover {
         box-shadow: 0 0 30px var(--green-color);
       }
-      #sendModule * {
+
+      #creditSendModule:hover {
+        box-shadow: 0 0 30px var(--yellow-color);
+      }
+      #sendModule *, #creditSendModule * {
         font-size: 1.15em;
       }
 
-      #sendButton {
+      #sendButton, #creditSendButton {
         border: 1px solid var(--border-color);
         border-left: 0px;
-        background: var(--dark-green-color);
         color: var(--light-color);
         padding: 0.5em 1em;
         cursor: pointer;
@@ -287,6 +301,19 @@ createComponent(
         text-shadow: 0 0 1px var(--dark-color);
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;
+      }
+
+      #sendButton {
+        background: var(--dark-green-color);
+        color: var(--light-color);
+      }
+
+      #creditSendButton {
+        background: var(--yellow-color);
+        color: var(--light-color);
+        text-shadow: 0px 0px 03px var(--primary-color);
+        border-color: var(--yellow-color);
+
       }
 
       #sendError {
@@ -297,7 +324,7 @@ createComponent(
         margin-top: 0.75em;
       }
 
-      #sendInput {
+      .sendInput {
         border-right: 0;
         width: 6em;
         box-shadow: inset 0px 0px 10px #555;
@@ -310,9 +337,21 @@ createComponent(
         outline: none;
       }
 
+      #creditSendInput:focus, #creditSendInput:active {
+        border: 1px solid var(--yellow-color);
+        border-right: 0;
+        outline: none;
+      }
+
       #sendInput:focus + button,
       #sendInput:active + button {
         border: 1px solid var(--dark-green-color);
+        border-left: 0;
+      }
+
+      #creditSendInput:focus + button,
+      #creditSendInput:active + button {
+        border: 1px solid var(--yellow-color);
         border-left: 0;
       }
 
@@ -327,7 +366,7 @@ createComponent(
         border: 0px solid;
         border-radius: 3px;
         transition: 200ms;
-        padding: 0.35em 1em;
+        padding: 0.35em 1.5em;
         text-decoration: none;
         user-select: none;
       }
@@ -348,7 +387,12 @@ createComponent(
         background: var(--light-green-color);
       }
 
-      #sendButton:active, #buySexyPic:active {
+      #creditSendButton:hover, #creditSendButton:active, #creditSendButton:focus {
+        outline: none;
+        background: var(--yellow-color);
+      }
+
+      #sendButton:active, #creditSendButton:active, #buySexyPic:active {
         opacity: 0.8;
       }
 
@@ -420,7 +464,7 @@ createComponent(
           flex-direction: column;
         }
 
-        #sendModule {
+        #sendModule, #creditSendModule {
           margin-top: 1em
         }
 
@@ -492,7 +536,7 @@ createComponent(
       }
 
       .hidden {
-        display: none;
+        display: none !important;
       }
 
       .unreadContainer {
@@ -701,7 +745,13 @@ createComponent(
               <a id="chat">Chat</a>
 
               <div id="sendModule" class="disconnected">
-                <input disabled id="sendInput" type="number" step="0.01" placeholder="0.01"><button id="sendButton">SEND</button>
+                <input disabled id="sendInput" class="sendInput" type="number" step="0.01" placeholder="0.01 ETH"><button id="sendButton">SEND</button>
+              </div>
+            </div>
+
+            <div id="creditSection" class="hidden" style="display: flex; justify-content: center">
+              <div id="creditSendModule">
+                <input id="creditSendInput" class="sendInput" type="number" step="1" min="1" placeholder="1 Credit"><button id="creditSendButton">SEND CREDIT</button>
               </div>
             </div>
 
@@ -765,6 +815,9 @@ createComponent(
     ctx.$sendError = ctx.$('#sendError')
     ctx.$activeThumbnail = ctx.$('#activeThumbnail')
     ctx.$onlineStatus = ctx.$('#onlineStatus')
+    ctx.$creditSection = ctx.$('#creditSection')
+    ctx.$creditSendButton = ctx.$('#creditSendButton')
+    ctx.$creditSendInput = ctx.$('#creditSendInput')
 
     if (ctx.getAttribute('sideWindow')) ctx.parent.classList.add('sideWindow')
 
@@ -819,11 +872,11 @@ createComponent(
 
 
     const send$ = () => {
-      const val = Number(ctx.$sendInput.value)
+      const amount = Number(ctx.$sendInput.value)
       ctx.$sendError.innerHTML = ''
-      if (val) {
-        sexyCLIT//.run(name, `$sexy send ${name} ${val}`, {}, true)
-          .send(name, val,
+      if (amount) {
+        sexyCLIT
+          .send(name, amount,
             (msg) => {},
             (msg) => {
               console.log(msg)
@@ -837,6 +890,28 @@ createComponent(
       }
     }
     ctx.$sendButton.onclick = send$
+
+
+    const creditSend$ = () => {
+      const numberOfCredits = Math.floor(Number(ctx.$creditSendInput.value))
+      ctx.$sendError.innerHTML = ''
+
+      if (numberOfCredits) {
+        sexyCLIT
+          .vipSpend(name, numberOfCredits,
+            (msg) => {},
+            (msg) => {
+              console.log(msg)
+              ctx.$sendError.innerHTML = msg
+            },
+            (tx) => {
+              ctx.$sendError.innerHTML = ''
+              ctx.$sendInput.value = ''
+            }
+          )
+      }
+    }
+    ctx.$creditSendButton.onclick = creditSend$
 
     ctx.$sendInput.onkeydown = (e) => {
       if (e.key === 'Enter') {
@@ -854,7 +929,7 @@ createComponent(
 
     if (!window.ethereum) ctx.$sendModule.remove()
 
-    provider.onConnect((addr) => {
+    provider.onConnect(async (addr) => {
       if (addr) {
         ctx.$sendModule.classList.remove('disconnected')
         ctx.$sendInput.disabled = false
@@ -862,6 +937,20 @@ createComponent(
         ctx.$sendModule.classList.add('disconnected')
         ctx.$sendInput.disabled = true
       }
+
+      try {
+        const { SexyVIP } = await provider.sexyContracts()
+        if (bnToN(await SexyVIP.balanceOf(addr)) > 0) {
+          ctx.$creditSection.classList.remove('hidden')
+        } else {
+          ctx.$creditSection.classList.add('hidden')
+
+        }
+
+      } catch (e) {
+        console.error(e)
+      }
+
     })
 
     ctx.$activeThumbnail.src = getActiveThumbnail()

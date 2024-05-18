@@ -1,7 +1,9 @@
 import {ls} from '../$.js'
-import { provider, toETH, ZERO_ADDR } from '../eth.js'
+import { provider, toETH, txValue, ethVal, ZERO_ADDR } from '../eth.js'
 import {MessageHandler} from './conversationRunner.js'
 import {analyticsLS} from './analytics.js'
+import {getUserData} from './profile.js'
+
 
 
 export const clitLS = {
@@ -16,6 +18,14 @@ export const clitLS = {
     ls.set('__CLIT_STATE', JSON.stringify(props))
   },
 }
+
+
+// provider.onConnect(async addr => {
+
+//   await
+
+// })
+
 
 
 
@@ -56,6 +66,10 @@ export const sexyCLIT = {
       : noop
     if (sexy !== '$sexy') return cb('Something went wrong...')
 
+    if (command?.[0] === '[' || args[0]?.[0] === '[' || args[1]?.[0] === '[' || args[2]?.[0] === '[') {
+      return cb(`Invalid $sexy argument`)
+    }
+
 
     downcasedChats = Object.keys(MessageHandler.chats).reduce((a, c) => {
       a[c.toLowerCase()] = MessageHandler.chats[c]
@@ -64,7 +78,7 @@ export const sexyCLIT = {
 
     if (command === 'help' || !command) {
       return cb(`
-        <h3>$sexy Command Line Interface Tool (CLIT) commands</h3>
+        <h3>$sexy Command Line Interface Tool (CLIT) Commands</h3>
 
         <h5 style="margin-top: 1.5em">Display Help</h5>
         <p><code>$sexy help</code></p>
@@ -72,28 +86,89 @@ export const sexyCLIT = {
         <h5 style="margin-top: 1.5em">Connect Wallet</h5>
         <p><code>$sexy connect</code></p>
 
-        <h5 style="margin-top: 1.5em">Send ETH</h5>
+        <h5 style="margin-top: 1.5em">Send ETH to Findom</h5>
         <p><code>$sexy send [recipient name] [amount in ETH]</code></p>
 
         <h5 style="margin-top: 1.5em">Burn ETH</h5>
         <p><code>$sexy burn [amount in ETH]</code></p>
 
         <h5 style="margin-top: 1.5em">Input Premium Code</h5>
-        <p><code>$sexy premium [premium-code]</code> </p>
+        <p><code>$sexy premium [premium code]</code> </p>
 
         <h5 style="margin-top: 1.5em">Purchase VIP Membership</h5>
-        <p><code>$sexy vip buy</code></p>
+        <p><code>$sexy vip buy [gold membership boolean]</code></p>
+
+        <h5 style="margin-top: 1.5em">Spend SexyCredits <em style="font-size: 0.8em; margin-left: 1em">(1 SexyCredit = 0.01 ETH)</em></h5>
+        <p><code>$sexy vip spend [findom name] [# of credits]</code></p>
+
+        <h5 style="margin-top: 1.5em">Get SexyCredit Balance</h5>
+        <p><code>$sexy vip balance [tokenId]</code></p>
+
+        <h5 style="margin-top: 1.5em">List All Owned VIP Membership Token IDs</h5>
+        <p><code>$sexy vip list</code></p>
+
+        <h5 style="margin-top: 1.5em">Select Active VIP Membership Token</h5>
+        <p><code>$sexy vip select [tokenId]</code></p>
+
+        <h5 style="margin-top: 1.5em">Transfer SexyCredits to Other VIP Token</h5>
+        <p><code>$sexy vip transfer [recipient tokenId] [amount]</code></p>
+
+        <h5 style="margin-top: 1.5em">Approve Operator For SexyCredits</h5>
+        <p><code>$sexy vip approve [operator address]</code></p>
+
+        <h5 style="margin-top: 1.5em">Dev Commands (INTERNAL)</h5>
+        <p><code>$sexy dev [command]</code></p>
       `)
     }
     else if (command === 'connect') {
       this.connect(cb, cb)
     }
     else if (command === 'send') {
-      this.send(args[0], args[1], cb, cb)
+      this.send(args[0], args[1], cb, cb, () => cb('Send Successful'))
     }
 
     else if (command === 'burn') {
-      this.burn(args[0], ctx, cb, cb)
+      this.burn(args[0], ctx, cb, cb, () => cb('Burn Successful'))
+    }
+
+    else if (command === 'vip') {
+      if (args[0] === 'buy') {
+        const isGold = args[1] === 'true' ? true : false
+        this.vipBuy(isGold, cb, cb, () => cb(`VIP ${isGold ? 'Gold ' : ''}Membership Purchased`))
+
+      } else if (args[0] === 'spend') {
+        this.vipSpend(args[1], args[2], cb, cb, () => `${args[2]} SexyCredits Sent to ${args[1]}`)
+
+      } else if (args[0] === 'balance') {
+        this.vipBalance(Number(args[1]))
+          .then(b => {
+            cb(`SexyCredit Balance: ${b}`)
+          })
+          .catch(e => cb(e.message))
+      } else if (args[0] === 'list') {
+        this.vipList()
+          .then(([list, active]) => {
+            if (list.length === 0) {
+              cb(`No Sexy VIP Membership Tokens`)
+            }
+            cb(list.map(l => l == active ? `${l} (active)` : l).join(', '))
+          })
+          .catch(e => cb(e.message))
+
+      } else if (args[0] === 'select') {
+        this.vipSelect(args[1])
+          .then(() => cb(`Active VIP Membership ID: ${args[1]}`))
+          .catch(e => cb(e.message))
+
+      } else if (args[0] === 'transfer') {
+        this.vipTransfer(Number(args[1]), Number(args[2]), cb, cb, () => cb(`Transfer Complete`))
+
+      } else if (args[0] === 'approve') {
+        this.vipApprove(args[1], cb, cb, () => cb(`${args[1]} Approved`))
+
+      } else {
+        cb('Invalid VIP command')
+      }
     }
 
     else if (command === 'premium') {
@@ -138,7 +213,7 @@ export const sexyCLIT = {
     else if (command === 'dev') {
       if (args[0] === 'help') {
         return cb(`
-          <h3>$sexy Command Line Interface Tool (CLIT) Dev commands</h3>
+          <h3>$sexy Command Line Interface Tool (CLIT) Dev Commands</h3>
 
           <h5 style="margin-top: 1.5em">Toggle Debug Mode</h5>
           <p><code>$sexy dev debug [bool]</code></p>
@@ -176,8 +251,6 @@ export const sexyCLIT = {
       } else if (args[0] === 'clear') {
         clearChat()
 
-        // return cb(`Clearing`)
-
       } else if (args[0] === 'list') {
         const [_, _chatName] = args
         const chatName = _chatName.toLowerCase()
@@ -189,8 +262,6 @@ export const sexyCLIT = {
 
         cb(nodeNames.map(n => `${n}<br/>`).join(''))
 
-
-        // return cb(`Clearing`)
       } else if (args[0] === 'node') {
         const [_, _chatName, node] = args
 
@@ -233,6 +304,187 @@ export const sexyCLIT = {
       errorCb(`Error connecting wallet: ${error?.message}` || `Error connecting wallet`)
     }
   },
+
+  async getActiveVIP() {
+    const connectedAddr = await provider.isConnected()
+    const { SexyVIP } = await provider.sexyContracts()
+    const totalSupply = bnToN(await SexyVIP.totalSupply())
+
+    const cachedVIP = clitLS.get('activeVIP')
+    if (cachedVIP || cachedVIP === 0) {
+      const isOwner = await SexyVIP.ownerOf(cachedVIP)
+      if (isOwner) return cachedVIP
+    }
+
+    for (let id = 0; id < totalSupply; id++) {
+      if (await SexyVIP.ownerOf(id) === connectedAddr) {
+        clitLS.set('activeVIP', id)
+        return id
+      }
+    }
+
+    return null
+  },
+
+  vipBuy(isGold, cb, errorCb, successCb=noop) {
+    document.documentElement.classList.remove('orgasm')
+    setTimeout(async () => {
+      try {
+        document.body.classList.add('preOrgasm')
+        const { SexyMinter } = await provider.sexyContracts()
+
+        const standardPrice = ethVal(await SexyMinter.mintPrice())
+        const goldPrice = ethVal(await SexyMinter.goldPrice())
+
+        const name = getUserData('name') || 'PAYPIG_NAME'
+        const price = isGold ? txValue(goldPrice) : txValue(standardPrice)
+
+
+
+        const tx = await SexyMinter.mint(name, isGold, price)
+        await tx.wait()
+        document.body.classList.remove('preOrgasm')
+        document.documentElement.classList.add('orgasm')
+
+        successCb(tx)
+
+      } catch (e) {
+        console.log(e)
+        document.body.classList.remove('preOrgasm')
+
+        errorCb(`ERROR: ${e?.data?.message || e.message || JSON.stringify(e)}`)
+      }
+    }, 300)
+    return cb(`VIP ${isGold ? 'Gold ' : ''}Membership Pending...`)
+  },
+
+  vipSpend(domName, amount, cb, errorCb, successCb) {
+    document.documentElement.classList.remove('orgasm')
+    const recipient = domName.toLowerCase()
+
+    const downcasedChats = Object.keys(MessageHandler.chats).reduce((a, c) => {
+      a[c.toLowerCase()] = MessageHandler.chats[c]
+      return a
+    }, {})
+
+    const domAddr = downcasedChats[recipient].contract.address
+
+    setTimeout(async () => {
+      try {
+        document.body.classList.add('preOrgasm')
+        const { SexyVIP } = await provider.sexyContracts()
+        const activeTokenId = await this.getActiveVIP()
+
+        if (activeTokenId == null) return errorCb('Active VIP Token Unset')
+
+        const tx = await SexyVIP.spendCredit(activeTokenId, domAddr, amount)
+        await tx.wait()
+        document.body.classList.remove('preOrgasm')
+        successCb(tx)
+        if (!clitLS.get('devIgnoreWait')) document.documentElement.classList.add('orgasm')
+
+      } catch (e) {
+        console.log(e)
+        document.body.classList.remove('preOrgasm')
+        errorCb(`ERROR: ${e?.data?.message || e.message || JSON.stringify(e)}`)
+      }
+    })
+
+    cb(`Sending ${domName} ${amount} SexyCredits...`)
+  },
+
+  async vipBalance(tokenId) {
+    const connectedAddr = await provider.isConnected()
+    const { SexyVIP } = await provider.sexyContracts()
+    const totalSupply = bnToN(await SexyVIP.totalSupply())
+
+    if (Number(tokenId) >= totalSupply) {
+      throw new Error(`Invalid VIP Token ID: ${tokenId}`)
+    }
+
+    return await SexyVIP.creditBalance(tokenId)
+  },
+
+  async vipList() {
+    const connectedAddr = await provider.isConnected()
+    const { SexyVIP } = await provider.sexyContracts()
+    const totalSupply = bnToN(await SexyVIP.totalSupply())
+
+    let active = clitLS.get('activeVIP')
+    const ids = []
+    for (let id = 0; id < totalSupply; id++) {
+      if (await SexyVIP.ownerOf(id) === connectedAddr) {
+        ids.push(id)
+        if (id === clitLS.get('activeVIP')) active = id
+      }
+    }
+
+    if (!active) {
+      active = ids[0]
+      clitLS.set('activeVIP', ids[0])
+    }
+
+    return [ids, active]
+  },
+
+  async vipSelect(id) {
+    const connectedAddr = await provider.isConnected()
+    const { SexyVIP } = await provider.sexyContracts()
+    const totalSupply = bnToN(await SexyVIP.totalSupply())
+
+    if (Number(id) >= totalSupply) {
+      throw new Error(`Invalid VIP Membership #${id}`)
+    }
+
+    const owner = await SexyVIP.ownerOf(id)
+
+    if (connectedAddr === owner) {
+      clitLS.set('activeVIP', id)
+    } else {
+      throw new Error(`You do not own VIP Membership #${id}`)
+    }
+  },
+
+  async vipTransfer(recipientId, amount, cb, errorCb, successCb) {
+    setTimeout(async () => {
+      try {
+        const { SexyVIP } = await provider.sexyContracts()
+        const activeTokenId = await this.getActiveVIP()
+
+        if (activeTokenId == null) return errorCb('Active VIP Token Unset')
+
+        const tx = await SexyVIP.transferCredits(activeTokenId, recipientId, amount)
+        await tx.wait()
+        successCb(tx)
+
+      } catch (e) {
+        errorCb(`ERROR: ${e?.data?.message || e.message || JSON.stringify(e)}`)
+      }
+    })
+
+    cb('SexyCredit Transfer Pending...')
+  },
+
+  async vipApprove(operatorAddress, cb, errorCb, successCb) {
+    setTimeout(async () => {
+      try {
+        const { SexyVIP } = await provider.sexyContracts()
+        const activeTokenId = await this.getActiveVIP()
+
+        if (activeTokenId == null) return errorCb('Active VIP Token Unset')
+
+        const tx = await SexyVIP.approveCredits(activeTokenId, operatorAddress)
+        await tx.wait()
+        successCb(tx)
+
+      } catch (e) {
+        errorCb(`ERROR: ${e?.data?.message || e.message || JSON.stringify(e)}`)
+      }
+    })
+
+    cb('SexyCredit Approval Pending...')
+  },
+
 
   send(_recipient, amount, cb, errorCb, successCb=noop) {
     document.documentElement.classList.remove('orgasm')
@@ -281,7 +533,7 @@ export const sexyCLIT = {
     return cb(`Sending ${recipient} ${amount} ETH...`)
   },
 
-  burn(amount, ctx, cb, errorCb) {
+  burn(amount, ctx, cb, errorCb, successCb=noop) {
     document.documentElement.classList.remove('burn')
 
     setTimeout(async () => {

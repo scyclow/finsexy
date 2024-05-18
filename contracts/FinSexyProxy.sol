@@ -379,7 +379,7 @@ contract SexyDeployer {
   FindomProxy public DungeonMistress;
   FindomProxy public DrAndy;
   FindomProxy public katFischer;
-  FindomProxy public FinXXXpress;
+  FindomProxy public FDXXXpress;
 
   CandyCrushProxy public CandyCrush;
   SteviePProxy public steviep;
@@ -397,7 +397,7 @@ contract SexyDeployer {
     DungeonMistress = new FindomProxy('DungeonMistress ...', 'SEXY-DM', 0.05 ether, baseAddr, msg.sender, vip);
     DrAndy = new FindomProxy('DrAndy ...', 'SEXY-AI', 0.04 ether, baseAddr, msg.sender, vip);
     katFischer = new FindomProxy('katFischer ...', 'SEXY-KF', 0.03 ether, baseAddr, msg.sender, vip);
-    FinXXXpress = new FindomProxy('FinXXXpress Sexy Pics', 'SEXY-XXX', 0.01 ether, baseAddr, msg.sender, vip);
+    FDXXXpress = new FindomProxy('FDXXXpress Sexy Pics', 'SEXY-XXX', 0.01 ether, baseAddr, msg.sender, vip);
 
     CandyCrush = new CandyCrushProxy('CandyCrush Tattoo', 'SEXY-CC', 0.01 ether, baseAddr, msg.sender, vip);
     steviep = new SteviePProxy('steviep Dick Pics', 'SEXY-SP', baseAddr, msg.sender, vip);

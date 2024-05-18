@@ -108,7 +108,7 @@ function generateRemainingBalanceText(ctx, ignoreAlreadyAudited) {
     MMO,
     CASH,
     FastCash,
-    TenEth,
+    TenETH,
     ETF,
   } = ctx.state.steviepBalances
 
@@ -121,7 +121,7 @@ function generateRemainingBalanceText(ctx, ignoreAlreadyAudited) {
   const ignoreIFD = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.IFD)
   const ignoreMMO = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.MMO)
   const ignoreCASH = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.CASH)
-  const ignoreTenEth = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.TenEth)
+  const ignoreTenEth = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.TenETH)
   const ignoreFastCash = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.FastCash)
   const ignoreETF = !!(ignoreAlreadyAudited && !ctx.state.auditsRemaining.ETF)
 
@@ -132,7 +132,7 @@ function generateRemainingBalanceText(ctx, ignoreAlreadyAudited) {
   if (!ignoreIFD && IFD) balanceText.push(`Instructions For Defacement/Plottables Flex: ${IFD}`)
   if (!ignoreMMO && MMO) balanceText.push(`Money Making Opportunity: ${MMO}`)
   if (!ignoreCASH && CASH) balanceText.push(`Cold Hard Cash: ${CASH}`)
-  if (!ignoreTenEth && TenEth) balanceText.push(`10 ETH Giveaway: ${TenEth}`)
+  if (!ignoreTenEth && TenETH) balanceText.push(`10 ETH Giveaway: ${TenETH}`)
   if (!ignoreFastCash && FastCash) balanceText.push(`FastCash: ${FastCash.toFixed(2)}`)
   if (!ignoreETF && ETF) balanceText.push(`ETF: ${ETF.toFixed(2)}`)
 
@@ -286,7 +286,7 @@ const SamanthaMessages = {
         MMO: 0,
         CASH: 0,
         FastCash: 0,
-        TenEth: 0,
+        TenETH: 0,
         ETF: 0
       }
       if (isYes(ur)) {
@@ -454,7 +454,7 @@ const SamanthaMessages = {
             contracts.MMO.balanceOf(addr),
             contracts.CASH.balanceOf(addr),
             contracts.FastCash.balanceOf(addr),
-            contracts.TenEth.balanceOf(addr),
+            contracts.TenETH.balanceOf(addr),
             contracts.ETF.balanceOf(addr),
             contracts.KYC.addrToTokenId(addr),
           ])
@@ -478,7 +478,7 @@ const SamanthaMessages = {
           ctx.state.steviepBalances.IFD += Number(IFDBalance)
           ctx.state.steviepBalances.MMO += Number(MMOBalance)
           ctx.state.steviepBalances.CASH += Number(CASHBalance)
-          ctx.state.steviepBalances.TenEth += Number(TenEthBalance)
+          ctx.state.steviepBalances.TenETH += Number(TenEthBalance)
           ctx.state.steviepBalances.FastCash += fromWei(FastCashBalance)
           ctx.state.steviepBalances.ETF += fromWei(ETFBalance)
 
@@ -612,7 +612,7 @@ const SamanthaMessages = {
         steviepBalances.MMO,
         steviepBalances.CASH,
         steviepBalances.FastCash,
-        steviepBalances.TenEth,
+        steviepBalances.TenETH,
         steviepBalances.ETF,
       ].some(x => !!x)
 
@@ -920,7 +920,7 @@ const SamanthaMessages = {
   tenEthAudit: {
     messageText: `I hope you understand that redeeming this token will constitute a transaction of more than $10,000 USD, which means that you will need to report @steviep's social security number. `,
     followUp(ur, ctx) {
-      ctx.state.auditsRemaining.TenEth = 0
+      ctx.state.auditsRemaining.TenETH = 0
       return fu('oneByOneReview')
     }
   },

@@ -4,6 +4,20 @@
     - make more girlfriendy
     - kinda sucks in general. need more
 
+    - if no wallet
+      - "Oh, honey. you don't have a web3 wallet. You really shouldn't be here."
+        "I know you want to send me your money reeeal bad, but I only take ETH"
+        "Would you install a web3 wallet browser extension for me? That would be soooo hot"
+        "My favorite is <a href="https://metamask.io/" target="_blank" rel="nofollow">MetaMask</a>, but <a href="https://rainbow.me/" target="_blank" rel="nofollow">Rainbow</a> is also pretty hot"
+
+
+    - if not connected
+      - "Oh, baby, you forgot to connect your wallet"
+      - "connecting your wallet is sooo hot"
+
+
+
+
 
 
 
@@ -145,6 +159,9 @@ export const HeatherHotProfile = {
     },
     {
       review: `It's honestly super refreshing to meet a hot girl on a website like this after striking out on dating apps for YEARS. It doesn't matter how many times I swipe right, I can never get any action`
+    },
+    {
+      review: `I really appreciate how progressive FinSexy is when it comes to prominantly featuring Polydactyl findoms!`
     }
     // {
       // name: '0x4',

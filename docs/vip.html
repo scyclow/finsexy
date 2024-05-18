@@ -133,42 +133,93 @@
     margin-top: 3em;
   }
 
-  #mint {
+  #mintButton {
     font-size: 2em;
     box-shadow: 0 0 2em #b47aa7;
     transition: 300ms;
+    padding: 0.35em 1.5em;
+    margin-bottom: 0.25em;
+    margin-top: 0.5em;
+  }
+
+  .filterRow button {
+    color: var(--medium-color);
+    border: 1px solid;
+    background: var(--bg-color);
+    transition: 0.3s;
+    display: inline-block;
+    margin-bottom: 0.5em;
+    margin-bottom: 1em;
+    font-size: 0.8em;
+  }
+
+  .filterRow button:hover, .filterRow button:active, .filterRow button:focus {
+    color: var(--medium-color);
+    background: var(--light-color);
+    border-color: var(--light-color);
+    outline: none;
+  }
+  .filterRow button:active {
+    opacity: 0.8;
+  }
+
+  .filterRow button.activeFilter, .filterRow button.activeFilter:active {
+    color: var(--light-color);
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  .noWeb3Error {
+    width: 60%;
+    display: block;
+    margin: auto;
+    padding: 0.5em;
+    border: 1px solid var(--primary-color);
+  }
+
+  #connectLink {
+    background: var(--bg-color);
+    color: var(--primary-color);
+    text-decoration: underline;
+    cursor: pointer;
+    border: 0;
+    font-size: 1em;
+    transition: 200ms;
+    margin-left: 0.1em;
+    font-style: italic;
+    text-shadow: 0 0 10px var(--medium-color);
+    padding: 0;
+  }
+
+  #connectLink:hover {
+    color: var(--light-link-color);
+    text-shadow: 0 0 15px var(--light-color)
+  }
+
+
+  #vipPreview {
+    transition: 300ms;
+    border-radius: 10px;
+  }
+  #vipPreview svg {
+    display: block;
+  }
+
+  .standardGlow {
+    box-shadow: 0 0 40px var(--gloss-color);
+
+  }
+  .goldGlow {
+    box-shadow: 0 0 20px var(--gloss-color), 0 0 40px var(--yellow-color);
+  }
+
+  connect-button {
+    display: inline-flex;
+    width: 7em;
   }
 
 
 
-
-
-    .filterRow button {
-      color: var(--medium-color);
-      border: 1px solid;
-      background: var(--bg-color);
-      transition: 0.3s;
-      display: inline-block;
-      margin-bottom: 0.5em;
-      margin-bottom: 0.5em;
-    }
-
-    .filterRow button:hover, .filterRow button:active, .filterRow button:focus {
-      color: var(--medium-color);
-      background: var(--light-color);
-      border-color: var(--light-color);
-      outline: none;
-
-    }
-    .filterRow button:active {
-      opacity: 0.8;
-    }
-
-    .filterRow button.activeFilter, .filterRow button.activeFilter:active {
-      color: var(--light-color);
-      background: var(--primary-color);
-      border-color: var(--primary-color);
-    }
 
   @keyframes Glow {
     0%, 100% {
@@ -191,6 +242,10 @@
     }
 
     h2 {
+      font-size: 1em;
+    }
+
+    h3 {
       font-size: 1em;
     }
 
@@ -224,8 +279,8 @@
           <tr>
             <th></th>
             <th class="standard">Standard Membership</th>
-            <th class="vip">VIP <br>(0.1 ETH)</th>
-            <th><em class="yellow">VIP Gold <br>(0.15 ETH)</em></th>
+            <th class="vip">VIP <div id="standardPrice">(0.1 ETH)</div></th>
+            <th><em class="yellow">VIP Gold <div id="goldPrice">(0.15 ETH)</div></em></th>
           </tr>
         </thead>
 
@@ -238,7 +293,7 @@
           </tr>
 
           <tr>
-            <td>25 FREE SexyCredits</td>
+            <td>25 FREE SexyCredits*</td>
             <td class="red">✕</td>
             <td class="green">✓</td>
             <td class="green">✓</td>
@@ -294,20 +349,37 @@
           </tr>
         </tbody>
       </table>
+      <em style="font-size: 0.85em; margin-top: 1em">* Doms typically accept SexyCredits at a rate of 0.01 ETH = 1 SexyCredit</em>
    </section>
 
    <section class="mintSection">
-     <div class="filterRow" style="display: flex;">
+     <div class="filterRow" style="display: flex; margin-bottom:0.5em">
        <h3 style="margin-right: 0.5em;">Membership Type:</h3>
        <button id="standardSelection" style="margin-right: 0.5em;">Standard</button>
        <button id="goldSelection">Gold</button>
      </div>
      <div id="vipPreview"></div>
 
-     <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-top: 1em;">
-       <button id="mint">Mint</button>
-       <h3 style="margin-top: 0.5em">0.1 ETH (32/100 remaining)</h3>
-     </div>
+
+
+     <connect-wallet>
+      <div slot="connected">
+        <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-top: 1em;">
+          <button id="mintButton">Mint</button>
+          <h3 style="margin-top: 0.5em"><span id="price">0.1 ETH</span> (<span id="remaining"></span>/101 remaining)</h3>
+          <em id="mintError"></em>
+        </div>
+      </div>
+
+      <div slot="noWeb3" style="text-align: center; margin-top: 1em">
+        <em class="noWeb3Error">Please revisit this page in a Web3-enabled browser to mint a VIP membership</em>
+      </div>
+
+      <div slot="notConnected" style="text-align: center; margin-top: 1em">
+        <em >Please <connect-button ><button id="connectLink" slot="button">Connect Wallet</button></connect-button> to mint a VIP membership</em>
+      </div>
+    </connect-wallet>
+
    </section>
 
 
@@ -324,41 +396,104 @@
 <script type="module">
 
   import {$, ls} from './$.js'
-  import {provider, fromWei} from './eth.js'
-  import {getUserData } from '../state/profile.js'
+  import {provider, fromWei, ethVal} from './eth.js'
+  import {getUserData } from './state/profile.js'
+  import {sexyCLIT} from './state/clit.js'
+
+  const $standardSelection = $.id('standardSelection')
+  const $goldSelection = $.id('goldSelection')
+  const $vipPreview = $.id('vipPreview')
+  const $price = $.id('price')
+  const $standardPrice = $.id('standardPrice')
+  const $goldPrice = $.id('goldPrice')
+  const $mintButton = $.id('mintButton')
+  const $mintError = $.id('mintError')
+  const $remaining = $.id('remaining')
 
 
-  $.id('standardSelection').classList.add('activeFilter')
+
+  $standardSelection.classList.add('activeFilter')
+
+  function previewTokenId(n) {
+    if (n < 10) return '00' + n
+    else if (n < 100) return '0' + n
+    else return n
+  }
+
+  const userName = getUserData('name') || 'paypiggie123'
+
+  let PREVIEW_TOKEN_ID = previewTokenId(69)
+  let standardPrice = 0.1
+  let goldPrice = 0.1
+  let goldSelected = false
+
+  $vipPreview.innerHTML = vipCard(userName, PREVIEW_TOKEN_ID, false)
+  $vipPreview.classList.add('standardGlow')
 
 
+
+  $standardSelection.onclick = () => {
+    $standardSelection.classList.add('activeFilter')
+    $goldSelection.classList.remove('activeFilter')
+    $vipPreview.classList.remove('goldGlow')
+    $vipPreview.classList.add('standardGlow')
+
+    $vipPreview.innerHTML = vipCard(userName, PREVIEW_TOKEN_ID, false)
+    $price.innerHTML = standardPrice + ' ETH'
+
+    goldSelected = false
+  }
+
+  $goldSelection.onclick = () => {
+    $standardSelection.classList.remove('activeFilter')
+    $goldSelection.classList.add('activeFilter')
+    $vipPreview.classList.add('goldGlow')
+    $vipPreview.classList.remove('standardGlow')
+
+    $vipPreview.innerHTML = vipCard(userName, PREVIEW_TOKEN_ID, true)
+    $price.innerHTML = goldPrice + ' ETH'
+
+    goldSelected = true
+  }
 
   provider.onConnect(async (addr) => {
-    const name = getUserData('name')
+    const { SexyVIP, SexyMinter } = await provider.sexyContracts()
+    const totalSupply = await SexyVIP.totalSupply()
+    const maxSupply = await SexyVIP.maxSupply()
 
-    const totalSupply = 69
-    const isGold = false
-
-    let tokenId
-    if (totalSupply < 10) tokenId = '00' + totalSupply
-    else if (totalSupply < 100) tokenId = '0' + totalSupply
-    else tokenId = totalSupply
-
-    $.id('vipPreview').innerHTML = vipCard(name, tokenId, isGold)
-
-    $.id('standardSelection').onclick = () => {
-      $.id('standardSelection').classList.add('activeFilter')
-      $.id('goldSelection').classList.remove('activeFilter')
-
-      $.id('vipPreview').innerHTML = vipCard(name, tokenId, false)
+    if (totalSupply === maxSupply) {
+      $mintButton.disabled = true
+      PREVIEW_TOKEN_ID = 69
+      // TODO link to opensea
+    } else {
+      PREVIEW_TOKEN_ID = previewTokenId(totalSupply)
     }
 
-    $.id('goldSelection').onclick = () => {
-      $.id('standardSelection').classList.remove('activeFilter')
-      $.id('goldSelection').classList.add('activeFilter')
 
-      $.id('vipPreview').innerHTML = vipCard(name, tokenId, true)
+
+    $remaining.innerHTML = maxSupply - totalSupply
+    standardPrice = ethVal(await SexyMinter.mintPrice())
+    goldPrice = ethVal(await SexyMinter.goldPrice())
+
+    $standardPrice.innerHTML = `(${standardPrice} ETH)`
+    $goldPrice.innerHTML = `(${goldPrice} ETH)`
+
+    $vipPreview.innerHTML = vipCard(userName, PREVIEW_TOKEN_ID, false)
+    $price.innerHTML = standardPrice + ' ETH'
+
+
+    $mintButton.onclick = async () => {
+      $mintError.innerHTML = ''
+
+      sexyCLIT.vipBuy(goldSelected, noop,
+        (errorMsg) => {
+          $mintError.innerHTML = errorMsg
+        },
+        (successTx) => {
+          $mintError.innerHTML = 'Success!'
+        },
+      )
     }
-
   })
 
 
@@ -423,7 +558,7 @@
             filter: drop-shadow(4px 4px 1px #120211) drop-shadow(3px 3px 6px #ff00c7);
           }
         </style>
-        <rect x="5" y="5" width="840" height="515" fill="url(#Gradient1)" stroke="#524552" stroke-width="4" stroke-location="outside" rx="15" filter="url(#insetShadow)"></rect>
+        <rect x="2" y="2" width="846" height="521" fill="url(#Gradient1)" stroke="#524552" stroke-width="4" stroke-location="outside" rx="15" filter="url(#insetShadow)"></rect>
 
         <text x="50%" y="26%" class="t" style="font-size: 90px">💋 FINSEXY V.I.P.</text>
         <text x="50%" y="41%" class="t" style="font-size: 50px">Very Important Paypig</text>

@@ -162,7 +162,6 @@ createComponent(
       .help-message {
         background: var(--help-color);
         color: var(--tertiary-color);
-        margin: 0 3em;
         margin-bottom: 1.5em;
         align-self: flex-end;
         align-self: center;
@@ -170,6 +169,7 @@ createComponent(
         padding: 1.5em 3em;
         font-family: var(--code-font);
         padding: 1.25em;
+        max-width: 470px;
       }
       .help-message .messageContent {
         font-family: var(--code-font);

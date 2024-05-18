@@ -717,16 +717,11 @@ const QueenMessages = {
 
   readyForMore: {
     messageText:`Oh, you wan't more now?`,
-    responseHandler: ur => isYes(ur) ? 'oneMore' : 'readyForMoreNothing'
-  },
-
-  readyForMoreNothing: {
-    messageText: '',
-    responseHandler: 'readyForMore'
+    responseHandler: 'oneMore'
   },
 
   oneMore: {
-    messageText: `Well, too bad. I'm bored with you`,
+    messageText: ur => `Well, ${isYes(ur) ? 'too bad. ' : ''}I'm bored with you`,
     followUp: fu('excuseMe')
   },
 

@@ -72,7 +72,7 @@ contract SexyVIP is ERC721, Ownable {
   }
 
   function changeName(uint256 tokenId, string memory newName) external {
-    require(ownerOf(tokenId) == msg.sender, 'Only card holder can update name');
+    require(ownerOf(tokenId) == msg.sender, 'Only membership owner can update name');
     memberName[tokenId] = newName;
     emit MetadataUpdate(tokenId);
   }
@@ -126,9 +126,12 @@ contract SexyMinter is Ownable {
     sexyVIP = SexyVIP(msg.sender);
   }
 
-  function mint(string memory name) external payable {
-    require(msg.value >= mintPrice, 'Amount too low');
-    sexyVIP.mint(msg.sender, name, msg.value >= goldPrice);
+  function mint(string memory name, bool isGold) external payable {
+    require(
+      msg.value >= (isGold ? goldPrice : mintPrice),
+      'Amount too low'
+    );
+    sexyVIP.mint(msg.sender, name, isGold);
   }
 
   function setPrices(uint256 newPrice, uint256 newGoldPrice) external {
@@ -152,11 +155,11 @@ contract SexyTokenURI {
   }
 
   function tokenURI(uint256 tokenId) external view returns (string memory) {
-    string memory description = 'FinSexy V.I.P. Membership cards grant the holder 25 Sexy Credits, which they may send to sexy findoms on https://finsexy.com or transfer to other V.I.P. Members.';
+    string memory description = 'FinSexy V.I.P. Memberships grant the holder 25 Sexy Credits, which they may send to sexy findoms on https://finsexy.com or transfer to other V.I.P. Members.';
 
     bytes memory json = abi.encodePacked(
       'data:application/json;utf8,',
-      '{"name": "FinSexy VIP #', tokenId.toString(),'",'
+      '{"name": "FinSexy VIP Membership #', tokenId.toString(),'",'
       '"description": "', description, '",'
       '"external_url": "https://finsexy.com",'
       '"attributes": ', tokenAttrs(tokenId), ','
@@ -192,7 +195,7 @@ contract SexyTokenURI {
     bytes memory str = abi.encodePacked(
       '<svg viewBox="0 0 850 525" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="Gradient1" x1="0.8" x2="0" y1="-0.25" y2="1.15"><stop stop-color="#ff00c7" offset="0%"></stop><stop stop-color="#120211" offset="20%"></stop><stop stop-color="#120211" offset="58%"></stop><stop stop-color="#ff00c7" offset="100%"></stop></linearGradient><filter id="insetShadow"><feOffset dx="0"dy="0"/><feGaussianBlur stdDeviation="10" result="offset-blur"/><feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/><feFlood flood-color="#888" flood-opacity=".95" result="color"/><feComposite operator="in" in="color" in2="inverse" result="shadow"/><feComposite operator="over" in="shadow" in2="SourceGraphic"/></filter></defs><style>text{fill:#',
       isGold ? 'f3ba00' : 'fff8ff;',
-      ';font-family:monospace;font-size: 35px;filter:drop-shadow(1px 1px 0px #ff00c7) drop-shadow(2px 2px 0px #120211)}.t{font-family:cursive;font-size:95px;dominant-baseline:middle;text-anchor:middle;filter:drop-shadow(4px 4px 1px #120211) drop-shadow(3px 3px 6px #ff00c7)}</style><rect x="5" y="5" width="840" height="515" fill="url(#Gradient1)" stroke="#524552" stroke-width="4" stroke-location="outside" rx="15" filter="url(#insetShadow)"></rect><text x="50%" y="26%" class="t" style="font-size:90px">',
+      ';font-family:monospace;font-size: 35px;filter:drop-shadow(1px 1px 0px #ff00c7) drop-shadow(2px 2px 0px #120211)}.t{font-family:cursive;font-size:95px;dominant-baseline:middle;text-anchor:middle;filter:drop-shadow(4px 4px 1px #120211) drop-shadow(3px 3px 6px #ff00c7)}</style>x="2" y="2" width="846" height="521" fill="url(#Gradient1)" stroke="#524552" stroke-width="4" stroke-location="outside" rx="15" filter="url(#insetShadow)"></rect><text x="50%" y="26%" class="t" style="font-size:90px">',
       unicode'💋',
       ' FINSEXY V.I.P.</text><text x="50%" y="41%" class="t" style="font-size:50px">Very Important Paypig</text>'
     );

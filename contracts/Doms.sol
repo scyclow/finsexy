@@ -161,8 +161,8 @@ contract MindyRouge is FinDomLight {
   constructor() FinDomLight(12, 'MindyRouge') {}
 }
 
-contract FinXXXpress is FinDomLight {
-  constructor() FinDomLight(13, 'FinXXXpress') {}
+contract FDXXXpress is FinDomLight {
+  constructor() FinDomLight(13, 'FDXXXpress') {}
 }
 
 

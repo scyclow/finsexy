@@ -43,7 +43,7 @@ describe('FinSexy', () => {
   let FastCash, SexyVIP, SexyGame, SexyMinter
 
   let heatherHot, SamanthaJones, QueenJessica, DungeonMistress, DrAndy, katFischer, CandyCrush,
-      CrystalGoddess, steviep, VinceSlickson, FinXXXpress, Hacker, Hedonitronica, MindyRouge,
+      CrystalGoddess, steviep, VinceSlickson, FDXXXpress, Hacker, Hedonitronica, MindyRouge,
       CandyCrushProxy, CrystalGoddessProxy, steviepProxy
 
   beforeEach(async () => {
@@ -96,7 +96,7 @@ describe('FinSexy', () => {
     DungeonMistress = await FinDomBaseFactory.attach(await deployer.DungeonMistress())
     DrAndy = await FinDomBaseFactory.attach(await deployer.DrAndy())
     katFischer = await FinDomBaseFactory.attach(await deployer.katFischer())
-    FinXXXpress = await FinDomBaseFactory.attach(await deployer.FinXXXpress())
+    FDXXXpress = await FinDomBaseFactory.attach(await deployer.FDXXXpress())
 
     CandyCrush = await FinDomBaseFactory.attach(await deployer.CandyCrush())
     CrystalGoddess = await FinDomBaseFactory.attach(await deployer.CrystalGoddess())
@@ -124,7 +124,7 @@ describe('FinSexy', () => {
       const doms = [
         [heatherHot, 0.01, 'heatherHot'],
         [CandyCrush, 0.01, 'CandyCrush'],
-        [FinXXXpress, 0.01, 'FinXXXpress'],
+        [FDXXXpress, 0.01, 'FDXXXpress'],
         [katFischer, 0.03, 'katFischer'],
         [SamanthaJones, 0.04, 'SamanthaJones'],
         [QueenJessica, 0.04, 'QueenJessica'],
@@ -159,7 +159,7 @@ describe('FinSexy', () => {
     it('should work', async () => {
       const doms = [
         [VinceSlickson, 'VinceSlickson'],
-        [FinXXXpress, 'FinXXXpress'],
+        [FDXXXpress, 'FDXXXpress'],
         [Hacker, 'Hacker'],
         [Hedonitronica, 'Hedonitronica'],
         [MindyRouge, 'MindyRouge'],
@@ -407,7 +407,7 @@ describe('FinSexy', () => {
     describe('minting', () => {
       it('should work', async () => {
 
-        await SexyMinter.connect(paypig).mint('paypigie123', txValue(0.1))
+        await SexyMinter.connect(paypig).mint('paypigie123', false, txValue(0.1))
 
         expect(await SexyVIP.connect(paypig).totalSupply()).to.equal(2)
         expect(await SexyVIP.connect(paypig).exists(1)).to.equal(true)
@@ -429,27 +429,29 @@ describe('FinSexy', () => {
         expect(endingArtistBalance - startingArtistBalance).to.be.closeTo(0.1, 0.001)
 
         await expectRevert(
-          SexyMinter.connect(paypig).mint('paypigie321', txValue(0.0999)),
+          SexyMinter.connect(paypig).mint('paypigie321', false, txValue(0.0999)),
           'Amount too low'
         )
 
 
-        await SexyMinter.connect(paypig).mint('paypigie321', txValue(0.1))
+        await SexyMinter.connect(paypig).mint('paypigie321', false, txValue(0.1))
         expect(await SexyVIP.connect(paypig).isGold(2)).to.equal(false)
-        await SexyMinter.connect(paypig).mint('paypigie321', txValue(0.15))
+        await SexyMinter.connect(paypig).mint('paypigie321', true, txValue(0.15))
         expect(await SexyVIP.connect(paypig).isGold(3)).to.equal(true)
 
-        await SexyMinter.connect(paypig).mint('paypigie321', txValue(0.14999))
-        expect(await SexyVIP.connect(paypig).isGold(4)).to.equal(false)
+        await expectRevert(
+          SexyMinter.connect(paypig).mint('paypigie321', true, txValue(0.14999)),
+          'Amount too low'
+        )
 
-        for (let i = 4; i < 100; i++) {
-          await SexyMinter.connect(paypig).mint('paypigie' + i, txValue(0.1))
+        for (let i = 3; i < 100; i++) {
+          await SexyMinter.connect(paypig).mint('paypigie' + i, false, txValue(0.1))
         }
 
         expect(await SexyVIP.connect(paypig).totalSupply()).to.equal(101)
 
         await expectRevert(
-          SexyMinter.connect(paypig).mint('paypigie101', txValue(0.1)),
+          SexyMinter.connect(paypig).mint('paypigie101', false, txValue(0.1)),
           'Cannot mint more VIPs'
         )
       })
@@ -474,7 +476,7 @@ describe('FinSexy', () => {
 
     describe('using credits', async () => {
       it('should work', async () => {
-        await SexyMinter.connect(paypig).mint('paypigie123', txValue(0.1))
+        await SexyMinter.connect(paypig).mint('paypigie123', false, txValue(0.1))
         expect(await SexyVIP.connect(paypig).ownerOf(1)).to.equal(paypig.address)
 
         await expectRevert(
@@ -517,7 +519,7 @@ describe('FinSexy', () => {
       })
     })
 
-    describe.only('uri', () => {
+    describe('uri', () => {
       it('setURI should work', async () => {
         expect(await SexyVIP.connect(artist).uri()).to.equal(SexyTokenURI.address)
         await expectRevert(
@@ -525,25 +527,19 @@ describe('FinSexy', () => {
           'Ownable: caller is not the owner'
         )
 
-        await expectRevert(
-          SexyVIP.connect(paypig).mint(paypig.address, 'evilpiggie123', true),
-          'Incorrect minting address'
-        )
-
-
         await SexyVIP.connect(artist).setURI(zeroAddr)
         expect(await SexyVIP.connect(artist).uri()).to.equal(zeroAddr)
       })
 
       it('should return the correct uri data', async () => {
-        await SexyMinter.connect(paypig).mint('paypigie123', txValue(0.1))
+        await SexyMinter.connect(paypig).mint('paypigie123', false, txValue(0.1))
         await SexyVIP.connect(paypig)[spendCredit](1, heatherHot.address, 1)
 
 
         const uri0 = getJsonURI(await SexyVIP.connect(artist).tokenURI(0))
         const uri1 = getJsonURI(await SexyVIP.connect(artist).tokenURI(1))
 
-        expect(uri0.description).to.equal('FinSexy V.I.P. Membership cards grant the holder 25 Sexy Credits, which they may send to sexy findoms on https://finsexy.com or transfer to other V.I.P. Members.')
+        expect(uri0.description).to.equal('FinSexy V.I.P. Memberships grant the holder 25 Sexy Credits, which they may send to sexy findoms on https://finsexy.com or transfer to other V.I.P. Members.')
         expect(uri0.external_url).to.equal('https://finsexy.com')
         expect(uri0.name).to.equal('FinSexy VIP #0')
         expect(uri0.attributes[0].trait_type).to.equal('Member Name')
@@ -583,26 +579,29 @@ describe('FinSexy', () => {
 
 
         await expectRevert(
-          SexyMinter.connect(paypig).mint('paypigie321', txValue(0.1999)),
+          SexyMinter.connect(paypig).mint('paypigie321', false, txValue(0.1999)),
           'Amount too low'
         )
 
-        await SexyMinter.connect(paypig).mint('paypigie321', txValue(0.2))
+        await SexyMinter.connect(paypig).mint('paypigie321', false, txValue(0.2))
         expect(await SexyVIP.connect(paypig).isGold(1)).to.equal(false)
 
 
-        await SexyMinter.connect(paypig).mint('paypigie321', txValue(0.299))
-        expect(await SexyVIP.connect(paypig).isGold(2)).to.equal(false)
-        await SexyMinter.connect(paypig).mint('paypigie321', txValue(0.3))
-        expect(await SexyVIP.connect(paypig).isGold(3)).to.equal(true)
+        await expectRevert(
+          SexyMinter.connect(paypig).mint('paypigie321', true, txValue(0.299)),
+          'Amount too low'
+        )
+
+        await SexyMinter.connect(paypig).mint('paypigie321', true, txValue(0.3))
+        expect(await SexyVIP.connect(paypig).isGold(2)).to.equal(true)
       })
 
       it('owner should change name', async () => {
-        await SexyMinter.connect(paypig).mint('paypigie123', txValue(0.1))
+        await SexyMinter.connect(paypig).mint('paypigie123', false, txValue(0.1))
 
         await expectRevert(
           SexyVIP.connect(paypig2).changeName(1, 'cashCow69'),
-          'Only card holder can update name'
+          'Only Membership owner can update name'
         )
 
         await SexyVIP.connect(paypig).changeName(1, 'cashCow69')
@@ -610,8 +609,8 @@ describe('FinSexy', () => {
       })
 
       it('owner can transfer credits', async () => {
-        await SexyMinter.connect(paypig).mint('paypigie123', txValue(0.1))
-        await SexyMinter.connect(paypig2).mint('humanWallet777', txValue(0.1))
+        await SexyMinter.connect(paypig).mint('paypigie123', false, txValue(0.1))
+        await SexyMinter.connect(paypig2).mint('humanWallet777', false, txValue(0.1))
 
         await expectRevert(
           SexyVIP.connect(paypig2).transferCredits(1, 2, 25),
@@ -632,7 +631,7 @@ describe('FinSexy', () => {
       })
 
       it('approvals work', async () => {
-        await SexyMinter.connect(paypig).mint('paypigie123', txValue(0.1))
+        await SexyMinter.connect(paypig).mint('paypigie123', false, txValue(0.1))
         await expectRevert(
           SexyVIP.connect(paypig2).transferCredits(1, 2, 1),
           'Only VIP or operator can transfer credits'

@@ -7,7 +7,7 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 
 export const XXXProfile = {
-  name: 'FinXXXpress',
+  name: 'FDXXXpress',
   startingVisibility: 'hidden',
   domType: 'Automated',
   order: 10,
@@ -22,7 +22,7 @@ export const XXXProfile = {
       review: `It's so convenient!`
     },
     {
-      review: `As someone who's constantly on the go, FinXXXpress is a real life saver`
+      review: `As someone who's constantly on the go, FinDom Express is a real life saver`
     },
   ]
 }
@@ -40,7 +40,7 @@ const XXXMessages = {
   },
 
   async __contract(provider) {
-    return await provider.domContract('FinXXXpress')
+    return await provider.domContract('FDXXXpress')
 
   },
 
