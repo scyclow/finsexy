@@ -311,7 +311,7 @@ createComponent(
       #creditSendButton {
         background: var(--yellow-color);
         color: var(--light-color);
-        text-shadow: 0px 0px 03px var(--primary-color);
+        text-shadow: 0px 0px 1px var(--bg-color), 0px 0px 4px var(--secondary-color);
         border-color: var(--yellow-color);
 
       }
@@ -357,7 +357,7 @@ createComponent(
 
       #chat {
         font-size: 1.7em;
-        box-shadow: 0 0 2em #b47aa7;
+        box-shadow: 0 0 2em var(--glow-color);
         transition: 300ms;
         display: inline-block;
         cursor: pointer;
@@ -379,12 +379,12 @@ createComponent(
         outline: none;
         background: var(--medium-color);
         border-color: var(--light-color);
-        box-shadow: 0 0 3em #b47aa7;
+        box-shadow: 0 0 3em var(--glow-color);
       }
 
       #sendButton:hover, #sendButton:active, #sendButton:focus {
         outline: none;
-        background: var(--light-green-color);
+        background: var(--mint-color);
       }
 
       #creditSendButton:hover, #creditSendButton:active, #creditSendButton:focus {

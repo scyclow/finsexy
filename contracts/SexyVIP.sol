@@ -9,6 +9,30 @@ interface SexyDom {
   function creditTribute(address recipient, uint256 amount) external;
 }
 
+contract SexyRouter is Ownable {
+  address public vip;
+  address public baseURI;
+  mapping(address => uint256) private _premium;
+
+  constructor() {
+    vip = address(new SexyVIP(msg.sender));
+    baseURI = address(new SexyURI());
+  }
+
+  function premium(address user) external view returns (uint256) {
+    return _premium[user] == 0 ? 1 : _premium[user];
+  }
+
+  function applyPremium(uint256 p) external {
+    require(p > 0 && p < 4, 'Invalid Premium');
+    _premium[msg.sender] = p;
+  }
+}
+
+contract SexyURI {
+
+}
+
 contract SexyVIP is ERC721, Ownable {
   uint256 public totalSupply;
   uint256 public constant maxSupply = 101;
@@ -25,7 +49,7 @@ contract SexyVIP is ERC721, Ownable {
   event MetadataUpdate(uint256 _tokenId);
   event BatchMetadataUpdate(uint256 _fromTokenId, uint256 _toTokenId);
 
-  constructor() ERC721('FinSexy VIP Membership', 'VIP') {
+  constructor(address newOwner) ERC721('FinSexy VIP Membership', 'VIP') {
     minter = new SexyMinter();
     uri = new SexyTokenURI();
 
@@ -33,7 +57,8 @@ contract SexyVIP is ERC721, Ownable {
     memberName[0] = 'steviep';
     creditBalance[0] = 25;
 
-    _mint(msg.sender, 0);
+    transferOwnership(newOwner);
+    _mint(newOwner, 0);
     totalSupply++;
   }
 

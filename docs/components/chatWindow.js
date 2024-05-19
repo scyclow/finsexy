@@ -161,7 +161,7 @@ createComponent(
 
       .help-message {
         background: var(--help-color);
-        color: var(--tertiary-color);
+        color: var(--help-text-color);
         margin-bottom: 1.5em;
         align-self: flex-end;
         align-self: center;
@@ -311,7 +311,8 @@ createComponent(
       code {
         display: inline-block;
         padding: 0.5em;
-        background: var(--code-color);
+        background: var(--bg-color);
+        opacity: 0.7;
         color: var(--light-color);
         border-radius: 0.25em;
         cursor: pointer;

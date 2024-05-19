@@ -239,7 +239,7 @@
     .grid figcaption > * {
       margin-top: -3.65em;
       width: calc(100% - 16px);
-      background: linear-gradient(0deg, rgba(2,0,36,1) 17%, rgba(255,0,0,0) 100%);
+      background: linear-gradient(0deg, var(--dark-fade-color) 17%, rgba(255,0,0,0) 100%);
       text-shadow: -1px -1px 1px var(--dark-color);
       padding: 0.5em;
       padding-top: 2em;
@@ -775,12 +775,13 @@
         const dom = ProfileStats[d]
         const contract = await provider.domContract(d)
         const tributes = fromWei(await contract.tributes(addr))
+        const tributesRounded = Math.floor(tributes * 100000000) / 100000000
         if (tributes > 0) {
           anyTributesPaid = true
           tributeContent += `
             <tr>
               <td style="font-size: 0.9em"><a href="./chat?activeChat=${d}">${d}</a></td>
-              <td style="color: var(--medium-color)">${tributes} ETH</td>
+              <td style="color: var(--medium-color)">${tributesRounded} ETH</td>
             </tr>
           `
         }

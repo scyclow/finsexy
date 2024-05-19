@@ -180,25 +180,21 @@ export const sexyCLIT = {
         return cb(`All prayments faked`)
 
       } else if (code === 'SingleSissySub') {
-        MessageHandler.globalCtx.premium = 1
-        clitLS.set('paymentsFaked', false)
-        return cb(`All prices: 1x`)
+        return this.applyPremium(1, cb, cb, () => cb('All Prices: 1x'))
+
 
       } else if (code === 'DoubleTheFun') {
-        MessageHandler.globalCtx.premium = 2
-        clitLS.set('paymentsFaked', false)
-        return cb(`All prices: 2x`)
+        return this.applyPremium(2, cb, cb, () => cb('All Prices: 2x'))
+
 
       } else if (code === 'ThirdTimesTheCharm') {
-        MessageHandler.globalCtx.premium = 3
-        clitLS.set('paymentsFaked', false)
-        return cb(`All prices: 3x`)
+        return this.applyPremium(3, cb, cb, () => cb('All Prices: 3x'))
 
       } else if (!code || ['list', 'ls'].includes(code.toLowerCase())) {
         return cb(`
-          <p>SingleSissySub: 1x all prices</p>
-          <p>DoubleTheFun: 2x all prices</p>
-          <p>ThirdTimesTheCharm: 3x all prices</p>
+          <p>SingleSissySub: 1x All Prices</p>
+          <p>DoubleTheFun: 2x All Prices</p>
+          <p>ThirdTimesTheCharm: 3x All Prices</p>
         `)
 
       } else {
@@ -311,7 +307,9 @@ export const sexyCLIT = {
     const totalSupply = bnToN(await SexyVIP.totalSupply())
 
     const cachedVIP = clitLS.get('activeVIP')
-    if (cachedVIP || cachedVIP === 0) {
+    const exists = await SexyVIP.exists(cachedVIP)
+
+    if (exists && cachedVIP || cachedVIP === '0') {
       const isOwner = await SexyVIP.ownerOf(cachedVIP)
       if (isOwner) return cachedVIP
     }
@@ -415,16 +413,10 @@ export const sexyCLIT = {
     for (let id = 0; id < totalSupply; id++) {
       if (await SexyVIP.ownerOf(id) === connectedAddr) {
         ids.push(id)
-        if (id === clitLS.get('activeVIP')) active = id
       }
     }
 
-    if (!active) {
-      active = ids[0]
-      clitLS.set('activeVIP', ids[0])
-    }
-
-    return [ids, active]
+    return [ids, await this.getActiveVIP()]
   },
 
   async vipSelect(id) {
@@ -445,7 +437,7 @@ export const sexyCLIT = {
     }
   },
 
-  async vipTransfer(recipientId, amount, cb, errorCb, successCb) {
+  vipTransfer(recipientId, amount, cb, errorCb, successCb) {
     setTimeout(async () => {
       try {
         const { SexyVIP } = await provider.sexyContracts()
@@ -465,7 +457,7 @@ export const sexyCLIT = {
     cb('SexyCredit Transfer Pending...')
   },
 
-  async vipApprove(operatorAddress, cb, errorCb, successCb) {
+  vipApprove(operatorAddress, cb, errorCb, successCb) {
     setTimeout(async () => {
       try {
         const { SexyVIP } = await provider.sexyContracts()
@@ -485,6 +477,30 @@ export const sexyCLIT = {
     cb('SexyCredit Approval Pending...')
   },
 
+  async getPremium(addr) {
+    const { SexyRouter } = await provider.sexyContracts()
+    return bnToN(await SexyRouter.premium(addr))
+  },
+
+  applyPremium(premiumAmount, cb, errorCb, successCb) {
+    clitLS.set('paymentsFaked', false)
+
+    setTimeout(async () => {
+      try {
+        const { SexyRouter } = await provider.sexyContracts()
+        const tx = await SexyRouter.applyPremium(premiumAmount)
+        await tx.wait()
+
+        MessageHandler.globalCtx.premium = premiumAmount
+        successCb(tx)
+
+      } catch (e) {
+        errorCb(`ERROR: ${e?.data?.message || e.message || JSON.stringify(e)}`)
+      }
+    })
+
+    cb('Applying Sexy premium...')
+  },
 
   send(_recipient, amount, cb, errorCb, successCb=noop) {
     document.documentElement.classList.remove('orgasm')
@@ -555,7 +571,13 @@ export const sexyCLIT = {
       }
     }, 300)
     return cb(`Burning ${amount} ETH...`)
+  },
+
+
+  setResponseSpeedModifier(modifier) {
+    clitLS.set('responseModifier', modifier)
   }
+
 }
 
 window.sexyCLIT = sexyCLIT

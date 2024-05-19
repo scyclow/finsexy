@@ -503,6 +503,7 @@ export class MessageHandler {
             MessageHandler.globalCtx.isConnected = !!addr
             MessageHandler.globalCtx.connectedAddr = addr
             MessageHandler.globalCtx.ens = await this.provider.formatAddr(addr, false)
+            MessageHandler.globalCtx.premium = await sexyCLIT.getPremium(addr)
             res()
           } catch (e) {
             console.log(profile.name)
@@ -841,7 +842,8 @@ export class MessageHandler {
         )
         + typingWait
       )
-      return [typingWait, wait]
+      const modifier = Number(clitLS.get('responseModifier') || 1)
+      return [Math.max(25, typingWait*modifier), Math.max(25, wait*modifier)]
     }
   }
 

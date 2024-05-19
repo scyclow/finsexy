@@ -326,7 +326,7 @@ const HeatherHotMessages = {
 
   nextSteps: {
     messageText: (ur, ctx) => {
-      if (ctx.state.paymentOffset) {
+      if (ctx.state.paymentOffset && !ctx.state.askingQuestions) {
         return 'hello again. are you ready for me to suck your wallet dry? or do you want me to tell you more about finsexy?'
       } else {
         return `so what do you say? are you ready for me to ${ctx.state.isNew ? 'pop your findom cherry' : 'suck your wallet dry'}? or do you want to me to tell you more about finsexy?`
@@ -334,10 +334,12 @@ const HeatherHotMessages = {
     },
     responseHandler: async (ur, ctx, contract, provider) => {
       if (isMatch(ur, ['suck', 'dry'])) {
+        ctx.state.askingQuestions = false
         return ctx.global.isConnected ? 'getStarted' : 'waitForConnect'
       } else if (
         isMatch(ur, ['finsexy', 'more', 'question', 'tell me', 'info', 'help', 'ok', 'okay', 'k', 'yes', 'yeah'])
       ) {
+        ctx.state.askingQuestions = true
         const infoCount = (ctx.state.moreInfoCount||0) % 4
         if (!infoCount) {
           ctx.state.moreInfoCount = 1

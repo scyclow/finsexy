@@ -45,8 +45,9 @@ export const STEVIEP_CONTRACTS = {
     "ETF": "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
     "KYC": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
     "SexyGame": "0xF8Fbd197365ACbA81D250FE4Bc2d1B5019e7d306",
-    "SexyVIP": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
-    "SexyMinter": "0x8dAF17A20c9DBA35f005b6324F493785D239719d"
+    "SexyVIP": "0x8dAF17A20c9DBA35f005b6324F493785D239719d",
+    "SexyMinter": "0x6F00454894e0790AaE84E7A6406E85075a321469",
+    "SexyRouter": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
   },
   sepolia: {
     AB: '0x0Fe369b47d8CbEed0586dbaa0dbfee2b249B1C64',
@@ -62,7 +63,8 @@ export const STEVIEP_CONTRACTS = {
     KYC: '0x9fd04fafD998bfd1bA9aadd24ef1864A5620C05C',
     "SexyGame": "",
     "SexyVIP": "",
-    "SexyMinter": ""
+    "SexyMinter": "",
+    "SexyRouter": ""
   },
   mainnet: {
     AB: '0xa7d8d9ef8D8Ce8992Df33D8b8CF4Aebabd5bD270',
@@ -78,7 +80,8 @@ export const STEVIEP_CONTRACTS = {
     KYC: '0x0BB72cE0cFE446DD89129B4335e29c0fbbE0c93C',
     "SexyGame": "",
     "SexyVIP": "",
-    "SexyMinter": ""
+    "SexyMinter": "",
+    "SexyRouter": ""
   }
 }
 
@@ -345,7 +348,10 @@ export class Web3Provider {
       'function transferCredits(uint256 fromTokenId, uint256 toTokenId, uint256 amount) external',
       'function approveCredits(uint256 tokenId, address operator) external',
       'function creditBalance(uint256 tokenId) external view returns (uint256)',
-      'function spendCredit(uint256 tokenId, address domAddr, uint256 amount) external'
+      'function spendCredit(uint256 tokenId, address domAddr, uint256 amount) external',
+      'function memberName(uint256 tokenId) external view returns (string)',
+      'function isGold(uint256 tokenId) external view returns (bool)',
+      'function exists(uint256 tokenId) external view returns (bool)'
     ]
 
     const VIPMinterABI = [
@@ -354,12 +360,18 @@ export class Web3Provider {
       'function goldPrice() external view returns (uint256)',
     ]
 
+    const RouterABI = [
+      'function premium(address user) external view returns (uint256)',
+      'function applyPremium(uint256 p) external',
+    ]
+
     const CONTRACTS = STEVIEP_CONTRACTS[networkName]
 
     return {
       SexyGame: await this.contract(CONTRACTS.SexyGame, GameABI),
       SexyVIP: await this.contract(CONTRACTS.SexyVIP, VIPABI),
       SexyMinter: await this.contract(CONTRACTS.SexyMinter, VIPMinterABI),
+      SexyRouter: await this.contract(CONTRACTS.SexyRouter, RouterABI),
     }
   }
 

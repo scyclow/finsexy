@@ -49,6 +49,7 @@ async function main() {
   const SexyVIPFactory = await ethers.getContractFactory('SexyVIP', artist)
   const SexyMinterFactory = await ethers.getContractFactory('SexyMinter', artist)
   const SexyTokenURIFactory = await ethers.getContractFactory('SexyTokenURI', artist)
+  const SexyRouterFactory = await ethers.getContractFactory('SexyRouter', artist)
 
   FastCash = await ethers.getContractAt(
     [
@@ -58,19 +59,22 @@ async function main() {
     '0xcA5228D1fe52D22db85E02CA305cddD9E573D752'
   )
 
+  SexyRouter = await SexyRouterFactory.deploy()
+  await SexyRouter.deployed()
 
-  SexyVIP = await SexyVIPFactory.deploy()
+  SexyVIP = await SexyVIPFactory.attach(await SexyRouter.vip())
   await SexyVIP.deployed()
   SexyMinter = await SexyMinterFactory.attach(await SexyVIP.minter())
   SexyTokenURI = await SexyTokenURIFactory.attach(await SexyVIP.uri())
 
   const factory = await ethers.getContractFactory('SexyDeployer', artist)
-  const deployer = await factory.deploy(SexyVIP.address)
+  const deployer = await factory.deploy(SexyRouter.address)
   await deployer.deployed()
 
   const factory2 = await ethers.getContractFactory('SexyDeployer2', artist)
-  const deployer2 = await factory2.deploy(SexyVIP.address, FastCash.address)
+  const deployer2 = await factory2.deploy(SexyRouter.address, FastCash.address)
   await deployer2.deployed()
+
 
 
 
@@ -123,6 +127,7 @@ async function main() {
   ContractAddrs.SexyGame = SexyGame
   ContractAddrs.SexyVIP = SexyVIP.address
   ContractAddrs.SexyMinter = SexyMinter.address
+  ContractAddrs.SexyRouter = SexyRouter.address
 
 
   // const fcCentralBanker = await ethers.getImpersonatedSigner('0x47144372eb383466D18FC91DB9Cd0396Aa6c87A4')

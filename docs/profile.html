@@ -1,20 +1,12 @@
 <!--
 
 TODO
-  Preferences
-    - message notifications
+  Build
     - message sounds
-    - premium code
-    - reset
+    - push notifications
+    - a11y voices
 
 
-  VIP Preferences
-    - select VIP token if multiple
-    - send credits
-    - approve credits
-    - response time (slow/normal/fast/instant)
-    - colors
-    - voices
 
 
 
@@ -49,113 +41,6 @@ TODO
 
   <link rel="stylesheet" type="text/css" href="./styles.css">
 
-
-  <style type="text/css">
-    main {
-      max-width: 1400px;
-    }
-
-    aside {
-      width: 250px;
-      padding: 1em;
-    }
-
-    h1 {
-      text-decoration: none;
-      color: var(--light-color)
-    }
-
-    h1, legend {
-      text-shadow: 0px 0px 2px var(--dark-color), 0 0 5px var(--medium-color), 0 0 8px var(--border-color);
-    }
-
-    h2 {
-      text-align: center;
-    }
-
-    a {
-      color: var(--light-color);
-      text-decoration: none;
-      height: 280px;
-      width: 280px;
-      overflow: hidden;
-    }
-
-    #skip {
-      font-size: 1.5em;
-      text-align: center;
-      margin: 0.5em 0;
-    }
-    #skip a {
-      text-decoration: underline;
-      color: var(--primary-color);
-    }
-
-    #skip a:hover {
-      text-decoration: none;
-      color: var(--light-color);
-    }
-
-    td {
-      padding: 0.5em;
-      padding-bottom: 0;
-    }
-
-    footer {
-      font-size: 8px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      column-gap: 1vw;
-      row-gap: 1.5vw;
-    }
-    .grid article {
-      display: flex;
-      flex-direction: column;
-
-      border: 1px solid;
-    }
-    .grid img {
-      width: 100%;
-    }
-
-    .grid figcaption {
-      margin-top: -2.1em;
-      margin-left: 1px;
-      padding: 0.5em;
-      padding-top: 1em;
-      width: calc(100% - 18px);
-      background: linear-gradient(0deg, rgba(2,0,36,1) 17%, rgba(255,0,0,0) 100%);
-    }
-
-
-    @media (max-width: 1000px) {
-      .grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 650px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .mainSection {
-      display: flex;
-      justify-content: center;
-      margin-top: 3em;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-  </style>
-
-
 <script src="./utils.js"></script>
 <script type="module" src="./state/all.js"></script>
 <script type="module" src="./components/all.js"></script>
@@ -171,11 +56,34 @@ TODO
     font-family: var(--fancy-font);
     font-size: 2.1em;
     line-height: 1.1;
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
   }
 
+  h1, legend {
+    text-shadow: 0px 0px 2px var(--dark-color), 0 0 5px var(--medium-color), 0 0 8px var(--border-color);
+  }
+
+  h2 {
+    /*text-align: center;*/
+    margin-bottom: 0.5em;
+    font-family: var(--code-font);
+  }
+  h2, .preferenceText, button {
+    font-family: var(--code-font);
+
+  }
+
+/*    a {
+      color: var(--light-color);
+      text-decoration: none;
+      height: 280px;
+      width: 280px;
+      overflow: hidden;
+    }*/
   fieldset {
     padding: 1em;
+    display: flex;
+    align-items: center;
   }
 
   form fieldset + fieldset {
@@ -188,7 +96,7 @@ TODO
   }
 
   textarea, input, select {
-    padding: 0.25em;
+    padding: 0.5em;
     font-size: 1.25em;
     color: var(--light-color);
     background: var(--input-color);
@@ -227,6 +135,9 @@ TODO
     /*box-sizing: border-box;*/
   }
 
+  .hidden {
+    display: none;
+  }
 
   .submitContainer {
     margin-top: 0.5em;
@@ -247,7 +158,7 @@ TODO
 
   button {
     font-size: 1.5em;
-    box-shadow: 0 0 2em #b47aa7;
+    /*box-shadow: 0 0 2em var(--glow-color);*/
     transition: 300ms;
     cursor: pointer;
     padding: 0.35em 1em;
@@ -258,6 +169,69 @@ TODO
     background: var(--medium-color);
     border-color: var(--light-color);
     outline: none;
+  }
+
+  label * {
+    transition: 300ms;
+  }
+
+  label, input[type="checkbox"] {
+    cursor: pointer;
+  }
+  input[type="text"] {
+    cursor: text;
+  }
+  label, .formRow {
+    display: flex;
+    align-items: center;
+    user-select: none;
+  }
+
+  .formRow + .formRow{
+    margin-top: 1em;
+  }
+
+  .formRow.formRowInput {
+    margin-top: 1.5em;
+  }
+
+  label:hover input[type='checkbox'] {
+    box-shadow: 0 0 25px var(--primary-color), 0 0 45px var(--secondary-color);
+  }
+
+  input[type='checkbox'] {
+    width: 1.2em;
+    height: 1.2em;
+    accent-color: var(--blue-color);
+  }
+
+  label:hover {
+    text-shadow: 0 0 3px var(--primary-color);
+  }
+
+  hr {
+    border-color: var(--border-color);
+    margin: 2em 0;
+  }
+
+  .preferenceText {
+    font-size: 1.2em;
+    margin-right: 0.5em;
+  }
+
+
+  .preferences {
+    border: 1px solid var(--border-color);
+    padding: 1em;
+  }
+  .preferences input[type="text"] {
+    padding: 0.6em;
+    margin-right: 0.5em;
+  }
+  .preferences button {
+    font-size: 1.5em;
+    padding: 0.35em 1em;
+    background-color: var(--secondary-color);
   }
 
 /*  @media (max-width:  500px) {
@@ -282,19 +256,131 @@ TODO
       margin-top: 0;
     }
 
+  .danger {
+    border: 2px dashed var(--red-color);
+    color: var(--red-color);
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .danger h1, .danger p, .danger em, .danger strong {
+    font-family: var(--code-font);
+    text-shadow: 0 0 0;
+  }
+
+  .danger p {
+    text-align: justify;
+  }
+  .danger h1 {
+    margin-top: 0;
+
+  }
+
+  .danger button {
+    font-family: var(--code-font);
+    background: var(--red-color);
+    color: var(--dark-color);
+    border-radius: 1px;
+    box-shadow: 0 0 3px var(--red-color), 0 0 6px var(--gloss-color);
+    margin-top: 0.5em;
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+  button:active {
+    opacity: 0.6;
+  }
+
+  .danger button:disabled {
+    box-shadow: 0 0 0;
+    opacity: 0.35;
+    background: var(--red-color);
+    color: var(--dark-color);
+
+  }
+
+  .danger input,
+  .danger input:hover,
+  .danger input:active,
+  .danger input:focus
+  {
+    background-color: var(--bg-color);
+    color: var(--red-color);
+    border-color: var(--red-color);
+    box-shadow: 0 0 0;
+    margin: 0.5em 0;
+  }
+
+  #activeVIPToken {
+    width: 4em;
+    text-align: center;
+    padding: 0.25em;
+  }
+
+  .vipPreferences h2 {
+    text-align: center;
+  }
+  .vipPreferences input[type="text"] {
+    margin-right: 0;
+  }
+
+  .colorSample {
+    display: inline-block;
+    border: 1px solid var(--border-color);
+    height: 1em;
+    width: 2em;
+  }
+
+  .vipPreferences .formRow {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #colorOverride {
+    margin: auto;
+  }
+  #colorOverride td + td{
+    padding-left: 0.5em;
+  }
+
+  #colorOverride input {
+    padding: 0.25em;
+    width: 6em;
+    text-align: center;
+  }
+
+  .prefMessage {
+    margin-top: 0.5em;
+  }
 
 
-
-    @media (max-width: 600px) {
-      .doubleRow {
-        flex-direction: column
-      }
-      .doubleRow > *:last-child {
-        margin-left: 0;
-        margin-top: 1em;
-
-      }
+  @media (max-width: 600px) {
+    .doubleRow {
+      flex-direction: column
     }
+    .doubleRow > *:last-child {
+      margin-left: 0;
+      margin-top: 1em;
+    }
+
+    .preferenceText {
+      font-size: 1em;
+    }
+    .formRow {
+      justify-content: center;
+    }
+
+    .formRowInput {
+      flex-direction: column;
+    }
+    .formRowInput button {
+      margin-top: 0.5em;
+    }
+
+  }
 
 
   ::-webkit-calendar-picker-indicator { filter: invert(100%); }
@@ -310,102 +396,282 @@ TODO
 
     <h1>Paypig Profile</h1>
 
-<!--     <div id="skip">
-      <a href="#" id="skipForNow">Skip for now →</a>
-    </div> -->
-
-    <form onsubmit="onSubmit(event)">
-      <div class="doubleRow">
-        <fieldset>
-          <legend>Name</legend>
-          <input required type="text" name="name" id="name" placeholder="paypiggie123">
-        </fieldset>
-
-        <fieldset>
-          <legend>Gender</legend>
-          <select required id="gender">
-            <option value="" selected disabled hidden></option>
-            <option value="m">Male</option>
-            <option value="f">Female</option>
-            <option value="nb">undefined</option>
-          </select>
-        </fieldset>
+    <connect-wallet>
+      <div slot="notConnected" class="connectItem">
+        <connect-button>
+          <button id="connectButton" slot="button" style="margin-top:1em;">Connect Wallet</button>
+          <div slot="loading">Loading...</div>
+        </connect-button>
       </div>
+    </connect-wallet>
 
-      <fieldset>
-        <legend>Birthday</legend>
-        <input required type="date" name="birthday" id="birthday" style="cursor: pointer;" />
-      </fieldset>
+    <section>
+      <form onsubmit="onSubmit(event)">
+        <div class="doubleRow">
+          <fieldset>
+            <legend>Name</legend>
+            <input required type="text" name="name" id="name" placeholder="paypiggie123">
+          </fieldset>
 
-      <fieldset>
-        <legend>Location</legend>
-        <input required type="text" name="location" id="location" placeholder="New York, NY">
-      </fieldset>
-
-
-<!--       <fieldset>
-        <legend>Interested In</legend>
-        <select required id="interested">
-          <option value="" selected disabled hidden></option>
-          <option value="m">Male</option>
-          <option value="f">Female</option>
-          <option value="nb">Other</option>
-          <option value="nb">Everyone</option>
-        </select>
-      </fieldset> -->
-
-<!--
-      <fieldset>
-        <legend>Annual Income</legend>
-        <input required type="number" name="income" id="income" placeholder="$100,000">
-      </fieldset> -->
-
-      <fieldset>
-        <legend>What's your deepest, darkest sexual fantasy?</legend>
-        <textarea required name="fantasy" id="fantasy" placeholder="I want a sexy dom to drain my wallet until it hurts 💦"></textarea>
-      </fieldset>
-
-      <fieldset>
-        <legend>Password</legend>
-        <input required type="text" minlength="6" name="pass" id="pass" placeholder="******">
-      </fieldset>
-
-      <p id="error"></p>
-      <connect-wallet>
-        <div slot="notConnected" class="connectItem">
-          <connect-button>
-            <button id="connectButton" slot="button" style="margin-top:1em;">Connect Wallet</button>
-            <div slot="loading">Loading...</div>
-          </connect-button>
+          <fieldset>
+            <legend>Gender</legend>
+            <select id="gender">
+              <option value="" selected disabled hidden></option>
+              <option value="m">Male</option>
+              <option value="f">Female</option>
+              <option value="nb">undefined</option>
+            </select>
+          </fieldset>
         </div>
-      </connect-wallet>
-      <div class="submitContainer">
-        <button id="submit">Submit</button>
+
+        <fieldset>
+          <legend>Password</legend>
+          <input type="text" minlength="6" name="pass" id="pass" placeholder="******">
+        </fieldset>
+
+        <fieldset>
+          <legend>Birthday</legend>
+          <input type="date" name="birthday" id="birthday" style="cursor: pointer;" />
+        </fieldset>
+
+        <fieldset>
+          <legend>Location</legend>
+          <input type="text" name="location" id="location" placeholder="New York, NY">
+        </fieldset>
+
+
+
+
+        <fieldset>
+          <legend>What's your deepest, darkest sexual fantasy?</legend>
+          <textarea name="fantasy" id="fantasy" placeholder="I want a sexy dom to drain my wallet until it hurts 💦"></textarea>
+        </fieldset>
+
+        <p id="error"></p>
+      </form>
+    </section>
+
+    <section style="margin-top: 2em">
+      <h1>Preferences</h1>
+      <div class="preferences">
+        <label class="formRow">
+          <div class="preferenceText" style="width: 12em">Message Sounds:</div>
+          <input type="checkbox" id="messageSounds">
+        </label>
+
+        <label class="formRow">
+          <div class="preferenceText" style="width: 12em">Push Notifications:</div>
+          <input type="checkbox" id="pushNotifications">
+        </label>
+
+
+        <div class="formRow formRowInput">
+          <input type="text" placeholder="Premium Code" id="premiumCode"> <button id="applyPremium">Apply</button>
+        </div>
+
+        <p class="prefMessage" id="premiumMessage"></p>
+
+      </div>
+    </section>
+
+
+    <section id="vipSection" class="hidden" style="margin-top: 2em">
+      <h1>V.I.P. Preferences</h1>
+      <div class="preferences vipPreferences">
+        <h2>
+          Active VIP Token:
+          <select id="activeVIPToken"></select>
+        </h2>
+        <div id="vipPreview"></div>
+
+        <hr>
+
+        <div>
+          <label class="formRow" style="flex-direction: row; justify-content: center;">
+            <div class="preferenceText">A11y Voices:</div>
+            <input type="checkbox" id="a11yVoices">
+          </label>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content:  center; margin-top: 1em; ">
+          <div class="preferenceText" style="padding-right: 0.5em; text-align: center;">Dom Responses:</div>
+          <select id="domResponseTime" style="width: 7em">
+            <option value="slow">Slow</option>
+            <option value="normal">Normal</option>
+            <option value="fast">Fast</option>
+            <option value="instant">Instant</option>
+          </select>
+        </div>
+
+        <hr>
+
+        <div>
+          <h2>Send SexyCredits</h2>
+          <div class="formRow">
+            <input id="creditReceiver" type="number" step="1" min="0" placeholder="Membership ID" style="margin-bottom: 0.5em;">
+            <input id="creditAmount" type="number" step="1" min="1" placeholder="Amount" style="margin-bottom: 0.5em;">
+            <button id="sendCredits">Send</button>
+            <p class="prefMessage" id="sendCreditsMessage"></p>
+
+          </div>
+        </div>
+
+        <hr>
+
+        <div>
+          <h2>Approve SexyCredits</h2>
+          <div class="formRow">
+            <input id="approveAddr" type="text" placeholder="Operator Address" style="margin-top: 0.5em; margin-bottom: 1em; text-align: center; width: 26em; max-width: 90%; font-size: 1.1em;">
+            <button id="approveCredits">Approve</button>
+            <p class="prefMessage" id="approveMessage"></p>
+          </div>
+        </div>
+
+        <hr>
+        <div>
+          <h2>Color Overrides</h2>
+          <table id="colorOverride">
+            <tr>
+              <td>Primary</td>
+              <td><span class="colorSample" style="background: var(--primary-color);"></span></td>
+              <td><input type="text" id="colorOverride-primary" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Secondary</td>
+              <td><span class="colorSample" style="background: var(--secondary-color);"></span></td>
+              <td><input type="text" id="colorOverride-secondary" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Light</td>
+              <td><span class="colorSample" style="background: var(--light-color);"></span></td>
+              <td><input type="text" id="colorOverride-light" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Medium</td>
+              <td><span class="colorSample" style="background: var(--medium-color);"></span></td>
+              <td><input type="text" id="colorOverride-medium" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Dark</td>
+              <td><span class="colorSample" style="background: var(--dark-color);"></span></td>
+              <td><input type="text" id="colorOverride-dark" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Gray</td>
+              <td><span class="colorSample" style="background: var(--gray-color);"></span></td>
+              <td><input type="text" id="colorOverride-gray" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Mint</td>
+              <td><span class="colorSample" style="background: var(--mint-color);"></span></td>
+              <td><input type="text" id="colorOverride-mint" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Green</td>
+              <td><span class="colorSample" style="background: var(--green-color);"></span></td>
+              <td><input type="text" id="colorOverride-green" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Dark Green</td>
+              <td><span class="colorSample" style="background: var(--dark-green-color);"></span></td>
+              <td><input type="text" id="colorOverride-dark-green" placeholder="#000000"></td>
+            </tr>
+
+
+
+            <tr>
+              <td>Yellow</td>
+              <td><span class="colorSample" style="background: var(--yellow-color);"></span></td>
+              <td><input type="text" id="colorOverride-yellow" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Red</td>
+              <td><span class="colorSample" style="background: var(--red-color);"></span></td>
+              <td><input type="text" id="colorOverride-red" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Blue</td>
+              <td><span class="colorSample" style="background: var(--blue-color);"></span></td>
+              <td><input type="text" id="colorOverride-blue" placeholder="#000000"></td>
+            </tr>
+
+
+            <tr>
+              <td>Glow</td>
+              <td><span class="colorSample" style="background: var(--glow-color);"></span></td>
+              <td><input type="text" id="colorOverride-glow" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Gloss</td>
+              <td><span class="colorSample" style="background: var(--gloss-color);"></span></td>
+              <td><input type="text" id="colorOverride-gloss" placeholder="#000000"></td>
+            </tr>
+            <tr>
+              <td>Border</td>
+              <td><span class="colorSample" style="background: var(--border-color);"></span></td>
+              <td><input type="text" id="colorOverride-border" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Dark Fade</td>
+              <td><span class="colorSample" style="background: var(--dark-fade-color);"></span></td>
+              <td><input type="text" id="colorOverride-dark-fade" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Input</td>
+              <td><span class="colorSample" style="background: var(--input-color);"></span></td>
+              <td><input type="text" id="colorOverride-input" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Help Text</td>
+              <td><span class="colorSample" style="background: var(--help-text-color);"></span></td>
+              <td><input type="text" id="colorOverride-help-text" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Help BG</td>
+              <td><span class="colorSample" style="background: var(--help-color);"></span></td>
+              <td><input type="text" id="colorOverride-help" placeholder="#000000"></td>
+            </tr>
+
+            <tr>
+              <td>Link</td>
+              <td><span class="colorSample" style="background: var(--light-link-color);"></span></td>
+              <td><input type="text" id="colorOverride-light-link" placeholder="#000000"></td>
+            </tr>
+
+
+
+
+
+          </table>
+
+        </div>
+
       </div>
 
+    </section>
 
-
-    </form>
-
-<!--
-Name <input>
-Location <input>
-Age <input>
-Gender <Male/Female/ NB/Other>
-Interested in <Men/Women/Everybody>
-
-Annual income <input>
-What's your deepest, darkest sexual fantasy?
-
-Password
-Connect Wallet
-
-
-skip for now
-become a VIP -->
-
-
-
+    <section class="danger" style="margin-top: 2em">
+      <h1 >DANGER ZONE</h1>
+      <p>If you'd like to clear your entire chat state and make every findom forget everything about you, type "I'm a little paypig" into the box below. <em>Note: findoms will still remember your tribute amounts.</em></p>
+      <p style="margin: 0.5em 0"><strong>THIS ACTION IS IRREVERSIBLE.</strong></p>
+      <input type="text" id="resetChats" placeholder="I'm a little paypig">
+      <button id="clearLS" disabled>CLEAR</button>
+    </section>
   </main>
 
 
@@ -417,7 +683,12 @@ become a VIP -->
 <script type="module">
 
   import {$, ls} from './$.js'
-  import {defaultProfileLS, getAgeYears} from './state/profile.js'
+  import {defaultProfileLS, getAgeYears, saveColor, getColorOverride} from './state/profile.js'
+  import {vipCard} from './components/all.js'
+  import {sexyCLIT, clitLS} from './state/clit.js'
+  import { provider, toETH } from '../eth.js'
+
+
 
   // if (!ls.get('__enteredSite')) {
   //   window.location.replace('./enter.html')
@@ -429,8 +700,6 @@ become a VIP -->
     'location',
     'birthday',
     'gender',
-    // 'interested',
-    // 'income',
     'fantasy',
     'pass',
   ]
@@ -438,7 +707,6 @@ become a VIP -->
   const $form = $.id('form')
   const $error = $.id('error')
   const $submit = $.id('submit')
-
   const $birthday = $.id('birthday')
 
 
@@ -450,19 +718,6 @@ become a VIP -->
 
   $birthday.max = `${maxDateYear}-${maxDateMonth}-${maxDateDay}`
 
-
-  // if (!ls.get('profileCompleted')) {
-  //   $.id('header').setState({ hideNav: 'true' })
-
-  //   $.id('skipForNow').onclick = () => {
-  //     ls.set('profileDeferred', true)
-  //     ls.set('__enteredSite', true)
-  //     window.location.href = './'
-  //   }
-  // } else {
-
-  //   $.id('skip').classList.add('hidden')
-  // }
 
   function onSubmit(e) {
     e.preventDefault()
@@ -484,33 +739,229 @@ become a VIP -->
       }
     }
   })
-  console.log(ls.get('__enteredSite'))
-
-  $submit.onclick = (e) => {
-    const fieldsValid = fields.every(field => $.id(field).checkValidity())
-
-    // defaultProfileLS.set('profileCompleted', true)
 
 
-    if (fieldsValid) {
-      const refer = ls.get('profileCompleted') || ls.get('profileDeferred')
-      ls.set('profileCompleted', true)
-      ls.set('__enteredSite', true)
-      window.location.href = refer ? document.referrer : '/'
+  const $clearLS = $.id('clearLS')
+  const $resetChats = $.id('resetChats')
 
-        // window.location.href = '/'
-
-      // try {
-
-      //   window.location.replace('/');
-      // } catch (e) {
-      //   debugger
-
-      // }
-    }
-
+  $resetChats.onkeyup = () => {
+    if ($resetChats.value !== `I'm a little paypig`) $clearLS.disabled = true
+    if ($resetChats.value === `I'm a little paypig`) $clearLS.disabled = false
   }
 
+  $clearLS.onclick = () => {
+    localStorage.clear()
+    setTimeout(() => {
+      location.reload()
+    }, 1000)
+  }
+
+
+  const $premiumCode = $.id('premiumCode')
+  const $applyPremium = $.id('applyPremium')
+  const $premiumMessage = $.id('premiumMessage')
+  const $vipSection = $.id('vipSection')
+  const $activeVIPToken = $.id('activeVIPToken')
+  const $vipPreview = $.id('vipPreview')
+
+  const $creditReceiver = $.id('creditReceiver')
+  const $creditAmount = $.id('creditAmount')
+  const $sendCredits = $.id('sendCredits')
+  const $sendCreditsMessage = $.id('sendCreditsMessage')
+
+  const $approveAddr = $.id('approveAddr')
+  const $approveCredits = $.id('approveCredits')
+  const $approveMessage = $.id('approveMessage')
+
+  const $domResponseTime = $.id('domResponseTime')
+
+
+  provider.onConnect(async addr => {
+    const [allVIPIds, activeId] = await sexyCLIT.vipList()
+
+    if (allVIPIds.length) {
+      $vipSection.classList.remove('hidden')
+
+      $activeVIPToken.innerHTML = allVIPIds.map(id => `<option value="${id}" ${Number(id) === Number(activeId) ? 'selected' : ''}>${id}</option>`).join('')
+      updateActiveVIP(activeId)
+      $activeVIPToken.onchange = (e) => {
+        updateActiveVIP($activeVIPToken.value)
+        sexyCLIT.vipSelect($activeVIPToken.value)
+      }
+
+      $applyPremium.onclick = () => {
+        const code = $premiumCode.value
+
+        if (code === 'SingleSissySub') {
+          sexyCLIT.applyPremium(
+            1,
+            () => $premiumMessage.innerHTML = 'Applying 1x Premium...',
+            e => $premiumMessage.innerHTML = `ERROR: ${e}`,
+            () => $premiumMessage.innerHTML = 'All Prices: 1x!'
+          )
+
+        } else if (code === 'DoubleTheFun') {
+          sexyCLIT.applyPremium(
+            2,
+            () => $premiumMessage.innerHTML = 'Applying 2x Premium...',
+            e => $premiumMessage.innerHTML = `ERROR: ${e}`,
+            () => $premiumMessage.innerHTML = 'All Prices: 2x!'
+          )
+
+        } else if (code === 'ThirdTimesTheCharm') {
+          sexyCLIT.applyPremium(
+            3,
+            () => $premiumMessage.innerHTML = 'Applying 3x Premium...',
+            e => $premiumMessage.innerHTML = `ERROR: ${e}`,
+            () => $premiumMessage.innerHTML = 'All Prices: 3x!'
+          )
+        } else {
+          $premiumMessage.innerHTML = 'Invalid Premium Code'
+        }
+      }
+
+      $sendCredits.onclick = () => {
+        const recipient = $creditReceiver.value
+        const amount = $creditAmount.value
+
+        $sendCreditsMessage.innerHTML = ''
+
+        sexyCLIT.vipTransfer(
+          recipient,
+          amount,
+          () => $sendCreditsMessage.innerHTML = `Sending ${amount} SexyCredits to VIP Member ${recipient}`,
+          e => $sendCreditsMessage.innerHTML = `ERROR: ${e}`,
+          () => {
+            sexyCLIT.getActiveVIP().then(id => updateActiveVIP(id))
+            $sendCreditsMessage.innerHTML = `Credits Sent!`
+            $creditReceiver.value = ''
+            $creditAmount.value = ''
+          }
+        )
+
+      }
+
+
+      $approveCredits.onclick = () => {
+        const operator = $approveAddr.value
+
+        $approveMessage.innerHTML = ''
+
+        sexyCLIT.vipApprove(
+          operator,
+          () => $approveMessage.innerHTML = `Approving ${operator} for SexyCredits`,
+          e => $approveMessage.innerHTML = `ERROR: ${e}`,
+          () => {
+            $approveMessage.innerHTML = `Credits Approved!`
+            $approveAddr.value = ''
+          }
+        )
+      }
+
+      const existingModifier = Number(clitLS.get('responseModifier') || 1)
+
+      if (existingModifier === 2) {
+        $domResponseTime.value = 'slow'
+      } else if (existingModifier === 0.35) {
+        $domResponseTime.value = 'fast'
+      } else if (existingModifier === 0.05) {
+        $domResponseTime.value = 'instant'
+      } else {
+        $domResponseTime.value = 'normal'
+      }
+
+      console.log(existingModifier)
+
+      $domResponseTime.onchange = () => {
+        let modifier
+
+        if ($domResponseTime.value === 'slow') {
+          modifier = 2
+        } else if ($domResponseTime.value === 'fast') {
+          modifier = 0.35
+        } else if ($domResponseTime.value === 'instant') {
+          modifier = 0.05
+        } else {
+          modifier = 1
+        }
+        console.log(modifier)
+        sexyCLIT.setResponseSpeedModifier(modifier)
+      }
+    }
+  })
+
+  async function updateActiveVIP(tokenId) {
+    const { SexyVIP } = await provider.sexyContracts()
+    const activeIsGold = await SexyVIP.isGold(tokenId)
+    const activeName = await SexyVIP.memberName(tokenId)
+    const creditBalance = await SexyVIP.creditBalance(tokenId)
+
+    $vipPreview.innerHTML = vipCard(activeName, previewTokenId(tokenId), activeIsGold, creditBalance)
+  }
+
+
+
+
+
+
+
+
+
+  // $submit.onclick = (e) => {
+  //   const fieldsValid = fields.every(field => $.id(field).checkValidity())
+
+  //   // defaultProfileLS.set('profileCompleted', true)
+
+
+  //   if (fieldsValid) {
+  //     const refer = ls.get('profileCompleted') || ls.get('profileDeferred')
+  //     ls.set('profileCompleted', true)
+  //     ls.set('__enteredSite', true)
+  //     window.location.href = refer ? document.referrer : '/'
+
+  //   }
+
+  // }
+
+
+  const colors = [
+    'primary',
+    'secondary',
+    'light',
+    'medium',
+    'dark',
+    'green',
+    'mint',
+    'dark-green',
+    'yellow',
+    'red',
+    'blue',
+    'gray',
+    'gloss',
+    'border',
+    'input',
+    'help-text',
+    'help',
+    'light-link',
+    'dark-fade',
+    'glow',
+  ]
+
+  colors.forEach(c => {
+    const input = $.id(`colorOverride-${c}`)
+    input.value = getColorOverride(c) || ''
+
+    input.addEventListener('keyup', () => {
+      saveColor(c, input.value)
+    })
+  })
+
+
+  function previewTokenId(n) {
+    if (n < 10) return '00' + n
+    else if (n < 100) return '0' + n
+    else return n
+  }
 
 
 

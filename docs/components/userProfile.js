@@ -89,6 +89,8 @@ createComponent(
 
     fieldset {
       padding: 1em;
+      display: flex;
+      align-items: center;
     }
 
     form fieldset + fieldset {
@@ -101,7 +103,7 @@ createComponent(
     }
 
     textarea, input, select {
-      padding: 0.25em;
+      padding: 0.5em;
       font-size: 1.25em;
       color: var(--light-color);
       background: var(--input-color);
@@ -152,7 +154,7 @@ createComponent(
     .doubleRow, .submitRow {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: stretch;
       margin-bottom: 1em;
     }
     .doubleRow > *:last-child, .submitRow > *:last-child {
@@ -209,7 +211,7 @@ createComponent(
 
     button {
       font-size: 1.5em;
-      box-shadow: 0 0 2em #b47aa7;
+      box-shadow: 0 0 2em var(--glow-color);
       transition: 300ms;
       cursor: pointer;
       padding: 0.35em 1em;

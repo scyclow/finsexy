@@ -1,7 +1,6 @@
 
 :root {
   --primary-color: #ff00c7;
-  /*--border-color: #887888;*/
   --border-color: #524552;
   --border2-color: #29202a;
   --light-color: #fff8ff;
@@ -16,20 +15,22 @@
   /*--help-color: #df0;*/
   --help-color: #00ff98;
   --secondary-color: #7202c6;
-  --tertiary-color: #b40066;
-  --code-color: rgba(17, 5, 17, 0.7);
+  --help-text-color: #b40066;
+  --dark-fade-color: #020024;
+  --glow-color: #b47aa7;
 
 
   --green-color: #19c72c;
   --dark-green-color: #06974e;
   /*#339966;*/
-  --light-green-color: #66cc99;
+  --mint-color: #66cc99;
   --blue-color: #021593;
   --red-color: #df1a1b;
-  --purple-color: #49155b;
   --gray-color: #3f304a;
   --yellow-color: #f3ba00;
-  /*#470061;*/
+
+  /*--purple-color: #49155b;*/
+
 
 
   /*hsl(284 26% 26%)*/

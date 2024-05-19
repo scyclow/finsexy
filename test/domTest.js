@@ -64,6 +64,7 @@ describe('FinSexy', () => {
     const SexyVIPFactory = await ethers.getContractFactory('SexyVIP', artist)
     const SexyMinterFactory = await ethers.getContractFactory('SexyMinter', artist)
     const SexyTokenURIFactory = await ethers.getContractFactory('SexyTokenURI', artist)
+    const SexyRouterFactory = await ethers.getContractFactory('SexyRouter', artist)
 
     FastCash = await ethers.getContractAt(
       [
@@ -75,17 +76,20 @@ describe('FinSexy', () => {
 
     const fcCentralBanker = await ethers.getImpersonatedSigner('0x47144372eb383466D18FC91DB9Cd0396Aa6c87A4')
 
-    SexyVIP = await SexyVIPFactory.deploy()
+    SexyRouter = await SexyRouterFactory.deploy()
+    await SexyRouter.deployed()
+
+    SexyVIP = await SexyVIPFactory.attach(await SexyRouter.vip())
     await SexyVIP.deployed()
     SexyMinter = await SexyMinterFactory.attach(await SexyVIP.minter())
     SexyTokenURI = await SexyTokenURIFactory.attach(await SexyVIP.uri())
 
     const factory = await ethers.getContractFactory('SexyDeployer', artist)
-    const deployer = await factory.deploy(SexyVIP.address)
+    const deployer = await factory.deploy(SexyRouter.address)
     await deployer.deployed()
 
     const factory2 = await ethers.getContractFactory('SexyDeployer2', artist)
-    const deployer2 = await factory2.deploy(SexyVIP.address, FastCash.address)
+    const deployer2 = await factory2.deploy(SexyRouter.address, FastCash.address)
     await deployer2.deployed()
 
 
@@ -212,7 +216,6 @@ describe('FinSexy', () => {
         VinceSlickson.connect(paypig).buyFastCash(txValue(0.009)),
         'Don\'t waste Vince\'s time'
       )
-      console.log('qweqw')
 
       await VinceSlickson.connect(paypig).buyFastCash(txValue(0.1))
       await VinceSlickson.connect(artist).updateFastCashPrice(toETH(0.02))
@@ -391,6 +394,49 @@ describe('FinSexy', () => {
   // TODO findom token uri tests
 
 
+  describe.only('premiums', () => {
+    it('should adjust tribute amounts', async () => {
+      await SexyMinter.connect(paypig).mint('paypigie123', false, txValue(0.1))
+      await SexyMinter.connect(paypig2).mint('paypigie123', false, txValue(0.1))
+
+      await expectRevert(
+        SexyRouter.connect(paypig).applyPremium(0),
+        'Invalid Premium'
+      )
+
+      await expectRevert(
+        SexyRouter.connect(paypig).applyPremium(4),
+        'Invalid Premium'
+      )
+
+      expect(await SexyRouter.connect(paypig).premium(paypig.address)).to.equal(1)
+      expect(await SexyRouter.connect(paypig2).premium(paypig.address)).to.equal(1)
+
+      await SexyRouter.connect(paypig).applyPremium(2)
+      expect(await SexyRouter.connect(paypig).premium(paypig.address)).to.equal(2)
+
+      await paypig.sendTransaction({to: heatherHot.address, ...txValue(0.02)})
+      await paypig2.sendTransaction({to: heatherHot.address, ...txValue(0.02)})
+
+      await SexyRouter.connect(paypig).applyPremium(3)
+      expect(await SexyRouter.connect(paypig).premium(paypig.address)).to.equal(3)
+
+      await paypig.sendTransaction({to: heatherHot.address, ...txValue(0.03)})
+      await paypig2.sendTransaction({to: heatherHot.address, ...txValue(0.03)})
+
+      await SexyRouter.connect(paypig).applyPremium(1)
+      expect(await SexyRouter.connect(paypig).premium(paypig.address)).to.equal(1)
+
+      await paypig.sendTransaction({to: heatherHot.address, ...txValue(0.01)})
+      await paypig2.sendTransaction({to: heatherHot.address, ...txValue(0.01)})
+
+      expect(ethVal(await heatherHot.connect(paypig).tributes(paypig.address))).to.equal(0.03)
+      expect(ethVal(await heatherHot.connect(paypig2).tributes(paypig2.address))).to.equal(0.06)
+
+
+
+    })
+  })
 
 
   describe('SexyVIP', () => {
@@ -541,7 +587,7 @@ describe('FinSexy', () => {
 
         expect(uri0.description).to.equal('FinSexy V.I.P. Memberships grant the holder 25 Sexy Credits, which they may send to sexy findoms on https://finsexy.com or transfer to other V.I.P. Members.')
         expect(uri0.external_url).to.equal('https://finsexy.com')
-        expect(uri0.name).to.equal('FinSexy VIP #0')
+        expect(uri0.name).to.equal('FinSexy VIP Membership #0')
         expect(uri0.attributes[0].trait_type).to.equal('Member Name')
         expect(uri0.attributes[0].value).to.equal('steviep')
         expect(uri0.attributes[1].trait_type).to.equal('Sexy Credits')
@@ -549,7 +595,7 @@ describe('FinSexy', () => {
         expect(uri0.attributes[2].trait_type).to.equal('VIP Gold')
         expect(uri0.attributes[2].value).to.equal('true')
 
-        expect(uri1.name).to.equal('FinSexy VIP #1')
+        expect(uri1.name).to.equal('FinSexy VIP Membership #1')
         expect(uri1.attributes[0].trait_type).to.equal('Member Name')
         expect(uri1.attributes[0].value).to.equal('paypigie123')
         expect(uri1.attributes[1].trait_type).to.equal('Sexy Credits')
@@ -601,7 +647,7 @@ describe('FinSexy', () => {
 
         await expectRevert(
           SexyVIP.connect(paypig2).changeName(1, 'cashCow69'),
-          'Only Membership owner can update name'
+          'Only membership owner can update name'
         )
 
         await SexyVIP.connect(paypig).changeName(1, 'cashCow69')

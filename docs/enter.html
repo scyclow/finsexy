@@ -55,8 +55,11 @@
     input[type='checkbox'] {
       width: 2em;
       height: 2em;
-      transition: 0.2s;
       accent-color: var(--blue-color);
+    }
+
+    label * {
+      transition: 0.2s;
     }
 
     .inputHolder {
@@ -102,7 +105,7 @@
 
     #connectButton, #proceedButton, #fakeProceedButton {
       font-size: 2em;
-      box-shadow: 0 0 2em #b47aa7;
+      box-shadow: 0 0 2em var(--glow-color);
       transition: 300ms;
       padding: 0.3em 1.25em;
     }

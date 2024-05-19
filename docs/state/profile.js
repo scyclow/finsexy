@@ -56,3 +56,22 @@ export function getUserData(key) {
 }
 
 
+
+
+export const setColor = (c, v) => {
+  const r = document.querySelector(':root')
+  r.style.setProperty(`--${c}-color`, v)
+}
+
+export const saveColor = (c, v) => {
+  const overrides = defaultProfileLS.get('colorOverrides') || {}
+  overrides[c] = v
+  setColor(c, v)
+  defaultProfileLS.set('colorOverrides', overrides)
+}
+
+export const getColorOverride = c => (defaultProfileLS.get('colorOverrides') || {})[c]
+
+const initialOverrides = defaultProfileLS.get('colorOverrides') || {}
+
+Object.keys(initialOverrides).forEach(c => setColor(c, initialOverrides[c]))
