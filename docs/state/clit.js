@@ -307,7 +307,8 @@ export const sexyCLIT = {
     const totalSupply = bnToN(await SexyVIP.totalSupply())
 
     const cachedVIP = clitLS.get('activeVIP')
-    const exists = await SexyVIP.exists(cachedVIP)
+
+    const exists = cachedVIP !== undefined ? await SexyVIP.exists(cachedVIP) : false
 
     if (exists && cachedVIP || cachedVIP === '0') {
       const isOwner = await SexyVIP.ownerOf(cachedVIP)
@@ -408,7 +409,6 @@ export const sexyCLIT = {
     const { SexyVIP } = await provider.sexyContracts()
     const totalSupply = bnToN(await SexyVIP.totalSupply())
 
-    let active = clitLS.get('activeVIP')
     const ids = []
     for (let id = 0; id < totalSupply; id++) {
       if (await SexyVIP.ownerOf(id) === connectedAddr) {

@@ -452,8 +452,19 @@ TODO
       <h1>Preferences</h1>
       <div class="preferences">
         <label class="formRow">
+          <div class="preferenceText" style="width: 12em">A11Y Mode:</div>
+          <input type="checkbox" id="a11yVoices">
+        </label>
+
+        <label class="formRow">
+          <div class="preferenceText" style="width: 12em">Push Notifications:</div>
+          <input type="checkbox" id="pushNotifications">
+        </label>
+
+
+        <label class="formRow">
           <div class="preferenceText" style="width: 12em">Notification Sound:</div>
-          <select id="notificationSound" style="width: 5em; text-align: center;">
+          <select id="notificationSound" style="width: 5em; text-align: center;padding: 0.25em;">
             <option value="0">None</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -463,12 +474,6 @@ TODO
             <option value="6">6</option>
           </select>
         </label>
-
-        <label class="formRow">
-          <div class="preferenceText" style="width: 12em">Push Notifications:</div>
-          <input type="checkbox" id="pushNotifications">
-        </label>
-
 
         <div class="formRow formRowInput">
           <input type="text" placeholder="Premium Code" id="premiumCode"> <button id="applyPremium">Apply</button>
@@ -491,12 +496,6 @@ TODO
 
         <hr>
 
-        <div>
-          <label class="formRow" style="flex-direction: row; justify-content: center;">
-            <div class="preferenceText">A11Y Mode:</div>
-            <input type="checkbox" id="a11yVoices">
-          </label>
-        </div>
 
         <div style="display: flex; align-items: center; justify-content:  center; margin-top: 1em; ">
           <div class="preferenceText" style="padding-right: 0.5em; text-align: center;">Dom Responses:</div>
@@ -691,8 +690,8 @@ TODO
   import {defaultProfileLS, getAgeYears, saveColor, getColorOverride} from './state/profile.js'
   import {vipCard} from './components/all.js'
   import {sexyCLIT, clitLS} from './state/clit.js'
-  import { provider, toETH } from '../eth.js'
-
+  import { provider, toETH } from './eth.js'
+  import {voices, say} from './fns/voices.js'
 
 
 
@@ -894,8 +893,12 @@ TODO
       }
 
       $a11yVoices.checked = clitLS.get('a11y') || false
-      $a11yVoices.onclick = () => {
+      $a11yVoices.onclick = async () => {
         clitLS.set('a11y', $a11yVoices.checked)
+        if ($a11yVoices.checked) {
+          const v = (await voices)[0]
+          if (v) say(v, 'A11Y Mode Activated')
+        }
       }
 
 

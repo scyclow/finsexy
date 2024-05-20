@@ -4,6 +4,7 @@ import {ls, $} from '../$.js'
 import {provider} from '../eth.js'
 import {ProfileStats} from './all.js'
 import {tabs} from './tabs.js'
+import {voices, say} from '../fns/voices.js'
 
 
 
@@ -472,30 +473,6 @@ setTimeout(() => {
 })
 
 
-window.speechSynthesis.cancel()
-const voices = new Promise((res, rej) => {
-  setTimeout(() => {
-    if (clitLS.get('a11y')) {
-      const getVoices = () => {
-        try {
-          const voices = window.speechSynthesis.getVoices()
-          setTimeout(() => {
-            if (!voices.length) getVoices()
-            else res(voices)
-          }, 200)
-        } catch(e) {
-          rej(e)
-        }
-      }
-      getVoices()
-
-    } else {
-      res([])
-    }
-  })
-})
-
-
 
 
 export class MessageHandler {
@@ -813,10 +790,7 @@ export class MessageHandler {
           try {
             const cleanedText = messageText.replaceAll(/<\/?[^>]+(>|$)/g, '')
             const primaryVoice = await this.voice
-            const utterance = new window.SpeechSynthesisUtterance(cleanedText)
-            utterance.volume = 0.88
-            utterance.voice = primaryVoice
-            window.speechSynthesis.speak(utterance)
+            say(primaryVoice, cleanedText)
           } catch (e) {}
         }, 300)
       }

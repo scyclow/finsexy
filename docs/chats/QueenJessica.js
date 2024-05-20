@@ -78,7 +78,7 @@ const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 export const QueenProfile = {
   name: 'QueenJessica',
-  startingVisibility: 'offline',
+  startingVisibility: 'online',
   domType: 'Hard',
   order: 6,
   age: 29,

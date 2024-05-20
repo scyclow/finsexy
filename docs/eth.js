@@ -101,7 +101,12 @@ export const DOM_CONTRACTS = {
     "Hedonitronica": "0x4AE5AF759E17599107c1C688bfaCF6131C376D51",
     "MindyRouge": "0x1881d02D05a44713a69d6eDDE3e7167792A636d6",
     "0x000000000000000000000000000000000": "0x4ABEaCA4b05d8fA4CED09D26aD28Ea298E8afaC8",
-    "SpecialAgentDiane": "0x4ABEaCA4b05d8fA4CED09D26aD28Ea298E8afaC8"
+    "SpecialAgentDiane": "0x4ABEaCA4b05d8fA4CED09D26aD28Ea298E8afaC8",
+    "RonaMerch": "0x72616c92Bcb8660B5bE0fa423Fe0C58BdE3EFd28",
+    "MoneyMommy777": "0xa9b19BA63eD2fFa19f50a63Bddf5F4a0092678C7",
+    "HotlineBabe1900": "0x3083DB70660BB6bbB7A905743D181383aa439b46",
+    "CustomerSupport247": "0xdcd0868CDE29952A285da154ff0a5a2A1C88CD13",
+    "cagla": "0xe2657e5E56De8b4c6B6bB2AB57Beb7964F9ab941"
   },
   sepolia: {
     SamanthaJones: '0x40f34B5DCc2b8182037b58Add64FD84Ebc60aF04',
@@ -119,6 +124,12 @@ export const DOM_CONTRACTS = {
     SpecialAgentDiane: '0x95d427A098Da43cB3990EDEFca5f1dECd2e00AbD',
     steviep: '0xA2cdc432d3bAfAbE89b5BAC58A5fAfc9107cA76c',
     '0x000000000000000000000000000000000': '0x95d427A098Da43cB3990EDEFca5f1dECd2e00AbD',
+    "SpecialAgentDiane": "0x4ABEaCA4b05d8fA4CED09D26aD28Ea298E8afaC8",
+    "RonaMerch": "0x3f351312c0C1183FCe362Ef7f68e8c1895f23Ff6", // TODO
+    "MoneyMommy777": "0x3f351312c0C1183FCe362Ef7f68e8c1895f23Ff6", // TODO
+    "HotlineBabe1900": "0x3f351312c0C1183FCe362Ef7f68e8c1895f23Ff6", // TODO
+    "CustomerSupport247": "0x3f351312c0C1183FCe362Ef7f68e8c1895f23Ff6", // TODO
+    "cagla": "0x3f351312c0C1183FCe362Ef7f68e8c1895f23Ff6" // TODO
   },
   mainnet: {},
 }
@@ -214,7 +225,6 @@ export class Web3Provider {
 
           const fakedPaymentAmount = clitLS.get(`__${contractAddr}_fakedPayments`)
           const amountToAdd = ethers.utils.parseEther(String(fakedPaymentAmount || 0))
-          console.log(fakedPaymentAmount)
 
           return t.add(amountToAdd)
         }
@@ -415,13 +425,19 @@ export class Web3Provider {
       DrAndy: await this.contract(CONTRACTS.DrAndy, domABI),
       DungeonMistress: await this.contract(CONTRACTS.DungeonMistress, domABI),
       '0x000000000000000000000000000000000': await this.contract(CONTRACTS['0x000000000000000000000000000000000'], domABI),
-      'SpecialAgentDiane': await this.contract(CONTRACTS['0x000000000000000000000000000000000'], domABI),
+      SpecialAgentDiane: await this.contract(CONTRACTS['0x000000000000000000000000000000000'], domABI),
       QueenJessica: await this.contract(CONTRACTS.QueenJessica, domABI),
       steviep: await this.contract(CONTRACTS.steviep, stevieABI),
       Hedonitronica: await this.contract(CONTRACTS.Hedonitronica, domABI),
       MindyRouge: await this.contract(CONTRACTS.MindyRouge, domABI),
       CandyCrush: await this.contract(CONTRACTS.CandyCrush, domABI),
       FDXXXpress: await this.contract(CONTRACTS.FDXXXpress, domABI),
+      RonaMerch: await this.contract(CONTRACTS.RonaMerch, domABI),
+      MoneyMommy777: await this.contract(CONTRACTS.MoneyMommy777, domABI),
+      HotlineBabe1900: await this.contract(CONTRACTS.HotlineBabe1900, domABI),
+      CustomerSupport247: await this.contract(CONTRACTS.CustomerSupport247, domABI),
+      cagla: await this.contract(CONTRACTS.cagla, domABI),
+
     }
 
 

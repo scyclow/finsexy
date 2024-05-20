@@ -105,7 +105,7 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 export const StevieProfile = {
   name: 'steviep',
-  startingVisibility: 'offline',
+  startingVisibility: 'online',
   domType: 'Sadist',
   order: 5,
   age: Math.floor(getAgeYears(616579260000)),

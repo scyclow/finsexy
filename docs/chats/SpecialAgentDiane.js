@@ -26,26 +26,9 @@
 */
 import { isYes, isNo, isGreeting, isMatch, MessageHandler, diatribe, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
+import {voices} from '../fns/voices.js'
 
-const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
-
-
-let primaryVoice
-
-const getVoices = () => {
-  try {
-    const voices = window.speechSynthesis.getVoices()
-    setTimeout(() => {
-      if (!voices.length) getVoices()
-      else {
-        primaryVoice = voices.find(v => v.voiceURI === 'Zarvox') || voices.find(v => v.voiceURI.includes('Karen')) || voices[0]
-      }
-    }, 200)
-  } catch(e) {
-    console.log(e)
-  }
-}
-getVoices()
+const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 
 
@@ -53,7 +36,7 @@ export const DianeProfile = {
   name: 'SpecialAgentDiane',
   startingVisibility: 'hidden',
   domType: 'Protocol',
-  order: 13,
+  order: 15,
   age: 31,
   distance: 1,
   maxPhotos: 3,
@@ -200,7 +183,8 @@ const DianeMessages = {
     `My diagnostics are showing that your mainframe has been infected with a trojan malware`,
     `If we are going to catch this perp then we have to move fast.`,
   ], {
-    followUp: () => {
+    followUp: async () => {
+      const primaryVoice = (await voices).find(v => v.voiceURI === 'Zarvox') || voices.find(v => v.voiceURI.includes('Karen')) || voices[0]
       const utterance = new window.SpeechSynthesisUtterance(`System Alert WARNING. Malware Detected`)
       utterance.volume = 0.88
       utterance.voice = primaryVoice

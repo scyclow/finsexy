@@ -412,11 +412,21 @@ contract SexyDeployer2 {
   FinDomBaseLight public Hacker;
   FinDomBaseLight public Hedonitronica;
   FinDomBaseLight public MindyRouge;
+  FinDomBaseLight public MoneyMommy777;
+  FinDomBaseLight public HotlineBabe1900;
+  FinDomBaseLight public RonaMerch;
+  FinDomBaseLight public CustomerSupport247;
+  FinDomBaseLight public cagla;
 
   constructor(address router, address fcAddr) {
     vinceSlickson = new VinceSlickson(fcAddr, msg.sender, router);
     Hacker = new FinDomBaseLight(msg.sender, router);
     Hedonitronica = new FinDomBaseLight(msg.sender, router);
     MindyRouge = new FinDomBaseLight(msg.sender, router);
+    MoneyMommy777 = new FinDomBaseLight(msg.sender, router);
+    HotlineBabe1900 = new FinDomBaseLight(msg.sender, router);
+    RonaMerch = new FinDomBaseLight(msg.sender, router);
+    CustomerSupport247 = new FinDomBaseLight(msg.sender, router);
+    cagla = new FinDomBaseLight(msg.sender, router);
   }
 }

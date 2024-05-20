@@ -135,14 +135,14 @@ const fu = (messageCode, waitMs=1500) => ({ messageCode, waitMs })
 
 export const MistressProfile = {
   name: 'DungeonMistress',
-  startingVisibility: 'offline',
+  startingVisibility: 'online',
   domType: 'Role-Play',
   order: 7,
   display: 'f',
   age: 27,
   distance: 666,
   gender: 'Female',
-  maxPhotos: 4,
+  maxPhotos: 6,
   voice: {
     lang: 'en-GB',
     name: 'Martha'

@@ -30,12 +30,19 @@ import {DianeProfile} from '../chats/SpecialAgentDiane.js'
 import {CandyCrushProfile} from '../chats/CandyCrush.js'
 import {MindyProfile, MindyChat} from '../chats/MindyRouge.js'
 import {XXXProfile} from '../chats/FDXXXpress.js'
+import {CaglaProfile} from '../chats/cagla.js'
+import {CustomerSupportProfile, CustomerSupportChat} from '../chats/CustomerSupport247.js'
+import {HotlineBabeProfile} from '../chats/HotlineBabe1900.js'
+import {MoneyMommyProfile} from '../chats/MoneyMommy777.js'
+import {RonaMerchProfile} from '../chats/RonaMerch.js'
 // export * from '../chats/cagla.js'
 
 import {ls} from '../$.js'
 
-import {getUserData } from '../state/profile.js'
+import {getUserData } from './profile.js'
+import {sexyCLIT } from './clit.js'
 import {analyticsLS} from './analytics.js'
+import {provider} from '../eth.js'
 
 
 if (!ls.get('__enteredSite')) {
@@ -60,7 +67,15 @@ export const ProfileStats = {
   [CandyCrushProfile.name]: CandyCrushProfile,
   [MindyProfile.name]: MindyProfile,
   [XXXProfile.name]: XXXProfile,
+  [CaglaProfile.name]: CaglaProfile,
+  [CustomerSupportProfile.name]: CustomerSupportProfile,
+  [HotlineBabeProfile.name]: HotlineBabeProfile,
+  [MoneyMommyProfile.name]: MoneyMommyProfile,
+  [RonaMerchProfile.name]: RonaMerchProfile,
 }
+
+
+const unmessaged = Chat => !Chat.ctx.history.length && !Chat.ctx.eventQueue.length
 
 setRunInterval(() => {
   const pastProfile = ls.get('profileDeferred') || ls.get('profileCompleted')
@@ -68,21 +83,21 @@ setRunInterval(() => {
   // TODO can optimize this to not run once a second once events are queued
 
   if (ls.get('__enteredSite') && pastProfile) {
-    if (!KatChat.ctx.history.length && !KatChat.ctx.eventQueue.length) {
+    if (unmessaged(KatChat)) {
       KatChat.queueEvent('steviep', 300000)
     }
-    if (!HHChat.ctx.history.length && !HHChat.ctx.eventQueue.length) {
-      HHChat.queueEvent('hi', 5000)
+    if (unmessaged(HHChat)) {
+      HHChat.queueEvent('hi', 3000)
     }
 
     const pw = getUserData('password')
     const timeElapsed = Date.now() - analyticsLS.get('firstEntry')
-    if (!HackerChat.ctx.history.length &&  !HackerChat.ctx.eventQueue.length && pw && timeElapsed >= 1200000) {
+    if (unmessaged(HackerChat) && pw && timeElapsed >= 1200000) {
       HackerChat.queueEvent('hello', 1)
       MessageHandler.visibilityCtx['0x000000000000000000000000000000000'] = 'offline'
     }
 
-    if (!MindyChat.ctx.history.length &&  !MindyChat.ctx.eventQueue.length && timeElapsed >= 2400000) {
+    if (unmessaged(MindyChat) && timeElapsed >= 2400000) {
       MindyChat.queueEvent('hello', 1)
       MessageHandler.visibilityCtx.MindyRouge = 'online'
     }
@@ -105,29 +120,45 @@ if (!ls.get('BETA_PASS') && window.location.href.includes('finsexy.com')) {
 
 
 
+provider.onConnect(async (addr) => {
+  if (unmessaged(CustomerSupportChat)) {
+    const activeVIP = await sexyCLIT.getActiveVIP()
+    if (activeVIP) {
+      const { SexyVIP } = await provider.sexyContracts()
+      const activeIsGold = await SexyVIP.isGold(activeVIP)
 
+      MessageHandler.visibilityCtx.CustomerSupport247 = 'online'
+      MessageHandler.globalCtx.isVIP = true
+      MessageHandler.globalCtx.isGold = activeIsGold
 
-const wordCount = M => Object.keys(M).reduce((a, c) => {
-  const messageText = M[c]
-  if (messageText) {
-    a += messageText.toString().split(' ').length
-    return a
+      CustomerSupportChat.queueEvent('hello', 1)
+    }
   }
-  else return a
-}, 0)
+})
 
 
-const commentCount = P => P.testimonials.reduce((a, c) => {
-  return a + c.review.split(' ').length
-}, 0)
 
-console.log(Object.keys(MessageHandler.chats).reduce((a, c) => {
-  console.log(c, wordCount(MessageHandler.chats[c].messages))
-  console.log(c, commentCount(ProfileStats[c]))
+// const wordCount = M => Object.keys(M).reduce((a, c) => {
+//   const messageText = M[c]
+//   if (messageText) {
+//     a += messageText.toString().split(' ').length
+//     return a
+//   }
+//   else return a
+// }, 0)
 
 
-  return a + wordCount(MessageHandler.chats[c].messages) + commentCount(ProfileStats[c])
-}, 0))
+// const commentCount = P => P.testimonials.reduce((a, c) => {
+//   return a + c.review.split(' ').length
+// }, 0)
+
+// console.log(Object.keys(MessageHandler.chats).reduce((a, c) => {
+//   console.log(c, wordCount(MessageHandler.chats[c].messages))
+//   console.log(c, commentCount(ProfileStats[c]))
+
+
+//   return a + wordCount(MessageHandler.chats[c].messages) + commentCount(ProfileStats[c])
+// }, 0))
 
 
 

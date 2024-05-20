@@ -30,14 +30,14 @@ https://twitter.com/goddexvicious
 import { isYes, isNo, isGreeting, isMatch, MessageHandler, diatribe, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 
-const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
+const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 
 export const CandyCrushProfile = {
   name: 'CandyCrush',
-  startingVisibility: 'online',
+  startingVisibility: 'offline',
   domType: 'Sugar Baby',
-  order: 9,
+  order: 10,
   age: 19,
   distance: 4,
   maxPhotos: 3,

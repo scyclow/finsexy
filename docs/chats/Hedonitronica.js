@@ -9,7 +9,7 @@ export const HedonitronicaProfile = {
   name: 'Hedonitronica',
   startingVisibility: 'hidden',
   domType: 'TODO',
-  order: 15,
+  order: 19,
   age: getAgeYears(0),
   distance: 0,
   gender: 'Gender Fluid',

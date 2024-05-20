@@ -22,7 +22,7 @@ export const KatProfile = {
   name: 'katFischer',
   startingVisibility: 'hidden',
   domType: 'Role-Play',
-  order: 11,
+  order: 13,
   age: 23,
   distance: 69,
   gender: 'Female',

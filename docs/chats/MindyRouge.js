@@ -3,14 +3,14 @@
 import { isYes, isNo, isGreeting, isMatch, MessageHandler, diatribe, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch, getAgeYears } from '../state/profile.js'
 
-const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
+const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 
 export const MindyProfile = {
   name: 'MindyRouge',
-  startingVisibility: 'online',
+  startingVisibility: 'hidden',
   domType: 'Superstar',
-  order: 14,
+  order: 17,
   age: Math.floor(getAgeYears(648273600000)),
   distance: 1,
   maxPhotos: 1,

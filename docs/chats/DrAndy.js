@@ -89,7 +89,7 @@ const hasNumber = ur => ur.match(/(\d+)/)
 
 export const AndyProfile = {
   name: 'DrAndy',
-  startingVisibility: 'offline',
+  startingVisibility: 'online',
   domType: 'Role-Play',
   order: 8,
   age: 24,

@@ -119,7 +119,7 @@ const fu = (messageCode, waitMs=1500) => ({ messageCode, waitMs })
 
 export const CrystalGoddessProfile = {
   name: 'CrystalGoddess',
-  startingVisibility: 'offline',
+  startingVisibility: 'online',
   domType: 'Protocol',
   order: 4,
   age: 31,

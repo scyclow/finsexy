@@ -95,6 +95,11 @@ async function main() {
   Hacker = (await FinDomBaseLightFactory.attach(await deployer2.Hacker())).address
   Hedonitronica = (await FinDomBaseLightFactory.attach(await deployer2.Hedonitronica())).address
   MindyRouge = (await FinDomBaseLightFactory.attach(await deployer2.MindyRouge())).address
+  MoneyMommy777 = (await FinDomBaseLightFactory.attach(await deployer2.MoneyMommy777())).address
+  HotlineBabe1900 = (await FinDomBaseLightFactory.attach(await deployer2.HotlineBabe1900())).address
+  RonaMerch = (await FinDomBaseLightFactory.attach(await deployer2.RonaMerch())).address
+  CustomerSupport247 = (await FinDomBaseLightFactory.attach(await deployer2.CustomerSupport247())).address
+  cagla = (await FinDomBaseLightFactory.attach(await deployer2.cagla())).address
 
 
   SexyGame = await deployer.steviep()
@@ -121,6 +126,11 @@ async function main() {
     MindyRouge,
     '0x000000000000000000000000000000000': Hacker,
     SpecialAgentDiane: Hacker,
+    RonaMerch,
+    MoneyMommy777,
+    HotlineBabe1900,
+    CustomerSupport247,
+    cagla
   }
 
 

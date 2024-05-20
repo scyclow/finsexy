@@ -1,14 +1,6 @@
-/*
 
-after first message: Talking to International DOMs requires VIP membership (or pay 0.02 )
-
-
-
-
-*/
-import { isYes, isNo, isGreeting, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, MessageHandler, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
-
 
 
 const messages = [
@@ -33,27 +25,66 @@ const messages = [
 ]
 
 
+const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
-
-const CaglaMessages = messages.reduce(
-  (messageMap, msgFn, ix) => {
-    return {
-      ...messageMap,
-      [`msg${ix}`]: {
-        messageText: () => msgFn(getUserData()),
-        responseHandler: () => `msg${ix+1}`
-      }
-
-    }
+export const CaglaProfile = {
+  name: 'cagla',
+  startingVisibility: 'hidden',
+  domType: 'Soft',
+  order: 14,
+  age: 25,
+  distance: 5345,
+  maxPhotos: 1,
+  voice: {
+    lang: 'ms-MY',
+    name: 'Amira'
   },
-  {
-    // __contract() {},
+  description: ``,
+  gender: 'Female',
+  display: 'f',
+  testimonials: [
 
-    START: {
-      responseHandler: (userResponse) => `msg0`
-    }
-  }
-)
+  ]
+}
 
+
+
+
+
+
+const CaglaMessages = {
+  TYPING_SPEED: 1,
+
+  START: {
+    responseHandler: `hello`,
+    ignoreSend: true,
+    ignoreType: true
+  },
+
+  async __contract(provider) {
+    return await provider.domContract('cagla')
+
+  },
+
+  __precheck(userResponse, ctx, contract, provider, isFollowup) {
+    // if (userResponse && isMean(userResponse)) {
+    //   return {
+    //     messageText: ``,
+    //     responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+    //   }
+    // }
+  },
+
+  hello: {
+    messageText: 'TODO',
+    responseHandler: (ur) => {},
+
+  },
+  // after first message: Talking to International DOMs requires VIP membership (or pay 0.02 )
+}
+
+
+
+export const CaglaChat = new MessageHandler(CaglaProfile, CaglaMessages)
 
 
