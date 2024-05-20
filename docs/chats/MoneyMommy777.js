@@ -49,11 +49,13 @@ export const MoneyMommyProfile = {
     lang: 'en-ZA',
     name: 'Tessa'
   },
-  description: ``,
+  description: `TODO`,
   gender: 'Female',
   display: 'f',
   testimonials: [
-
+    {
+      review: 'TODO'
+    }
   ]
 }
 

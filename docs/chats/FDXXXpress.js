@@ -21,7 +21,7 @@ export const XXXProfile = {
     lang: 'en-US',
     name: 'Fred'
   },
-  description: `When you're on the move...`,
+  description: `TODO`,
   gender: 'Binary',
   display: 'nb',
   testimonials: [

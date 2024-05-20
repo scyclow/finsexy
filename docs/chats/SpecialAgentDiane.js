@@ -44,7 +44,7 @@ export const DianeProfile = {
     lang: 'en-US',
     name: 'Nicky'
   },
-  description: ``,
+  description: `TODO`,
   gender: 'Female',
   display: 'f',
   testimonials: [

@@ -18,7 +18,7 @@ export const CustomerSupportProfile = {
     lang: 'el-GR',
     name: 'Melina'
   },
-  description: ``,
+  description: `VIP Customer Support Associate`,
   gender: 'Female',
   display: 'f',
   testimonials: [

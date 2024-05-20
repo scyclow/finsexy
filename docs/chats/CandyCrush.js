@@ -45,7 +45,7 @@ export const CandyCrushProfile = {
     lang: 'en-GB',
     name: 'Sandy'
   },
-  description: `I'm trouble`,
+  description: `TODO`,
   gender: 'Female',
   display: 'f',
   testimonials: [

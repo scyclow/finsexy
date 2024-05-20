@@ -34,11 +34,11 @@ export const HotlineBabeProfile = {
     lang: 'en-US',
     name: 'Ralph'
   },
-  description: ``,
+  description: `TODO`,
   gender: 'Unknown',
   display: 'nb',
   testimonials: [
-
+    {review: 'TODO'}
   ]
 }
 

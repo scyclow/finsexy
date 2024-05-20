@@ -23,11 +23,19 @@ export const RonaMerchProfile = {
     lang: 'en-US',
     name: 'Eddy'
   },
-  description: ``,
+  description: `Proud FinSexy sponsor! Your one-stop shop for Rona Merch! Dedicated to bringing you the freshest rona deals every day! Shop until you drop! Visit us at: <a href="https://ronamerch.co" target="_blank">RonaMerch.co</a>`,
   gender: 'Retail',
   display: 'nb',
   testimonials: [
-
+    {
+      review: `Without a doubt, Rona Merch Co. ovvers the hottest selection of stylish face masks on the internet -- and at ROCK BOTTOM prices to boot!`
+    },
+    {
+      review: `The best face masks and t-shirts on the web. Period.`
+    },
+    {
+      review: `Such high quality. Great prices, too!`
+    },
   ]
 }
 
