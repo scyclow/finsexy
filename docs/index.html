@@ -549,7 +549,7 @@
           <div slot="connected">
             <div class="filterRow">
               <h3 id="tributeTitle">Tributes Paid</h3>
-              <table id="tributes"></table>
+              <table id="tributes"><tr><td>Loading...</td></tr></table>
             </div>
           </div>
         </connect-wallet>
@@ -775,7 +775,7 @@
         const dom = ProfileStats[d]
         const contract = await provider.domContract(d)
         const tributes = fromWei(await contract.tributes(addr))
-        const tributesRounded = Math.floor(tributes * 100000000) / 100000000
+        const tributesRounded = Math.floor(tributes * 10000000) / 10000000
         if (tributes > 0) {
           anyTributesPaid = true
           tributeContent += `

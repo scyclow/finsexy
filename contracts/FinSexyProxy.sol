@@ -3,8 +3,11 @@
 pragma solidity ^0.8.23;
 
 import "./ProxyDependencies.sol";
-import "hardhat/console.sol";
 
+
+interface IERC20 {
+  function transfer(address to, uint256 value) external returns (bool);
+}
 
 abstract contract FinDomTribute is Ownable {
   mapping(address => uint256) public tributes;
@@ -12,6 +15,10 @@ abstract contract FinDomTribute is Ownable {
 
   function withdraw() external onlyOwner {
     payable(owner()).transfer(address(this).balance);
+  }
+
+  function withdrawERC20(address erc20, uint256 amount) external onlyOwner {
+    IERC20(erc20).transfer(msg.sender, amount);
   }
 }
 
@@ -25,6 +32,7 @@ interface ISexyRouter {
   function baseURI() external view returns (address);
   function premium(address user) external view returns (uint256);
 }
+
 
 contract FinDomBase is ERC721, FinDomTribute {
   uint256 public mintThreshold;

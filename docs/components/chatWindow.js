@@ -193,6 +193,10 @@ createComponent(
         box-shadow: 0 0 20px var(--primary-color);
       }
 
+      ul {
+        margin-left: 2em;
+      }
+
 
       @keyframes fadeIn {
         0% {

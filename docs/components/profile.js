@@ -907,6 +907,7 @@ createComponent(
             (tx) => {
               ctx.$sendError.innerHTML = ''
               ctx.$sendInput.value = ''
+              ctx.$creditSendInput.value = ''
             }
           )
       }

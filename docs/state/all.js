@@ -123,6 +123,7 @@ if (!ls.get('BETA_PASS') && window.location.href.includes('finsexy.com')) {
 provider.onConnect(async (addr) => {
   if (unmessaged(CustomerSupportChat)) {
     const activeVIP = await sexyCLIT.getActiveVIP()
+  console.log(activeVIP)
     if (activeVIP) {
       const { SexyVIP } = await provider.sexyContracts()
       const activeIsGold = await SexyVIP.isGold(activeVIP)
