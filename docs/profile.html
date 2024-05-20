@@ -2,15 +2,7 @@
 
 TODO
   Build
-    - message sounds
     - push notifications
-    - a11y voices
-
-
-
-
-
-
  -->
 
 <!DOCTYPE html>
@@ -71,6 +63,10 @@ TODO
   h2, .preferenceText, button {
     font-family: var(--code-font);
 
+  }
+
+  h2 select {
+    font-size: 1em;
   }
 
 /*    a {
@@ -396,14 +392,6 @@ TODO
 
     <h1>Paypig Profile</h1>
 
-    <connect-wallet>
-      <div slot="notConnected" class="connectItem">
-        <connect-button>
-          <button id="connectButton" slot="button" style="margin-top:1em;">Connect Wallet</button>
-          <div slot="loading">Loading...</div>
-        </connect-button>
-      </div>
-    </connect-wallet>
 
     <section>
       <form onsubmit="onSubmit(event)">
@@ -451,12 +439,29 @@ TODO
       </form>
     </section>
 
+    <connect-wallet>
+      <div slot="notConnected" class="connectItem">
+        <connect-button>
+          <button id="connectButton" slot="button" style="margin-top:1em;">Connect Wallet</button>
+          <div slot="loading">Loading...</div>
+        </connect-button>
+      </div>
+    </connect-wallet>
+
     <section style="margin-top: 2em">
       <h1>Preferences</h1>
       <div class="preferences">
         <label class="formRow">
-          <div class="preferenceText" style="width: 12em">Message Sounds:</div>
-          <input type="checkbox" id="messageSounds">
+          <div class="preferenceText" style="width: 12em">Notification Sound:</div>
+          <select id="notificationSound" style="width: 5em; text-align: center;">
+            <option value="0">None</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
         </label>
 
         <label class="formRow">
@@ -488,7 +493,7 @@ TODO
 
         <div>
           <label class="formRow" style="flex-direction: row; justify-content: center;">
-            <div class="preferenceText">A11y Voices:</div>
+            <div class="preferenceText">A11Y Mode:</div>
             <input type="checkbox" id="a11yVoices">
           </label>
         </div>
@@ -690,6 +695,8 @@ TODO
 
 
 
+
+
   // if (!ls.get('__enteredSite')) {
   //   window.location.replace('./enter.html')
   // }
@@ -774,6 +781,8 @@ TODO
   const $approveMessage = $.id('approveMessage')
 
   const $domResponseTime = $.id('domResponseTime')
+  const $notificationSound = $.id('notificationSound')
+  const $a11yVoices = $.id('a11yVoices')
 
 
   provider.onConnect(async addr => {
@@ -841,7 +850,6 @@ TODO
 
       }
 
-
       $approveCredits.onclick = () => {
         const operator = $approveAddr.value
 
@@ -870,8 +878,6 @@ TODO
         $domResponseTime.value = 'normal'
       }
 
-      console.log(existingModifier)
-
       $domResponseTime.onchange = () => {
         let modifier
 
@@ -884,11 +890,27 @@ TODO
         } else {
           modifier = 1
         }
-        console.log(modifier)
         sexyCLIT.setResponseSpeedModifier(modifier)
       }
+
+      $a11yVoices.checked = clitLS.get('a11y') || false
+      $a11yVoices.onclick = () => {
+        clitLS.set('a11y', $a11yVoices.checked)
+      }
+
+
     }
   })
+
+  $notificationSound.value = Number(clitLS.get('notification')) || 0
+  $notificationSound.onchange = () => {
+    const n = Number($notificationSound.value)
+    if (n) {
+      const audio = new Audio(`./assets/notification${n}.mp3`)
+      audio.play()
+    }
+    clitLS.set('notification', n)
+  }
 
   async function updateActiveVIP(tokenId) {
     const { SexyVIP } = await provider.sexyContracts()

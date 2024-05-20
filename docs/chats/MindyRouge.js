@@ -14,6 +14,10 @@ export const MindyProfile = {
   age: Math.floor(getAgeYears(648273600000)),
   distance: 1,
   maxPhotos: 1,
+  voice: {
+    lang: 'en-US',
+    name: 'Good News'
+  },
   description: `I'm difficult`,
   gender: 'Female',
   display: 'f',

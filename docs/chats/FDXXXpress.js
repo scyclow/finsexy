@@ -14,6 +14,10 @@ export const XXXProfile = {
   age: 0,
   distance: 1,
   maxPhotos: 1,
+  voice: {
+    lang: 'en-US',
+    name: 'Fred'
+  },
   description: `When you're on the move...`,
   gender: 'Binary',
   display: 'nb',

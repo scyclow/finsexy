@@ -28,6 +28,10 @@ export const KatProfile = {
   gender: 'Female',
   display: 'f',
   maxPhotos: 3,
+  voice: {
+    lang: 'en-US',
+    name: 'Shelly'
+  },
   description: `I'm just doing my job`,
   testimonials: [
     {

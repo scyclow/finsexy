@@ -15,6 +15,10 @@ export const HedonitronicaProfile = {
   gender: 'Gender Fluid',
   display: 'nb',
   maxPhotos: 16,
+  voice: {
+    lang: 'en-US',
+    name: 'Cellos'
+  },
   description: `TODO`,
   testimonials: []
 }

@@ -29,6 +29,10 @@ export const HackerProfile = {
   age: NaN,
   distance: NaN,
   maxPhotos: 2,
+  voice: {
+    lang: 'en-US',
+    name: 'Zarvox'
+  },
   description: ``,
   gender: undefined,
   display: 'nb',

@@ -41,6 +41,10 @@ export const CandyCrushProfile = {
   age: 19,
   distance: 4,
   maxPhotos: 3,
+  voice: {
+    lang: 'en-GB',
+    name: 'Sandy'
+  },
   description: `I'm trouble`,
   gender: 'Female',
   display: 'f',

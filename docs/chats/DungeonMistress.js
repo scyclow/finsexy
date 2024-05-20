@@ -143,6 +143,10 @@ export const MistressProfile = {
   distance: 666,
   gender: 'Female',
   maxPhotos: 4,
+  voice: {
+    lang: 'en-GB',
+    name: 'Martha'
+  },
   description: `I like roleplay, sadomasochism, and humiliation. And if you're not careful I'm going to suck every last cent out of your wallet,`,
   testimonials: [
     {
@@ -863,7 +867,7 @@ const MistressMessages = {
   },
 
   hello: {
-    messageText: `You awaken in a dingy tavern, the sour taste of day-old ale clinging to your breath. As the room slowly comes into focus you realize that you are not alone: you feel six glances on you. A bartender washing a beer stein behind the counter. Two harlots cackling over a glass of wine. Three men silently play poker. Behind them a door leads to the town square outside.`,
+    messageText: `You awaken in a dingy tavern, the sour taste of day-old ale clinging to your breath. As the room slowly comes into focus you realize that you are not alone: you feel six glances on you. A bartender washing a beer stein behind the counter. Two harlots cackling over a glass of wine. Three men silently playing poker. Behind them a door leads to the town square outside.`,
     responseHandler: tavernActions
   },
 

@@ -120,6 +120,10 @@ export const HeatherHotProfile = {
   gender: 'Female',
   display: 'f',
   maxPhotos: 4,
+  voice: {
+    lang: 'en-US',
+    name: 'Samantha'
+  },
   description: `My name is Heather, and I'm here to help`,
   testimonials: [
     {
@@ -440,7 +444,7 @@ const HeatherHotMessages = {
   },
 
   moreInfo3e: {
-    messageText: `but if that's all too much to handle then you can alway go back with <code>$sexy premium SingleSissySub</code>`,
+    messageText: `but if that's all too much to handle then you can always go back with <code>$sexy premium SingleSissySub</code>`,
     followUp: { messageCode: 'nextSteps', waitMs: 5000 }
   },
 

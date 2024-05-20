@@ -42,6 +42,10 @@ export const SamanthaProfile = {
   gender: 'Female',
   display: 'f',
   maxPhotos: 4,
+  voice: {
+    lang: 'en-US',
+    name: 'Grandma'
+  },
   description: `
   Samantha Jones is a tax auditor financial professional who loves auditing crypto ${genderSwitch({
     m: 'sissy boys',

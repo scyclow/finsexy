@@ -7,6 +7,8 @@
 <body>
   <main id="main"></main>
 
+  <button onclick="window.speechSynthesis.cancel()">CANCEL</button>
+
 </body>
 
 <script type="text/javascript">
@@ -20,7 +22,7 @@ const getVoices = () => {
       else {
         voices.forEach((v, i) => {
           document.getElementById('main').innerHTML += `
-            <div>${i} <button onclick="speak(${i})">${v.name}</button> ${v.lang} -- ${v.voiceURI}</div>
+            <div>${i}<input type="checkbox"></input> <button onclick="speak(${i})">${v.name}</button> ${v.lang} -- ${v.voiceURI}</div>
           `
         })
       }
@@ -33,11 +35,10 @@ getVoices()
 
 
 function speak(i) {
-  const utterance = new window.SpeechSynthesisUtterance(`System Alert WARNING Malware Detected`)
+  const utterance = new window.SpeechSynthesisUtterance(`hello, sexy paypig`)
   utterance.volume = 0.88
   utterance.voice = voices[i]
   window.speechSynthesis.speak(utterance)
-      alert('⚠️ [System Alert] WARNING -> Malware Detected ⚠️')
 
 }
 

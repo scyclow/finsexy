@@ -312,7 +312,7 @@ createComponent(
         display: inline-block;
         padding: 0.5em;
         background: var(--bg-color);
-        opacity: 0.7;
+        opacity: 0.85;
         color: var(--light-color);
         border-radius: 0.25em;
         cursor: pointer;

@@ -86,6 +86,10 @@ export const QueenProfile = {
   gender: 'F',
   display: 'f',
   maxPhotos: 4,
+  voice: {
+    lang: 'en-AU',
+    name: 'Karen'
+  },
   description: `I'm the reason your wife is going to leave you 💸 #findom 👑 #brat 🙇‍♀️🙇🙇‍♂️ #paypig 🐷 e/acc 🔥 #spoilme 🥵💦
   <br/>💵 ${MessageHandler.globalCtx.premium * 0.01} ETH tribute to talk 💵
   `,

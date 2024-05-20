@@ -57,6 +57,10 @@ export const DianeProfile = {
   age: 31,
   distance: 1,
   maxPhotos: 3,
+  voice: {
+    lang: 'en-US',
+    name: 'Nicky'
+  },
   description: ``,
   gender: 'Female',
   display: 'f',

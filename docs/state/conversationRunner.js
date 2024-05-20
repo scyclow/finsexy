@@ -463,6 +463,41 @@ function createLSCtx(lsKey, init) {
 
 
 
+
+let _notificationAudio
+setTimeout(() => {
+  if (Number(clitLS.get('notification'))) {
+    _notificationAudio = new Audio(`./assets/notification${Number(clitLS.get('notification'))}.mp3`)
+  }
+})
+
+
+window.speechSynthesis.cancel()
+const voices = new Promise((res, rej) => {
+  setTimeout(() => {
+    if (clitLS.get('a11y')) {
+      const getVoices = () => {
+        try {
+          const voices = window.speechSynthesis.getVoices()
+          setTimeout(() => {
+            if (!voices.length) getVoices()
+            else res(voices)
+          }, 200)
+        } catch(e) {
+          rej(e)
+        }
+      }
+      getVoices()
+
+    } else {
+      res([])
+    }
+  })
+})
+
+
+
+
 export class MessageHandler {
   static chats = {}
   static globalCtx = createLSCtx('__CHAT_GLOBAL_CONTEXT', {
@@ -481,6 +516,15 @@ export class MessageHandler {
     this.followUpPending = {}
 
     MessageHandler.visibilityCtx[this.chatName] = MessageHandler.visibilityCtx[this.chatName] ?? profile.startingVisibility
+
+    this.voice = voices.then(vs => {
+      if (profile.voice) {
+        return vs.find(v => v.voiceURI.includes(profile.voice.name) && v.lang === profile.voice.lang) || vs[0]
+      } else {
+        return vs[0]
+      }
+    })
+
 
     this.ctx = new ChatContext(this.chatName, startingCode, (history) =>
       this.registeredChatWindows.forEach(chatWindow => {
@@ -506,7 +550,6 @@ export class MessageHandler {
             MessageHandler.globalCtx.premium = await sexyCLIT.getPremium(addr)
             res()
           } catch (e) {
-            console.log(profile.name)
             rej(e)
           }
         })
@@ -754,6 +797,31 @@ export class MessageHandler {
     if (!this.isActive || document.hidden) {
       this.ctx.unread += 1
       MessageHandler.updateGlobalUnread()
+    } else if (from !== 'you') {
+      if (_notificationAudio) {
+        setTimeout(() => {
+          try {
+            _notificationAudio.play()
+          } catch (e) {
+            console.log(e)
+          }
+        }, 300)
+      }
+
+      if (clitLS.get('a11y')) {
+        setTimeout(async () => {
+          try {
+            const cleanedText = messageText.replaceAll(/<\/?[^>]+(>|$)/g, '')
+            const primaryVoice = await this.voice
+            const utterance = new window.SpeechSynthesisUtterance(cleanedText)
+            utterance.volume = 0.88
+            utterance.voice = primaryVoice
+            window.speechSynthesis.speak(utterance)
+          } catch (e) {}
+        }, 300)
+      }
+
+
     }
     if (from === 'you') {
       this.ctx.lastUserMessageTimestamp = Date.now()

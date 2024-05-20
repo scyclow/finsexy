@@ -53,6 +53,10 @@ export const VinceProfile = {
   gender: '100% Man',
   display: 'm',
   maxPhotos: 4,
+  voice: {
+    lang: 'en-GB',
+    name: 'Daniel'
+  },
   description: `Your prayers have been answered because I'm the man you've been dreaming about`,
   testimonials: [
     { name: '0x1', review: `He totally turned my life around, both financially AND sexually!`},

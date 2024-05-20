@@ -127,6 +127,10 @@ export const CrystalGoddessProfile = {
   gender: 'Female',
   display: 'f',
   maxPhotos: 4,
+  voice: {
+    lang: 'en-IE',
+    name: 'Moira'
+  },
   description: `Bow down to Crystal Goddess. Atone for your monetary sins and seek enlightenment.`,
   testimonials: [
     {
