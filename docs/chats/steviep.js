@@ -202,11 +202,16 @@ const StevieMessages = {
   hello: {
     messageText: `hey, what's up?`,
     // followUp: { messageCode: 'hello2', waitMs: 2000 },
+    responseHandler: 'thatsNice'
+  },
+
+  thatsNice: {
+    messageText: `that's nice. so what do you think of FinSexy so far?`,
     responseHandler: 'prettyGreat'
   },
 
   ...diatribe('prettyGreat', [
-    `yeah, it's pretty great, isn't it?`,
+    `I know, it's pretty great, isn't it?`,
     `some of my best work, if I do say so myself.`,
     `I constantly have my ear to the ground for new business opportunities, so when I stumbled upon the FinDom industry I knew that there was something here`,
     `I saw findoms making absolute bank extracting money from their subs, and I thought, "man, I could totally do that!"`,
@@ -254,8 +259,22 @@ const StevieMessages = {
     `so why don't you show a little appreciation?`,
     `I think I'm entitled to a little compensation for my effort here, don't you?`
   ], {
-    responseHandler: ur => isYes(ur) ? 'payNow' : 'payDelay',
+
+    responseHandler: (ur, ctx, contract, provider) => provider.isEthBrowser
+      ? (isYes(ur) ? 'payNow' : 'payDelay')
+      : 'noWeb3',
     event: 'pay1Event',
+  }),
+
+
+  ...diatribe('noWeb3', [
+    `oh, you don't have a web3 wallet`,
+    `I guess that's okay`,
+    `there are plenty of other people out there who want to give me money`,
+    `you don't support artists, and that's totally fine. other people will pick up the slack so you can experience my art without paying a dime`,
+    `so enjoy what you can of FinSexy for free. my treat`,
+  ], {
+    responseHandler: 'payDelay'
   }),
 
   payDelay: {
@@ -288,7 +307,7 @@ const StevieMessages = {
   },
 
   ...diatribe('patreon', [
-    (ur, ctx) => `look, ${ctx.state.paymentDifficult ? '' : 'I know you want to support my work, but '}selling nfts isn't exactly cutting it any more. and what am i going to do, start a patreon?`,
+    (ur, ctx, contract, provider) => `look, ${ctx.state.paymentDifficult ? '' : 'I know you want to support my work, but '}${provider.isEthBrowser ? `selling nfts isn't exactly cutting it any more. and ` : ''}what am i going to do, start a patreon?`,
     `i don't fucking think so. who needs that sort of platform lockin? I don't want some random company in control of my livelihood`,
     `besides, I'm not a "content creator", I'm a goddman artist.`,
     `I'm not trying to churn out mindless, passive entertainment for chump change`,
@@ -307,13 +326,13 @@ const StevieMessages = {
   }),
 
   dontCare: {
-    messageText: (ur, ctx) => `I don't care where gas is at the moment: ${0.02 * ctx.global.premium} ETH in my wallet, asap`,
+    messageText: (ur, ctx) => `I don't care where gas is at the moment: ${0.01 * ctx.global.premium} ETH in my wallet, asap`,
     event: 'pay1Event',
     followUp: fu('tellYouSecret')
   },
 
   payNow: {
-    messageText: (ur, ctx) => `Great, glad we're on the same page. ${0.02 * ctx.global.premium} ETH sounds pretty reasonable, don't you think?`,
+    messageText: (ur, ctx) => `Great, glad we're on the same page. ${0.01 * ctx.global.premium} ETH sounds pretty reasonable, don't you think?`,
     event: 'pay1Event',
     followUp: fu('tellYouSecret')
   },
@@ -334,8 +353,8 @@ const StevieMessages = {
     `you're a fan of my work, so you get it: the act of spending money is an aesthetic experience. it's a form of expression`,
     `and besides, you can show all your friends!`,
     `you get to participate in the spectacle, and your action will be enshrined on the blockchain forever`,
-    (ur, ctx) => `in 100 years when art historians are revisiting this project, they're going to see <em>your</em> transactions where you pay me ${0.02 * ctx.global.premium} ETH for nothing in return`,
-    (ur, ctx) => `they'll go: "wow, i can't believe stevie convinced this many fucking morons to pay him ${0.02 * ctx.global.premium} ETH. he truly was a genius. a maestro of degen idiots"`,
+    (ur, ctx) => `in 100 years when art historians are revisiting this project, they're going to see <em>your</em> transactions where you pay me ${0.01 * ctx.global.premium} ETH for nothing in return`,
+    (ur, ctx) => `they'll go: "wow, i can't believe stevie convinced this many fucking morons to pay him ${0.01 * ctx.global.premium} ETH. he truly was a genius. a maestro of degen idiots"`,
     `you could be one of those degen idiots!`,
     `remembered in 100 years and leaving your mark in the history books`,
     (ur, ctx) => ctx.global.isConnected ? `and you know what they'll see, right? that ${ctx.global.ens} interacted with this era-defining project and contributed to it financially` : '',
@@ -343,7 +362,7 @@ const StevieMessages = {
     `and, of course, they'll also infer that we hung out on the internet. they'll see that you, in some small way, influenced the art`,
     `they'll see that we were friends... and maybe even something more, if you know what i mean 😉`,
     `let's face it, no one is going to remember your stupid, pathetic life otherwise. this is your only shot`,
-    (ur, ctx) => `so just send me ${0.02 * ctx.global.premium} ETH and get it out of your system. we both know that's where this is going`
+    (ur, ctx) => `so just send me ${0.01 * ctx.global.premium} ETH and get it out of your system. we both know that's where this is going`
   ], {
     event: 'pay1Event',
     responseHandler: (ur, ctx) => {
@@ -363,14 +382,14 @@ const StevieMessages = {
 
 
   showYou2: {
-    messageText: (ur, ctx) => `send over ${0.02 * ctx.global.premium} ETH and I'll tell you`,
+    messageText: (ur, ctx) => `send over ${0.01 * ctx.global.premium} ETH and I'll tell you`,
     responseHandler: 'showYou3',
     event: 'pay1Event',
   },
 
   showYou3: {
     messageText: (ur, ctx, contract, provider) => provider.isEthBrowser
-      ? `it's easy. just ${ctx.global.isConnected ? '' : 'connect your wallet and '} type <code>$sexy send steviep ${0.02 * ctx.global.premium}</code>`
+      ? `it's easy. just ${ctx.global.isConnected ? '' : 'connect your wallet and '} type <code>$sexy send steviep ${0.01 * ctx.global.premium}</code>`
       : `just get a web3 wallet like metamask, come back to the site, and you'll be able to send me as much as you want. piece of cake.`,
     responseHandler: 'showYou5',
     event: 'pay1Event',
@@ -383,7 +402,7 @@ const StevieMessages = {
   },
 
   showYou5: {
-    messageText: (ur, ctx) => `I really don't think you can understand the artistic point I'm trying to make here without sending me ${0.02 * ctx.global.premium} ETH, but you do you. not everyone is cut out to be a patron of the arts`,
+    messageText: (ur, ctx) => `I really don't think you can understand the artistic point I'm trying to make here without sending me ${0.01 * ctx.global.premium} ETH, but you do you. not everyone is cut out to be a patron of the arts`,
     responseHandler: 'showYou6',
     event: 'pay1Event',
   },
@@ -394,13 +413,13 @@ const StevieMessages = {
     event: 'pay1Event',
   },
 
-  pay1Event: createEvent(0.02, {
+  pay1Event: createEvent(0.01, {
     primary: { messageCode: 'feltGood', waitMs: 6000 },
     notEnough: {messageCode: 'gettingThere', waitMs: 5000},
   }),
 
   gettingThere: {
-    messageText: (ur, ctx) => `okay, we're getting there. just  a little more to get us to ${0.02 * ctx.global.premium} ETH, then i'll tell you the secret`,
+    messageText: (ur, ctx) => `okay, we're getting there. just  a little more to get us to ${0.01 * ctx.global.premium} ETH, then i'll tell you the secret`,
     event: 'pay1Event',
     responseHandler: 'gettingThere',
   },

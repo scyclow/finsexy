@@ -41,7 +41,7 @@ export function getUserData(key) {
 
   const info = {
     password: profileInfo.pass || '',
-    name: profileInfo.name || provider.ens || '${name}',
+    name: profileInfo.name || provider.ens || '${PAYPIG_NAME}',
     gender: profileInfo.gender || 'nb',
     location: profileInfo.location || 'null',
     birthday: profileInfo.birthday || '1970-1-1',

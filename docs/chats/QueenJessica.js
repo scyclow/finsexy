@@ -69,7 +69,7 @@ Testimonial:
 
 import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
-import {fromWei} from '../eth.js'
+import {provider} from '../eth.js'
 import {sexyCLIT} from '../state/clit.js'
 
 
@@ -254,14 +254,22 @@ const QueenMessages = {
     responseHandler: 'helloResponseRouter'
   },
 
+  isOffline: {
+    messageText: `This FinDom is offline`,
+    responseHandler: 'isOffline',
+    helpMessage: true,
+    ignoreType: true
+  },
+
   ...diatribe('helloResponse1', [
     `Are you lost?`,
     `You don't even have a web3 browser`,
     `What a fucking loser 😂`
   ], {
-    responseHandler(ur, ctx) {
+    followUp: (ur, ctx) => {
       ctx.state.rejected1 = true
-      return 'helloResponseRouter'
+      ctx.visibility.QueenJessica = 'offline'
+      return fu('isOffline')
     }
   }),
 

@@ -480,7 +480,11 @@ createComponent(
     })
 
 
-    ctx.$xClose.onclick = () => ctx.parentElement.close()
+    ctx.$xClose.onclick = () => {
+      ls.set('profileDeferred', true)
+      ls.set('__enteredSite', true)
+      ctx.parentElement.close()
+    }
 
 
     const submitForm = (e) => {
@@ -510,7 +514,11 @@ createComponent(
       ) {
 
         ls.set('profileCompleted', true)
-        if (ctx.$('#pass').checkValidity()) ctx.parentElement.close()
+        if (ctx.$('#pass').checkValidity()) {
+          ls.set('profileDeferred', true)
+          ls.set('__enteredSite', true)
+          ctx.parentElement.close()
+        }
       }
 
 

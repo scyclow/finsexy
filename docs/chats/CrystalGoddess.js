@@ -131,7 +131,7 @@ export const CrystalGoddessProfile = {
     lang: 'en-IE',
     name: 'Moira'
   },
-  description: `Bow down to Crystal Goddess. Atone for your monetary sins and seek enlightenment.`,
+  description: `Bow down to Crystal Goddess. Atone for your monetary sins and seek enlightenment`,
   testimonials: [
     {
       name: '0x1',
@@ -331,6 +331,7 @@ export const CrystalGoddessMessages = {
       ? 'Wonderful'
       : `Thankfully your feeble mind does not need to fully grasp my wisdom. Acting on faith is sufficient`,
     followUp: async (ur, ctx, contract, provider) => {
+      if (!provider.isWeb3()) return fu('enlightenment')
       const balance = await provider.getETHBalance(await provider.isConnected())
       return balance >= 0.05 ? fu('enlightenment') : fu('notReadyEnlightenment')
     }
@@ -350,6 +351,7 @@ export const CrystalGoddessMessages = {
   ...diatribe('enlightenment', [
     `But before I take possession of your numismatic essence we must cleanse your wallet and wash your mind`,
     async (ur, ctx, contract, provider) => {
+      if (!provider.isWeb3()) return
       const balance = await provider.getETHBalance(await provider.isConnected())
       return `Your ${balance} ETH is unclean, for every wei has been acquired through impure means`
     },
@@ -369,7 +371,7 @@ export const CrystalGoddessMessages = {
 
 
   browserError: {
-    messageText: `You are not ready to seek enlightenment. Only those with an Ethereum wallet can perform this ritual`,
+    messageText: `You are not ready to seek enlightenment. Only those with a Web3 wallet can perform this ritual`,
     responseHandler: (ur, ctx) => {
       if (ctx.state.lastRitual === 'burn') return 'ritualBurnInitiate'
       else if (ctx.state.lastRitual === 'cleanse') return 'cleansingCeremonyStart'

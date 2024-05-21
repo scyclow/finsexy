@@ -79,6 +79,7 @@
 
 import { isYes, isNo, isGreeting, isMean, isPositive, isNegative, isMatch, diatribe, responseParser, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
+import {provider} from '../eth.js'
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
@@ -91,7 +92,7 @@ export const AndyProfile = {
   name: 'DrAndy',
   startingVisibility: 'online',
   domType: 'Role-Play',
-  order: 8,
+  order: provider.isWeb3() ? 8 : 7,
   age: 24,
   distance: 10,
   gender: 'Non-Binary',
@@ -391,7 +392,9 @@ const AndyMessages = {
 
   homework1: {
     messageText: `I have some homework for you in the meantime. Next time you're about to send money to a sexy findom I want you to stop, take a deep breath, and take notice of how you're feeling. Are you aroused? Anxious? Afraid? Excited? And what's happening in your body in that moment? ${genderSwitch({ m: 'Do you have a massive erection? ', f: 'Are you uncontrollably wet? ', nb: ''})}Is your chest tightening up? Do you feel any pain or nausia? Write all this down and we'll discuss!`,
-    followUp: fu('firstPayment1')
+    followUp: (ur, ctx, contract, provider) => provider.isWeb3()
+      ? fu('firstPayment1')
+      : fu('noWeb3')
   },
 
 
@@ -399,6 +402,33 @@ const AndyMessages = {
     primary: fu('secondSession', 7000)
   }),
 
+  noWeb3: {
+    messageText: `Oh... I see that you don't have a Web3 wallet. That makes payment pretty tricky. Please add a web3 wallet extension to your browser and we can resume treatment`,
+    responseHandler: (ur, ctx, contract, provider) => {
+      if (provider.isWeb3()) {
+        ctx.visibility.DrAndy = 'online'
+        return 'firstPayment1'
+      } else {
+        ctx.visibility.DrAndy = 'offline'
+        return 'isOffline'
+      }
+    }
+  },
+
+  isOffline: {
+    messageText: `This FinDom is offline`,
+    responseHandler: (ur, ctx, contract, provider) => {
+      if (provider.isWeb3()) {
+        ctx.visibility.DrAndy = 'online'
+        return 'firstPayment1'
+      } else {
+        ctx.visibility.DrAndy = 'offline'
+        return 'isOffline'
+      }
+    },
+    helpMessage: true,
+    ignoreType: true
+  },
 
   firstPayment1: {
     messageText: (ur, ctx) => `We can begin the next session after you send me ${ctx.global.premium * 0.01} ETH.`,
@@ -798,7 +828,7 @@ const AndyMessages = {
   },
 
   fourthSession: {
-    messageText: `Hello! How are you feeling today? 🙂`,
+    messageText: `Hello again! How are you feeling? 🙂`,
     responseHandler: 'whereWereWe'
   },
 

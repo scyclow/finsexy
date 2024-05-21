@@ -130,6 +130,7 @@ https://m.thegazette.co.uk/all-notices/content/100723#:~:text=A%20bankrupt%20wou
 
 import { isYes, isNo, isGreeting, isMean, isMatch, responseParser, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
+import {provider} from '../eth.js'
 
 const fu = (messageCode, waitMs=1500) => ({ messageCode, waitMs })
 
@@ -137,7 +138,7 @@ export const MistressProfile = {
   name: 'DungeonMistress',
   startingVisibility: 'online',
   domType: 'Role-Play',
-  order: 7,
+  order: provider.isWeb3() ? 7 : 3,
   display: 'f',
   age: 27,
   distance: 666,
@@ -1080,10 +1081,28 @@ const MistressMessages = {
     `With every pump you feal waves of pleasure coursing through your body. You get ${genderSwitch({m: 'harder and harder, until it feels like your cock is going to burst', f: 'wetter and wetter, until you can\'t take it any more', nb: 'more and more aroused, until you can\'t take it any more'})}. You need to cum <em>now</em>, or else you suspect you might die.`,
     (ur, ctx) => `You want it. The crowd wants it. I want it. Pay off your ${ctx.global.premium * 0.05} ETH debt, and cum like you've never cum before.`
   ], {
-    responseHandler: 'publicHumiliationPending',
+    responseHandler: (ur, ctx, contract, provider) => provider.isWeb3() ? 'publicHumiliationPending' : 'noWeb3',
     event: 'payDebt'
   }),
 
+  noWeb3: {
+    messageText: `Despite coming all this way, you find you cannot achieve the release you desire without a Web3 wallet.`,
+    responseHandler: (ur, ctx) => {
+      if (provider.isWeb3()) {
+        return 'publicHumiliation'
+      } else {
+        ctx.visibility.DungeonMistress = 'offline'
+        return 'isOffline'
+      }
+    }
+  },
+
+  isOffline: {
+    messageText: `This FinDom is offline`,
+    responseHandler: (ur, ctx, contract, provider) => provider.isWeb3() ? 'publicHumiliation' : 'isOffline',
+    helpMessage: true,
+    ignoreType: true
+  },
 
   payDebt: createEvent(0.05, {
     primary: fu('debtPaid', 7000),
@@ -1129,7 +1148,7 @@ const MistressMessages = {
   epilogue: {
     messageText: `That's the only story I have written right now. If you liked it then I'd be happy to accept a tip 😘`,
     responseHandler: async (ur, ctx, contract) => {
-      if (isMatch(ur, ['again', 'one more time', 'once more', 'refresh', 'reset', 'tavern'])) {
+      if (isMatch(ur, ['again', 'one more time', 'once more', 'refresh', 'reset', 'tavern', 'restart'])) {
         ctx.state.paymentOffset = (await contract.tributes(ctx.global.connectedAddr)).toString()
 
         ctx.state.visitedBartender = false

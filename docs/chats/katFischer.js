@@ -152,7 +152,7 @@ export const KatMessages = {
   sendReq1: {
     messageText: (ur, ctx) => `Well, would you be okay with lending me ${ctx.global.premium * 0.01} ETH, just for a bus ticket? I'll pay you back as soon as I get my next paycheck.`,
     event: 'firstSendEvent',
-    followUp: { messageCode: 'sendReqFollowup1', waitMs: 1000 }
+    followUp: { messageCode: 'sendReqFollowup1', waitMs: 500 }
 
   },
   sendReqFollowup1: {
@@ -175,16 +175,25 @@ export const KatMessages = {
   }),
 
 
-
-// TODO warn against disconnected wallet
   convinced: {
     messageText: (ur, ctx) => `Okay, I'm convinced. Send me the ${ctx.global.premium * 0.01} ETH, and I'll use it to buy a bus right away!`,
     event: 'firstSendEvent',
     responseHandler: async (ur, ctx, contract, provider) => {
+      if (!provider.isWeb3()) return 'noWeb3'
       const isConnected = await provider.isConnected()
       if (isConnected) return 'req1a'
       else return 'needConnect'
     }
+  },
+
+  noWeb3: {
+    messageText: `You don't have a web3 wallet?`,
+    responseHandler: 'noWeb3_2'
+  },
+
+  noWeb3_2: {
+    messageText: (ur, ctx) => `Oh no, you should install one so you could send me ${ctx.global.premium * 0.01} ETH`,
+    responseHandler: 'req1a'
   },
 
   needConnect: {

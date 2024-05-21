@@ -34,6 +34,8 @@ Testimonial
 
 import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, createEvent, responseParser, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
+import {provider} from '../eth.js'
+
 
 const fu = (messageCode, waitMs=1000) => ({ messageCode, waitMs })
 const hasNumber = ur => {
@@ -47,7 +49,7 @@ export const VinceProfile = {
   name: 'VinceSlickson',
   startingVisibility: 'online',
   domType: 'Daddy',
-  order: 3,
+  order: provider.isWeb3() ? 3 : 2,
   age: 42,
   distance: 10,
   gender: '100% Man',
@@ -222,7 +224,7 @@ const VinceMessages = {
   },
 
   ...diatribe('daddy', [
-    () => `That's right. I am your daddy. And do you know what daddies do? They look out for their little ${genderSwitch({m: 'boys', f: 'girls', nb: 'subs'})}.`,
+    () => `That's right. I am your daddy. And do you know what daddies do? They look out for their little ${genderSwitch({m: 'boys', f: 'girls', nb: 'paypigs'})}.`,
     `So I'll tell you what I'm gonna do for you: I'm gonna key you in on a little investment opportunity. That's just the kind of generous guy I am.`,
     `But keep in mind, you're going to owe me BIG for this one. This is the investment opportunity of a lifetime, and I'm handing it to you on a silver platter.`,
     `In fact, you'd have to be an <em>idiot</em> to not make money on this...`,
@@ -233,9 +235,41 @@ const VinceMessages = {
     (ur, ctx) => `If you're in a rush you can just run <code>$sexy send VinceSlickson ${ctx.global.premium * 0.01}</code>`,
   ], {
     event: 'sendEvent1',
-    responseHandler: ur => isNo(ur) ? 'rhetorical' : 'send1Response1'
+    responseHandler: (ur, ctx, contract, provider) => {
+      if (!provider.isWeb3()) return 'noWeb3'
+      return isNo(ur) ? 'rhetorical' : 'send1Response1'
+    }
   }, 2000),
 
+
+  ...diatribe('noWeb3', [
+    `Wait a second`,
+    `Hold on`,
+    `You don't have a Web3 wallet...`,
+    `Thanks for wasting my time, asshole`,
+    `Come back when you're serious about making money`
+  ], {
+    followUp: (ur, ctx) => {
+      ctx.visibility.VinceSlickson = 'offline'
+      return fu('isOffline')
+    }
+  }),
+
+
+  isOffline: {
+    messageText: `This FinDom is offline`,
+    responseHandler: (ur, ctx, contract, provider) => {
+      if (provider.isWeb3()) {
+        ctx.visibility.VinceSlickson = 'online'
+        return 'daddy'
+      } else {
+        ctx.visibility.VinceSlickson = 'offline'
+        return 'isOffline'
+      }
+    },
+    helpMessage: true,
+    ignoreType: true
+  },
 
   sendEvent1: createEvent(0.01, {
     primary: { messageCode: 'thereWeGo', waitMs: 1500 },

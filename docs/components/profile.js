@@ -643,6 +643,8 @@ createComponent(
       }
 
       .noWeb3Error {
+        text-shadow: 1px 1px 0 var(--secondary-color), 1px 1px 3px var(--medium-color);
+        box-shadow: 0 0 5px var(--medium-color);
         width: 60%;
         display: block;
         margin: auto;

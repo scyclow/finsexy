@@ -696,9 +696,11 @@ export class MessageHandler {
       return ''
     }
 
-    return typeof msg.messageText === 'string'
+    const txt = typeof msg.messageText === 'string'
       ? msg.messageText
-      : msg.messageText(userResponse, this.ctx, this.contract, this.provider)
+      : await msg.messageText(userResponse, this.ctx, this.contract, this.provider)
+
+    return txt || ''
   }
 
   async getFollowUpMessage(msg, userResponse) {

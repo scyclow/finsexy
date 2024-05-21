@@ -123,6 +123,14 @@ if (!ls.get('BETA_PASS') && window.location.href.includes('finsexy.com')) {
 
 
 provider.onConnect(async (addr) => {
+
+  MessageHandler.visibilityCtx.DungeonMistress = 'online'
+  MessageHandler.visibilityCtx.SamanthaJones = 'online'
+  MessageHandler.visibilityCtx.QueenJessica = 'online'
+  MessageHandler.visibilityCtx.VinceSlickson = 'online'
+
+
+
   if (unmessaged(CustomerSupportChat)) {
     const activeVIP = await sexyCLIT.getActiveVIP()
   console.log(activeVIP)

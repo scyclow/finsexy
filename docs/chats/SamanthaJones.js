@@ -1,6 +1,6 @@
 import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, responseParser, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch} from '../state/profile.js'
-import {fromWei} from '../eth.js'
+import {fromWei, provider} from '../eth.js'
 
 
 
@@ -36,9 +36,9 @@ https://www.loyalfans.com/countessdiamond/video/bank-manager-tricks-you-into-sen
 
 export const SamanthaProfile = {
   name: 'SamanthaJones',
-  startingVisibility: 'online',
+  startingVisibility: 'offline',
   domType: 'Voyeur',
-  order: 2,
+  order: provider.isWeb3() ? 2 : 8,
   age: 46,
   distance: 6,
   gender: 'Female',
@@ -48,12 +48,7 @@ export const SamanthaProfile = {
     lang: 'en-US',
     name: 'Grandma'
   },
-  description: `
-  Samantha Jones is a tax auditor financial professional who loves auditing crypto ${genderSwitch({
-    m: 'sissy boys',
-    f: 'sissy girls',
-    nb: 'sissies',
-  })} and focuses on cryptocurrency and blockchain fraud. In her more than 25 years of industry experience, she has handled matters across the criminal and regulatory spectrum. `,
+  description: ` Samantha Jones is a tax auditor financial professional who loves auditing crypto ${genderSwitch({m: 'sissy boys', f: 'sissy girls', nb: 'sissies'})} and focuses on cryptocurrency and blockchain fraud. In her more than 25 years of industry experience, she has handled matters across the criminal and regulatory spectrum. `,
   testimonials: [
     {
       name: '0x0',
@@ -191,6 +186,15 @@ const SamanthaMessages = {
 
 
   __precheck(userResponse, ctx) {
+
+    if (!provider.isWeb3()) {
+      return {
+        messageText: `This FinDom is offline`,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent,
+        helpMessage: true,
+        ignoreType: true
+      }
+    }
 
     // TODO - check "add an address"
     if (userResponse && userResponse.toLowerCase().includes('vince') && ctx.global.mentionedSamanthaToVince) {
