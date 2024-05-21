@@ -359,7 +359,7 @@ const HeatherHotMessages = {
           return 'moreInfo4'
         }
 
-      } else if (!provider.isWeb3) {
+      } else if (!provider.isWeb3()) {
         return 'noWeb3'
       } else {
         return ctx.global.isConnected ? 'getStarted' : 'waitForConnect'

@@ -70,6 +70,7 @@ Testimonial:
 import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {fromWei} from '../eth.js'
+import {sexyCLIT} from '../state/clit.js'
 
 
 const hasNumber = ur => ur.match(/(\d+)/)
@@ -217,15 +218,34 @@ const QueenMessages = {
     messageText: '',
     ignoreType: true,
     async followUp(ur, ctx, contract, provider) {
-      if (!provider.isWeb3 && !ctx.state.rejected1) return fu('helloResponse1', 1)
-      else if (!ctx.global.isConnected && !ctx.state.rejected2) return fu('helloResponse2', 1)
-      else if (await provider.getETHBalance(ctx.global.connectedAddr) < 0.25 && (
-        !ctx.state.rejected3
-        || bnToN(await contract.tributes(ctx.global.connectedAddr)) >= 0.01
-      )) return fu('helloResponse3', 1)
-      else if (bnToN(await contract.tributes(ctx.global.connectedAddr)) < 0.01 && !ctx.state.rejected4) return fu('helloResponse4', 1)
-      else if (bnToN(await contract.tributes(ctx.global.connectedAddr)) >= 0.01) return fu('serveMe', 1)
-      else return fu('helloResponseNothing', 1)
+      if (!provider.isWeb3()) {
+        if (ctx.state.rejected1) return
+        else return fu('helloResponse1', 1)
+      }
+      else if (!ctx.global.isConnected) {
+        if (ctx.state.rejected2) return
+        else return fu('helloResponse2', 1)
+      }
+
+      const vipToken = await sexyCLIT.getActiveVIP()
+      const creditBalance = vipToken === null ? 0 : await sexyCLIT.vipBalance(vipToken)
+      const totalBalance = (await provider.getETHBalance(ctx.global.connectedAddr)) + creditBalance/10
+      const totalTributes = bnToN(await contract.tributes(ctx.global.connectedAddr))
+
+      if (totalBalance < 0.1) {
+        if (ctx.state.rejected3) return
+        else return fu('helloResponse3', 1)
+      }
+      else if (totalTributes < 0.01) {
+        if (ctx.state.rejected4) return
+        else return fu('helloResponse4', 1)
+      }
+      else if (totalTributes >= 0.01) {
+        return fu('serveMe', 1)
+      }
+      else {
+        return fu('helloResponseNothing', 1)
+      }
     }
   },
 
@@ -257,7 +277,7 @@ const QueenMessages = {
 
   ...diatribe('helloResponse3', [
     async (ur, ctx, contract, provider) => `${await provider.getETHBalance(ctx.global.connectedAddr)} ETH? I don't have time for poor people like you`,
-    `Come back when you have at least 0.25 ETH in your wallet to show me`,
+    `Come back when you have at least 0.1 ETH in your wallet to show me`,
     `Go talk to @VinceSlickson. Maybe he can help you get some cash 🤣`,
   ], {
     responseHandler(ur, ctx) {

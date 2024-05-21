@@ -73,8 +73,7 @@ const DianeMessages = {
   },
 
   async __contract(provider) {
-    return await provider.domContract('0x0')
-
+    return await provider.domContract('0x000000000000000000000000000000000')
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {

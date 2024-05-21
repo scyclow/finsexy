@@ -303,7 +303,12 @@ export const sexyCLIT = {
 
   async getActiveVIP() {
     const connectedAddr = await provider.isConnected()
+
+    if (!connectedAddr) return null
     const { SexyVIP } = await provider.sexyContracts()
+    const vipBalance = bnToN(await SexyVIP.balanceOf(connectedAddr))
+
+    if (bnToN(vipBalance) === 0) return null
     const totalSupply = bnToN(await SexyVIP.totalSupply())
 
     const cachedVIP = clitLS.get('activeVIP')

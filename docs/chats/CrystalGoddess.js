@@ -357,7 +357,7 @@ export const CrystalGoddessMessages = {
     `During this ceremony I will momentarily take control of your entire wallet balance to perform the cleanse, marking it as truly mine. It shall then be returned to you in a purified form. You may then hold onto it until I say otherwise`,
     `0.0066600 ETH will remain with you, marking your sinful transaction history. This shall be cleansed in a different way`,
     `I am unclear on the tax implications for this ceremony, and advise you to speak to @SamanthaJones if you have any questions`,
-    `It is important that you <em>do not</em> refresh your web browser while the ceremony is underway, or else we will have to start from the beginning. Is this clear?`
+    `It is important that you <em>do not</em> speak or refresh your web browser while the ceremony is underway, or else we will have to start from the beginning. Is this clear?`
   ], {
     responseHandler: ur => isYes(ur) || isMatch(ur, ['clear']) ? 'cleansingCeremonyStart' : 'clarityOfThought'
   }),
@@ -485,7 +485,7 @@ export const CrystalGoddessMessages = {
 
 
   ritualBurnInitiate: {
-    messageText: `We shall now commence with the ritual burn of 0.0066600 ETH`,
+    messageText: `We shall now commence with the ritual burn of 0.0066600 ETH. Once again, I warn you against refreshing your browser or speaking during the ritual`,
     followUp: () => {
       document.documentElement.classList.remove('cleanseAnimation')
       setTimeout(burnTone, 1000)
@@ -566,8 +566,13 @@ export const CrystalGoddessMessages = {
     `Embrace the numismatic numina`,
     `Worship my body and my essence`,
   ], {
-    responseHandler: ur => isMatch(ur, ['worship', 'body', 'essence']) ? 'release' : ''
+    responseHandler: ur => isMatch(ur, ['worship', 'body', 'essence']) ? 'release' : 'worshipMe'
   }),
+
+  worshipMe: {
+    messageText: 'Worship me',
+    responseHandler: ur => isMatch(ur, ['worship', 'body', 'essence']) ? 'release' : 'worshipMe'
+  },
 
 
   ...diatribe('release', [
