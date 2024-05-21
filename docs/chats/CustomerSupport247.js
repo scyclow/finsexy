@@ -4,6 +4,22 @@ import {getUserData, genderSwitch } from '../state/profile.js'
 import {sexyCLIT} from '../state/clit.js'
 
 
+/*
+
+TODO:
+- sending tutorials
+- lead with telling you info about VIP tokens
+
+- maybe approval challenge
+  - "think of how good it will feel to give someone access to your <em>entire</em> SexyCredit balance. "
+  - tutorial
+  -
+
+
+*/
+
+
+
 const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 export const CustomerSupportProfile = {

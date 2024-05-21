@@ -331,12 +331,12 @@ const AndyMessages = {
 
 
   childhoodMoney: {
-    messageText: `How did your parents approach spending money? Were they cheap? Extravagant? Did they spoil you? Did they ever show their affection towards you (or each other) with money?`,
+    messageText: `Let's talk about how did your parents approached spending money. Were they cheap? Extravagant? Did they spoil you? Did they ever show their affection towards you (or each other) with money?`,
     followUp: fu('childhoodMoney2')
   },
 
   childhoodMoney2: {
-    messageText: () => `Tell me what you notice about your ${genderSwitch({m: 'father', f: 'mother', nb: 'favorite parent'})}, specifically.`,
+    messageText: () => `I want you to focus particularly on your ${genderSwitch({m: 'father', f: 'mother', nb: 'favorite parent'})}.`,
     responseHandler: 'parentsJob'
   },
 
@@ -501,9 +501,14 @@ const AndyMessages = {
 
       } else {
         ctx.state.relationshipStatus = 'complicated'
-        return 'relationshipComplicated'
+        return 'relationshipConfused'
       }
     }
+  },
+
+  relationshipConfused: {
+    messageText: ur => `Does "${ur}" mean that it's complicated?`,
+    responseHandler: ur => isYes(ur) ? 'relationshipComplicated' : 'relationship'
   },
 
   relationshipComplicated: {

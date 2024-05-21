@@ -301,7 +301,7 @@ export function createEvent(threshold, responses={}, waitMs=600000) {
           return responses.primary
         } else if (Date.now() - ctx.state.lastResponded > waitMs && !ctx.state?.nodeResponses?.[ctx.lastDomCodeSent]) {
           return responses.wait
-        } else if (t.gt(alreadyPaid) && (t.sub(alreadyPaid)).lt(amount)) {
+        } else if (t.gt(alreadyPaid) && (t.sub(alreadyPaid)).lt(toETH(amount))) {
           return responses.notEnough
         }
       }

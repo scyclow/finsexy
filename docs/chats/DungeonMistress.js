@@ -203,7 +203,8 @@ const BartenderNodes = {
     }`,
     followUp: (ur, ctx) => {
       if (ctx.state.bartenderGoodSide) return
-      else if (ctx.state.visitedBartender) return fu('bartenderPending')
+      else if (ctx.state.visitedBartender && ctx.state.bartenderBJProposition) return fu('bartenderPending')
+      else if (ctx.state.visitedBartender && !ctx.state.bartenderBJProposition) return fu('bartender2b')
       else {
         return !ctx.state.bartenderGoodSide && fu('bartenderPreBJ')
       }
@@ -279,7 +280,18 @@ const BartenderNodes = {
 
   bartender2: {
     messageText: `"That's nice. I hope you got a good rest because you're gonna be working here all night paying off all that money you owe me. The afternoon rush should start in a couple hours, so I suggest you either get real familiar with the mop in the back room, or get real comfortable on your knees behind the bar with your mouth around my cock."`,
-    followUp: fu('bartender3')
+    followUp: (ur, ctx) => {
+      ctx.state.bartenderBJProposition = true
+      return fu('bartender3')
+    }
+  },
+
+  bartender2b: {
+    messageText: `"You know, you're gonna be working here all night paying off all that money you owe me. The afternoon rush should start in a couple hours, so I suggest you either get real familiar with the mop in the back room, or get real comfortable on your knees behind the bar with your mouth around my cock."`,
+    followUp: (ur, ctx) => {
+      ctx.state.bartenderBJProposition = true
+      return fu('bartender3')
+    }
   },
 
   notSoFast: {
@@ -645,7 +657,7 @@ const MerchantNodes = {
     `Thoughts circulate in your head: Why are you like this? Such shame has completely ruined your finances, your marriage, and your social standing. And yet, you still seek it out. In fact, you enjoy it. Is there any way out? Must you seek help with a therapist? Or maybe repent with a Goddess?`,
     `But suddenly, your thoughts are interrupted by an angry townsman.`,
     () => `"Wait a second, that is ${getUserData('name')}! The one who stinks of urine!"`,
-    `Passerbys murmur, and you increase your pace. But off in the distance you see the Dungeon Mistress galloping towards you.`
+    `Passerbys murmur, and you increase your pace. But off in the distance you see me galloping towards you.`
   ], {
     followUp: fu('fightOrFlight')
   }),
@@ -661,8 +673,8 @@ const MerchantNodes = {
   tryLuckOutside: {
     messageText: (ur, ctx) =>
       ctx.state.visitedHorseWoman
-        ? `You leave the merchant's house as fast as you can and make your way back to the town square. But off in the distance you see the Dungeon Mistress galloping towards you.`
-        : `You leave the merchant's house as fast as you can and make your way back to the town square. But off in the distance you see the beautiful woman galloping towards you. This is the Dungeon Mistress, the collector of all debts within the realm, as well as the administrator of all punishment and debt bondage. You do not want to run afoul of her.`,
+        ? `You leave the merchant's house as fast as you can and make your way back to the town square. But off in the distance you see me galloping towards you.`
+        : `You leave the merchant's house as fast as you can and make your way back to the town square. But off in the distance you see the beautiful woman galloping towards you. It is I, the Dungeon Mistress: collector of all debts within the realm, as well as the administrator of all punishment and debt bondage. You do not want to run afoul of me.`,
     followUp: fu('fightOrFlight')
   },
 }
@@ -705,17 +717,17 @@ const HorseWomanNodes = {
   ...diatribe('approachHorseWomanStink', [
     `You make your way towards the beautiful woman.`,
     () => `"Wait a second, that is ${getUserData('name')}! The one who stinks of urine!"`,
-    `Passerbys murmur, and you increase your pace. But off in the distance you see the beautiful woman galloping towards you. This is the Dungeon Mistress, the collector of all debts within the realm, as well as the administrator of all punishment and debt bondage. You do not want to run afoul of her.`
+    `Passerbys murmur, and you increase your pace. But off in the distance you see the beautiful woman galloping towards you. It is I, the Dungeon Mistress: collector of all debts within the realm, as well as the administrator of all punishment and debt bondage. You do not want to run afoul of me.`
   ], {
     followUp: fu('fightOrFlight')
   }),
 
   ...diatribe('approachHorseWomanFresh', [
     `You approah the woman perched atop her horse. As you get closer to her left side, you notice the horse's massive erection -- no doubt an effect of touching this absolutely gorgeous woman.`,
-    `You now stand before the Dungeon Mistress. The collector of all debts within the realm, as well as the administrator of all punishment and debt bondage. You do not want to run afoul of her. As she looks over the town, she speaks,`,
+    `You now stand before me, the Dungeon Mistress. The collector of all debts within the realm, as well as the administrator of all punishment and debt bondage. You do not want to run afoul of me. As I look over the town, I speak,`,
     () => `"Good day. I'm wondering if you could help me. I'm looking for a ${genderSwitch({m: 'man', f: 'woman', nb: 'person'})} named ${getUserData('name')}. ${genderSwitch({m: 'He owes', f: 'She owes', nb: 'They owe'})} quite a bit of money to a number of different parties. In fact, this amount has become so unmanageably high that I expect ${genderSwitch({m: 'him', f: 'her', nb: 'them'})} to enter debt bondage under the authority of the local court for a significant period of time. Perhaps the rest of their life. This is quite serious, and I wonder if ${genderSwitch({m: 'he is', f: 'she is', nb: 'they are'})} aware of the danger ${genderSwitch({m: 'he is', f: 'she is', nb: 'they are'})} in."`,
-    `She glances down at you with a sly grin before returning her gaze to the town.`,
-    `"If I were ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}, I would seek refuge in the market, or perhaps even the Dark Forest. Otherwise, there's no telling what brutal punishment awaits ${genderSwitch({m: 'him', f: 'her', nb: 'them'})} when I catch ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}."`,
+    `I glance down at you with a sly grin before returning my gaze to the town.`,
+    `"If I were ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}, I would seek refuge in the market, or perhaps even the Dark Forest. Otherwise, there's no telling what brutal punishment awaits ${genderSwitch({m: 'him', f: 'her', nb: 'them'})} when I catch ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}. One thing is for certain though: ${genderSwitch({m: 'he', f: 'she', nb: 'they'})} will surely lose all freedom to roam around town once I find ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}."`,
   ], {
     followUp: fu('horseWomanConfessMaybe')
   }),
@@ -734,10 +746,10 @@ const HorseWomanNodes = {
 
   ...diatribe('horseWomanConfess', [
     () => `"Aha! <em>You</em> are ${getUserData('name')}."`,
-    `She dismounts and removes some rope from her pouch.`,
+    `I dismount and removes some rope from my pouch.`,
     (ur, ctx) => ctx.state.confessed ? `"Do not think that I will grant mercy to you simply because you have confessed your wrongdoings."` : '',
     `You turn to run, but immediately trip over a rock and fall face first into a pile of pig dung. Townspeople take notice and watch the spectacle in amusement.`,
-    `The Dungeon Mistress sits on your back and hog ties you like the little piggie that you are. She stuffs a wet cloth into your mouth, which carries an unknown auroma.`,
+    `I sit on your back and hog tie you like the little piggie that you are. I stuff a wet cloth into your mouth, which carries an unknown auroma.`,
     `You lose consciousness.`,
   ], {
     responseHandler: 'dungeon'
@@ -745,7 +757,7 @@ const HorseWomanNodes = {
 
 
   horseWomanVisited: {
-    messageText: `Looking out over the town, the beautiful woman asks: "Do you have something to tell me?"`,
+    messageText: `Looking out over the town, I ask: "Do you have something to tell me?"`,
     followUp: fu('horseWomanConfessMaybe')
   },
 
@@ -798,7 +810,7 @@ const TownSquareNodes = {
     followUp: fu('darkForestDetected2')
   },
   darkForestDetected2: {
-    messageText:`In a daze, you wander back towards town, stripped of your ${genderSwitch({m: 'manhood', f: 'womanhood', nb: 'personhood'})}. When you reach the edge of the Dark Forest the Dungeon Mistress walks up to you on her horse.`,
+    messageText:`In a daze, you wander back towards town, stripped of your ${genderSwitch({m: 'manhood', f: 'womanhood', nb: 'personhood'})}. When you reach the edge of the Dark Forest I walk up to you on my horse.`,
     followUp: fu('horseWomanConfess')
   },
 
@@ -1075,12 +1087,12 @@ const MistressMessages = {
 
   payDebt: createEvent(0.05, {
     primary: fu('debtPaid', 7000),
-    notEnough: fu('debtPaidAlmost', 7000)
+    notEnough: fu('debtPaidAlmost', 2000)
   }),
 
 
   debtPaidAlmost: {
-    messageText: `You pay some of your debt, but not enough to make you cum. You're soooo close.`,
+    messageText: `You skin tingles as you pay some of your debt, but it's not enough to make you cum. You're soooo close.`,
     event: 'payDebt'
   },
 
@@ -1133,6 +1145,7 @@ const MistressMessages = {
         ctx.state.confessed = false
         ctx.state.enteredDarkForest = false
         ctx.state.enteredMarket = false
+        ctx.state.bartenderBJProposition = false
 
         return fu('hello')
       }

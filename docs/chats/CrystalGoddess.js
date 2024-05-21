@@ -588,10 +588,10 @@ export const CrystalGoddessMessages = {
 
 
   releasePayment: createEvent(0.01, {
-    primary: fu('enlightenment', 7000)
+    primary: fu('finalEnlightenment', 7000)
   }),
 
-  ...diatribe('enlightenment', [
+  ...diatribe('finalEnlightenment', [
     `In sacred circuits, may abundance surge`,
     `From digital realms, let value emerge`,
     `From zeros and ones, to pleasures untold`,

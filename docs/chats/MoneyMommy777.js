@@ -42,7 +42,7 @@ export const MoneyMommyProfile = {
   startingVisibility: 'offline',
   domType: 'Mentor',
   order: 9,
-  age: 25,
+  age: 23,
   distance: 7,
   maxPhotos: 2,
   voice: {
