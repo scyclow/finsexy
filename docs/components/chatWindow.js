@@ -116,6 +116,7 @@ createComponent(
       }
 
       .message {
+        font-size: ${clitLS.get('a11y') ? '1.3em' : '1em'};
         padding: 0.5em 1.25em 0.75em;
         margin-top: 0.75em;
         margin-bottom: 0.25em;
@@ -152,7 +153,7 @@ createComponent(
       }
 
       .from-dom {
-        text-shadow: 1px 1px 2px var(--secondary-color);
+        text-shadow: ${clitLS.get('a11y') ? '1px 2px 0px var(--dark-color)' : '1px 1px 2px var(--secondary-color)'};
       }
 
       .message:last-child {

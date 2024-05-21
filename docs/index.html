@@ -369,6 +369,9 @@
 
     }
 
+    .offline {
+      opacity: 0.5;
+    }
     .online {
       height: 0.5em;
       width: 0.5em;
@@ -685,7 +688,7 @@
     && (name !== 'heatherHot' || !MessageHandler.globalCtx.hideHeather)
   ))
   .map((name, i) => `
-    <article id="${name}-link" class="domView ${ProfileStats[name].display ? 'display-' + ProfileStats[name].display : 'hidden'}" style="order: ${ProfileStats[name].order}">
+    <article id="${name}-link" class="domView ${ProfileStats[name].display ? 'display-' + ProfileStats[name].display : 'hidden'} ${MessageHandler.visibilityCtx[name] === 'offline' ? 'offline' : ''}" style="order: ${ProfileStats[name].order}">
       <div class="unreadContainer">
         <div id="${name}-unread" class="unreadMessage hidden">New Message!</div>
       </div>

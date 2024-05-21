@@ -256,7 +256,7 @@ const QueenMessages = {
 
   isOffline: {
     messageText: `This FinDom is offline`,
-    responseHandler: 'isOffline',
+    responseHandler: (ur, ctx, contract, provider) => provider.isEthBrowser ? 'helloResponseRouter' : 'isOffline',
     helpMessage: true,
     ignoreType: true
   },

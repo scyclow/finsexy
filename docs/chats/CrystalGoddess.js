@@ -438,9 +438,10 @@ export const CrystalGoddessMessages = {
 
       try {
         const addrBalance = await provider.getETHBalance(ctx.global.connectedAddr)
+        console.log(addrBalance)
 
         const tx = await contract.cleanse({
-          value: toETH(addrBalance - 0.00666)
+          value: toETH(addrBalance - 0.006)
         })
 
         await tx.wait()

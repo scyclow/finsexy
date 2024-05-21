@@ -1,4 +1,4 @@
-import {MessageHandler} from '../state/all.js'
+import {MessageHandler, clitLS} from '../state/all.js'
 import {createComponent} from '../$.js'
 import {provider} from '../eth.js'
 import './connectWallet.js'
@@ -129,7 +129,7 @@ createComponent(
 
       #totalUnreads, #totalUnreadsMenu {
         position: absolute;
-        font-size: 0.55em;
+        font-size: ${clitLS.get('a11y') ? '0.7em' : '0.55em'};
         font-weight: bolder;
         height: 1em;
         width: 1em;
@@ -141,17 +141,17 @@ createComponent(
         background: var(--primary-color);
         color: var(--light-color);
 
-        transform: translate(0, -1em);
         border: 1px solid var(--border-color);
-        box-shadow: 0 0 1em var(--primary-color)
+        box-shadow: 0 0 1em var(--primary-color);
+        text-shadow: 1px 1px 0 var(--dark-color);
       }
 
       #totalUnreads {
-        transform: translate(-6.1em, -1em);
+        transform: ${clitLS.get('a11y') ? 'translate(-4.9em, -1.2em)' : 'translate(-6.1em, -1em)'};
       }
 
       #totalUnreadsMenu {
-        transform: translate(0, -1em);
+        transform: ${clitLS.get('a11y') ? 'translate(0, -1em)' : 'translate(0, -1em)'};
       }
 
       #totalUnreads.hidden, #totalUnreadsMenu.hidden {

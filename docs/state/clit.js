@@ -121,17 +121,22 @@ export const sexyCLIT = {
       `)
     }
     else if (command === 'connect') {
+      if (!provider.isWeb3()) return cb('Please revisit FinSexy in a Web3-enabled browser')
+
       this.connect(cb, cb)
     }
     else if (command === 'send') {
+      if (!provider.isWeb3()) return cb('Please revisit FinSexy in a Web3-enabled browser')
       this.send(args[0], args[1], cb, cb, () => cb('Send Successful'))
     }
 
     else if (command === 'burn') {
+      if (!provider.isWeb3()) return cb('Please revisit FinSexy in a Web3-enabled browser')
       this.burn(args[0], ctx, cb, cb, () => cb('Burn Successful'))
     }
 
     else if (command === 'vip') {
+      if (!provider.isWeb3()) return cb('Please revisit FinSexy in a Web3-enabled browser')
       if (args[0] === 'buy') {
         const isGold = args[1] === 'true' ? true : false
         this.vipBuy(isGold, cb, cb, () => cb(`VIP ${isGold ? 'Gold ' : ''}Membership Purchased`))

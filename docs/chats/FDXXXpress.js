@@ -11,7 +11,7 @@ const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
 export const XXXProfile = {
   name: 'FDXXXpress',
-  startingVisibility: 'offline',
+  startingVisibility: 'online',
   domType: 'Automated',
   order: 11,
   age: 11010,

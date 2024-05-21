@@ -892,18 +892,20 @@ TODO
         sexyCLIT.setResponseSpeedModifier(modifier)
       }
 
-      $a11yVoices.checked = clitLS.get('a11y') || false
-      $a11yVoices.onclick = async () => {
-        clitLS.set('a11y', $a11yVoices.checked)
-        if ($a11yVoices.checked) {
-          const v = (await voices)[0]
-          if (v) say(v, 'A11Y Mode Activated')
-        }
-      }
 
 
     }
   })
+
+  $a11yVoices.checked = clitLS.get('a11y') || false
+  $a11yVoices.onclick = async () => {
+    clitLS.set('a11y', $a11yVoices.checked)
+    if ($a11yVoices.checked) {
+      saveColor('primary', '#ff00c7')
+      const v = (await voices)[0]
+      if (v) say(v, 'A11Y Mode Activated')
+    }
+  }
 
   $notificationSound.value = Number(clitLS.get('notification')) || 0
   $notificationSound.onchange = () => {

@@ -392,9 +392,14 @@ const AndyMessages = {
 
   homework1: {
     messageText: `I have some homework for you in the meantime. Next time you're about to send money to a sexy findom I want you to stop, take a deep breath, and take notice of how you're feeling. Are you aroused? Anxious? Afraid? Excited? And what's happening in your body in that moment? ${genderSwitch({ m: 'Do you have a massive erection? ', f: 'Are you uncontrollably wet? ', nb: ''})}Is your chest tightening up? Do you feel any pain or nausia? Write all this down and we'll discuss!`,
-    followUp: (ur, ctx, contract, provider) => provider.isWeb3()
-      ? fu('firstPayment1')
-      : fu('noWeb3')
+    responseHandler: (ur, ctx, contract, provider) => {
+      if (provider.isWeb3()) {
+        return fu('firstPayment1')
+      } else {
+        ctx.visibility.DrAndy = 'offline'
+        return fu('noWeb3')
+      }
+    }
   },
 
 
@@ -865,7 +870,10 @@ const AndyMessages = {
 
   contactSteviep: {
     messageText: (ur, ctx) => `For additional customer support, please contact @steviep. If you'd like to purchase my ebook, <strong>Conquering Your FinDom Addiction in 6 Easy Steps</strong>, please send ${ctx.global.premium * 0.01} ETH to my wallet from my profile page, or by typing <code>$sexy send DrAndy ${ctx.global.premium * 0.01}</code>`,
-    responseHandler: 'unavailable'
+    responseHandler: (ur, ctx) => {
+      ctx.visibility.DrAndy = 'offline'
+      return 'unavailable'
+    }
   },
 
   unavailable: {

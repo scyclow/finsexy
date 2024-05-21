@@ -180,6 +180,10 @@
       display: inline-block;
     }
 
+    .offline {
+      opacity: 0.5;
+    }
+
 
     @media (max-width: 900px) {
       #profilePanel {
@@ -331,11 +335,11 @@
       $.span(name),
       $.span('', {
         id: `${name}-unread`,
-        class: 'unread invisible',
+        class: `unread invisible`,
       })
     ], {
       id: `${name}-select`,
-      class: 'message-selector'
+      class: `message-selector ${MessageHandler.visibilityCtx[name] === 'offline' ? 'offline' : ''}`
     })
 
     li.onclick = () => {
