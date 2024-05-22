@@ -166,6 +166,7 @@
       color: var(--light-color);
       background: var(--primary-color);
       border-color: var(--primary-color);
+      text-shadow: 1px 1px 0 var(--dark-color);
     }
 
 
@@ -252,6 +253,7 @@
 
     .age {
       padding-left: 0.4em;
+      width: 0;
     }
 
 
@@ -696,7 +698,7 @@
         <img src="./thumbnails/${name}/0.png" alt="Sexy findom ${name}">
       </a>
       <figcaption>
-        <div>${MessageHandler.visibilityCtx[name] === 'online' ? `<span class="online"></span>` : ''}${ellipse(name)}, <span class="age">${ProfileStats[name].age}</span></div>
+        <div>${MessageHandler.visibilityCtx[name] === 'online' ? `<span class="online"></span>` : ''}<div>${ellipse(name, 19)},</div> <span class="age">${ProfileStats[name].age}</span></div>
       </figcaption>
     </article>
   `).join('')
@@ -765,18 +767,18 @@
 
 
 
-    provider.onConnect(async (addr) => {
-      const network = await provider.getNetwork()
+    provider.onConnect(async (addr, network) => {
       $.id('connectedAs').innerHTML = await provider.formatAddr(addr, true,31)
       $.id('balance').innerHTML = `${(await provider.getETHBalance(addr)).toFixed(4)} ETH` + (
         network.chainId === 1 ? '' : ` [${network.name.toUpperCase()}]`
       )
-      let tributeContent = ''
 
+      const domContracts = await provider.domContracts()
+
+      let tributeContent = ''
       let anyTributesPaid
-      await Promise.all(Object.keys(ProfileStats).map(async d => {
-        const dom = ProfileStats[d]
-        const contract = await provider.domContract(d)
+      await Promise.all(Object.keys(domContracts).map(async d => {
+        const contract = domContracts[d]
         const tributes = fromWei(await contract.tributes(addr))
         const tributesRounded = Math.floor(tributes * 10000000) / 10000000
         if (tributes > 0) {

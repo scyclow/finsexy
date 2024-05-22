@@ -242,7 +242,6 @@ createComponent(
       color: var(--light-color);
     }
 
-    ::-webkit-calendar-picker-indicator { filter: invert(100%); }
 
 
     button, img {
@@ -325,6 +324,14 @@ createComponent(
         box-shadow: 0 0 3em var(--secondary-color);
       }
     }
+    ::-webkit-calendar-picker-indicator { filter: invert(100%); }
+
+
+
+
+input:placeholder-shown {
+  border: 5px solid red;
+}
 
   </style>
 

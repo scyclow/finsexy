@@ -294,6 +294,7 @@ export function createEvent(threshold, responses={}, waitMs=600000) {
       const amount = ctx.global.premium * threshold
       const alreadyPaid = provider.BN(ctx.state.alreadyPaid || '0')
 
+
       if (contract && addr) {
         const t = await contract.tributes(addr)
         // if (Number((t - ctx.state.alreadyPaid).toFixed(6)) >= amount) {

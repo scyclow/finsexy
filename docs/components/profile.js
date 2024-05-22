@@ -298,7 +298,7 @@ createComponent(
         padding: 0.5em 1em;
         cursor: pointer;
         transition: 0.2s;
-        text-shadow: 0 0 1px var(--dark-color);
+        text-shadow: 0 1px 1px var(--dark-color);
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;
       }

@@ -16,7 +16,7 @@ contract SexyRouter is Ownable {
 
   constructor() {
     vip = address(new SexyVIP(msg.sender));
-    baseURI = address(new SexyURI());
+    baseURI = address(new SexyBaseURI());
   }
 
   function premium(address user) external view returns (uint256) {
@@ -27,10 +27,23 @@ contract SexyRouter is Ownable {
     require(p > 0 && p < 4, 'Invalid Premium');
     _premium[msg.sender] = p;
   }
+
+  // TODO: test
+  function setBaseURI(address newBaseURI) external onlyOwner {
+    baseURI = newBaseURI;
+  }
+
+  // TODO: test
+  function setVIP(address newVIP) external onlyOwner {
+    vip = newVIP;
+  }
 }
 
-contract SexyURI {
-
+contract SexyBaseURI {
+  // TODO
+  function tokenURI(string memory symbol, uint256 tokenId) external view returns (string memory) {
+    return '';
+  }
 }
 
 contract SexyVIP is ERC721, Ownable {
@@ -38,7 +51,7 @@ contract SexyVIP is ERC721, Ownable {
   uint256 public constant maxSupply = 101;
 
   SexyMinter public minter;
-  SexyTokenURI public uri;
+  SexyVIPTokenURI public uri;
 
   mapping(uint256 => bool) public isGold;
   mapping(uint256 => string) public memberName;
@@ -51,7 +64,7 @@ contract SexyVIP is ERC721, Ownable {
 
   constructor(address newOwner) ERC721('FinSexy VIP Membership', 'VIP') {
     minter = new SexyMinter();
-    uri = new SexyTokenURI();
+    uri = new SexyVIPTokenURI();
 
     isGold[0] = true;
     memberName[0] = 'steviep';
@@ -133,7 +146,7 @@ contract SexyVIP is ERC721, Ownable {
   }
 
   function setURI(address newURI) external onlyOwner {
-    uri = SexyTokenURI(newURI);
+    uri = SexyVIPTokenURI(newURI);
   }
 
   function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721) returns (bool) {
@@ -142,7 +155,7 @@ contract SexyVIP is ERC721, Ownable {
 }
 
 // TODO IOU mint
-contract SexyMinter is Ownable {
+contract SexyMinter {
   uint256 public mintPrice = 0.1 ether;
   uint256 public goldPrice = 0.15 ether;
   SexyVIP public sexyVIP;
@@ -171,7 +184,7 @@ contract SexyMinter is Ownable {
   }
 }
 
-contract SexyTokenURI {
+contract SexyVIPTokenURI {
   using Strings for uint256;
   SexyVIP public sexyVIP;
 

@@ -1,7 +1,7 @@
 /*
 TODO
   - seems to be some sort of bug when i reach twoThingsEnd, respond immediately
-
+  - need to get into telling the secret faster. refactor "feltGood"
 
 
 

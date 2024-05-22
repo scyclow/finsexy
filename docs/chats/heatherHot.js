@@ -162,6 +162,9 @@ export const HeatherHotProfile = {
       review: `Heather is the light of my life. She is the flame that burns deep and eternal inside my heart`
     },
     {
+      review: `The only success I've ever had with dating is when I actively put on the charm. It always feels so artificial, almost like I'm being someone else. Heather likes me for me (and my money), and that makes me feel seen!`
+    },
+    {
       review: `It's honestly super refreshing to meet a hot girl on a website like this after striking out on dating apps for YEARS. It doesn't matter how many times I swipe right, I can never get any action`
     },
     {
@@ -289,14 +292,14 @@ const HeatherHotMessages = {
   newToFindom: {
     messageText: `is this your first time playing with FinDom?`,
     responseHandler: ur => {
-      if (isYes(ur) || isMatch(ur, ['first time'])) return 'newToFindomYes'
+      if (isYes(ur) || isMatch(ur, ['first time', 'dabbled'])) return 'newToFindomYes'
       else if (isNo(ur)) return 'newToFindomNo'
       else return 'newToFindomConfused'
     }
   },
 
   newToFindomConfused: {
-    messageText: `i'm confused. have you ever done findom before?`,
+    messageText: `i'm confused. have you ever done FinDom before?`,
     responseHandler: (ur, ctx) => {
       ctx.state.isNew = true
       if (isYes(ur) || isMatch(ur, ['first time'])) return 'newToFindomNo'
@@ -307,10 +310,10 @@ const HeatherHotMessages = {
 
 
   ...diatribe('newToFindomYes', [
-    `omg. findom is like the <em>hottest thing ever</em>!`,
+    `omg. FinDom is like the <em>hottest thing ever</em>!`,
     `Fin Dom is short for Financial Domination. it's similar to a lot of other kinds of BDSM, where the submissive (that's you 😉) gets to an experience a total loss of control at the hands of their sexy dom`,
     `it's a win-win for both of us. you get off on sending to the hottest doms around, and we get off on receiving that money`,
-    `i know, i know. being sent money is a bit of a strange fetish, but i can't help myself. something about it makes me uncontrolably aroused. i fantasize about findom aaaaall day. the thought of seeing money enter my wallet makes me quiver. i just know that you'll love it too`,
+    `i know, i know. being sent money is a bit of a strange fetish, but i can't help myself. something about it makes me uncontrolably aroused. i fantasize about FinDom aaaaall day. the thought of seeing money enter my wallet makes me quiver. i just know that you'll love it too`,
   ], {
     followUp: fu('nextSteps')
   }),
@@ -318,9 +321,15 @@ const HeatherHotMessages = {
 
 
   newToFindomNo: {
-    messageText: `of course you've done findom before. you have paypig written all over you 😉`,
+    messageText: `of course you've done FinDom before. you have paypig written all over you 😉`,
     followUp: { messageCode: 'nextSteps', waitMs: 2000 }
   },
+
+
+
+// I can tell by your profile that you're really hot
+
+
 
   // newToFindomContinue: {
   //   messageText: `i mean, you clearly get off on losing money. you <em>are</em> into crypto and NFTs, afterall. LOL!`,
@@ -337,14 +346,19 @@ const HeatherHotMessages = {
       }
     },
     responseHandler: async (ur, ctx, contract, provider) => {
-      if (isMatch(ur, ['suck', 'dry'])) {
+      console.log(!provider.isWeb3())
+      if (!provider.isWeb3()) {
+        return 'noWeb3'
+
+      } else if (isMatch(ur, ['suck', 'dry', `lets go`, 'lets do it', 'ready', 'cherry', 'cum', 'orgasm', 'send'])) {
         ctx.state.askingQuestions = false
         return ctx.global.isConnected ? 'getStarted' : 'waitForConnect'
+
       } else if (
         isMatch(ur, ['finsexy', 'more', 'question', 'tell me', 'info', 'help', 'ok', 'okay', 'k', 'yes', 'yeah'])
       ) {
         ctx.state.askingQuestions = true
-        const infoCount = (ctx.state.moreInfoCount||0) % 4
+        const infoCount = (ctx.state.moreInfoCount||0) % 5
         if (!infoCount) {
           ctx.state.moreInfoCount = 1
           return 'moreInfo'
@@ -357,10 +371,11 @@ const HeatherHotMessages = {
         } else if (infoCount === 3) {
           ctx.state.moreInfoCount++
           return 'moreInfo4'
+        } else if (infoCount === 4) {
+          ctx.state.moreInfoCount++
+          return 'moreInfo5'
         }
 
-      } else if (!provider.isWeb3()) {
-        return 'noWeb3'
       } else {
         return ctx.global.isConnected ? 'getStarted' : 'waitForConnect'
       }
@@ -380,117 +395,150 @@ const HeatherHotMessages = {
 
   steviep: {
     messageText: () => `@steviep is sooooo hot. you should message him when you get a chance`,
-    followUp: { messageCode: 'nextSteps', waitMs: 5000 }
+    followUp: { messageCode: 'nextSteps', waitMs: 3500 }
   },
 
 
   moreInfo2: {
-    messageText: `one thing i really like about finsexy is how there are two easy ways to send!`,
-    followUp: { messageCode: 'moreInfo2a', waitMs: 3000 }
+    messageText: `one thing i really like about finsexy is how there are two sexy ways to send!`,
+    followUp: { messageCode: 'moreInfo2a', waitMs: 2500 }
   },
 
   moreInfo2a: {
     messageText: `one way is to go to the dom's profile and fill out the "send" input box. then you just click the "send" button. it's as simple as that!`,
-    followUp: { messageCode: 'moreInfo2b', waitMs: 3000 }
+    followUp: { messageCode: 'moreInfo2b', waitMs: 2500 }
   },
 
 
   moreInfo2b: {
     messageText: `or, if you're just so caught up in the moment that you don't want to leave the chat window you can use the $sexy Command Line Interface Tool (CLIT)!`,
-    followUp: { messageCode: 'moreInfo2c', waitMs: 3000 }
+    followUp: { messageCode: 'moreInfo2c', waitMs: 2500 }
   },
-
 
   moreInfo2c: {
-    messageText: `or you can just play around and see what you find. I love it when you play with my $sexy CLIT, lol!`,
-    followUp: { messageCode: 'nextSteps', waitMs: 5000 }
+    messageText: `if you wanted to send me 0.01 ETH, for example, all you need to do is type <code>$sexy send heatherHot 0.01</code> into the chat box and press enter!`,
+    followUp: { messageCode: 'moreInfo2d', waitMs: 2500 }
   },
 
-
-  moreInfo3: {
-    messageText: `oh, you're curious. That's sooo hot!`,
-    followUp: { messageCode: 'moreInfo3a', waitMs: 3000 }
+  moreInfo2d: {
+    messageText: `i'd love it if you played with my $sexy CLIT, lol!`,
+    followUp: { messageCode: 'nextSteps', waitMs: 3500 }
   },
 
-  moreInfo3a: {
+  ...diatribe('moreInfo3', [
+    `if you <em>really</em> like sending then you should definitely buy a VIP Membership!`,
+    `VIP Members get 25 SexyCredits, which they can use to pay their favorite findoms`,
+    `each SexyCredit is worth 0.01 ETH, but you can get 25 of them for only 0.1 ETH!`,
+    `and if you pay an extra 0.05 ETH then you'll get a <em>really</em> hot Gold Star on your Membership card`,
+    `also, VIPs get access to all sorts of extra sexy features like color cusomization, faster response times, and customer support!`,
+    `you can buy one by going to <a href="./vip">finsexy.com/vip</a>. there are only 101 VIP Membership NFT cards available though, so you should buy one before they run out! otherwise you'll have to buy one on the secondary market`,
+  ], {
+    followUp: { messageCode: 'nextSteps', waitMs: 3500 }
+  }),
+
+  moreInfo4: {
+    messageText: `oh, you're curious. that's sooo hot!`,
+    followUp: { messageCode: 'moreInfo4a', waitMs: 3000 }
+  },
+
+  moreInfo4a: {
     messageText: `normally I don't tell people this, but i can tell that ${genderSwitch({
       m: `you're getting a little too erect over there`,
       f: `you're turning into a puddle`,
       nb: `you're getting a little too aroused`
     })}, and i don't want to tease you too much 😉`,
-    followUp: { messageCode: 'moreInfo3b', waitMs: 4000 }
+    followUp: { messageCode: 'moreInfo4b', waitMs: 4000 }
   },
 
-  moreInfo3b: {
+  moreInfo4b: {
     messageText: `so let's keep it as our little secret...`,
-    followUp: { messageCode: 'moreInfo3c', waitMs: 6000 }
+    followUp: { messageCode: 'moreInfo4c', waitMs: 6000 }
   },
 
-  moreInfo3c: {
+  moreInfo4c: {
     messageText: `do you want to know what that secret is?`,
     responseHandler: ur => {
-      if (isYes(ur)) return 'moreInfo3d'
+      if (isYes(ur)) return 'moreInfo4d'
       else return 'nextSteps'
     }
   },
 
-  moreInfo3d: {
-    messageText: `
-      <p>there are two secret premium codes to so you can pay your doms even more!</p>
-      <p>if you type <code>$sexy premium DoubleTheFun</code> you'll get to pay your doms <em>twice</em> as much!</p>
-      <p>and if you type <code>$sexy premium ThirdTimesTheCharm</code> you'll get to pay your doms <em>three</em> times as much!</p>
-    `,
-    followUp: { messageCode: 'moreInfo3e', waitMs: 3000 }
-  },
-
-  moreInfo3e: {
-    messageText: `but if that's all too much to handle then you can always go back with <code>$sexy premium SingleSissySub</code>`,
-    followUp: { messageCode: 'nextSteps', waitMs: 5000 }
-  },
-
-
-  moreInfo4: {
-    messageText: `let's see, what else...`,
-    followUp: { messageCode: 'moreInfo4a', waitMs: 8000 }
-  },
-
-
-  moreInfo4a: {
-    messageText: `oh yeah, i guess i should talk to you about our wellness guidelines. wellness is super hot`,
-    followUp: { messageCode: 'moreInfo4b', waitMs: 3000 }
-  },
-
-  moreInfo4b: {
-    messageText: `first, we usually recommend that you don't use your primary wallet for findom play. when you're in the heat of the moment it can be difficult to make smart decisions that you're not going to regret the next day. don't budget more than you're willing to spend!`,
-    followUp: { messageCode: 'moreInfo4c', waitMs: 3000 }
-  },
-
-  moreInfo4c: {
-    messageText: `if you're having budget issues then you should talk to SamanthaJones. she's really good with money!`,
-    followUp: { messageCode: 'moreInfo4d', waitMs: 3000 }
-  },
-
   moreInfo4d: {
-    messageText: `second, remember that all the doms here practice SSC, RACK, and CCCC. everything you do should be consensual. don't ever feel obligated or pressured to do something you don't want to! we're all here to have hot fun!`,
+    messageText: `
+      <p>there are two secret premium codes you cna use for your doms to charge you even more!</p>
+      <p>if you type <code>$sexy premium DoubleTheFun</code> you'll get to pay your doms <em>twice</em> as much!</p>
+      <p>and if you type <code>$sexy premium ThirdTimesTheCharm</code> you'll get to pay them <em>three</em> times as much!</p>
+    `,
     followUp: { messageCode: 'moreInfo4e', waitMs: 3000 }
   },
 
   moreInfo4e: {
-    messageText: `third, if you ever feel like you have a problem, or can't control yourself, we have a really good therapist on staff that you can talk to. DrAndy is really the best`,
-    followUp: { messageCode: 'moreInfo4f', waitMs: 3000 }
+    messageText: `but if that's too much to handle then you can always go back with <code>$sexy premium SingleSissySub</code>`,
+    followUp: { messageCode: 'nextSteps', waitMs: 5000 }
   },
 
-  moreInfo4e: {
+
+  moreInfo5: {
+    messageText: `let's see, what else...`,
+    followUp: { messageCode: 'moreInfo5a', waitMs: 5000 }
+  },
+
+
+  moreInfo5a: {
+    messageText: `oh yeah, i guess i should talk to you about our wellness guidelines. wellness is super hot`,
+    followUp: { messageCode: 'moreInfo5b', waitMs: 3000 }
+  },
+
+  moreInfo5b: {
+    messageText: `first, we usually recommend that you don't use your primary wallet for findom play. when you're in the heat of the moment it can be difficult to make smart decisions that you're not going to regret the next day. don't budget more than you're willing to spend!`,
+    followUp: { messageCode: 'moreInfo5c', waitMs: 3000 }
+  },
+
+  moreInfo5c: {
+    messageText: `if you're having budget issues then you should talk to @SamanthaJones. she's really good with money!`,
+    followUp: { messageCode: 'moreInfo5d', waitMs: 3000 }
+  },
+
+  moreInfo5d: {
+    messageText: `second, remember that all the doms here practice SSC, RACK, and CCCC. everything you do should be consensual. don't ever feel obligated or pressured to do something you don't want to! we're all here to have hot fun!`,
+    followUp: { messageCode: 'moreInfo5e', waitMs: 3000 }
+  },
+
+  moreInfo5e: {
+    messageText: `third, if you ever feel like you have a problem, or can't control yourself, we have a really good therapist on staff that you can talk to. DrAndy is really the best`,
+    followUp: { messageCode: 'moreInfo5f', waitMs: 3000 }
+  },
+
+  moreInfo5e: {
     messageText: `and lastly, this is an adult website!! if you're not 18+ then please please please go use a kid-friendly app instead, like tiktok or friendworld`,
     followUp: { messageCode: 'nextSteps', waitMs: 5000 }
   },
 
+
   noWeb3: {
-    messageText: `oops, it looks like you need to install a web3 wallet like <a href="https://metamask.io/" target="_blank" rel="nofollow">MetaMask</a> or <a href="https://rainbow.me/" target="_blank" rel="nofollow">Rainbow</a>. or visit in a web browser like <a href="https://brave.com" target="_blank" rel="nofollow">Brave</a>`,
-    followUp: fu('orSendDirect')
+    messageText: `oh honey, you don't have a web3 wallet. you really shouldn't be here`,
+    followUp: fu('noWeb3b')
   },
 
-  orSendDirect: {
+  noWeb3b: {
+    messageText: `i know you want to send me your money reeeal bad, but I only take ETH`,
+    followUp: fu('noWeb3c')
+  },
+
+  noWeb3c: {
+    messageText: `would you install a web3 wallet browser extension for me? that would be soooo hot`,
+    followUp: fu('noWeb3d')
+  },
+  noWeb3d: {
+    messageText: `my favorite is <a href="https://metamask.io/" target="_blank" rel="nofollow">MetaMask</a>, but <a href="https://rainbow.me/" target="_blank" rel="nofollow">Rainbow</a> is also pretty hot`,
+    followUp: fu('noWeb3e')
+  },
+  noWeb3e: {
+    messageText: `or come back to the website in a dedicated web3 browser like <a href="https://brave.com" target="_blank" rel="nofollow">Brave</a>`,
+    followUp: fu('noWeb3f')
+  },
+
+  noWeb3f: {
     messageText: (ur, ctx, contract) => `or you can send ETH directly to my wallet: ${DOM_CONTRACTS.mainnet.address}`,
     followUp: 'moreFun'
   },
@@ -506,14 +554,19 @@ const HeatherHotMessages = {
     }
   },
 
+  connectWithMe: {
+    messageText: `yeah baby, connection is so hot`,
+    followUp: fu('getStarted')
+  },
+
   waitForConnect: {
-    messageText: 'oops, it looks like you need to connect your wallet before we can get started',
+    messageText: `oh baby, you forgot to connect your wallet. you need to do that before we can get started`,
     event: 'connectEvent',
-    responseHandler: ur => isMatch(ur, ['more', 'tell me', 'question']) ? 'moreInfo' : 'waitForConnect2'
+    followUp: fu('waitForConnect2')
   },
 
   waitForConnect2: {
-    messageText: `you can connect your wallet by clicking the "CONNECT" button in the menu, or by using the $sexy CLIT. To use the $sexy CLIT, just type <code>$sexy connect</code>`,
+    messageText: `you can connect your wallet by clicking the "Connect Wallet" button in the upper right menu, or by using the $sexy Command Line Interface Tool. To use the $sexy CLIT, just type <code>$sexy connect</code> and press enter`,
     event: 'connectEvent',
     responseHandler: ur => isMatch(ur, ['more', 'tell me', 'question']) ? 'moreInfo' : 'waitForConnect3'
   },
@@ -525,7 +578,7 @@ const HeatherHotMessages = {
   },
 
   getStarted: {
-    messageText: `great 🙂 i love chatting with horny, hot ${genderSwitch({m: 'boys', f: 'girls', nb: 'people'})}. especially when they're located in ${getUserData('location')}!`,
+    messageText: `i love chatting with horny, hot ${genderSwitch({m: 'boys', f: 'girls', nb: 'people'})}. especially when they're located in ${getUserData('location')}! 🙂`,
     followUp: { messageCode: 'fantasyCheck', waitMs: 3000 }
   },
 
@@ -630,22 +683,36 @@ const HeatherHotMessages = {
   howMuch2: {
     async messageText(ur, ctx, contract, provider) {
       const balance = await provider.getETHBalance(await provider.isConnected())
+      const isSmall = balance < 10
 
-      return `aw, look at that cute little wallet of yours. ${balance.toFixed(2)} ETH${
-        balance < 10
-          ? balance < 0.01 ? ' lol. you might need more than that...' : ` lol. that's not very much`
-          : '!'
-      }`
+      return isSmall
+        ? `aw, look at that cute little ETH balance of yours. ${balance.toFixed(2)} ETH${balance < 0.01 ? ' lol. you might need more than that...' : ` lol. that's not very much`}`
+        : `wow, look at that fat ETH balance of yours. ${balance}!`
     },
-    followUp: { messageCode: 'downToBusiness', waitMs: 4000 }
+    async followUp(ur, ctx, contract, provider) {
+      const balance = await provider.getETHBalance(await provider.isConnected())
+      if (balance < 0.01) return fu('downToBusiness')
+      else return fu('loveToFeelIt')
+
+      return { messageCode: 'downToBusiness', waitMs: 4000 }
+    }
+  },
+
+  loveToFeelIt: {
+    messageText: `i'd love to feel it inside my wallet`,
+    followUp: fu('currencyExchange')
+  },
+
+  currencyExchange: {
+    messageText: `currency exchange is <em>so</em> hot. don't you agree?`,
+    responseHandler: 'downToBusiness'
   },
 
   downToBusiness: {
     messageText: 'can i tell you something?',
     responseHandler: ur => {
-      if (isYes(ur)) return 'downToBusinessYes'
-      else if (isNo(ur)) return 'downToBusinessNo'
-      else return 'downToBusinessUnsure'
+      if (isNo(ur)) return 'downToBusinessNo'
+      else return 'downToBusinessYes'
     }
   },
 
@@ -657,73 +724,30 @@ const HeatherHotMessages = {
     }
   },
 
-  downToBusinessUnsure: {
-    messageText: ur => sample(['huh?', 'what do you mean?', 'is that a yes or a no?', 'what are you talking about, lol']),
-    responseHandler: ur => {
-      if (isYes(ur)) return 'downToBusinessYes'
-      else if (isNo(ur)) return 'downToBusinessNo'
-      else return 'downToBusinessUnsure'
-    }
-  },
 
   finalRejection: {
     messageText: 'okay...',
     responseHandler: 'hi'
   },
 
-  downToBusinessYes: {
-    messageText: `i know what you've been thinking about`,
-    followUp: { messageCode: 'downToBusinessYesa', waitMs: 2000 }
-  },
-
-  downToBusinessYesa: {
-    messageText: `i know you can't stop thinking about sending to me`,
-    followUp: { messageCode: 'downToBusinessYesb', waitMs: 2000 }
-  },
-
-  downToBusinessYesb: {
-    messageText: `and that you <em>need</em> to send to me to cum`,
-    followUp: { messageCode: 'downToBusinessYesc', waitMs: 1500 }
-  },
-
-  downToBusinessYesc: {
-    messageText: `and i want to help you. so listen closely`,
-    followUp: { messageCode: 'downToBusinessYesd', waitMs: 2500 }
-  },
-
-  downToBusinessYesd: {
-    messageText: `i want you to unzip your pants...`,
-    followUp: { messageCode: 'downToBusinessYese', waitMs: 1500 }
-  },
-
-  downToBusinessYese: {
-    messageText: `start touching yourself...`,
-    followUp: { messageCode: 'downToBusinessYesf', waitMs: 1500 }
-  },
-
-  downToBusinessYesf: {
-    messageText: (ur, ctx) =>  `and think about sending me ${ctx.global.premium * 0.01} ETH`,
-    followUp: { messageCode: 'howDoYouFeel', waitMs: 1000 },
-    event: 'sendEvent',
-  },
-
-
-
-  // reallyHot: {
-  //   messageText: `Ugh, this is getting me reallyyyyy hot`,
-  //   responseHandler: 'lightOnFire'
-  // },
-
-
-
-  howDoYouFeel: {
-    messageText: (ur, ctx) => `yeah, you really want to watch your ${ctx.global.premium * 0.01} ETH burn up in my hot little wallet, don't you?`,
+  ...diatribe('downToBusinessYes', [
+    `i know what you've been thinking about`,
+    `i know you can't stop thinking about sending to me`,
+    `and that you <em>need</em> to send to me to cum`,
+    `our chemistry is undeniable`,
+    `i want to help you. so listen closely`,
+    `so unzip your pants...`,
+    `start touching yourself...`,
+    (ur, ctx) => `and think about sending me ${ctx.global.premium * 0.01} ETH`,
+    (ur, ctx) => `yeah, you really want to watch your ${ctx.global.premium * 0.01} ETH burn up in my hot little wallet, don't you?`,
+  ], {
     event: 'sendEvent',
     responseHandler: (ur) => {
       if (isYes(ur)) return 'okaySend'
       else return 'sendAnyhow'
     }
-  },
+  }),
+
 
   sendAnyhow: {
     messageText: (ur, ctx) => `shut up and send me ${ctx.global.premium * 0.01} ETH`,
@@ -740,15 +764,33 @@ const HeatherHotMessages = {
 
   sendEvent: createEvent( 0.01, {
     primary: fu('soGood', 6000),
-    notEnough: fu('aLittleMore', 3000)
+    notEnough: fu('aLittleMore', 3000),
+    wait: { messageCode: 'stillThere' },
   }),
 
+  stillThere: {
+    messageText: `hey baby, are you still there?`,
+    event: 'sendEvent',
+    followUp: fu('stillThere2')
+  },
 
+
+  stillThere2: {
+    messageText: `i want your ETH so bad`,
+    event: 'sendEvent',
+    followUp: fu('stillThere3')
+  },
+
+  stillThere3: {
+    messageText: `you know you want it too`,
+    event: 'sendEvent',
+    responseHandler: 'sendHelp'
+  },
 
   cumTogether: {
     messageText: `then we can cum together`,
     event: 'sendEvent',
-    followUp: fu('fantasyToReality', 8000),
+    followUp: fu('fantasyToReality', 3000),
     responseHandler: 'sendHelp'
   },
 
@@ -761,12 +803,18 @@ const HeatherHotMessages = {
 
 
   sendHelp: {
-    messageText: (ur, ctx) => `you can send me ${ctx.global.premium * 0.01} ETH by going to my profile and filling out the "send" input box. then you just click the "send" button. It's as simple as that!`,
-    event: 'sendEvent',
+    messageText: (ur, ctx) => `you can send me ${ctx.global.premium * 0.01} ETH by going to my profile and filling out the "send" input box. then you just click the "SEND" button. it's as simple as that!`,
     followUp: { messageCode: 'sendHelp2', waitMs: 2000 }
   },
 
   sendHelp2: {
+    messageText: (ur, ctx) => ctx.global.isVIP
+      ? `you can also send me some of your SexyCredits. SexyCredits are <em>super</em> hot`
+      : `you can also buy a VIP Membership and send me some SexyCredits. SexyCredits are <em>super</em> hot`,
+    followUp: { messageCode: 'sendHelp3', waitMs: 2000 }
+  },
+
+  sendHelp3: {
     messageText: (ur, ctx) => `or, you can just use the $sexy Command Line Interface Tool (CLIT) by typing <code>$sexy send heatherHot ${ctx.global.premium * 0.01}</code>`,
     event: 'sendEvent',
     responseHandler: 'sendMoreOkay'
@@ -800,29 +848,45 @@ const HeatherHotMessages = {
 
 
   soGood: {
-    messageText: `mmm, that felt so good. that'll never get old`,
-    responseHandler: 'nft'
+    messageText: `mmm, that felt so good. i can feel your ETH deep inside me`,
+    followUp: fu('cameReallyHard')
   },
 
-  nft: {
-    messageText: `you probably want one of those stupid NFTs too though, right? lol`,
-    responseHandler: ur => isYes(ur) ? 'nftYes' : 'nftNo'
+  cameReallyHard: {
+    messageText: `i just came <em>really</em> hard`,
+    followUp: fu('goodPaypig')
   },
 
-  nftNo: {
-    messageText: `well, you're getting one anyhow lol`,
-    followUp: { messageCode: 'nftYes2', waitMs: 3000 }
+  goodPaypig: {
+    messageText: () => `and because you've been such a good little ${genderSwitch({m: 'boy', f: 'girl', nb: 'paypig'})} i sent a reall hot pic to your wallet 🔥`,
+    followUp: fu('whatYouWanted')
   },
 
-  nftYes: {
-    messageText: `okay, whatever floats your boat, sweetheart lol`,
-    followUp: { messageCode: 'nftYes2', waitMs: 3000 }
+  whatYouWanted: {
+    messageText: `i know it's what you wanted to see all along`,
+    responseHandler: 'again'
   },
 
-  nftYes2: {
-    messageText: `i sent you a picture of your money getting really hot 🔥`,
-    followUp: { messageCode: 'nftYes3', waitMs: 2000 }
-  },
+
+  // nft: {
+  //   messageText: `you probably want one of those stupid NFTs too though, right? lol`,
+  //   responseHandler: ur => isYes(ur) ? 'nftYes' : 'nftNo'
+  // },
+
+  // nftNo: {
+  //   messageText: `well, you're getting one anyhow lol`,
+  //   followUp: { messageCode: 'nftYes2', waitMs: 3000 }
+  // },
+
+  // nftYes: {
+  //   messageText: `okay, whatever floats your boat, sweetheart lol`,
+  //   followUp: { messageCode: 'nftYes2', waitMs: 3000 }
+  // },
+
+  // nftYes2: {
+  //   messageText: `i sent you a picture of your money getting really hot 🔥`,
+  //   followUp: { messageCode: 'nftYes3', waitMs: 2000 }
+  // },
 
   nftYes3: {
     messageText: `lol`,
@@ -830,7 +894,7 @@ const HeatherHotMessages = {
   },
 
   again: {
-    messageText: `this was fun. If you ever want to send me more money then you know where to find me 😘`,
+    messageText: `this was fun. if you ever want to send me more money then you know where to find me 😘`,
     responseHandler: async (ur, ctx, contract) => {
       ctx.state.paymentOffset = (await contract.tributes(ctx.global.connectedAddr)).toString()
       return 'nextSteps'

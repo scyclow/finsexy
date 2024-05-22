@@ -97,7 +97,7 @@ export const DOM_CONTRACTS = {
     "CrystalGoddess": "0x9ace813B1adA8a75DF6518A6d1b50f1A418CdAB7",
     "steviep": "0xa8F7C1571e3522ED545F949558eCB7B8e72529B2",
     "VinceSlickson": "0x32467b43BFa67273FC7dDda0999Ee9A12F2AaA08",
-    "FDXXXpress": "0x46A9cF43B44f5CEb06747aF10955A02fD6671783",
+    "SexyXXXpress": "0x46A9cF43B44f5CEb06747aF10955A02fD6671783",
     "Hedonitronica": "0x4AE5AF759E17599107c1C688bfaCF6131C376D51",
     "MindyRouge": "0x1881d02D05a44713a69d6eDDE3e7167792A636d6",
     "0x000000000000000000000000000000000": "0x4ABEaCA4b05d8fA4CED09D26aD28Ea298E8afaC8",
@@ -117,7 +117,7 @@ export const DOM_CONTRACTS = {
     QueenJessica: '0xB0aA3152240948076D551455cb0b8424cAfEb456',
     Hedonitronica: '0xb487Fd88c15a3057F3B5fDBA9F3AF4710d830ba6',
     MindyRouge: '0xc5A32eC2FDbBdFfb15443c900995C17Edb6b6783',
-    FDXXXpress: '0x8399B31c1798a58A35852d29F4d8bBd3E3AB8F6c',
+    SexyXXXpress: '0x8399B31c1798a58A35852d29F4d8bBd3E3AB8F6c',
     CandyCrush: '0x01b29F753F82b4262A4CFf621B323eCE063E352e',
     heatherHot: '0x56Ac50BDeD44Da46C5fE582Aa469B4726B779a4b',
     katFischer: '0x0c8E71dCA3F4FC3bEAe304Fd0C31c6ecF6f000d3',
@@ -182,7 +182,14 @@ export class Web3Provider {
     this.isConnected()
       .then(addr => {
         if (addr) {
-          cb(addr)
+          return Promise.all([addr, this.getNetwork()])
+        } else {
+          return []
+        }
+      })
+      .then(([addr, network]) => {
+        if (addr) {
+          cb(addr, network)
         }
       })
       .catch(errorCb)
@@ -431,7 +438,7 @@ export class Web3Provider {
       Hedonitronica: await this.contract(CONTRACTS.Hedonitronica, domABI),
       MindyRouge: await this.contract(CONTRACTS.MindyRouge, domABI),
       CandyCrush: await this.contract(CONTRACTS.CandyCrush, domABI),
-      FDXXXpress: await this.contract(CONTRACTS.FDXXXpress, domABI),
+      SexyXXXpress: await this.contract(CONTRACTS.SexyXXXpress, domABI),
       RonaMerch: await this.contract(CONTRACTS.RonaMerch, domABI),
       MoneyMommy777: await this.contract(CONTRACTS.MoneyMommy777, domABI),
       HotlineBabe1900: await this.contract(CONTRACTS.HotlineBabe1900, domABI),

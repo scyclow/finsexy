@@ -316,12 +316,12 @@ const CustomerSupportMessages = {
   },
 
   vipSexyCredits2: {
-    messageText: `SexyCredits are not ERC20 tokens, but you can still transfer SexyCredits between VIP Membership cards! To do this, navigate to <a href="https://finsexy.com/profile">https://finsexy.com/profile</a>, scroll down to "V.I.P. Preferences", and find the "Send SexyCredits" module. From there, you can input the Membership ID you'd like to send credits to and the amount of credits you'd like to send. Then all you need to do is click "SEND" and approve the transaction. FinSexy does not support sending fractional credits at this time.`,
+    messageText: `SexyCredits are not ERC20 tokens, but you can still transfer SexyCredits between VIP Membership cards! To do this, navigate to <a href="https://finsexy.com/profile">finsexy.com/profile</a>, scroll down to "V.I.P. Preferences", and find the "Send SexyCredits" module. From there, you can input the Membership ID you'd like to send credits to and the amount of credits you'd like to send. Then all you need to do is click "SEND" and approve the transaction. FinSexy does not support sending fractional credits at this time.`,
     followUp: fu('vipSexyCredits3')
   },
 
   vipSexyCredits3: {
-    messageText: `Additionally, you can approve addresses to send SexyCredits on your behalf! To do this, locate the "Approve SexyCredits" module on <a href="https://finsexy.com/profile">https://finsexy.com/profile</a>, input the operator address, click "APPROVE", and sign your transaction! Keep in mind that this will allow the operator to spend ALL of your SexyCredits, so be careful who you approve! You can only approve one operator at a time.`,
+    messageText: `Additionally, you can approve addresses to send SexyCredits on your behalf! To do this, locate the "Approve SexyCredits" module on <a href="https://finsexy.com/profile">finsexy.com/profile</a>, input the operator address, click "APPROVE", and sign your transaction! Keep in mind that this will allow the operator to spend ALL of your SexyCredits, so be careful who you approve! You can only approve one operator at a time.`,
     followUp: fu('vipFinished')
   },
 
@@ -341,7 +341,7 @@ const CustomerSupportMessages = {
 }
 
 function supportResponse(ur, ctx) {
-  if (isMatch(ur, ['bug', 'glitch', 'not working', 'tech support', 'technical support', 'website', 'technical issue', 'fix', 'browser', 'metamask'])) {
+  if (isMatch(ur, ['bug', 'glitch', 'not working', 'tech support', 'technical support', 'website', 'technical issue', 'tech', 'fix', 'browser', 'metamask'])) {
     return 'bugHelp'
   } else if (isMatch(ur, ['vip', 'member', 'membership', 'very important', 'gold'])) {
     return 'vipQuestion'
@@ -360,6 +360,9 @@ function supportResponse(ur, ctx) {
   } else {
     return 'dontUnderstand'
   }
+
+  // tutorial
+  // something sexy
 }
 
 function vipResponses(ur, ctx) {

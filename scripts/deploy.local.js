@@ -48,7 +48,6 @@ async function main() {
   const SexyGameFactory = await ethers.getContractFactory('SexyGame', artist)
   const SexyVIPFactory = await ethers.getContractFactory('SexyVIP', artist)
   const SexyMinterFactory = await ethers.getContractFactory('SexyMinter', artist)
-  const SexyTokenURIFactory = await ethers.getContractFactory('SexyTokenURI', artist)
   const SexyRouterFactory = await ethers.getContractFactory('SexyRouter', artist)
 
   FastCash = await ethers.getContractAt(
@@ -65,7 +64,6 @@ async function main() {
   SexyVIP = await SexyVIPFactory.attach(await SexyRouter.vip())
   await SexyVIP.deployed()
   SexyMinter = await SexyMinterFactory.attach(await SexyVIP.minter())
-  SexyTokenURI = await SexyTokenURIFactory.attach(await SexyVIP.uri())
 
   const factory = await ethers.getContractFactory('SexyDeployer', artist)
   const deployer = await factory.deploy(SexyRouter.address)
@@ -84,7 +82,7 @@ async function main() {
   DungeonMistress = (await FinDomBaseFactory.attach(await deployer.DungeonMistress())).address
   DrAndy = (await FinDomBaseFactory.attach(await deployer.DrAndy())).address
   katFischer = (await FinDomBaseFactory.attach(await deployer.katFischer())).address
-  FDXXXpress = (await FinDomBaseFactory.attach(await deployer.FDXXXpress())).address
+  SexyXXXpress = (await FinDomBaseFactory.attach(await deployer.FDXXXpress())).address
   CandyCrush = (await FinDomBaseFactory.attach(await deployer.CandyCrush())).address
   CrystalGoddess = (await FinDomBaseFactory.attach(await deployer.CrystalGoddess())).address
   steviep = (await FinDomBaseFactory.attach(await deployer.steviep())).address
@@ -121,7 +119,7 @@ async function main() {
     CrystalGoddess,
     steviep,
     VinceSlickson,
-    FDXXXpress,
+    SexyXXXpress,
     Hedonitronica,
     MindyRouge,
     '0x000000000000000000000000000000000': Hacker,

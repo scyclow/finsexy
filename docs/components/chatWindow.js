@@ -109,6 +109,7 @@ createComponent(
         overflow-y: scroll;
         padding: 0.5em;
         padding-top: 80px;
+        z-index: 1;
       }
 
       .smoothScroll {
@@ -137,7 +138,7 @@ createComponent(
         text-shadow: 2px 2px 2px var(--dark-color), -2px 0px 5px var(--secondary-color);
       }
 
-      .messageContent img, .messageContent code, .messageContent p + p {
+      .messageContent img, .messageContent p + p {
         margin-top: 0.6em;
       }
 
@@ -153,7 +154,7 @@ createComponent(
       }
 
       .from-dom {
-        text-shadow: ${clitLS.get('a11y') ? '1px 2px 0px var(--dark-color)' : '1px 1px 2px var(--secondary-color)'};
+        text-shadow: ${clitLS.get('a11y') ? '1px 2px 0px var(--dark-color)' : '1px 1px 0px var(--dark-color), 1px 1px 2px var(--secondary-color)'};
       }
 
       .message:last-child {
@@ -303,7 +304,8 @@ createComponent(
       #headerContainer {
         position: relative;
         height: 0;
-        top: 0
+        top: 0;
+        z-index: 100;
       }
 
       .chatMessage {
@@ -316,15 +318,16 @@ createComponent(
       code {
         display: inline-block;
         padding: 0.5em;
-        background: var(--bg-color);
-        opacity: 0.85;
         color: var(--light-color);
         border-radius: 0.25em;
         cursor: pointer;
+        transition: 150ms;
+        background: var(--bg-color);
+        background: color-mix(in srgb, var(--bg-color) 75%, transparent);
       }
 
       code:hover {
-        opacity: 0.85;
+        opacity: 0.8;
       }
 
       ::selection, .message ::selection  {
@@ -356,6 +359,7 @@ createComponent(
         overflow: visible;
         height: 0;
         pointer-events: none;
+        z-index: 10;
       }
       #newMessage * {
         position: relative;
@@ -363,7 +367,7 @@ createComponent(
         padding: 0.25em;
         text-align: center;
         background: linear-gradient(180deg, rgba(0,0,0,0) 0%, var(--primary-color) 100%);
-        text-shadow: 0 0 3px var(--dark-color);
+        text-shadow: 1px 1px 2px var(--dark-color), 1px 1px 2px var(--secondary-color), 0px 0px 3px var(--secondary-color);
       }
 
       @media(max-width: 520px) {
@@ -417,7 +421,7 @@ createComponent(
       </div>
       <div id="newMessage" class="hidden"><div style="position: relative">New Message!</div></div>
       <div id="inputArea">
-        <textarea id="input" autofocus></textarea>
+        <textarea id="input" placeholder="Type your message here..." autofocus></textarea>
         <button id="submit">SUBMIT</button>
       </div>
     </section>

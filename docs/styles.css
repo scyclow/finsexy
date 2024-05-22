@@ -327,3 +327,4 @@ connect-wallet:not(:defined) {
   opacity: 0;
   transition: opacity 0.3s;
 }
+

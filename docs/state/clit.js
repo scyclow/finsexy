@@ -212,6 +212,7 @@ export const sexyCLIT = {
 
     // }
     else if (command === 'dev') {
+      const [devCommand, devArgs] = args
       if (args[0] === 'help') {
         return cb(`
           <h3>$sexy Command Line Interface Tool (CLIT) Dev Commands</h3>
@@ -225,34 +226,44 @@ export const sexyCLIT = {
           <h5 style="margin-top: 1.5em">List All Conversation Nodes</h5>
           <p><code>$sexy dev list [dom name]</code></p>
 
+          <h5 style="margin-top: 1.5em">View Conversation Node String</h5>
+          <p><code>$sexy dev view [dom name] [node name]</code></p>
+
           <h5 style="margin-top: 1.5em">GoTo Conversation Node</h5>
           <p><code>$sexy dev node [dom name] [node name]</code></p>
 
-          <h5 style="margin-top: 1.5em">Clear Chat History</h5>
+          <h5 style="margin-top: 1.5em">Clear All Chat History</h5>
           <p><code>$sexy dev clear</code></p>
 
         `)
-      } else if (args[0] === 'debug') {
-        const debugVal = args[1] === undefined
+      } else if (devCommand === 'debug') {
+        const debugVal = devArgs[0] === undefined
           ? !clitLS.get('devMode')
-          : args[1] === 'true' ? true : false
+          : devArgs[0] === 'true' ? true : false
 
 
         clitLS.set('devMode', debugVal)
 
 
         return cb(`__DEBUG__: ${debugVal}`)
-      } else if (args[0] === 'ignorewait' || args[0] === 'ignoreWait') {
+      } else if (devCommand === 'ignorewait' || devCommand === 'ignoreWait') {
 
-        const waitVal = args[1] === 'true' ? true : false
+        const waitVal = devArgs[0] === 'true' ? true : false
 
         clitLS.set('devIgnoreWait', waitVal)
         return cb(`Ignore Wait: ${waitVal}`)
 
-      } else if (args[0] === 'clear') {
+      } else if (devCommand === 'clear') {
         clearChat()
 
-      } else if (args[0] === 'list') {
+      } else if (devCommand === 'view') {
+        const [_, _chatName, node] = args
+        const chatName = _chatName.toLowerCase()
+        if (!(chatName in downcasedChats)) return cb(`Invalid chat name: ${_chatName}`)
+
+        cb(stringifyNode(downcasedChats[chatName].messages[node]))
+
+      } else if (devCommand === 'list') {
         const [_, _chatName] = args
         const chatName = _chatName.toLowerCase()
 
@@ -263,7 +274,7 @@ export const sexyCLIT = {
 
         cb(nodeNames.map(n => `${n}<br/>`).join(''))
 
-      } else if (args[0] === 'node') {
+      } else if (devCommand === 'node') {
         const [_, _chatName, node] = args
 
         if (!node) cb(`Cannot move to empty node for ${_chatName}`)
@@ -277,7 +288,7 @@ export const sexyCLIT = {
 
       } else {
         return cb(`
-          <p>Invalid dev command: <code>${args[0]}</code></p>
+          <p>Invalid dev command: <code>${devCommand}</code></p>
           <p>Run <code>$sexy dev help</code> for more options</p>
         `)
       }
@@ -588,6 +599,20 @@ export const sexyCLIT = {
     clitLS.set('responseModifier', modifier)
   }
 
+}
+
+function stringifyNode(node) {
+  return JSON.stringify({
+    ...node,
+    messageText: stringifyNodeComponent(node.messageText),
+    responseHandler: stringifyNodeComponent(node.responseHandler),
+    followUp: stringifyNodeComponent(node.followUp),
+  })
+}
+
+function stringifyNodeComponent(c) {
+  if (c instanceof Function) return c.toString()
+  else return JSON.stringify(c)
 }
 
 window.sexyCLIT = sexyCLIT

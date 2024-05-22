@@ -433,7 +433,7 @@ const QueenMessages = {
       ctx.state.partnerGender === 'm' ? `he's` :
       ctx.state.partnerGender === 'f' ? `she's` :
       `they're'`
-    } probably gooning over me from another account right now`,
+    } probably simping for me from another account right now`,
     (ur, ctx) => `What a pathetic, unhappy ${ctx.state.partnerType === 'spouse' ? 'marriage' : 'relationship'} that must be`,
     (ur, ctx) => `And it's all your fault, of course. If you knew how to please ${
       ctx.state.partnerGender === 'm' ? 'him' :

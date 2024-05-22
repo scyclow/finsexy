@@ -343,6 +343,7 @@
     })
 
     li.onclick = () => {
+      MessageHandler.chats[name].ctx.resetUnread()
       onConvoSelect(name)
       updateDevPanel()
       updateViewedPanels()
@@ -410,6 +411,7 @@
     })
 
     $profilePanel.innerHTML = `<sexy-profile name="${id}" sideWindow="true"></sexy-profile>`
+    $profilePanel.scrollTo(0,0)
   }
 
 

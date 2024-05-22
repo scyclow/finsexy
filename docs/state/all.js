@@ -16,7 +16,7 @@ export * from '../chats/steviep.js'
 export * from '../chats/SpecialAgentDiane.js'
 
 import {HeatherHotProfile, HHChat} from '../chats/heatherHot.js'
-import {SamanthaProfile} from '../chats/SamanthaJones.js'
+import {SamanthaProfile, SamanthaChat} from '../chats/SamanthaJones.js'
 import {VinceProfile} from '../chats/VinceSlickson.js'
 import {KatProfile, KatChat} from '../chats/katFischer.js'
 import {CrystalGoddessProfile} from '../chats/CrystalGoddess.js'
@@ -29,7 +29,7 @@ import {HedonitronicaProfile} from '../chats/Hedonitronica.js'
 import {DianeProfile} from '../chats/SpecialAgentDiane.js'
 import {CandyCrushProfile} from '../chats/CandyCrush.js'
 import {MindyProfile, MindyChat} from '../chats/MindyRouge.js'
-import {XXXProfile} from '../chats/FDXXXpress.js'
+import {XXXProfile} from '../chats/SexyXXXpress.js'
 import {CaglaProfile} from '../chats/cagla.js'
 import {CustomerSupportProfile, CustomerSupportChat} from '../chats/CustomerSupport247.js'
 import {HotlineBabeProfile} from '../chats/HotlineBabe1900.js'
@@ -123,7 +123,6 @@ if (!ls.get('BETA_PASS') && window.location.href.includes('finsexy.com')) {
 
 
 provider.onConnect(async (addr) => {
-
   MessageHandler.visibilityCtx.DungeonMistress = 'online'
   MessageHandler.visibilityCtx.SamanthaJones = 'online'
   MessageHandler.visibilityCtx.QueenJessica = 'online'
@@ -131,17 +130,27 @@ provider.onConnect(async (addr) => {
 
 
 
-  if (unmessaged(CustomerSupportChat)) {
-    const activeVIP = await sexyCLIT.getActiveVIP()
-  console.log(activeVIP)
-    if (activeVIP) {
-      const { SexyVIP } = await provider.sexyContracts()
-      const activeIsGold = await SexyVIP.isGold(activeVIP)
 
+  const domContracts = await provider.domContracts()
+
+  for (let dom of Object.keys(domContracts)) {
+    const tributes = fromWei(await domContracts[dom].tributes(addr))
+
+    if (tributes && unmessaged(SamanthaChat)) SamanthaChat.queueEvent('regretToInform', 1)
+
+  }
+
+
+  const activeVIP = await sexyCLIT.getActiveVIP()
+  if (activeVIP != null) {
+    const { SexyVIP } = await provider.sexyContracts()
+    const activeIsGold = await SexyVIP.isGold(activeVIP)
+
+    MessageHandler.globalCtx.isVIP = true
+    MessageHandler.globalCtx.isGold = activeIsGold
+
+    if (unmessaged(CustomerSupportChat)) {
       MessageHandler.visibilityCtx.CustomerSupport247 = 'online'
-      MessageHandler.globalCtx.isVIP = true
-      MessageHandler.globalCtx.isGold = activeIsGold
-
       CustomerSupportChat.queueEvent('hello', 1)
     }
   }

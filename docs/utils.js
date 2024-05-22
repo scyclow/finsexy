@@ -77,9 +77,9 @@ function setRunInterval(fn, ms, i=0) {
 }
 
 
-function ellipse(txt) {
-  return txt.length >= 25
-    ? txt.slice(0, 22) + '...'
+function ellipse(txt, len=25) {
+  return txt.length >= len
+    ? txt.slice(0, len-3) + '...'
     : txt
 }
 

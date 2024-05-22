@@ -63,7 +63,7 @@ describe('FinSexy', () => {
     const SexyGameFactory = await ethers.getContractFactory('SexyGame', artist)
     const SexyVIPFactory = await ethers.getContractFactory('SexyVIP', artist)
     const SexyMinterFactory = await ethers.getContractFactory('SexyMinter', artist)
-    const SexyTokenURIFactory = await ethers.getContractFactory('SexyTokenURI', artist)
+    const SexyVIPTokenURIFactory = await ethers.getContractFactory('SexyVIPTokenURI', artist)
     const SexyRouterFactory = await ethers.getContractFactory('SexyRouter', artist)
 
     FastCash = await ethers.getContractAt(
@@ -82,7 +82,7 @@ describe('FinSexy', () => {
     SexyVIP = await SexyVIPFactory.attach(await SexyRouter.vip())
     await SexyVIP.deployed()
     SexyMinter = await SexyMinterFactory.attach(await SexyVIP.minter())
-    SexyTokenURI = await SexyTokenURIFactory.attach(await SexyVIP.uri())
+    SexyVIPTokenURI = await SexyVIPTokenURIFactory.attach(await SexyVIP.uri())
 
     const factory = await ethers.getContractFactory('SexyDeployer', artist)
     const deployer = await factory.deploy(SexyRouter.address)
@@ -567,7 +567,7 @@ describe('FinSexy', () => {
 
     describe('uri', () => {
       it('setURI should work', async () => {
-        expect(await SexyVIP.connect(artist).uri()).to.equal(SexyTokenURI.address)
+        expect(await SexyVIP.connect(artist).uri()).to.equal(SexyVIPTokenURI.address)
         await expectRevert(
           SexyVIP.connect(paypig).setURI(zeroAddr),
           'Ownable: caller is not the owner'

@@ -129,11 +129,11 @@ createComponent(
 
       #totalUnreads, #totalUnreadsMenu {
         position: absolute;
-        font-size: ${clitLS.get('a11y') ? '0.7em' : '0.55em'};
+        font-size: 0.7em;
         font-weight: bolder;
         height: 1em;
         width: 1em;
-        padding: 0.5em;
+        padding: 0.3em;
         display: inline-flex;
         justify-content: center;
         align-items: center;
@@ -147,11 +147,11 @@ createComponent(
       }
 
       #totalUnreads {
-        transform: ${clitLS.get('a11y') ? 'translate(-4.9em, -1.2em)' : 'translate(-6.1em, -1em)'};
+        transform: translate(-4.7em, -0.9em);
       }
 
       #totalUnreadsMenu {
-        transform: ${clitLS.get('a11y') ? 'translate(0, -1em)' : 'translate(0, -1em)'};
+        transform: translate(0, -1em);
       }
 
       #totalUnreads.hidden, #totalUnreadsMenu.hidden {
@@ -181,6 +181,12 @@ createComponent(
         color: var(--primary-color);
         animation: none;
         box-shadow: 0 0 3em var(--primary-color);
+      }
+
+      .iconLarge svg {
+        width: 17px;
+        height: 17px;
+        transform: translateY(1px)
       }
 
 
@@ -251,22 +257,18 @@ createComponent(
         <ul id="navItems">
           <li>
             <a href="/">
-              <span class="icon">${house}</span>
-              Home
+              <span class="icon iconLarge">${house}</span>Home
             </a>
           </li>
           <li>
             <a href="/chat">
-              <span class="icon">${chat}</span>
-              Chat
+              <span class="icon iconLarge">${chat}</span>Chat
               <span id="totalUnreads" class="hidden"><span>
             </a>
           </li>
-          <!--<li><a href="/">Browse</a></li>-->
-          <!--<li><a href="#">VIP</a></li>-->
           <li><a href="/vip"><span class="icon">${star}</span>VIP</a></li>
           <li><a href="/profile"><span class="icon">${profile}</span>Profile</a></li>
-          <li><a href="/senders"><span class="icon">${winner}</span>Top Senders</a></li>
+          <li id="senders"><a href="/senders"><span class="icon">${winner}</span>Top Senders</a></li>
           <li>
             <connect-wallet>
               <div slot="noWeb3" class="connectItem">
