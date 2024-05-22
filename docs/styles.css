@@ -29,6 +29,8 @@
   --gray-color: #3f304a;
   --yellow-color: #f3ba00;
 
+  --orange-color: color-mix(in srgb, var(--yellow-color) 60%, var(--red-color));
+
   /*--purple-color: #49155b;*/
 
 

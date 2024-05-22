@@ -469,7 +469,7 @@ function createLSCtx(lsKey, init) {
 let _notificationAudio
 setTimeout(() => {
   if (Number(clitLS.get('notification'))) {
-    _notificationAudio = new Audio(`./assets/notification${Number(clitLS.get('notification'))}.mp3`)
+    _notificationAudio = new Audio(`/assets/notification${Number(clitLS.get('notification'))}.mp3`)
   }
 })
 

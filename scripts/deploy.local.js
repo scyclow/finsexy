@@ -82,7 +82,7 @@ async function main() {
   DungeonMistress = (await FinDomBaseFactory.attach(await deployer.DungeonMistress())).address
   DrAndy = (await FinDomBaseFactory.attach(await deployer.DrAndy())).address
   katFischer = (await FinDomBaseFactory.attach(await deployer.katFischer())).address
-  SexyXXXpress = (await FinDomBaseFactory.attach(await deployer.FDXXXpress())).address
+  SexyXXXpress = (await FinDomBaseFactory.attach(await deployer.SexyXXXpress())).address
   CandyCrush = (await FinDomBaseFactory.attach(await deployer.CandyCrush())).address
   CrystalGoddess = (await FinDomBaseFactory.attach(await deployer.CrystalGoddess())).address
   steviep = (await FinDomBaseFactory.attach(await deployer.steviep())).address

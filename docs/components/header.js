@@ -133,7 +133,7 @@ createComponent(
         font-weight: bolder;
         height: 1em;
         width: 1em;
-        padding: 0.3em;
+        padding: 0.35em;
         display: inline-flex;
         justify-content: center;
         align-items: center;
@@ -143,7 +143,7 @@ createComponent(
 
         border: 1px solid var(--border-color);
         box-shadow: 0 0 1em var(--primary-color);
-        text-shadow: 1px 1px 0 var(--dark-color);
+        text-shadow: 1px 1px 0 var(--dark-color), 2px 2px 3px var(--secondary-color);
       }
 
       #totalUnreads {
@@ -156,6 +156,10 @@ createComponent(
 
       #totalUnreads.hidden, #totalUnreadsMenu.hidden {
         visibility: hidden
+      }
+
+      #topSenders.hidden {
+        display: none;
       }
 
       .connectItem {
@@ -191,7 +195,7 @@ createComponent(
 
 
 
-      @media (max-width: 865px) {
+      @media (max-width: 735px) {
         #mobileMenu {
           display: initial;
           user-select: none;
@@ -268,24 +272,17 @@ createComponent(
           </li>
           <li><a href="/vip"><span class="icon">${star}</span>VIP</a></li>
           <li><a href="/profile"><span class="icon">${profile}</span>Profile</a></li>
-          <li id="senders"><a href="/senders"><span class="icon">${winner}</span>Top Senders</a></li>
-          <li>
-            <connect-wallet>
-              <div slot="noWeb3" class="connectItem">
-                <!-- <em class="error" style="text-align: center">Please Connect in a <br>Web3-enabled Browser</em> -->
-              </div>
-
-              <div slot="notConnected" class="connectItem">
+          <li id="topSenders" class="hidden"><a href="/senders"><span class="icon">${winner}</span>Top Senders</a></li>
+          <connect-wallet>
+            <div slot="notConnected" class="connectItem">
+              <li>
                 <connect-button>
                   <button id="connectButton" slot="button">Connect Wallet</button>
                   <div slot="loading">Loading...</div>
                 </connect-button>
-              </div>
-
-              <div slot="connected" id="connected"></div>
-
-            </connect-wallet>
-          </li>
+              </li>
+            </div>
+          </connect-wallet>
         </ul>
       </nav>
     </header>
@@ -300,6 +297,7 @@ createComponent(
     ctx.$connected = ctx.$('#connected')
     ctx.$totalUnreads = ctx.$('#totalUnreads')
     ctx.$totalUnreadsMenu = ctx.$('#totalUnreadsMenu')
+    ctx.$topSenders = ctx.$('#topSenders')
 
     let menuOpen = false
     ctx.$mobileMenu.onclick = () => {
@@ -313,9 +311,9 @@ createComponent(
       menuOpen = !menuOpen
     }
 
-    // provider.onConnect(async (addr) => {
-    //   ctx.$connected.innerHTML = `<div style="color:var(--medium-color); padding: 0.5em">${await provider.formatAddr(addr)}</div>`
-    // })
+    provider.onConnect(() => {
+      ctx.$topSenders.classList.remove('hidden')
+    })
 
 
     // TODO make this a handler instead of an interval

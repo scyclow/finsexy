@@ -43,7 +43,7 @@ describe('FinSexy', () => {
   let FastCash, SexyVIP, SexyGame, SexyMinter
 
   let heatherHot, SamanthaJones, QueenJessica, DungeonMistress, DrAndy, katFischer, CandyCrush,
-      CrystalGoddess, steviep, VinceSlickson, FDXXXpress, Hacker, Hedonitronica, MindyRouge,
+      CrystalGoddess, steviep, VinceSlickson, SexyXXXpress, Hacker, Hedonitronica, MindyRouge,
       CandyCrushProxy, CrystalGoddessProxy, steviepProxy
 
   beforeEach(async () => {
@@ -100,7 +100,7 @@ describe('FinSexy', () => {
     DungeonMistress = await FinDomBaseFactory.attach(await deployer.DungeonMistress())
     DrAndy = await FinDomBaseFactory.attach(await deployer.DrAndy())
     katFischer = await FinDomBaseFactory.attach(await deployer.katFischer())
-    FDXXXpress = await FinDomBaseFactory.attach(await deployer.FDXXXpress())
+    SexyXXXpress = await FinDomBaseFactory.attach(await deployer.SexyXXXpress())
 
     CandyCrush = await FinDomBaseFactory.attach(await deployer.CandyCrush())
     CrystalGoddess = await FinDomBaseFactory.attach(await deployer.CrystalGoddess())
@@ -128,7 +128,7 @@ describe('FinSexy', () => {
       const doms = [
         [heatherHot, 0.01, 'heatherHot'],
         [CandyCrush, 0.01, 'CandyCrush'],
-        [FDXXXpress, 0.01, 'FDXXXpress'],
+        [SexyXXXpress, 0.01, 'SexyXXXpress'],
         [katFischer, 0.03, 'katFischer'],
         [SamanthaJones, 0.04, 'SamanthaJones'],
         [QueenJessica, 0.04, 'QueenJessica'],
@@ -163,7 +163,7 @@ describe('FinSexy', () => {
     it('should work', async () => {
       const doms = [
         [VinceSlickson, 'VinceSlickson'],
-        [FDXXXpress, 'FDXXXpress'],
+        [SexyXXXpress, 'SexyXXXpress'],
         [Hacker, 'Hacker'],
         [Hedonitronica, 'Hedonitronica'],
         [MindyRouge, 'MindyRouge'],
@@ -603,7 +603,7 @@ describe('FinSexy', () => {
         expect(uri1.attributes[2].trait_type).to.equal('VIP Gold')
         expect(uri1.attributes[2].value).to.equal('false')
 
-        console.log(decodeImage(uri0))
+        console.log((uri0))
         console.log(decodeImage(uri1))
       })
 

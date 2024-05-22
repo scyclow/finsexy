@@ -36,7 +36,7 @@ const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 export const CandyCrushProfile = {
   name: 'CandyCrush',
   startingVisibility: 'offline',
-  domType: 'Sugar Baby',
+  domType: 'Soft',
   order: 10,
   age: 19,
   distance: 4,

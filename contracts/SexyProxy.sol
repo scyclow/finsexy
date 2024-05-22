@@ -192,13 +192,16 @@ contract FinDomBaseLight is FinDomTribute {
 
   function creditTribute(address recipient, uint256 amount) external {
     require(router.vip() == msg.sender, 'Only VIP contract can credit tributes');
-    emit Send(recipient, amount);
-    tributes[recipient] += amount;
+    _receive(recipient, amount);
   }
 
   receive() external payable {
-    emit Send(msg.sender, msg.value);
-    tributes[msg.sender] += msg.value;
+    _receive(msg.sender, msg.value);
+  }
+// TODO test premium here
+  function _receive(address sender, uint256 value) private {
+    emit Send(sender, value / router.premium(sender));
+    tributes[sender] += value / router.premium(sender);
   }
 }
 

@@ -47,7 +47,7 @@ const XXXMessages = {
   },
 
   async __contract(provider) {
-    return await provider.domContract('FDXXXpress')
+    return await provider.domContract('SexyXXXpress')
 
   },
 

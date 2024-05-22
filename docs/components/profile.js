@@ -2,6 +2,7 @@ import {createComponent} from '../$.js'
 import {MessageHandler, ProfileStats} from '../state/all.js'
 import {provider} from '../eth.js'
 
+import {chat} from './svg.js'
 
 
 createComponent(
@@ -203,6 +204,7 @@ createComponent(
         display: flex;
         justify-content: space-around;
         align-items: center;
+        flex-direction: column;
       }
 
       .actionContainer {
@@ -265,16 +267,17 @@ createComponent(
 
 
       #sendModule, #creditSendModule {
+        margin-top: 1.25em;
         border-radius: 5px;
         transition: 300ms;
       }
 
       #sendModule {
-        box-shadow: 0 0 20px var(--dark-green-color);
+        box-shadow: 0 0 17px var(--dark-green-color);
       }
 
       #creditSendModule {
-        box-shadow: 0 0 20px var(--yellow-color);
+        box-shadow: 0 0 17px var(--yellow-color);
         display: inline-block;
         margin-top: 1.5em
 
@@ -309,10 +312,10 @@ createComponent(
       }
 
       #creditSendButton {
-        background: var(--yellow-color);
+        background: linear-gradient(45deg, var(--yellow-color), var(--orange-color));
         color: var(--light-color);
         text-shadow: 0px 0px 1px var(--bg-color), 0px 0px 4px var(--secondary-color);
-        border-color: var(--yellow-color);
+        border-color: var(--orange-color);
 
       }
 
@@ -356,8 +359,8 @@ createComponent(
       }
 
       #chat {
-        font-size: 1.7em;
-        box-shadow: 0 0 2em var(--glow-color);
+        font-size: 1.4em;
+        box-shadow: 0 0 2em var(--primary-color);
         transition: 300ms;
         display: inline-block;
         cursor: pointer;
@@ -366,9 +369,13 @@ createComponent(
         border: 0px solid;
         border-radius: 3px;
         transition: 200ms;
-        padding: 0.35em 1.5em;
+        padding: 0.35em 2.25em;
         text-decoration: none;
         user-select: none;
+        text-shadow: 1px 1px 0 var(--dark-color), 1px 1px 3px var(--secondary-color);
+
+        animation: FadeInOut 1s ease-in-out;
+        animation-delay: 4s;
       }
 
       img {
@@ -389,7 +396,7 @@ createComponent(
 
       #creditSendButton:hover, #creditSendButton:active, #creditSendButton:focus {
         outline: none;
-        background: var(--yellow-color);
+        filter: saturate(1.3);
       }
 
       #sendButton:active, #creditSendButton:active, #buySexyPic:active {
@@ -528,7 +535,10 @@ createComponent(
 
       .sideWindow #photoContainer {
         width: 300px;
+      }
 
+      .sideWindow #sendModule {
+        margin-top: 0;
       }
 
       .sideWindow .actions {
@@ -691,6 +701,24 @@ createComponent(
         color: var(--light-link-color);
         text-shadow: 0 0 15px var(--light-color)
       }
+
+      .icon svg {
+        stroke: var(--light-color);
+        width: 20px;
+        height: 20px;
+        filter: drop-shadow(1px 1px var(--dark-color));
+      }
+
+
+      @keyframes FadeInOut {
+        0%, 100% {
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0;
+        }
+      }
     </style>
 
     <article id="parent">
@@ -744,7 +772,7 @@ createComponent(
           <div class="actionContainer">
 
             <div class="actions">
-              <a id="chat">Chat</a>
+              <a id="chat">Chat <span class="icon">${chat}</span></a>
 
               <div id="sendModule" class="disconnected">
                 <input disabled id="sendInput" class="sendInput" type="number" step="0.01" placeholder="0.01 ETH"><button id="sendButton">SEND</button>

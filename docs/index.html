@@ -122,11 +122,11 @@
 
     .filter {
       border-right: 1px solid var(--border-color);
-      width: 310px;
+      width: 320px;
     }
 
     .filter > * {
-      padding: 1.5vw;
+      padding: 1em;
     }
 
     .filterRow {
@@ -156,6 +156,7 @@
       background: var(--light-color);
       border-color: var(--light-color);
       outline: none;
+      text-shadow: 1px 1px 0 var(--secondary-color);
 
     }
     .filterRow button:active {
@@ -166,13 +167,22 @@
       color: var(--light-color);
       background: var(--primary-color);
       border-color: var(--primary-color);
-      text-shadow: 1px 1px 0 var(--dark-color);
+      text-shadow: 1px 1px 3px var(--dark-color);
     }
 
 
-    #connectedAs, #balance {
+    #connectedAs, #balance, #membershipStatus, #membershipStatus a, #creditBalance, .goldStatus {
       font-family: var(--code-font);
       color: var(--medium-color);
+    }
+
+    #membershipStatus a:hover {
+      text-decoration: underline;
+    }
+
+    .goldStatus {
+      color: var(--yellow-color);
+      text-shadow: 0 0 7px var(--yellow-color);
     }
 
     .mainSection {
@@ -276,6 +286,43 @@
       display: none;
     }
 
+
+    .dom-filter-roleplay .dom-display-protocol,
+    .dom-filter-roleplay .dom-display-hard,
+    .dom-filter-roleplay .dom-display-soft,
+    .dom-filter-roleplay .dom-display-other {
+      display: none;
+    }
+
+    .dom-filter-protocol .dom-display-roleplay,
+    .dom-filter-protocol .dom-display-hard,
+    .dom-filter-protocol .dom-display-soft,
+    .dom-filter-protocol .dom-display-other {
+      display: none;
+    }
+
+    .dom-filter-hard .dom-display-protocol,
+    .dom-filter-hard .dom-display-roleplay,
+    .dom-filter-hard .dom-display-soft,
+    .dom-filter-hard .dom-display-other {
+      display: none;
+    }
+
+    .dom-filter-soft .dom-display-protocol,
+    .dom-filter-soft .dom-display-hard,
+    .dom-filter-soft .dom-display-roleplay,
+    .dom-filter-soft .dom-display-other {
+      display: none;
+    }
+
+    .dom-filter-other .dom-display-protocol,
+    .dom-filter-other .dom-display-hard,
+    .dom-filter-other .dom-display-soft,
+    .dom-filter-other .dom-display-roleplay {
+      display: none;
+    }
+
+
     .mobileFilter {
       display: none;
     }
@@ -304,9 +351,22 @@
       .mobileFilter {
         display: flex;
         align-items: center;
-        justify-content: space-evenly;
+        justify-content: center;
         margin-bottom: 1em;
-        width: 180px;
+        width: 100%;
+      }
+
+      .mobileFilter > * {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mobileFilter > *:first-child {
+        margin-right: 2em;
+      }
+      .mobileFilter > * h3 {
+        margin-right: 0.5em;
       }
 
       .grid {
@@ -338,6 +398,18 @@
       }
       h2 {
         font-size: 1.6em;
+      }
+
+      .mobileFilter > * {
+        flex-direction: column;
+      }
+      .mobileFilter > * h3 {
+        margin-bottom: 0.25em;
+      }
+
+      .mobileFilter > * h3 {
+        margin-bottom: 0.25em;
+        margin-right: 0;
       }
     }
 
@@ -524,8 +596,10 @@
 
 
           <div slot="connected">
-            <div class="filterRow"><h3>Connected As</h3> <div id="connectedAs"></div></div>
-            <div class="filterRow"><h3>Balance</h3> <div id="balance"></div></div>
+            <div class="filterRow"><h3>Connected As</h3> <div id="connectedAs">-</div></div>
+            <div class="filterRow"><h3>Membership Status</h3> <div id="membershipStatus">-</div></div>
+            <div class="filterRow"><h3>ETH Balance</h3> <div id="balance">-</div></div>
+            <div class="filterRow" id="creditBalanceRow" class="hidden"><h3>SexyCredit Balance</h3> <div id="creditBalance">-</div></div>
 
           </div>
 
@@ -542,13 +616,19 @@
           <button id="nb-filterButton">Other</button>
         </div>
 
-<!--         <div class="filterRow">
-          <h3>Dom Types:</h3>
-          <button id="all-filterButton">All</button>
-          <button id="all-filterButton">Role-Play</button>
-          <button id="m-filterButton">Protocol</button>
-          <button id="nb-filterButton">Other</button>
-        </div> -->
+
+        <div class="filterRow">
+          <h3>Dom Type</h3>
+          <button id="dom-all-filterButton">All</button>
+          <button id="dom-roleplay-filterButton">Role-Play</button>
+          <button id="dom-protocol-filterButton">Protocol</button>
+          <button id="dom-hard-filterButton">Hard</button>
+          <button id="dom-soft-filterButton">Soft</button>
+          <button id="dom-other-filterButton">Other</button>
+        </div>
+
+
+
 
         <connect-wallet>
           <div slot="connected">
@@ -636,15 +716,29 @@
       <div class="flexSize">
         <h2>Which sexy findom do you want to take your money?</h2>
         <div class="mobileFilter">
-          <h3>Show Me</h3>
-          <select id="interested">
-            <option value="" selected disabled hidden></option>
-            <option value="all">Everyone</option>
-            <option value="m">Men</option>
-            <option value="f">Women</option>
-            <option value="nb">Other</option>
-          </select>
+          <div>
+            <h3>Show Me</h3>
+            <select id="interested">
+              <option value="all" selected>Everyone</option>
+              <option value="m">Men</option>
+              <option value="f">Women</option>
+              <option value="nb">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <h3>Dom Type</h3>
+            <select id="domInterested">
+              <option value="all" selected>All</option>
+              <option value="roleplay">Role-Play</option>
+              <option value="protocol">Protocol</option>
+              <option value="hard">Hard</option>
+              <option value="soft">Soft</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
         </div>
+
         <section id="links" class="grid">
         </section>
       </div>
@@ -682,6 +776,16 @@
 //     MessageHandler.visibilityCtx[name]
 //   ))
 
+function domTypeDisplayClass(str) {
+  let s
+  if (str === 'Role-Play') s = 'roleplay'
+  else if (str === 'Protocol') s = 'protocol'
+  else if (['Hard', 'Sadist'].includes(str)) s = 'hard'
+  else if (str === 'Soft') s = 'soft'
+  else s = 'other'
+
+  return `dom-display-${s}`
+}
 
 
   $.id('links').innerHTML = Object.keys(MessageHandler.chats)
@@ -690,7 +794,7 @@
     && (name !== 'heatherHot' || !MessageHandler.globalCtx.hideHeather)
   ))
   .map((name, i) => `
-    <article id="${name}-link" class="domView ${ProfileStats[name].display ? 'display-' + ProfileStats[name].display : 'hidden'} ${MessageHandler.visibilityCtx[name] === 'offline' ? 'offline' : ''}" style="order: ${ProfileStats[name].order}">
+    <article id="${name}-link" class="domView ${domTypeDisplayClass(ProfileStats[name].domType)} ${ProfileStats[name].display ? 'display-' + ProfileStats[name].display : 'hidden'} ${MessageHandler.visibilityCtx[name] === 'offline' ? 'offline' : ''}" style="order: ${ProfileStats[name].order}">
       <div class="unreadContainer">
         <div id="${name}-unread" class="unreadMessage hidden">New Message!</div>
       </div>
@@ -698,7 +802,7 @@
         <img src="./thumbnails/${name}/0.png" alt="Sexy findom ${name}">
       </a>
       <figcaption>
-        <div>${MessageHandler.visibilityCtx[name] === 'online' ? `<span class="online"></span>` : ''}<div>${ellipse(name, 19)},</div> <span class="age">${ProfileStats[name].age}</span></div>
+        <div>${MessageHandler.visibilityCtx[name] === 'online' ? `<span class="online"></span>` : ''}<div>${ellipse(name, 22)},</div> <span class="age">${ProfileStats[name].age}</span></div>
       </figcaption>
     </article>
   `).join('')
@@ -749,6 +853,8 @@
       }
     })
 
+
+
     defaultProfileLS.set('interested', f)
   }
   setFilter(defaultProfileLS.get('interested') || 'all')
@@ -762,16 +868,59 @@
     setFilter(e.target.value)
   }
 
+  const domTypes = ['all', 'roleplay', 'protocol', 'soft', 'hard', 'other']
 
+  function setDomType(t) {
+    domTypes.forEach(d => {
+      if (d === t) {
+        $.id('links').classList.add(`dom-filter-${d}`)
+        $.id(`dom-${d}-filterButton`).classList.add('activeFilter')
+        $.id('domInterested').value = d
+      } else {
+        $.id('links').classList.remove(`dom-filter-${d}`)
+        $.id(`dom-${d}-filterButton`).classList.remove('activeFilter')
+      }
+    })
+
+    defaultProfileLS.set('domPreference', t)
+  }
+  setDomType(defaultProfileLS.get('domPreference') || 'all')
+
+  domTypes.forEach(t => {
+    $.id(`dom-${t}-filterButton`).onclick = () => setDomType(t)
+  })
+
+  $.id('domInterested').onchange = e => {
+    setDomType(e.target.value)
+  }
 
 
 
 
     provider.onConnect(async (addr, network) => {
       $.id('connectedAs').innerHTML = await provider.formatAddr(addr, true,31)
-      $.id('balance').innerHTML = `${(await provider.getETHBalance(addr)).toFixed(4)} ETH` + (
-        network.chainId === 1 ? '' : ` [${network.name.toUpperCase()}]`
-      )
+
+      if (network) {
+        $.id('balance').innerHTML = `${(await provider.getETHBalance(addr)).toFixed(4)} ETH` + (
+          network.chainId === 1 ? '' : ` [${network.name.toUpperCase()}]`
+        )
+      }
+
+      const activeVIP = await sexyCLIT.getActiveVIP()
+      if (activeVIP != null) {
+        const { SexyVIP } = await provider.sexyContracts()
+        const activeIsGold = await SexyVIP.isGold(activeVIP)
+        const creditBalance = await SexyVIP.creditBalance(activeVIP)
+
+        $.id('membershipStatus').innerHTML = activeIsGold ? `<span class="goldStatus">VIP Gold <span style="font-size: 1em">★</span></span>` : 'VIP'
+        $.id('creditBalance').innerHTML = creditBalance
+        $.id('creditBalanceRow').classList.remove('hidden')
+      } else {
+        $.id('membershipStatus').innerHTML = '<a href="./vip">Standard</a>'
+        $.id('creditBalanceRow').classList.add('hidden')
+      }
+
+
 
       const domContracts = await provider.domContracts()
 
@@ -785,7 +934,7 @@
           anyTributesPaid = true
           tributeContent += `
             <tr>
-              <td style="font-size: 0.9em"><a href="./chat?activeChat=${d}">${d}</a></td>
+              <td style="font-size: 0.9em"><a href="./chat?activeChat=${d}">${ellipse(d, 21)}</a></td>
               <td style="color: var(--medium-color)">${tributesRounded} ETH</td>
             </tr>
           `

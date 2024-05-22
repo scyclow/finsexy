@@ -785,6 +785,39 @@ TODO
 
 
   provider.onConnect(async addr => {
+    $applyPremium.onclick = () => {
+      const code = $premiumCode.value
+
+      console.log($premiumCode.value, '<<<<<<<<')
+
+      if (code === 'SingleSissySub') {
+        sexyCLIT.applyPremium(
+          1,
+          () => $premiumMessage.innerHTML = 'Applying 1x Premium...',
+          e => $premiumMessage.innerHTML = `ERROR: ${e}`,
+          () => $premiumMessage.innerHTML = 'All Prices: 1x!'
+        )
+
+      } else if (code === 'DoubleTheFun') {
+        sexyCLIT.applyPremium(
+          2,
+          () => $premiumMessage.innerHTML = 'Applying 2x Premium...',
+          e => $premiumMessage.innerHTML = `ERROR: ${e}`,
+          () => $premiumMessage.innerHTML = 'All Prices: 2x!'
+        )
+
+      } else if (code === 'ThirdTimesTheCharm') {
+        sexyCLIT.applyPremium(
+          3,
+          () => $premiumMessage.innerHTML = 'Applying 3x Premium...',
+          e => $premiumMessage.innerHTML = `ERROR: ${e}`,
+          () => $premiumMessage.innerHTML = 'All Prices: 3x!'
+        )
+      } else {
+        $premiumMessage.innerHTML = 'Invalid Premium Code'
+      }
+    }
+
     const [allVIPIds, activeId] = await sexyCLIT.vipList()
 
     if (allVIPIds.length) {
@@ -795,37 +828,6 @@ TODO
       $activeVIPToken.onchange = (e) => {
         updateActiveVIP($activeVIPToken.value)
         sexyCLIT.vipSelect($activeVIPToken.value)
-      }
-
-      $applyPremium.onclick = () => {
-        const code = $premiumCode.value
-
-        if (code === 'SingleSissySub') {
-          sexyCLIT.applyPremium(
-            1,
-            () => $premiumMessage.innerHTML = 'Applying 1x Premium...',
-            e => $premiumMessage.innerHTML = `ERROR: ${e}`,
-            () => $premiumMessage.innerHTML = 'All Prices: 1x!'
-          )
-
-        } else if (code === 'DoubleTheFun') {
-          sexyCLIT.applyPremium(
-            2,
-            () => $premiumMessage.innerHTML = 'Applying 2x Premium...',
-            e => $premiumMessage.innerHTML = `ERROR: ${e}`,
-            () => $premiumMessage.innerHTML = 'All Prices: 2x!'
-          )
-
-        } else if (code === 'ThirdTimesTheCharm') {
-          sexyCLIT.applyPremium(
-            3,
-            () => $premiumMessage.innerHTML = 'Applying 3x Premium...',
-            e => $premiumMessage.innerHTML = `ERROR: ${e}`,
-            () => $premiumMessage.innerHTML = 'All Prices: 3x!'
-          )
-        } else {
-          $premiumMessage.innerHTML = 'Invalid Premium Code'
-        }
       }
 
       $sendCredits.onclick = () => {
@@ -911,7 +913,7 @@ TODO
   $notificationSound.onchange = () => {
     const n = Number($notificationSound.value)
     if (n) {
-      const audio = new Audio(`./assets/notification${n}.mp3`)
+      const audio = new Audio(`/assets/notification${n}.mp3`)
       audio.play()
     }
     clitLS.set('notification', n)

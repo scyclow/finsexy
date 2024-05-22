@@ -5,9 +5,9 @@ pragma solidity ^0.8.23;
 
 contract ABMock {
   function tokensOfOwner(address owner) external view returns (uint256[] memory) {
-    uint256[] memory abOwned;
+    uint256[] memory abOwned = new uint256[](2);
     abOwned[0] = 44000100;
-    abOwned[0] = 152000000;
+    abOwned[1] = 152000000;
     return abOwned;
   }
 }

@@ -158,6 +158,15 @@ provider.onConnect(async (addr) => {
 
 
 
+      // MessageHandler.visibilityCtx.CustomerSupport247 = 'online'
+      // MessageHandler.visibilityCtx['0x000000000000000000000000000000000'] = 'online'
+      // MessageHandler.visibilityCtx.SpecialAgentDiane = 'online'
+      // MessageHandler.visibilityCtx.Hedonitronica = 'online'
+      // MessageHandler.visibilityCtx.katFischer = 'online'
+      // MessageHandler.visibilityCtx.MindyRouge = 'online'
+
+
+
 // const wordCount = M => Object.keys(M).reduce((a, c) => {
 //   const messageText = M[c]
 //   if (messageText) {

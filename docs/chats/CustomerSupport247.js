@@ -363,6 +363,8 @@ function supportResponse(ur, ctx) {
 
   // tutorial
   // something sexy
+  // financially dominate
+    // you'd like for me to financially dominate you. is that correct?
 }
 
 function vipResponses(ur, ctx) {
