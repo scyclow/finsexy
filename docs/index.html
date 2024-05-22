@@ -759,7 +759,7 @@
 
   import {ls, $} from './$.js'
   import {provider} from './eth.js'
-  import {MessageHandler, ProfileStats} from './state/all.js'
+  import {MessageHandler, ProfileStats, tributesPromise} from './state/all.js'
   import {defaultProfileLS} from './state/profile.js'
 
 
@@ -922,13 +922,13 @@ function domTypeDisplayClass(str) {
 
 
 
-      const domContracts = await provider.domContracts()
+      const tributesPaid = await tributesPromise
 
       let tributeContent = ''
       let anyTributesPaid
-      await Promise.all(Object.keys(domContracts).map(async d => {
-        const contract = domContracts[d]
-        const tributes = fromWei(await contract.tributes(addr))
+
+      Object.keys(tributesPaid).map(d => {
+        const tributes = tributesPaid[d]
         const tributesRounded = Math.floor(tributes * 10000000) / 10000000
         if (tributes > 0) {
           anyTributesPaid = true
@@ -939,7 +939,7 @@ function domTypeDisplayClass(str) {
             </tr>
           `
         }
-      }))
+      })
 
       $.id('tributes').innerHTML = tributeContent
 

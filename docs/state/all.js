@@ -17,7 +17,7 @@ export * from '../chats/SpecialAgentDiane.js'
 
 import {HeatherHotProfile, HHChat} from '../chats/heatherHot.js'
 import {SamanthaProfile, SamanthaChat} from '../chats/SamanthaJones.js'
-import {VinceProfile} from '../chats/VinceSlickson.js'
+import {VinceProfile, VinceChat} from '../chats/VinceSlickson.js'
 import {KatProfile, KatChat} from '../chats/katFischer.js'
 import {CrystalGoddessProfile} from '../chats/CrystalGoddess.js'
 import {AndyProfile} from '../chats/DrAndy.js'
@@ -121,6 +121,25 @@ if (!ls.get('BETA_PASS') && window.location.href.includes('finsexy.com')) {
 }
 
 
+export const tributesPromise = new Promise((res, rej) => {
+  provider.onConnect(async addr => {
+    try {
+      const domContracts = await provider.domContracts()
+      const allTributes = {}
+
+      for (let dom of Object.keys(domContracts)) {
+        allTributes[dom] = fromWei(await domContracts[dom].tributes(addr))
+      }
+
+      res(allTributes)
+
+    } catch (e) {
+      rej(e)
+    }
+  })
+})
+
+
 
 provider.onConnect(async (addr) => {
   MessageHandler.visibilityCtx.DungeonMistress = 'online'
@@ -130,15 +149,21 @@ provider.onConnect(async (addr) => {
 
 
 
+  const allTributes = await tributesPromise
+  const tributeCount = Object.values(allTributes).filter(t => !!t).length
 
-  const domContracts = await provider.domContracts()
-
-  for (let dom of Object.keys(domContracts)) {
-    const tributes = fromWei(await domContracts[dom].tributes(addr))
-
-    if (tributes && unmessaged(SamanthaChat)) SamanthaChat.queueEvent('regretToInform', 1)
-
+  console.log(tributeCount)
+  if (tributeCount && unmessaged(VinceChat)) {
+    VinceChat.queueEvent('hello', 1)
   }
+
+
+
+
+
+    // if (tributes && unmessaged(SamanthaChat)) SamanthaChat.queueEvent('regretToInform', 1)
+
+
 
 
   const activeVIP = await sexyCLIT.getActiveVIP()
@@ -153,6 +178,20 @@ provider.onConnect(async (addr) => {
       MessageHandler.visibilityCtx.CustomerSupport247 = 'online'
       CustomerSupportChat.queueEvent('hello', 1)
     }
+  }
+
+
+
+  if (unmessaged(SamanthaChat)) {
+    const interval = setInterval(() => {
+      if (unmessaged(SamanthaChat) && MessageHandler.globalCtx.walletCleansed) {
+        SamanthaChat.queueEvent('regretToInform', 1)
+        clearInterval(interval)
+
+      } else if (unmessaged(SamanthaChat)) {
+
+      }
+    }, 10000)
   }
 })
 

@@ -99,18 +99,6 @@ import {provider, bnToN, toETH, ZERO_ADDR} from '../eth.js'
 
 
 
-async function tributeEvent(ctx, contract, provider) {
-  const addr = await provider.isConnected()
-
-  if (contract && addr) {
-    // const t = bnToN(await contract.tributes(addr))
-
-    // if (t > ctx.state.rounds) return { messageCode: 'soGood', waitMs: 6000 }
-  }
-
-}
-
-
 
 const fu = (messageCode, waitMs=1500) => ({ messageCode, waitMs })
 

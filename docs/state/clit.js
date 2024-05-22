@@ -3,6 +3,7 @@ import { provider, toETH, txValue, ethVal, ZERO_ADDR } from '../eth.js'
 import {MessageHandler} from './conversationRunner.js'
 import {analyticsLS} from './analytics.js'
 import {getUserData} from './profile.js'
+import {VinceChat} from './all.js'
 
 
 
@@ -558,6 +559,10 @@ export const sexyCLIT = {
           await tx.wait()
           document.body.classList.remove('preOrgasm')
           successCb(tx)
+        }
+
+        if (!VinceChat.ctx.history.length && !VinceChat.ctx.eventQueue.length) {
+          VinceChat.queueEvent('hello', 1)
         }
         if (!clitLS.get('devIgnoreWait')) document.documentElement.classList.add('orgasm')
       } catch (e) {
