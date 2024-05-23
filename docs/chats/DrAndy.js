@@ -169,6 +169,9 @@ export const AndyProfile = {
       review: `AI, human, man, woman, non-binary, whatever. I don't care. Dr Andy is <em>fucking hot</em>, and knows how to completely <em>fuck my mind</em> like no one else`
     },
     {
+      review: `As someone who suffers from Maladaptive Daydreaming Disorder, I often get lost in my own fantasies -- both positive and negative. FinDom is espescially dangerous for me because it completely hijacks my brain, and before I know it I'm lost in la-la land. Sometimes these fantasies become so detailed that I can't distinguish them from reality. But when I get wrapped up in a really good day dream for weeks, and I'm dripping with anticipation, I'll cave and send all my money to a sexy new findom. Reality never lives up to the expectations. I'm hoping that Dr. Ingram can help me manage all this.`
+    },
+    {
       review: `I never like the sessions themselves, but I've found that my mental health is always better as long as I'm paying a therapist. That way, I at least have someone to talk to throughout the week and explain things to in my head`
     }
     //

@@ -227,11 +227,17 @@ const meanResponses = [
 
 export const responseParser = txt => txt.toLowerCase().trim().replaceAll('!', '').replaceAll('.', '').replaceAll(',', '').replaceAll('"', '').replaceAll(`'`, '').replaceAll('?', '')
 
-export function isMatch(txt, phrases) {
+export function isMatch(txt, phrases, strict=false) {
   const cleaned = responseParser(txt)
   const multipleWordPhrases = phrases.filter(phrase => phrase.split(' ').length > 1)
   const singleWordPhrases = phrases.filter(phrase => phrase.split(' ').length === 1)
 
+  if (strict) {
+    return (
+      multipleWordPhrases.some(phrase => cleaned == phrase) ||
+      singleWordPhrases.some(phrase => cleaned.split(' ') == phrase)
+    )
+  }
   return (
     multipleWordPhrases.some(phrase => cleaned.includes(phrase)) ||
     singleWordPhrases.some(phrase => cleaned.split(' ').includes(phrase))
@@ -247,14 +253,20 @@ export const isNegative = txt => isMatch(txt, negatives)
 export const isMean = txt => isMatch(txt, meanResponses)
 
 
-export const diatribe = (baseCode, messages, endAction, waitMs=2000) => {
+export const diatribe = (baseCode, messages, endAction, waitMs=2000, dynamicWait=false) => {
   return messages.reduce((nodes, messageText, i) => {
+    const messageLength = messages[i].toString().length
+    const waitAddition = Math.min(
+      waitMs/2,
+      dynamicWait ? messageLength  * 12.5 : 0,
+    )
+
     const action = i === messages.length - 1
       ? endAction
       : {
           followUp: {
             messageCode: `${baseCode}${i+1}`,
-            waitMs
+            waitMs: waitMs + waitAddition
           },
           responseHandler: (ur, ctx) => {
             if (!ctx.eventQueue.length) {
@@ -875,21 +887,7 @@ export class MessageHandler {
   waitTimes(estimatedMessageText, typingWaitFactor, waitMs=1000) {
     const domTypingSpeed = this.messages.TYPING_SPEED
 
-    if (clitLS.get('devIgnoreWait')) {
-      return [25, 25]
-    } else {
-      const typingWait = waitMs + random(typingWaitFactor)
-      const wait = Math.floor(
-        Math.max(
-          1500,
-          domTypingSpeed*25*estimatedMessageText.length
-          + 500 + random(750)
-        )
-        + typingWait
-      )
-      const modifier = Number(clitLS.get('responseModifier') || 1)
-      return [Math.max(25, typingWait*modifier), Math.max(25, wait*modifier)]
-    }
+    return _waitTimes(estimatedMessageText, typingWaitFactor, waitMs, domTypingSpeed)
   }
 
   async next(userResponse, codeToSend) {
@@ -930,3 +928,21 @@ tabs.onChange(hidden => {
 })
 
 
+
+function _waitTimes(estimatedMessageText, typingWaitFactor, waitMs, domTypingSpeed) {
+  if (clitLS.get('devIgnoreWait')) {
+    return [25, 25]
+  } else {
+    const typingWait = waitMs + random(typingWaitFactor)
+    const wait = Math.floor(
+      Math.max(
+        1500,
+        domTypingSpeed*25*estimatedMessageText.length
+        + 500 + random(750)
+      )
+      + typingWait
+    )
+    const modifier = Number(clitLS.get('responseModifier') || 1)
+    return [Math.max(25, typingWait*modifier), Math.max(25, wait*modifier)]
+  }
+}

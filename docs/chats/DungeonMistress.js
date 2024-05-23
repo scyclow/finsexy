@@ -148,7 +148,7 @@ export const MistressProfile = {
     lang: 'en-GB',
     name: 'Martha'
   },
-  description: `I like roleplay, sadomasochism, and humiliation. And if you're not careful I'm going to suck every last cent out of your wallet,`,
+  description: `I like roleplay, sadomasochism, and humiliation. And if you're not careful I'm going to suck every last cent out of your wallet`,
   testimonials: [
     {
       name:'0x72f...daF',
@@ -362,7 +362,7 @@ const BartenderNodes = {
 
       return fu('blowjobEnd')
     }
-  }),
+  }, 1500, true),
 
   blowjobEnd: {
     messageText: `You stand there awkwardly, unsure what to do. Perhaps order a beer?`,
@@ -575,7 +575,7 @@ const MerchantNodes = {
     `"Do you have <em>any</em> idea how much money you owe me? I hope not, because you continue to gamble and galavant around town with prostitutes. Clearly all of the credit I've extended to you and your family has been squandered on hedonistic pursuits. And I suspect your wife knows nothing of it. You should be ashamed of yourself. You're just a filthy debtor!"`,
   ], {
     responseHandler: 'marketFreshContinued'
-  }),
+  }, 1500, true),
 
   ...diatribe('marketFreshContinued', [
     `The merchant cuts you off: "I don't want to hear it. I've heard your lies before. You won't deceive me again, I'll make sure of it!"`,
@@ -587,7 +587,7 @@ const MerchantNodes = {
       if (isYes(ur) || isMatch(ur, ['follow', 'enter'])) return 'marketInside'
       else return 'townSquareDeliberate'
     }
-  }),
+  }, 1500, true),
 
 
   marketCompleted: {
@@ -620,7 +620,7 @@ const MerchantNodes = {
       else if (isMatch(ur, ['leave', 'outside', 'escape', 'try my luck', 'exit', 'square', 'run away', 'out of there'])) return 'tryLuckOutside'
       else return 'goldenShowerPending'
     }
-  }),
+  }, 1500, true),
 
   goldenShowerPending: {
     messageText: `"I didn't quite catch that. Are you going to play with my beautiful wife, or try your luck outside?"`,
@@ -650,7 +650,7 @@ const MerchantNodes = {
         return 'walkBackToTownAlt'
       }
     }
-  }),
+  }, 1500, true),
 
 
   ...diatribe('walkBackToTown', [
@@ -661,7 +661,7 @@ const MerchantNodes = {
     `Passerbys murmur, and you increase your pace. But off in the distance you see me galloping towards you.`
   ], {
     followUp: fu('fightOrFlight')
-  }),
+  }, 1500, true),
 
   ...diatribe('walkBackToTownAlt', [
     `You begin walking back to town, but your stench draws the attention of everyone you pass.`,
@@ -731,7 +731,7 @@ const HorseWomanNodes = {
     `"If I were ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}, I would seek refuge in the market, or perhaps even the Dark Forest. Otherwise, there's no telling what brutal punishment awaits ${genderSwitch({m: 'him', f: 'her', nb: 'them'})} when I catch ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}. One thing is for certain though: ${genderSwitch({m: 'he', f: 'she', nb: 'they'})} will surely lose all freedom to roam around town once I find ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}."`,
   ], {
     followUp: fu('horseWomanConfessMaybe')
-  }),
+  }, 1500, true),
 
   horseWomanConfessMaybe: {
     messageText: `Do you confess, or do you scurry away in fear?`,
@@ -861,8 +861,8 @@ const MistressMessages = {
 
   },
 
-  __precheck(userResponse, ctx, contract, provider, isFollowup) {
-    if (userResponse && responseParser(userResponse).includes('inventory')) {
+  __precheck(ur, ctx, contract, provider, isFollowup) {
+    if (ur && responseParser(ur).includes('inventory')) {
       const i = []
       if (ctx.state.beerInventory) i.push(`${ctx.state.beerInventory} Beer${ctx.state.beerInventory === 1 ? '' : 's'}`)
       if (ctx.state.hasKey) i.push(`Tavern Key`)
@@ -871,11 +871,53 @@ const MistressMessages = {
         responseHandler: (ur, ctx) => ctx.lastDomCodeSent
       }
     }
-    if (userResponse && isMean(userResponse)) {
+
+    if (ur && isMatch(ur, ['silence', 'remain silent', 'do nothing', 'nothing', 'do not speak', 'stay completely still', 'stay completely still and silent'], true)) {
       return {
         messageText: ``,
         responseHandler: (ur, ctx) => ctx.lastDomCodeSent
       }
+    }
+
+    if (ur && isMatch(ur, ['masturbate', 'jack off', 'jerk off'], true)) {
+      return {
+        messageText: genderSwitch({
+          m: 'You take your dick out and begin masturbating, but you give up once you find you can not finish.',
+          f: 'You begin masturbating, but you give up once you find you can not finish.',
+          nb: 'You begin masturbating, but you give up once you find you can not finish.',
+        }),
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+      }
+    }
+
+    if (!ctx.state.isDrinkingBeer && ur && isMatch(ur, ['drink beer', 'drink a beer', 'drink the beer'], true)) {
+      if (ctx.state.beerInventory) {
+        ctx.state.drinkBeerReferrer = ctx.lastDomCodeSent
+        ctx.state.isDrinkingBeer = true
+        return {
+          messageText: ``,
+          followUp: fu('drinkBeer', 1)
+        }
+
+      } else {
+        return {
+          messageText: `You have no beer in your inventory to drink.`,
+          responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+        }
+      }
+    }
+  },
+
+  drinkBeer: {
+    messageText: `You drink a beer, but it has no effect.`,
+    followUp: fu('drinkBeerInventory')
+  },
+
+  drinkBeerInventory: {
+    messageText: (ur, ctx) => `<em>(You now have ${ctx.state.beerInventory} Beer${ctx.state.beerInventory === 1 ? '' : 's'} in your inventory)</em>`,
+    responseHandler: (ur, ctx) => {
+      ctx.state.isDrinkingBeer = false
+      return ctx.state.drinkBeerReferrer
     }
   },
 
@@ -920,7 +962,7 @@ const MistressMessages = {
     `The dealer sizes you up once more, and turns back around to resume his game. You decide not to try your luck.`
   ], {
     followUp: fu('tavernDeliberate')
-  }),
+  }, 1500, true),
 
 
   ...diatribe('pokerBeer', [
@@ -994,7 +1036,7 @@ const MistressMessages = {
     `A faint drip echoes throughout the room. Your head aches.`
   ], {
     followUp: fu('dungeonDecision')
-  }),
+  }, 1500, true),
 
   dungeonDecision: {
     messageText: `Do you talk to the old man? Or do you sit in silence?`,
@@ -1015,12 +1057,12 @@ const MistressMessages = {
   },
 
   oldMan2: {
-    messageText: `"None for me, thanks. I've had too much already."`,
+    messageText: `"Impossible to tell, but I did owe quite a bit of money. So I suspect it's been a long time. Impossible to tell."`,
     responseHandler: 'oldMan3'
   },
 
   oldMan3: {
-    messageText: `"Impossible to tell, but I did owe quite a bit of money. So I suspect it's been a long time. Impossible to tell."`,
+    messageText: `"No, I think it's all an illusion, despite how it appears."`,
     responseHandler: 'oldMan4'
   },
 
@@ -1039,7 +1081,6 @@ const MistressMessages = {
     responseHandler: 'oldMan7'
   },
 
-// TODO you wonder if he's really sick, or just pretending to be sick
   ...diatribe('oldMan7', [
     `"Impossible to tell. Can you spare a few pence?"`,
     `The old man starts rocking back and forth, and resumes incoherently mumbling to himself. You wonder if he's really sick or just pretending to be sick.`,
@@ -1051,7 +1092,7 @@ const MistressMessages = {
     `Do you help the old man? Or remain silent?`
   ], {
     responseHandler: 'cellPurgatory'
-  }),
+  }, 1500, true),
 
   ...diatribe('cellPurgatory', [
     `The guards remove the old man from the cell as he whimpers. They close cell door and lock it behind them.`,
@@ -1075,6 +1116,7 @@ const MistressMessages = {
     `"Are you ready to service your debt?" you hear me say.`,
     `I crack the whip on your ass, drawing a hint of blood. ${genderSwitch({ m: 'Your erection comes back in full force.', f: 'Your pussy is sopping wet', nb: `You drool with arousal` })}. The crowd cheers.`,
     `I walk in front of you, revealing a 9 inch wooden phallus strapped to my pelvis. I rub it against your lips, letting the tip into your mouth.`,
+    `Leaning into your ear, I whisper: "fallitus ergo fraudator"`,
     `I crack the whip on your ass once more and you wince.`,
     `Your mind is empty, and every sensation in your body is magnified. You want nothing more than to atone for your debts. You want me to finish you off.`,
     `I walk around behind you, slather my phallus in oil, and slowly press up behind you. You feel it enter your ${genderSwitch({m: 'asshole', f: 'pussy', nb: 'asshole'})}, stretching it more than your realized was possible. You've never taken anything this large before, but you're so hot that it doesn't matter. You want to take it all, inch by inch.`,
@@ -1083,7 +1125,7 @@ const MistressMessages = {
   ], {
     responseHandler: (ur, ctx, contract, provider) => provider.isWeb3() ? 'publicHumiliationPending' : 'noWeb3',
     event: 'payDebt'
-  }),
+  }, 1500, true),
 
   noWeb3: {
     messageText: `Despite coming all this way, you find you cannot achieve the release you desire without a Web3 wallet.`,

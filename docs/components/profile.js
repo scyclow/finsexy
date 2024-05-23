@@ -1,5 +1,5 @@
 import {createComponent} from '../$.js'
-import {MessageHandler, ProfileStats} from '../state/all.js'
+import {MessageHandler, ProfileStats, defaultProfileLS} from '../state/all.js'
 import {provider} from '../eth.js'
 
 import {chat} from './svg.js'
@@ -858,11 +858,12 @@ createComponent(
 
     ctx.$description.innerHTML = `<span class="quote">“</span>${description}<span class="quote">”</span>`
     ctx.$name.innerHTML = name
+
     ctx.$info.innerHTML = `
       <div>Age: ${age}</div>
+      ${defaultProfileLS.get('location') ? `<div>${distance} miles away!</div>` : ''}
       <div>Gender: ${gender}</div>
       <div>Dom Type: ${domType}</div>
-      <div>${distance} miles away!</div>
     `
 
     ctx.$chat.href = `../chat?activeChat=${name}`

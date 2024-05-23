@@ -197,6 +197,13 @@ const StevieMessages = {
         responseHandler: (ur, ctx) => ctx.lastDomCodeSent
       }
     }
+
+    if (!ctx.state.toldSecret && ur && isMatch(ur, ['secret'])) {
+      return {
+        messageText: `I'll tell you the secret after you send me ${0.01 * ctx.global.premium} ETH, how about that?`,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+      }
+    }
   },
 
   hello: {
@@ -436,14 +443,20 @@ const StevieMessages = {
     `nothing beats that high. you can't imagine what it feels like`,
     `I dont need drugs. what I need is to extract every last cent and bit of worship from my collectors`,
     `I need to wring them dry until they have nothing left to give`,
-    `I need to see that <em>I'm</em> their favorite artist, and that they're willing to give up <em>everything</em> to show their affection for my artistic genius`,
   ], {
-    responseHandler: (ur) => {
-      if (isMatch(ur, ['secret', 'tell me'])) 'ohYeahSecret'
-      return 'anyhowSecret'
+    followUp: (ur, ctx) => {
+      ctx.state.toldSecret = true
+      return fu('feltGoodNext')
     }
   }),
 
+  feltGoodNext: {
+    messageText: `I need to see that <em>I'm</em> their favorite artist, and that they're willing to give up <em>everything</em> to show their affection for my artistic genius`,
+    responseHandler: (ur, ctx) => {
+      if (isMatch(ur, ['secret', 'tell me'])) return 'ohYeahSecret'
+      return 'anyhowSecret'
+    }
+  },
 
   ohYeahSecret: {
     messageText: `oh yeah, the secret. `,
@@ -534,7 +547,6 @@ const StevieMessages = {
   twoThingsEnd: {
     messageText: `okay, i'll leave you to it. I gotta run. I'll be back in like 15 minute. hit me up when you finish those two things, then we'll chat more.`,
     responseHandler(ur, ctx) {
-      console.log(ctx.global.hedonitronicaPaid)
       if (ctx.global.hedonitronicaComplete) {
         return 'hedonitronicaCompleteFull'
       } else if (ctx.global.hedonitronicaPaid) {

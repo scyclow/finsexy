@@ -326,13 +326,6 @@ createComponent(
     }
     ::-webkit-calendar-picker-indicator { filter: invert(100%); }
 
-
-
-
-input:placeholder-shown {
-  border: 5px solid red;
-}
-
   </style>
 
 
