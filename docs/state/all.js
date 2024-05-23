@@ -20,7 +20,7 @@ import {SamanthaProfile, SamanthaChat} from '../chats/SamanthaJones.js'
 import {VinceProfile, VinceChat} from '../chats/VinceSlickson.js'
 import {KatProfile, KatChat} from '../chats/katFischer.js'
 import {CrystalGoddessProfile} from '../chats/CrystalGoddess.js'
-import {AndyProfile} from '../chats/DrAndy.js'
+import {AndyProfile, AndyChat} from '../chats/DrAndy.js'
 import {MistressProfile} from '../chats/DungeonMistress.js'
 import {HackerProfile, HackerChat} from '../chats/hacker.js'
 import {QueenProfile} from '../chats/QueenJessica.js'
@@ -153,16 +153,27 @@ provider.onConnect(async (addr) => {
   const allTributes = await tributesPromise
   const tributeCount = Object.values(allTributes).filter(t => !!t).length
 
-  console.log(tributeCount)
   if (tributeCount && unmessaged(VinceChat)) {
     VinceChat.queueEvent('hello', 1)
+  } else if (tributeCount && unmessaged(SamanthaChat)) {
+    SamanthaChat.queueEvent('regretToInform', 1)
+  } else if (tributeCount && unmessaged(MindyChat)) {
+    MindyChat.queueEvent('hello', 1)
+    MessageHandler.visibilityCtx.MindyRouge = 'online'
+  }
+
+  if (tributeCount >= 2 && unmessaged(AndyChat)) {
+    AndyChat.queueEvent('reachingOut', 1)
+  } else if (tributeCount && unmessaged(MindyChat)) {
+    MindyChat.queueEvent('hello', 1)
+    MessageHandler.visibilityCtx.MindyRouge = 'online'
   }
 
 
 
 
 
-    // if (tributes && unmessaged(SamanthaChat)) SamanthaChat.queueEvent('regretToInform', 1)
+    //
 
 
 

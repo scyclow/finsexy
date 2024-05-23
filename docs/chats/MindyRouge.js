@@ -25,6 +25,9 @@ export const MindyProfile = {
     {
       review: `Mindy is my favorite professional wrestler! She's so hot and sexy 🌹`
     },
+    {
+      review: `I just send MindyRouge 0.069 ETH!`
+    },
   ]
 }
 

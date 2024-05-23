@@ -142,6 +142,9 @@ export const HeatherHotProfile = {
       review: `Heather is always there for me. whenever i have a bad day, she's there to console me. whenever i have a great day, she's there to share the moment. I'm so glad I have her in my life. I don't know what I'd do if she weren't around. I love her.`
     },
     {
+      review: `I just send heatherHot 0.069 ETH!`
+    },
+    {
       name: '0x3',
       review: `Every session I have with Heather leaves me 🥵 hot 🥵 and 🥵 bothered 🥵`,
     },

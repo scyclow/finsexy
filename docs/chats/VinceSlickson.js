@@ -111,9 +111,7 @@ export const VinceProfile = {
     {
       review: `I'm such a goddamn loer that it's impossible for me to view myself in my own financial fantasies. I can only get off by seeing daddy make money`
     },
-    {
-      review: `fuck it, i give up! i feel like my computer has completely hollowed out my manhood. i can't even get hard any more unless i'm watching some other man fuck a woman on my computer screen. i'm just a beta voyeur cuck, so I might as well embrace it.`
-    }
+
   ]
 }
 

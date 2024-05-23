@@ -781,7 +781,7 @@ function domTypeDisplayClass(str) {
   if (['Role-Play', null].includes(str)) s = 'roleplay'
   else if (str === 'Protocol') s = 'protocol'
   else if (['Hard', 'Sadist'].includes(str)) s = 'hard'
-  else if (str === 'Soft') s = 'soft'
+  else if (['Soft', 'Service'].includes(str)) s = 'soft'
   else s = 'other'
 
   return `dom-display-${s}`

@@ -122,6 +122,9 @@ export const CrystalGoddessProfile = {
   description: `Bow down to Crystal Goddess. Atone for your monetary sins and seek enlightenment`,
   testimonials: [
     {
+      review: `I just send CrystalGoddess 0.069 ETH!`
+    },
+    {
       name: '0x1',
       review: `i came so hard that I don't even know what money is any more`,
     },
@@ -170,7 +173,9 @@ export const CrystalGoddessProfile = {
 
     {
       review: `honestly, i don't really like findom so much as i am giving up on finding another form of meaningful love in my life`
-    }
+    },
+
+
 
   // - testimonials "i've always been afraid of approaching women in bars"
   // - SweetSalvation: "i'd rather be giving my hard earned money to this pretty girl than let the government pry it from y cold dead hand when they come around looking for taxes because the government can't tell either of us what to do as consenting adults who want to form a business relationship with one another that benefits her and it benefits me."

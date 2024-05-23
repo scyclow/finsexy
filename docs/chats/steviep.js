@@ -177,6 +177,9 @@ export const StevieProfile = {
       review: `I don't know how he does it, but every time I send my orgasm is so powerful it disrupts my entire visual field! `,
     },
     {
+      review: `I just send steviep 0.069 ETH!`
+    },
+    {
       review: `Something's not right about these doms. It's almost as if they're not listening to anything I'm saying, and that everything on their end is scripted. I can't quite put my finger on it though...`
     },
 

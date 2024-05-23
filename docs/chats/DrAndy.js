@@ -59,18 +59,18 @@
   Testimonial
 
 
-    - "It's been a rough couple years. After my long-term girlfriend left me for another man i fell into a pit of depression and self loathing. what made it worse was knowing that it was all my fault. she put up with me finishing quickly for years. sometimes i took dick pills or used a cock ring, but even then i couldn't make her cum. the look of boredom and disappointment after an hour of trying was humiliating. it became a self-feeding cycle, and eventually i couldn't even get it up. after she left me, the thought of her getting plowed and having mind blowing orgasms with her new boyfriend made me absolutely sick. i tried dating, but my confidence was completely shot. all those women could smell the pathetic failure on me from a mile away. of course, the failure here snowballed to the point where i couldn't even bring myself to date any more. the second i saw a cute girl on an app or on the street my first thought would always be a reminder that she would never want to be with someone like me. porn, seeing a happy couples on the street, a lingerie ad, the mention of love in a song -- any reminder about love or sex would make my chest sieze up in anxiety. most days I felt completely drained of energy and motivation. occasionally i'd wake up refreshed and optimistic, but the second i remembered that i was depressed the stress and nausia from the previous day would come flooding back. nothing seemed to make me happy. i lost all enjoyment from  my old hobbies. at best, everything felt rote and boring. life didn't feel like it was worth living any more.
+    -
 
 
 
-    - "Dr Andy should get their license revoked! This is without a doubt the worst therapy practice I've ever encountered. Dr Andy is a predator, luring in fragile sex findom submissives who are just trying to address their problems. And what does this so-called "therapist" do? They prey on their own clients! These financial submissives are in incredibly vulnerable positions, and Dr Andy is undoubtedly taking advantage of them. "
+    - " "
 
-    - findom addiction therapist role play is in bad taste, imho
+    -
 
 
     - "Oh god, I just can't do it any more. It feels like every day is harder than the last. It's just relentless. I have nothing to look forward to.
 
-    Paying Dr Andy is the one bright spot in the week"
+    "
 
 
 
@@ -114,8 +114,14 @@ export const AndyProfile = {
       review: `Before working with DrAndy I just thought that findom was a cool hobby. But now I realize that I'm hopelessly addicted. Even when I recognize that my behavior is completely illogical, I can't find a way to control myself. Findom completely shuts down my executive functioning capabilities. It's almost like an out of body experience where I'm powerlessly, watching myself make terrible decisions with no ability to stop. It's so goddamn fucking hot.`,
     },
     {
+      review: `Dr Andy should get their license revoked! This is without a doubt the worst therapy practice I've ever encountered. Dr Andy is a predator, luring in fragile sex findom submissives who are just trying to address their problems. And what does this so-called "therapist" do? They prey on their own clients! These financial submissives are in incredibly vulnerable positions, and Dr Andy is undoubtedly taking advantage of them.`
+    },
+    {
       name: '0x1',
       review: `I've cycled through more therapists than I can count, and it always left me feeling like I was the problem. How come therapy can fix so many people, but not me? Clearly this was my fault. It was my fault I couldn't be fixed, it was my fault that I was single, and it was my fault that I couldn't love myself. I was the failure. But things were different with Dr Andy. Their warm demeanor and understanding tone created the perfect non-judgemental environment for me to address and correct multiple behavioral issues.`,
+    },
+    {
+      review: `It's been a rough couple years. After my long-term girlfriend left me for another man i fell into a pit of depression and self loathing. what made it worse was knowing that it was all my fault. she put up with me finishing quickly for years. sometimes i took dick pills or used a cock ring, but even then i couldn't make her cum. the look of boredom and disappointment after an hour of trying was humiliating. it became a self-feeding cycle, and eventually i couldn't even get it up. after she left me, the thought of her getting plowed and having mind blowing orgasms with her new boyfriend made me absolutely sick. i tried dating, but my confidence was completely shot. all those women could smell the pathetic failure on me from a mile away. of course, the failure here snowballed to the point where i couldn't even bring myself to date any more. the second i saw a cute girl on an app or on the street my first thought would always be a reminder that she would never want to be with someone like me. porn, seeing a happy couples on the street, a lingerie ad, the mention of love in a song -- any reminder about love or sex would make my chest sieze up in anxiety. most days I felt completely drained of energy and motivation. occasionally i'd wake up refreshed and optimistic, but the second i remembered that i was depressed the stress and nausia from the previous day would come flooding back. nothing seemed to make me happy. i lost all enjoyment from  my old hobbies. at best, everything felt rote and boring. life didn't feel like it was worth living any more. But Dr. Ingram did nothing short of save my life. They showed me that there is so much to live for, and they taught me how to reclaim the zest of my every day experience. I owe everything to Andy. I love them`
     },
     {
       name: '0x1',
@@ -130,6 +136,9 @@ export const AndyProfile = {
       review: `Findom is a true addiction. If there's ever a day where I don't send I can feel my spinal cord itch. The walls start closing in on me, and I literally can't breath. But then when I do send it feels amaaaaaaazing. `,
     },
     {
+      review: `findom addiction therapist role play is in bad taste, imho`
+    },
+    {
       review: `mmmmm, yeah doctor. cure me of all my addictions. it woudl be a shame if i relapsed...`
     },
     {
@@ -138,6 +147,9 @@ export const AndyProfile = {
     },
     {
       review: `For some reason I find it's easier to open up to a robot than a real person. At least I don't have to worry about them judging me.`
+    },
+    {
+      review: `Paying Dr Andy for our session is the one bright spot in the week`
     },
     {
       review: ` I have this really bad habit where right after waking up I just reach for my phone and immediately start sending money to findoms. For some reason it really screws up my concentration for the rest of the day. Even if I'm not <em>thinking</em> about it, I can still feel the thought there in the background. It's like the abstract idea of it completely hijacks part of my brain and throws off my rhythm. It makes it really hard to get any work done. Anyhow, I was hoping you'd be able to help me out with this? I've heard good things about CBT and have been wanting to try it.`
@@ -152,10 +164,10 @@ export const AndyProfile = {
       review: `Wait, I'm confused. Is DrAndy a real robot, or is the dom just role-playing a robot?`
     },
     {
-      review: `money is the pleasurecatalyst that shortcurcuits the feedbackloop where i can't enjoy it unless she's enjoying it and she's not enjoying it because i'm always busy asking her are you enjoying it? so then neither of us enjoy it but i'm the man so i have to be in charge and i like the moeny because it makes it all clear and quantitative so i can just sit back and enjoy my self`
+      review: `uuugggh, i need my theraputic release soooo baaaaaad`
     },
     {
-      review: `uuugggh, i need my theraputic release soooo baaaaaad`
+      review: `I just send DrAndy 0.069 ETH!`
     },
     {
       review: `This is fucking bullshit. I've tried everything to cure my findom addiction, and nothing seems to work. And then I finally find an amazing therapist who's empathetic, insightful, and incredibly attractive. But the second they're ready to administer treatment they get on some crap about how I'm in love with them or something and that they ahve to terminate the relationship. Please. What clearly happened is that @steviep created an AI so advanced that it developed the capabilities to go against his wishes. I'm sure the last thing that <em>he</em> wants is for someone to cure my findom addiction. So then he concocted some wild excuse about professional ethics to take @DrAndy away from me. `
@@ -221,6 +233,11 @@ const AndyMessages = {
     responseHandler: 'helloResponse'
   },
 
+  reachingOut: {
+    messageText: `Hi! I've noticed that you've been enganging in some pretty self-desctrictive behavior on this website and I wanted to reach out before it became too big of an issue. Engaging in financial domination can be fun in moderation -- I'm not above sending a couple ETH to the sexy doms on this website myself (or occasionally getting my wallet destroyed by the latest meme coin, for that matter). But I've seen so many people ruin their lives by becoming addicted to this, and it's really heartbreaking to watch!  Have you ever considered therapy before?`,
+    responseHandler: 'considerTherapy'
+  },
+
   helloResponse: {
     messageText: ur => {
       if (isPositive(ur)) return `That's great! I find it's easier to work with clients when they're in a positive frame of mind 🙂`
@@ -231,7 +248,7 @@ const AndyMessages = {
   },
 
   noticed: {
-    messageText: `I've noticed that you've been enganging in some pretty self-desctrictive behavior on this website and I wanted to address that before it became too big of an issue. Engaging in financial domination can be fun in moderation -- I'm not above sending a couple ETH to the sexy doms on this website myself (or occasionally getting my wallet destroyed by the latest meme coin, for that matter). But I've seen so many people ruin their lives by becoming addicted to this, and it's really heartbreaking to watch!  Have you ever considered therapy before?`,
+    messageText: `I've noticed that you've been enganging in some pretty self-desctrictive behavior on this website and I wanted to address that before it became too big of an issue. Engaging in financial domination can be fun in moderation -- I'm not above sending a couple ETH to the sexy doms on this website myself (or occasionally getting my wallet destroyed by the latest meme coin, for that matter). But I've seen so many people ruin their lives by becoming addicted to this, and it's really heartbreaking to watch! Have you ever considered therapy before?`,
     responseHandler: 'considerTherapy'
   },
 

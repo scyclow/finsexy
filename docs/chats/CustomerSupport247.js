@@ -40,7 +40,10 @@ export const CustomerSupportProfile = {
   testimonials: [
     {
       review: `I love Customer Support! She's so helpful!`
-    }
+    },
+    {
+      review: `I just send CustomerSupport247 0.069 ETH!`
+    },
 
   ]
 }

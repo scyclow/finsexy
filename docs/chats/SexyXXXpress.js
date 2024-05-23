@@ -41,7 +41,16 @@ export const XXXProfile = {
       review: `i can't believe i'm getting cucked by my goddamn computer`
     },
     {
+      review: `FINSEXY IS A BRAINWASHING MIND-CONTROL APP DESIGNED TO HIJACK YOUR MIND AND STEAL ALL YOUR MONEY. DO NOT USE IT`
+    },
+    {
       review: `i'm sick of my findom addiction. this isn't making me happy any more`
+    },
+    {
+      review: `money is the pleasurecatalyst that shortcurcuits the feedbackloop where i can't enjoy it unless she's enjoying it and she's not enjoying it because i'm always busy asking her are you enjoying it? so then neither of us enjoy it but i'm the man so i have to be in charge and i like the moeny because it makes it all clear and quantitative so i can just sit back and enjoy my self`
+    },
+    {
+      review: `fuck it, i give up! i feel like my computer has completely hollowed out my manhood. i can't even get hard any more unless i'm watching some other man fuck a woman on my computer screen. i'm just a beta voyeur cuck, so I might as well embrace it.`
     }
   ]
 }

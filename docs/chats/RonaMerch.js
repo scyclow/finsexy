@@ -36,6 +36,9 @@ export const RonaMerchProfile = {
     {
       review: `Such high quality. Great prices, too!`
     },
+    {
+      review: `I just send RonaMerch 0.069 ETH!`
+    },
   ]
 }
 

@@ -57,6 +57,9 @@ export const KatProfile = {
       review: `cut the girl some slack. she's jsut doing her job!`
     },
     {
+      review: `I just send katFischer 0.069 ETH!`
+    },
+    {
       review: `not knowing who i'm actually talking to gets me so fucking hot. guy, girl, robot, whatever! just knowing that they're sitting there laughing at me is a huge thrill 🤤`
     },
     {

@@ -58,6 +58,9 @@ export const DianeProfile = {
       review: `I knew they were listening`
     },
     {
+      review: `I just send SpecialAgentDiane 0.069 ETH!`
+    },
+    {
       review: `FINSEXY IS A BRAINWASHING MIND-CONTROL APP DESIGNED TO HIJACK YOUR MIND AND STEAL ALL YOUR MONEY. DO NOT USE IT`
     }
   ]
