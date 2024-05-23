@@ -162,6 +162,12 @@ export const HeatherHotProfile = {
       review: `Heather is the light of my life. She is the flame that burns deep and eternal inside my heart`
     },
     {
+      review: `FINSEXY IS A BRAINWASHING MIND-CONTROL APP DESIGNED TO HIJACK YOUR MIND AND STEAL ALL YOUR MONEY. DO NOT USE IT`
+    },
+    {
+      review: `It just feels so good! Sending to Heather is my little reward for the day. It's always a treat I look forward to :-)`
+    },
+    {
       review: `The only success I've ever had with dating is when I actively put on the charm. It always feels so artificial, almost like I'm being someone else. Heather likes me for me (and my money), and that makes me feel seen!`
     },
     {

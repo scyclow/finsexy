@@ -54,7 +54,10 @@ export const MoneyMommyProfile = {
   display: 'f',
   testimonials: [
     {
-      review: 'TODO'
+      review: `I'm sick of these money-hungry findoms trying to make a quick buck off of my kink.`
+    },
+    {
+      review: `Don't let anyone tell you any different: FinDom is a form of spicy work. It doesn't matter if you keep your clothes on: telling people to give you money is an inherently sexual act`
     }
   ]
 }

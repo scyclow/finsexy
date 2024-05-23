@@ -153,16 +153,41 @@ export const MistressProfile = {
     {
       name:'0x72f...daF',
       review: `I love a good role play`
-    }, {
+    },
+    {
       name:'0x72f...daF',
       review: `this is fucking disgusting`
-    }, {
+    },
+    {
       name:'0x72f...daF',
       review: `RPGs are so much fun! its such a relief to have a safe space to act out my fantasies. i feel like there's a part of me that I always have to repress, so it's nice to finally have a way to explore it.`
-    }, {
+    },
+    {
+      review: `i have a deep seeded fear that i won't be able to please women. this has led to a lot of problems in the bedroom, if you know what i mean. any time i'm getting ready to perform, i just can't get my head in the game with that pesky anxiety peaking its head in. that's why i like findom so much. pleasing my domme is as easy as signing a transaction. as long as there's money in my wallet i know that i can be the man i truly want to be.`
+    },
+    {
       name:'0x72f...daF',
       review: `I'll be honest, I've extensively fantasized about a lot of the scenarios that Mistress touched on here. But actually experiencing them first hand left me a little nauseous.`
+    },
+    {
+      review: `jfc... I CAN'T TAKE IT ANY MORE! PLEASE LET ME CUM, MISTRESS`
+    },
+    {
+      review: `I've tried to get into dungeon-themed kink-events in my city, but they don't let in many single men -- even the more inclusive ones! And I'm not attractive enough to find my own partners, nor can I afford the equipment. At least I can pay for it on FinSexy at reasonable prices!`
+    },
+    {
+      review: `It's unfair that society puts the "dominant man" role on me. I don't want to be dominant! I just want a sexy woman to boss me around. Is that too much to ask??`
+    },
+    {
+      review: `god, these doms are just getting me so flustered! it's making me want to crawl out of my skin! every send sends deep shivers through my limbic system`
+    },
+    {
+      review: `This hit a little too close to home as someone who's up to their neck in student loans 🥵`
+    },
+    {
+      review: `I like fantasy role playing because it allows me the space to explore aspects of myself that I'm generally not permitted to explore in my day-to-day life. For example, I never quite realized how much I enjoyed cuckolding until I experienced it with Mistress and realized how deeply uncomfortable it made me. That excitement was absolutely thrilling. I can't get the thought of my girlfriend getting fucked and creampied by another guy. And then maybe she'll get pregnant and I'll be forced to raise and financially support another man's child. I know it's super fucked up, but it's all I can think about. It's like the ultimate form of findom. Anyhow, I really appreciate Mistress for crafting such a charming RPG to help me explore these fantasies! `
     }
+
   ]
 }
 

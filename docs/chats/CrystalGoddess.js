@@ -125,26 +125,51 @@ export const CrystalGoddessProfile = {
       name: '0x1',
       review: `i came so hard that I don't even know what money is any more`,
     },
-
-    // I do not deserve this money
+    {
+      review: `I do not deserve this money. Take thy tithe, Goddess 🙏`
+    },
 
     {
       review: `Before I met Goddess I felt like I was just sleep walking through life. Food lost its taste, relationships lost their meaning, and money lost its value. Nothing gave me pleasure and nothing felt meaningful. I had no purpose, and my world felt like static. Somehow, all of the connective tissue erroded from my lived experience. And the more I thought about it the more prevelant it would become. It felt like it was all slipping through my fingers, and I didn't know how to stop the feedback loop. But Goddess made it all better. Giving myself over to her is a pure light of joy. A warm, pink light. Every ETH I give her feels meaningful. Like I'm giving her a part of myself. I finally have purpose, and her name is CrystalGoddess`
     },
-
+    {
+      review: `Goddess is the only findom that truly understands that you can only manifest value through faith. Money only has value because of the collective faith that we put in it`
+    },
+    {
+      review: `It's beyond hope that @DrAndy and therapy cna fix me, so I must submit to a higher power 🙏`
+    },
 
     // {
     //   name: '0x1',
     //   review: `Goddess is definitely not a starter dom. It's not a great idea to play with her unless you've done this before. I went to her at a low point in my life. I was sending to doms so often that I didn't even get pleasure from it any more. It left me feeling pretty emotionally drained, and Goddess drained what was left from my wallet. She also drained what was left in my balls.`,
     // },
 
+
+    {
+      review: `I don't even know what I want any more. That's why I like Goddess. She just tells me what to like and what to do. I don't need to think too hard about it. Easy peasy.`
+    },
     {
       name: '0x1',
       review: `Thank you so much Goddess for draining me. You give me purpose in my miserable, pathetic life 🙏`,
     },
 
     {
+      review: `I've always gotten off on ritual, control, worship, taboo, and repentance, so I was happy to find a dom that rolled all of that into one!`
+    },
+
+
+    {
       review: `Faith is a powerful thing. Before I met CrystalGoddess I was in a dark place in my life. For months I suffered a deep depression. And it got worse day after day. Every morning I woke up with a blank mind. But then I remembered that I had this dark cloud of depression hanging over me, and it all came flooding back worse than before. It was all doom and gloom on the horizon. I didn't believe in a higher power, and I sure as hell didn't believe in myself. But then Goddess came along and showed me the light. Her daily prayer sessions were a true miracle. The more I gave of myself to her -- my time, my faith, my money -- the better my life became. I started to <em>believe</em>.`
+    },
+    {
+      review: `being a paypig has become such a big part of my identity since I found Goddess. I don't know what I'd do without her. I always thought that my failure with women made me less of a man. But little did I know that reclaiming that masculinity was as easy as sending a couple ETH!`
+    },
+    {
+      review: `Monetary englightenment can only be achieved through manifesting higher harmonics once your mind is maliable and your spirit becomes supple`
+    },
+
+    {
+      review: `honestly, i don't really like findom so much as i am giving up on finding another form of meaningful love in my life`
     }
 
   // - testimonials "i've always been afraid of approaching women in bars"

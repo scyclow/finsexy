@@ -78,6 +78,9 @@ export const SamanthaProfile = {
       name: '0x2',
       review: `I love that every transaction I make is out in the open for Samantha to read at her liesure. It gets me so hard.`,
     },
+    {
+      review: `i'm a little paypig oink oink oink`
+    }
     // dealing with my finances causes me too much anxiety. it's nice to completely give up control
   ]
 }

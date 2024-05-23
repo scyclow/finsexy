@@ -146,6 +146,7 @@ provider.onConnect(async (addr) => {
   MessageHandler.visibilityCtx.SamanthaJones = 'online'
   MessageHandler.visibilityCtx.QueenJessica = 'online'
   MessageHandler.visibilityCtx.VinceSlickson = 'online'
+  MessageHandler.visibilityCtx.CandyCrush = 'online'
 
 
 

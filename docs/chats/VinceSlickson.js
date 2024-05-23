@@ -66,15 +66,41 @@ export const VinceProfile = {
     { name: '0x1', review: `a true professional`},
     { name: '0x1', review: `Vince is a real dream boat. He also made me a TON of money!`},
     { name: '0x1', review: `vince has been a positive male role model in my life and is also very sexy. i like giving him my money`},
+    {review: `I COuldn't BELIEVE IT! <a href="https://fastcashmoneyplus.biz/?ref=bangFAST_CLICKgr1SqKL+YojDRpoD" target="_blank">http://fastcashmoneyplus.biz/?ref=bangFAST_CLICKgr1SqKL+YojDRpoD</a>`},
+    {review: `I COuldn't BELIEVE IT! <a href="https://fastcashmoneyplus.biz/?ref=bangFAST_CLICKgr1SqKL+YojDRpoD" target="_blank">http://fastcashmoneyplus.biz/?ref=bangFAST_CLICKgr1SqKL+YojDRpoD</a>`},
+    {
+      review: `i'm not gay or anything but i reread my DMs with vince at least once a day to motivate myself, espescially the part where he says he's going to pump me full of alpha.`
+    },
+    {review: `I COuldn't BELIEVE IT! <a href="https://fastcashmoneyplus.biz/?ref=bangFAST_CLICKgr1SqKL+YojDRpoD" target="_blank">http://fastcashmoneyplus.biz/?ref=bangFAST_CLICKgr1SqKL+YojDRpoD</a>`},
     { name: '0x1', review: `I like the photo where he's on the beach`},
     {
+      review: `I can't believe how much I made with FastCashMoneyPlus! it completely turned my life around`
+    },
+    {review: `<a href="https://fast.plus?rf=euphoricREVOLUTION_PLUSIMOSNhU3KLGLn" target="_blank">http://fast.plus?rf=euphoricREVOLUTION_PLUSIMOSNhU3KLGLn</a>`},
+    {
       review: `it makes me so hot watching vince get rich`
+    },
+    {
+      review: `I didn't even know I liked men until I met Daddy`
+    },
+    {
+      review: `yeah, daddy`
     },
     {
       review: `I just want to please my man. watching him take my money get's me sooo wet`
     },
     {
+      review: `I don't know how my coworkers did it, but I watched them all find partners, settle down, and have kids. Before I knew it I was in my early 30s and had absolutely zero relationship experience. I didn't even know where to start. The more I thought about it the more I tried to distract myself with work. But I could only distract myself so much. When I was fired in 2023 I felt like I'd lost everything. I watched everything I'd worked towards for my entire career spiral down the drain. It was all for nothing. I basically spent my entire adult life focused on my career -- working long nights and weekends, endlessly checking emails in my free time, you name it. I was an absolute slave to my job, and it didn't leave much time for a relationship. It was a lucrative decision, for sure, but it left me deeply unfilfilled. Without someone by my side to share my wins with and console me through my losses, it all felt meaningless. I constantly found myself asking: What's the point of it all? Then I found Vince. Vince taught me to completely block out all of that self doubt and get back to making money. Now I'm back on track and making more money than ever!`
+    },
+
+    {
+      review: `<a href="https://fastcashmoneyplus.biz/?ref=cleanBANG_FREEDOMQmwli0h5PhFDrSf" target="_blank">I never knew I could make this much! http://fastcashmoneyplus.biz/?ref=euphoricREVOLUTION_PLUSIMOSNhU3KLGLn COPY </a>`
+    },
+    {
       review: `call me crazy, but i just don't get off on making money any more. i've been in crypto for years, and I guess all the volatile ups and downs just desensitized me or something. to get off i need a little something extra. that's why when vince put me into one of his 'investment producs' i busted my nut so goddamn hard. it was exactly what i needed`
+    },
+    {
+      review: `fastcashmoeny official site click here: <a href="https://0ms.co/fastcashmoneybiz.html" target="_blank">http://0ms.co/fastcashmoneybiz.html</a>`
     },
     {
       review: `A lot of men like participating in no-nut November. But I like saving up my money in november. now my wallet is ready to burst`
@@ -84,8 +110,10 @@ export const VinceProfile = {
     },
     {
       review: `I'm such a goddamn loer that it's impossible for me to view myself in my own financial fantasies. I can only get off by seeing daddy make money`
+    },
+    {
+      review: `fuck it, i give up! i feel like my computer has completely hollowed out my manhood. i can't even get hard any more unless i'm watching some other man fuck a woman on my computer screen. i'm just a beta voyeur cuck, so I might as well embrace it.`
     }
-    // IF YOU WANT TO MAKE FAST CASH NOW THEN CLICK HERE
   ]
 }
 
@@ -491,7 +519,7 @@ const VinceMessages = {
     `That means it's physically impossible for the value to go down`,
     `There are a lot of complex blockchain mechanics that go into it`,
     `But I won't bore you with the details`,
-    `If you're one of those math nerds and you really want to get into the weeds, check out the white paper: <a href="https://fastcashmoneyplus.biz/79f417c21b848aac16507c47f92abfbd.pdf" targe="_blank">https://fastcashmoneyplus.biz/79f417c21b848aac16507c47f92abfbd.pdf</a>`
+    `If you're one of those math nerds and you really want to get into the weeds, check out the white paper: <a href="https://fastcashmoneyplus.biz/79f417c21b848aac16507c47f92abfbd.pdf" target="_blank">https://fastcashmoneyplus.biz/79f417c21b848aac16507c47f92abfbd.pdf</a>`
   ], {
     followUp: fu('whadyaSay')
   }),
@@ -723,7 +751,7 @@ const VinceMessages = {
   ...diatribe('inTheSystem', [
     `It's in the system`,
     `Let's give it a sec`,
-    `In the meantime, my lawyer says that everyone should read through the FastCash terms of service <a href="https://fastcashmoneyplus.biz/terms" targe="_blank">https://fastcashmoneyplus.biz/terms</a>`,
+    `In the meantime, my lawyer says that everyone should read through the FastCash terms of service <a href="https://fastcashmoneyplus.biz/terms" target="_blank">https://fastcashmoneyplus.biz/terms</a>`,
     `Espescially "SECTION 2. Forward Looking Statements & Projections"`,
     `But honestly, it's not worth your time`,
     `It's all pretty intuative`,
@@ -881,7 +909,7 @@ const VinceMessages = {
     `That means it's physically impossible for the value to go down`,
     `There are a lot of complex blockchain mechanics that go into it`,
     `But I won't bore you with the details`,
-    `If you're one of those math nerds and you really want to get into the weeds, check out the white paper: <a href="https://fastcashmoneyplus.biz/79f417c21b848aac16507c47f92abfbd.pdf" targe="_blank">https://fastcashmoneyplus.biz/79f417c21b848aac16507c47f92abfbd.pdf</a>`,
+    `If you're one of those math nerds and you really want to get into the weeds, check out the white paper: <a href="https://fastcashmoneyplus.biz/79f417c21b848aac16507c47f92abfbd.pdf" target="_blank">https://fastcashmoneyplus.biz/79f417c21b848aac16507c47f92abfbd.pdf</a>`,
     `This opportunity won't last long, so I say we just get right into it`,
   ], {
     followUp: fu('disclaimer')

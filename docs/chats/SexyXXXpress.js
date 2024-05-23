@@ -31,6 +31,18 @@ export const XXXProfile = {
     {
       review: `As someone who's constantly on the go, FinDom Express is a real life saver`
     },
+    {
+      review: `I usually like to send until I absolutely hate myself and then chase it with scrolling social media until I'm completely numb. So SexyXXXpress really streamlines my workflow`
+    },
+    {
+      review: `it's hard for me to remember the last time i had sex with anyone in person. it seems like these days all anyone wants is to have cybersex`
+    },
+    {
+      review: `i can't believe i'm getting cucked by my goddamn computer`
+    },
+    {
+      review: `i'm sick of my findom addiction. this isn't making me happy any more`
+    }
   ]
 }
 

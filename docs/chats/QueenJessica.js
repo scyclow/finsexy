@@ -126,6 +126,9 @@ export const QueenProfile = {
       review: `There's just so much pressure to be a man and keep it together these days. I want someone to absolutely fucking ruin me`
     },
     {
+      review: `it's shameful that, as a man, i'm put in this position... that society has shifted in such a way where men are no longer assured the love of a woman. that family structure has broken down. that 80% of women now flock to 20% of the men, leaving men like me out to dry. and the fact that i'm force to pay women to pay attention to me would make me really upset if i didn't have this humiliation kink`
+    },
+    {
       review: `Yes! I thought I was the only person with an absolute societal collapse kink. Fuck these multinational corporations and fuck the global elite. WW3 can't come soon enough. Take me back to the fucking stone age. I jsut want to bang rocks together while Queen rules over my tribe. It's too bad this stupid fucking website only accepts dogshit alt coins like Ethereum and FastCash. My whole portfolio is split between Bitcoin and Gold. When contemporary society completely crumbles and centralized government fiat is completely worthless then I'm going to be sitting on a mountain of value. Then Queen will have no choice but to accept something other than Ethereum.`
     },
     {

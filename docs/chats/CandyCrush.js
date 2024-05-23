@@ -45,13 +45,19 @@ export const CandyCrushProfile = {
     lang: 'en-GB',
     name: 'Sandy'
   },
-  description: `TODO`,
+  description: `I only like three things: Money, Sex, and Tattoos`,
   gender: 'Female',
   display: 'f',
   testimonials: [
     {
       review: `I'm an executive at a large, well-known corporation in the cryptocurrency & blockchain sector. Every day I make decisions regarding millions of dollars in assets, which involves a copius amount of number crunching, optimizations, and cost minimization. After a long hard day at work I want nothing more than to be absolutely goddamn reckless and to blow all my fucking money without having to make a single decision. This is where CandyCrush really shines. She tells me what to do, she takes all of my money, and I regularly blow my load all over my computer. Simple as that.`
     },
+    {
+      review: `How do I get rid of this stupid NFT? I don't want it any more! This should be illegal!`
+    },
+    {
+      review: `FINSEXY IS A BRAINWASHING MIND-CONTROL APP DESIGNED TO HIJACK YOUR MIND AND STEAL ALL YOUR MONEY. DO NOT USE IT`
+    }
   ]
 }
 
@@ -73,19 +79,53 @@ const CandyCrushMessages = {
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {
-    // if (userResponse && isMean(userResponse)) {
-    //   return {
-    //     messageText: ``,
-    //     responseHandler: (ur, ctx) => ctx.lastDomCodeSent
-    //   }
-    // }
+    if (!provider.isWeb3()) {
+      return {
+        messageText: `This FinDom is offline`,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent,
+        helpMessage: true,
+        ignoreType: true
+      }
+    }
   },
 
 
   hello: {
     messageText: `Do you like tattoos? 😈`,
-    responseHandler: 'hello'
+    responseHandler: 'send'
   },
+
+  send: {
+    messageText: (ur, ctx) => `Send me ${ctx.global.premium * 0.01} ETH and I'll give you a tattoo`,
+    responseHandler: 'horny',
+    event: 'sendEvent'
+  },
+
+  horny: {
+    messageText: `It'll look great on you! Tattoos make me soooo horny`,
+    event: 'sendEvent'
+  },
+
+  sendEvent: createEvent( 0.01, {
+    primary: fu('likeIt', 7000),
+  }),
+
+  likeIt: {
+    messageText: `Just gave your wallet a new tattoo. Do you like it? 🤭`,
+    responseHandler: () => {
+      MessageHandler.visibilityCtx.CandyCrush = 'offline'
+
+      return 'offline'
+    }
+  },
+
+  offline: {
+    messageText: `This FinDom is offline`,
+    responseHandler: 'offline',
+    helpMessage: true,
+    ignoreType: true
+  }
+
 }
 
 export const CandyCrushChat = new MessageHandler(CandyCrushProfile, CandyCrushMessages)

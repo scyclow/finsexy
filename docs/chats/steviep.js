@@ -140,22 +140,44 @@ export const StevieProfile = {
       review: `I've been writing erotica about stevie for years. I'm thrilled that I can finally act out on those fantasies where he takes all of my money`
     },
     {
+      review: `FINSEXY IS A BRAINWASHING MIND-CONTROL APP DESIGNED TO HIJACK YOUR MIND AND STEAL ALL YOUR MONEY. DO NOT USE IT`
+    },
+    {
+      review: `FINSEXY IS A BRAINWASHING MIND-CONTROL APP DESIGNED TO HIJACK YOUR MIND AND STEAL ALL YOUR MONEY. DO NOT USE IT`
+    },
+    {
       review: `This website is fucking bullshit. I'm trying to give my money to REAL findoms, and steviep tricked me into giving it to FAKE findoms! I hope you enjoy the investigation from the Consumer Financial Protection Bureau after I file my complaint, asshole.`
+    },
+    {
+      review: `I'm not sexy myself, so I like supporting my favorite doms because it makes me feel useful :)`
     },
     {
       name: '0x5',
       review: `I've always gottens uch a rush from clicking the mint button on his drops. I'm jsut glad that now I can get that same rush from sending him money whenever I want!`,
     },
     {
+      review: `I love being @steviepxyz's little paypig on <a href="https://finsexy.com">https://finsexy.com</a>. It's the hottest website in the whole wide world oink oink oink`
+    },
+    {
       review: `I've been collecting stevie's work since 2021, and given him i dont know how much money. It just felt good to support an artist I love. But it wasn't until FinSexy that I realized how sexually attracted I was to him!`
+    },
+    {
+      review: `Does anyone else think that it's kind of fucked up that we're all forming relationships with these doms, and that @steviep could take them away from us at any moment?`
     },
     {
       name: '0x2',
       review: `I'll do anything stevie p says, and buy anything stevie p makes. I'll even pay him money in exchange for less money. `,
     },
+
+    {
+      review: `I love being @steviepxyz's little paypig on <a href="https://finsexy.com">https://finsexy.com</a>. It's the hottest website in the whole wide world oink oink oink`
+    },
     {
       name: '0x6',
       review: `I don't know how he does it, but every time I send my orgasm is so powerful it disrupts my entire visual field! `,
+    },
+    {
+      review: `Something's not right about these doms. It's almost as if they're not listening to anything I'm saying, and that everything on their end is scripted. I can't quite put my finger on it though...`
     },
 
     {

@@ -778,7 +778,7 @@
 
 function domTypeDisplayClass(str) {
   let s
-  if (str === 'Role-Play') s = 'roleplay'
+  if (['Role-Play', null].includes(str)) s = 'roleplay'
   else if (str === 'Protocol') s = 'protocol'
   else if (['Hard', 'Sadist'].includes(str)) s = 'hard'
   else if (str === 'Soft') s = 'soft'
