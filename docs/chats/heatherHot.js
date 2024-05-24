@@ -614,7 +614,7 @@ const HeatherHotMessages = {
     messageText: (ur, ctx) => ctx.state.multipleAgeAsk ? `<em>How</em> old?` : 'then how old <em>are</em> you?',
     responseHandler: (ur, ctx) => {
       const [_age] = hasNumber(ur) || []
-
+      ctx.state.ageStop = false
       if (!_age) {
         ctx.state.multipleAgeAsk = true
         return 'ageAsk'
@@ -653,20 +653,19 @@ const HeatherHotMessages = {
       }
     },
     followUp: (ur, ctx) => {
+      console.log('wtfffffffff')
       const age = ctx.state.ageOverride || getUserData('age')
       ctx.state.ageStop = age < 18
       ctx.state.veryOld = age >= 125
 
-      if (ctx.state.ageStop) return
+      if (ctx.state.ageStop) return fu('tooYoungResponse')
       else return { messageCode: 'howMuch', waitMs: 2000 }
     },
-    responseHandler: (ur, ctx) => {
-      const age = ctx.state.ageOverride || getUserData('age')
-      ctx.state.ageStop = age < 18
-      ctx.state.veryOld = age >= 125
+  },
 
-      if (ctx.state.ageStop) return 'tooYoung'
-    }
+  tooYoungResponse: {
+    messageText: '',
+    responseHandler: 'tooYoung'
   },
 
   tooYoung: {

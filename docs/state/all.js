@@ -32,7 +32,7 @@ import {MindyProfile, MindyChat} from '../chats/MindyRouge.js'
 import {XXXProfile} from '../chats/SexyXXXpress.js'
 import {CaglaProfile} from '../chats/cagla.js'
 import {CustomerSupportProfile, CustomerSupportChat} from '../chats/CustomerSupport247.js'
-import {HotlineBabeProfile} from '../chats/HotlineBabe1900.js'
+import {HotlineBabeProfile, HotlineBabeChat} from '../chats/HotlineBabe1900.js'
 import {MoneyMommyProfile} from '../chats/MoneyMommy777.js'
 import {RonaMerchProfile} from '../chats/RonaMerch.js'
 // export * from '../chats/cagla.js'
@@ -40,15 +40,26 @@ import {RonaMerchProfile} from '../chats/RonaMerch.js'
 import {ls} from '../$.js'
 
 import {getUserData } from './profile.js'
-import {sexyCLIT } from './clit.js'
+import {sexyCLIT, clitLS } from './clit.js'
 import {analyticsLS} from './analytics.js'
 import {provider} from '../eth.js'
 
 
-if (!ls.get('__enteredSite')) {
+if (!ls.get('__enteredSite') && window.location.pathname !== '/dev') {
   // TODO ad referer ? param + redirect there
-  window.location.replace('./enter')
+  window.location.replace(`./enter?ref=${encodeURI(window.location.pathname + window.location.search + window.location.hash)}`)
 }
+
+if (clitLS.get('a11y')) {
+  document.body.classList.add('a11ymode')
+}
+
+
+// const $profileModal = $.id('profileModal')
+// if (!ls.get('profileCompleted') && $profileModal) {
+//   console.log($profileModal)
+//   $profileModal.open()
+// }
 
 
 export const ProfileStats = {
@@ -83,15 +94,19 @@ setRunInterval(() => {
   // TODO can optimize this to not run once a second once events are queued
 
   if (ls.get('__enteredSite') && pastProfile) {
-    if (unmessaged(KatChat)) {
-      KatChat.queueEvent('steviep', 300000)
-    }
     if (unmessaged(HHChat)) {
       HHChat.queueEvent('hi', 3000)
     }
 
     const pw = getUserData('password')
     const timeElapsed = Date.now() - analyticsLS.get('firstEntry')
+
+    if (unmessaged(KatChat) && timeElapsed >= 300000) {
+      KatChat.queueEvent('steviep', 1)
+      MessageHandler.visibilityCtx.katFischer = 'online'
+    }
+
+
     if (unmessaged(HackerChat) && pw && timeElapsed >= 1200000) {
       HackerChat.queueEvent('hello', 1)
       MessageHandler.visibilityCtx['0x000000000000000000000000000000000'] = 'offline'
@@ -101,9 +116,13 @@ setRunInterval(() => {
       MindyChat.queueEvent('hello', 1)
       MessageHandler.visibilityCtx.MindyRouge = 'online'
     }
-  }
 
-  // TODO hotline babe
+
+    if (unmessaged(HotlineBabeChat) && timeElapsed >= 3600000) {
+      HotlineBabeChat.queueEvent('hello', 1)
+      MessageHandler.visibilityCtx.HotlineBabe1900 = 'online'
+    }
+  }
 
 
   // ls.set('returnVisit', true)
@@ -141,6 +160,8 @@ export const tributesPromise = new Promise((res, rej) => {
 
 
 
+
+
 provider.onConnect(async (addr) => {
   MessageHandler.visibilityCtx.DungeonMistress = 'online'
   MessageHandler.visibilityCtx.SamanthaJones = 'online'
@@ -148,36 +169,66 @@ provider.onConnect(async (addr) => {
   MessageHandler.visibilityCtx.VinceSlickson = 'online'
   MessageHandler.visibilityCtx.CandyCrush = 'online'
 
+  const samanthaResponded = SamanthaChat.ctx.history.some(m => m.from === 'SamanthaJones' && !m.helpMessage)
+
+  if (!unmessaged(SamanthaChat) && !samanthaResponded) {
+    SamanthaChat.queueEvent('regretToInform', 1)
+  }
+
+
+  const timeElapsed = Date.now() - analyticsLS.get('firstEntry')
 
 
   const allTributes = await tributesPromise
   const tributeCount = Object.values(allTributes).filter(t => !!t).length
 
-  if (tributeCount && unmessaged(VinceChat)) {
-    VinceChat.queueEvent('hello', 1)
-  } else if (tributeCount && unmessaged(SamanthaChat)) {
-    SamanthaChat.queueEvent('regretToInform', 1)
-  } else if (tributeCount && unmessaged(MindyChat)) {
-    MindyChat.queueEvent('hello', 1)
-    MessageHandler.visibilityCtx.MindyRouge = 'online'
+
+
+  // FIRST TRIBUTE: vince || samantha || andy || mindy
+  if (tributeCount === 1 && !ls.get('TRIBUTE_EVENT_1')) {
+    if (unmessaged(VinceChat)) {
+      VinceChat.queueEvent('hello', 1)
+    } else if (!samanthaResponded) {
+      SamanthaChat.queueEvent('regretToInform', 1)
+    } else if (unmessaged(AndyChat)) {
+      AndyChat.queueEvent('reachingOut', 1)
+    } else if (unmessaged(MindyChat)) {
+      MindyChat.queueEvent('hello', 1)
+      MessageHandler.visibilityCtx.MindyRouge = 'online'
+    }
+
+    ls.set('TRIBUTE_EVENT_1', true)
   }
 
-  if (tributeCount >= 2 && unmessaged(AndyChat)) {
-    AndyChat.queueEvent('reachingOut', 1)
-  } else if (tributeCount && unmessaged(MindyChat)) {
-    MindyChat.queueEvent('hello', 1)
-    MessageHandler.visibilityCtx.MindyRouge = 'online'
+  // SECOND DOM TRIBUTE: samantha || andy || mindy
+  if (tributeCount === 2 && !ls.get('TRIBUTE_EVENT_2')) {
+    console.log('tributes2')
+    if (!samanthaResponded) {
+      SamanthaChat.queueEvent('regretToInform', 1)
+    } else if (unmessaged(AndyChat)) {
+      AndyChat.queueEvent('reachingOut', 1)
+    } else if (unmessaged(MindyChat)) {
+      MindyChat.queueEvent('hello', 1)
+      MessageHandler.visibilityCtx.MindyRouge = 'online'
+    }
+    ls.set('TRIBUTE_EVENT_2', true)
+  }
+
+  // THIRD DOM TRIBUTE: andy || mindy
+  if (tributeCount === 3 && !ls.get('TRIBUTE_EVENT_3')) {
+    console.log('tributes3')
+    if (unmessaged(AndyChat)) {
+      AndyChat.queueEvent('reachingOut', 1)
+    } else if (unmessaged(MindyChat)) {
+      MindyChat.queueEvent('hello', 1)
+      MessageHandler.visibilityCtx.MindyRouge = 'online'
+    }
+    ls.set('TRIBUTE_EVENT_3', true)
   }
 
 
 
-
-
-    //
-
-
-
-
+  // VIP PURCHASE: CustomerSupport
   const activeVIP = await sexyCLIT.getActiveVIP()
   if (activeVIP != null) {
     const { SexyVIP } = await provider.sexyContracts()
@@ -194,6 +245,7 @@ provider.onConnect(async (addr) => {
 
 
 
+  // WALLET CLEANSED: Samantha
   if (unmessaged(SamanthaChat)) {
     const interval = setInterval(() => {
       if (unmessaged(SamanthaChat) && MessageHandler.globalCtx.walletCleansed) {

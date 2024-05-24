@@ -231,11 +231,16 @@ TODO
   //   }
   // })
 
+  const u = new URL(window.location)
+  const ref = u.searchParams.get('ref')
+
   $proceedButton.addEventListener('click', () => {
     if ($over18.checked) {
       ls.set('__enteredSite', true)
     }
-    window.location.pathname = './'
+
+    console.log(ref)
+    window.location.href = ref || './'
   })
 
   // mountComponents(

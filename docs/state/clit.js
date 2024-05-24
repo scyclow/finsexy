@@ -560,10 +560,12 @@ export const sexyCLIT = {
           document.body.classList.remove('preOrgasm')
           successCb(tx)
         }
-// TODO: if already messaged vince, have a hidden dom message them instead
+
         if (!VinceChat.ctx.history.length && !VinceChat.ctx.eventQueue.length) {
           VinceChat.queueEvent('hello', 1)
+          ls.set('TRIBUTE_EVENT_1', true)
         }
+
         if (!clitLS.get('devIgnoreWait')) document.documentElement.classList.add('orgasm')
       } catch (e) {
         console.log(e)

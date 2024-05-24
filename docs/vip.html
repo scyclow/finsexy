@@ -391,7 +391,9 @@
 
   <footer style="margin-top: 2em"></footer>
 
-
+  <sexy-modal id="profileModal" blur="true" >
+    <sexy-user-profile slot="content"></sexy-user-profile>
+  </sexy-modal>
 </body>
 
 
@@ -414,6 +416,13 @@
   const $mintButton = $.id('mintButton')
   const $mintError = $.id('mintError')
   const $remaining = $.id('remaining')
+
+
+
+  const $profileModal = $.id('profileModal')
+  if (!ls.get('profileCompleted') && !ls.get('profileDeferred')) {
+    $profileModal.open()
+  }
 
 
 

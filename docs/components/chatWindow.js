@@ -71,20 +71,23 @@ createComponent(
 
       #submit {
         cursor: pointer;
-        background: linear-gradient(0deg, #fff -100%, var(--primary-color) 90%);
+        background: linear-gradient(320deg, var(--light-color) -150%, var(--primary-color) 90%);
         border-width: 0;
         color: var(--light-color);
         font-weight: bold;
         padding: 0 1em;
-        transition: 0.2s;
+        transition: 0.3s;
         font-size: 1em;
-        text-shadow: 0 0 3px var(--dark-color);
+        text-shadow: 1px 1px 1px var(--dark-color);
         user-select: none;
+        letter-spacing: 0.8px;
+
       }
 
       #submit:hover, #submit:active, #submit:focus {
         box-shadow: 0 0 20px var(--primary-color);
         outline: none;
+        filter: saturate(1.2);
       }
       #submit:active, #submit:focus {
         opacity: 0.8;
@@ -118,7 +121,7 @@ createComponent(
 
       .message {
         font-size: ${clitLS.get('a11y') ? '1.3em' : '1em'};
-        padding: 0.5em 1.25em 0.75em;
+        padding: 0.7em 1.45em 0.85em;
         margin-top: 0.75em;
         margin-bottom: 0.25em;
         border-radius: 1em;
@@ -149,12 +152,12 @@ createComponent(
       }
 
       .messageContent {
-        line-height: 1.3;
+        line-height: 1.4;
         padding-bottom: 0.25em;
       }
 
       .from-dom {
-        text-shadow: ${clitLS.get('a11y') ? '1px 2px 0px var(--dark-color)' : '1px 1px 1px var(--dark-color), 1px 1px 2px var(--secondary-color), 0px 0px 15px var(--secondary-color)'};
+        text-shadow: ${clitLS.get('a11y') ? '1px 2px 0px var(--dark-color)' : '1px 1px 0px var(--dark-color), 1px 1px 2px var(--secondary-color)'};
       }
 
       .message:last-child {

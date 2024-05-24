@@ -268,12 +268,11 @@
         </pre>
       </code>
     </aside>
-
-
-
   </main>
 
-
+  <sexy-modal id="profileModal" blur="true" >
+    <sexy-user-profile slot="content"></sexy-user-profile>
+  </sexy-modal>
 
 </body>
 
@@ -295,6 +294,12 @@
   const $clearChat = $.id('clearChat')
   const $main = $.id('main')
   const $closeDev = $.id('closeDev')
+
+
+  const $profileModal = $.id('profileModal')
+  if (!ls.get('profileCompleted') && !ls.get('profileDeferred')) {
+    $profileModal.open()
+  }
 
 
   $clearChat.onclick = clearChat

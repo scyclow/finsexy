@@ -303,6 +303,8 @@
       __CHAT_CONTEXT: ls.get('__CHAT_CONTEXT'),
       __PROFILE_DATA_DEFAULT: ls.get('__PROFILE_DATA_DEFAULT'),
       __CHAT_GLOBAL_CONTEXT: ls.get('__CHAT_GLOBAL_CONTEXT'),
+      __ANALYTICS_STATE: ls.get('__ANALYTICS_STATE'),
+      __TAB_ACTIVITY: ls.get('__TAB_ACTIVITY'),
       __enteredSite: ls.get('__enteredSite'),
     }
     const strState = encodeURI(JSON.stringify(jsonState))
@@ -335,6 +337,8 @@
       ls.set('__CLIT_STATE', JSON.stringify(state.__CLIT_STATE))
       ls.set('__PROFILE_DATA_DEFAULT', JSON.stringify(state.__PROFILE_DATA_DEFAULT))
       ls.set('__CHAT_GLOBAL_CONTEXT', JSON.stringify(state.__CHAT_GLOBAL_CONTEXT))
+      ls.set('__ANALYTICS_STATE', JSON.stringify(state.__ANALYTICS_STATE))
+      ls.set('__TAB_ACTIVITY', JSON.stringify(state.__TAB_ACTIVITY))
       ls.set('__enteredSite', JSON.stringify(state.__enteredSite))
 
     } catch (e) {
@@ -351,6 +355,8 @@
     $.id('info').innerHTML = `
       <code class="data">Network: ${network.name} - ${network.chainId}</code>
       <code class="data">Connected as: ${addr}</code>
+      <code><pre>${JSON.stringify(ls.get('__ANALYTICS_STATE', null, 2))}</pre></code>
+      <code><pre>${JSON.stringify(ls.get('__TAB_ACTIVITY', null, 2))}</pre></code>
     `
 
   })

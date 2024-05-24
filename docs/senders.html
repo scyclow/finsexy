@@ -209,7 +209,9 @@
 
   </main>
 
-
+  <sexy-modal id="profileModal" blur="true" >
+    <sexy-user-profile slot="content"></sexy-user-profile>
+  </sexy-modal>
 </body>
 
 
@@ -220,7 +222,10 @@
   import {$, ls} from './$.js'
   import {provider, fromWei} from './eth.js'
 
-
+  const $profileModal = $.id('profileModal')
+  if (!ls.get('profileCompleted') && !ls.get('profileDeferred')) {
+    $profileModal.open()
+  }
 
 
   provider.onConnect(async (addr) => {
@@ -231,10 +236,11 @@
     const receivers = {}
 
     for (let dom of Object.keys(contracts)) {
+      console.log(await provider.contractEvents(contracts[dom], 'Send', []))
       const contract = contracts[dom]
       const sendFilter = contract.filters.Send()
       const sendEvents = await contract.queryFilter(sendFilter)
-      console.log(sendEvents.map(e => JSON.parse(JSON.stringify(e))))
+
 
 
       for (let send of sendEvents) {
@@ -245,7 +251,6 @@
       }
     }
 
-console.log(fromWei(await contracts.heatherHot.tributes(addr)))
 
 
     $.id('senderAddrs').innerHTML = Object.keys(senders).map(s => `

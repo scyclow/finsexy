@@ -192,7 +192,7 @@ createComponent(
       padding: 0.75em;
       display: inline-block;
       font-size: 1.8em;
-      transform: translate(7%, -65%);
+      transform: translate(-7%, -65%);
       transition: 0.15s;
     }
 
@@ -332,7 +332,7 @@ createComponent(
 
   <main>
   <div style="height: 0; width: 0; float: right">
-    <span id="xClose">X</span>
+    <span id="xClose">✕</span>
   </div>
 
     <h1 id="headerText">Welcome to FinSexy</h1>

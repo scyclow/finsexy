@@ -227,6 +227,7 @@ export class Web3Provider {
       const c = (new ethers.Contract(contractAddr, abi, this.provider)).connect(this.signer)
       return {
         ...c,
+        queryFilter: async (...args) => new ethers.Contract(contractAddr, abi, this.provider).queryFilter(...args),
         async tributes(addr) {
           const t = await c.tributes(addr)
 

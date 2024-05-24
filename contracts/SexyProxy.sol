@@ -150,15 +150,6 @@ contract FinDomBase is ERC721, FinDomTribute {
     totalSupply++;
   }
 
-  // function creditTribute(address recipient, uint256 amount) external {
-  //   require(router.vip() == msg.sender, 'Only VIP contract can credit tributes');
-  //   _receive(recipient, amount);
-  // }
-
-  // receive() external payable {
-  //   _receive(msg.sender, msg.value / router.premium(msg.sender));
-  // }
-
   function _receive(address sender, uint256 value) internal override {
     emit Send(sender, value);
     tributes[sender] += value;

@@ -678,7 +678,9 @@ TODO
     </section>
   </main>
 
-
+  <sexy-modal id="profileModal" blur="true" >
+    <sexy-user-profile slot="content"></sexy-user-profile>
+  </sexy-modal>
 </body>
 
 
@@ -696,9 +698,10 @@ TODO
 
 
 
-  // if (!ls.get('__enteredSite')) {
-  //   window.location.replace('./enter.html')
-  // }
+  const $profileModal = $.id('profileModal')
+  if (!ls.get('profileCompleted') && !ls.get('profileDeferred')) {
+    $profileModal.open()
+  }
 
 
   const fields = [
@@ -905,7 +908,11 @@ TODO
     if ($a11yVoices.checked) {
       saveColor('primary', '#ff00c7')
       const v = (await voices)[0]
+      document.body.classList.add('a11ymode')
       if (v) say(v, 'A11Y Mode Activated')
+    } else {
+      document.body.classList.remove('a11ymode')
+
     }
   }
 

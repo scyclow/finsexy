@@ -82,7 +82,7 @@ const CandyCrushMessages = {
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {
-    if (!provider.isWeb3()) {
+    if (!provider.isWeb3() || !ctx.global.isConnected) {
       return {
         messageText: `This FinDom is offline`,
         responseHandler: (ur, ctx) => ctx.lastDomCodeSent,

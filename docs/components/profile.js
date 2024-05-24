@@ -308,6 +308,8 @@ createComponent(
 
       #sendButton {
         background: var(--dark-green-color);
+        background: linear-gradient(45deg, var(--dark-green-color), var(--green-color) 90%);
+
         color: var(--light-color);
       }
 
@@ -317,6 +319,7 @@ createComponent(
         text-shadow: 0px 0px 1px var(--bg-color), 0px 0px 4px var(--secondary-color);
         border-color: var(--orange-color);
 
+        filter: saturate(0.9)
       }
 
       #sendError {
@@ -391,7 +394,7 @@ createComponent(
 
       #sendButton:hover, #sendButton:active, #sendButton:focus {
         outline: none;
-        background: var(--mint-color);
+        filter: saturate(1.5);
       }
 
       #creditSendButton:hover, #creditSendButton:active, #creditSendButton:focus {
@@ -822,7 +825,9 @@ createComponent(
           </section>
         </section>
 
-
+        <sexy-modal id="profileModal" blur="true" >
+          <sexy-user-profile slot="content"></sexy-user-profile>
+        </sexy-modal>
       </main>
     </article>
   `,
@@ -849,7 +854,17 @@ createComponent(
     ctx.$creditSendButton = ctx.$('#creditSendButton')
     ctx.$creditSendInput = ctx.$('#creditSendInput')
 
-    if (ctx.getAttribute('sideWindow')) ctx.parent.classList.add('sideWindow')
+    if (ctx.getAttribute('sideWindow')) {
+      ctx.parent.classList.add('sideWindow')
+    } else {
+      setTimeout(() => {
+        const $profileModal = ctx.$('#profileModal')
+        if (!ls.get('profileCompleted') && !ls.get('profileDeferred')) {
+          $profileModal.open()
+        }
+      }, 10)
+    }
+
 
 
 
@@ -867,6 +882,14 @@ createComponent(
     `
 
     ctx.$chat.href = `../chat?activeChat=${name}`
+
+
+    if (maxPhotos < 2) {
+      ctx.$('#imgLeft').classList.add('hidden')
+      ctx.$('#imgRight').classList.add('hidden')
+      ctx.$('#imgLeft2').classList.add('hidden')
+      ctx.$('#imgRight2').classList.add('hidden')
+    }
 
 
     if (MessageHandler.visibilityCtx[name] === 'online') {

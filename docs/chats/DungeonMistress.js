@@ -201,7 +201,7 @@ export const MistressProfile = {
 
 
 
-const drinksWords = ['drink', 'beer', 'ale', 'wine', 'cider', 'order', 'drinks', 'buy']
+const drinksWords = ['drink', 'beer', 'ale', 'wine', 'cider', 'order', 'drinks', 'buy', 'beers', 'cocktail', 'whisky', 'bourbon', 'martini', ]
 function bartenderActions(defaultAction) {
   return (ur, ctx, contract, provider) => {
     ctx.state.visitedBartender = true
@@ -1278,9 +1278,9 @@ const retreatPhrases = ['turn around', 'stand up', 'retreat', 'back', 'exit', 'c
 
 
 function tavernActions(ur, ctx, contract, provider) {
-  if (isMatch(ur, ['bar', 'bartender', 'stein', 'counter', 'left', '1', 'order', 'beer', 'wine', 'cider'])) {
+  if (isMatch(ur, ['bar', 'bartender', 'stein', 'counter', 'left', '1', 'order', 'beer', 'wine', 'cider', 'beers', 'cocktail'])) {
     return 'bartender'
-  } else if (isMatch(ur, ['harlot', 'harlots', 'prostitutes', 'cackle', 'cackling', 'women', 'wine', 'right', 'two', '2', 'girls'])) {
+  } else if (isMatch(ur, ['harlot', 'harlots', 'prostitutes', 'cackle', 'cackling', 'women', 'right', 'two', '2', 'girls'])) {
     return 'harlots'
   } else if (isMatch(ur, ['men', 'poker', 'players', 'corner', 'silent', 'fellows', 'gamblers', '3', 'third'])) {
     return 'poker'

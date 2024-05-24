@@ -190,9 +190,9 @@ const SamanthaMessages = {
 
 
 
-  __precheck(userResponse, ctx) {
+  __precheck(userResponse, ctx, contract, provider) {
 
-    if (!provider.isWeb3()) {
+    if (!provider.isWeb3() || !ctx.global.isConnected) {
       return {
         messageText: `This FinDom is offline`,
         responseHandler: (ur, ctx) => ctx.lastDomCodeSent,

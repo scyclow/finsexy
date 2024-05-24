@@ -518,6 +518,8 @@ describe('FinSexy', () => {
         await SexyVIP.connect(artist).setMinter(zeroAddr)
         expect(await SexyVIP.connect(artist).minter()).to.equal(zeroAddr)
       })
+
+      // TODO: test setMintThreshold
     })
 
     describe('using credits', async () => {

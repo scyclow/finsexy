@@ -30,6 +30,10 @@
   --yellow-color: #f3ba00;
 
   --orange-color: color-mix(in srgb, var(--yellow-color) 60%, var(--red-color));
+  /*--light-blue-color: #0073ff;*/
+
+
+
 
   /*--purple-color: #49155b;*/
 
@@ -64,6 +68,11 @@ html {
 body {
   background: var(--bg-color);
   color: var(--light-color);
+}
+
+.a11ymode {
+  font-size: 1.2em;
+  filter: contrast(1.1);
 }
 
 .center {
