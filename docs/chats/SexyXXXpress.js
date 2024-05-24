@@ -44,6 +44,9 @@ export const XXXProfile = {
       review: `FINSEXY IS A BRAINWASHING MIND-CONTROL APP DESIGNED TO HIJACK YOUR MIND AND STEAL ALL YOUR MONEY. DO NOT USE IT`
     },
     {
+      review: `I just sent SexyXXXpress 0.069 ETH!`
+    },
+    {
       review: `i'm sick of my findom addiction. this isn't making me happy any more`
     },
     {

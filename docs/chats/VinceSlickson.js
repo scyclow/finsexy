@@ -97,6 +97,9 @@ export const VinceProfile = {
       review: `<a href="https://fastcashmoneyplus.biz/?ref=cleanBANG_FREEDOMQmwli0h5PhFDrSf" target="_blank">I never knew I could make this much! http://fastcashmoneyplus.biz/?ref=euphoricREVOLUTION_PLUSIMOSNhU3KLGLn COPY </a>`
     },
     {
+      review: `I just sent VinceSlickson 0.069 ETH!`
+    },
+    {
       review: `call me crazy, but i just don't get off on making money any more. i've been in crypto for years, and I guess all the volatile ups and downs just desensitized me or something. to get off i need a little something extra. that's why when vince put me into one of his 'investment producs' i busted my nut so goddamn hard. it was exactly what i needed`
     },
     {

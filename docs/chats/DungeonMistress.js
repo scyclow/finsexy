@@ -179,7 +179,7 @@ export const MistressProfile = {
       review: `I've tried to get into dungeon-themed kink-events in my city, but they don't let in many single men -- even the more inclusive ones! And I'm not attractive enough to find my own partners, nor can I afford the equipment. At least I can pay for it on FinSexy at reasonable prices!`
     },
     {
-      review: `I just send DungeonMistress 0.069 ETH!`
+      review: `I just sent DungeonMistress 0.069 ETH!`
     },
     {
       review: `It's unfair that society puts the "dominant man" role on me. I don't want to be dominant! I just want a sexy woman to boss me around. Is that too much to ask??`

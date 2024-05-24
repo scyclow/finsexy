@@ -85,6 +85,20 @@ createComponent(
         display: inline-block;
       }
 
+      #sponsor {
+        display: flex;
+        justify-content: center
+      }
+      #sponsor > * {
+        text-shadow: 0 0 5px var(--medium-color);
+        background: var(--gray-color);
+        display: inline-block;
+        padding: 0.25em;
+        margin-bottom: 0.25em;
+        border: 1px dotted var(--light-color);
+        border-radius: 3px;
+      }
+
       h1 {
         font-family: var(--fancy-font);
         line-height: 1.1;
@@ -191,6 +205,7 @@ createComponent(
       }
 
       #photos {
+        width: 100%;
         border: 1px solid var(--border-color);
         box-shadow: 0 0 10px var(--gloss-color);
         transition: 300ms;
@@ -869,12 +884,13 @@ createComponent(
 
 
     const name = ctx.getAttribute('name')
-    const {age, distance, gender, maxPhotos, description, testimonials, domType} = ProfileStats[name]
+    const {age, distance, gender, maxPhotos, description, testimonials, domType, sponsor} = ProfileStats[name]
 
     ctx.$description.innerHTML = `<span class="quote">“</span>${description}<span class="quote">”</span>`
     ctx.$name.innerHTML = name
 
     ctx.$info.innerHTML = `
+      ${sponsor ? `<div id="sponsor"> <div>Sexy Sponsor!</div> </div>`: ''}
       <div>Age: ${age}</div>
       ${defaultProfileLS.get('location') ? `<div>${distance} miles away!</div>` : ''}
       <div>Gender: ${gender}</div>

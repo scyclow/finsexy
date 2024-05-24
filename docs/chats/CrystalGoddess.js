@@ -122,7 +122,7 @@ export const CrystalGoddessProfile = {
   description: `Bow down to Crystal Goddess. Atone for your monetary sins and seek enlightenment`,
   testimonials: [
     {
-      review: `I just send CrystalGoddess 0.069 ETH!`
+      review: `I just sent CrystalGoddess 0.069 ETH!`
     },
     {
       name: '0x1',

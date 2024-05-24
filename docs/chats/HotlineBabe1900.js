@@ -29,7 +29,7 @@ export const HotlineBabeProfile = {
       review: `i like glory hole 🥵`
     },
     {
-      review: `I just send HotlineBabe1900 0.069 ETH!`
+      review: `I just sent HotlineBabe1900 0.069 ETH!`
     },
   ]
 }

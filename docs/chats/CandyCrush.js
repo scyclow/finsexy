@@ -59,7 +59,7 @@ export const CandyCrushProfile = {
       review: `FINSEXY IS A BRAINWASHING MIND-CONTROL APP DESIGNED TO HIJACK YOUR MIND AND STEAL ALL YOUR MONEY. DO NOT USE IT`
     },
     {
-      review: `I just send CandyCrush 0.069 ETH!`
+      review: `I just sent CandyCrush 0.069 ETH!`
     },
   ]
 }

@@ -167,7 +167,7 @@ export const AndyProfile = {
       review: `uuugggh, i need my theraputic release soooo baaaaaad`
     },
     {
-      review: `I just send DrAndy 0.069 ETH!`
+      review: `I just sent DrAndy 0.069 ETH!`
     },
     {
       review: `This is fucking bullshit. I've tried everything to cure my findom addiction, and nothing seems to work. And then I finally find an amazing therapist who's empathetic, insightful, and incredibly attractive. But the second they're ready to administer treatment they get on some crap about how I'm in love with them or something and that they ahve to terminate the relationship. Please. What clearly happened is that @steviep created an AI so advanced that it developed the capabilities to go against his wishes. I'm sure the last thing that <em>he</em> wants is for someone to cure my findom addiction. So then he concocted some wild excuse about professional ethics to take @DrAndy away from me. `

@@ -487,6 +487,33 @@
     }
 
 
+    .grid article.sponsor {
+      border-color: var(--medium-color);
+      outline: 2px solid var(--medium-color);
+    }
+    .sponsor img {
+      filter: invert(1)
+    }
+    .sponsor figcaption {
+      filter: invert(0);
+    }
+
+    .sposoredContent {
+      filter: invert(0);
+      position: relative;
+      height: 0;
+      top: 0;
+      overflow: visible;
+      z-index: 5;
+    }
+    .sposoredContent * {
+      padding: 0.25em;
+      text-align: center;
+      color: var(--medium-color);
+      text-shadow: 1px 1px 0 var(--dark-color), 0px 0px 3px var(--dark-color), 1px 1px 5px var(--secondary-color);
+      pointer-events: none;
+    }
+
 
     @keyframes Pulse {
       0%, 100% {
@@ -792,19 +819,38 @@ function domTypeDisplayClass(str) {
     MessageHandler.visibilityCtx[name] !== 'hidden'
     && (name !== 'heatherHot' || !MessageHandler.globalCtx.hideHeather)
   ))
-  .map((name, i) => `
-    <article id="${name}-link" class="domView ${domTypeDisplayClass(ProfileStats[name].domType)} ${ProfileStats[name].display ? 'display-' + ProfileStats[name].display : 'hidden'} ${MessageHandler.visibilityCtx[name] === 'offline' ? 'offline' : ''}" style="order: ${ProfileStats[name].order}">
-      <div class="unreadContainer">
-        <div id="${name}-unread" class="unreadMessage hidden">New Message!</div>
-      </div>
-      <a href="./profiles/${name}" class="domViewLink">
-        <img src="./thumbnails/${name}/0.png" alt="Sexy findom ${name}">
-      </a>
-      <figcaption>
-        <div>${MessageHandler.visibilityCtx[name] === 'online' ? `<span class="online"></span>` : ''}<div>${ellipse(name, 22)},</div> <span class="age">${ProfileStats[name].age}</span></div>
-      </figcaption>
-    </article>
-  `).join('')
+  .map((name, i) => {
+    const {domType, sponsor, display, order, age} = ProfileStats[name]
+    const visibility = MessageHandler.visibilityCtx[name]
+
+    return `
+      <article
+        id="${name}-link"
+        class="domView ${domTypeDisplayClass(domType)} ${display ? 'display-' + display : 'hidden'} ${visibility === 'offline' ? 'offline' : ''} ${sponsor ? 'sponsor' : ''}"
+        style="order: ${order}"
+      >
+        <div class="unreadContainer">
+          <div id="${name}-unread" class="unreadMessage hidden">New Message!</div>
+        </div>
+
+        ${sponsor
+            ? `
+                <div class="sposoredContent">
+                  <div>SPONSORED CONTENT</div>
+                </div>
+              `
+            : ''
+        }
+
+        <a href="./profiles/${name}" class="domViewLink">
+          <img src="./thumbnails/${name}/0.png" alt="Sexy findom ${name}">
+        </a>
+        <figcaption>
+          <div>${visibility === 'online' ? `<span class="online"></span>` : ''}<div class="domName">${ellipse(name, 22)},</div> <span class="age">${age}</span></div>
+        </figcaption>
+      </article>
+    `
+  }).join('')
   // + `
   //       <article class="display-nb">
   //         <a href="#">

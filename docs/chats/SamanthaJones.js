@@ -74,7 +74,7 @@ export const SamanthaProfile = {
       review: `I'm an absolute mess when it comes to managing my finances. Even thinking about doing my taxes fills me with a deep existential dread. There's something appealing about giving up total control of my balance sheet to her`,
     },
     {
-      review: `I just send SamanthaJones 0.069 ETH!`
+      review: `I just sent SamanthaJones 0.069 ETH!`
     },
     {
       name: '0x2',

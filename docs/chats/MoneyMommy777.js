@@ -60,7 +60,7 @@ export const MoneyMommyProfile = {
       review: `Don't let anyone tell you any different: FinDom is a form of spicy work. It doesn't matter if you keep your clothes on: telling people to give you money is an inherently sexual act`
     },
     {
-      review: `I just send MoneyMommy777 0.069 ETH!`
+      review: `I just sent MoneyMommy777 0.069 ETH!`
     },
     {
       review: `I get so fucking mad when I see other paypigs sending more ETH than me. It's like they're trying to flex on me or something!`

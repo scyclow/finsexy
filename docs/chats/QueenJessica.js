@@ -173,7 +173,7 @@ export const QueenProfile = {
       review: 'Fuck <em>YOU</em>'
     },
     {
-      review: `I just send QueenJessica 0.069 ETH!`
+      review: `I just sent QueenJessica 0.069 ETH!`
     },
     {
       review: 'i want my wallet to be absolutely anihilated. ripped to shreds'

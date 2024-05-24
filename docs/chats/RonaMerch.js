@@ -13,6 +13,7 @@ const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 export const RonaMerchProfile = {
   name: 'RonaMerch',
+  sponsor: true,
   startingVisibility: 'online',
   domType: 'Service',
   order: 12,
@@ -37,7 +38,10 @@ export const RonaMerchProfile = {
       review: `Such high quality. Great prices, too!`
     },
     {
-      review: `I just send RonaMerch 0.069 ETH!`
+      review: `The shipping on my facemask absolutely destroyed my wallet 🥵`
+    },
+    {
+      review: `I just sent RonaMerch 0.069 ETH!`
     },
   ]
 }
@@ -71,7 +75,7 @@ const RonaMerchMessages = {
   },
 
   hello: {
-    messageText: 'TODO',
+    messageText: `Hello! If you're looking for the hottest merch deals then you've come to the right place! RonaMerch.co has been voted the top web e-store by <a href="http://fakebullshit.news/articles/small-business-thrives" target="_blank">multiple news outlets</a> several years running! Head on over to <a href="http://ronamerch.co" target="_blank">ronamerch.co</a> for all the hottest deals today!`,
     responseHandler: (ur) => {},
 
   },
