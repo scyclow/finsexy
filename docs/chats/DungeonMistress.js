@@ -1070,7 +1070,7 @@ const MistressMessages = {
   ...diatribe('exitTavernBlocked', [
     `You try to pass the table of poker players, but the dealer interjects.`,
     (ur, ctx) => `"Oh, I don't think so, ${genderSwitch({m: 'buddy', f: 'sweetheart', nb: 'buddy'})}. You're not going anywhere${ctx.state.visitedPokerPlayers ? ' until I get that beer' : ''}."`,
-    (ur, ctx) => ctx.state.visitedPokerPlayers && ctx.state.beerInventory ? `His preoccupation with the poker game distracts him from the beer in your hand.` : ''
+    (ur, ctx) => ctx.state.visitedPokerPlayers && ctx.state.beerInventory ? `His preoccupation with the poker game distracts him from the beer in your hand.` : '',
     `You back away slowly, fearing physical harm.`
   ], {
     followUp: fu('tavernDeliberate')

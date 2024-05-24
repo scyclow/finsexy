@@ -244,7 +244,7 @@ const StevieMessages = {
 
   ...diatribe('prettyGreat', [
     `I know, it's pretty great, isn't it?`,
-    `some of my best work, if I do say so myself.`,
+    `some of my best work, if I do say so myself`,
     `I constantly have my ear to the ground for new business opportunities, so when I stumbled upon the FinDom industry I knew that there was something here`,
     `I saw findoms making absolute bank extracting money from their subs, and I thought, "man, I could totally do that!"`,
     `but then I realized: "wait a second... I'm already doing that!"`,
