@@ -394,7 +394,7 @@ describe('FinSexy', () => {
   // TODO findom token uri tests
 
 
-  describe.only('premiums', () => {
+  describe('premiums', () => {
     it('should adjust tribute amounts', async () => {
       await SexyMinter.connect(paypig).mint('paypigie123', false, txValue(0.1))
       await SexyMinter.connect(paypig2).mint('paypigie123', false, txValue(0.1))

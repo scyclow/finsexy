@@ -355,15 +355,7 @@ const HeatherHotMessages = {
       }
     },
     responseHandler: async (ur, ctx, contract, provider) => {
-      console.log(!provider.isWeb3())
-      if (!provider.isWeb3()) {
-        return 'noWeb3'
-
-      } else if (isMatch(ur, ['suck', 'dry', `lets go`, 'lets do it', 'ready', 'cherry', 'cum', 'orgasm', 'send'])) {
-        ctx.state.askingQuestions = false
-        return ctx.global.isConnected ? 'getStarted' : 'waitForConnect'
-
-      } else if (
+      if (
         isMatch(ur, ['finsexy', 'more', 'question', 'tell me', 'info', 'help', 'ok', 'okay', 'k', 'yes', 'yeah'])
       ) {
         ctx.state.askingQuestions = true
@@ -385,7 +377,15 @@ const HeatherHotMessages = {
           return 'moreInfo5'
         }
 
-      } else {
+      } else if (!provider.isWeb3()) {
+        return 'noWeb3'
+
+      // } else if (isMatch(ur, ['suck', 'dry', `lets go`, 'lets do it', 'ready', 'cherry', 'cum', 'orgasm', 'send'])) {
+      //   ctx.state.askingQuestions = false
+      //   return ctx.global.isConnected ? 'getStarted' : 'waitForConnect'
+
+      } else  {
+        ctx.state.askingQuestions = false
         return ctx.global.isConnected ? 'getStarted' : 'waitForConnect'
       }
     }

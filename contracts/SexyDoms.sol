@@ -22,7 +22,7 @@ contract SexyDeployer {
   FinDomBase public baseContract;
 
   constructor(address router) {
-    baseContract = new FinDomBase();
+    baseContract = new FinDomBase(msg.sender, router);
     address baseAddr = address(baseContract);
 
     // TODO nft collection names

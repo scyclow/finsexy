@@ -154,7 +154,7 @@ createComponent(
       }
 
       .from-dom {
-        text-shadow: ${clitLS.get('a11y') ? '1px 2px 0px var(--dark-color)' : '1px 1px 0px var(--dark-color), 1px 1px 2px var(--secondary-color)'};
+        text-shadow: ${clitLS.get('a11y') ? '1px 2px 0px var(--dark-color)' : '1px 1px 1px var(--dark-color), 1px 1px 2px var(--secondary-color), 0px 0px 15px var(--secondary-color)'};
       }
 
       .message:last-child {

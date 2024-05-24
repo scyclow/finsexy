@@ -378,7 +378,7 @@ const BartenderNodes = {
     `You catch the bartender briefly locking eyes with one of the harlots. She nods.`,
     `"Alright, get back here"`,
     `You walk around to the other side of the bar and drop to you knees. The bartender throws his apron over your head and caresses the back of your skull.`,
-    `You slowly unbuckle the bartender's belt, pull his pants down past knees, and come face-to-face with a partially erect member nestled in an overgrowth of pubic hair. The hair on the back of your neck stands up in excitement as the aroma of stale urine fills your nostrils.`,
+    `You slowly unbuckle the bartender's belt, pull his pants down past his knees, and come face-to-face with a partially erect member nestled in an overgrowth of pubic hair. The hair on the back of your neck stands up in excitement as the aroma of stale urine fills your nostrils.`,
     `You close your eyes and get to work.`,
     `The second you put your lips around the bartender's penis he pulls your head closer. You feel the head of his cock poke the back or your throat, causing you to gag.`,
     () => `Each bob of your head sends a surge of euphoria down your spine, reminding you that you've been a bad little ${genderSwitch({m: 'boy', f: 'girl', nb: 'debtor'})}, owing money all over town. Nothing turns you on more than taking punishment for your debts.`,
@@ -393,7 +393,7 @@ const BartenderNodes = {
 
       return fu('blowjobEnd')
     }
-  }, 1500, true),
+  }),
 
   blowjobEnd: {
     messageText: `You stand there awkwardly, unsure what to do. Perhaps order a beer?`,
@@ -411,11 +411,12 @@ const HarlotsNodes = {
     followUp: (ur, ctx) => {
       ctx.state.harlotState = ctx.state.harlotState || 'fresh'
 
-      if (ctx.state.beerInventory) ctx.state.harlotState = 'drink'
+      if (ctx.state.beerInventory && ctx.state.harlotState === 'rebuff') ctx.state.harlotState = 'drink'
+
 
       if (ctx.state.harlotState === 'fresh') {
         ctx.state.harlotState = 'rebuff'
-        return fu('harlotsFresh')
+        return ctx.state.beerInventory ? fu('harlotsFreshDrink') : fu('harlotsFresh')
       } else if (ctx.state.harlotState === 'rebuff') {
         return fu('harlotsRebuffed')
       } else if (ctx.state.harlotState === 'finished') {
@@ -458,6 +459,15 @@ const HarlotsNodes = {
       } else {
         return 'harlotsBored'
       }
+    }
+  },
+
+  harlotsFreshDrink: {
+    messageText: () => `"I didn't think you'd have the gall to show your face here, ${getUserData('name')}. Not considering how much you owe us..."`,
+    followUp: (ur, ctx) => {
+      ctx.state.harlotState = 'friendly'
+      ctx.state.beerInventory -= 1
+      return fu('harlotsDrink')
     }
   },
 
@@ -606,7 +616,7 @@ const MerchantNodes = {
     `"Do you have <em>any</em> idea how much money you owe me? I hope not, because you continue to gamble and galavant around town with prostitutes. Clearly all of the credit I've extended to you and your family has been squandered on hedonistic pursuits. And I suspect your wife knows nothing of it. You should be ashamed of yourself. You're just a filthy debtor!"`,
   ], {
     responseHandler: 'marketFreshContinued'
-  }, 1500, true),
+  }),
 
   ...diatribe('marketFreshContinued', [
     `The merchant cuts you off: "I don't want to hear it. I've heard your lies before. You won't deceive me again, I'll make sure of it!"`,
@@ -618,7 +628,7 @@ const MerchantNodes = {
       if (isYes(ur) || isMatch(ur, ['follow', 'enter'])) return 'marketInside'
       else return 'townSquareDeliberate'
     }
-  }, 1500, true),
+  }),
 
 
   marketCompleted: {
@@ -651,7 +661,7 @@ const MerchantNodes = {
       else if (isMatch(ur, ['leave', 'outside', 'escape', 'try my luck', 'exit', 'square', 'run away', 'out of there'])) return 'tryLuckOutside'
       else return 'goldenShowerPending'
     }
-  }, 1500, true),
+  }),
 
   goldenShowerPending: {
     messageText: `"I didn't quite catch that. Are you going to play with my beautiful wife, or try your luck outside?"`,
@@ -681,7 +691,7 @@ const MerchantNodes = {
         return 'walkBackToTownAlt'
       }
     }
-  }, 1500, true),
+  }),
 
 
   ...diatribe('walkBackToTown', [
@@ -692,7 +702,7 @@ const MerchantNodes = {
     `Passerbys murmur, and you increase your pace. But off in the distance you see me galloping towards you.`
   ], {
     followUp: fu('fightOrFlight')
-  }, 1500, true),
+  }),
 
   ...diatribe('walkBackToTownAlt', [
     `You begin walking back to town, but your stench draws the attention of everyone you pass.`,
@@ -762,7 +772,7 @@ const HorseWomanNodes = {
     `"If I were ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}, I would seek refuge in the market, or perhaps even the Dark Forest. Otherwise, there's no telling what brutal punishment awaits ${genderSwitch({m: 'him', f: 'her', nb: 'them'})} when I catch ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}. One thing is for certain though: ${genderSwitch({m: 'he', f: 'she', nb: 'they'})} will surely lose all freedom to roam around town once I find ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}."`,
   ], {
     followUp: fu('horseWomanConfessMaybe')
-  }, 1500, true),
+  }),
 
   horseWomanConfessMaybe: {
     messageText: `Do you confess, or do you scurry away in fear?`,
@@ -969,7 +979,7 @@ const MistressMessages = {
   poker: {
     messageText: '',
     followUp: (ur, ctx) => {
-      if (!ctx.state.pokerPlayerGoodSide && ctx.state.beerInventory >= 1) return fu('pokerBeer')
+      if (!ctx.state.pokerPlayerGoodSide && ctx.state.beerInventory >= 1 && ctx.state.visitedPokerPlayers) return fu('pokerBeer')
       if (ctx.state.hasKey && ctx.state.visitedPokerPlayers) return fu('pokerIgnore')
       if (ctx.state.visitedPokerPlayers) return fu('pokerVisited')
 
@@ -989,11 +999,29 @@ const MistressMessages = {
     `They laugh some more at your expense. But the dealer stops and looks you dead in the eye.`,
     `"Seriously though, I have half a mind to bend you over my knee and beat your ass until you cough up that money. Or even worse, maybe I'll <em>escalate</em> my complaint."`,
     `You gulp. With the other players, the bartender, and the harlots now looking on, you feel a deep humiliation. Your heart skips a beat and blood rushes to your loins.`,
+  ], {
+    followUp: (ur, ctx) => ctx.state.beerInventory ? fu('pokerFreshBeer') : fu('pokerFreshContinue')
+  }),
+
+
+  ...diatribe('pokerFreshContinue', [
     `"But I tell you what. You buy me a beer and maybe we just forget the whole thing."`,
     `The dealer sizes you up once more, and turns back around to resume his game. You decide not to try your luck.`
   ], {
     followUp: fu('tavernDeliberate')
-  }, 1500, true),
+  }),
+
+
+
+  ...diatribe('pokerFreshBeer', [
+    `"But I tell you what. I'm a little parched, so why don't I take that beer off your hands and we forget the whole thing."`,
+    `The dealer snatches your beer and downs the entire glass in a few gulps. He hands the empty glass back to you.`,
+    (ur, ctx) => `<em>(You now have ${ctx.state.beerInventory-1} Beer${(ctx.state.beerInventory-1) === 1 ? '' : 's'} in your inventory)</em>`
+  ], {
+    followUp: (ur, ctx) => {
+      return fu('tavernDeliberate')
+    }
+  }),
 
 
   ...diatribe('pokerBeer', [
@@ -1042,6 +1070,7 @@ const MistressMessages = {
   ...diatribe('exitTavernBlocked', [
     `You try to pass the table of poker players, but the dealer interjects.`,
     (ur, ctx) => `"Oh, I don't think so, ${genderSwitch({m: 'buddy', f: 'sweetheart', nb: 'buddy'})}. You're not going anywhere${ctx.state.visitedPokerPlayers ? ' until I get that beer' : ''}."`,
+    (ur, ctx) => ctx.state.visitedPokerPlayers && ctx.state.beerInventory ? `His preoccupation with the poker game distracts him from the beer in your hand.` : ''
     `You back away slowly, fearing physical harm.`
   ], {
     followUp: fu('tavernDeliberate')
@@ -1067,7 +1096,7 @@ const MistressMessages = {
     `A faint drip echoes throughout the room. Your head aches.`
   ], {
     followUp: fu('dungeonDecision')
-  }, 1500, true),
+  }),
 
   dungeonDecision: {
     messageText: `Do you talk to the old man? Or do you sit in silence?`,
@@ -1123,7 +1152,7 @@ const MistressMessages = {
     `Do you help the old man? Or remain silent?`
   ], {
     responseHandler: 'cellPurgatory'
-  }, 1500, true),
+  }),
 
   ...diatribe('cellPurgatory', [
     `The guards remove the old man from the cell as he whimpers. They close cell door and lock it behind them.`,
@@ -1156,7 +1185,7 @@ const MistressMessages = {
   ], {
     responseHandler: (ur, ctx, contract, provider) => provider.isWeb3() ? 'publicHumiliationPending' : 'noWeb3',
     event: 'payDebt'
-  }, 1500, true),
+  }),
 
   noWeb3: {
     messageText: `Despite coming all this way, you find you cannot achieve the release you desire without a Web3 wallet.`,

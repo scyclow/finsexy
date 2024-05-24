@@ -9,10 +9,15 @@ interface IERC20 {
   function transfer(address to, uint256 value) external returns (bool);
 }
 
-abstract contract FinDomTribute is Ownable {
-  mapping(address => uint256) public tributes;
-  event Send(address indexed from, uint256 amount);
+// interface IERC721 {
+//   function safeTransferFrom(address from, address to, uint256 tokenId) external;
+// }
 
+interface IERC1155 {
+  function safeTransferFrom(address from, address to, uint256 id, uint256 amount, bytes calldata data) external;
+}
+
+abstract contract TokenWithdrawer is Ownable {
   function withdraw() external onlyOwner {
     payable(owner()).transfer(address(this).balance);
   }
@@ -20,17 +25,66 @@ abstract contract FinDomTribute is Ownable {
   function withdrawERC20(address erc20, uint256 amount) external onlyOwner {
     IERC20(erc20).transfer(msg.sender, amount);
   }
+
+  function withdrawERC721(address erc721, uint256 tokenId) external onlyOwner {
+    IERC721(erc721).safeTransferFrom(address(this), msg.sender, tokenId);
+  }
+
+  function withdrawERC1155(address erc1155, uint256 tokenId, uint256 amount, bytes calldata data) external onlyOwner {
+    IERC1155(erc1155).safeTransferFrom(address(this), msg.sender, tokenId, amount, data);
+  }
+
+  function onERC721Received(address, address, uint256, bytes calldata) external pure returns(bytes4) {
+    return this.onERC721Received.selector;
+  }
+
+  function onERC1155Received(address, address, uint256, uint256, bytes calldata) external pure returns (bytes4) {
+    return this.onERC1155Received.selector;
+  }
+
+  function onERC1155BatchReceived(address, address, uint256[] calldata, uint256[] calldata, bytes calldata) external pure returns (bytes4) {
+    return this.onERC1155BatchReceived.selector;
+  }
 }
 
-
-interface InternalMintCheck {
-  function mintCheck(address sender, uint256 amount) external view returns (bool);
-}
 
 interface ISexyRouter {
   function vip() external view returns (address);
   function baseURI() external view returns (address);
   function premium(address user) external view returns (uint256);
+}
+
+
+abstract contract FinDomTribute is TokenWithdrawer {
+  mapping(address => uint256) public tributes;
+  event Send(address indexed from, uint256 amount);
+
+  ISexyRouter public router;
+
+  constructor(address owner_, address router_) {
+    _setOwner(owner_);
+    router = ISexyRouter(router_);
+  }
+
+  function creditTribute(address recipient, uint256 amount) external {
+    require(router.vip() == msg.sender, 'Only VIP contract can credit tributes');
+    _receive(recipient, amount);
+  }
+
+  receive() external payable {
+    _receive(msg.sender, msg.value / router.premium(msg.sender));
+  }
+
+  // TODO test premium here
+  function _receive(address sender, uint256 value) internal virtual {
+    emit Send(sender, value);
+    tributes[sender] += value;
+  }
+}
+
+
+interface InternalMintCheck {
+  function mintCheck(address sender, uint256 amount) external view returns (bool);
 }
 
 interface ITokenURI {
@@ -44,12 +98,12 @@ contract FinDomBase is ERC721, FinDomTribute {
 
   bool private _isInitialized;
 
-  ISexyRouter public router;
+  // ISexyRouter public router;
   address public externalMinter;
   bool public internalMintCheck;
   uint256 public totalSupply;
 
-  constructor () ERC721('', '') {}
+  constructor (address owner_, address router_) ERC721('', '') FinDomTribute(owner_, router_) {}
 
 
   function initialize(
@@ -96,16 +150,16 @@ contract FinDomBase is ERC721, FinDomTribute {
     totalSupply++;
   }
 
-  function creditTribute(address recipient, uint256 amount) external {
-    require(router.vip() == msg.sender, 'Only VIP contract can credit tributes');
-    _receive(recipient, amount);
-  }
+  // function creditTribute(address recipient, uint256 amount) external {
+  //   require(router.vip() == msg.sender, 'Only VIP contract can credit tributes');
+  //   _receive(recipient, amount);
+  // }
 
-  receive() external payable {
-    _receive(msg.sender, msg.value / router.premium(msg.sender));
-  }
+  // receive() external payable {
+  //   _receive(msg.sender, msg.value / router.premium(msg.sender));
+  // }
 
-  function _receive(address sender, uint256 value) private {
+  function _receive(address sender, uint256 value) internal override {
     emit Send(sender, value);
     tributes[sender] += value;
 
@@ -183,26 +237,10 @@ contract FindomProxy is ProxyBase {
 
 
 contract FinDomBaseLight is FinDomTribute {
-  ISexyRouter public router;
 
-  constructor(address owner_, address router_) {
-    transferOwnership(owner_);
-    router = ISexyRouter(router_);
-  }
+  constructor(address owner_, address router_) FinDomTribute(owner_, router_) {}
 
-  function creditTribute(address recipient, uint256 amount) external {
-    require(router.vip() == msg.sender, 'Only VIP contract can credit tributes');
-    _receive(recipient, amount);
-  }
-
-  receive() external payable {
-    _receive(msg.sender, msg.value);
-  }
-// TODO test premium here
-  function _receive(address sender, uint256 value) private {
-    emit Send(sender, value / router.premium(sender));
-    tributes[sender] += value / router.premium(sender);
-  }
+  // TODO test receiving
 }
 
 
