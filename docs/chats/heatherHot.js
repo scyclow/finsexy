@@ -866,7 +866,7 @@ const HeatherHotMessages = {
   },
 
   goodPaypig: {
-    messageText: () => `and because you've been such a good little ${genderSwitch({m: 'boy', f: 'girl', nb: 'paypig'})} i sent a reall hot pic to your wallet 🔥`,
+    messageText: () => `and because you've been such a good little ${genderSwitch({m: 'boy', f: 'girl', nb: 'paypig'})} i sent a really hot pic to your wallet 🔥`,
     followUp: fu('whatYouWanted')
   },
 

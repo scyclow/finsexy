@@ -5,6 +5,14 @@ TODO
 
 
 
+  start:
+    - hi
+    - what do you think of website?
+    - you know, none of the doms use chatgpt, or any llm for that matter
+      - LLMs are all the rage these days, but i feel like they lead to an inferior product
+
+
+
 
 
 

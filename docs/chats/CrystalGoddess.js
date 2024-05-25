@@ -89,15 +89,15 @@ Testimonials
 */
 
 
-window.CLOSE_AUDIO_CTX = () => {}
-window.SHIFT_AUDIO_CTX = () => {}
 
 import { isYes, isNo, isGreeting, isMatch, MessageHandler, responseParser, diatribe, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {provider, bnToN, toETH, ZERO_ADDR} from '../eth.js'
+import {createSource, MAX_VOLUME} from '../fns/audio.js'
 
 
-
+window.CLOSE_AUDIO_CTX = () => {}
+window.SHIFT_AUDIO_CTX = () => {}
 
 
 const fu = (messageCode, waitMs=1500) => ({ messageCode, waitMs })
@@ -991,55 +991,6 @@ https://www.pornhub.com/view_video.php?viewkey=654837492a1db
 
 
 
-
-const MAX_VOLUME = 0.04
-
-const allSources = []
-function createSource(waveType = 'square') {
-  const AudioContext = window.AudioContext || window.webkitAudioContext
-  const ctx = new AudioContext()
-
-  const source = ctx.createOscillator()
-  const gain = ctx.createGain()
-  const panner = new StereoPannerNode(ctx)
-
-  source.connect(gain)
-  gain.connect(panner)
-  panner.connect(ctx.destination)
-
-  gain.gain.value = 0
-  source.type = waveType
-  source.frequency.value = 3000
-  source.start()
-
-  const smoothFreq = (value, timeInSeconds=0.00001, overridePaused=false) => {
-    source.frequency.exponentialRampToValueAtTime(
-      value,
-      ctx.currentTime + timeInSeconds
-    )
-  }
-
-  const smoothPanner = (value, timeInSeconds=0.00001) => {
-    panner.pan.exponentialRampToValueAtTime(
-      value,
-      ctx.currentTime + timeInSeconds
-    )
-  }
-
-  const smoothGain = (value, timeInSeconds=0.00001) => {
-    gain.gain.setTargetAtTime(
-      Math.min(value, MAX_VOLUME),
-      ctx.currentTime,
-      timeInSeconds
-    )
-  }
-
-  const src = { source, gain, panner,smoothFreq, smoothGain, smoothPanner, originalSrcType: source.type }
-
-  allSources.push(src)
-
-  return src
-}
 
 
 

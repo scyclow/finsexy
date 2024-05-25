@@ -5,6 +5,8 @@ import {analyticsLS} from './analytics.js'
 import {getUserData} from './profile.js'
 import {VinceChat} from './all.js'
 
+import {createSource, MAX_VOLUME} from '../fns/audio.js'
+
 
 
 export const clitLS = {
@@ -541,8 +543,13 @@ export const sexyCLIT = {
         return cb(`Invalid amount: ${amount}`)
       }
 
+      const sources = []
       try {
         document.body.classList.add('preOrgasm')
+
+        if (!clitLS.get('devIgnoreWait')) {
+          precumSound(sources)
+        }
 
         if (clitLS.get('paymentsFaked')) {
           await new Promise(res => setTimeout(res, 1000))
@@ -566,10 +573,15 @@ export const sexyCLIT = {
           ls.set('TRIBUTE_EVENT_1', true)
         }
 
-        if (!clitLS.get('devIgnoreWait')) document.documentElement.classList.add('orgasm')
+        if (!clitLS.get('devIgnoreWait')) {
+          document.documentElement.classList.add('orgasm')
+          orgasmSound(sources, 1.25)
+        }
+
       } catch (e) {
         console.log(e)
         document.body.classList.remove('preOrgasm')
+        cancelSound(sources)
 
         errorCb(`ERROR: ${e?.data?.message || e.message || JSON.stringify(e)}`)
       }
@@ -605,8 +617,71 @@ export const sexyCLIT = {
   setResponseSpeedModifier(modifier) {
     clitLS.set('responseModifier', modifier)
   }
-
 }
+
+function precumSound(sources) {
+  sources[0] = createSource('sine')
+  sources[1] = createSource('sine')
+  sources[2] = createSource('sine')
+  sources[3] = createSource('sine')
+  sources[4] = createSource('sine')
+  sources[5] = createSource('sine')
+  sources[6] = createSource('sine')
+  sources[7] = createSource('sine')
+
+  sources.forEach(s => s.smoothFreq(1, 0.1))
+
+  sources[0].smoothFreq(110 * 1.25, 0.1)
+  sources[1].smoothFreq(220 * 1.25, 0.1)
+  sources[2].smoothFreq(220 * 1.25 - 0.25, 0.1)
+
+  sources[0].smoothGain(MAX_VOLUME, 3)
+  sources[1].smoothGain(MAX_VOLUME, 3)
+  sources[2].smoothGain(MAX_VOLUME, 3)
+}
+
+function orgasmSound(sources, base) {
+
+  sources[3].smoothGain(MAX_VOLUME/2, 0.2)
+  sources[4].smoothGain(MAX_VOLUME/2, 0.2)
+  sources[5].smoothGain(MAX_VOLUME/2, 0.2)
+  sources[6].smoothGain(MAX_VOLUME/2, 0.2)
+  sources[7].smoothGain(MAX_VOLUME/2, 0.2)
+
+  setTimeout(() => {
+    sources[0].smoothFreq(110 * base, 0.5)
+    sources[1].smoothFreq(220 * base, 0.5)
+    sources[2].smoothFreq(440 * base, 0.5)
+    sources[3].smoothFreq(550 * base, 0.5)
+    sources[4].smoothFreq(660 * base, 0.5)
+    sources[5].smoothFreq(880 * base, 0.5)
+    sources[6].smoothFreq((440 * base)-2, 0.5)
+    sources[7].smoothFreq((550 * base)-2, 0.5)
+  }, 200)
+
+
+  setTimeout(() => {
+    sources.forEach(s => s.smoothGain(0.0000001, 7))
+  }, 1000)
+
+
+  setTimeout(() => {
+    sources.forEach(s => s.smoothGain(0.0000001, 0.5))
+  }, 30000)
+
+  setTimeout(() => {
+    sources.forEach(s => s.stop())
+  }, 40000)
+}
+
+
+function cancelSound(sources) {
+  sources.forEach(s => s.smoothGain(0.0000001, 0.5))
+  setTimeout(() => {
+    sources.forEach(s => s.stop())
+  }, 5000)
+}
+
 
 function stringifyNode(node) {
   return JSON.stringify({
