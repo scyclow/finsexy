@@ -235,6 +235,12 @@ export const sexyCLIT = {
           <h5 style="margin-top: 1.5em">GoTo Conversation Node</h5>
           <p><code>$sexy dev node [dom name] [node name]</code></p>
 
+          <h5 style="margin-top: 1.5em">Modify Dom State</h5>
+          <p><code>$sexy dev state [dom name] [state key] [state value]</code></p>
+
+          <h5 style="margin-top: 1.5em">Modify Global Dom State</h5>
+          <p><code>$sexy dev global [state key] [state value]</code></p>
+
           <h5 style="margin-top: 1.5em">Clear All Chat History</h5>
           <p><code>$sexy dev clear</code></p>
 
@@ -289,6 +295,31 @@ export const sexyCLIT = {
 
         downcasedChats[chatName].queueEvent(node, 1000)
 
+      } else if (devCommand === 'state') {
+        const [_, _chatName, key, val] = args
+        const chatName = _chatName.toLowerCase()
+        const dom = downcasedChats[chatName]
+
+        if (!dom) return cb(`Invalid chat name: ${_chatName}`)
+
+        try {
+          dom.ctx.state[key] = JSON.parse(val)
+          cb(`Set ${_chatName} ctx state -> ${key}: ${val}`)
+
+        } catch (e) {
+          cb(e)
+        }
+
+      } else if (devCommand === 'global') {
+        const [_, key, val] = args
+
+        try {
+          MessageHandler.globalCtx[key] = JSON.parse(val)
+          cb(`Set global ctx state -> ${key}: ${val}`)
+
+        } catch (e) {
+          cb(e)
+        }
       } else {
         return cb(`
           <p>Invalid dev command: <code>${devCommand}</code></p>
@@ -567,6 +598,8 @@ export const sexyCLIT = {
           document.body.classList.remove('preOrgasm')
           successCb(tx)
         }
+
+        MessageHandler.globalCtx.hasPaid = true
 
         if (!VinceChat.ctx.history.length && !VinceChat.ctx.eventQueue.length) {
           VinceChat.queueEvent('hello', 1)

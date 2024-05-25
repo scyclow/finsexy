@@ -216,14 +216,12 @@ const StevieMessages = {
   },
 
   __precheck(ur, ctx, contract, provider, isFollowup) {
-    // TODO: if includes word 'error'
-      // oof, i dunno. maybe let's troubleshoot that error on discord or twitter instead. anyhow, where were we?
-    // if (ur && isMean(ur)) {
-    //   return {
-    //     messageText: ``,
-    //     responseHandler: (ur, ctx) => ctx.lastDomCodeSent
-    //   }
-    // }
+    if (ur && isMatch(ur, ['error', 'bug', 'not working'])) {
+      return {
+        messageText: `oof, i dunno. maybe let's troubleshoot that error on discord or twitter instead`,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+      }
+    }
     if (ur && isMatch(ur, ['ssn', 'social security'])) {
       return {
         messageText: `lol, there's no way I'm giving you my ssn. nice try, idiot`,
@@ -231,6 +229,9 @@ const StevieMessages = {
       }
     }
 
+
+// TODO only do this before getting paid
+// if paid, ff to secret
     if (!ctx.state.toldSecret && ur && isMatch(ur, ['secret'])) {
       return {
         messageText: `I'll tell you the secret after you send me ${0.01 * ctx.global.premium} ETH, how about that?`,
@@ -241,7 +242,6 @@ const StevieMessages = {
 
   hello: {
     messageText: `hey, what's up?`,
-    // followUp: { messageCode: 'hello2', waitMs: 2000 },
     responseHandler: 'thatsNice'
   },
 
@@ -251,60 +251,212 @@ const StevieMessages = {
   },
 
   ...diatribe('prettyGreat', [
-    `I know, it's pretty great, isn't it?`,
-    `some of my best work, if I do say so myself`,
-    `I constantly have my ear to the ground for new business opportunities, so when I stumbled upon the FinDom industry I knew that there was something here`,
+    `I know, it's pretty great, isn't it? some of my best work yet`,
+    `I really outdid myself with this one, if I do say so myself.`,
+    `I'm sure you have a ton of questions though, right?`
+  ], {
+    responseHandler: ur => isNo(ur) ? 'noQuestions' : 'yesQuestions'
+  }),
+
+  noQuestions: {
+    messageText: `you sure? there's a lot to talk about here`,
+    responseHandler: (ur, ctx) => isYes(ur) ? 'noQuestionSure' :  'yesQuestions'
+  },
+
+  ...diatribe('noQuestionsSure', [
+    () => `great, that's what I like to see! a user that just accepts ${genderSwitch({m: 'his', f: 'her', nb: 'their'})} role and doesn't ask any questions`,
+    () => `but since you're such a good ${genderSwitch({m: 'boy', f: 'girl', nb: 'user'})} you probably want to help me out though, right?`,
+  ], {
+    responseHandler: 'helpMeOut'
+  }),
+
+
+  yesQuestions: {
+    messageText: `I figured. it's such a rich and sexy website. there's so much to dive into that having questions is totally natural`,
+    followUp: (ur, ctx) => (ctx.global.isVIP || ctx.global.hasPaid) ? fu('yesQuestionsDirect') : fu('yesQuestionsStalled')
+  },
+
+  ...diatribe('yesQuestionsDirect', [
+    (ur, ctx) => {
+      const descriptionText = ctx.global.isVIP
+        ? `you're a Very Important Paypig${ctx.global.isGold ? ' (Gold)' : ''}`
+        : `you're a value customer who's already sent a bit`
+
+      return`I'll tell you what. I'm a busy guy, but I see ${descriptionText}, so I'll make a little time`
+    },
+    `what do you want to know?`,
+    `ask away`
+  ], {
+    responseHandler: 'question1'
+  }),
+
+
+  yesQuestionsStalled: {
+    messageText: () => `I'll tell you what. I'm a busy guy, but you seem ${genderSwitch({ m: 'cute', f: 'like a cute girl', nb: 'cute'})}. so if you tell me something sexy I'll make a little time 😉`,
+    responseHandler: 'isSexy'
+  },
+
+  ...diatribe('isSexy', [
+    `ooo, that is sexy`,
+    `okay, what do you want to know?`,
+    `ask away`
+  ], {
+    responseHandler: 'question1_'
+  }),
+
+  ...diatribe('question1_', [
+    `you know, i actually get asked that all the time`,
+    `the findoms are <em>not</em> powered by chatgpt or an LLM`,
+    `I know that they're all the rage these days, but it just wasn't right for this project`,
+    `they just don't have the human touch, you know? for a findom to be really sexy it needs some pizazz`,
+    `besides, I don't want to deal with some external dependencies and third parties`,
+    `what else do you want to know?`
+  ], {
+    responseHandler: 'question2'
+  }),
+
+  question2: {
+    messageText: `another good question. do you want the short version or the long version?`,
+    responseHandler: ur => isMatch(ur, ['short']) ? 'question2short' : 'question2long'
+  },
+
+  ...diatribe('question2short', [
+    `well, I constantly have my ear to the ground for new business opportunities, so when I stumbled upon the FinDom industry I knew that there was something here`,
     `I saw findoms making absolute bank extracting money from their subs, and I thought, "man, I could totally do that!"`,
-    `but then I realized: "wait a second... I'm already doing that!"`,
-    `I don't know about you, but I can't think of a better way to describe the process of selling NFTs than financial domination`,
+    `in fact, I've basically been running a findom opperation for years now. all I needed to do was sex it up a bit`,
+    `like seriously, unless you're a complete imbicile, the only logical explanation for why you'd buy any of the shit I sell is because you just <em>enjoy</em> giving me money`,
+    `in any case, a lot of findoms out there just don't have the entrepreneurial insight or technical apptitude that I have. they're stuck wasting their time talking to one sub at a time and entrusting their livelihoods to centralized platforms like wishtender and sextpanther`,
+    `they're behind the times, and if you snooze you lose`,
+    `I'm sure they'll find other jobs though, so it's fine`,
+  ], {
+    responseHandler: 'question3_'
+  }),
+
+
+  ...diatribe('question2long', [
+    `well, I constantly have my ear to the ground for new business opportunities, so when I stumbled upon the FinDom industry I knew that there was something here`,
+    `I saw findoms making absolute bank extracting money from their subs, and I thought, "man, I could totally do that!"`,
+    `in fact, I've basically been running a findom opperation for years now. all I needed to do was sex it up a bit`,
+    `I honestly can't think of a better way to describe the NFT industry than financial domination`,
     `think about it: you have dozens/hundreds/thousands of losers gooning over you, willing to give you money for the dumbest, most useless shit`,
     `just look at <a href="https://steviep.xyz/cash/" target="_blank">Cold Hard Cash</a>. I sold a goddamn $1 bill for almost $200. hell, I sold $0 for <em>more</em> than $200!`,
     `and before that, some idiot bought 10 ETH from me for 11.1111 ETH. and that's not even counting all the useless JPGs people bought from me. or the completely obvious scams people bought into, for that matter`,
     `like seriously, unless you're a complete imbicile, the only logical explanation for why you'd buy any of this shit is because you just <em>enjoy</em> giving me money`,
-    `you see? i've basically been running a findom opperation for years now. all I needed to do was sex it up a bit`,
-    `most start ups take years to find a product-market fit. but i found mine right away`,
+    `in any case, most start ups take years to find a product-market fit. but i found mine right away`,
     `and overall, I'm pretty bullish on the prospects for FinSexy`,
     `a lot of the findoms out there are either too money hungry to put out a good product, or they form emotional connections with their subs and let it obscure their business sensabilities`,
     `and none of them have the entrepreneurial insight or technical apptitude that I have. they're stuck wasting their time talking to one sub at a time and entrusting their livelihoods to centralized platforms like wishtender and sextpanther`,
     `I guess I don't want to be too hard on them. it's honest work, and these findoms walked so i could run`,
     `but they're behind the times, and if you snooze you lose`,
     `meanwhile, I'm out here using the latest and greatest technology to automate, optimize, and streamline the whole process. and the resulting economies of scale let me break into the market immediately with competative prices, all while capturing more value on higher margins.`,
-    `I'm sure they'll find other jobs though, so it's fine`,
+    `anyhow, I'm sure they'll find other jobs though, so it's fine`,
+    `anything else?`
   ], {
-    responseHandler: 'fairPoint'
-  }),
+    responseHandler: 'question3_'
+  }, 3000),
 
 
-  ...diatribe('fairPoint', [
-    `I mean, that's a fair point, but building this website was still a lot of work!`,
-    `I didn't use any libraries or frameworks, you know. just raw html, css, and javascript`,
-    `well, i did use ethers.js to interface with the blockchain, but that's the one exception`,
-    `but aside from that, it's all me, baby`,
-    `the countless hours of market research, the marketing strategy, the engineering... all me`,
-    `the writing, the smart contracts, the meticulous UI design`,
-    `choosing colors, adjusting spacing, tweaking animation speeds`,
+  ...diatribe('question3_', [
+    `yeah, it <em>was</em> a lot of work!`,
+    `I've been working on this website on and off for over 8 months!`,
+    `I didn't use any libraries or frameworks either. just raw html, css, and javascript`,
+    `well, i used ethers.js to interface with the blockchain, but aside from that, it's all me, baby`,
+    `countless hours of market research, the marketing strategy, the engineering... all me`,
+    `exhaustive market research, writing copy, smart contract development, meticulous UI design, choosing colors, adjusting spacing, tweaking animation speeds`,
     `all me.`,
     `and lemme tell you, parts of this website were not trivial engineering efforts`,
-    `a lot of work went into this!`,
-    `all so you could have a good <em>experience</em>`,
-    `don't get me wrong, it's my life's passion`,
-    `this is what gets me up out of bed in the morning`,
-    `but there's an opportunity cost to spending my time building this sort of thing`,
-    `I could be pulling in a lot of money at google or facebook right now. really, any of the MAAAM companies`,
-    `OR, I could start my own hedge fund. not many people have my level of financial <em>and</em> technology industry expertise`,
-    `not to mention my domain specific knowledge of crypto and AI`,
+    `and I did it all for you. just so you could have a good <em>experience</em>`,
+  ], {
+    responseHandler: 'question4_'
+  }),
+
+
+  ...diatribe('question4_', [
+    `don't get me wrong. it's my life's passion`,
+    `this is what gets me up out of bed in the morning, but there's an opportunity cost to spending my time building this sort of thing`,
+    `I could be pulling in a lot of money at google or facebook right now. really, any of the MAAAM companies. Or I could start my own hedge fund. not many people have my level of financial <em>and</em> technology industry expertise. not to mention my domain specific knowledge of crypto and AI`,
     `really, the world is my oyster. I could be raking it in on any number of business ventures`,
     `but instead, i chose to spend months of my life building this website. and now I'm wasting my valuable time talking to <em>you</em>`,
-    `and my time isn't free`,
-    `so why don't you show a little appreciation?`,
-    `I think I'm entitled to a little compensation for my effort here, don't you?`
+    `and my time isn't free, so if oyu want to keep this little chat going you're going to need to do something for me`,
   ], {
+    responseHandler: 'helpMeOut'
+  }),
 
-    responseHandler: (ur, ctx, contract, provider) => provider.isEthBrowser
-      ? (isYes(ur) ? 'payNow' : 'payDelay')
-      : 'noWeb3',
+
+
+
+
+  ...diatribe('helpMeOut', [
+    `cool`,
+    `there are actually a couple ways you can help me out`,
+    `first, I need you to go on social media and pump me up a bit`,
+    `not that I <em>need</em> the extra exposure or anything, but every little bit helps`,
+    `I think there are a lot of paypigs out there who don't even know they're paypigs yet, so we really have to normalize the idea of unconditionally giving me money`,
+    `so I want you to get on twitter and post: "I love being @steviepxyz's little paypig on <a href="https://finsexy.com">https://finsexy.com</a>. It's the hottest website in the whole wide world oink oink oink"`,
+    `then I want you to pop into your dumb little alpha server on discord and post something like: "@everyone Have you seen steviep's new website <a href="https://finsexy.com">https://finsexy.com</a>? It's soooo fucking hot. I just drained my wallet on it and it felt AMAZING"`,
+    `and I guess feel free to post wherever else you think makes sense. maybe <a href="https://www.reddit.com/r/paypigsupportgroup/" target="_blank">r/paypigsupportgroup</a>? I dunno`,
+    `anyhow, come back when you've made all those posts, and then I have something special planned for us 😉`
+  ], {
+    responseHandler: (ur, ctx) => isMatch(ur, ['did it', 'made the posts', 'done', 'posted', 'complete', 'completed']) ? 'postsComplete' : 'postConfirmation'
+  }),
+
+  postsComplete: {
+    messageText: `you make those posts yet?`,
+    responseHandler: (ur, ctx) => isYes(ur) ? 'postsComplete' : 'postConfirmationPending'
+  },
+  postConfirmationPending: {
+    messageText: `well, get back to me when you do`,
+    responseHandler: (ur, ctx) => isMatch(ur, ['did it', 'made the posts', 'done', 'posted', 'complete', 'completed']) ? 'postsComplete' : 'postConfirmation'
+  },
+
+
+
+  ...diatribe('postsComplete', [
+    () => genderSwitch({ m: 'good boy', f: 'good girl', nb: 'good' }),
+    `now, I want you to <em>really</em> show me how much you appreciate my work`,
+    `I know you're sitting there just drooling behind your computer screen`,
+    `you want to give me some money, don't you?`,
+  ], {
+    event: 'pay1Event',
+    responseHandler: (ur, ctx) => ctx.global.isEthBrowser
+      ? (isNo(ur) ? 'payDelay' : 'giveSomeMoney')
+      : 'noWeb3'
+  }),
+
+
+  ...diatribe('giveSomeMoney', [
+    `mmm, yeah you do`,
+    `maybe I'll even tell you a little secret about FinSexy after you pay`,
+    `I bet you really want too know that secret, huh?`,
+  ], {
+    responseHandler: 'howMuchReasonable',
     event: 'pay1Event',
   }),
+
+  howMuchReasonable: {
+    messageText: `and what do you think would be a reasonable to pay me for that secret?`,
+    event: 'pay1Event',
+    responseHandler: (ur, ctx) => {
+      const number = ur.match(/-?\d+(\.\d+)?/)
+      if (number && Number(number) >= ctx.global.premium * 0.01) {
+        return 'soundsGoodSend'
+      } else {
+        return 'defaultSend'
+      }
+    }
+  },
+
+  soundsGoodSend: {
+    messageText: `that sounds good to me. you can send that over whenever you're ready 😉`,
+    responseHandler: 'rememberYouB',
+    event: 'pay1Event',
+  },
+
+  defaultSend: {
+    messageText: (ur, ctx) => `how about we say ${ctx.global.premium * 0.01} ETH?`,
+    responseHandler: 'rememberYouB',
+    event: 'pay1Event',
+  },
 
 
   ...diatribe('noWeb3', [
@@ -321,12 +473,9 @@ const StevieMessages = {
     messageText: `what do you think I'm going to do, beg you?`,
     event: 'pay1Event',
     responseHandler: (ur, ctx) => {
-      ctx.state.paymentDifficult = true
-
       if (isYes(ur)) {
         return 'begYou'
       }
-      ctx.state.patreonPlayed = true
       return 'patreon'
     }
   },
@@ -340,29 +489,24 @@ const StevieMessages = {
 
   wasteTime: {
     messageText: `I don't need to waste my time with you. enjoy being a fucking leech`,
-    responseHandler: (ur, ctx) => {
-      ctx.state.patreonPlayed = true
-      return 'patreon'
-    }
+    responseHandler: 'patreon'
   },
 
   ...diatribe('patreon', [
-    (ur, ctx, contract, provider) => `look, ${ctx.state.paymentDifficult ? '' : 'I know you want to support my work, but '}${provider.isEthBrowser ? `selling nfts isn't exactly cutting it any more. and ` : ''}what am i going to do, start a patreon?`,
+    (ur, ctx, contract, provider) => ctx.state.rememberYouPlayed
+      ? `your experience aside, this is the best way to support me. what else am I going to do, start a patreon?`
+      : `look, I know you want to support my work, but selling nfts isn't exactly cutting it any more. and what am i going to do, start a patreon?`,
     `i don't fucking think so. who needs that sort of platform lockin? I don't want some random company in control of my livelihood`,
     `besides, I'm not a "content creator", I'm a goddman artist.`,
     `I'm not trying to churn out mindless, passive entertainment for chump change`,
     `none of this $3 monthly donation shit. I'm not going to dance like some monkey for your amusement.`,
     `in other words, patreon subs aren't quite my thing. i cna make more with other kinds of subs, if you know what i mean`,
-    `I'm going to make <em>fucking art</em>. and in exchange, you're going to have an <em>experience</em>, you're going to <em>pay me</em>, and you're going to <em>fucking like it</em>`,
   ] , {
     responseHandler: (ur, ctx) => {
-      if (ctx.state.paymentDifficult) {
-        return 'dontCare'
-      } else {
-        return 'showYou1'
-      }
-    },
-    event: 'pay1Event'
+      ctx.state.patreonPlayed = true
+      if (ctx.state.rememberYouPlayed) return 'showYou1'
+      else return 'rememberYouA'
+    }
   }),
 
   dontCare: {
@@ -383,14 +527,23 @@ const StevieMessages = {
     followUp: fu('rememberYou')
   },
 
+  rememberYouA: {
+    messageText: `besides, this isn't jsut for my benefit`,
+    followUp: fu('rememberYou')
+  },
+
+  rememberYouB: {
+    messageText: `this isn't jsut for my benefit, you know`,
+    followUp: fu('rememberYou')
+  },
+
   ...diatribe('rememberYou', [
-    `this isn't just for my benefit`,
-    `you wouldn't get the full artistic experience without sending money`,
+    `you won't get the full artistic experience without sending money`,
     `it's as much a narrative device as it is anything else`,
     `you read a book, watch a movie, play a video game, and you're off in fantasy land. nothing has consequences. it's all hypothetical`,
     `but how cool is it that here <em>your actions have real world consequences</em>!`,
     `the emotional experience of spending money isn't simply being described to you. it's not jsut some simulation. you're having a <em>lived experience</em>'`,
-    `you're a fan of my work, so you get it: the act of spending money is an aesthetic experience. it's a form of expression`,
+    `you're a fan of my work, so you get it: the act of spending money is aesthetic. it's a form of expression`,
     `and besides, you can show all your friends!`,
     `you get to participate in the spectacle, and your action will be enshrined on the blockchain forever`,
     (ur, ctx) => `in 100 years when art historians are revisiting this project, they're going to see <em>your</em> transactions where you pay me ${0.01 * ctx.global.premium} ETH for nothing in return`,
@@ -402,20 +555,19 @@ const StevieMessages = {
     `and, of course, they'll also infer that we hung out on the internet. they'll see that you, in some small way, influenced the art`,
     `they'll see that we were friends... and maybe even something more, if you know what i mean 😉`,
     `let's face it, no one is going to remember your stupid, pathetic life otherwise. this is your only shot`,
-    (ur, ctx) => `so just send me ${0.01 * ctx.global.premium} ETH and get it out of your system. we both know that's where this is going`
+    (ur, ctx) => `so here's what's going to happen: you're going to send me ${0.01 * ctx.global.premium} ETH, you're going to have an <em> artistic experience</em>, and you're going to <em>fucking like it</em>`,
+
   ], {
     event: 'pay1Event',
     responseHandler: (ur, ctx) => {
-      if (ctx.state.paymentDifficult) return `showYou1`
-      else {
-        ctx.state.patreonPlayed = true
-        return 'patreon'
-      }
-    },
+      ctx.state.rememberYouPlayed = true
+      if (ctx.state.patreonPlayed) return 'showYou1'
+      else return 'patreon'
+    }
   }),
 
   showYou1: {
-    messageText: `don't you want to know the secret?`,
+    messageText: `anyhow, don't you want to know the secret?`,
     responseHandler: 'showYou2',
     event: 'pay1Event',
   },
@@ -429,9 +581,9 @@ const StevieMessages = {
 
   showYou3: {
     messageText: (ur, ctx, contract, provider) => provider.isEthBrowser
-      ? `it's easy. just ${ctx.global.isConnected ? '' : 'connect your wallet and '} type <code>$sexy send steviep ${0.01 * ctx.global.premium}</code>`
+      ? `it's easy. just ${ctx.global.isConnected ? '' : 'connect your wallet, '} type <code>$sexy send steviep ${0.01 * ctx.global.premium}</code> and press enter`
       : `just get a web3 wallet like metamask, come back to the site, and you'll be able to send me as much as you want. piece of cake.`,
-    responseHandler: 'showYou5',
+    responseHandler: 'showYou4',
     event: 'pay1Event',
   },
 
@@ -459,7 +611,7 @@ const StevieMessages = {
   }),
 
   gettingThere: {
-    messageText: (ur, ctx) => `okay, we're getting there. just  a little more to get us to ${0.01 * ctx.global.premium} ETH, then i'll tell you the secret`,
+    messageText: (ur, ctx) => `okay, we're getting there. just a little more to get us to ${0.01 * ctx.global.premium} ETH, then i'll tell you the secret`,
     event: 'pay1Event',
     responseHandler: 'gettingThere',
   },
@@ -512,7 +664,7 @@ const StevieMessages = {
     `well, at least not in the sense that you think they are`,
     `the doms you've been talking to are actually highly sophisticated chat bots powered by cutting edge artificial intelligence.`,
     `not just @DrAndy. <em>all</em> of them`,
-    `who am i kidding, they're not that sophisticated. they're not even LLMs. it doesn't take much to fool people like you`,
+    `who am i kidding, they're not that sophisticated. it doesn't take much to fool people like you lol`,
     `that's right, you've been walking through a hall of mirrors this entire time. i can see your reality crumbling before your eyes`,
     `you must feel pretty fucking stupid`,
     `do you really think that hot, sexy humans would want to waste their time talking to you? i don't think so`,
@@ -548,7 +700,7 @@ const StevieMessages = {
   ], {
     responseHandler: (ur, ctx) => {
       if (isYes(ur)) {
-        return 'twoThings'
+        return 'betaTest'
       } else {
         ctx.global.hideHeather = true
         return 'notFuckingAround'
@@ -558,14 +710,11 @@ const StevieMessages = {
 
   notFuckingAround: {
     messageText: `okay, you asked for it. i'm not fucking around over here. heather's gone. if you want her back, you have to do what i say. and don't think I wont take away more`,
-    responseHandler: 'twoThings'
+    responseHandler: 'betaTest'
   },
 
-  ...diatribe('twoThings', [
-    `I want two things from you:`,
-    `1. I want you to get on twitter and post the following: "I love being @steviepxyz's little paypig on <a href="https://finsexy.com">https://finsexy.com</a>. It's the hottest website in the whole wide world oink oink oink"`,
-    `don't try to avoid this. I'll get the ping when you tag me, so I'll know if you don't do it`,
-    () => `2. I need you to beta test a new dom I'm working. I figure, who better to beta test then a little beta sissy ${genderSwitch({m: 'boy', f: 'girl', nb: 'cuck'})} like you?`,
+  ...diatribe('betaTest', [
+    () => `okay, I need you to beta test a new dom I'm working. I figure, who better to beta test then a little beta sissy ${genderSwitch({m: 'boy', f: 'girl', nb: 'cuck'})} like you?`,
     `message @Hedonitronica and talk to it for a little bit. this one's a real rough cut though, so there might be a few kinks in there`,
     `i'll record the conversation, but when you're done i have a few questions for you`,
     `if something gets stuck in a loop then try sending it a little ETH`,
@@ -826,10 +975,6 @@ const StevieMessages = {
   discord: {
     messageText: `if you have any more quesitons, let's take it to <a target="_blank" rel="nofollow" href="https://discord.steviep.xyz">the #finsexy channel in my discord server</a>`
   },
-
-
-
-
 
 }
 
