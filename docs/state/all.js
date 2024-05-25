@@ -43,6 +43,7 @@ import {getUserData } from './profile.js'
 import {sexyCLIT, clitLS } from './clit.js'
 import {analyticsLS} from './analytics.js'
 import {provider} from '../eth.js'
+import {tributeLS} from './tributes.js'
 
 
 if (!ls.get('__enteredSite') && window.location.pathname !== '/dev') {
@@ -53,6 +54,7 @@ if (!ls.get('__enteredSite') && window.location.pathname !== '/dev') {
 if (clitLS.get('a11y')) {
   document.body.classList.add('a11ymode')
 }
+
 
 
 // const $profileModal = $.id('profileModal')
@@ -105,7 +107,6 @@ setRunInterval(() => {
       KatChat.queueEvent('steviep', 1)
       MessageHandler.visibilityCtx.katFischer = 'online'
     }
-
 
     if (unmessaged(HackerChat) && pw && timeElapsed >= 1200000) {
       HackerChat.queueEvent('hello', 1)

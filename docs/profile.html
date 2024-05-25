@@ -475,6 +475,8 @@ TODO
           </select>
         </label>
 
+        <hr>
+
         <div class="formRow formRowInput">
           <input type="text" placeholder="Premium Code" id="premiumCode"> <button id="applyPremium">Apply</button>
         </div>
@@ -671,9 +673,9 @@ TODO
 
     <section class="danger" style="margin-top: 2em">
       <h1 >DANGER ZONE</h1>
-      <p>If you'd like to clear your entire chat state and make every findom forget everything about you, type "I'm a little paypig" into the box below. <em>Note: findoms will still remember your tribute amounts.</em></p>
+      <p>If you'd like to clear your entire chat state and make every findom forget everything about you, type "I'm a little paypig" into the box below.</p>
       <p style="margin: 0.5em 0"><strong>THIS ACTION IS IRREVERSIBLE.</strong></p>
-      <input type="text" id="resetChats" placeholder="I'm a little paypig">
+      <input type="text" id="resetChats" placeholder="I'm a little paypig" style="margin-top: 1em">
       <button id="clearLS" disabled>CLEAR</button>
     </section>
   </main>
@@ -694,6 +696,7 @@ TODO
   import {sexyCLIT, clitLS} from './state/clit.js'
   import { provider, toETH } from './eth.js'
   import {voices, say} from './fns/voices.js'
+  import {tributeLS} from '../state/tributes.js'
 
 
 
@@ -759,10 +762,15 @@ TODO
   }
 
   $clearLS.onclick = () => {
-    localStorage.clear()
-    setTimeout(() => {
-      location.reload()
-    }, 1000)
+    if (confirm('Are you sure? This action is irreversible')) {
+      tributeLS.resetAllTributeAdjustment(() => {
+        localStorage.clear()
+      }).then(() => {
+        setTimeout(() => {
+          window.location.replace(`./enter`)
+        }, 1000)
+      })
+    }
   }
 
 
@@ -790,8 +798,6 @@ TODO
   provider.onConnect(async addr => {
     $applyPremium.onclick = () => {
       const code = $premiumCode.value
-
-      console.log($premiumCode.value, '<<<<<<<<')
 
       if (code === 'SingleSissySub') {
         sexyCLIT.applyPremium(

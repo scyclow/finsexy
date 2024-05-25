@@ -94,6 +94,8 @@ import { isYes, isNo, isGreeting, isMatch, MessageHandler, responseParser, diatr
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {provider, bnToN, toETH, ZERO_ADDR} from '../eth.js'
 import {createSource, MAX_VOLUME} from '../fns/audio.js'
+import {tributeLS} from '../state/tributes.js'
+
 
 
 window.CLOSE_AUDIO_CTX = () => {}
@@ -630,7 +632,7 @@ export const CrystalGoddessMessages = {
     messageText: `Would you like to perform the sacred ritual once more?`,
     responseHandler: async (ur, ctx, contract) => {
       if (isYes(ur)) {
-        ctx.state.paymentOffset = (await contract.tributes(ctx.global.connectedAddr)).toString()
+        await tributeLS.resetTributeAdjustments('CrystalGoddess')
         return 'cleansingCeremonyStart'
       } else {
         return 'again2'

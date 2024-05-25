@@ -5,6 +5,7 @@ import {provider} from '../eth.js'
 import {ProfileStats} from './all.js'
 import {tabs} from './tabs.js'
 import {voices, say} from '../fns/voices.js'
+import {tributeLS} from './tributes.js'
 
 
 
@@ -293,28 +294,27 @@ export function createEvent(threshold, responses={}, waitMs=600000) {
     async preEvent(ur, ctx, contract, provider) {
 
       ctx.state.nodeResponses = ctx.state.nodeResponses || {}
-      ctx.state.alreadyPaid = ctx.state.alreadyPaid || '0'
-      ctx.state.paymentOffset = ctx.state.paymentOffset || '0'
       ctx.state.lastResponded = Date.now()
       ctx.state.nodeResponses[ctx.lastDomCodeSent] = true
+
+      ctx.state.startingBalance = (await tributeLS.getAdjustedTribute(ctx.chatName)).toString()
     },
 
     async check(ur, ctx, contract, provider) {
       const addr = await provider.isConnected()
 
-      const paymentOffset =  provider.BN(ctx.state.paymentOffset || '0')
-      const amount = ctx.global.premium * threshold
-      const alreadyPaid = provider.BN(ctx.state.alreadyPaid || '0')
+      const amount = ctx.global.premium * threshold //2
+      const alreadyPaid = provider.BN(ctx.state.startingBalance) // 1
 
 
       if (contract && addr) {
-        const t = await contract.tributes(addr)
-        // if (Number((t - ctx.state.alreadyPaid).toFixed(6)) >= amount) {
-        if ((t.sub(paymentOffset)).gte(toETH(amount))) {
+        const t = await tributeLS.getAdjustedTribute(ctx.chatName) // 1.5
+
+        if (t.gte(toETH(amount))) {
           return responses.primary
         } else if (Date.now() - ctx.state.lastResponded > waitMs && !ctx.state?.nodeResponses?.[ctx.lastDomCodeSent]) {
           return responses.wait
-        } else if (t.gt(alreadyPaid) && (t.sub(alreadyPaid)).lt(toETH(amount))) {
+        } else if (t.gt(alreadyPaid)) {
           return responses.notEnough
         }
       }
@@ -322,7 +322,7 @@ export function createEvent(threshold, responses={}, waitMs=600000) {
 
     async postEvent(ur, ctx, contract, provider) {
       const addr = await provider.isConnected()
-      ctx.state.alreadyPaid = (await contract.tributes(addr)).toString()
+      ctx.state.startingBalance = (await tributeLS.getAdjustedTribute(ctx.chatName)).toString()
       if (responses.postEvent) return responses.postEvent(ur, ctx, contract, provider)
     },
   }

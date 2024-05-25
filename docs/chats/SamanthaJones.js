@@ -1,6 +1,7 @@
 import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, responseParser, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch} from '../state/profile.js'
 import {fromWei, provider} from '../eth.js'
+import {tributeLS} from '../state/tributes.js'
 
 
 
@@ -1064,7 +1065,8 @@ const SamanthaMessages = {
     `If you ever need another audit, don't hesitate to get in touch.`,
   ], {
     responseHandler: async (ur, ctx, contract) => {
-      ctx.state.paymentOffset = (await contract.tributes(ctx.global.connectedAddr)).toString()
+      await tributeLS.resetTributeAdjustments('SamanthaJones')
+
       return 'helpYou'
     }
   }),

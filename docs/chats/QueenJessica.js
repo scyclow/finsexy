@@ -71,6 +71,7 @@ import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, createEvent, Messag
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {provider} from '../eth.js'
 import {sexyCLIT} from '../state/clit.js'
+import {tributeLS} from '../state/tributes.js'
 
 
 const hasNumber = ur => ur.match(/(\d+)/)
@@ -236,7 +237,8 @@ const QueenMessages = {
       const vipToken = await sexyCLIT.getActiveVIP()
       const creditBalance = vipToken === null ? 0 : await sexyCLIT.vipBalance(vipToken)
       const totalBalance = (await provider.getETHBalance(ctx.global.connectedAddr)) + creditBalance/10
-      const totalTributes = bnToN(await contract.tributes(ctx.global.connectedAddr))
+      const totalTributes = fromWei(await tributeLS.getAdjustedTribute('QueenJessica'))
+      console.log(totalTributes)
 
       if (totalBalance < 0.1) {
         if (ctx.state.rejected3) return

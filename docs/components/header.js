@@ -195,7 +195,7 @@ createComponent(
 
 
 
-      @media (max-width: 735px) {
+      @media (max-width: 835px) {
         #mobileMenu {
           display: initial;
           user-select: none;

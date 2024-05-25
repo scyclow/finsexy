@@ -249,6 +249,10 @@
       </button>
 
 
+      <button id="softClearLs">
+        Soft Clear LS
+      </button>
+
       <button id="clearLs">
         Clear LS
       </button>
@@ -282,10 +286,18 @@
   import {$, ls} from './$.js'
   import {provider, fromWei} from './eth.js'
   import {clitLS, clearChat, sexyCLIT} from './state/clit.js'
+  import {tributeLS} from '../state/tributes.js'
 
 
   $.id('clearChat').onclick = clearChat
   $.id('clearLs').onclick = () => localStorage.clear()
+  $.id('softClearLs').onclick = () => {
+    tributeLS.resetAllTributeAdjustment(() => {
+      localStorage.clear()
+    }).then(() => {
+      location.reload()
+    })
+  }
 
   if (clitLS.get('devMode')) $.id('devMode').checked = true
   if (clitLS.get('devIgnoreWait')) $.id('ignoreWait').checked = true

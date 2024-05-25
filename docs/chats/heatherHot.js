@@ -88,6 +88,8 @@ import { isYes, isNo, isGreeting, isNegative, isPositive, isMean, isMatch, creat
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {bnToN, DOM_CONTRACTS} from '../eth.js'
 import {ls} from '../$.js'
+import {tributeLS} from '../state/tributes.js'
+
 
 
 
@@ -904,7 +906,7 @@ const HeatherHotMessages = {
   again: {
     messageText: `this was fun. if you ever want to send me more money then you know where to find me 😘`,
     responseHandler: async (ur, ctx, contract) => {
-      ctx.state.paymentOffset = (await contract.tributes(ctx.global.connectedAddr)).toString()
+      await tributeLS.resetTributeAdjustments('heatherHot')
       return 'nextSteps'
     }
   },

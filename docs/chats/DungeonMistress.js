@@ -131,6 +131,8 @@ https://m.thegazette.co.uk/all-notices/content/100723#:~:text=A%20bankrupt%20wou
 import { isYes, isNo, isGreeting, isMean, isMatch, responseParser, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {provider} from '../eth.js'
+import {tributeLS} from '../state/tributes.js'
+
 
 const fu = (messageCode, waitMs=1500) => ({ messageCode, waitMs })
 
@@ -1251,7 +1253,8 @@ const MistressMessages = {
     messageText: `That's the only story I have written right now. If you liked it then I'd be happy to accept a tip 😘`,
     responseHandler: async (ur, ctx, contract) => {
       if (isMatch(ur, ['again', 'one more time', 'once more', 'refresh', 'reset', 'tavern', 'restart'])) {
-        ctx.state.paymentOffset = (await contract.tributes(ctx.global.connectedAddr)).toString()
+        await tributeLS.resetTributeAdjustments('DungeonMistress')
+
 
         ctx.state.visitedBartender = false
         ctx.state.visitedHorseWoman = false

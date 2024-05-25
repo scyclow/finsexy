@@ -4,6 +4,7 @@ import {MessageHandler} from './conversationRunner.js'
 import {analyticsLS} from './analytics.js'
 import {getUserData} from './profile.js'
 import {VinceChat} from './all.js'
+import {tributeLS} from '../state/tributes.js'
 
 import {createSource, MAX_VOLUME} from '../fns/audio.js'
 
@@ -44,7 +45,9 @@ export const clearChat = (ignoreReload=false) => {
   localStorage.removeItem('__CHAT_GLOBAL_CONTEXT')
   localStorage.removeItem('__CHAT_VISIBILITY_CONTEXT')
   ls.set('__LAST_CLEAR_TIME', Date.now())
-  if (!ignoreReload) window.location.reload()
+  tributeLS.resetAllTributeAdjustment().then(() => {
+    if (!ignoreReload) window.location.reload()
+  })
 }
 
 
@@ -649,7 +652,9 @@ export const sexyCLIT = {
 
   setResponseSpeedModifier(modifier) {
     clitLS.set('responseModifier', modifier)
-  }
+  },
+
+
 }
 
 function precumSound(sources) {

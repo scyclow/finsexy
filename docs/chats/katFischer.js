@@ -1,6 +1,8 @@
 import { isYes, isNo, isGreeting, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {provider, bnToN} from '../eth.js'
+import {tributeLS} from '../state/tributes.js'
+
 
 
 /*
@@ -503,7 +505,8 @@ export const KatMessages = {
   startOver: {
     messageText: () => `If you really want we can just start over LOL, but i'm sure as hell not sending you any money back`,
     responseHandler: async (ur, ctx, contract) => {
-      ctx.state.paymentOffset = (await contract.tributes(ctx.global.connectedAddr)).toString()
+      await tributeLS.resetTributeAdjustments('katFischer')
+
       return 'steviep'
     }
   },

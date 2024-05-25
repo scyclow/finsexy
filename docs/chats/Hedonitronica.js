@@ -1,6 +1,7 @@
 import { isYes, isNo, isMatch, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch, getAgeYears} from '../state/profile.js'
 import {fromWei} from '../eth.js'
+import {tributeLS} from '../state/tributes.js'
 
 
 const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
@@ -26,7 +27,7 @@ export const HedonitronicaProfile = {
 
 
 const nextOrMore = (n) => async (ur, ctx, contract) => {
-  if (bnToN(await contract.tributes(ctx.global.connectedAddr)) > 0) {
+  if (fromWei(await tributeLS.getAdjustedTribute('QueenJessica')) > 0) {
     return 'more1'
   } else {
     return n
