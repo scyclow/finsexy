@@ -100,6 +100,15 @@
     padding-right: 1em;
   }
 
+  #remainingText {
+    /*animation: ColorShift 6s linear infinite;*/
+    margin-top: 0.5em;
+    font-size: 1.5em;
+    /*border: 0.1em solid;*/
+    padding: 0.25em;
+  }
+
+
   .center {
     display: flex;
     align-items: center;
@@ -140,6 +149,25 @@
     padding: 0.35em 1.5em;
     margin-bottom: 0.25em;
     margin-top: 0.5em;
+  }
+
+  #mintNowButton {
+    font-size: 2em;
+    padding: 0.35em 1.5em;
+    background: var(--bg-color);
+    color: var(--primary-color);
+    border: 2px solid;
+    margin: 0.25em 0;
+    border-radius: 3px;
+    transition: 300ms;
+    text-decoration: none;
+    animation: ColorShift 6s linear infinite;
+
+  }
+  #mintNowButton:hover {
+    background: var(--light-color);
+    color: var(--bg-color);
+    text-shadow: 0 0 2px var(--secondary-color);
   }
 
   .filterRow button {
@@ -223,6 +251,71 @@
   }
 
 
+  #continue {
+    display: block;
+    text-align: center;
+    font-size: 1.2em;
+    color: var(--primary-color);
+    font-size: 1.7em;
+    margin: 0.75em 0;
+    font-style: italic;
+    text-decoration: none;
+    transition: 200ms;
+    text-shadow: 0 0 3px var(--primary-color);
+  }
+
+  #continue:hover {
+    color: var(--light-color);
+  }
+
+  #successMessage {
+    display: fixed;
+    width: 500px;
+    max-width: 100%;
+    background: var(--bg-color);
+    border-radius: 5px;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 15px var(--primary-color), inset 0 0 15px var(--primary-color);
+    padding: 1em;
+    line-height: 1.2;
+  }
+
+  #successMembershipType {
+    font-family: var(--code-font);
+    display: block;
+    margin-top: 0.25em;
+  }
+
+
+  @keyframes ColorShift {
+    0%, 100% {
+      color: var(--primary-color);
+      text-shadow: 0 0 3px var(--primary-color);
+      box-shadow: 0 0 15px var(--primary-color), inset 0 0 15px var(--primary-color);
+    }
+
+/*    16% {
+      color: var(--red-color);
+    }*/
+
+    33% {
+      color: var(--yellow-color);
+      text-shadow: 0 0 3px var(--yellow-color);
+      box-shadow: 0 0 15px var(--yellow-color), inset 0 0 15px var(--yellow-color);
+    }
+
+/*    50% {
+      color: var(--green-color);
+    }*/
+
+    66% {
+      color: var(--light-link-color);
+      text-shadow: 0 0 3px var(--light-link-color);
+      box-shadow: 0 0 15px var(--light-link-color), inset 0 0 15px var(--light-link-color);
+    }
+
+
+  }
 
 
   @keyframes Glow {
@@ -274,6 +367,12 @@
     <section class="cta">
       <h1>Purchase a V.I.P. Membership Today!</h1>
       <h2>Don't you want to be a Very Important Paypig?</h2>
+      <h2 id="remainingText">Limited Edition of 101!</h2>
+      <connect-wallet>
+        <div slot="connected">
+          <div class="center" style="margin-top:1em"><a id="mintNowButton" href="#mintNow">Mint Now</a></div>
+        </div>
+      </connect-wallet>
     </section>
 
 
@@ -297,14 +396,14 @@
           </tr>
 
           <tr>
-            <td>25 FREE SexyCredits*</td>
+            <td>25 FREE SexyCredits<span style="color: var(--primary-color); font-size: 2em; height: 0; line-height:0">*</span></td>
             <td class="red">✕</td>
             <td class="green">✓</td>
             <td class="green">✓</td>
           </tr>
 
           <tr>
-            <td>Customer Support 24/7 !</td>
+            <td>Customer Support 24/7!</td>
             <td class="red">✕</td>
             <td class="green">✓</td>
             <td class="green">✓</td>
@@ -353,20 +452,23 @@
           </tr>
         </tbody>
       </table>
-      <em style="font-size: 0.85em; margin-top: 1em">* Doms typically accept SexyCredits at a rate of 0.01 ETH = 1 SexyCredit</em>
-   </section>
+      <div style="display: flex; align-items: center; justify-content: center;margin-top: 0.5em">
+        <div style="font-size: 2em; padding: 0.25em; color: var(--primary-color); transform: translateX(12px);">*</div>
+        <em style="font-size: 0.85em; margin-top: 1em">SexyCredits are accepted by all FinSexy findoms at a rate of 0.01 ETH = 1 SexyCredit. SexyCredits may only be transferred among other FinSexy VIP Members. Members may approve up to one operator to transfer their SexyCredits.</em>
+      </div>
+    </section>
 
-   <section class="mintSection">
-     <div class="filterRow" style="display: flex; margin-bottom:0.5em">
-       <h3 style="margin-right: 0.5em;">Membership Type:</h3>
-       <button id="standardSelection" style="margin-right: 0.5em;">Standard</button>
-       <button id="goldSelection">Gold</button>
-     </div>
-     <div id="vipPreview"></div>
+    <section class="mintSection" id="mintNow">
+      <div class="filterRow" style="display: flex; margin-bottom:0.5em">
+        <h3 style="margin-right: 0.5em;">Membership Type:</h3>
+        <button id="standardSelection" style="margin-right: 0.5em;">Standard</button>
+        <button id="goldSelection">Gold</button>
+      </div>
+      <div id="vipPreview"></div>
 
 
 
-     <connect-wallet>
+    <connect-wallet>
       <div slot="connected">
         <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-top: 1em;">
           <button id="mintButton">Mint</button>
@@ -391,9 +493,14 @@
 
   <footer style="margin-top: 2em"></footer>
 
-  <sexy-modal id="profileModal" blur="true" >
-    <sexy-user-profile slot="content"></sexy-user-profile>
+  <sexy-modal id="successModal">
+    <div slot="content" id="successMessage">
+      <h1 style="line-height: 1.5;">Congratulations! You have successfully purchased: <span id="successMembershipType">VIP Membership</span></h1>
+      <a id="continue" href="./profile#vipSection">Continue →</a>
+    </div>
   </sexy-modal>
+
+
 </body>
 
 
@@ -416,13 +523,12 @@
   const $mintButton = $.id('mintButton')
   const $mintError = $.id('mintError')
   const $remaining = $.id('remaining')
+  const $remainingText = $.id('remainingText')
+  const $successModal = $.id('successModal')
 
 
 
-  const $profileModal = $.id('profileModal')
-  if (!ls.get('profileCompleted') && !ls.get('profileDeferred')) {
-    $profileModal.open()
-  }
+
 
 
 
@@ -472,20 +578,26 @@
 
   provider.onConnect(async (addr) => {
     const { SexyVIP, SexyMinter } = await provider.sexyContracts()
-    const totalSupply = await SexyVIP.totalSupply()
-    const maxSupply = await SexyVIP.maxSupply()
-
-    if (totalSupply === maxSupply) {
-      $mintButton.disabled = true
-      PREVIEW_TOKEN_ID = 69
-      // TODO link to opensea
-    } else {
-      PREVIEW_TOKEN_ID = previewTokenId(totalSupply)
-    }
 
 
+    setRunInterval(async () => {
+      const totalSupply = await SexyVIP.totalSupply()
+      const maxSupply = await SexyVIP.maxSupply()
+      const tokensLeft = maxSupply - totalSupply
+      $remaining.innerHTML = tokensLeft
+      $remainingText.innerHTML = `Only ${tokensLeft}/101 Left!`
 
-    $remaining.innerHTML = maxSupply - totalSupply
+      if (totalSupply === maxSupply) {
+        $mintButton.disabled = true
+        PREVIEW_TOKEN_ID = 69
+        // TODO link to opensea
+      } else {
+        PREVIEW_TOKEN_ID = previewTokenId(totalSupply)
+      }
+    }, 6000)
+
+
+
     standardPrice = ethVal(await SexyMinter.mintPrice())
     goldPrice = ethVal(await SexyMinter.goldPrice())
 
@@ -505,11 +617,19 @@
         },
         (successTx) => {
           $mintError.innerHTML = 'Success!'
+          $.id('successMembershipType').innerHTML = goldSelected ? '<span style="color: var(--yellow-color)">VIP Gold Membership</span>' : 'VIP Membership'
+          window.scrollTo(0, 0)
+          $successModal.open()
         },
       )
     }
   })
 
+
+
+
+
+    // $successModal.open()
 
 
 

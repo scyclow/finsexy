@@ -71,8 +71,13 @@ createComponent(
 
 
     const blur = ctx.getAttribute('blur')
+    const display = ctx.getAttribute('display')
     if (blur) {
       ctx.$bg.classList.add('blur')
+    }
+
+    if (display) {
+      ctx.setState({ display: true })
     }
 
     ctx.close = () => {

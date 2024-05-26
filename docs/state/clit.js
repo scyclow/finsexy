@@ -386,8 +386,11 @@ export const sexyCLIT = {
   vipBuy(isGold, cb, errorCb, successCb=noop) {
     document.documentElement.classList.remove('orgasm')
     setTimeout(async () => {
+      const sources = []
       try {
         document.body.classList.add('preOrgasm')
+        precumSound(sources)
+
         const { SexyMinter } = await provider.sexyContracts()
 
         const standardPrice = ethVal(await SexyMinter.mintPrice())
@@ -404,10 +407,12 @@ export const sexyCLIT = {
         document.documentElement.classList.add('orgasm')
 
         successCb(tx)
+        orgasmSound(sources, 1.25)
 
       } catch (e) {
         console.log(e)
         document.body.classList.remove('preOrgasm')
+        cancelSound(sources)
 
         errorCb(`ERROR: ${e?.data?.message || e.message || JSON.stringify(e)}`)
       }
@@ -419,16 +424,21 @@ export const sexyCLIT = {
     document.documentElement.classList.remove('orgasm')
     const recipient = domName.toLowerCase()
 
-    const downcasedChats = Object.keys(MessageHandler.chats).reduce((a, c) => {
-      a[c.toLowerCase()] = MessageHandler.chats[c]
-      return a
-    }, {})
-
-    const domAddr = downcasedChats[recipient].contract.address
+    const chat = Object.values(MessageHandler.chats).find(c => c.chatName.toLowerCase() === recipient)
+    const domAddr = chat.contract.address
+    const sendHandler = chat.messages?.__sendHandler
 
     setTimeout(async () => {
+      const sources = []
       try {
         document.body.classList.add('preOrgasm')
+
+        if (!clitLS.get('devIgnoreWait')) {
+          precumSound(sources)
+        }
+
+        const presendTributeAmount = await tributeLS.getAdjustedTribute(chat.chatName)
+
         const { SexyVIP } = await provider.sexyContracts()
         const activeTokenId = await this.getActiveVIP()
 
@@ -438,11 +448,32 @@ export const sexyCLIT = {
         await tx.wait()
         document.body.classList.remove('preOrgasm')
         successCb(tx)
-        if (!clitLS.get('devIgnoreWait')) document.documentElement.classList.add('orgasm')
+
+        MessageHandler.globalCtx.hasPaid = true
+
+        if (!clitLS.get('devIgnoreWait')) {
+          document.documentElement.classList.add('orgasm')
+          orgasmSound(sources, 1.25)
+        }
+
+        if (sendHandler && !chat.ctx.pendingEvent) {
+          const postsendTributeAmount = await tributeLS.getAdjustedTribute(chat.chatName)
+          const action = await sendHandler(chat.ctx, fromWei(presendTributeAmount), fromWei(postsendTributeAmount), provider)
+
+          chat.queueEvent(action.messageCode, action.waitMs)
+        }
+
+        if (!VinceChat.ctx.history.length && !VinceChat.ctx.eventQueue.length) {
+          VinceChat.queueEvent('hello', 1)
+          ls.set('TRIBUTE_EVENT_1', true)
+        }
+
 
       } catch (e) {
         console.log(e)
         document.body.classList.remove('preOrgasm')
+        cancelSound(sources)
+
         errorCb(`ERROR: ${e?.data?.message || e.message || JSON.stringify(e)}`)
       }
     })
@@ -575,7 +606,6 @@ export const sexyCLIT = {
     const addr = chat.contract.address
     const sendHandler = chat.messages?.__sendHandler
     setTimeout(async () => {
-
       const sources = []
       try {
         document.body.classList.add('preOrgasm')
@@ -687,7 +717,6 @@ function precumSound(sources) {
 }
 
 function orgasmSound(sources, base) {
-
   sources[3].smoothGain(MAX_VOLUME/2, 0.2)
   sources[4].smoothGain(MAX_VOLUME/2, 0.2)
   sources[5].smoothGain(MAX_VOLUME/2, 0.2)

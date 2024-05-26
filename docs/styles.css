@@ -130,6 +130,7 @@ button {
 button:hover {
   background: var(--light-color);
   color: var(--bg-color);
+  text-shadow: 0 0 2px var(--secondary-color);
 }
 
 button:disabled {

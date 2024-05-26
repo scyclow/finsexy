@@ -42,6 +42,7 @@ TODO
     max-width: 450px;
     margin: 2em auto;
     padding: 0 1em;
+    scroll-behavior: smooth;
   }
 
   h1 {
@@ -290,6 +291,11 @@ TODO
     opacity: 0.6;
   }
 
+  .info {
+    margin-top: 0.5em;
+    text-align: center;
+  }
+
   .danger button:disabled {
     box-shadow: 0 0 0;
     opacity: 0.35;
@@ -496,6 +502,7 @@ TODO
         </h2>
         <div id="vipPreview"></div>
 
+        <p class="info"><em>This Membership card will be used for all VIP actions, such as spending, transferring, and approving SexyCredits</em></p>
         <hr>
 
 
@@ -512,12 +519,14 @@ TODO
         <hr>
 
         <div>
-          <h2>Send SexyCredits</h2>
+          <h2>Transfer SexyCredits</h2>
           <div class="formRow">
             <input id="creditReceiver" type="number" step="1" min="0" placeholder="Membership ID" style="margin-bottom: 0.5em;">
             <input id="creditAmount" type="number" step="1" min="1" placeholder="Amount" style="margin-bottom: 0.5em;">
-            <button id="sendCredits">Send</button>
+            <button id="sendCredits">Transfer</button>
             <p class="prefMessage" id="sendCreditsMessage"></p>
+
+            <p class="info"><em>SexyCredits can be transfered to any FinSexy VIP Member</em></p>
 
           </div>
         </div>
@@ -530,6 +539,7 @@ TODO
             <input id="approveAddr" type="text" placeholder="Operator Address" style="margin-top: 0.5em; margin-bottom: 1em; text-align: center; width: 26em; max-width: 90%; font-size: 1.1em;">
             <button id="approveCredits">Approve</button>
             <p class="prefMessage" id="approveMessage"></p>
+            <p class="info"><em>Any Ethereum address can be approved as an operator to transfer your SexyCredits</em></p>
           </div>
         </div>
 
@@ -832,6 +842,11 @@ TODO
     if (allVIPIds.length) {
       $vipSection.classList.remove('hidden')
 
+      if (location.hash === '#vipSection') {
+        location.hash = ''
+        location.hash = '#vipSection'
+      }
+
       $activeVIPToken.innerHTML = allVIPIds.map(id => `<option value="${id}" ${Number(id) === Number(activeId) ? 'selected' : ''}>${id}</option>`).join('')
       updateActiveVIP(activeId)
       $activeVIPToken.onchange = (e) => {
@@ -848,7 +863,7 @@ TODO
         sexyCLIT.vipTransfer(
           recipient,
           amount,
-          () => $sendCreditsMessage.innerHTML = `Sending ${amount} SexyCredits to VIP Member ${recipient}`,
+          () => $sendCreditsMessage.innerHTML = `Transferring ${amount} SexyCredits to VIP Member ${recipient}`,
           e => $sendCreditsMessage.innerHTML = `ERROR: ${e}`,
           () => {
             sexyCLIT.getActiveVIP().then(id => updateActiveVIP(id))
