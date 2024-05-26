@@ -12,6 +12,9 @@ const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 /*
 TODO
+  - get rid of prepayment penalty
+
+
   - if completed @crystalgoddess cleansing ceremony, mention money laundering
   - respond if user mentions @crystalgoddess or cleansing ceremony
     -  normally this would be a taxable event, but it i exempt on religious grounds
@@ -186,10 +189,22 @@ const SamanthaMessages = {
 
   async __contract(provider) {
     return await provider.domContract('SamanthaJones')
-
   },
 
-
+  __sendHandler(ctx, preAmount, postAmount, provider) {
+    if (ctx.history.length === 0) {
+      return {
+        messageCode: 'pleaseHold',
+        waitMs: 7000
+      }
+    } else {
+      ctx.state.nextNode = ctx.lastDomCodeSent
+      return {
+        messageCode: 'suchATease',
+        waitMs: 5000
+      }
+    }
+  },
 
   __precheck(userResponse, ctx, contract, provider) {
 
@@ -224,7 +239,13 @@ const SamanthaMessages = {
   },
 
   START: {
-    responseHandler: (userResponse) => `helpYou`
+    responseHandler: `helpYou`
+  },
+
+
+  suchATease: {
+    messageText: () => `Oh ${getUserData('name')}, you are such a tease! But paying your penality before we finish the audit is a strict breach of protocol. Work before pleasure, please!`,
+    responseHandler: (ur, ctx) => ctx.state.nextNode
   },
 
   helpYou: {
@@ -233,10 +254,10 @@ const SamanthaMessages = {
       ctx.state.messagedFirst = true
 
       const isConnected = await provider.isConnected()
-      if (isConnected && ctx.state.paymentOffset) return 'instructions'
+      if (isConnected && ctx.state.completed) return 'instructions'
       else if (isConnected) return 'pleaseHold'
-      else if (!window.ethereum) return 'onlyWeb3'
-      else return 'onlyConnected'
+      // else if (!window.ethereum) return 'onlyWeb3'
+      // else return 'onlyConnected'
     }
   },
 
@@ -1066,6 +1087,7 @@ const SamanthaMessages = {
   ], {
     responseHandler: async (ur, ctx, contract) => {
       await tributeLS.resetTributeAdjustments('SamanthaJones')
+      ctx.state.completed = true
 
       return 'helpYou'
     }

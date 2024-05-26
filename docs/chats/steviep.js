@@ -215,6 +215,20 @@ const StevieMessages = {
 
   },
 
+  __sendHandler(ctx, preAmount, postAmount, provider) {
+    if (ctx.history.length === 0) {
+      return {
+        messageCode: 'helloThere',
+        waitMs: 4000
+      }
+    } else {
+      ctx.state.nextNode = ctx.lastDomCodeSent
+      return {
+        messageCode: 'moneyEyes',
+        waitMs: 4000
+      }
+    }
+  },
   __precheck(ur, ctx, contract, provider, isFollowup) {
     if (ur && isMatch(ur, ['error', 'bug', 'not working'])) {
       return {
@@ -238,6 +252,21 @@ const StevieMessages = {
         responseHandler: (ur, ctx) => ctx.lastDomCodeSent
       }
     }
+  },
+
+  helloThere: {
+    messageText: `hello there 😏`,
+    followUp: fu('howsItGoing')
+  },
+
+  howsItGoing: {
+    messageText: `how's it going?`,
+    responseHandler: 'thatsNice'
+  },
+
+  moneyEyes: {
+    messageText: `🤑`,
+    responseHandler: (ur, ctx) => ctx.state.nextNode
   },
 
   hello: {

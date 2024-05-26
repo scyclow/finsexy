@@ -298,6 +298,7 @@ export function createEvent(threshold, responses={}, waitMs=600000) {
       ctx.state.nodeResponses[ctx.lastDomCodeSent] = true
 
       ctx.state.startingBalance = (await tributeLS.getAdjustedTribute(ctx.chatName)).toString()
+
     },
 
     async check(ur, ctx, contract, provider) {
@@ -408,6 +409,7 @@ class ChatContext {
         this.eventQueue = existingContext.eventQueue || []
         this.unread = existingContext.unread || 0
         this.history = existingContext.history || []
+        this.pendingEvent = existingContext.pendingEvent || false
 
         MessageHandler.updateGlobalUnread()
         onRehydrate(this.history)
@@ -432,6 +434,7 @@ class ChatContext {
     this.chatLS.set('lastUserMessageTimestamp', this.lastUserMessageTimestamp)
     this.chatLS.set('lastUserResponse', this.lastUserResponse)
     this.chatLS.set('totalMessages', this.totalMessages)
+    this.chatLS.set('pendingEvent', this.pendingEvent)
 
   }
 
@@ -556,6 +559,7 @@ export class MessageHandler {
     setRunInterval(async () => {
       const currentNode = this.getMessageToSend(this.ctx.lastDomCodeSent)
       const eventNode = currentNode.event
+      this.ctx.pendingEvent = !!eventNode
       if (eventNode) {
         const node = this.messages[eventNode]
         const event = await node.check(
@@ -636,8 +640,9 @@ export class MessageHandler {
     }
 
     if (nextMessage.timestamp > now || this.delayed) return
+    const evt = this.ctx.eventQueue.shift()
 
-    const { messageCode, userResponse, isFollowup, referrer } = this.ctx.eventQueue.shift()
+    const { messageCode, userResponse, isFollowup, referrer } = evt
 
 
     const ur = this.reducedUserResponse || userResponse || this.ctx.lastUserResponse

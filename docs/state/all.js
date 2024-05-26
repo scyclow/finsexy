@@ -163,6 +163,8 @@ export const tributesPromise = new Promise((res, rej) => {
 
 
 
+
+
 provider.onConnect(async (addr) => {
   MessageHandler.visibilityCtx.DungeonMistress = 'online'
   MessageHandler.visibilityCtx.SamanthaJones = 'online'
@@ -180,9 +182,8 @@ provider.onConnect(async (addr) => {
   const timeElapsed = Date.now() - analyticsLS.get('firstEntry')
 
 
-  const allTributes = await tributesPromise
+  const allTributes = await tributeLS.getAdjustedTributesETH()
   const tributeCount = Object.values(allTributes).filter(t => !!t).length
-
 
 
   // FIRST TRIBUTE: vince || samantha || andy || mindy
@@ -203,7 +204,6 @@ provider.onConnect(async (addr) => {
 
   // SECOND DOM TRIBUTE: samantha || andy || mindy
   if (tributeCount === 2 && !ls.get('TRIBUTE_EVENT_2')) {
-    console.log('tributes2')
     if (!samanthaResponded) {
       SamanthaChat.queueEvent('regretToInform', 1)
     } else if (unmessaged(AndyChat)) {
@@ -217,7 +217,6 @@ provider.onConnect(async (addr) => {
 
   // THIRD DOM TRIBUTE: andy || mindy
   if (tributeCount === 3 && !ls.get('TRIBUTE_EVENT_3')) {
-    console.log('tributes3')
     if (unmessaged(AndyChat)) {
       AndyChat.queueEvent('reachingOut', 1)
     } else if (unmessaged(MindyChat)) {

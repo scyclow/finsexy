@@ -564,18 +564,17 @@ export const sexyCLIT = {
     document.documentElement.classList.remove('orgasm')
     const recipient = _recipient.toLowerCase()
 
-    const downcasedChats = Object.keys(MessageHandler.chats).reduce((a, c) => {
-      a[c.toLowerCase()] = MessageHandler.chats[c]
-      return a
-    }, {})
+    const chat = Object.values(MessageHandler.chats).find(c => c.chatName.toLowerCase() === recipient)
 
-    const addr = downcasedChats[recipient].contract.address
+    if (!chat) {
+      return cb(`Invalid recipient: ${recipient}`)
+    } else if (isNaN(Number(amount))) {
+      return cb(`Invalid amount: ${amount}`)
+    }
+
+    const addr = chat.contract.address
+    const sendHandler = chat.messages?.__sendHandler
     setTimeout(async () => {
-      if (!downcasedChats[recipient]) {
-        return cb(`Invalid recipient: ${recipient}`)
-      } else if (isNaN(Number(amount))) {
-        return cb(`Invalid amount: ${amount}`)
-      }
 
       const sources = []
       try {
@@ -584,6 +583,8 @@ export const sexyCLIT = {
         if (!clitLS.get('devIgnoreWait')) {
           precumSound(sources)
         }
+
+        const presendTributeAmount = await tributeLS.getAdjustedTribute(chat.chatName)
 
         if (clitLS.get('paymentsFaked')) {
           await new Promise(res => setTimeout(res, 1000))
@@ -612,6 +613,13 @@ export const sexyCLIT = {
         if (!clitLS.get('devIgnoreWait')) {
           document.documentElement.classList.add('orgasm')
           orgasmSound(sources, 1.25)
+        }
+
+        if (sendHandler && !chat.ctx.pendingEvent) {
+          const postsendTributeAmount = await tributeLS.getAdjustedTribute(chat.chatName)
+          const action = await sendHandler(chat.ctx, fromWei(presendTributeAmount), fromWei(postsendTributeAmount), provider)
+
+          chat.queueEvent(action.messageCode, action.waitMs)
         }
 
       } catch (e) {

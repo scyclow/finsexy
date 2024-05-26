@@ -78,7 +78,15 @@ const CandyCrushMessages = {
 
   async __contract(provider) {
     return await provider.domContract('CandyCrush')
+  },
 
+  __sendHandler(ctx, preAmount, postAmount, provider) {
+    if (ctx.history.length === 0) {
+      return {
+        messageCode: 'likeIt',
+        waitMs: 6000
+      }
+    }
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {

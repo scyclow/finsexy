@@ -212,7 +212,21 @@ const AndyMessages = {
 
   async __contract(provider) {
     return await provider.domContract('DrAndy')
+  },
 
+  __sendHandler(ctx, preAmount, postAmount, provider) {
+    if (ctx.history.length === 0) {
+      return {
+        messageCode: 'hello',
+        waitMs: 4000
+      }
+    } else if (ctx.state.unavailable) {
+      ctx.state.nextNode = ctx.lastDomCodeSent
+      return {
+        messageCode: 'prepaySession',
+        waitMs: 4000
+      }
+    }
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {
@@ -226,6 +240,11 @@ const AndyMessages = {
         responseHandler: (ur, ctx) => isYes(ur) ? 'treatment' : ctx.lastDomCodeSent
       }
     }
+  },
+
+  prepaySession: {
+    messageText: `Excellent, I see you've a payment towards your next session! I'm so glad that you're taking your mental health seriously!`,
+    responseHandler: (ur, ctx) => ctx.state.nextNode
   },
 
   hello: {
@@ -891,6 +910,7 @@ const AndyMessages = {
   contactSteviep: {
     messageText: (ur, ctx) => `For additional customer support, please contact @steviep. If you'd like to purchase my ebook, <strong>Conquering Your FinDom Addiction in 6 Easy Steps</strong>, please send ${ctx.global.premium * 0.01} ETH to my wallet from my profile page, or by typing <code>$sexy send DrAndy ${ctx.global.premium * 0.01}</code>`,
     responseHandler: (ur, ctx) => {
+      ctx.state.unavailable = true
       ctx.visibility.DrAndy = 'offline'
       return 'unavailable'
     }

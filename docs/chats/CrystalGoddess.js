@@ -209,6 +209,14 @@ export const CrystalGoddessMessages = {
     return await provider.domContract('CrystalGoddess')
   },
 
+  __sendHandler(ctx, preAmount, postAmount, provider) {
+    if (ctx.history.length === 0) {
+      return {
+        messageCode: 'hello',
+        waitMs: 4000
+      }
+    }
+  },
   __precheck(userResponse, ctx, contract, provider, isFollowup) {
     // if (ctx.state.blocked) {
       // TODO return event that unblocks upon send

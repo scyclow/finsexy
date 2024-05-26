@@ -145,7 +145,21 @@ const VinceMessages = {
 
   async __contract(provider) {
     return await provider.domContract('VinceSlickson')
+  },
 
+  __sendHandler(ctx, preAmount, postAmount, provider) {
+    if (ctx.history.length === 0) {
+      return {
+        messageCode: 'hello',
+        waitMs: 2000
+      }
+    } else {
+      ctx.state.nextNode = ctx.lastDomCodeSent
+      return {
+        messageCode: 'headsAt',
+        waitMs: 4000
+      }
+    }
   },
 
   __precheck(userResponse, ctx, contract, provider, isFollowup) {
@@ -168,6 +182,14 @@ const VinceMessages = {
       }
     }
   },
+
+  ...diatribe('headsAt', [
+    `I like where your head's at, but we need to talk business before we get to pleasure`,
+    `What were we talking about again?`,
+    `Oh yeah`
+  ], {
+    followUp: (ur, ctx) => fu(ctx.state.nextNode)
+  }),
 
   ...diatribe('samanthaJones', [
     `She never likes to have any fun`,

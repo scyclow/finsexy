@@ -73,8 +73,19 @@ export const tributeLS = {
 
     for (let dom of Object.keys(domContracts)) {
       allTributes[dom] = (await domContracts[dom].tributes(addr)).sub(allTributes[dom] || '0')
-
     }
+
+    return allTributes
+  },
+
+
+  async getAdjustedTributesETH() {
+    const allTributes = await this.getAdjustedTributes()
+
+    for (let dom of Object.keys(allTributes)) {
+      allTributes[dom] = fromWei(allTributes[dom])
+    }
+
 
     return allTributes
   }

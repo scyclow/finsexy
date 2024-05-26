@@ -232,6 +232,15 @@ const HeatherHotMessages = {
     }
   },
 
+  __sendHandler(ctx, preAmount, postAmount, provider) {
+    if (postAmount - preAmount >= 0.01 * ctx.global.premium) {
+      return {
+        messageCode: 'soGood',
+        waitMs: 5000
+      }
+    }
+  },
+
   START: {
     responseHandler: (userResponse) => {
       if (userResponse) {
@@ -350,7 +359,7 @@ const HeatherHotMessages = {
 
   nextSteps: {
     messageText: (ur, ctx) => {
-      if (ctx.state.paymentOffset && !ctx.state.askingQuestions) {
+      if (ctx.state.completed && !ctx.state.askingQuestions) {
         return 'hello again. are you ready for me to suck your wallet dry? or do you want me to tell you more about finsexy?'
       } else {
         return `so what do you say? are you ready for me to ${ctx.state.isNew ? 'pop your findom cherry' : 'suck your wallet dry'}? or do you want to me to tell you more about finsexy?`
@@ -907,6 +916,7 @@ const HeatherHotMessages = {
     messageText: `this was fun. if you ever want to send me more money then you know where to find me 😘`,
     responseHandler: async (ur, ctx, contract) => {
       await tributeLS.resetTributeAdjustments('heatherHot')
+      ctx.state.completed = true
       return 'nextSteps'
     }
   },
