@@ -1086,7 +1086,7 @@ const SamanthaMessages = {
     `If you ever need another audit, don't hesitate to get in touch.`,
   ], {
     responseHandler: async (ur, ctx, contract) => {
-      await tributeLS.resetTributeAdjustments('SamanthaJones')
+      await tributeLS.resetAllTributeAdjustment('SamanthaJones')
       ctx.state.completed = true
 
       return 'helpYou'

@@ -92,7 +92,7 @@ export const QueenProfile = {
     lang: 'en-AU',
     name: 'Karen'
   },
-  description: `I'm the reason your wife is going to leave you 💸 #findom 👑 #brat 🙇‍♀️🙇🙇‍♂️ #paypig 🐷 e/acc 🔥 #spoilme 🥵💦
+  description: `I'm the reason your wife is going to leave you. Send until it hurts 💸 #findom 👑 #brat 🙇‍♀️🙇🙇‍♂️ #paypig 🐷 e/acc 🔥 #spoilme 🥵💦
   <br/>💵 ${MessageHandler.globalCtx.premium * 0.01} ETH tribute to talk 💵
   `,
   testimonials: [

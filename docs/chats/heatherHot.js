@@ -126,7 +126,7 @@ export const HeatherHotProfile = {
     lang: 'en-US',
     name: 'Samantha'
   },
-  description: `My name is Heather, and I'm here to help`,
+  description: `My name is Heather, and I'm your next girlfriend. `,
   testimonials: [
     {
       name: '0xfFff...3892',
@@ -447,6 +447,7 @@ const HeatherHotMessages = {
 
   ...diatribe('moreInfo3', [
     `if you <em>really</em> like sending then you should definitely buy a VIP Membership!`,
+    `VIP Members are so hot`,
     `VIP Members get 25 SexyCredits, which they can use to pay their favorite findoms`,
     `each SexyCredit is worth 0.01 ETH, but you can get 25 of them for only 0.1 ETH!`,
     `and if you pay an extra 0.05 ETH then you'll get a <em>really</em> hot Gold Star on your Membership card`,
@@ -712,19 +713,19 @@ const HeatherHotMessages = {
       const balance = await provider.getETHBalance(await provider.isConnected())
       if (balance < 0.01) return fu('downToBusiness')
       else return fu('loveToFeelIt')
-
-      return { messageCode: 'downToBusiness', waitMs: 4000 }
     }
   },
 
   loveToFeelIt: {
     messageText: `i'd love to feel it inside my wallet`,
-    followUp: fu('currencyExchange')
+    followUp: fu('currencyExchange'),
+    event: 'sendEvent',
   },
 
   currencyExchange: {
     messageText: `currency exchange is <em>so</em> hot. don't you agree?`,
-    responseHandler: 'downToBusiness'
+    responseHandler: 'downToBusiness',
+    event: 'sendEvent',
   },
 
   downToBusiness: {
@@ -817,6 +818,12 @@ const HeatherHotMessages = {
   fantasyToReality: {
     messageText: `and we can turn this fantasy into reality`,
     event: 'sendEvent',
+    followUp: fu('alsoCredits'),
+  },
+
+  alsoCredits: {
+    messageText: `i also take SexyCredits`,
+    event: 'sendEvent',
     responseHandler: 'sendHelp'
   },
 
@@ -878,7 +885,10 @@ const HeatherHotMessages = {
 
   goodPaypig: {
     messageText: () => `and because you've been such a good little ${genderSwitch({m: 'boy', f: 'girl', nb: 'paypig'})} i sent a really hot pic to your wallet 🔥`,
-    followUp: fu('whatYouWanted')
+    followUp: async () => {
+      await tributeLS.resetAllTributeAdjustment('heatherHot')
+      return fu('whatYouWanted')
+    }
   },
 
   whatYouWanted: {
@@ -915,7 +925,6 @@ const HeatherHotMessages = {
   again: {
     messageText: `this was fun. if you ever want to send me more money then you know where to find me 😘`,
     responseHandler: async (ur, ctx, contract) => {
-      await tributeLS.resetTributeAdjustments('heatherHot')
       ctx.state.completed = true
       return 'nextSteps'
     }
