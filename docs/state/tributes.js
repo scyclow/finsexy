@@ -86,7 +86,19 @@ export const tributeLS = {
       allTributes[dom] = fromWei(allTributes[dom])
     }
 
-
     return allTributes
+  },
+
+  async getAdjustedTributeETH(dom) {
+    const addr = await provider.isConnected()
+    const domContracts = await provider.domContracts()
+
+    return fromWei((await domContracts[dom].tributes(addr)).sub(this.get(dom) || '0'))
+  },
+
+
+  async adjustTributeValue(ctx, amount) {
+    const adjusted = ctx.global.premium * amount - await this.getAdjustedTributeETH(ctx.chatName)
+    return Math.round(adjusted * 10000) / 10000
   }
 }

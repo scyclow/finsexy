@@ -85,8 +85,27 @@ export const KatMessages = {
 
   async __contract(provider) {
     return await provider.domContract('katFischer')
-
   },
+
+  __sendHandler(ctx, preAmount, postAmount, provider) {
+    if (!ctx.state.sends) {
+      return {
+        messageCode: 'firstSendPause',
+        waitMs: 5000
+      }
+    } else if (ctx.state.sends === 1) {
+      return {
+        messageCode: 'jesusChrist',
+        waitMs: 5000
+      }
+    } else if (ctx.state.sends === 2) {
+      return {
+        messageCode: 'omfg',
+        waitMs: 5000
+      }
+    }
+  },
+
   START: {
     responseHandler: `steviep`
   },
@@ -248,7 +267,10 @@ export const KatMessages = {
 
   youGotMe: {
     messageText: `Okay, okay, you got me.`,
-    followUp: { messageCode: 'katherine', waitMs: 3000 }
+    followUp: (ur, ctx) => {
+      ctx.state.sends = 1
+      return { messageCode: 'katherine', waitMs: 3000 }
+    }
   },
 
   katherine: {
@@ -328,7 +350,10 @@ export const KatMessages = {
 
   jesusChrist: {
     messageText: `lol, jesus christ`,
-    followUp: { messageCode: 'fuckingMoron', waitMs: 1000 }
+    followUp: (ur, ctx) => {
+      ctx.state.sends = 2
+      return { messageCode: 'fuckingMoron', waitMs: 1000 }
+    }
   },
 
   fuckingMoron: {
@@ -462,7 +487,10 @@ export const KatMessages = {
 
   omfg: {
     messageText: `OMFG HAHAHA`,
-    followUp: { messageCode: 'fellForItAgain', waitMs: 2000 }
+    followUp: (ur, ctx) => {
+      ctx.state.sends = 3
+      return { messageCode: 'fellForItAgain', waitMs: 2000 }
+    }
   },
 
 
@@ -505,6 +533,7 @@ export const KatMessages = {
   startOver: {
     messageText: () => `If you really want we can just start over LOL, but i'm sure as hell not sending you any money back`,
     responseHandler: async (ur, ctx, contract) => {
+      ctx.state.sends = 0
       await tributeLS.resetTributeAdjustment('katFischer')
 
       return 'steviep'

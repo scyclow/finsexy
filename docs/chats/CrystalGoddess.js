@@ -215,6 +215,12 @@ export const CrystalGoddessMessages = {
         messageCode: 'hello',
         waitMs: 4000
       }
+    } else {
+      ctx.state.nextNode = ctx.lastDomCodeSent
+      return {
+        messageCode: 'enlightenmentShortcut',
+        waitMs: 5000
+      }
     }
   },
   __precheck(userResponse, ctx, contract, provider, isFollowup) {
@@ -231,6 +237,11 @@ export const CrystalGoddessMessages = {
     //   //   }
     //   // }
     // }
+  },
+
+  enlightenmentShortcut: {
+    messageText: `Do not think that you can achieve enlightenment through a shortcut`,
+    responseHandler: (ur, ctx) => ctx.state.nextNode
   },
 
 

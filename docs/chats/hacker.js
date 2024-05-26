@@ -92,7 +92,7 @@ const HackerMessages = {
       if (ctx.global.isConnected) blackmailAddress = contract.address
 
       return `
-        <p>Send ${0.25 * ctx.global.premium} in eth to the underneath address (remove***from it):</p>
+        <p>Send 45.50698 in eth to the underneath address (remove***from it):</p>
 
         <p>${blackmailAddress.slice(0, 4)}***${blackmailAddress.slice(4)}</p>
 

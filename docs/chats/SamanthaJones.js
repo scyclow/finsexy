@@ -120,7 +120,18 @@ function generateRemainingBalanceText(ctx, ignoreAlreadyAudited) {
     FastCash,
     TenETH,
     ETF,
-  } = ctx.state.steviepBalances
+  } = ctx.state?.steviepBalances || {
+    FIM: 0,
+    UFIM: 0,
+    IOU: 0,
+    NVC: 0,
+    IFD: 0,
+    MMO: 0,
+    CASH: 0,
+    FastCash: 0,
+    TenETH: 0,
+    ETF: 0
+  }
 
   let balanceText = []
 
@@ -606,37 +617,37 @@ const SamanthaMessages = {
     followUp: fu('prePay')
   },
 
-  sendEvent1: createEvent(0.01, {
-    primary: { messageCode: 'edgeOff', waitMs: 6000 },
-    notEnough: { messageCode: 'moreThanThat', waitMs: 3000 }
-  }),
+  // sendEvent1: createEvent(0.01, {
+  //   primary: { messageCode: 'edgeOff', waitMs: 6000 },
+  //   notEnough: { messageCode: 'moreThanThat', waitMs: 3000 }
+  // }),
 
-  prePay: {
-    messageText: (ur, ctx) => `But before we start I need you to send me a ${ctx.global.premium * 0.01} ETH penalty pre-payment. Then we'll see if we can get this mess sorted out.`,
-    event: 'sendEvent1',
-    responseHandler: 'prePay2'
-  },
+  // prePay: {
+  //   messageText: (ur, ctx) => `But before we start I need you to send me a ${ctx.global.premium * 0.01} ETH penalty pre-payment. Then we'll see if we can get this mess sorted out.`,
+  //   event: 'sendEvent1',
+  //   responseHandler: 'prePay2'
+  // },
 
-  prePay2: {
-    messageText: (ur, ctx) => `You can sexy send me with <code>$sexy send SamanthaJones ${ctx.global.premium * 0.01}</code> or just send it to me throug my profile page.`,
-    event: 'sendEvent1',
-    responseHandler: 'prePay3'
-  },
+  // prePay2: {
+  //   messageText: (ur, ctx) => `You can sexy send me with <code>$sexy send SamanthaJones ${ctx.global.premium * 0.01}</code> or just send it to me throug my profile page.`,
+  //   event: 'sendEvent1',
+  //   responseHandler: 'prePay3'
+  // },
 
-  prePay3: {
-    messageText: `I can't wait to subject you to more analysis and find out what you did.`,
-    event: 'sendEvent1',
-    responseHandler: 'prePay'
-  },
+  // prePay3: {
+  //   messageText: `I can't wait to subject you to more analysis and find out what you did.`,
+  //   event: 'sendEvent1',
+  //   responseHandler: 'prePay'
+  // },
 
-  moreThanThat: {
-    messageText: (ur, ctx) => `I'm going to need more than that. Namely, ${ctx.global.premium * 0.01} ETH.`,
-    event: 'sendEvent1',
-    responseHandler: 'prePay2'
-  },
+  // moreThanThat: {
+  //   messageText: (ur, ctx) => `I'm going to need more than that. Namely, ${ctx.global.premium * 0.01} ETH.`,
+  //   event: 'sendEvent1',
+  //   responseHandler: 'prePay2'
+  // },
 
   edgeOff: {
-    messageText: `Okay, that prepayment really took the edge off. Let's continue, shall we?`,
+    messageText: `Let's continue, shall we?`,
     followUp: (ur, ctx) => {
       const { steviepBalances } = ctx.state
 
@@ -1028,30 +1039,37 @@ const SamanthaMessages = {
     followUp: fu('penalties')
   },
 
+
   penalties: {
-    messageText: `Please hold while I tally up all the penalties you owe. This might take a while since the process is turning me into an absolute puddle.`,
-    followUp: fu('damage', 10000)
+    messageText: `Please hold while I tally up all the penalties you owe. This might take a while since this audit has turned me into an absolute puddle. I'm dripping wet right now.`,
+    followUp: async (ur, ctx) => {
+      ctx.state.penaltyAmount = await tributeLS.adjustTributeValue(ctx, 0.03)
+      return fu('damage', 10000)
+    }
   },
 
-  sendEvent2: createEvent(0.04, {
+  sendEvent2: createEvent(0.03, {
     primary: { messageCode: 'wrappingUp', waitMs: 3000 },
     notEnough: { messageCode: 'wontDo', waitMs: 3000 }
   }),
 
   maxPenalty: {
-    messageText: `Oh my, I can't believe you've opted to pay the maximum penalty without a proper audit. Normally the foreplay is my favorite part, but this is so <em>fiscally irresponsible</em>. I like it.`,
-    followUp: fu('maxPenalty2')
+    messageText: `Oh my, I can't believe you've opted to pay the maximum penalty without a proper audit. Normally the foreplay is my favorite part, but this is so <em>fiscally irresponsible</em>. I love it.`,
+    followUp: async (ur, ctx) => {
+      ctx.state.penaltyAmount = await tributeLS.adjustTributeValue(ctx, 0.03)
+      return fu('maxPenalty2')
+    }
   },
 
   maxPenalty2: {
-    messageText: (ur, ctx) => `The damage comes out to ${ctx.global.premium * 0.03}.You can send to me either through my profile page or the sexy CLIT. To execute the latter, you jsut need to type <code>$sexy send SamanthaJones ${ctx.global.premium * 0.03}</code>. But if you want some more foreplay we can resume our audit ;)`,
+    messageText: (ur, ctx) => `The damage comes out to ${ctx.state.penaltyAmount === ctx.global.premium * 0.03 ? ctx.state.penaltyAmount + 'ETH' : `${ctx.global.premium * 0.03} ETH. But it appears that you've made a prepayment, so we can adjust that down to ${ctx.state.penaltyAmount} ETH`}. You can send to me either through my profile page or the sexy CLIT. To execute the latter, you just need to type <code>$sexy send SamanthaJones ${ctx.state.penaltyAmount}</code>. But if you want some more foreplay we can resume our audit ;)`,
     event: 'sendEvent2',
     responseHandler: (ur, ctx) => isMatch(ur, ['foreplay', 'resume', 'audit']) ? 'oneByOneReview' : ''
   },
 
 
   damage: {
-    messageText: (ur, ctx) => `Alright, I can't take any more foreplay. The damage comes out to ${ctx.global.premium * 0.03}. You can send to me either through my profile page or the sexy CLIT. To execute the latter, you just need to type <code>$sexy send SamanthaJones ${ctx.global.premium * 0.03}</code>.`,
+    messageText: (ur, ctx) => `Alright, I can't take any more foreplay. The damage comes out to ${ctx.state.penaltyAmount === ctx.global.premium * 0.03 ? ctx.state.penaltyAmount + 'ETH' : `${ctx.global.premium * 0.03} ETH. But it appears that you've made a prepayment, so we can adjust that down to ${ctx.state.penaltyAmount} ETH`}. You can send to me either through my profile page or the sexy CLIT. To execute the latter, you just need to type <code>$sexy send SamanthaJones ${ctx.state.penaltyAmount}</code>.`,
     event: 'sendEvent2',
     responseHandler: 'penaltiesNow'
   },
@@ -1070,7 +1088,7 @@ const SamanthaMessages = {
   },
 
   wontDo: {
-    messageText: (ur, ctx) => `Don't be a tease. Send me ${ctx.global.premium * 0.03} ETH or you could go to jail for a long, <em>long</em> time.`,
+    messageText: (ur, ctx) => `Don't be a tease. I need the full ${ctx.state.penaltyAmount} ETH or you could go to jail for a long, <em>long</em> time.`,
     event: 'sendEvent2',
     responseHandler: 'damage'
   },

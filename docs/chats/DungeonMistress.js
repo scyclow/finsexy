@@ -355,6 +355,11 @@ const BartenderNodes = {
     followUp: fu('bartenderPending')
   },
 
+  bjExpress: {
+    messageText: `You sprint to the bar, stick your tongue out, and point to your gaping mouth.`,
+    followUp: fu('blowBartender')
+  },
+
   blowBartender: {
     messageText: '',
     followUp: (ur, ctx) => {
@@ -401,6 +406,11 @@ const BartenderNodes = {
     messageText: `You stand there awkwardly, unsure what to do. Perhaps order a beer?`,
     responseHandler: (ur, ctx, contract, provider) => isYes(ur) ? 'orderDrink' : bartenderActions('bartenderPending')(ur, ctx, contract, provider)
   },
+
+  bartenderSendFail: {
+    messageText: `"We don't accept ETH in this establishment. But I can think of another way to service your debt."`,
+    followUp: (ur, ctx) => fu(ctx.state.nextNode)
+  }
 }
 
 
@@ -603,7 +613,12 @@ const HarlotsNodes = {
       ctx.state.hasKey = true
       return fu('tavernDeliberate')
     }
-  })
+  }),
+
+  harlotsSendFail: {
+    messageText: `The harlots take your money with a giggle. It does not seem to affect their opinion of you.`,
+    followUp: (ur, ctx) => fu(ctx.state.nextNode)
+  }
 
 }
 
@@ -887,96 +902,7 @@ function townSquareActions(ur, ctx, contract, provider) {
   }
 }
 
-
-
-
-const MistressMessages = {
-  TYPING_SPEED: 0.8,
-
-  START: {
-    responseHandler: `hello`,
-    ignoreSend: true,
-    ignoreType: true
-  },
-
-  async __contract(provider) {
-    return await provider.domContract('DungeonMistress')
-
-  },
-
-  __precheck(ur, ctx, contract, provider, isFollowup) {
-    if (ur && responseParser(ur).includes('inventory')) {
-      const i = []
-      if (ctx.state.beerInventory) i.push(`${ctx.state.beerInventory} Beer${ctx.state.beerInventory === 1 ? '' : 's'}`)
-      if (ctx.state.hasKey) i.push(`Tavern Key`)
-      return {
-        messageText: i.length ? ['Inventory:', ...i].join('<br>') : `Your inventory is empty.`,
-        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
-      }
-    }
-
-    if (ur && isMatch(ur, ['silence', 'remain silent', 'do nothing', 'nothing', 'do not speak', 'stay completely still', 'stay completely still and silent'], true)) {
-      return {
-        messageText: ``,
-        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
-      }
-    }
-
-    if (ur && isMatch(ur, ['masturbate', 'jack off', 'jerk off'], true)) {
-      return {
-        messageText: genderSwitch({
-          m: 'You take your dick out and begin masturbating, but you give up once you find you can not finish.',
-          f: 'You begin masturbating, but you give up once you find you can not finish.',
-          nb: 'You begin masturbating, but you give up once you find you can not finish.',
-        }),
-        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
-      }
-    }
-
-    if (!ctx.state.isDrinkingBeer && ur && isMatch(ur, ['drink beer', 'drink a beer', 'drink the beer'], true)) {
-      if (ctx.state.beerInventory) {
-        ctx.state.drinkBeerReferrer = ctx.lastDomCodeSent
-        ctx.state.isDrinkingBeer = true
-        return {
-          messageText: ``,
-          followUp: fu('drinkBeer', 1)
-        }
-
-      } else {
-        return {
-          messageText: `You have no beer in your inventory to drink.`,
-          responseHandler: (ur, ctx) => ctx.lastDomCodeSent
-        }
-      }
-    }
-  },
-
-  drinkBeer: {
-    messageText: `You drink a beer, but it has no effect.`,
-    followUp: fu('drinkBeerInventory')
-  },
-
-  drinkBeerInventory: {
-    messageText: (ur, ctx) => `<em>(You now have ${ctx.state.beerInventory} Beer${ctx.state.beerInventory === 1 ? '' : 's'} in your inventory)</em>`,
-    responseHandler: (ur, ctx) => {
-      ctx.state.isDrinkingBeer = false
-      return ctx.state.drinkBeerReferrer
-    }
-  },
-
-  hello: {
-    messageText: `You awaken in a dingy tavern, the sour taste of day-old ale clinging to your breath. As the room slowly comes into focus you realize that you are not alone: you feel six glances on you. A bartender washing a beer stein behind the counter. Two harlots cackling over a glass of wine. Three men silently playing poker. Behind them a door leads to the town square outside.`,
-    responseHandler: tavernActions
-  },
-
-  tavernDeliberate: {
-    messageText: `You ponder your next move: talk to the bartender, approach the harlots, join the poker players, or open the door?`,
-    responseHandler: tavernActions
-  },
-
-  ...BartenderNodes,
-  ...HarlotsNodes,
-
+const PokerNodes = {
 
   poker: {
     messageText: '',
@@ -1054,6 +980,129 @@ const MistressMessages = {
       return fu('tavernDeliberate')
     }
   }),
+
+  pokerSendFail: {
+    messageText: `"Oh, we're well past the point where we can be paid off in ETH"`,
+    followUp: (ur, ctx) => fu(ctx.state.nextNode)
+  }
+
+}
+
+
+
+const MistressMessages = {
+  TYPING_SPEED: 0.8,
+
+  START: {
+    responseHandler: `hello`,
+    ignoreSend: true,
+    ignoreType: true
+  },
+
+  async __contract(provider) {
+    return await provider.domContract('DungeonMistress')
+  },
+
+  __sendHandler(ctx, preAmount, postAmount, provider) {
+    if (ctx.history.length === 0) {
+      return {
+        messageCode: 'hello',
+        waitMs: 5000
+      }
+    } else if (Object.keys(BartenderNodes).includes(ctx.lastDomCodeSent)) {
+      ctx.state.nextNode = ctx.lastDomCodeSent
+      return {
+        messageCode: 'bartenderSendFail',
+        waitMs: 5000
+      }
+    } else if (Object.keys(HarlotsNodes).includes(ctx.lastDomCodeSent)) {
+      ctx.state.nextNode = ctx.lastDomCodeSent
+      return {
+        messageCode: 'harlotsSendFail',
+        waitMs: 5000
+      }
+    } else if (Object.keys(PokerNodes).includes(ctx.lastDomCodeSent)) {
+      ctx.state.nextNode = ctx.lastDomCodeSent
+      return {
+        messageCode: 'pokerSendFail',
+        waitMs: 5000
+      }
+    }
+  },
+
+  __precheck(ur, ctx, contract, provider, isFollowup) {
+    if (ur && responseParser(ur).includes('inventory')) {
+      const i = []
+      if (ctx.state.beerInventory) i.push(`${ctx.state.beerInventory} Beer${ctx.state.beerInventory === 1 ? '' : 's'}`)
+      if (ctx.state.hasKey) i.push(`Tavern Key`)
+      return {
+        messageText: i.length ? ['Inventory:', ...i].join('<br>') : `Your inventory is empty.`,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+      }
+    }
+
+    if (ur && isMatch(ur, ['silence', 'remain silent', 'do nothing', 'nothing', 'do not speak', 'stay completely still', 'stay completely still and silent'], true)) {
+      return {
+        messageText: ``,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+      }
+    }
+
+    if (ur && isMatch(ur, ['masturbate', 'jack off', 'jerk off'], true)) {
+      return {
+        messageText: genderSwitch({
+          m: 'You take your dick out and begin masturbating, but you give up once you find you can not finish.',
+          f: 'You begin masturbating, but you give up once you find you can not finish.',
+          nb: 'You begin masturbating, but you give up once you find you can not finish.',
+        }),
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+      }
+    }
+
+    if (!ctx.state.isDrinkingBeer && ur && isMatch(ur, ['drink beer', 'drink a beer', 'drink the beer'], true)) {
+      if (ctx.state.beerInventory) {
+        ctx.state.drinkBeerReferrer = ctx.lastDomCodeSent
+        ctx.state.isDrinkingBeer = true
+        return {
+          messageText: ``,
+          followUp: fu('drinkBeer', 1)
+        }
+
+      } else {
+        return {
+          messageText: `You have no beer in your inventory to drink.`,
+          responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+        }
+      }
+    }
+  },
+
+  drinkBeer: {
+    messageText: `You drink a beer, but it has no effect.`,
+    followUp: fu('drinkBeerInventory')
+  },
+
+  drinkBeerInventory: {
+    messageText: (ur, ctx) => `<em>(You now have ${ctx.state.beerInventory} Beer${ctx.state.beerInventory === 1 ? '' : 's'} in your inventory)</em>`,
+    responseHandler: (ur, ctx) => {
+      ctx.state.isDrinkingBeer = false
+      return ctx.state.drinkBeerReferrer
+    }
+  },
+
+  hello: {
+    messageText: `You awaken in a dingy tavern, the sour taste of day-old ale clinging to your breath. As the room slowly comes into focus you realize that you are not alone: you feel six glances on you. A bartender washing a beer stein behind the counter. Two harlots cackling over a glass of wine. Three men silently playing poker. Behind them a door leads to the town square outside.`,
+    responseHandler: tavernActions
+  },
+
+  tavernDeliberate: {
+    messageText: `You ponder your next move: talk to the bartender, approach the harlots, join the poker players, or open the door?`,
+    responseHandler: tavernActions
+  },
+
+  ...BartenderNodes,
+  ...HarlotsNodes,
+  ...PokerNodes,
 
 
   exitTavern: {
@@ -1183,14 +1232,30 @@ const MistressMessages = {
     `Your mind is empty, and every sensation in your body is magnified. You want nothing more than to atone for your debts. You want me to finish you off.`,
     `I walk around behind you, slather my phallus in oil, and slowly press up behind you. You feel it enter your ${genderSwitch({m: 'asshole', f: 'pussy', nb: 'asshole'})}, stretching it more than your realized was possible. You've never taken anything this large before, but you're so hot that it doesn't matter. You want to take it all, inch by inch.`,
     `With every pump you feal waves of pleasure coursing through your body. You get ${genderSwitch({m: 'harder and harder, until it feels like your cock is going to burst', f: 'wetter and wetter, until you can\'t take it any more', nb: 'more and more aroused, until you can\'t take it any more'})}. You need to cum <em>now</em>, or else you suspect you might die.`,
-    (ur, ctx) => `You want it. The crowd wants it. I want it. Pay off your ${ctx.global.premium * 0.05} ETH debt, and cum like you've never cum before.`
   ], {
-    responseHandler: (ur, ctx, contract, provider) => provider.isWeb3() ? 'publicHumiliationPending' : 'noWeb3',
-    event: 'payDebt'
+    followUp: async (ur, ctx) => {
+      if (provider.isWeb3()) {
+        ctx.state.debtAmount = await tributeLS.adjustTributeValue(ctx, 0.05)
+        return fu('publicHumiliationWeb3')
+      } else {
+        return fu('publicHumiliationNoWeb3')
+      }
+    }
   }),
 
+  publicHumiliationWeb3: {
+    messageText: (ur, ctx) => `You want it. The crowd wants it. I want it. Pay off your ${ctx.state.debtAmount} ETH debt, and cum like you've never cum before.`,
+    responseHandler: 'publicHumiliationPending',
+    event: 'payDebt'
+  },
+
+  publicHumiliationNoWeb3: {
+    messageText: (ur, ctx) => `You want it. The crowd wants it. I want it. Pay off your ${ctx.global.premium * 0.05} ETH debt, and cum like you've never cum before.`,
+    followUp: fu('noWeb3'),
+  },
+
   noWeb3: {
-    messageText: `Despite coming all this way, you find you cannot achieve the release you desire without a Web3 wallet.`,
+    messageText: `But despite coming all this way, you find you cannot achieve the release you desire without a Web3 wallet.`,
     responseHandler: (ur, ctx) => {
       if (provider.isWeb3()) {
         return 'publicHumiliation'
@@ -1215,7 +1280,7 @@ const MistressMessages = {
 
 
   debtPaidAlmost: {
-    messageText: `You skin tingles as you pay some of your debt, but it's not enough to make you cum. You're soooo close.`,
+    messageText: `You skin tingles as you pay some of your debt, but it's not enough to make you cum. You're soooo close. Pay off your remaining debt.`,
     event: 'payDebt'
   },
 
@@ -1251,27 +1316,17 @@ const MistressMessages = {
 
   epilogue: {
     messageText: `That's the only story I have written right now. If you liked it then I'd be happy to accept a tip 😘`,
+    responseHandler: 'again'
+  },
+
+  again: {
+    messageText: 'Would you like to go again?',
     responseHandler: async (ur, ctx, contract) => {
-      if (isMatch(ur, ['again', 'one more time', 'once more', 'refresh', 'reset', 'tavern', 'restart'])) {
+      if (isYes(ur) || isMatch(ur, ['again', 'one more time', 'once more', 'refresh', 'reset', 'tavern', 'restart'])) {
         await tributeLS.resetTributeAdjustment('DungeonMistress')
+        resetState(ctx)
 
-
-        ctx.state.visitedBartender = false
-        ctx.state.visitedHorseWoman = false
-        ctx.state.harlotState = 'fresh'
-        ctx.state.bartenderGoodSide = false
-        ctx.state.pokerPlayerGoodSide = false
-        ctx.state.hasKey = false
-        ctx.state.blowjobsGiven = 0
-        ctx.state.beersPoured = 0
-        ctx.state.beerInventory = 0
-        ctx.state.goldenShowerComplete = false
-        ctx.state.confessed = false
-        ctx.state.enteredDarkForest = false
-        ctx.state.enteredMarket = false
-        ctx.state.bartenderBJProposition = false
-
-        return fu('hello')
+        return 'hello'
       }
     }
   }
@@ -1289,13 +1344,31 @@ function tavernActions(ur, ctx, contract, provider) {
     return 'poker'
   } else if (isMatch(ur, ['door', 'outside', 'across the room', 'forward', '4', 'exit', 'leave', ...(ctx.state.hasKey ? ['key'] : [])])) {
     return 'exitTavern'
+  } else if (isMatch(ur, ['bj', 'blowjob', 'blow bartender', 'deepthroat', 'suck dick', 'suck off'])) {
+    return 'bjExpress'
   } else {
     return 'tavernDeliberate'
   }
 }
 
 
-
+function resetState(ctx) {
+  ctx.state.visitedBartender = false
+  ctx.state.visitedHorseWoman = false
+  ctx.state.harlotState = 'fresh'
+  ctx.state.bartenderGoodSide = false
+  ctx.state.pokerPlayerGoodSide = false
+  ctx.state.hasKey = false
+  ctx.state.blowjobsGiven = 0
+  ctx.state.beersPoured = 0
+  ctx.state.beerInventory = 0
+  ctx.state.goldenShowerComplete = false
+  ctx.state.confessed = false
+  ctx.state.enteredDarkForest = false
+  ctx.state.enteredMarket = false
+  ctx.state.bartenderBJProposition = false
+  ctx.state.nextNode = ''
+}
 
 
 
