@@ -640,7 +640,7 @@ export const CrystalGoddessMessages = {
     messageText: `Would you like to perform the sacred ritual once more?`,
     responseHandler: async (ur, ctx, contract) => {
       if (isYes(ur)) {
-        await tributeLS.resetAllTributeAdjustment('CrystalGoddess')
+        await tributeLS.resetTributeAdjustment('CrystalGoddess')
         return 'cleansingCeremonyStart'
       } else {
         return 'again2'

@@ -505,7 +505,7 @@ export const KatMessages = {
   startOver: {
     messageText: () => `If you really want we can just start over LOL, but i'm sure as hell not sending you any money back`,
     responseHandler: async (ur, ctx, contract) => {
-      await tributeLS.resetAllTributeAdjustment('katFischer')
+      await tributeLS.resetTributeAdjustment('katFischer')
 
       return 'steviep'
     }

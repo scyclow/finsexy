@@ -1253,7 +1253,7 @@ const MistressMessages = {
     messageText: `That's the only story I have written right now. If you liked it then I'd be happy to accept a tip 😘`,
     responseHandler: async (ur, ctx, contract) => {
       if (isMatch(ur, ['again', 'one more time', 'once more', 'refresh', 'reset', 'tavern', 'restart'])) {
-        await tributeLS.resetAllTributeAdjustment('DungeonMistress')
+        await tributeLS.resetTributeAdjustment('DungeonMistress')
 
 
         ctx.state.visitedBartender = false

@@ -886,7 +886,7 @@ const HeatherHotMessages = {
   goodPaypig: {
     messageText: () => `and because you've been such a good little ${genderSwitch({m: 'boy', f: 'girl', nb: 'paypig'})} i sent a really hot pic to your wallet 🔥`,
     followUp: async () => {
-      await tributeLS.resetAllTributeAdjustment('heatherHot')
+      await tributeLS.resetTributeAdjustment('heatherHot')
       return fu('whatYouWanted')
     }
   },
