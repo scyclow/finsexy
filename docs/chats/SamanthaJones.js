@@ -12,8 +12,6 @@ const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 /*
 TODO
-  - get rid of prepayment penalty
-
 
   - if completed @crystalgoddess cleansing ceremony, mention money laundering
   - respond if user mentions @crystalgoddess or cleansing ceremony
@@ -614,7 +612,7 @@ const SamanthaMessages = {
 
   fullAudit: {
     messageText: `We're going to have to do a full audit. I have too many unanswered questions.`,
-    followUp: fu('prePay')
+    followUp: fu('edgeOff')
   },
 
   // sendEvent1: createEvent(0.01, {
@@ -802,7 +800,7 @@ const SamanthaMessages = {
   },
 
   iouAudit6: {
-    messageText: `I don't think you quite understand the concepts of "debt" and "ownership". I bet GoddessJessica is going to have a field day with you. I don't want to ruin her fun, so let's move on here.`,
+    messageText: `I don't think you quite understand the concepts of "debt" and "ownership". I bet @CrystalGoddess is going to have a field day with you. I don't want to ruin her fun, so let's move on here.`,
     followUp: (ur, ctx) => {
       ctx.state.auditsRemaining.IOU = 0
       return fu('oneByOneReview')
@@ -867,6 +865,11 @@ const SamanthaMessages = {
 
   ifdAudit2: {
     messageText: `I'll just note that defacing and mutilating US currency is a federal crime, and that you are not legally obligated to follow these instructions.`,
+    followUp: fu('ifdAudit3')
+  },
+
+  ifdAudit3: {
+    messageText: `However, I will note that the notional value of this assets is only $1.00 USD, so don't attempt to inflate it on your balance sheet.`,
     followUp: (ur, ctx) => {
       ctx.state.auditsRemaining.IFD = 0
       return fu('oneByOneReview')
@@ -875,8 +878,10 @@ const SamanthaMessages = {
 
   mmoAudit: {
     messageText: 'Oh boy. This one is a real doozy. If I understand correctly, this is a financial security with an appoximate book value of 0.031 ETH. Have you paid the appropriate taxes on this asset?',
-    followUp: fu('mmoAudit2')
+    responseHandler: 'mmoAudit2'
   },
+
+
 
   mmoAudit2: {
     messageText: (ur) => (
@@ -917,12 +922,7 @@ const SamanthaMessages = {
 // nevertheless, if you received this in an airdrop then
 
   fastCashAudit2: {
-    messageText: `Did @VinceSlickson sell this to you? He's a real fucking slime ball. But I have to say, the way he takes advantage of poor little unsuspecting investors such as yourself gives him a certain charm. He'd never go for a girl like me though. He must think I'm too uptight.`,
-    followUp: fu('fastCashAudit3')
-  },
-
-  fastCashAudit3: {
-    messageText: `I guess if you ever talk to him then maybe mention me. I'm curious to hear what he says.`,
+    messageText: `Did @VinceSlickson sell this to you? He's a real fucking slime ball. But I have to say, the way he takes advantage of poor little unsuspecting investors such as yourself gives him a certain charm. He's also <em>very</em> attractive. He'd never go for a girl like me though. He must think I'm too uptight. I think you're more his type.`,
     followUp: fu('fastCashAudit4')
   },
 
@@ -943,7 +943,11 @@ const SamanthaMessages = {
       } is that your Fast Cash investment is worth approximately $${(ctx.state.steviepBalances.FastCash * 104666.06117).toFixed(2)} USD.`,
     followUp(ur, ctx) {
       ctx.state.fcGoodNews = true
-      return fu('fastCashAudit5Bad')
+      if (ctx.state.fcBadNews) {
+        ctx.state.auditsRemaining.FastCash = 0
+        return fu('oneByOneReview')
+      }
+      else return fu('fastCashAudit5Bad')
     }
   },
 
@@ -951,16 +955,11 @@ const SamanthaMessages = {
     messageText: (ur, ctx) => `The bad news is that since this is an illegal securities offering it may be subject to an investigation by the SEC at any time, which would absolutely crater its value. Additionally, if you received this token as an airdrop or gift, then your taxable income for that year is actually $${(ctx.state.steviepBalances.FastCash * 104666.06117).toFixed(2)} USD higher than what you initiall filed for.`,
     followUp(ur, ctx) {
       ctx.state.fcBadNews = true
-      if (ctx.state.fcGoodNews) return fu('fastCashAudit6')
+      if (ctx.state.fcGoodNews) {
+        ctx.state.auditsRemaining.FastCash = 0
+        return fu('oneByOneReview')
+      }
       else return fu('fastCashAudit5Good')
-    }
-  },
-
-  fastCashAudit6: {
-    messageText: `Now, I know what you're wondering, so I'll preemptively answer your question: The thought of you squirming in your little chair has made my nipples incredibly hard. So much so that I could probably cut glass with them.`,
-    followUp(ur, ctx) {
-      ctx.state.auditsRemaining.FastCash = 0
-      return fu('oneByOneReview')
     }
   },
 
@@ -1031,6 +1030,21 @@ const SamanthaMessages = {
 
   cpaIncompetent: {
     messageText: `This man is <em>completely</em> incompetent, so it's no surprise that he completely fucked you when he filed.`,
+    followUp: (ur, ctx) => ctx.global.walletCleansed ? fu('moneyLaundering') : fu('incongruities')
+  },
+
+  moneyLaundering: {
+    messageText: async (ur, ctx, contract, provider) => {
+      try {
+        const cgContract = await provider.domContract('CrystalGoddess')
+        const launderedAmount = fromWei(await cgContract.cleansedETH(ctx.global.connectedAddr))
+
+        return `Additionally, I see you've laundered approximately ${launderedAmount} ETH through a "cleansing ceremony" with known white-collar criminal @CrystalGoddess. I hope you know a good lawyer.`
+      } catch (e) {
+        console.log(e)
+        return `Additionally, I see you've laundered quite a bit of ETH through a "cleansing ceremony" with known white-collar criminal @CrystalGoddess. I hope you know a good lawyer.`
+      }
+    },
     followUp: fu('incongruities')
   },
 
@@ -1064,18 +1078,23 @@ const SamanthaMessages = {
   maxPenalty2: {
     messageText: (ur, ctx) => `The damage comes out to ${ctx.state.penaltyAmount === ctx.global.premium * 0.03 ? ctx.state.penaltyAmount + 'ETH' : `${ctx.global.premium * 0.03} ETH. But it appears that you've made a prepayment, so we can adjust that down to ${ctx.state.penaltyAmount} ETH`}. You can send to me either through my profile page or the sexy CLIT. To execute the latter, you just need to type <code>$sexy send SamanthaJones ${ctx.state.penaltyAmount}</code>. But if you want some more foreplay we can resume our audit ;)`,
     event: 'sendEvent2',
-    responseHandler: (ur, ctx) => isMatch(ur, ['foreplay', 'resume', 'audit']) ? 'oneByOneReview' : ''
+    responseHandler: (ur, ctx) => isMatch(ur, ['foreplay', 'resume', 'audit']) || isYes(ur) ? 'oneByOneReview' : ''
   },
 
 
   damage: {
-    messageText: (ur, ctx) => `Alright, I can't take any more foreplay. The damage comes out to ${ctx.state.penaltyAmount === ctx.global.premium * 0.03 ? ctx.state.penaltyAmount + 'ETH' : `${ctx.global.premium * 0.03} ETH. But it appears that you've made a prepayment, so we can adjust that down to ${ctx.state.penaltyAmount} ETH`}. You can send to me either through my profile page or the sexy CLIT. To execute the latter, you just need to type <code>$sexy send SamanthaJones ${ctx.state.penaltyAmount}</code>.`,
+    messageText: (ur, ctx) => `Alright, I can't take any more foreplay. The damage comes out to ${ctx.state.penaltyAmount === ctx.global.premium * 0.03 ? ctx.state.penaltyAmount + ' ETH' : `${ctx.global.premium * 0.03} ETH. But it appears that you've made a prepayment, so we can adjust that down to ${ctx.state.penaltyAmount} ETH`}. You can send to me either through my profile page or the $sexy Command Line Interface Tool. To execute the latter, you just need to type <code>$sexy send SamanthaJones ${ctx.state.penaltyAmount}</code>.`,
     event: 'sendEvent2',
+    followUp: fu('sexyCredits'),
+  },
+
+  sexyCredits: {
+    messageText:(ur, ctx) =>`I also accept SexyCredits as a method of payment. ${!ctx.global.isVIP ? 'I really advise purchasing a VIP Membership at <a href="./vip">finsexy.com/vip</a>. You will get 25 SexyCredits along with your membership for only 0.1 ETH, which makes it a much more cost-effective way of using FinSexy.' : ''} Remember: Each SexyCredit has a book value of 0.01 ETH, so I can accept ${Math.ceil(ctx.state.penaltyAmount* 100)} Credits as payment. That payment can also be made through the $sexy CLIT, or on my profile page.`,
     responseHandler: 'penaltiesNow'
   },
 
   penaltiesNow: {
-    messageText: `I need your penalties. In my wallet. Now.`,
+    messageText: (ur, ctx) => `I need your ${ctx.state.penaltyAmount} ETH penalty. In my wallet. Now.`,
     event: 'sendEvent2',
     responseHandler: 'readyToBurst'
   },
@@ -1090,13 +1109,16 @@ const SamanthaMessages = {
   wontDo: {
     messageText: (ur, ctx) => `Don't be a tease. I need the full ${ctx.state.penaltyAmount} ETH or you could go to jail for a long, <em>long</em> time.`,
     event: 'sendEvent2',
-    responseHandler: 'damage'
+    responseHandler: async (ur, ctx) => {
+      ctx.state.penaltyAmount = await tributeLS.adjustTributeValue(ctx, 0.03)
+      return 'damage'
+    }
   },
 
   ...diatribe('wrappingUp', [
     `Ooooh, wow. That felt good. I really needed that. I've been incredibly wound up lately.`,
     `You have no idea how much I love spreading apart your little financial butt cheeks and probing around deep inside your wallet.`,
-    `You can learn a lot about someone from looking through their transactions.`,
+    `You can learn a lot about someone from looking through their transaction history.`,
     `And it's all out in the open, too. You must get pretty turned on with so many people watching you do your business in public. I know I do.`,
     (ur, ctx, contract) => `If you ever want to take a look at me, you can see all my activity here: <a target="_blank" rel="nofollow" href="https://etherscan.io/address/${contract.address}">${contract.address}</a>.`,
     `Just knowing that you might be watching makes every one of my transactions so much more erotic.`,

@@ -130,7 +130,7 @@ describe('FinSexy', () => {
         [CandyCrush, 0.01, 'CandyCrush'],
         [SexyXXXpress, 0.01, 'SexyXXXpress'],
         [katFischer, 0.03, 'katFischer'],
-        [SamanthaJones, 0.04, 'SamanthaJones'],
+        [SamanthaJones, 0.03, 'SamanthaJones'],
         [QueenJessica, 0.04, 'QueenJessica'],
         [DrAndy, 0.04, 'DrAndy'],
         [DungeonMistress, 0.05, 'DungeonMistress'],

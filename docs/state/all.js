@@ -241,6 +241,10 @@ provider.onConnect(async (addr) => {
       MessageHandler.visibilityCtx.CustomerSupport247 = 'online'
       CustomerSupportChat.queueEvent('hello', 1)
     }
+  } else {
+    MessageHandler.globalCtx.isVIP = false
+    MessageHandler.globalCtx.isGold = false
+
   }
 
 

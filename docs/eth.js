@@ -413,7 +413,8 @@ export class Web3Provider {
 
     const goddessABI = [
       ...domABI,
-      'function cleanse() external payable'
+      'function cleanse() external payable',
+      'function cleansedETH(address) external view returns (uint256)'
     ]
 
     const stevieABI = [

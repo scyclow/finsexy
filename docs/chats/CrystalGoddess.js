@@ -396,7 +396,7 @@ export const CrystalGoddessMessages = {
     },
     `Your inner light is defiled, and we can only sanctify it by undertaking a holy cleansing ceremony`,
     `During this ceremony I will momentarily take control of your entire wallet balance to perform the cleanse, marking it as truly mine. It shall then be returned to you in a purified form. You may then hold onto it until I say otherwise`,
-    `0.0066600 ETH will remain with you, marking your sinful transaction history. This shall be cleansed in a different way`,
+    `A small amount of ETH will remain with you, marking your sinful transaction history. This shall be cleansed in a different way`,
     `I am unclear on the tax implications for this ceremony, and advise you to speak to @SamanthaJones if you have any questions`,
     `It is important that you <em>do not</em> speak or refresh your web browser while the ceremony is underway, or else we will have to start from the beginning. Is this clear?`
   ], {
