@@ -844,6 +844,7 @@ TODO
 
     const [allVIPIds, activeId] = await sexyCLIT.vipList()
 
+
     if (allVIPIds.length) {
       $vipSection.classList.remove('hidden')
 
@@ -860,8 +861,18 @@ TODO
       }
 
       $sendCredits.onclick = () => {
-        const recipient = $creditReceiver.value
-        const amount = $creditAmount.value
+        const recipient = Number($creditReceiver.value)
+        const amount = Number($creditAmount.value)
+
+        if ($creditReceiver.value == '' || !Number.isInteger(recipient) || recipient > 100 || recipient < 0) {
+          $sendCreditsMessage.innerHTML = '<span class="error">Invalid VIP Membership ID</span>'
+          return
+        }
+
+        if ($creditReceiver.value == '' || !Number.isInteger(amount) || amount < 1) {
+          $sendCreditsMessage.innerHTML = '<span class="error">Invalid SexyCredits Amount</span>'
+          return
+        }
 
         $sendCreditsMessage.innerHTML = ''
 
@@ -869,7 +880,7 @@ TODO
           recipient,
           amount,
           () => $sendCreditsMessage.innerHTML = `Transferring ${amount} SexyCredits to VIP Member ${recipient}`,
-          e => $sendCreditsMessage.innerHTML = `ERROR: ${e}`,
+          e => $sendCreditsMessage.innerHTML = `<span class="error">ERROR: ${e}</span>`,
           () => {
             sexyCLIT.getActiveVIP().then(id => updateActiveVIP(id))
             $sendCreditsMessage.innerHTML = `Credits Sent!`
@@ -880,15 +891,20 @@ TODO
 
       }
 
-      $approveCredits.onclick = () => {
+      $approveCredits.onclick = async () => {
         const operator = $approveAddr.value
+
+        if (!(await provider.isAddress(operator))) {
+          $approveMessage.innerHTML = '<span class="error">Please input a valid operator address</span>'
+          return
+        }
 
         $approveMessage.innerHTML = ''
 
         sexyCLIT.vipApprove(
           operator,
           () => $approveMessage.innerHTML = `Approving ${operator} for SexyCredits`,
-          e => $approveMessage.innerHTML = `ERROR: ${e}`,
+          e => $approveMessage.innerHTML = `<span class="error">ERROR: ${e}</span>`,
           () => {
             $approveMessage.innerHTML = `Credits Approved!`
             $approveAddr.value = ''

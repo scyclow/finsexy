@@ -366,7 +366,7 @@ export const sexyCLIT = {
 
     const cachedVIP = clitLS.get('activeVIP')
 
-    const exists = cachedVIP !== undefined ? await SexyVIP.exists(cachedVIP) : false
+    const exists = cachedVIP != null ? await SexyVIP.exists(cachedVIP) : false
 
     if (exists && cachedVIP || cachedVIP === '0') {
       const isOwner = await SexyVIP.ownerOf(cachedVIP)
