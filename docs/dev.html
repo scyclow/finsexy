@@ -273,6 +273,10 @@
     </section>
 
 
+    <h3>Tribute adjustments</h3>
+    <div id="adjustedTributes"></div>
+
+
   </main>
 
 
@@ -364,11 +368,32 @@
   provider.onConnect(async (addr) => {
     const network = await provider.getNetwork()
 
+
     $.id('info').innerHTML = `
       <code class="data">Network: ${network.name} - ${network.chainId}</code>
       <code class="data">Connected as: ${addr}</code>
       <code><pre>${JSON.stringify(ls.get('__ANALYTICS_STATE', null, 2))}</pre></code>
       <code><pre>${JSON.stringify(ls.get('__TAB_ACTIVITY', null, 2))}</pre></code>
+    `
+
+    const adjustedTributes = await tributeLS.getAdjustedTributes()
+    const actualTributes = await tributeLS.getTributes()
+
+    $.id('adjustedTributes').innerHTML = `
+      <table>
+        <tr>
+          <th>Dom</th>
+          <th>Adjusted</th>
+          <th>Actual</th>
+        </tr>
+        ${Object.keys(adjustedTributes).map(dom => `
+          <tr>
+            <td>${dom}</td>
+            <td>${fromWei(adjustedTributes[dom])}</td>
+            <td>${fromWei(actualTributes[dom])}</td>
+          </tr>
+        `).join('')}
+      </table>
     `
 
   })

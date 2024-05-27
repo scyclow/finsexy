@@ -3,35 +3,36 @@ import {provider} from '../eth.js'
 
 
 export const tributeLS = {
-  get(k) {
-    const s = ls.get('__TRIBUTE_OFFSETS') || {}
+  get(addr, k) {
+    const s = (ls.get(`__TRIBUTE_OFFSETS_${addr}`) || {})
+
     return (k ? s[k] : s) || 0
   },
 
-  set(k, v) {
-    const props = this.get() || {}
+  set(addr, k, v) {
+    const props = this.get(addr) || {}
     props[k] = v
-    ls.set('__TRIBUTE_OFFSETS', JSON.stringify(props))
+    ls.set(`__TRIBUTE_OFFSETS_${addr}`, JSON.stringify(props))
   },
 
 
-
-
-
   async resetTributeAdjustment(dom) {
+    const addr = await provider.isConnected()
     const adj = await this.getTribute(dom)
-    this.set(dom, adj.toString())
+    this.set(addr, dom, adj.toString())
     return adj
   },
 
 
   async resetAllTributeAdjustment(cb) {
+    const addr = await provider.isConnected()
+
     const allTributes = await this.getTributes()
 
     if (cb) cb(allTributes)
 
     for (let dom of Object.keys(allTributes)) {
-      this.set(dom, allTributes[dom].toString())
+      this.set(addr, dom, allTributes[dom].toString())
     }
   },
 
@@ -62,14 +63,14 @@ export const tributeLS = {
   async getAdjustedTribute(dom) {
     const addr = await provider.isConnected()
     const domContracts = await provider.domContracts()
-    return (await domContracts[dom].tributes(addr)).sub(this.get(dom) || '0')
+    return (await domContracts[dom].tributes(addr)).sub(this.get(addr, dom) || '0')
   },
 
   async getAdjustedTributes() {
     const addr = await provider.isConnected()
     const domContracts = await provider.domContracts()
 
-    const allTributes = this.get()
+    const allTributes = this.get(addr)
 
     for (let dom of Object.keys(domContracts)) {
       allTributes[dom] = (await domContracts[dom].tributes(addr)).sub(allTributes[dom] || '0')
@@ -93,7 +94,7 @@ export const tributeLS = {
     const addr = await provider.isConnected()
     const domContracts = await provider.domContracts()
 
-    return fromWei((await domContracts[dom].tributes(addr)).sub(this.get(dom) || '0'))
+    return fromWei((await domContracts[dom].tributes(addr)).sub(this.get(addr, dom) || '0'))
   },
 
 

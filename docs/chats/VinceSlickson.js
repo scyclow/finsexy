@@ -35,6 +35,7 @@ Testimonial
 import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, createEvent, responseParser, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {provider} from '../eth.js'
+import {tributeLS} from '../state/tributes.js'
 
 
 const fu = (messageCode, waitMs=1000) => ({ messageCode, waitMs })
@@ -120,20 +121,6 @@ export const VinceProfile = {
 
 
 
-// async function sendEvent1(ctx, contract, provider) {
-//   const addr = await provider.isConnected()
-
-//   ctx.state.rounds = ctx.state.rounds || 0
-
-//   if (contract && addr) {
-//     const t = bnToN(await contract.tributes(addr))
-
-//     if (t > 0 && t / 2 > ctx.state.rounds) return { messageCode: 'thereWeGo', waitMs: 3000 }
-//   }
-
-// }
-
-
 const VinceMessages = {
   TYPING_SPEED: 0.4,
 
@@ -162,23 +149,63 @@ const VinceMessages = {
     }
   },
 
-  __precheck(userResponse, ctx, contract, provider, isFollowup) {
-    if (userResponse && isMean(userResponse)) {
+  __precheck(ur, ctx, contract, provider, isFollowup) {
+
+    const ignoreAlphaNodes = [
+      'verbalConfirmationPending',
+      'anticlimax',
+      'whadyaSay',
+      'whatsNext',
+      'simpleQuestion',
+      'fcLimbo',
+    ]
+
+    const ignoreBetaNodes = [
+      'whatsNext',
+      'simpleQuestion',
+      'fcLimbo',
+      'alpha'
+    ]
+    if (ur && isMean(ur)) {
       return {
         messageText: `Okay, asshole. Have fun staying poor`,
         responseHandler: (ur, ctx) => ctx.lastDomCodeSent
       }
     } else if (
-      userResponse
-      && userResponse.trim().toLowerCase().includes('samantha')
+      ur
+      && ur.trim().toLowerCase().includes('samantha')
       && !isFollowup
     ) {
       ctx.global.mentionedSamanthaToVince = true
       ctx.state.returnTo = ctx.lastDomCodeSent === 'START' ? 'hello' : ctx.lastDomCodeSent
 
       return {
-        messageText: `@SamanthaJones? What a humorless bitch.`,
+        messageText: `@SamanthaJones? Total humorless bitch.`,
         followUp: fu('samanthaJones')
+      }
+    } else if (
+      ctx.state.whistleIsWet
+      && ur
+      && isMatch(ur, ['alpha'])
+      && !isFollowup
+      && !ignoreAlphaNodes.some(n => ctx.lastDomCodeSent.includes(n))
+    ) {
+      ctx.eventQueue = []
+      return {
+        messageText: `Oh you want alpha now?`,
+        followUp: fu('alpha')
+      }
+    } else if (
+      ctx.state.whistleIsWet
+      && ur
+      && isMatch(ur, ['beta'])
+      && !isFollowup
+      && !ignoreBetaNodes.some(n => ctx.lastDomCodeSent.includes(n))
+    ) {
+      ctx.eventQueue = []
+      return {
+        messageText: `Oh you want beta now?`,
+        followUp: fu('beta')
       }
     }
   },
@@ -201,8 +228,11 @@ const VinceMessages = {
     `Maybe give her a little First In First Out`,
     `Although with her it's probably more like Last In First Out`,
     `You know whose wallet I'd <em>really</em> like to slide into though?`,
-    `CrystalGoddess`,
+    `@QueenJessica's`,
     `She drives me absolutely wild`,
+    `World class knockers on her`,
+    `And that brat schtick really turns me on`,
+    `@CrystalGoddess is pretty sexy also`,
     `I'll listen to her talk about spiritual numistmatics or whatever the fuck it is all night long`,
     `She can balance my chakras whenever she wants`,
     `We were talking about something else though, weren't we?`,
@@ -279,6 +309,14 @@ const VinceMessages = {
     `So I'll tell you what I'm gonna do for you: I'm gonna key you in on a little investment opportunity. That's just the kind of generous guy I am.`,
     `But keep in mind, you're going to owe me BIG for this one. This is the investment opportunity of a lifetime, and I'm handing it to you on a silver platter.`,
     `In fact, you'd have to be an <em>idiot</em> to not make money on this...`,
+
+  ], {
+    followUp: (ur, ctx) => {
+      return fu('wetWhistle')
+    }
+  }),
+
+  ...diatribe('wetWhistle', [
     `But when you're as succesful as me, you learn not to give anything away for free`,
     `So if you want in on this you're gonna need to wet my whistle`,
     (ur, ctx) => `Let's say... ${ctx.global.premium * 0.01} ETH`,
@@ -397,6 +435,7 @@ const VinceMessages = {
   thereWeGo: {
     messageText: `Oh yeah, there we go!`,
     followUp: (ur, ctx) => {
+      ctx.state.whistleIsWet = true
       ctx.global.securitiesFraud = true
       return fu('tellMe')
     }
@@ -408,7 +447,7 @@ const VinceMessages = {
   },
 
   sendingMe: {
-    messageText: (ur, ctx) => `Sending me ${ctx.global.premium * 0.01}`,
+    messageText: (ur, ctx) => `Sending me ${ctx.global.premium * 0.01} ETH`,
     followUp: fu('iKnow')
   },
 
@@ -535,7 +574,7 @@ const VinceMessages = {
     `FastCash was created by @steviep back in 2017, and launched in January of the following year`,
     `For the first 71 weeks of its existence the price went up by 20% each week`,
     `This means that the price went up from $0.25 to over $100k!`,
-    `And it's been stable ever since`,
+    `And it's been stable at $100k ever since`,
     `Permanently high plateau, as the call it`,
     `FastCash is basically digital gold`,
     `And the value is encoded directly into the smart contract itself`,
@@ -580,7 +619,7 @@ const VinceMessages = {
   whadyaSay: {
     messageText: `So whadya say? Do you want to dive right in? Or do you want to learn more about Fast Cash?`,
     responseHandler: (ur, ctx) => {
-      if (isMatch(ur, ['alphs'])) return 'alpha'
+      if (isMatch(ur, ['alpha'])) return 'alpha'
 
       else if (isMatch(ur, ['dive', 'no more'])) {
         return 'diveInFastCash'
@@ -983,7 +1022,10 @@ const VinceMessages = {
       : `That's what happens to betas who sit on the sidelines for too long`,
     `Tough break`
   ], {
-    responseHandler: `devistated`
+    responseHandler: async () => {
+      await tributeLS.resetTributeAdjustment('VinceSlickson')
+      return `devistated`
+    }
   }, 1000),
 
 
@@ -1028,12 +1070,14 @@ const VinceMessages = {
     `We're just two friends who enjoy giving each other completely legal gifts as part of a totally normal sexual fetish`,
     `Nothing wrong with that, right?`
   ], {
-    responseHandler: ur => isYes(ur) ? 'nothingWrong' : 'somethingWrong'
+    responseHandler: ur => isYes(ur) ? 'nothingWrong' : 'somethingWrong',
+    event: 'unconditionalGift'
   }, 1000),
 
   somethingWrong: {
     messageText: `I said, there's nothing wrong with that. <em>Right</em>?`,
-    responseHandler: ur => isYes(ur) ? 'nothingWrong' : 'somethingWrong'
+    responseHandler: ur => isYes(ur) ? 'nothingWrong' : 'somethingWrong',
+    event: 'unconditionalGift'
   },
 
   ...diatribe('nothingWrong', [
@@ -1043,12 +1087,14 @@ const VinceMessages = {
     `So for example, if you wanted to gift me the equivalent value of 5 FastCash, then you could just type <code>$sexy send VinceSlickson 0.05</code>`,
     `I'd get my unconditional gift, you'd have your sexual climax, and that would be that.`
   ], {
-    responseHandler: 'wheneverYouWant'
+    responseHandler: 'wheneverYouWant',
+    event: 'unconditionalGift'
   }),
 
   wheneverYouWant: {
     messageText: `So feel free to send over your unconditional gift of ETH whenver you want`,
-    responseHandler: 'giftToYou'
+    responseHandler: 'giftToYou',
+    event: 'unconditionalGift'
   },
 
   ...diatribe('giftToYou', [
@@ -1058,7 +1104,8 @@ const VinceMessages = {
     `And don't draw any unneccessary attention to yourself`,
     `Lay low, and it'll all be fine`
   ], {
-    responseHandler: 'sexItUp'
+    responseHandler: 'sexItUp',
+    event: 'unconditionalGift'
   }),
 
   sexItUp: {
@@ -1068,7 +1115,8 @@ const VinceMessages = {
 
   sexItUpNo: {
     messageText: `Okay, whatever then`,
-    responseHandler: `wheneverYouWant`
+    responseHandler: `wheneverYouWant`,
+    event: 'unconditionalGift'
   },
 
 
@@ -1082,8 +1130,37 @@ const VinceMessages = {
     `It's all you can think about`,
     `And it's driving you absolutely <em>wild</em>`,
   ], {
-    responseHandler: 'wheneverYouWant'
+    responseHandler: 'wheneverYouWant',
+    event: 'unconditionalGift'
   }),
+
+  unconditionalGift: createEvent(0.01, {
+    primary: { messageCode: 'unconditionalGiftReceived', waitMs: 1500 },
+  }),
+
+  ...diatribe('unconditionalGiftReceived', [
+    `Great, I got my unconditional gift from you`,
+    `And maybe in the future you'll get an unconditional gift from me`,
+    `Who knows?`,
+    `Anything can happen.`,
+    `In the meantime, do you want to hear more about some other opportunities I have?`,
+  ], {
+    responseHandler: async (ur, ctx) => {
+      await tributeLS.resetTributeAdjustment('VinceSlickson')
+      return isNo(ur) ? 'goodbye' : 'whatsNext'
+    }
+  }),
+
+  goodbye: {
+    messageText: `Alright, if you do then you know where to find me`,
+    responseHandler: 'backForMore'
+  },
+
+  backForMore: {
+    messageText: `So you're back for more?`,
+    followUp: fu('whatsNext')
+  }
+
 }
 
 async function fastCashOrderHandler(ur, ctx, contract, provider) {
