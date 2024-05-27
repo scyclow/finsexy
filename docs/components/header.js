@@ -124,7 +124,10 @@ createComponent(
         transition: 0.2s;
         stroke: var(--light-color);
         fill: var(--light-color);
+      }
 
+      #vip a, #vip .svgStroke {
+        animation: VIPGlow 24s ease-in-out infinite;
       }
 
       #totalUnreads, #totalUnreadsMenu {
@@ -249,6 +252,22 @@ createComponent(
           box-shadow: 0 0 3em var(--secondary-color);
         }
       }
+
+
+      @keyframes VIPGlow {
+        0%, 12.5%, 25%, 100% {
+          color: var(--light-color);
+          stroke: var(--light-color);
+          filter: none;
+        }
+
+
+        18%, 20% {
+          color: var(--yellow-color);
+          stroke: var(--yellow-color);
+          filter: drop-shadow(0 0 20px var(--light-color)) drop-shadow(0 0 10px var(--yellow-color));
+        }
+      }
     </style>
 
     <header id="header">
@@ -270,7 +289,7 @@ createComponent(
               <span id="totalUnreads" class="hidden"><span>
             </a>
           </li>
-          <li><a href="/vip"><span class="icon">${star}</span>VIP</a></li>
+          <li id="vip"><a href="/vip"><span class="icon">${star}</span>VIP</a></li>
           <li><a href="/profile"><span class="icon">${profile}</span>Profile</a></li>
           <li id="topSenders" class="hidden"><a href="/senders"><span class="icon">${winner}</span>Top Senders</a></li>
           <connect-wallet>

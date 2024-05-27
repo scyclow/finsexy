@@ -1,6 +1,6 @@
 /*
 TODO
-  - seems to be some sort of bug when i reach twoThingsEnd, respond immediately
+  - seems to be some sort of bug when i reach backIn15, respond immediately
   - need to get into telling the secret faster. refactor "feltGood"
 
 
@@ -289,7 +289,7 @@ const StevieMessages = {
 
   noQuestions: {
     messageText: `you sure? there's a lot to talk about here`,
-    responseHandler: (ur, ctx) => isYes(ur) ? 'noQuestionSure' :  'yesQuestions'
+    responseHandler: (ur, ctx) => isYes(ur) ? 'noQuestionsSure' : 'yesQuestions'
   },
 
   ...diatribe('noQuestionsSure', [
@@ -316,7 +316,7 @@ const StevieMessages = {
     `what do you want to know?`,
     `ask away`
   ], {
-    responseHandler: 'question1'
+    responseHandler: 'question1_'
   }),
 
 
@@ -369,7 +369,7 @@ const StevieMessages = {
     `I honestly can't think of a better way to describe the NFT industry than financial domination`,
     `think about it: you have dozens/hundreds/thousands of losers gooning over you, willing to give you money for the dumbest, most useless shit`,
     `just look at <a href="https://steviep.xyz/cash/" target="_blank">Cold Hard Cash</a>. I sold a goddamn $1 bill for almost $200. hell, I sold $0 for <em>more</em> than $200!`,
-    `and before that, some idiot bought 10 ETH from me for 11.1111 ETH. and that's not even counting all the useless JPGs people bought from me. or the completely obvious scams people bought into, for that matter`,
+    `and before that, some idiot bought <a href="https://10eth.0ms.co/" target="_blank">10 ETH</a> from me for 11.1111 ETH. and that's not even counting all the useless JPGs people bought from me. or the completely obvious scams people bought into, for that matter`,
     `like seriously, unless you're a complete imbicile, the only logical explanation for why you'd buy any of this shit is because you just <em>enjoy</em> giving me money`,
     `in any case, most start ups take years to find a product-market fit. but i found mine right away`,
     `and overall, I'm pretty bullish on the prospects for FinSexy`,
@@ -426,7 +426,9 @@ const StevieMessages = {
     `and I guess feel free to post wherever else you think makes sense. maybe <a href="https://www.reddit.com/r/paypigsupportgroup/" target="_blank">r/paypigsupportgroup</a>? I dunno`,
     `anyhow, come back when you've made all those posts, and then I have something special planned for us 😉`
   ], {
-    responseHandler: (ur, ctx) => isMatch(ur, ['did it', 'made the posts', 'done', 'posted', 'complete', 'completed']) ? 'postsComplete' : 'postConfirmation'
+    responseHandler: (ur, ctx) => isMatch(ur, ['question', 'questions'])
+      ? 'yesQuestions'
+      : isMatch(ur, ['did it', 'made the posts', 'done', 'posted', 'complete', 'completed']) ? 'postsComplete' : 'postConfirmation'
   }),
 
   postsComplete: {
@@ -657,20 +659,14 @@ const StevieMessages = {
     `nothing beats that high. you can't imagine what it feels like`,
     `I dont need drugs. what I need is to extract every last cent and bit of worship from my collectors`,
     `I need to wring them dry until they have nothing left to give`,
+    `I need to see that <em>I'm</em> their favorite artist, and that they're willing to give up <em>everything</em> to show their affection for my artistic genius`,
   ], {
-    followUp: (ur, ctx) => {
-      ctx.state.toldSecret = true
-      return fu('feltGoodNext')
-    }
-  }),
-
-  feltGoodNext: {
-    messageText: `I need to see that <em>I'm</em> their favorite artist, and that they're willing to give up <em>everything</em> to show their affection for my artistic genius`,
     responseHandler: (ur, ctx) => {
+      ctx.state.toldSecret = true
       if (isMatch(ur, ['secret', 'tell me'])) return 'ohYeahSecret'
       return 'anyhowSecret'
     }
-  },
+  }),
 
   ohYeahSecret: {
     messageText: `oh yeah, the secret. `,
@@ -751,11 +747,11 @@ const StevieMessages = {
     followUp(ur, ctx) {
       MessageHandler.visibilityCtx.Hedonitronica = 'online'
       ctx.state.startTime = Date.now()
-      return fu('twoThingsEnd')
+      return fu('backIn15')
     },
   }),
 
-  twoThingsEnd: {
+  backIn15: {
     messageText: `okay, i'll leave you to it. I gotta run. I'll be back in like 15 minute. hit me up when you finish those two things, then we'll chat more.`,
     responseHandler(ur, ctx) {
       if (ctx.global.hedonitronicaComplete) {

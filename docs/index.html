@@ -327,7 +327,7 @@
       display: none;
     }
 
-    @media (max-width: 1550px) {
+    @media (max-width: 1439px) {
       .grid {
         grid-template-columns: 1fr 1fr 1fr;
       }
@@ -659,7 +659,7 @@
 
         <connect-wallet>
           <div slot="connected">
-            <div class="filterRow">
+            <div class="filterRow hidden" id="tributeSection">
               <h3 id="tributeTitle">Tributes Paid</h3>
               <table id="tributes"><tr><td>Loading...</td></tr></table>
             </div>
@@ -683,6 +683,7 @@
             <summary class="faqQ">How do I send FinDoms ETH?</summary>
             <p class="faqA">TODO</p>
           </details>
+
 
           <details class="faq">
             <summary class="faqQ">How do I get a web3 wallet?</summary>
@@ -987,6 +988,7 @@ function domTypeDisplayClass(str) {
       })
 
       $.id('tributes').innerHTML = tributeContent
+      $.id('tributeSection').classList.remove('hidden')
 
       if (!anyTributesPaid) {
         $.id('tributeTitle').classList.add('hidden')

@@ -481,6 +481,8 @@ TODO
           </select>
         </label>
 
+        <div id="preferencesError" style="text-align: center"></div>
+
         <hr>
 
         <div class="formRow formRowInput">
@@ -804,6 +806,9 @@ TODO
   const $notificationSound = $.id('notificationSound')
   const $a11yVoices = $.id('a11yVoices')
 
+  const $pushNotifications = $.id('pushNotifications')
+  const $preferencesError = $.id('preferencesError')
+
 
   provider.onConnect(async addr => {
     $applyPremium.onclick = () => {
@@ -957,6 +962,22 @@ TODO
   }
 
 
+  $pushNotifications.checked = clitLS.get('pushNotifications') || false
+
+  $pushNotifications.onclick = async () => {
+    $preferencesError.innerHTML = ''
+    if ($pushNotifications.checked) {
+      const p = await Notification.requestPermission()
+      if (p === 'denied') {
+        $preferencesError.innerHTML = 'Please enable Notification permissions in your browser to receive push notifications'
+        clitLS.set('pushNotifications', false)
+        $pushNotifications.checked = false
+      } else {
+        new Notification('Sexy Preferences', {icon: '/assets/kiss.png', body: 'Notifications enabled!'})
+      }
+    }
+    clitLS.set('pushNotifications', $pushNotifications.checked)
+  }
 
 
 

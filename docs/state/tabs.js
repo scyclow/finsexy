@@ -17,6 +17,7 @@ const lsGet = () => ls.get(TABS_ID) || {}
 
 export const tabs = {
   tabId,
+  isHidden: () => document.hidden,
   isActive: () => !document.hidden,
   isLastActive: () => lsGet().LAST_ACTIVE === tabId,
   lastActiveTS: () => lsGet()[tabId]?.lastActiveTS,

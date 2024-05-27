@@ -161,7 +161,7 @@ export const AndyProfile = {
       review: `One of the big things that came out of my sessions with Andy was the realization that my FinDom addiction was driven largely by the gender roles and expectations placed on me by society. There's all this pressure to be a "real man" and to be a provider for your loved ones. So when it comes to someone like me, who suffers from certain sexual inadequacies, not being able to provide sexually for my lovers is a huge blow. It makes me feel small and helpless. But sending money is another way I can make them happy, and it feels more in my control. All I need to do is click a button or use the very straightforward sexy Command Line Interface Tool, and it makes my lover happy every time. Anyhow, this is generally why I prefer softer doms like @heatherHot. She's really sweet, and makes me feel like a man whenever I send her money. Other paypigs prefer harder doms like @QueenJessica, who is more into humiliation. And that's totally fine! Different strokes for different folks.`
     },
     {
-      review: `Wait, I'm confused. Is DrAndy a real robot, or is the dom just role-playing a robot?`
+      review: `Wait, I'm confused. Is DrAndy a real robot, or is the dom just role-playing as a robot?`
     },
     {
       review: `uuugggh, i need my theraputic release soooo baaaaaad`

@@ -794,11 +794,19 @@ export class MessageHandler {
     if (!this.isActive || document.hidden) {
       this.ctx.unread += 1
       MessageHandler.updateGlobalUnread()
+      if (clitLS.get('pushNotifications')) {
+        try {
+          new Notification(`${from} says:`, {icon: '/assets/kiss.png', body: messageText})
+        } catch (e) {
+          console.error(e)
+        }
+      }
     } else if (from !== 'you') {
       if (_notificationAudio) {
         setTimeout(() => {
           try {
             _notificationAudio.play()
+
           } catch (e) {
             console.log(e)
           }
