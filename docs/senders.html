@@ -35,99 +35,14 @@
       max-width: 1400px;
     }
 
-    aside {
-      width: 250px;
-      padding: 1em;
-    }
-
-    h1 {
-      text-shadow: 2px 2px var(--dark-color), 3px 3px 2px var(--primary-color);
-      text-decoration: none;
-      color: var(--light-color)
-    }
-
-    h2 {
-      text-align: center;
-    }
-
     a {
       color: #fff;
       text-decoration: none;
-      height: 280px;
-      width: 280px;
-      overflow: hidden;
-    }
-
-    #skip {
-      text-align: center;
-    }
-    #skip a {
-      text-decoration: underline;
-      color: var(--primary-color);
-      transition: 0.3s;
-    }
-
-    #skip a:hover {
-      text-decoration: underline;
-      color: var(--medium-color);
-    }
-
-    td {
-      padding: 0.5em;
-      padding-bottom: 0;
-    }
-
-    footer {
-      font-size: 8px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      column-gap: 1vw;
-      row-gap: 1.5vw;
-    }
-    .grid article {
-      display: flex;
-      flex-direction: column;
-
-      border: 1px solid;
-    }
-    .grid img {
-      width: 100%;
-    }
-
-    .grid figcaption {
-      margin-top: -2.1em;
-      margin-left: 1px;
-      padding: 0.5em;
-      padding-top: 1em;
-      width: calc(100% - 18px);
-      background: linear-gradient(0deg, rgba(2,0,36,1) 17%, rgba(255,0,0,0) 100%);
     }
 
 
-    @media (max-width: 1000px) {
-      .grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
 
-    @media (max-width: 650px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
 
-    .mainSection {
-      display: flex;
-      justify-content: center;
-      margin-top: 3em;
-    }
-
-    .hidden {
-      display: none;
-    }
 
   </style>
 
@@ -138,20 +53,141 @@
 
 <style type="text/css">
   main {
-    max-width: 600px;
     margin: 2em auto;
   }
 
+
+  h1 {
+    font-family: var(--fancy-font);
+    font-size: 2em;
+    line-height: 1.1;
+    text-shadow: 0 0 2px var(--dark-color), 0 0 5px var(--medium-color), 0 0 8px var(--border-color);
+    text-decoration: none;
+    color: var(--light-color);
+    text-align: center;
+    margin-bottom: 0.5em;
+  }
+
   table {
-    border-collapse:  collapse;
-    border-spacing:  0;
+    /*border-collapse:  collapse;*/
+    border-spacing: 1px;
     margin: 0 auto;
     margin-bottom: 2em;
     margin-top: 0.5em;
+    font-size: 1.2em;
 
   }
   td {
-    border-top: 1px solid var(--light-color);
+    padding: 0.5em;
+    outline: 1px solid var(--light-color);
+    transition: 0.2s;
+  }
+
+  td, td a {
+    font-family: var(--code-font);
+  }
+
+  .tributeAmounts {
+    color: var(--medium-color);
+  }
+
+  .senderReceiver:hover {
+    color: var(--primary-color);
+  }
+
+  .loading {
+    padding: 1em;
+    text-align: center;
+  }
+
+  .domName {
+    max-width: 220px;
+  }
+
+  #tables {
+    display: flex;
+    justify-content: center;
+  }
+
+  #tables * {
+    width: 400px;
+  }
+  #tables *:first-child {
+    margin-right: 1.5em;
+  }
+
+
+  td + td {
+    text-align: right;
+  }
+
+  #recentSends {
+    display: flex;
+    justify-content: center;
+  }
+  #recentSends li {
+    list-style: none;
+    padding: 0.5em;
+    font-size: 1.2em;
+  }
+  #recentSends li a {
+    text-decoration: underline;
+    transition: 200ms;
+  }
+
+  .eventDomName:hover, #recentSends li a:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+
+  .sentAmount {
+    color: var(--medium-color);
+  }
+  #recentSends li {
+    margin-bottom: 1em;
+    padding: 0.5em;
+    border: 1px dashed;
+    /*text-align: center;*/
+  }
+
+  @media (max-width: 860px) {
+    #tables {
+      flex-direction: column-reverse;
+      align-items: center;
+    }
+
+    #tables *:first-child {
+      margin-right: 0;
+    }
+  }
+
+
+
+  @media (max-width: 620px) {
+    .sentAmount {
+      display: block;
+      padding: 0.25em 0;
+    }
+
+  }
+
+  @media (max-width: 430px) {
+
+    h1 {
+      font-size: 1.8em;
+    }
+    table {
+      font-size: 0.95em;
+    }
+
+    #tables * {
+      width: 300px;
+    }
+    #recentSends li {
+      font-size: 1em;
+    }
+
+
   }
 
 </style>
@@ -163,7 +199,6 @@
 
 
   <main>
-
     <connect-wallet>
       <div slot="noWeb3">
         <em class="error">Please Connect in a <br>Web3-enabled Browser</em>
@@ -174,35 +209,32 @@
       </div>
 
       <div slot="connected" id="connected">
-        <h1>Leaderboard (TODO - style this page)</h1>
+        <div id="tables">
+          <div>
+            <h1>Total Tributes Received</h1>
+            <div id="receiverNames">
+              <div  class="loading">Loading...</div>
+            </div>
+          </div>
 
-        <h2>Total Tributes Sent</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Sender</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
+          <div>
+            <h1>Top 10 Senders</h1>
+            <div id="senderAddrs">
+              <div  class="loading">Loading...</div>
+            </div>
+          </div>
+        </div>
 
-          <tbody id="senderAddrs"></tbody>
-        </table>
+        <div>
+          <h1>Most Recent Tributes</h1>
+          <div id="recentSends">
+            <div  class="loading">Loading...</div>
+          </div>
+        </div>
 
 
 
-        <h2>Total Tributes Received</h2>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Recipient</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-
-          <tbody id="receiverNames"></tbody>
-        </table>
-        <h2>Top Senders Per Dom</h2>
       </div>
     </connect-wallet>
 
@@ -234,40 +266,75 @@
 
     const senders = {}
     const receivers = {}
+    const allEvents = []
+
+    // const addrToContractName
 
     for (let dom of Object.keys(contracts)) {
-      console.log(await provider.contractEvents(contracts[dom], 'Send', []))
       const contract = contracts[dom]
+      // addrToContractName[contracts[dom].address] = dom
+
       const sendFilter = contract.filters.Send()
       const sendEvents = await contract.queryFilter(sendFilter)
-
-
+      sendEvents.forEach(e => e.domName = dom)
+      allEvents.push(sendEvents)
 
       for (let send of sendEvents) {
         const { sender, amount } = send.args
-
         receivers[dom] = (receivers[dom] || 0) + fromWei(amount)
         senders[sender] = (senders[sender] || 0) + fromWei(amount)
       }
     }
 
+    const recentSends = allEvents.flat().sort((a, b) => b.blockNumber - a.blockNumber).slice(0, 20)
+
+    const topSendersSorted = Object.keys(senders).sort((a, b) => senders[b] - senders[a]).slice(0, 10)
+    const senderNames = await Promise.all(topSendersSorted.map(addr => provider.formatAddr(addr, true, 24)))
+
+    const topReceiversSorted = Object.keys(receivers).sort((a, b) => receivers[b] - receivers[a])
 
 
-    $.id('senderAddrs').innerHTML = Object.keys(senders).map(s => `
-      <tr>
-        <td>${s}</td>
-        <td>${senders[s]} ETH</td>
-      </tr>
-    `).join('')
 
-    $.id('receiverNames').innerHTML = Object.keys(receivers).map(r => `
-      <tr>
-        <td>${r}</td>
-        <td>${receivers[r]} ETH</td>
-      </tr>
-    `).join('')
+    $.id('senderAddrs').innerHTML = `
+      <table>
+        <tbody>
+          ${topSendersSorted.map((s, ix) => `
+            <tr>
+              <td><a class="senderReceiver" href="https://etherscan.io/address/${s}" target="_blank" rel="nofollow">${senderNames[ix]}</a></td>
+              <td class="tributeAmounts">${senders[s].toFixed(4)} ETH</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `
+
+    $.id('receiverNames').innerHTML = `
+      <table>
+        <tbody>
+          ${topReceiversSorted.map(dom => `
+            <tr>
+              <td class="domName"><a class="senderReceiver" href="https://etherscan.io/address/${contracts[dom].address}" target="_blank" rel="nofollow">${ellipse(dom, 22)}</a></td>
+              <td class="tributeAmounts">${receivers[dom].toFixed(4)} ETH</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `
+
+    $.id('recentSends').innerHTML = `<ul>
+      ${(await Promise.all(recentSends.map(async sendEvent => `
+        <li>
+          <a class="senderReceiver" href="https://etherscan.io/address/${sendEvent.args.sender}" target="_blank" rel="nofollow">
+            ${await provider.formatAddr(sendEvent.args.sender, true, 24)}
+          </a> sent <span class="sentAmount">${fromWei(sendEvent.args.amount).toFixed(2)} ETH</span> to <a class="eventDomName" href="/profiles/${sendEvent.domName}">${ellipse(sendEvent.domName, 22)}</a>
+        </li>
+      `))).join('')}
+    </ul>`
 
   })
+
+
+
 
 
 </script>

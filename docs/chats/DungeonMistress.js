@@ -140,7 +140,7 @@ export const MistressProfile = {
   name: 'DungeonMistress',
   startingVisibility: 'online',
   domType: 'Role-Play',
-  order: provider.isWeb3() ? 7 : 3,
+  order: provider.isWeb3() ? 7 : 1,
   display: 'f',
   age: 27,
   distance: 666,

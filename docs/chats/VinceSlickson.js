@@ -50,7 +50,7 @@ export const VinceProfile = {
   name: 'VinceSlickson',
   startingVisibility: 'online',
   domType: 'Daddy',
-  order: provider.isWeb3() ? 3 : 2,
+  order: 2,
   age: 42,
   distance: 10,
   gender: '100% Man',

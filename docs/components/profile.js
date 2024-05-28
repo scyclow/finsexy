@@ -452,6 +452,21 @@ createComponent(
         padding: 0.6em;
       }
 
+
+      #domAddr, #domAddrMobile {
+        text-align: center;
+        margin-top: 1.2em;
+        font-size: 0.8em;
+      }
+      #domAddr a, #domAddrMobile a {
+        color: var(--light-color);
+      }
+
+      #domAddrMobile {
+        text-align: center;
+        display: none;
+      }
+
       @media (max-width: 875px) {
         #sexyPicSection {
           flex-direction: column;
@@ -497,6 +512,12 @@ createComponent(
           padding: 0;
         }
 
+        #domAddrMobile {
+          display: block;
+        }
+        #domAddr {
+          display: none;
+        }
       }
 
 
@@ -563,6 +584,12 @@ createComponent(
         flex-direction: column;
       }
 
+      .sideWindow #domAddrMobile {
+        display: block;
+      }
+      .sideWindow #domAddr {
+        display: none;
+      }
       .hidden {
         display: none !important;
       }
@@ -728,6 +755,7 @@ createComponent(
       }
 
 
+
       @keyframes FadeInOut {
         0%, 100% {
           opacity: 1;
@@ -805,6 +833,9 @@ createComponent(
 
             <div id="sendError"></div>
 
+            <div id="domAddr"></div>
+            <div id="domAddrMobile"></div>
+
 
             <connect-wallet id="connectMsg">
               <div slot="connected">
@@ -868,6 +899,8 @@ createComponent(
     ctx.$creditSection = ctx.$('#creditSection')
     ctx.$creditSendButton = ctx.$('#creditSendButton')
     ctx.$creditSendInput = ctx.$('#creditSendInput')
+    ctx.$domAddr = ctx.$('#domAddr')
+    ctx.$domAddrMobile = ctx.$('#domAddrMobile')
 
     if (ctx.getAttribute('sideWindow')) {
       ctx.parent.classList.add('sideWindow')
@@ -1018,6 +1051,10 @@ createComponent(
 
         }
 
+        const domAddress = (await provider.domContract(name)).address
+        ctx.$domAddr.innerHTML = `<a href="https://etherscan.io/address/${domAddress}" target="_blank" rel="nofollow">${domAddress}</a>`
+
+        ctx.$domAddrMobile.innerHTML = `<a href="https://etherscan.io/address/${domAddress}" target="_blank" rel="nofollow">${await provider.formatAddr(domAddress)}</a>`
       } catch (e) {
         console.error(e)
       }
@@ -1040,6 +1077,8 @@ createComponent(
 
     ctx.$('#imgLeft2').onclick = ctx.changeImgLeft
     ctx.$('#imgRight2').onclick = ctx.changeImgRight
+
+
   },
   (ctx) => {
 

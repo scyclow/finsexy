@@ -35,7 +35,7 @@ createComponent(
       .hidden, .hidden * {
         pointer-events: none;
         opacity: 0;
-        /* display: none !important;*/
+        display: none;
       }
 
       article {
