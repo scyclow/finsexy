@@ -365,6 +365,7 @@ export class Web3Provider {
       'function ownerOf(uint256 tokenId) external view returns (address)',
       'function transferCredits(uint256 fromTokenId, uint256 toTokenId, uint256 amount) external',
       'function approveCredits(uint256 tokenId, address operator) external',
+      'function getCreditApproval(uint256 tokenId) external view returns (address operator)',
       'function creditBalance(uint256 tokenId) external view returns (uint256)',
       'function spendCredit(uint256 tokenId, address domAddr, uint256 amount) external',
       'function memberName(uint256 tokenId) external view returns (string)',

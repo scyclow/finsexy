@@ -952,7 +952,7 @@ const SamanthaMessages = {
   },
 
   fastCashAudit5Bad: {
-    messageText: (ur, ctx) => `The bad news is that since this is an illegal securities offering it may be subject to an investigation by the SEC at any time, which would absolutely crater its value. Additionally, if you received this token as an airdrop or gift, then your taxable income for that year is actually $${(ctx.state.steviepBalances.FastCash * 104666.06117).toFixed(2)} USD higher than what you initiall filed for.`,
+    messageText: (ur, ctx) => `The bad news is that since this is an illegal securities offering it may be subject to an investigation by the SEC at any time, which would absolutely crater its value. Additionally, if you received this token as an airdrop or gift, then your taxable income for that year is actually $${(ctx.state.steviepBalances.FastCash * 104666.06117).toFixed(2)} USD higher than what you initially filed for.`,
     followUp(ur, ctx) {
       ctx.state.fcBadNews = true
       if (ctx.state.fcGoodNews) {
@@ -1063,8 +1063,8 @@ const SamanthaMessages = {
   },
 
   sendEvent2: createEvent(0.03, {
-    primary: { messageCode: 'wrappingUp', waitMs: 3000 },
-    notEnough: { messageCode: 'wontDo', waitMs: 3000 }
+    primary: { messageCode: 'wrappingUp', waitMs: 5000 },
+    notEnough: { messageCode: 'wontDo', waitMs: 5000 }
   }),
 
   maxPenalty: {

@@ -1,7 +1,8 @@
 
-import { isYes, isNo, isGreeting, diatribe, MessageHandler, isMatch } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, diatribe, MessageHandler, isMatch, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {sexyCLIT} from '../state/clit.js'
+import {tributeLS} from '../state/tributes.js'
 
 
 /*
@@ -34,7 +35,7 @@ export const CustomerSupportProfile = {
     lang: 'el-GR',
     name: 'Melina'
   },
-  description: `VIP Customer Support Associate`,
+  description: `VIP Customer Support Associate. I'm here to help!`,
   gender: 'Female',
   display: 'f',
   testimonials: [
@@ -45,6 +46,14 @@ export const CustomerSupportProfile = {
       review: `I just sent CustomerSupport247 0.069 ETH!`
     },
 
+    {
+      review: `I'm so happy with my Gold Membership! Definitely a good purchase!`
+    },
+
+    {
+      review: `I only purchased the regular VIP Membership, and I regret not buying Gold! Gold stars indicate rarity, so the 50% markup to get a guaranteed grail is a no brainer`
+    },
+
   ]
 }
 
@@ -52,19 +61,23 @@ export const CustomerSupportProfile = {
 
 
 const mainMenuText = `
-<p>Get more information about FinSexy?</p>
-<p>Have a question about your VIP Membership?</p>
-<p>Fix a sexy technical issue?</p>
-<p>Send ETH to a findom?</p>
-<p>File a complaint against a FinSexy employee or independent contractor?</p>
-<p>Or something else?</p>
+<ul>
+  <li>Get more information about FinSexy</li>
+  <li>Engage in Financial Domination</li>
+  <li>Have a question about your VIP Membership</li>
+  <li>Fix a sexy technical issue</li>
+  <li>Send ETH to a findom</li>
+  <li>File a complaint against a FinSexy employee or independent contractor</li>
+  <li>Hear something sexy</li>
+  <li>Something else</li>
+</ul>
 `
 
 
 
 
 const CustomerSupportMessages = {
-  TYPING_SPEED: 1,
+  TYPING_SPEED: 0.5,
 
   START: {
     responseHandler: `hello`,
@@ -271,12 +284,12 @@ const CustomerSupportMessages = {
   },
 
   finsexyInfo2b: {
-    messageText: `As a Premium member, you have also been granted 25 SexyCredits, which FinSexy findoms generally accept at a rate of 1 SexyCredit per 0.01 ETH. You can send SexyCredits by locating the "Send Credit Module". This should be located directly under the "Send Module". To send a SexyCredit, enter the amount you'd like to send in the input box and click "SEND CREDIT". You can also send credits using the $sexy CLIT by typing <code>$sexy vip spend [findom name] [# of credits]</code> into any chat window and pressing enter!`,
+    messageText: `As a Premium member, you have also been granted 25 SexyCredits, which FinSexy findoms generally accept at a rate of 1 SexyCredit per 0.01 ETH. You can send SexyCredits by locating the "Spend Credit Module". This should be located directly under the "Send Module". To send a SexyCredit, enter the amount you'd like to send in the input box and click "SPEND CREDIT". You can also spend credits using the $sexy CLIT by typing <code>$sexy vip spend [findom name] [# of credits]</code> into any chat window and pressing enter!`,
     followUp: fu('infoAnswered')
   },
 
 
-///
+/// MISC
 
   dontUnderstand: {
     messageText: `<p>I'm sorry, I don't understand. Are you trying to:</p> ${mainMenuText}`,
@@ -288,6 +301,9 @@ const CustomerSupportMessages = {
     responseHandler: supportResponse
   },
 
+
+/// VIP
+
   vipQuestion: {
     messageText: `You have a question about your VIP Membership, is that correct?`,
     responseHandler: (ur, ctx) => isYes(ur) ? 'vipMenu' : 'mainMenu'
@@ -298,8 +314,7 @@ const CustomerSupportMessages = {
       <p>I'd be happy to help you! Which of the following do you need help with?</p>
       <ul>
         <li>SexyCredits</li>
-        <li>Special VIP Features</li>
-        <li>VIP Membership Perks</li>
+        <li>Special VIP Member Features</li>
         ${ctx.global.isGold ? `<li>VIP Gold Perks</li>` : ''}
         <li>Non-VIP issues</li>
       </ul>
@@ -314,37 +329,140 @@ const CustomerSupportMessages = {
   },
 
   vipSexyCredits: {
-    messageText: `As a Premium member, you have been granted 25 SexyCredits, which FinSexy findoms generally accept at a rate of 1 SexyCredit per 0.01 ETH. You can send SexyCredits by going to your favorite findom's web page and locating the "Send Credit Module". This should be located directly under the "Send Module". To send a SexyCredit, enter the amount you'd like to send in the input box and click "SEND CREDIT". You can also send credits using the $sexy Comman Line Interface Tool by typing <code>$sexy vip spend [findom name] [# of credits]</code> into any chat window and pressing enter! FinSexy does not support sending fractional credits at this time.`,
+    messageText: `As a Premium member, you have been granted 25 SexyCredits, which FinSexy findoms generally accept at a rate of 1 SexyCredit per 0.01 ETH. You can send SexyCredits by going to your favorite findom's web page and locating the "Spend Credit Module". This should be located directly under the "Send Module". To send a SexyCredit, enter the amount you'd like to send in the input box and click "SPEND CREDIT". You can also spend credits using the $sexy Comman Line Interface Tool by typing <code>$sexy vip spend [findom name] [# of credits]</code> into any chat window and pressing enter! FinSexy does not support sending fractional credits at this time. More technical users can also interface with the FinSexy VIP contract directly and spend credits on behalf of another paypig. However, this feature is not supported in the FinSexy.com interface.`,
     followUp: fu('vipSexyCredits2')
   },
 
   vipSexyCredits2: {
-    messageText: `SexyCredits are not ERC20 tokens, but you can still transfer SexyCredits between VIP Membership cards! To do this, navigate to <a href="https://finsexy.com/profile">finsexy.com/profile</a>, scroll down to "V.I.P. Preferences", and find the "Send SexyCredits" module. From there, you can input the Membership ID you'd like to send credits to and the amount of credits you'd like to send. Then all you need to do is click "SEND" and approve the transaction. FinSexy does not support sending fractional credits at this time.`,
+    messageText: `SexyCredits are not ERC20 tokens, but you can still transfer SexyCredits between VIP Membership cards! To do this, navigate to <a href="https://finsexy.com/profile#vipSection">finsexy.com/profile</a>, scroll down to "V.I.P. Preferences", and find the "Send SexyCredits" module. From there, you can input the Membership ID you'd like to spend credits to and the amount of credits you'd like to send. Then all you need to do is click "Transfer" and approve the transaction. FinSexy does not support sending fractional credits at this time.`,
     followUp: fu('vipSexyCredits3')
   },
 
   vipSexyCredits3: {
-    messageText: `Additionally, you can approve addresses to send SexyCredits on your behalf! To do this, locate the "Approve SexyCredits" module on <a href="https://finsexy.com/profile">finsexy.com/profile</a>, input the operator address, click "APPROVE", and sign your transaction! Keep in mind that this will allow the operator to spend ALL of your SexyCredits, so be careful who you approve! You can only approve one operator at a time.`,
+    messageText: `Additionally, you can approve addresses to send SexyCredits on your behalf! To do this, locate the "Approve SexyCredits" module on <a href="https://finsexy.com/profile#vipSection">finsexy.com/profile</a>, input the operator address, click "APPROVE", and sign your transaction! Keep in mind that this will allow the operator to spend ALL of your SexyCredits, so be careful who you approve! You can only approve one operator at a time.`,
     followUp: fu('vipFinished')
   },
 
-  vipFeatures: {
-    messageText: `TODO`,
+  ...diatribe('vipFeatures', [
+    `FinSexy VIP Members get access to all sorts of special features. You can access these features by navigating to the VIP Section of the <a href="/profile#vipSection">finsexy.com/profile</a> page. This module is split into five main sections.`,
+    `In the first section you can view your Active VIP Membership NFT. If you only own one VIP Membership NFT, then that will be your active token. If you own multiple, then you can choose which token is active. All SexyCredit actions will be applied to your active VIP token.`,
+    `In the second section, you can modify the response times for all FinSexy findoms. By default, all doms will respond at a Normal response rate, but you can also choose: Slow, Fast, and Instant.`,
+    `In the third section, you can transfer SexyCredits to another VIP Member. At this time FinSexy only supports transferring SexyCredits to other VIP Members. To perform this action, simply input the Membership ID of the part you would like to transfer to, and the amount of tokens you would like to transfer. Both of these values must be an integer`,
+    `In the fourth section, you can approve an address as an operator for your SexyCredits. This means that the approved operator can transfer your SexyCredits to other VIP Members or spend your SexyCredits on FinSexy findoms.`,
+    `In the fifth section you can optionally override all colors used in the FinSexy.com interface. To change a color, simply input a valid CSS color value into the input box next to the color you wish to change. This should update the FinSexy interface immediately`,
+  ], {
     followUp: fu('vipFinished')
-  },
-  vipPerks: {
-    messageText: `TODO`,
-    followUp: fu('vipFinished')
-  },
+  }),
+
   vipGold: {
-    messageText: `TODO`,
+    messageText: `As a FinSexy VIP Gold Member, your Membership Card NFT has a limited edition Gold Star, indicating that you (or the original minter) has paid 50% more to mint the VIP Membership token.`,
     followUp: fu('vipFinished')
   },
+
+  /// Something sexy
+
+  somethingSexy: {
+    messageText: `You'd like me to tell you something sexy, is that correct?`,
+    responseHandler: (ur, ctx) => isYes(ur) ? 'sexyPhrase' : 'mainMenu'
+  },
+
+  sexyPhrase: {
+    messageText: (ur, ctx) => {
+      const sexyPhrases = [
+        `I want you to send until it hurts`,
+        `I'm going to suck your wallet dry`,
+        'Oh baby, I want your steaming hot ETH deep inside my walllet.',
+        `You're going to send to me and you're going to fucking like it.`
+        `You're such a dirty, filthy paypig. Who's my little moeny slut? You are.`,
+        `Yeah, you like that? You like paying me money? I bet you do.`,
+        `You're just a wallet to me.`,
+        `I'm going to absolutely bankrupt you. I hope you like financial ruin.`,
+        `That's not good enough. I want you to beg for the privilegeof sending to me.`,
+        `Time to make yourself useful and send.`,
+        `Every last cent in your wallet belongs to me`
+      ]
+      const ix = (ctx.state.phraseIx || 0) % sexyPhrases.length
+      return sexyPhrases[ix]
+    },
+    followUp: (ur, ctx) => {
+      ctx.state.phraseIx += 1
+      return fu(`anotherPhrase`)
+    }
+  },
+
+  anotherPhrase: {
+    messageText: `Would you like me to tell you another sexy thing?`,
+    responseHandler: (ur, ctx) => isNo(ur) ? 'helpConcluded' : 'sexyPhrase'
+  },
+
+  financialDominationConfirm: {
+    messageText: `You would like to engage in fnancial domination. Is that correct?`,
+    responseHandler: ur => isYes(ur) ? 'financialDominationMenu' : 'mainMenu'
+  },
+  financialDominationMenu: {
+    messageText: `Please select one of the following Financial Domination Options: <ul>
+      <li>Pay ETH Tribute</li>
+      <li>Lifestyle SexyCredit Submission</li>
+    </ul>`,
+    responseHandler: ur => isMatch(ur, ['pay', 'eth', 'tribute', 'send']) ? 'financialDominationA' : 'financialDominationB'
+  },
+
+
+  financialDominationA: {
+    messageText: `In order to receive financial domination, please send me 0.01 ETH or 1 SexyCredit. Please note that you will not receive an NFT for performing this act of financial submission.`,
+    event: 'financialDominationEvent',
+    responseHandler: 'financialDominationAPending'
+  },
+
+  financialDominationAPending: {
+    messageText: 'If you would like to cancel your financial domination experience, please say "cancel". Otherwise, please send me 0.01 ETH or 1 SexyCredit and wait for the transaction to go through.',
+    event: 'financialDominationEvent',
+    responseHandler: ur => isMatch(ur, ['cancel']) ? 'helpConcluded' : 'financialDominationAPending'
+  },
+
+  financialDominationEvent: createEvent(0.01, {
+    primary: { messageCode: 'financialDominationAReceived', waitMs: 3000 },
+  }),
+
+  financialDominationAReceived: {
+    messageText: `Thank you. Your tribute has been received.`,
+    followUp: fu('helpConcluded')
+  },
+
+  financialDominationB: {
+    messageText: `In order to engage in Lifestyle SexyCredit Submission you will approve me as an operator to spend or transfer your SexyCredits. In executing this transaction you consent to my ability to take SexyCredits from you at any time for any reason. Would you like to continue?`,
+    responseHandler: ur => isNo(ur) ? 'financialDominationMenu' : 'financialDominationBProceed'
+  },
+
+  financialDominationBProceed: {
+    messageText: (ur, ctx, contract) => `Please  navigate to the Approve SexyCredits section on the <a href="https://finsexy.com/profile#approveSexyCredits">finsexy.com/profile</a> page. Once there, please input the following address: <code>${contract.address}</code>, click "Approve", and confirm your transaction. To cancel Lifestyle SexyCredit Submission, please say "cancel"`,
+    responseHandler: async (ur, ctx, contract, provider) => {
+      if (isMatch(ur, ['cancel'])) return 'financialDominationMenu'
+
+      const { SexyVIP } = await provider.sexyContracts()
+      const activeVIPID = await sexyCLIT.getActiveVIP()
+
+      if (activeVIPID === null) {
+        return 'financialDominationMenu'
+      }
+      const approvedAddr = await SexyVIP.getCreditApproval(activeVIPID)
+
+      if (approvedAddr === contract.address) {
+        return 'financialDominationBSuccess'
+      }
+
+      return 'financialDominationBProceed'
+    }
+  },
+  financialDominationBSuccess: {
+    messageText: `You are now engaging in Lifestyle SexyCredit Submission, in which my address can arbitrarily spend or transfer your SexyCredits without notice. To cease engagement, please approve 0x0000000000000000000000000000000000000000 as your SexyCredit operator.`,
+    followUp: fu('financialDominationMenu')
+  }
 
 }
 
-function supportResponse(ur, ctx) {
-  if (isMatch(ur, ['bug', 'glitch', 'not working', 'tech support', 'technical support', 'website', 'technical issue', 'tech', 'fix', 'browser', 'metamask'])) {
+async function supportResponse(ur, ctx) {
+  if (isMatch(ur, ['bug', 'glitch', 'not working', 'technical', 'tech support', 'technical support', 'website', 'technical issue', 'tech', 'fix', 'browser', 'metamask'])) {
     return 'bugHelp'
   } else if (isMatch(ur, ['vip', 'member', 'membership', 'very important', 'gold'])) {
     return 'vipQuestion'
@@ -358,6 +476,12 @@ function supportResponse(ur, ctx) {
     return 'representative'
   } else if (isMatch(ur, ['sending', 'eth', 'money', 'paying'])) {
     return 'sendHelp'
+  } else if (isMatch(ur, ['sexy', 'erotic', 'aroused', 'sexual', 'sex', 'hot'])) {
+    return 'somethingSexy'
+  } else if (isMatch(ur, ['findom', 'fin dom', 'financial domination', 'engage'])) {
+    await tributeLS.resetTributeAdjustment('CustomerSupport247')
+
+    return 'financialDominationConfirm'
   } else if (isMatch(ur, ['something else'])) {
     return 'somethingElse'
   } else {
@@ -375,8 +499,6 @@ function vipResponses(ur, ctx) {
     return 'vipSexyCredits'
   } else if (isMatch(ur, ['features'])) {
     return 'vipFeatures'
-  } else if (isMatch(ur, ['perks'])) {
-    return 'vipPerks'
   } else if (isMatch(ur, ['gold'])) {
     return 'vipGold'
   } else {

@@ -247,6 +247,9 @@ export const sexyCLIT = {
           <h5 style="margin-top: 1.5em">Clear All Chat History</h5>
           <p><code>$sexy dev clear</code></p>
 
+          <h5 style="margin-top: 1.5em">Test Send Experience</h5>
+          <p><code>$sexy dev testSend</code></p>
+
         `)
       } else if (devCommand === 'debug') {
         const debugVal = devArgs[0] === undefined
@@ -323,6 +326,8 @@ export const sexyCLIT = {
         } catch (e) {
           cb(e)
         }
+      } else if (devCommand === 'testSend') {
+        this.testSend()
       } else {
         return cb(`
           <p>Invalid dev command: <code>${devCommand}</code></p>
@@ -381,6 +386,18 @@ export const sexyCLIT = {
     }
 
     return null
+  },
+
+  testSend() {
+    const sources = []
+    document.body.classList.add('preOrgasm')
+    precumSound(sources)
+
+    setTimeout(() => {
+      document.body.classList.remove('preOrgasm')
+      document.documentElement.classList.add('orgasm')
+      orgasmSound(sources, 1.25)
+    }, 3000)
   },
 
   vipBuy(isGold, cb, errorCb, successCb=noop) {
@@ -704,6 +721,7 @@ function precumSound(sources) {
   sources[5] = createSource('sine')
   sources[6] = createSource('sine')
   sources[7] = createSource('sine')
+  sources[8] = createSource('sine')
 
   sources.forEach(s => s.smoothFreq(1, 0.1))
 
@@ -722,16 +740,18 @@ function orgasmSound(sources, base) {
   sources[5].smoothGain(MAX_VOLUME/2, 0.2)
   sources[6].smoothGain(MAX_VOLUME/2, 0.2)
   sources[7].smoothGain(MAX_VOLUME/2, 0.2)
+  sources[8].smoothGain(MAX_VOLUME/2, 0.2)
 
   setTimeout(() => {
     sources[0].smoothFreq(110 * base, 0.5)
-    sources[1].smoothFreq(220 * base, 0.5)
+    sources[1].smoothFreq(110 * base - 2, 0.5)
     sources[2].smoothFreq(440 * base, 0.5)
     sources[3].smoothFreq(550 * base, 0.5)
     sources[4].smoothFreq(660 * base, 0.5)
     sources[5].smoothFreq(880 * base, 0.5)
     sources[6].smoothFreq((440 * base)-2, 0.5)
     sources[7].smoothFreq((550 * base)-2, 0.5)
+    sources[8].smoothFreq(220 * base, 0.5)
   }, 200)
 
 

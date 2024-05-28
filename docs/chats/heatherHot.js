@@ -665,7 +665,6 @@ const HeatherHotMessages = {
       }
     },
     followUp: (ur, ctx) => {
-      console.log('wtfffffffff')
       const age = ctx.state.ageOverride || getUserData('age')
       ctx.state.ageStop = age < 18
       ctx.state.veryOld = age >= 125

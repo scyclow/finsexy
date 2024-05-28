@@ -108,6 +108,7 @@ Testimonials
 
 import { isYes, isNo, isGreeting, isMean, isMatch, MessageHandler, diatribe, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch, getAgeYears } from '../state/profile.js'
+import { tributeLS} from '../state/tributes.js'
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
@@ -431,7 +432,7 @@ const StevieMessages = {
       : isMatch(ur, ['did it', 'made the posts', 'done', 'posted', 'complete', 'completed']) ? 'postsComplete' : 'postConfirmation'
   }),
 
-  postsComplete: {
+  postConfirmation: {
     messageText: `you make those posts yet?`,
     responseHandler: (ur, ctx) => isYes(ur) ? 'postsComplete' : 'postConfirmationPending'
   },
@@ -440,10 +441,34 @@ const StevieMessages = {
     responseHandler: (ur, ctx) => isMatch(ur, ['did it', 'made the posts', 'done', 'posted', 'complete', 'completed']) ? 'postsComplete' : 'postConfirmation'
   },
 
+  postsComplete: {
+    messageText: () => genderSwitch({ m: 'good boy', f: 'good girl', nb: 'good' }),
+    followUp: async (ur, ctx) => {
+      if (!ctx.global.isEthBrowser || !ctx.global.isConnected) return fu('reallyAppreciate')
+
+      const alreadyPaid = await tributeLS.getAdjustedTributeETH('steviep')
+      if (alreadyPaid >= 0.01) {
+        await tributeLS.resetTributeAdjustment('steviep')
+        return fu('alreadyPaid')
+      } else {
+        return fu('reallyAppreciate')
+      }
+    }
+  },
+
+  ...diatribe('alreadyPaid', [
+    `acts of service really turn me on`,
+    `but you know what would turn me on even more?`,
+    `another eth payment 🤑`,
+    `that first one you sent got me really hard, but another one would feel great`,
+    `maybe I'll even tell you a little secret about FinSexy after you pay`,
+  ], {
+    responseHandler: 'howMuchReasonable',
+    event: 'pay1Event',
+  }),
 
 
-  ...diatribe('postsComplete', [
-    () => genderSwitch({ m: 'good boy', f: 'good girl', nb: 'good' }),
+  ...diatribe('reallyAppreciate', [
     `now, I want you to <em>really</em> show me how much you appreciate my work`,
     `I know you're sitting there just drooling behind your computer screen`,
     `you want to give me some money, don't you?`,
@@ -721,7 +746,7 @@ const StevieMessages = {
 
   ...diatribe('tellYouWhat', [
     `okay, i'll tell you what`,
-    `if you do a couple things for me then i won't take heather away from you. how's that sound?`,
+    `if you do one more thing for me then i won't take heather away from you. how's that sound?`,
   ], {
     responseHandler: (ur, ctx) => {
       if (isYes(ur)) {

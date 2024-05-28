@@ -193,7 +193,7 @@ contract SexyVIPTokenURI {
   }
 
   function tokenURI(uint256 tokenId) external view returns (string memory) {
-    string memory description = 'FinSexy V.I.P. Memberships grant the holder 25 Sexy Credits, which they may send to sexy findoms on https://finsexy.com or transfer to other V.I.P. Members.';
+    string memory description = 'FinSexy V.I.P. Memberships grant the holder 25 SexyCredits, which they may send to sexy findoms on https://finsexy.com or transfer to other V.I.P. Members.';
 
     bytes memory json = abi.encodePacked(
       'data:application/json;utf8,',
@@ -221,7 +221,7 @@ contract SexyVIPTokenURI {
     uint256 creditBalance = sexyVIP.creditBalance(tokenId);
 
     return string.concat(
-      '[{"trait_type": "Member Name", "value": "', name,'"},{"trait_type": "Sexy Credits", "value": "', creditBalance.toString(),'"},{"trait_type": "VIP Gold", "value": "', isGold ? 'true' : 'false','"}]'
+      '[{"trait_type": "Member Name", "value": "', name,'"},{"trait_type": "SexyCredits", "value": "', creditBalance.toString(),'"},{"trait_type": "VIP Gold", "value": "', isGold ? 'true' : 'false','"}]'
     );
   }
 
@@ -241,7 +241,7 @@ contract SexyVIPTokenURI {
     str = abi.encodePacked(
       str,
       '<text x="7%" y="78%">', name, '</text>',
-      '<text x="7%" y="88%">Sexy Credits: ', creditBalance.toString(), '</text>'
+      '<text x="7%" y="88%">SexyCredits: ', creditBalance.toString(), '</text>'
     );
 
     string memory tokenString;

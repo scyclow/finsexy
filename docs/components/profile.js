@@ -799,7 +799,7 @@ createComponent(
 
             <div id="creditSection" class="hidden" style="display: flex; justify-content: center">
               <div id="creditSendModule">
-                <input id="creditSendInput" class="sendInput" type="number" step="1" min="1" placeholder="1 Credit"><button id="creditSendButton">SEND CREDIT</button>
+                <input id="creditSendInput" class="sendInput" type="number" step="1" min="1" placeholder="1 Credit"><button id="creditSendButton">SPEND CREDIT</button>
               </div>
             </div>
 

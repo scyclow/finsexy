@@ -72,7 +72,7 @@ export function vipCard(name, tokenId, isGold, balance) {
 
 
       <text x="7%" y="78%">${name}</text>
-      <text x="7%" y="88%">Sexy Credits: ${balance}</text>
+      <text x="7%" y="88%">SexyCredits: ${balance}</text>
       <text x="73%" y="88%">ID: ${tokenId}</text>
       ${isGold ?'<text x="85%" y="78%" stroke="#f3ba00" stroke-width="9" style="filter: drop-shadow(0 0 20px #888) drop-shadow(0 0 15px #f3ba00);">⭑</text>' : ''}
     </svg>

@@ -1,6 +1,25 @@
 
 /*
+
+  TODO
+    - profile
+    - maybe after you put in a private key she blocks you
+    - maybe flesh out a bit more
+
+
+
+
+
+
+
+
+
+
+
     Identity theft protector/SpecialAgent:
+
+
+
       - dom type: protocol
       - nft: ???
       - visibility: hidden, but cold dms after 0x0 presses 7
@@ -44,7 +63,7 @@ export const DianeProfile = {
     lang: 'en-US',
     name: 'Nicky'
   },
-  description: `TODO`,
+  description: `Special investigator of serious financial and identity theft crimes.`,
   gender: 'Female',
   display: 'f',
   testimonials: [
