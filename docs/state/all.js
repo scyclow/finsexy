@@ -168,9 +168,12 @@ export const tributesPromise = new Promise((res, rej) => {
 provider.onConnect(async (addr) => {
   MessageHandler.visibilityCtx.DungeonMistress = 'online'
   MessageHandler.visibilityCtx.SamanthaJones = 'online'
-  MessageHandler.visibilityCtx.QueenJessica = 'online'
   MessageHandler.visibilityCtx.VinceSlickson = 'online'
   MessageHandler.visibilityCtx.CandyCrush = 'online'
+
+  if (MessageHandler.chats.QueenJessica.ctx.lastDomCodeSent !== 'offline') {
+    MessageHandler.visibilityCtx.QueenJessica = 'online'
+  }
 
   const samanthaResponded = SamanthaChat.ctx.history.some(m => m.from === 'SamanthaJones' && !m.helpMessage)
 

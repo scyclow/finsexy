@@ -768,12 +768,24 @@ const QueenMessages = {
   ...diatribe('excuseMe', [
     `Now if you'll excuse me, I'm going to go get lunch with the girls`,
     `Then maybe I'll come home, take a shower, and shave my hot little pussy`,
-    `If you want to pay for my lunch like a good paypig then maaaaaaaybe I'll show it to you`,
+    `If you want to pay for my lunch and send me <em>another</em> 0.01 ETH like a good paypig then maaaaaaaybe I'll show it to you`,
     `In the meantime, I want you to brainstorm at least 10 different ways that you can make me money`,
     `Anyhow, I've got to run`,
     `Bye bye, idiot`
-  ]),
+  ], {
+    responseHandler: () => {
+      MessageHandler.visibilityCtx.QueenJessica = 'offline'
+      return 'offline'
+    }
 
+  }),
+
+  offline: {
+    messageText: `This FinDom is offline`,
+    responseHandler: 'offline',
+    helpMessage: true,
+    ignoreType: true
+  }
 
 /*
 

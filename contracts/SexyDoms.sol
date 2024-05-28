@@ -12,12 +12,11 @@ contract SexyDeployer {
   FindomProxy public DungeonMistress;
   FindomProxy public DrAndy;
   FindomProxy public katFischer;
-  // TODO -> SexyXXXpress
-  FindomProxy public SexyXXXpress;
 
   CandyCrushProxy public CandyCrush;
   SteviePProxy public steviep;
   CrystalGoddessProxy public CrystalGoddess;
+  FindomProxy public SexyXXXpress;
 
   FinDomBase public baseContract;
 
@@ -27,17 +26,26 @@ contract SexyDeployer {
 
     // TODO nft collection names
 
-    heatherHot = new FindomProxy('heatherHot Money on Fire', 'SEXY-HH', 0.01 ether, baseAddr, msg.sender, router);
+    // cash cow
+    // pay pig
+    // human atm
+
+    heatherHot = new FindomProxy('heatherHot Feet Pics', 'SEXY-HH', 0.01 ether, baseAddr, msg.sender, router);
+
     SamanthaJones = new FindomProxy('SamanthaJones ...', 'SEXY-SJ', 0.03 ether, baseAddr, msg.sender, router);
-    QueenJessica = new FindomProxy('QueenJessica Hot Little Pussy', 'SEXY-QJ', 0.04 ether, baseAddr, msg.sender, router);
+    QueenJessica = new FindomProxy("QueenJessica's Hot Little Pussy", 'SEXY-QJ', 0.04 ether, baseAddr, msg.sender, router);
+
+    // cash cow
     DungeonMistress = new FindomProxy('DungeonMistress ...', 'SEXY-DM', 0.05 ether, baseAddr, msg.sender, router);
     DrAndy = new FindomProxy('DrAndy ...', 'SEXY-AI', 0.04 ether, baseAddr, msg.sender, router);
+
+    // Pay Pig (pig butcher)
     katFischer = new FindomProxy('katFischer ...', 'SEXY-KF', 0.03 ether, baseAddr, msg.sender, router);
     SexyXXXpress = new FindomProxy('SexyXXXpress Sexy Pics', 'SEXY-XXX', 0.01 ether, baseAddr, msg.sender, router);
 
     CandyCrush = new CandyCrushProxy('CandyCrush Tattoo', 'SEXY-CC', 0.01 ether, baseAddr, msg.sender, router);
     steviep = new SteviePProxy('steviep Dick Pics', 'SEXY-SP', baseAddr, msg.sender, router);
-    CrystalGoddess = new CrystalGoddessProxy('CrystalGoddess ...', 'SEXY-CG', 0.01 ether, baseAddr, msg.sender, router);
+    CrystalGoddess = new CrystalGoddessProxy('CrystalGoddess Monetary Sacrifice', 'SEXY-CG', 0.01 ether, baseAddr, msg.sender, router);
   }
 }
 
@@ -229,3 +237,34 @@ contract SexyGame is Ownable {
 }
 
 
+// contract XXXpressProxy is ProxyBase, InternalMintCheck {
+//   mapping(uint256 => uint256) public tokenIdToURIID;
+//   uint256 public seriesAIssued;
+//   uint256 public seriesBIssued;
+//   uint256 public seriesCIssued;
+
+//   constructor(
+//     string memory name,
+//     string memory symbol,
+//     uint256 mintThreshold,
+//     address implementationAddr,
+//     address owner_,
+//     address router
+//   ) {
+//     getAddressSlot(_IMPLEMENTATION_SLOT).value = implementationAddr;
+
+//     // Invoke the preInitialize function on itself, as defined by the archetype contract
+//     Address.functionDelegateCall(
+//         implementationAddr,
+//         abi.encodeWithSignature(
+//           "initialize(string,string,uint256,address,address,address,bool)",
+//           name, symbol, mintThreshold, owner_, router, address(0), true
+//         ),
+//         "Address: low-level delegate call failed"
+//     );
+//   }
+
+//   function mintCheck(address sender, uint256 amount) external view returns (bool) {
+//     return cleansedETH[sender] >= amount;
+//   }
+// }

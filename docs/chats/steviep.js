@@ -1023,9 +1023,28 @@ const StevieMessages = {
   },
 
   discord: {
-    messageText: `if you have any more quesitons, let's take it to <a target="_blank" rel="nofollow" href="https://discord.steviep.xyz">the #finsexy channel in my discord server</a>`
+    messageText: `if you have any more quesitons, let's take it to <a target="_blank" rel="nofollow" href="https://discord.steviep.xyz">the #finsexy channel in my discord server</a>`,
+    responseHandler: 'gottaRun'
   },
 
+  gottaRun: {
+    messageText: 'seriously, I gotta run',
+    followUp: fu('later')
+  },
+  later: {
+    messageText: 'later',
+    responseHandler: () => {
+      MessageHandler.visibilityCtx.steviep = 'offline'
+      return 'offline'
+    }
+  },
+
+  offline: {
+    messageText: `This FinDom is offline`,
+    responseHandler: 'offline',
+    helpMessage: true,
+    ignoreType: true
+  }
 }
 
 

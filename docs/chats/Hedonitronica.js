@@ -27,7 +27,7 @@ export const HedonitronicaProfile = {
 
 
 const nextOrMore = (n) => async (ur, ctx, contract) => {
-  if (fromWei(await tributeLS.getAdjustedTribute('QueenJessica')) > 0) {
+  if (fromWei(await tributeLS.getAdjustedTribute('Hedonitronica')) > 0) {
     return 'more1'
   } else {
     return n

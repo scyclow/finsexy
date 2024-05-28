@@ -41,7 +41,7 @@ contract SexyRouter is Ownable {
 
 contract SexyBaseURI {
   // TODO
-  function tokenURI(string memory symbol, uint256 tokenId) external view returns (string memory) {
+  function tokenURI(string memory name, string memory symbol, uint256 tokenId) external view returns (string memory) {
     return '';
   }
 }

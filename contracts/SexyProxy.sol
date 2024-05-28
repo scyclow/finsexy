@@ -172,7 +172,7 @@ contract FinDomBase is ERC721, FinDomTribute {
   }
 
   function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
-    return ITokenURI(router.baseURI()).tokenURI(_symbol, tokenId);
+    return ITokenURI(router.baseURI()).tokenURI(_name, _symbol, tokenId);
   }
 }
 

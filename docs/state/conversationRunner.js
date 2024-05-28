@@ -181,7 +181,9 @@ const noes = [
   `incorrect`,
   `not bad`,
   `does not`,
-  `doesnt`
+  `doesnt`,
+  'neither',
+  'none'
 ]
 
 
