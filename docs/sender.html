@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>FinSexy Paypig Tribute History</title>
+  <link rel="shortcut icon" type="image/x-icon" href="./assets/kiss.png" id="favicon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="Chat with the hottest findoms on the internet and send them crypto">
+  <meta name="keywords" content="finsexy, chatbots, ai, stable diffusion, text adventure, rpg, steviep, steve pikelny, pikelny, crypto, ethereum, nft, nfts, blockchain, bitcoin">
+
+  <meta name="twitter:image" content="./assets/thumbnail.png">
+  <meta name="twitter:image:alt" content="WARNING! The SEXY FINDOMS on this website will SUCK your wallet dry. Proceed at your own risk.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@steviepxyz">
+  <meta name="twitter:site" content="@steviepxyz">
+  <meta property="twitter:description" content="Chat with the hottest findoms on the internet and send them crypto">
+
+  <meta name="og:image" property="og:image" content="./assets/thumbnail.png">
+  <meta name="og:image:alt" content="WARNING! The SEXY FINDOMS on this website will SUCK your wallet dry. Proceed at your own risk.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://finsexy.com/">
+  <meta property="og:title" content="FinSexy.com">
+  <meta property="og:site_name" content="FinSexy">
+  <meta property="og:description" content="Chat with the hottest findoms on the internet and send them crypto">
+
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+
+
+  <style type="text/css">
+
+    main {
+      max-width: 1400px;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+
+
+
+
+  </style>
+
+
+<script src="./utils.js"></script>
+<script type="module" src="./state/all.js"></script>
+<script type="module" src="./components/all.js"></script>
+
+<style type="text/css">
+  main {
+    margin: 2em auto;
+  }
+
+
+  h1 {
+    font-family: var(--fancy-font);
+    font-size: 2em;
+    line-height: 1.1;
+    text-shadow: 0 0 2px var(--dark-color), 0 0 5px var(--medium-color), 0 0 8px var(--border-color);
+    text-decoration: none;
+    color: var(--light-color);
+    text-align: center;
+    margin-bottom: 0.3em;
+  }
+
+  table {
+    border-spacing: 1px;
+    margin: 0 auto;
+    margin-bottom: 2em;
+    margin-top: 0.5em;
+    font-size: 1.2em;
+
+  }
+  td {
+    padding: 0.5em;
+    outline: 1px solid var(--light-color);
+    transition: 0.2s;
+  }
+
+  td, td a {
+    font-family: var(--code-font);
+  }
+
+  #addr {
+    text-align: center;
+  }
+  #addr a {
+    font-family: var(--code-font);
+    text-decoration: underline;
+  }
+
+  #addr a:hover {
+    outline: 1px solid var(--primary-color);
+    text-decoration: none;
+    color: var(--light-color);
+  }
+
+
+  @media (max-width: 380px) {
+    #addr a {
+      font-size: 0.9em;
+    }
+
+  }
+
+  #tributes td {
+    font-family: var(--code-font);
+    outline: 1px solid var(--light-color);
+  }
+  #tributes td a:hover {
+    transition: 0.2s;
+    color: var(--primary-color);
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 0.25em;
+  }
+
+  h3 {
+    margin-bottom: 0.25em;
+  }
+
+  #tributesSection {
+    margin-top: 2em;
+  }
+
+  #infoSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1em;
+  }
+  .info {
+    width: 185px;
+    display: inline-block;
+  }
+
+  .value {
+    color: var(--medium-color);
+  }
+  .gold {
+    color: var(--yellow-color);
+    text-shadow: 0 0 5px var(--yellow-color);
+  }
+
+
+
+
+  @media (max-width: 430px) {
+
+    h1 {
+      font-size: 1.8em;
+    }
+
+
+
+
+
+  }
+
+</style>
+
+</head>
+
+<body>
+  <sexy-header id="header"></sexy-header>
+
+
+  <main>
+    <connect-wallet>
+      <div slot="noWeb3">
+        <em class="error">Please Connect in a <br>Web3-enabled Browser</em>
+      </div>
+
+      <div slot="notConnected">
+        <h1>Please connect your wallet to view the leaderboard</h1>
+      </div>
+
+      <div slot="connected" id="connected">
+
+        <div>
+          <h1 id="title">Paypig Tribute History</h1>
+          <div id="addr"></div>
+        </div>
+
+        <div id="infoSection">
+          <div>
+            <h3 id="memberStatus"></h3>
+            <h3 id="tokensOwned"></h3>
+            <h3 id="creditBalance"></h3>
+          </div>
+        </div>
+
+        <div id="tributesSection">
+          <h2 id="totalTributes"></h2>
+          <table id="tributes"><tr><td>Loading...</td></tr></table>
+        </div>
+
+        <div id="error"></div>
+
+
+
+<!--         <div id="tables">
+          <div>
+            <h1>Total Tributes Received</h1>
+            <div id="receiverNames">
+              <div  class="loading">Loading...</div>
+            </div>
+          </div>
+
+          <div>
+            <h1>Top 10 Senders</h1>
+            <div id="senderAddrs">
+              <div  class="loading">Loading...</div>
+            </div>
+          </div>
+        </div> -->
+
+<!--         <div>
+          <h1>Most Recent Tributes</h1>
+          <div id="recentSends">
+            <div  class="loading">Loading...</div>
+          </div>
+        </div> -->
+
+
+      </div>
+    </connect-wallet>
+
+
+  </main>
+
+  <footer class="mainFooter"><a href="https://steviep.xyz" target="_blank">steviep.xyz</a> (c) 2024</footer>
+
+
+  <sexy-modal id="profileModal" blur="true" >
+    <sexy-user-profile slot="content"></sexy-user-profile>
+  </sexy-modal>
+</body>
+
+
+<!-- <script src="./min.ethers.js"></script> -->
+
+<script type="module">
+
+  import {$, ls} from './$.js'
+  import {provider, fromWei, isENS} from './eth.js'
+
+  const $profileModal = $.id('profileModal')
+  if (!ls.get('profileCompleted') && !ls.get('profileDeferred')) {
+    $profileModal.open()
+  }
+
+
+  provider.onConnect(async (addr) => {
+    const url = new URL(window.location)
+    const paypigAddr = url.searchParams.get('paypig')
+
+    if (!paypigAddr) {
+      $.id('error').innerHTML = 'Invalid Paypig Address'
+      return
+    }
+
+    $.id('addr').innerHTML = `<a class="senderReceiver" href="https://etherscan.io/address/${paypigAddr}" target="_blank" rel="nofollow">${paypigAddr}</a>`
+
+    const ens = await provider.formatAddr(paypigAddr, true, 28)
+    if (isENS(ens)) {
+      $.id('title').innerHTML = `Paypig Tribute History: ${ens}`
+    }
+
+
+
+
+    try {
+      const domContracts = await provider.domContracts()
+      const { SexyVIP } = await provider.sexyContracts()
+      const isVIP = !(await SexyVIP.balanceOf(paypigAddr)).isZero()
+
+      if (isVIP) {
+        const totalSupply = bnToN(await SexyVIP.totalSupply())
+        const idsOwned = []
+        let status = 'VIP'
+        let creditBalance = 0
+
+        for (let id = 0; id < totalSupply; id++) {
+          if (await SexyVIP.ownerOf(id) === paypigAddr) {
+            const isGold = await SexyVIP.isGold(id)
+            if (isGold) status = 'Gold'
+
+            idsOwned.push(id)
+            creditBalance += bnToN(await SexyVIP.creditBalance(id))
+          }
+        }
+
+        $.id('memberStatus').innerHTML = `<span class="info">Membership Status:</span> <span class="value ${status==='Gold'?'gold':''}">${status}</span>`
+        $.id('tokensOwned').innerHTML = `<span class="info">VIP Token${idsOwned.length > 1 ? 's Owned:' : ':'}</span> <span class="value">${idsOwned.join(', ')}</span>`
+        $.id('creditBalance').innerHTML = `<span class="info">SexyCredit Balance:</span> <span class="value">${creditBalance}</span>`
+
+      } else {
+        $.id('memberStatus').innerHTML = `<span class="info">Membership Status:</span> <span class="value">Standard</span>`
+
+      }
+      const allTributes = {}
+
+      for (let dom of Object.keys(domContracts)) {
+        allTributes[dom] = fromWei(await domContracts[dom].tributes(paypigAddr))
+      }
+
+      let tributeContent = ''
+      let totalPaid = 0
+
+      Object.keys(allTributes).sort((a, b) => allTributes[b] - allTributes[a]).map(d => {
+        const tributes = allTributes[d]
+        const tributesRounded = Math.floor(tributes * 10000000) / 10000000
+        if (tributes > 0) {
+          totalPaid += tributesRounded
+          tributeContent += `
+            <tr>
+              <td style="font-size: 0.9em"><a href="./profiles/${d}">${ellipse(d, 21)}</a></td>
+              <td style="color: var(--medium-color)">${tributesRounded} ETH</td>
+            </tr>
+          `
+        }
+      })
+
+      $.id('tributes').innerHTML = tributeContent
+      $.id('totalTributes').innerHTML = `Total Tributes Paid: <span class="value">${Math.floor(totalPaid * 1000000000) / 1000000000} ETH</span>`
+
+
+    } catch (e) {
+      $.id('error').innerHTML = `An error occurred: ${e}`
+    }
+
+
+  })
+
+
+
+
+
+</script>
+
+
+</html>

@@ -455,11 +455,17 @@ createComponent(
 
       #domAddr, #domAddrMobile {
         text-align: center;
-        margin-top: 1.2em;
+        margin-top: 1.3em;
         font-size: 0.8em;
       }
       #domAddr a, #domAddrMobile a {
         color: var(--light-color);
+        font-family: var(--code-font);
+        font-size: 1.1em
+      }
+
+      #domAddr {
+        font-size: 1em;
       }
 
       #domAddrMobile {
@@ -754,6 +760,25 @@ createComponent(
         filter: drop-shadow(1px 1px var(--dark-color));
       }
 
+      footer, .mainFooter {
+        padding-top: 1em;
+        padding-bottom: 1em;
+        text-align: center;
+      }
+
+      .mainFooter {
+        font-size: 1em;
+        margin-top: 2em;
+        margin-bottom: 1em;
+      }
+
+      .mainFooter a {
+        color: var(--primary-color);
+        text-decoration: underline;
+      }
+      .mainFooter a:hover {
+        text-decoration: none;
+      }
 
 
       @keyframes FadeInOut {
@@ -871,10 +896,13 @@ createComponent(
           </section>
         </section>
 
+
+
         <sexy-modal id="profileModal" blur="true" >
           <sexy-user-profile slot="content"></sexy-user-profile>
         </sexy-modal>
       </main>
+      <footer class="mainFooter"><a href="https://steviep.xyz" target="_blank">steviep.xyz</a> (c) 2024</footer>
     </article>
   `,
   {activePhoto: 0},
@@ -1054,7 +1082,7 @@ createComponent(
         const domAddress = (await provider.domContract(name)).address
         ctx.$domAddr.innerHTML = `<a href="https://etherscan.io/address/${domAddress}" target="_blank" rel="nofollow">${domAddress}</a>`
 
-        ctx.$domAddrMobile.innerHTML = `<a href="https://etherscan.io/address/${domAddress}" target="_blank" rel="nofollow">${await provider.formatAddr(domAddress)}</a>`
+        ctx.$domAddrMobile.innerHTML = `<a href="https://etherscan.io/address/${domAddress}" target="_blank" rel="nofollow">${domAddress}</a>`
       } catch (e) {
         console.error(e)
       }

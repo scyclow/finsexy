@@ -14,7 +14,7 @@ export const ZERO_ADDR = '0x0000000000000000000000000000000000000000'
 export const txValue = amt => ({ value: toETH(amt) })
 
 
-function isENS(ens) {
+export function isENS(ens) {
   return ens.slice(-4) === '.eth'
 }
 

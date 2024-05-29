@@ -768,6 +768,9 @@
         <section id="links" class="grid">
         </section>
       </div>
+
+      <footer class="mainFooter"><a href="https://steviep.xyz" target="_blank">steviep.xyz</a> (c) 2024</footer>
+
     </section>
   </main>
 
@@ -971,14 +974,14 @@ function domTypeDisplayClass(str) {
       let tributeContent = ''
       let anyTributesPaid
 
-      Object.keys(tributesPaid).map(d => {
+      Object.keys(tributesPaid).sort((a, b) => tributesPaid[b] - tributesPaid[a]).map(d => {
         const tributes = tributesPaid[d]
         const tributesRounded = Math.floor(tributes * 10000000) / 10000000
         if (tributes > 0) {
           anyTributesPaid = true
           tributeContent += `
             <tr>
-              <td style="font-size: 0.9em"><a href="./chat?activeChat=${d}">${ellipse(d, 21)}</a></td>
+              <td style="font-size: 0.9em"><a href="./profiles/${d}">${ellipse(d, 21)}</a></td>
               <td style="color: var(--medium-color)">${tributesRounded} ETH</td>
             </tr>
           `

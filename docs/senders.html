@@ -205,7 +205,7 @@
       </div>
 
       <div slot="notConnected">
-        <h1>Please connect your wallet to view the leaderboard</h1>
+        <h1>Please connect your wallet to see top senders</h1>
       </div>
 
       <div slot="connected" id="connected">
@@ -240,6 +240,9 @@
 
 
   </main>
+
+  <footer class="mainFooter"><a href="https://steviep.xyz" target="_blank">steviep.xyz</a> (c) 2024</footer>
+
 
   <sexy-modal id="profileModal" blur="true" >
     <sexy-user-profile slot="content"></sexy-user-profile>
@@ -300,7 +303,7 @@
         <tbody>
           ${topSendersSorted.map((s, ix) => `
             <tr>
-              <td><a class="senderReceiver" href="https://etherscan.io/address/${s}" target="_blank" rel="nofollow">${senderNames[ix]}</a></td>
+              <td><a class="senderReceiver" href="/sender?paypig=${s}">${senderNames[ix]}</a></td>
               <td class="tributeAmounts">${senders[s].toFixed(4)} ETH</td>
             </tr>
           `).join('')}
@@ -313,7 +316,7 @@
         <tbody>
           ${topReceiversSorted.map(dom => `
             <tr>
-              <td class="domName"><a class="senderReceiver" href="https://etherscan.io/address/${contracts[dom].address}" target="_blank" rel="nofollow">${ellipse(dom, 22)}</a></td>
+              <td class="domName"><a class="senderReceiver" href="/profiles/${dom}">${ellipse(dom, 22)}</a></td>
               <td class="tributeAmounts">${receivers[dom].toFixed(4)} ETH</td>
             </tr>
           `).join('')}
@@ -324,7 +327,7 @@
     $.id('recentSends').innerHTML = `<ul>
       ${(await Promise.all(recentSends.map(async sendEvent => `
         <li>
-          <a class="senderReceiver" href="https://etherscan.io/address/${sendEvent.args.sender}" target="_blank" rel="nofollow">
+          <a class="senderReceiver" href="/sender?paypig=${sendEvent.args.sender}" target="_blank" rel="nofollow">
             ${await provider.formatAddr(sendEvent.args.sender, true, 24)}
           </a> sent <span class="sentAmount">${fromWei(sendEvent.args.amount).toFixed(2)} ETH</span> to <a class="eventDomName" href="/profiles/${sendEvent.domName}">${ellipse(sendEvent.domName, 22)}</a>
         </li>
