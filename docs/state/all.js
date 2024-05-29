@@ -103,26 +103,31 @@ setRunInterval(() => {
     const pw = getUserData('password')
     const timeElapsed = Date.now() - analyticsLS.get('firstEntry')
 
+    // 5 min
     if (unmessaged(KatChat) && timeElapsed >= 300000) {
       KatChat.queueEvent('steviep', 1)
       MessageHandler.visibilityCtx.katFischer = 'online'
     }
 
+    // 20 min
     if (unmessaged(HackerChat) && pw && timeElapsed >= 1200000) {
       HackerChat.queueEvent('hello', 1)
       MessageHandler.visibilityCtx['0x000000000000000000000000000000000'] = 'offline'
     }
 
-    if (unmessaged(MindyChat) && timeElapsed >= 2400000) {
+    // 60 min
+    if (unmessaged(HotlineBabeChat) && timeElapsed >= 3600000) {
+      HotlineBabeChat.queueEvent('hello', 1)
+      MessageHandler.visibilityCtx.HotlineBabe1900 = 'online'
+    }
+
+    // 120 min
+    if (unmessaged(MindyChat) && timeElapsed >= 7200000) {
       MindyChat.queueEvent('hello', 1)
       MessageHandler.visibilityCtx.MindyRouge = 'online'
     }
 
 
-    if (unmessaged(HotlineBabeChat) && timeElapsed >= 3600000) {
-      HotlineBabeChat.queueEvent('hello', 1)
-      MessageHandler.visibilityCtx.HotlineBabe1900 = 'online'
-    }
   }
 
 

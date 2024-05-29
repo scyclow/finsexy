@@ -610,8 +610,17 @@ export class MessageHandler {
 
   static updateGlobalUnread() {
     const unreadCount = MessageHandler.totalUnreads()
+    const url = new URL(window.location)
+    const existingActiveChat = url.searchParams.get('activeChat')
     const originalTitle = document.title
-    const cleanedTitle = originalTitle.replace(/\((\d+)\)/, '').trim()
+
+    const cleanedTitle =
+      existingActiveChat
+        ? `FinSexy | ${existingActiveChat} Chat`
+        : originalTitle.replace(/\((\d+)\)/, '').trim()
+
+
+
     if (unreadCount > 0) {
       document.title = `(${unreadCount}) ${cleanedTitle}`
       $.id('favicon').href = $.id('favicon').href.replace('kiss.png', 'kissNotification.png')

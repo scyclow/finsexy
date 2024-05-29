@@ -126,7 +126,7 @@ export const HeatherHotProfile = {
     lang: 'en-US',
     name: 'Samantha'
   },
-  description: `My name is Heather, and I'm your next girlfriend. `,
+  description: `My name is Heather, and I'm your next girlfriend.`,
   testimonials: [
     {
       name: '0xfFff...3892',

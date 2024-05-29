@@ -50,7 +50,7 @@ export const SamanthaProfile = {
     lang: 'en-US',
     name: 'Grandma'
   },
-  description: ` Samantha Jones is a tax auditor financial professional who loves auditing crypto ${genderSwitch({m: 'sissy boys', f: 'sissy girls', nb: 'sissies'})} and focuses on cryptocurrency and blockchain fraud. In her more than 25 years of industry experience, she has handled matters across the criminal and regulatory spectrum. `,
+  description: `Samantha Jones is a tax auditor financial professional who loves auditing crypto ${genderSwitch({m: 'sissy boys', f: 'sissy girls', nb: 'sissies'})} and focuses on cryptocurrency and blockchain fraud. In her more than 25 years of industry experience, she has handled matters across the criminal and regulatory spectrum. `,
   testimonials: [
     {
       name: '0x0',
