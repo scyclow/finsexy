@@ -45,6 +45,9 @@ export const CustomerSupportProfile = {
     {
       review: `I just sent CustomerSupport247 0.069 ETH!`
     },
+    {
+      review: `Two bugs to report: (1) On findoms w/ one profile image, the blown up thumbnail still has \`cursor: pointer\` styling, even though you cannot click to change photos; (2) every time the VIP icon in the NAV bar flashes, the box-shadow on the square SVG element around the star is visible. Please fix these `
+    }
 
     {
       review: `I'm so happy with my Gold Membership! Definitely a good purchase!`
@@ -53,6 +56,18 @@ export const CustomerSupportProfile = {
     {
       review: `I only purchased the regular VIP Membership, and I regret not buying Gold! Gold stars indicate rarity, so the 50% markup to get a guaranteed grail is a no brainer`
     },
+    {
+      review: `Please give @DrAndy back to me. I love them! It's so incredibly cruel that you could just take them away from me. I don't even know how I'm going to cope without them. Do you know how hard it is to find a good therapist?`
+    },
+    {
+      review: `I'd like to file a bug report for @heatherHot. She seems to be stuck in a loop, saying "hey baby, are you still there?", "i want your ETH so bad", and "you know you want it too". It doesn't seem to matter how much money I give her, I keep getting the same responses. `
+    },
+    {
+      review: `so professional 🥵`
+    },
+    {
+      review: `I want to file a complaint agains @steviep. I don't know what the fuck this website did to my head, but since first stumbling upon it, the only thing that's been able to give me the slightest bit of pleasure is sending doms money. It's like the rest of my life is stuck in black and white. Music just feels like noise. Food is just a vehicle to make me less hungry. Other people are just an annoyance. Even masturbating when I'm not in a findom session feels like I'm simply emptying my ball sack. It feels like all the energy and zest and meaning has been sucked out of my life.`
+    }
 
   ]
 }

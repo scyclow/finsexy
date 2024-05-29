@@ -144,10 +144,7 @@ export const CrystalGoddessProfile = {
       review: `It's beyond hope that @DrAndy and therapy cna fix me, so I must submit to a higher power 🙏`
     },
 
-    // {
-    //   name: '0x1',
-    //   review: `Goddess is definitely not a starter dom. It's not a great idea to play with her unless you've done this before. I went to her at a low point in my life. I was sending to doms so often that I didn't even get pleasure from it any more. It left me feeling pretty emotionally drained, and Goddess drained what was left from my wallet. She also drained what was left in my balls.`,
-    // },
+
 
 
     {
@@ -157,7 +154,9 @@ export const CrystalGoddessProfile = {
       name: '0x1',
       review: `Thank you so much Goddess for draining me. You give me purpose in my miserable, pathetic life 🙏`,
     },
-
+    {
+      review: `me with your eth address 🏷 now of big blessings now 🎉💵💵🥰`
+    },
     {
       review: `I've always gotten off on ritual, control, worship, taboo, and repentance, so I was happy to find a dom that rolled all of that into one!`
     },

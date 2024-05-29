@@ -118,7 +118,9 @@ export const QueenProfile = {
       name: '0x',
       review: `She makes me feel useful. Sending to Queen gives my life purpose`,
     },
-
+    {
+      review: `QJ is definitely not a starter dom. It's not a great idea to play with her unless you've done this before. I went to her at a low point in my life. I was sending to doms so often that I didn't even get pleasure from it any more. It left me feeling pretty emotionally drained, and QJ drained what was left from my wallet. She also drained what was left in my balls.`,
+    },
     {
       review: `it's soooo hot to see these amazing, strong women empowered to do this. sex work is work! it's a free market, and these women are making the decisions that best lead to their success. i see some of the other subs here don't like it, and that's too bad! Personally, i fund it unbearably hot watching these women work their magic. I just wish that I was able to do the same`
     },

@@ -69,30 +69,30 @@ Testimonials
 
   - Hey asshole, this stupid fucking website has totally ruined my life! I don't have any money, but I can't stop talking to the sexy doms. Ever since I created my account, I can't stop thinking about FinDom. It's the first thing I think about when I wake up, and the last thing I think about before I fall asleep. I just want to be financially dominated by hot doms, but all they want is money that I dont' have. It's driving me insane!
 
-  - I have a highly addictive personality. I've thankfully avoided substance abuse, but I need to get my kicks in other ways. Staring at social media for hours on end, compulsive masturbation, and gambling are the big three. So you could imagine how I felt when I finally came across FinSexy! I've never found a website that so deftly combined my three biggest passions in life. Keep up the good work, Steve!
+  -
 
 
 
 
-  - It's soooo hot knowing that stevie is getting all the money from this website in the end. the fact that all the doms and comments are written by him just gets me uncontrolably aroused
+  -
 
-  - What Steve is doing here is really disgusting. What a shame that is how such a brilliant and prolific artist chooses to direct his efforts: pandering to vulnerable sexual degenerates. He knows that they can't control themselves, and what does he do? He creates a highly addictive environment that triggers all of the reward centers in their brain. And it's all to his benefit. It's opportunistic is what it is.
+  -
 
-  - Steve shows once again that he's a truly brilliant entrepreneur. As a perpetually single and lonely man who spends 15 hours a day on my computer, it's crystal clear to me that this is where the dating market is headed. It's hard to put a price on having an empathetic relationship with a sexy woman who's always there for me, always knows how to cheer me up, and is always willing to take my money.
-
-  - I really have to wonder who steviep is if _this_ is the fantasy world that he's made for himself. Whoever he is, he's got _amazing_ taste.
-
-  - I don't know what the fuck @steviep did to my head, but since I first stumbled upon this stupid website the only thing that's been able to give me the slightest bit of pleasure is sending doms money on FinSexy. It's like the rest of my life is stuck in black and white. Music jsut feels like noise. Food is jsut a vehicle to make me less hungry. Other people are just an annoyance. Even masturbating when I'm not in a findom session feels like I'm simply emptying my ball sack. It feels like all the energy and zest and meaning has been sucked out of my life.
-
-  - @steviep is an artistic genius, and FinSexy is his masterpiece. Perhaps even his magnum opus. At once, it is wholey different from anything he's ever produced -- but also, it could not have been created by anyone else.
+  -
 
 
 
+  -
+
+  - @steviep is an artistic genius, and FinSexy is his masterpiece. Perhaps even his magnum opus. It is wholey different from anything he's ever produced in both content matter and scale. And yet, his distinct style shines through with his trademark scam aesthetic and sense of irony. Of all the projects from this prolific artist, none so deftly tie together the themes that fans love him so much for: the nuanced social implications of spending money, the multiple layers of deception, the tension between authenticity and artificiality, the parody of crypto culture, the critique of the dopamine-driven manipulation of user interfaces -- it's all there. In fact, this might be his most developed projected to date in terms of exploring these themes.
+
+  But at the same time, Pikelny's not just playing his greatest hits; FinSexy refreshingly explores new thematic ground, taking focus on AI, sexual psychology, and free will.
+
+  And even though his work has often been characterized as ironic and detached, FinSexy has an emotional core to it. This may just be a website, but websites are built for human users, and one finds oneself asking: In the narrative universe that this website exists, who was it built for? The comments
 
 
-  Of all the projects from this prolific artist, none so deftly tie together the themes that fans love him so much for: the nuanced social implications of spending money, scam aesthetics, the tension between authenticity and artificiality/simulation, the parody of crypto culture, the critique of the dopamine-driven manipulation of user interfaces -- it's all there. In fact, this might be his most advanced projected yet in terms of forcing the user to question their reality. When you find yourself sending money to someone who's either cat fishing you or pretending to cat fish you as part of a mutual sexual fantasy (or, pretending to pretend to catfish you as part of a fake mutual sexual fantasy) it's hard not to count how many layers deep you are.
+  When you find yourself sending money to someone who's either cat fishing you or pretending to cat fish you as part of a mutual sexual fantasy (or, pretending to pretend to catfish you as part of a fake mutual sexual fantasy) it's hard not to count how many layers deep you are.
 
-  But at the same time, Pikelny's not just playing his greatest hits; FinSexy refreshingly explores new thematic ground, taking focus on AI, sexual psychology, and free will. And even though his work has often been characterized as ironic and detached, FinSexy has an emotional core to it. This may just be a website, but websites are built for human users, and one finds oneself asking: In the narrative universe that this website exists, who was it built for?
 
 
 
@@ -158,7 +158,13 @@ export const StevieProfile = {
       review: `This website is fucking bullshit. I'm trying to give my money to REAL findoms, and steviep tricked me into giving it to FAKE findoms! I hope you enjoy the investigation from the Consumer Financial Protection Bureau after I file my complaint, asshole.`
     },
     {
+      review: `I have a highly addictive personality. I've thankfully avoided substance abuse, but I need to get my kicks in other ways. Staring at social media for hours on end, compulsive masturbation, and gambling are my big three. So you could imagine how I felt when I finally came across FinSexy! I've never found a website that so deftly combined my three biggest passions in life. Keep up the good work, Steve!`
+    },
+    {
       review: `I'm not sexy myself, so I like supporting my favorite doms because it makes me feel useful :)`
+    },
+    {
+      review: `What Steve is doing here is really disgusting. What a shame that this how such a brilliant and prolific artist chooses to direct his efforts: pandering to vulnerable sexual degenerates. He knows that they can't control themselves, and what does he do? He creates a highly addictive website that triggers all of the reward centers in their brain. And it's all to his benefit. Frankly, I can't think of anything more opportunistic.`
     },
     {
       name: '0x5',
@@ -174,7 +180,11 @@ export const StevieProfile = {
       review: `Does anyone else think that it's kind of fucked up that we're all forming relationships with these doms, and that @steviep could take them away from us at any moment?`
     },
     {
-      name: '0x2',
+      review: `Steve shows once again that he truly is a brilliant entrepreneur. As a perpetually single and lonely man who spends 15 hours a day on my computer, it's crystal clear to me that this is where the dating market is headed. It's hard to put a price on having an empathetic relationship with a sexy woman who's always there for me, always knows how to cheer me up, and is always willing to take my money.`
+    },
+    {
+      review: `It's soooo hot knowing that stevie is getting all the money from this website in the end. the fact that all the doms and comments are written by him just gets me uncontrolably aroused`,
+    },    {
       review: `I'll do anything stevie p says, and buy anything stevie p makes. I'll even pay him money in exchange for less money. `,
     },
 
@@ -191,11 +201,12 @@ export const StevieProfile = {
     {
       review: `Something's not right about these doms. It's almost as if they're not listening to anything I'm saying, and that everything on their end is scripted. I can't quite put my finger on it though...`
     },
-
+    {
+      review: `I really have to wonder who steviep is if <em>this</em> is the fantasy world that he's made for himself`
+    },
     {
       review: `scam me, stevie baby`
     },
-    // I give to steviep to participate in his art. I do it for its own sake.
   ]
 }
 

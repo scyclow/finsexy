@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,14 +9,14 @@
   <meta name="description" content="Chat with the hottest findoms on the internet and send them crypto">
   <meta name="keywords" content="finsexy, chatbots, ai, stable diffusion, text adventure, rpg, steviep, steve pikelny, pikelny, crypto, ethereum, nft, nfts, blockchain, bitcoin">
 
-  <meta name="twitter:image" content="./assets/thumbnail.png">
+  <meta name="twitter:image" content="https://finsexy.com/assets/thumbnail.png">
   <meta name="twitter:image:alt" content="WARNING! The SEXY FINDOMS on this website will SUCK your wallet dry. Proceed at your own risk.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:creator" content="@steviepxyz">
   <meta name="twitter:site" content="@steviepxyz">
   <meta property="twitter:description" content="Chat with the hottest findoms on the internet and send them crypto">
 
-  <meta name="og:image" property="og:image" content="./assets/thumbnail.png">
+  <meta name="og:image" property="og:image" content="https://finsexy.com/assets/thumbnail.png">
   <meta name="og:image:alt" content="WARNING! The SEXY FINDOMS on this website will SUCK your wallet dry. Proceed at your own risk.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://finsexy.com/">
@@ -614,18 +612,11 @@
     <aside class="filter">
       <div>
         <connect-wallet>
-          <div slot="noWeb3">
-            <!-- <em class="error">Please Connect in a <br>Web3-enabled Browser</em> -->
-          </div>
-
-
-
           <div slot="connected">
             <div class="filterRow"><h3>Connected As</h3> <div id="connectedAs">-</div></div>
             <div class="filterRow"><h3>Membership Status</h3> <div id="membershipStatus">-</div></div>
             <div class="filterRow"><h3>ETH Balance</h3> <div id="balance">-</div></div>
             <div class="filterRow" id="creditBalanceRow" class="hidden"><h3>SexyCredit Balance</h3> <div id="creditBalance">-</div></div>
-
           </div>
 
           <div slot="connectionError" class="error">
@@ -799,11 +790,6 @@
   }
 
 
-// Object.keys(MessageHandler.chats)
-//   .forEach(name => console.log(name,
-//     MessageHandler.visibilityCtx[name]
-//   ))
-
 function domTypeDisplayClass(str) {
   let s
   if (['Role-Play', null].includes(str)) s = 'roleplay'
@@ -853,25 +839,7 @@ function domTypeDisplayClass(str) {
       </article>
     `
   }).join('')
-  // + `
-  //       <article class="display-nb">
-  //         <a href="#">
-  //           <img src="./thumbnails/utilityMonster/0.png">
-  //         </a>
-  //         <figcaption>
-  //           <div>$$$, 27</div>
-  //         </figcaption>
-  //       </article>
-  //       <article class="display-f">
-  //         <a href="#">
-  //           <img src="./thumbnails/candyCrush/0.png">
-  //         </a>
-  //         <figcaption>
-  //           <div>CandyCrush, 21</div>
-  //         </figcaption>
-  //       </article>
 
-  // `
 
   setInterval(() => {
     Object.keys(MessageHandler.chats).forEach(name => {
@@ -1000,60 +968,6 @@ function domTypeDisplayClass(str) {
   if (!ls.get('__enteredSite')) {
     window.location.replace('./enter')
   }
-
-
-  // if (!ls.get('returnVisit')) {
-
-    // setTimeout(() => {
-    //   if (!KatChat.ctx.history.length && !KatChat.ctx.eventQueue.length) {
-    //     KatChat.queueEvent('steviep', 120000)
-    //   }
-    //   if (!HHChat.ctx.history.length && !HHChat.ctx.eventQueue.length) {
-    //     HHChat.queueEvent('hi', 6000)
-    //   }
-
-
-    //   // ls.set('returnVisit', true)
-    // }, 1000)
-  // }
-
-
-
-
-
-  // })
-
-  // mountComponents(
-  //   ConnectWallet(provider, 'connectWallet'),
-  //   ConnectButton(provider),
-  // )
-
-  // const network = 'local'
-
-  // const STEVIEP_AUCTION = {
-  //   // local: '0x46d4674578a2daBbD0CEAB0500c6c7867999db34'
-  //   // local: '0x5FbDB2315678afecb367f032d93F642f64180aa3'
-  // }[network]
-
-
-  // const auctionABI = [
-  //   // 'event BidMade(uint256 indexed auctionId, address indexed bidder, uint256 amount, uint256 timestamp)',
-  //   // 'function auctionCount() external view returns (uint256)',
-  // ]
-
-
-
-  // provider.onConnect(async () => {
-
-  // })
-
-
-
-
-
-
-
-
 
 
 </script>
