@@ -47,7 +47,7 @@ export const CustomerSupportProfile = {
     },
     {
       review: `Two bugs to report: (1) On findoms w/ one profile image, the blown up thumbnail still has \`cursor: pointer\` styling, even though you cannot click to change photos; (2) every time the VIP icon in the NAV bar flashes, the box-shadow on the square SVG element around the star is visible. Please fix these `
-    }
+    },
 
     {
       review: `I'm so happy with my Gold Membership! Definitely a good purchase!`
