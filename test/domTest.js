@@ -40,7 +40,7 @@ const spendCreditPresent = 'spendCredit(uint256,address,uint256,address)'
 describe('FinSexy', () => {
   let signers, artist, paypig, paypig2
 
-  let FastCash, SexyVIP, SexyGame, SexyMinter
+  let FastCash, SexyVIP, SexyBaseURI, SexyGame, SexyMinter, CandyCrushURI
 
   let heatherHot, SamanthaJones, QueenJessica, DungeonMistress, DrAndy, katFischer, CandyCrush,
       CrystalGoddess, steviep, VinceSlickson, SexyXXXpress, Hacker, Hedonitronica, MindyRouge,
@@ -62,6 +62,7 @@ describe('FinSexy', () => {
     const SteviePProxyFactory = await ethers.getContractFactory('SteviePProxy', artist)
     const SexyGameFactory = await ethers.getContractFactory('SexyGame', artist)
     const SexyVIPFactory = await ethers.getContractFactory('SexyVIP', artist)
+    const SexyBaseURIFactory = await ethers.getContractFactory('SexyBaseURI', artist)
     const SexyMinterFactory = await ethers.getContractFactory('SexyMinter', artist)
     const SexyVIPTokenURIFactory = await ethers.getContractFactory('SexyVIPTokenURI', artist)
     const SexyRouterFactory = await ethers.getContractFactory('SexyRouter', artist)
@@ -80,9 +81,9 @@ describe('FinSexy', () => {
     await SexyRouter.deployed()
 
     SexyVIP = await SexyVIPFactory.attach(await SexyRouter.vip())
-    await SexyVIP.deployed()
     SexyMinter = await SexyMinterFactory.attach(await SexyVIP.minter())
     SexyVIPTokenURI = await SexyVIPTokenURIFactory.attach(await SexyVIP.uri())
+    SexyBaseURI = await SexyBaseURIFactory.attach(await SexyRouter.baseURI())
 
     const factory = await ethers.getContractFactory('SexyDeployer', artist)
     const deployer = await factory.deploy(SexyRouter.address)
@@ -409,32 +410,32 @@ describe('FinSexy', () => {
         'Invalid Premium'
       )
 
-      expect(await SexyRouter.connect(paypig).premium(paypig.address)).to.equal(1)
-      expect(await SexyRouter.connect(paypig2).premium(paypig.address)).to.equal(1)
 
-      await SexyRouter.connect(paypig).applyPremium(2)
-      expect(await SexyRouter.connect(paypig).premium(paypig.address)).to.equal(2)
+      for (let dom of [heatherHot, MindyRouge]) {
+        expect(await SexyRouter.connect(paypig).premium(paypig.address)).to.equal(1)
+        expect(await SexyRouter.connect(paypig2).premium(paypig.address)).to.equal(1)
 
-      await paypig.sendTransaction({to: heatherHot.address, ...txValue(0.02)})
-      await paypig2.sendTransaction({to: heatherHot.address, ...txValue(0.02)})
+        await SexyRouter.connect(paypig).applyPremium(2)
+        expect(await SexyRouter.connect(paypig).premium(paypig.address)).to.equal(2)
 
-      await SexyRouter.connect(paypig).applyPremium(3)
-      expect(await SexyRouter.connect(paypig).premium(paypig.address)).to.equal(3)
+        await paypig.sendTransaction({to: dom.address, ...txValue(0.02)})
+        await paypig2.sendTransaction({to: dom.address, ...txValue(0.02)})
 
-      await paypig.sendTransaction({to: heatherHot.address, ...txValue(0.03)})
-      await paypig2.sendTransaction({to: heatherHot.address, ...txValue(0.03)})
+        await SexyRouter.connect(paypig).applyPremium(3)
+        expect(await SexyRouter.connect(paypig).premium(paypig.address)).to.equal(3)
 
-      await SexyRouter.connect(paypig).applyPremium(1)
-      expect(await SexyRouter.connect(paypig).premium(paypig.address)).to.equal(1)
+        await paypig.sendTransaction({to: dom.address, ...txValue(0.03)})
+        await paypig2.sendTransaction({to: dom.address, ...txValue(0.03)})
 
-      await paypig.sendTransaction({to: heatherHot.address, ...txValue(0.01)})
-      await paypig2.sendTransaction({to: heatherHot.address, ...txValue(0.01)})
+        await SexyRouter.connect(paypig).applyPremium(1)
+        expect(await SexyRouter.connect(paypig).premium(paypig.address)).to.equal(1)
 
-      expect(ethVal(await heatherHot.connect(paypig).tributes(paypig.address))).to.equal(0.03)
-      expect(ethVal(await heatherHot.connect(paypig2).tributes(paypig2.address))).to.equal(0.06)
+        await paypig.sendTransaction({to: dom.address, ...txValue(0.01)})
+        await paypig2.sendTransaction({to: dom.address, ...txValue(0.01)})
 
-
-
+        expect(ethVal(await dom.connect(paypig).tributes(paypig.address))).to.equal(0.03)
+        expect(ethVal(await dom.connect(paypig2).tributes(paypig2.address))).to.equal(0.06)
+      }
     })
   })
 
@@ -707,6 +708,83 @@ describe('FinSexy', () => {
           'Only VIP or operator can transfer credits'
         )
 
+      })
+    })
+  })
+
+  describe('SexyRouter', () => {
+    it('setVIP should work', async () => {
+      expect(await SexyRouter.connect(artist).vip()).to.equal(SexyVIP.address)
+
+      await expectRevert(
+        SexyRouter.connect(paypig).setVIP(zeroAddr),
+        'Ownable: caller is not the owner'
+      )
+
+      await SexyRouter.connect(artist).setVIP(zeroAddr)
+      expect(await SexyRouter.connect(artist).vip()).to.equal(zeroAddr)
+    })
+
+    it('setBaseURI should work', async () => {
+      expect(await SexyRouter.connect(artist).baseURI()).to.equal(SexyBaseURI.address)
+
+      await expectRevert(
+        SexyRouter.connect(paypig).setBaseURI(zeroAddr),
+        'Ownable: caller is not the owner'
+      )
+
+      await SexyRouter.connect(artist).setBaseURI(zeroAddr)
+      expect(await SexyRouter.connect(artist).baseURI()).to.equal(zeroAddr)
+    })
+  })
+
+  describe.only('SexyBaseURI', () => {
+    describe('CandyCrush setURIString, setURIAddr', () => {
+      it('should work', async () => {
+        await expectRevert(
+          SexyBaseURI.connect(paypig).setURIString('SEXY-CC', 'incorrectURI/', 'bad description', 'wrong dom name', 2),
+          'Ownable: caller is not the owner'
+        )
+
+        await expectRevert(
+          SexyBaseURI.connect(paypig).setURIAddr('SEXY-CC', zeroAddr),
+          'Ownable: caller is not the owner'
+        )
+        await SexyBaseURI.connect(artist).setURIString('SEXY-CC', 'incorrectURI/', 'bad description', 'wrongDomName', 2)
+
+
+        const uri0 = getJsonURI(await CandyCrush.connect(artist).tokenURI(0))
+
+        expect(uri0.name).to.equal('CandyCrush Tattoo #0')
+        expect(uri0.description).to.equal('bad description')
+        expect(uri0.image).to.equal('incorrectURI/0.png')
+        expect(uri0.external_url).to.equal('https://finsexy.com/doms/wrongDomName')
+        expect(uri0.attributes[0].value).to.equal('0')
+
+        const uri1 = getJsonURI(await CandyCrush.connect(artist).tokenURI(1))
+        expect(uri1.name).to.equal('CandyCrush Tattoo #1')
+        expect(uri1.image).to.equal('incorrectURI/1.png')
+        expect(uri1.attributes[0].value).to.equal('1')
+
+        const uri2 = getJsonURI(await CandyCrush.connect(artist).tokenURI(2))
+        expect(uri2.name).to.equal('CandyCrush Tattoo #2')
+        expect(uri2.attributes[0].value).to.equal('0')
+
+        const CandyCrushURIFactory = await ethers.getContractFactory('CandyCrushURI', artist)
+        const CandyCrushURI = await CandyCrushURIFactory.deploy()
+        await CandyCrushURI.deployed()
+
+        await SexyBaseURI.connect(artist).setURIAddr('SEXY-CC', CandyCrushURI.address)
+
+        const uri0_b = getJsonURI(await CandyCrush.connect(artist).tokenURI(0))
+        const uri1_b = getJsonURI(await CandyCrush.connect(artist).tokenURI(1))
+
+        expect(uri0_b.name).to.equal('CandyCrush Tattoo #0')
+        expect(uri1_b.name).to.equal('CandyCrush Tattoo #1')
+
+        expect(uri0_b.description).to.equal('All tattoos are non-transferable')
+        expect(uri0_b.external_url).to.equal('https://finsexy.com/doms/CandyCrush')
+        console.log(decodeImage(uri0_b))
       })
     })
   })

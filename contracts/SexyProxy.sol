@@ -75,7 +75,6 @@ abstract contract FinDomTribute is TokenWithdrawer {
     _receive(msg.sender, msg.value / router.premium(msg.sender));
   }
 
-  // TODO test premium here
   function _receive(address sender, uint256 value) internal virtual {
     emit Send(sender, value);
     tributes[sender] += value;
@@ -88,7 +87,7 @@ interface InternalMintCheck {
 }
 
 interface ITokenURI {
-  function tokenURI(string memory symbol, uint256 tokenId) external view returns (string memory);
+  function tokenURI(string memory name, string memory symbol, uint256 tokenId) external view returns (string memory);
 }
 
 contract FinDomBase is ERC721, FinDomTribute {
@@ -228,10 +227,7 @@ contract FindomProxy is ProxyBase {
 
 
 contract FinDomBaseLight is FinDomTribute {
-
   constructor(address owner_, address router_) FinDomTribute(owner_, router_) {}
-
-  // TODO test receiving
 }
 
 
