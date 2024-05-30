@@ -316,7 +316,7 @@
         <tbody>
           ${topReceiversSorted.map(dom => `
             <tr>
-              <td class="domName"><a class="senderReceiver" href="/profiles/${dom}">${ellipse(dom, 22)}</a></td>
+              <td class="domName"><a class="senderReceiver" href="/doms/${dom}">${ellipse(dom, 22)}</a></td>
               <td class="tributeAmounts">${receivers[dom].toFixed(4)} ETH</td>
             </tr>
           `).join('')}
@@ -329,7 +329,7 @@
         <li>
           <a class="senderReceiver" href="/sender?paypig=${sendEvent.args.sender}" target="_blank" rel="nofollow">
             ${await provider.formatAddr(sendEvent.args.sender, true, 24)}
-          </a> sent <span class="sentAmount">${fromWei(sendEvent.args.amount).toFixed(2)} ETH</span> to <a class="eventDomName" href="/profiles/${sendEvent.domName}">${ellipse(sendEvent.domName, 22)}</a>
+          </a> sent <span class="sentAmount">${fromWei(sendEvent.args.amount).toFixed(2)} ETH</span> to <a class="eventDomName" href="/doms/${sendEvent.domName}">${ellipse(sendEvent.domName, 22)}</a>
         </li>
       `))).join('')}
     </ul>`

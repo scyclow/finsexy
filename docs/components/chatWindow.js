@@ -466,7 +466,7 @@ createComponent(
     ctx.$pfp.src = `./thumbnails/${name}/pfp.png`
     ctx.$pfp.alt = `${name} avatar`
     ctx.$chatName.innerHTML = name
-    ctx.$profileLink.href = `./profiles/${name}`
+    ctx.$profileLink.href = `./doms/${name}`
 
     ctx.$submit.addEventListener('click', submit)
     ctx.$input.addEventListener('keypress', (e) => {
@@ -580,7 +580,7 @@ function linkify(txt) {
   return txt.includes('@')
     ? txt.replaceAll(
       /@(\w+)/g,
-      (match, mention) => `<a href="/profiles/${mention}">${match}</a>`
+      (match, mention) => `<a href="/doms/${mention}">${match}</a>`
     )
     : txt
 }
