@@ -344,7 +344,7 @@ createComponent(
         <div class="doubleRow">
           <fieldset>
             <legend>Name</legend>
-            <input required type="text" name="name" id="name" placeholder="paypiggie123">
+            <input type="text" name="name" id="name" placeholder="paypiggie123">
           </fieldset>
 
           <fieldset>
@@ -367,14 +367,14 @@ createComponent(
       <div id="page2">
         <fieldset>
           <legend>Location</legend>
-          <input required type="text" name="location" id="location" placeholder="New York, NY">
+          <input type="text" name="location" id="location" placeholder="New York, NY">
         </fieldset>
 
 
 
         <fieldset>
           <legend>What's your deepest, darkest sexual fantasy?</legend>
-          <textarea required name="fantasy" id="fantasy" placeholder="I want a sexy dom to drain my wallet until it hurts 💦"></textarea>
+          <textarea name="fantasy" id="fantasy" placeholder="I want a sexy dom to drain my wallet until it hurts 💦"></textarea>
         </fieldset>
 
         <fieldset>

@@ -452,6 +452,8 @@ createComponent(
       //   return
       // }
 
+      if (window.navigator) window.navigator?.vibrate?.(50)
+
       const message = ctx.$input.value
       ls.set(`__${name}_chat_cache`, null)
       if (!message.trim()) return

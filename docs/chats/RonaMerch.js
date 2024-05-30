@@ -24,10 +24,10 @@ export const RonaMerchProfile = {
     lang: 'en-US',
     name: 'Eddy'
   },
-  description: `Proud FinSexy sponsor! Your one-stop shop for Rona Merch! Dedicated to bringing you the freshest rona deals every day! Shop until you drop! Visit us at: <a href="https://ronamerch.co" target="_blank">RonaMerch.co</a><h4 style="margin-top: 0.5em">New Items:
-  <div><a href="https://ronamerc.co/items/kissy-t" target="_blank">FinSexy Kissy T</a></div>
-  <div><a href="https://ronamerc.co/items/property-wallet" target="_blank">FinSexy Property Wallet</a></div>
-  <div><a href="https://ronamerc.co/items/paypig-t" target="_blank">FinSexy Paypig T</a></div>
+  description: `Proud FinSexy sponsor! Your one-stop shop for Rona Merch! High quality merchandise at affordable prices! Shop until you drop! Visit us at: <a href="https://ronamerch.co" target="_blank">RonaMerch.co</a><h4 style="margin-top: 0.5em">New Items:
+  <div><a href="https://ronamerch.co/items/kissy-t" target="_blank">FinSexy Kissy T</a></div>
+  <div><a href="https://ronamerch.co/items/property-wallet" target="_blank">FinSexy Property Wallet</a></div>
+  <div><a href="https://ronamerch.co/items/paypig-t" target="_blank">FinSexy Paypig T</a></div>
   `,
   gender: 'Retail',
   display: 'nb',
@@ -46,6 +46,9 @@ export const RonaMerchProfile = {
     },
     {
       review: `I just sent RonaMerch 0.069 ETH!`
+    },
+    {
+      review: `It's so sad to see my favorite websites ruined by corporate sponsorship`
     },
   ]
 }
@@ -80,9 +83,40 @@ const RonaMerchMessages = {
 
   hello: {
     messageText: `Hello! If you're looking for the hottest merch deals then you've come to the right place! RonaMerch.co has been voted the top web e-store by <a href="http://fakebullshit.news/articles/small-business-thrives" target="_blank">multiple news outlets</a> several years running! Head on over to <a href="http://ronamerch.co" target="_blank">ronamerch.co</a> for all the hottest deals today!`,
-    responseHandler: (ur) => {},
-
+    responseHandler: 'paypig',
   },
+
+  paypig: {
+    messageText: `Get rid of that ugly shirt! You would look so much hotter in this 🔥<a href="https://ronamerch.co/items/paypig-t" target="_blank"><img src="/thumbnails/RonaMerch/3.png" />FinSexy.com Paypig T</a>`,
+    responseHandler: 'wallet'
+  },
+
+  wallet: {
+    messageText: `This wallet has your name written all over it. Well... it has @steviep's name written all over it 😉<a href="https://ronamerch.co/items/property-wallet" target="_blank"><img src="/thumbnails/RonaMerch/2.png" />FinSexy.com Property Wallet</a>`,
+    responseHandler: 'kissy'
+  },
+
+  kissy: {
+    messageText: `Celebrate #FinDomSummer by plastering FinSexy.com's iconic logo across your chest for the whole world to see! <a href="https://ronamerch.co/items/kissy-t" target="_blank"><img src="/thumbnails/RonaMerch/1.png" />FinSexy.com Kissy T</a>`,
+    responseHandler: 'tanktop'
+  },
+
+  tanktop: {
+    messageText: `There's no better way to say "thank you" to your favorite findom by buying them this cute tank top! <a href="https://ronamerch.co/items/flash-sale" target="_blank"><img src="/thumbnails/RonaMerch/4.png" />Flash Sale Tanktop</a>`,
+    responseHandler: 'knotty'
+  },
+
+  knotty: {
+    messageText: `From your local arts and crafts meetup to your monthly shibari bondage party, show everyone how much you enjoy tying knots! <a href="https://ronamerch.co/items/knotty-mask" target="_blank"><img src="/thumbnails/RonaMerch/5.png" />Knotty Pleated Mask</a>`,
+    responseHandler: 'hathat'
+  },
+
+
+  hathat: {
+    messageText: `<a href="https://ronamerch.co/items/hat-hat" target="_blank"><img src="/thumbnails/RonaMerch/6.png" />Hat Hat</a>`,
+    responseHandler: 'hello'
+  },
+
 }
 
 

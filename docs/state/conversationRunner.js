@@ -539,10 +539,6 @@ export class MessageHandler {
         this.provider.onConnect(async addr => {
           try {
             this.contract = await messages.__contract(this.provider)
-            MessageHandler.globalCtx.isConnected = !!addr
-            MessageHandler.globalCtx.connectedAddr = addr
-            MessageHandler.globalCtx.ens = await this.provider.formatAddr(addr, false)
-            MessageHandler.globalCtx.premium = await sexyCLIT.getPremium(addr)
             res()
           } catch (e) {
             rej(e)
@@ -939,6 +935,13 @@ export class MessageHandler {
     }
   }
 }
+
+provider.onConnect(async addr => {
+  MessageHandler.globalCtx.isConnected = !!addr
+  MessageHandler.globalCtx.connectedAddr = addr
+  MessageHandler.globalCtx.ens = await provider.formatAddr(addr, false)
+  MessageHandler.globalCtx.premium = await sexyCLIT.getPremium(addr)
+}, e => console.error(`connection error: ${JSON.stringify(e)}, ${e}, ${e?.message}`))
 
 setTimeout(() => {
   MessageHandler.updateGlobalUnread()

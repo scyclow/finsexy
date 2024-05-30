@@ -84,14 +84,7 @@ Testimonials
 
   -
 
-  - @steviep is an artistic genius, and FinSexy is his masterpiece. Perhaps even his magnum opus. It is wholey different from anything he's ever produced in both content matter and scale. And yet, his distinct style shines through with his trademark scam aesthetic and sense of irony. Of all the projects from this prolific artist, none so deftly tie together the themes that fans love him so much for: the nuanced social implications of spending money, the multiple layers of deception, the tension between authenticity and artificiality, the parody of crypto culture, the critique of the dopamine-driven manipulation of user interfaces -- it's all there. In fact, this might be his most developed projected to date in terms of exploring these themes.
-
-  But at the same time, Pikelny's not just playing his greatest hits; FinSexy refreshingly explores new thematic ground, taking focus on AI, sexual psychology, and free will.
-
-  And even though his work has often been characterized as ironic and detached, FinSexy has an emotional core to it. This may just be a website, but websites are built for human users, and one finds oneself asking: In the narrative universe that this website exists, who was it built for? The comments
-
-
-  When you find yourself sending money to someone who's either cat fishing you or pretending to cat fish you as part of a mutual sexual fantasy (or, pretending to pretend to catfish you as part of a fake mutual sexual fantasy) it's hard not to count how many layers deep you are.
+  -
 
 
 
@@ -203,6 +196,15 @@ export const StevieProfile = {
     },
     {
       review: `I really have to wonder who steviep is if <em>this</em> is the fantasy world that he's made for himself`
+    },
+    {
+      review: `
+        <p style="text-indent: 2em;">@steviep is an artistic genius, and FinSexy is his masterpiece. Perhaps even his magnum opus. It is wholey different from anything he's ever produced in both content matter and scale. And yet, his distinct style shines through with his trademark scam aesthetic and sense of irony. Of all the projects from this prolific artist, none so deftly tie together the themes that fans love him so much for: the nuanced social implications of spending money, the multiple layers of deception, the tension between authenticity and artificiality, the parody of crypto culture, the critique of the dopamine-driven manipulation of user interfaces -- it's all there. In fact, this might be his most developed projected to date in terms of exploring these themes. But at the same time, Pikelny's not just playing his greatest hits; FinSexy refreshingly explores new thematic ground, taking focus on AI, sexual psychology, and free will.</p>
+
+          <p style="text-indent: 2em; margin-top: 0.5em">And even though his work has often been characterized as ironic and detached, FinSexy has an emotional core to it. This may just be a website, but websites are built for human users, and one finds oneself asking: In the narrative universe that this website exists, who was it built for? The comments, which are written by Pikelny himself, indicate that in-story audience might be a mix of people struggling with digital addiction, profound lonliness, and braoder societal instances of financial domination.</p>
+
+          <p style="text-indent: 2em; margin-top: 0.5em">When you find yourself sending money to someone who's either cat fishing you or pretending to cat fish you as part of a mutual sexual fantasy (or, pretending to pretend to catfish you as part of a fake mutual sexual fantasy) it's hard not to count how many layers deep you are. This becomes extra confusing when you remember that this is being done on a website designed to look like a website designed to fool you into thinking you are talking to a real person. Like many of Pikelny's websites, we often find ourselves in a simulation of a simulation of a simulation.</p>
+      `
     },
     {
       review: `scam me, stevie baby`

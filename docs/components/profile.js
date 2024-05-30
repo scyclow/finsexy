@@ -477,6 +477,60 @@ createComponent(
         display: none;
       }
 
+      #commentInput {
+        margin-top: 3em;
+        width: 100%;
+        height: 8em;
+        box-sizing: border-box;
+        padding: 0.5em;
+        font-size: 1.25em;
+        color: var(--light-color);
+        background: var(--input-color);
+        border:  1px solid var(--border-color);
+        font-family: var(--code-font);
+        transition: 0.15s;
+        box-shadow: 0 0 5px var(--light-color), 0 0 10px var(--light-color), 0 0 15px var(--secondary-color);
+        border-radius: 3px;
+        transition: 250ms;
+      }
+
+      #commentInput:active,
+      #commentInput:focus {
+        color: var(--medium-color);
+        box-shadow: inset 0 0 3px var(--primary-color);
+        box-shadow: 0 0 5px var(--glow-color), 0 0 10px var(--glow-color), 0 0 15px var(--secondary-color);
+        outline: none;
+        border-color: var(--primary-color);
+        outline: var(--primary-color);
+      }
+
+      #submitComment {
+        background: var(--secondary-color);
+        font-size: 1em;
+        transition: 300ms;
+        cursor: pointer;
+        padding: 0.5em 1em;
+        color: var(--light-color);
+        border: 0px solid;
+        border-radius: 3px;
+        padding: 0.25em 1em;
+        margin-top: 1em;
+        margin-bottom: 0.5em;
+      }
+
+      #submitComment:hover, #submitComment:active, #submitComment:focus {
+        opacity: 0.8;
+        outline: none;
+      }
+
+      #submitComment:active {
+        opacity: 0.5;
+      }
+
+      #commentError {
+        color: var(--red-color);
+      }
+
       @media (max-width: 875px) {
         #sexyPicSection {
           flex-direction: column;
@@ -785,6 +839,8 @@ createComponent(
       }
 
 
+
+
       @keyframes FadeInOut {
         0%, 100% {
           opacity: 1;
@@ -896,6 +952,9 @@ createComponent(
             <h3>Powered by <a href="https://friendworld.social" target="_blank">friendworld.social</a></h3>
             <div id="testimonialContainer">
               <div id="testimonialContent"></div>
+              <textarea id="commentInput"></textarea>
+              <button id="submitComment">Submit Content</button>
+              <div id="commentError"></div>
             </div>
           </section>
         </section>
@@ -933,6 +992,9 @@ createComponent(
     ctx.$creditSendInput = ctx.$('#creditSendInput')
     ctx.$domAddr = ctx.$('#domAddr')
     ctx.$domAddrMobile = ctx.$('#domAddrMobile')
+    ctx.$submitComment = ctx.$('#submitComment')
+    ctx.$commentError = ctx.$('#commentError')
+    ctx.$commentInput = ctx.$('#commentInput')
 
     if (ctx.getAttribute('sideWindow')) {
       ctx.parent.classList.add('sideWindow')
@@ -1007,6 +1069,8 @@ createComponent(
 
 
     const send$ = () => {
+      if (window.navigator) window.navigator?.vibrate?.(50)
+
       const amount = Number(ctx.$sendInput.value)
       ctx.$sendError.innerHTML = ''
       if (amount) {
@@ -1028,6 +1092,8 @@ createComponent(
 
 
     const creditSend$ = () => {
+      if (window.navigator) window.navigator?.vibrate?.(50)
+
       const numberOfCredits = Math.floor(Number(ctx.$creditSendInput.value))
       ctx.$sendError.innerHTML = ''
 
@@ -1109,6 +1175,16 @@ createComponent(
 
     ctx.$('#imgLeft2').onclick = ctx.changeImgLeft
     ctx.$('#imgRight2').onclick = ctx.changeImgRight
+
+    ctx.$submitComment.onclick = () => {
+      ctx.$commentError.innerHTML = ''
+
+      setTimeout(() => {
+        ctx.$commentError.innerHTML = `An error occurred while trying to submit the following comment: "${ctx.$commentInput.value}" <br> Please try again later!`
+
+      }, 3000)
+
+    }
 
 
   },

@@ -772,11 +772,17 @@
     if (confirm('Are you sure? This action is irreversible')) {
       tributeLS.resetAllTributeAdjustment(() => {
         localStorage.clear()
-      }).then(() => {
-        setTimeout(() => {
-          window.location.replace(`./enter`)
-        }, 1000)
       })
+        .then(() => {
+          setTimeout(() => {
+            window.location.replace(`./enter`)
+          }, 1000)
+        })
+        .catch(() => {
+          setTimeout(() => {
+            window.location.replace(`./enter`)
+          }, 1000)
+        })
     }
   }
 

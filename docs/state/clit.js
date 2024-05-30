@@ -397,6 +397,7 @@ export const sexyCLIT = {
       document.body.classList.remove('preOrgasm')
       document.documentElement.classList.add('orgasm')
       orgasmSound(sources, 1.25)
+      orgasmVibrate()
     }, 3000)
   },
 
@@ -425,6 +426,7 @@ export const sexyCLIT = {
 
         successCb(tx)
         orgasmSound(sources, 1.25)
+        orgasmVibrate()
 
       } catch (e) {
         console.log(e)
@@ -471,6 +473,7 @@ export const sexyCLIT = {
         if (!clitLS.get('devIgnoreWait')) {
           document.documentElement.classList.add('orgasm')
           orgasmSound(sources, 1.25)
+          orgasmVibrate()
         }
 
         if (sendHandler && !chat.ctx.pendingEvent) {
@@ -775,6 +778,23 @@ function cancelSound(sources) {
   setTimeout(() => {
     sources.forEach(s => s.stop())
   }, 5000)
+}
+
+function orgasmVibrate() {
+  if (window.navigator) {
+    window.navigator?.vibrate?.(50)
+
+    setTimeout(() => {
+      window.navigator?.vibrate?.(6000)
+      setTimeout(() => {
+        window.navigator?.vibrate?.(2000)
+
+        setTimeout(() => {
+          window.navigator?.vibrate?.(1000)
+        }, 3000)
+      }, 6500)
+    }, 60)
+  }
 }
 
 
