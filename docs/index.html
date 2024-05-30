@@ -192,7 +192,10 @@
       row-gap: 1.5vw;
       padding: 1.5vw;
       padding-top: 0;
+    }
 
+    .a11ymode .grid {
+      grid-template-columns: 1fr 1fr 1fr;
     }
     .grid article {
       display: flex;
@@ -615,8 +618,8 @@
           <div slot="connected">
             <div class="filterRow"><h3>Connected As</h3> <div id="connectedAs">-</div></div>
             <div class="filterRow"><h3>Membership Status</h3> <div id="membershipStatus">-</div></div>
-            <div class="filterRow"><h3>ETH Balance</h3> <div id="balance">-</div></div>
-            <div class="filterRow" id="creditBalanceRow" class="hidden"><h3>SexyCredit Balance</h3> <div id="creditBalance">-</div></div>
+            <div class="filterRow"><h3>ETH Remaining</h3> <div id="balance">-</div></div>
+            <div class="filterRow" id="creditBalanceRow" class="hidden"><h3>SexyCredits Remaining</h3> <div id="creditBalance">-</div></div>
           </div>
 
           <div slot="connectionError" class="error">
@@ -927,8 +930,8 @@ function domTypeDisplayClass(str) {
         const activeIsGold = await SexyVIP.isGold(activeVIP)
         const creditBalance = await SexyVIP.creditBalance(activeVIP)
 
-        $.id('membershipStatus').innerHTML = activeIsGold ? `<span class="goldStatus">VIP Gold <span style="font-size: 1em">★</span></span>` : 'VIP'
-        $.id('creditBalance').innerHTML = creditBalance
+        $.id('membershipStatus').innerHTML = activeIsGold ? `<span class="goldStatus">VIP Gold <span style="font-size: 1em">★</span></span>` : `VIP`
+        $.id('creditBalance').innerHTML = creditBalance + ` (Member ID: ${activeVIP})`
         $.id('creditBalanceRow').classList.remove('hidden')
       } else {
         $.id('membershipStatus').innerHTML = '<a href="./vip">Standard</a>'

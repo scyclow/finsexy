@@ -309,6 +309,10 @@ createComponent(
         font-size: 1.15em;
       }
 
+      #creditSendInput {
+        width: 5em;
+      }
+
       #sendButton, #creditSendButton {
         border: 1px solid var(--border-color);
         border-left: 0px;

@@ -156,9 +156,6 @@ createComponent(
         padding-bottom: 0.25em;
       }
 
-      .from-dom {
-        text-shadow: ${clitLS.get('a11y') ? '1px 2px 0px var(--dark-color), 0px 0px 3px var(--secondary-color), 1px 1px 3px var(--secondary-color)' : '1px 1px 0px var(--dark-color), 1px 1px 2px var(--secondary-color)'};
-      }
 
       .message:last-child {
         animation: fadeIn linear 0.2s;
@@ -190,12 +187,13 @@ createComponent(
       }
 
       .from-dom {
-        background: var(--primary-color);
+        background: ${clitLS.get('a11y') ? 'var(--dark-color)' : 'var(--primary-color)'};
         color: var(--light-color);
         border-bottom-left-radius: 0;
         margin-right: 3em;
         align-self: flex-start;
         box-shadow: 0 0 20px var(--primary-color);
+        text-shadow: ${clitLS.get('a11y') ? '1px 2px 0px var(--dark-color), 0px 0px 3px var(--secondary-color), 1px 1px 3px var(--secondary-color)' : '1px 1px 0px var(--dark-color), 1px 1px 7px var(--secondary-color)'};
       }
 
       ul {

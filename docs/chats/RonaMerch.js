@@ -19,12 +19,16 @@ export const RonaMerchProfile = {
   order: 12,
   age: '.co',
   distance: 'Drop Shipping',
-  maxPhotos: 5,
+  maxPhotos: 8,
   voice: {
     lang: 'en-US',
     name: 'Eddy'
   },
-  description: `Proud FinSexy sponsor! Your one-stop shop for Rona Merch! Dedicated to bringing you the freshest rona deals every day! Shop until you drop! Visit us at: <a href="https://ronamerch.co" target="_blank">RonaMerch.co</a>`,
+  description: `Proud FinSexy sponsor! Your one-stop shop for Rona Merch! Dedicated to bringing you the freshest rona deals every day! Shop until you drop! Visit us at: <a href="https://ronamerch.co" target="_blank">RonaMerch.co</a><h4 style="margin-top: 0.5em">New Items:
+  <div><a href="https://ronamerc.co/items/kissy-t" target="_blank">FinSexy Kissy T</a></div>
+  <div><a href="https://ronamerc.co/items/property-wallet" target="_blank">FinSexy Property Wallet</a></div>
+  <div><a href="https://ronamerc.co/items/paypig-t" target="_blank">FinSexy Paypig T</a></div>
+  `,
   gender: 'Retail',
   display: 'nb',
   testimonials: [

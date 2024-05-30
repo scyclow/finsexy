@@ -419,7 +419,7 @@ const AndyMessages = {
 
 
   completelyBroke: {
-    messageText: `Let's say you spent or lost <em>all</em> of you're money. You're completely broke and suffering from total financial ruin without any hope of recovering. Imagine the absolute worst case scenario. How does that make you feel? What are you afraid of in that scenario?`,
+    messageText: `Let's say you spent or lost <em>all</em> of your money. You're completely broke and suffering from total financial ruin without any hope of recovering. Imagine the absolute worst case scenario. How does that make you feel? What are you afraid of in that scenario?`,
     responseHandler: 'atTime1'
   },
 

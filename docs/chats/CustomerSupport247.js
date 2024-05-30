@@ -46,7 +46,7 @@ export const CustomerSupportProfile = {
       review: `I just sent CustomerSupport247 0.069 ETH!`
     },
     {
-      review: `Two bugs to report: (1) On findoms w/ one profile image, the blown up thumbnail still has \`cursor: pointer\` styling, even though you cannot click to change photos; (2) every time the VIP icon in the NAV bar flashes, the box-shadow on the square SVG element around the star is visible. Please fix these `
+      review: `Three bugs to report: (1) On findoms w/ one profile image, the blown up thumbnail still has \`cursor: pointer\` styling, even though you cannot click to change photos; (2) every time the VIP icon in the NAV bar flashes, the box-shadow on the square SVG element around the star is visible; (3) The Spend Credit Module in the profile view next to the chat breaks when the screen width is less than 1189 pixels and A11Y mode is activated. Happy to clarify on any of these if needed.`
     },
 
     {
