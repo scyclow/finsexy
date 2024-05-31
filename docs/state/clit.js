@@ -480,7 +480,7 @@ export const sexyCLIT = {
           const postsendTributeAmount = await tributeLS.getAdjustedTribute(chat.chatName)
           const action = await sendHandler(chat.ctx, fromWei(presendTributeAmount), fromWei(postsendTributeAmount), provider)
 
-          chat.queueEvent(action.messageCode, action.waitMs)
+          if (action) chat.queueEvent(action.messageCode, action.waitMs)
         }
 
         if (!VinceChat.ctx.history.length && !VinceChat.ctx.eventQueue.length) {
@@ -669,7 +669,7 @@ export const sexyCLIT = {
           const postsendTributeAmount = await tributeLS.getAdjustedTribute(chat.chatName)
           const action = await sendHandler(chat.ctx, fromWei(presendTributeAmount), fromWei(postsendTributeAmount), provider)
 
-          chat.queueEvent(action.messageCode, action.waitMs)
+          if (action) chat.queueEvent(action.messageCode, action.waitMs)
         }
 
       } catch (e) {
