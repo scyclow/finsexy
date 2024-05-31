@@ -119,7 +119,7 @@ export const StevieProfile = {
     lang: 'en-US',
     name: 'Aaron'
   },
-  description: `Internationally famous artist; CEO, CTO, CFO, COO of <a href="https://FinSexy.com" target=_blank>FinSexy.com</a>, <a href="https://FastCashMoneyPlus.biz" target=_blank>FastCashMoneyPlus.biz</a>, <a href="https://FriendWorld.social" target=_blank>FriendWorld.social</a>, <a href="https://RonaMerch.co" target=_blank>RonaMerch.co</a>; Jesus pamphlet collector
+  description: `Internationally famous artist; CEO, CTO, CFO, COO of <a href="https://FinSexy.com" target=_blank>FinSexy.com</a>, <a href="https://FastCashMoneyPlus.biz" target=_blank>FastCashMoneyPlus.biz</a>, <a href="https://FriendWorld.social" target=_blank>FriendWorld.social</a>, <a href="https://RonaMerch.co" target=_blank>RonaMerch.co</a>; Jesus pamphlet collector<br> Follow on: <a target="_blank" rel="nofollow" href="https://twitter.com/steviepxyz">twitter</a> | <a target="_blank" rel="nofollow" href="https://discord.steviep.xyz">discord</a>
   `,
   testimonials: [
     {

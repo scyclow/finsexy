@@ -30,7 +30,7 @@ contract SexyDeployer {
     // pay pig
     // human atm
 
-    heatherHot = new FindomProxy('heatherHot Feet Pics', 'SEXY-HH', 0.01 ether, baseAddr, msg.sender, router);
+    heatherHot = new FindomProxy('heatherHot Feet Pic', 'SEXY-HH', 0.01 ether, baseAddr, msg.sender, router);
 
     SamanthaJones = new FindomProxy('SamanthaJones ...', 'SEXY-SJ', 0.03 ether, baseAddr, msg.sender, router);
     QueenJessica = new FindomProxy("QueenJessica's Hot Little Pussy", 'SEXY-QJ', 0.04 ether, baseAddr, msg.sender, router);
@@ -39,12 +39,11 @@ contract SexyDeployer {
     DungeonMistress = new FindomProxy('DungeonMistress ...', 'SEXY-DM', 0.05 ether, baseAddr, msg.sender, router);
     DrAndy = new FindomProxy('DrAndy ...', 'SEXY-AI', 0.04 ether, baseAddr, msg.sender, router);
 
-    // Pay Pig (pig butcher)
-    katFischer = new FindomProxy('katFischer ...', 'SEXY-KF', 0.03 ether, baseAddr, msg.sender, router);
-    SexyXXXpress = new FindomProxy('SexyXXXpress Sexy Pics', 'SEXY-XXX', 0.01 ether, baseAddr, msg.sender, router);
+    katFischer = new FindomProxy('katFischer Paypig', 'SEXY-KF', 0.03 ether, baseAddr, msg.sender, router);
+    SexyXXXpress = new FindomProxy('SexyXXXpress Sexy Pic', 'SEXY-XXX', 0.01 ether, baseAddr, msg.sender, router);
 
     CandyCrush = new CandyCrushProxy('CandyCrush Tattoo', 'SEXY-CC', 0.01 ether, baseAddr, msg.sender, router);
-    steviep = new SteviePProxy('steviep Dick Pics', 'SEXY-SP', baseAddr, msg.sender, router);
+    steviep = new SteviePProxy('steviep Dick Pic', 'SEXY-SP', baseAddr, msg.sender, router);
     CrystalGoddess = new CrystalGoddessProxy('CrystalGoddess Monetary Sacrifice', 'SEXY-CG', 0.01 ether, baseAddr, msg.sender, router);
   }
 }

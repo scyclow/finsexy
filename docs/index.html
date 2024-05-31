@@ -70,6 +70,18 @@
       overflow: hidden;
     }
 
+    details a {
+      color: var(--light-link-color);
+      text-shadow: 1px 1px 1px var(--secondary-color), -1px 0px 3px var(--secondary-color);
+      transition: 200ms;
+      text-decoration: underline;
+    }
+
+    details a:hover {
+      text-decoration: none;
+      text-shadow: 2px 2px 2px var(--secondary-color), -2px 0px 5px var(--secondary-color);
+    }
+
     table {
       border-spacing: 1px;
     }
@@ -115,6 +127,20 @@
       /*box-shadow: inset 0 0 15px var(--gray-color);*/
     }
 
+    h4 {
+      margin-top: 1em;
+      font-size: 1.1em;
+      text-align: center;
+    }
+
+    h4 a {
+      color: var(--medium-color);
+      text-decoration: underline;
+    }
+    h4 a:hover {
+      text-decoration: none;
+    }
+
     .filter {
       border-right: 1px solid var(--border-color);
       width: 320px;
@@ -151,7 +177,8 @@
       background: var(--light-color);
       border-color: var(--light-color);
       outline: none;
-      text-shadow: 1px 1px 0 var(--secondary-color);
+      text-shadow: 0.5px 0.5px 0 var(--secondary-color);
+      color: var(--primary-color);
 
     }
     .filterRow button:active {
@@ -325,6 +352,19 @@
       display: none;
     }
 
+    #infoMobile h2, #infoSideBar h2 {
+      margin-bottom: 0.5em;
+    }
+
+    #infoMobile {
+      display: none;
+      padding: 1em;
+    }
+    #infoMobile > * {
+      max-width: 400px;
+      margin: auto;
+    }
+
     @media (max-width: 1439px) {
       .grid {
         grid-template-columns: 1fr 1fr 1fr;
@@ -344,6 +384,19 @@
     @media (max-width: 950px) {
       .filter {
         display: none;
+      }
+
+      #infoMobile {
+        display: initial;
+        margin-top: 1em;
+      }
+      #infoMobile h2 {
+        margin-top: 1em;
+        margin-bottom: 0.5em;
+
+      }
+      #infoMobile h4 {
+        margin-top: 1em;
       }
 
       .mobileFilter {
@@ -408,6 +461,10 @@
       .mobileFilter > * h3 {
         margin-bottom: 0.25em;
         margin-right: 0;
+      }
+
+      #infoMobile > * {
+        max-width: calc(100vw - 2.3em);
       }
     }
 
@@ -659,54 +716,64 @@
         </connect-wallet>
 
 
-        <div>
+        <div id="infoSideBar">
           <h2>FAQs</h2>
+
+
           <details class="faq">
             <summary class="faqQ">What is FinDom?</summary>
-            <p class="faqA">FinDom is short for "Financial Domination", and refers to the hot new fetish in which financial submissives (or, "paypigs") get off on the power exchange of being dominated</p>
+            <p class="faqA">FinDom is short for "Financial Domination". It's the hot new internet fetish where consenting adults can submit to sexy doms. Submissives (or "paypigs") typically get aroused by paying their findoms cryptocurrency, being humiliated, and roleplaying scenerios in which they engage in power exchange.</p>
           </details>
 
           <details class="faq">
-            <summary class="faqQ">How does FinSexy Work?</summary>
-            <p class="faqA">TODO</p>
+            <summary class="faqQ">Who created FinSexy?</summary>
+            <p class="faqA">FinSexy was founded by <a href="./doms/steviep">@steviep</a> on 6/9 2024. He continues to act as the company's CEO, CTO, CFO, and COO.</p>
           </details>
 
           <details class="faq">
-            <summary class="faqQ">How do I send FinDoms ETH?</summary>
-            <p class="faqA">TODO</p>
+            <summary class="faqQ">Do FinSexy findoms use LLMs?</summary>
+            <p class="faqA">No. All FinSexy findoms are 100% LLM-free!</p>
+          </details>
+
+          <details class="faq">
+            <summary class="faqQ">How do I send findoms money?</summary>
+            <p class="faqA">You can send any FinSexy findom Ethereum by connecting your web3 wallet, navigating to their profile page, and locating the "send module" underneath their profile picture. FinSexy findoms primarily accept Ethereum as payment.</p>
           </details>
 
 
           <details class="faq">
-            <summary class="faqQ">How do I get a web3 wallet?</summary>
-            <p class="faqA">TODO</p>
+            <summary class="faqQ">What is a web3 wallet?</summary>
+            <p class="faqA">A web3 wallet, such as <a href="https://metamask.io/" target="_blank" rel="nofollow">MetaMask</a> or <a href="https://rainbow.me/" target="_blank" rel="nofollow">Rainbow</a>, allows you to reliably access blockchain data, securely store Ethereum, verify your identity, safely send to FinSexy findoms. </p>
           </details>
 
+
           <details class="faq">
-            <summary class="faqQ">Why do the FinSexy doms only accept crypto?</summary>
-            <p class="faqA">TODO</p>
+            <summary class="faqQ">Is my data secure?</summary>
+            <p class="faqA">Yes! All of your data stays completely betweeen you and your findom, and never touches a sexy server. If anyone asks you to "copy your state" from a secret developer panel, DO NOT LISTEN TO THEM. This person wants to steal your data.</p>
           </details>
+
 
           <details class="faq">
             <summary class="faqQ">Do FinDoms accept FastCash?</summary>
-            <p class="faqA">TODO</p>
+            <p class="faqA">Yes! All FinSexy findoms accept FastCash in tips. However, the FinSexy automated payment system might not notify them in a timely manner. To learn more about FastCash, visit <a href="https://fastcashmoneyplus.biz" target="_blank">http://fastcashmoneyplus.biz</a>.</p>
           </details>
 
-          <details class="faq">
-            <summary class="faqQ">How do I connect my wallet?</summary>
-            <p class="faqA">TODO</p>
-          </details>
 
           <details class="faq">
             <summary class="faqQ">What do I do if I have an unhealthy relationship with FinDom?</summary>
-            <p class="faqA">TODO</p>
+            <p class="faqA">If you have an unhealthy relationship with Financial Domination, please contact out staff therapist, <a href="./doms/DrAndy">@DrAndy</a>.</p>
           </details>
 
           <details class="faq">
             <summary class="faqQ">Where can I purchase official FinSexy merch?</summary>
-            <p class="faqA">Official FinSexy merch is coming soon to <a href="https://ronamerch.co" target="_blank">RonaMerch.co</a>!</p>
+            <p class="faqA">Official FinSexy merch can br purchased on <a href="https://ronamerch.co" target="_blank">RonaMerch.co</a>! For more information, talk to <a href="./doms/RonaMerch">@RonaMerch</a></p>
           </details>
+          <h4>
+            Follow on: <a target="_blank" rel="nofollow" href="https://twitter.com/steviepxyz">twitter</a> | <a target="_blank" rel="nofollow" href="https://discord.steviep.xyz">discord</a>
+          </h4>
         </div>
+
+
         <!--
           FAQs
             What is FinDom?
@@ -763,6 +830,7 @@
         </section>
       </div>
 
+      <div id="infoMobile"></div>
       <footer class="mainFooter"><a href="https://steviep.xyz" target="_blank">steviep.xyz</a> (c) 2024</footer>
 
     </section>
@@ -785,6 +853,7 @@
   import {defaultProfileLS} from './state/profile.js'
 
 
+  $.id('infoMobile').innerHTML = $.id('infoSideBar').innerHTML
 
   const $profileModal = $.id('profileModal')
 

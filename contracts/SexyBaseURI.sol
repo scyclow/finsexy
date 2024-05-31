@@ -179,7 +179,51 @@ contract CandyCrushURI {
       '</svg>'
     );
   }
+}
 
+interface ISexyXXXPress {
+  function ownerOf(uint256) external view returns (address);
+}
+
+contract SexyXXXpressURI {
+  using IntToString for uint256;
+  ISexyXXXPress public xxx;
+
+  mapping(uint256 => uint256) public tokenIdToURIId;
+  mapping(uint256 => uint256) public uriIdToTokenId;
+
+  constructor(address _xxx) {
+    xxx = ISexyXXXPress(_xxx);
+  }
+
+  // todo burn #0 or something
+
+  function setURIId(uint256 tokenId, uint256 uriId) {
+    require(xxx.ownerOf(tokenId) == msg.sender, 'Only token owner can choose URI ID');
+    require(tokenIdToURIId[tokenId] == 0, 'tokenId already set');
+    require(uriIdToTokenId[uriId] == 0, 'uriId already taken');
+
+    tokenIdToURIId[tokenId] = uriId;
+    uriIdToTokenId[uriId] = tokenId;
+  }
+
+  function tokenURI(string memory name, string memory symbol, uint256 tokenId) external view returns (string memory) {
+    string memory tokenName = string.concat(name, ' #', tokenId.toString());
+
+    uint256 category = (tokenId / 100) + 1
+
+    bytes memory json = abi.encodePacked(
+      'data:application/json;utf8,'
+      '{"name": "', tokenName,'",'
+      '"description": "",'
+      '"external_url": "https://finsexy.com/doms/SexyXXXpress",'
+      '"attributes": [{"trait_type": "Category", "value": "', category.toString(),'"}],'
+      '"image": "', encodedSVG(tokenId),
+      '"}'
+    );
+
+    return string(json);
+  }
 }
 
 

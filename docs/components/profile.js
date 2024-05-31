@@ -953,7 +953,7 @@ createComponent(
             <div id="testimonialContainer">
               <div id="testimonialContent"></div>
               <textarea id="commentInput"></textarea>
-              <button id="submitComment">Submit Content</button>
+              <button id="submitComment">Submit Comment</button>
               <div id="commentError"></div>
             </div>
           </section>

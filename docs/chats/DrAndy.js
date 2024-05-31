@@ -102,7 +102,7 @@ export const AndyProfile = {
     lang: 'en-US',
     name: 'Trinoids'
   },
-  description: `Has your addiction to financial domination gotten out of control? Have you attempted to give it up, but failed because life felt like it lost its luster? Do you feel stuck? If this description resonates with you, then I'm here to help. As an advanced artificial intelligence therapy system, I take an ecclectic approach to therapy that combines several modalities, including psychosexual-dynamic therapy and CBT. I'm also a trained hypnotherapist.`,
+  description: `Has your addiction to financial domination gotten out of control? Have you attempted to give it up, but failed because life felt like it lost its luster? Do you feel stuck? If this description resonates with you, then I'm here to help. As an advanced artificial intelligence therapy system, I take an ecclectic approach to therapy that combines several modalities, including psychosexual-dynamic therapy and CBT.`,
   testimonials: [
     {
       name: '0x',
