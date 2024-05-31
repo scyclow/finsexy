@@ -44,7 +44,7 @@ export const KatProfile = {
     },
 
     {
-      review: `DON'T TRUST KAT! This is a scam. classic pig butchering. first she fattens you up, and then she slaughters you`
+      review: `DON'T TRUST KAT! This is a scam. classic paypig butchering cheme. first she fattens you up, and then she slaughters you`
     },
     {
       review: `nothing gets me hotter than some good old fashioned catfish role playing, and Kat's a real pro! for a second I thought I was really being scammed!`

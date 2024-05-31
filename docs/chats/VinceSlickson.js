@@ -140,7 +140,7 @@ const VinceMessages = {
         messageCode: 'hello',
         waitMs: 2000
       }
-    } else {
+    } else if (preAmount === 0) {
       ctx.state.nextNode = ctx.lastDomCodeSent
       return {
         messageCode: 'headsAt',
@@ -621,9 +621,9 @@ const VinceMessages = {
     responseHandler: (ur, ctx) => {
       if (isMatch(ur, ['alpha'])) return 'alpha'
 
-      else if (isMatch(ur, ['dive', 'no more'])) {
+      else if (isMatch(ur, ['dive', 'no more', 'continue', 'lets go', 'lets do it'])) {
         return 'diveInFastCash'
-      } else if (ur.includes('?') || isMatch(ur, ['learn', 'more', 'question', 'questions', 'tell me', 'info', 'help'])) {
+      } else if (ur.includes('?') || isMatch(ur, ['yes', 'ok', 'learn', 'more', 'question', 'questions', 'tell me', 'info', 'help'])) {
         ctx.state.moreInfoCount++
         const infoCount = ctx.state.moreInfoCount % 4
 

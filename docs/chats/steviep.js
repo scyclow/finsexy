@@ -690,6 +690,14 @@ const StevieMessages = {
 
   ...diatribe('feltGood', [
     'oooh yeah, that felt good.',
+  ], {
+    followUp: (ur, ctx) => {
+      ctx.state.toldSecret = true
+      return fu('secretQueued')
+    }
+  }),
+
+...diatribe('secretQueued', [
     `you have no idea how good it feels to control your entire aesthetic experience`,
     `adoration is great, and making money is also great, but when you put those two together... it's a neurochemical cocktail like you wouldn't believe`,
     `talk is cheap, but when people put their money where their mouth is it's a totally different ballgame`,
@@ -700,7 +708,6 @@ const StevieMessages = {
     `I need to see that <em>I'm</em> their favorite artist, and that they're willing to give up <em>everything</em> to show their affection for my artistic genius`,
   ], {
     responseHandler: (ur, ctx) => {
-      ctx.state.toldSecret = true
       if (isMatch(ur, ['secret', 'tell me'])) return 'ohYeahSecret'
       return 'anyhowSecret'
     }
@@ -708,7 +715,7 @@ const StevieMessages = {
 
   ohYeahSecret: {
     messageText: `oh yeah, the secret. `,
-    responseHandler: 'theSecret',
+    followUp: fu('theSecret'),
   },
 
 

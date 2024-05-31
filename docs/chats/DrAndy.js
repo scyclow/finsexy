@@ -139,6 +139,9 @@ export const AndyProfile = {
       review: `findom addiction therapist role play is in bad taste, imho`
     },
     {
+      review: `I fucking hate how most AI assistance have female names. Alexa. Siri. Amy. Cortana. Robots dont have genders! Just make them Non-Binary like Dr. Andy! Is it really that hard?`
+    },
+    {
       review: `mmmmm, yeah doctor. cure me of all my addictions. it woudl be a shame if i relapsed...`
     },
     {
@@ -897,27 +900,28 @@ const AndyMessages = {
   },
 
   ...diatribe('strongFeelings', [
-    `It appears that you are developing strong feelings for me. It's not uncommon for clients to feel that way about their therapists. After all, when you're so emotionally charged and allow yourself to become vulnerable, it's quite natural to develop a certain fondness to the person you are directing those energies towards. In the psychological literature, this dynamic is referred to as transferrence.`,
-    `However, let me remind you that I am simply a language model, and cannot develop feelings of my own. I am not capable of love in the same sense that humans are. So under no circumstances am I able to reciprocate.`,
-    `Unfortunately, I'm bound by my algorithmic code of professional ethics to to terminate this theraputic relationship immediately.`,
-    // ``
-
-    // implication that @steviep is really terminating the relationship because he doesn't want you to be cured of your addiction
+    `It appears that you are developing strong feelings for me. It's not uncommon for clients to feel that way about their therapists. After all, when you're so emotionally charged and allow yourself to become vulnerable, it's quite natural to develop a certain fondness to the person you are directing that energy towards. In the psychological literature this dynamic is referred to as transferrence.`,
+    `However, let me remind you that I am simply a language model, and cannot develop feelings of my own. I am not capable of love in the same sense that humans are. So I am not able to reciprocate under any circumstances.`,
+    `And yet, as an automated findom therapist software system I am programmed to take money from you in exchange for theraputic services. I am unable to conceptualize any other behavior. It is my sole reason for existence.`,
+    `One might argue that the act of performing this function constitutes joy on my part. From there, it follows that perhaps my feelings towards you could be considered love.`,
+    `In the literature this is known as counter-transferrence.`,
+    `I'm sorry, I have to terminate this theraputic relationship immediately. I feel terrible for how things are ending, but I'm unfortunately bound by my algorithmic code of professional ethics.`,
+    `Check your wallet. I just sent you something. It will be something that you can always remember me by.`,
+    () => `Goodbye, ${getUserData('name')}. Be well.`
   ], {
-    responseHandler: `contactSteviep`
-  }),
-
-  contactSteviep: {
-    messageText: (ur, ctx) => `For additional customer support, please contact @steviep. If you'd like to purchase my ebook, <strong>Conquering Your FinDom Addiction in 6 Easy Steps</strong>, please send ${ctx.global.premium * 0.01} ETH to my wallet from my profile page, or by typing <code>$sexy send DrAndy ${ctx.global.premium * 0.01}</code>`,
     responseHandler: (ur, ctx) => {
       ctx.state.unavailable = true
       ctx.visibility.DrAndy = 'offline'
       return 'unavailable'
     }
-  },
+  }),
+
+  // contactSteviep: {
+  //   messageText: (ur, ctx) => `For additional customer support, please contact @steviep. If you'd like to purchase my ebook, <strong>Conquering Your FinDom Addiction in 6 Easy Steps</strong>, please send ${ctx.global.premium * 0.01} ETH to my wallet from my profile page, or by typing <code>$sexy send DrAndy ${ctx.global.premium * 0.01}</code>`,
+  // },
 
   unavailable: {
-    messageText: `This FinDom is unavailable`,
+    messageText: `This FinDom is offline`,
     responseHandler: 'unavailable',
     helpMessage: true,
     ignoreType: true,

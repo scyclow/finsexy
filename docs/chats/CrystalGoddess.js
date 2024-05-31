@@ -612,7 +612,12 @@ export const CrystalGoddessMessages = {
 
   worshipMe: {
     messageText: 'Worship me',
-    responseHandler: ur => isMatch(ur, ['worship', 'body', 'essence']) ? 'release' : 'worshipMe'
+    responseHandler: ur => isMatch(ur, ['worship', 'body', 'essence']) ? 'release' : 'iSaidWorshipMe'
+  },
+
+  iSaidWorshipMe: {
+    messageText: 'I said <em>worship</em> me',
+    responseHandler: ur => isMatch(ur, ['worship', 'body', 'essence']) ? 'release' : 'iSaidWorshipMe'
   },
 
 

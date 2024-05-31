@@ -604,7 +604,7 @@ const HarlotsNodes = {
 
   ...diatribe('pickUpKey', [
     `You crawl on your hands and knees across the room and pick up the key with your mouth.`,
-    `<em>(You know have the Tavern Key in your inventory)</em>`,
+    `<em>(You now have the Tavern Key in your inventory)</em>`,
     `The poker players let out a chuckle before shaking their heads and returning back to their game. You hear one say the word "pathetic".`,
     `The harlot winks at you.`,
   ], {

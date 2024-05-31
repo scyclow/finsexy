@@ -198,7 +198,7 @@ contract SexyXXXpressURI {
 
   // todo burn #0 or something
 
-  function setURIId(uint256 tokenId, uint256 uriId) {
+  function setURIId(uint256 tokenId, uint256 uriId) external {
     require(xxx.ownerOf(tokenId) == msg.sender, 'Only token owner can choose URI ID');
     require(tokenIdToURIId[tokenId] == 0, 'tokenId already set');
     require(uriIdToTokenId[uriId] == 0, 'uriId already taken');
@@ -210,7 +210,7 @@ contract SexyXXXpressURI {
   function tokenURI(string memory name, string memory symbol, uint256 tokenId) external view returns (string memory) {
     string memory tokenName = string.concat(name, ' #', tokenId.toString());
 
-    uint256 category = (tokenId / 100) + 1
+    uint256 category = (tokenId / 100) + 1;
 
     bytes memory json = abi.encodePacked(
       'data:application/json;utf8,'
@@ -218,7 +218,7 @@ contract SexyXXXpressURI {
       '"description": "",'
       '"external_url": "https://finsexy.com/doms/SexyXXXpress",'
       '"attributes": [{"trait_type": "Category", "value": "', category.toString(),'"}],'
-      '"image": "', encodedSVG(tokenId),
+      '"image": "', '',
       '"}'
     );
 
