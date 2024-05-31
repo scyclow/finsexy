@@ -63,7 +63,8 @@ const positives = [
   'okay',
   'alright',
   'better',
-  'improving'
+  'improving',
+  'sexy'
 ]
 
 const negativeNegatives = [
