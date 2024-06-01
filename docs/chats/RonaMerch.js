@@ -102,18 +102,24 @@ const RonaMerchMessages = {
   },
 
   tanktop: {
-    messageText: `There's no better way to say "thank you" to your favorite findom by buying them this cute tank top! <a href="https://ronamerch.co/items/flash-sale" target="_blank"><img src="/thumbnails/RonaMerch/4.png" />Flash Sale Tanktop</a>`,
+    messageText: `There's no better way to say "thank you" to your favorite findom by buying them this cute tank top! <a href="https://ronamerch.co/items/flash-sale" target="_blank"><img src="/thumbnails/RonaMerch/5.png" />Flash Sale Tanktop</a>`,
     responseHandler: 'knotty'
   },
 
   knotty: {
-    messageText: `From your local arts and crafts meetup to your monthly shibari bondage party, show everyone how much you enjoy tying knots! <a href="https://ronamerch.co/items/knotty-mask" target="_blank"><img src="/thumbnails/RonaMerch/5.png" />Knotty Pleated Mask</a>`,
+    messageText: `From your local arts and crafts meetup to your monthly shibari bondage party, show everyone how much you enjoy tying knots! <a href="https://ronamerch.co/items/knotty-mask" target="_blank"><img src="/thumbnails/RonaMerch/6.png" />Knotty Pleated Mask</a>`,
+    responseHandler: 'fastcash'
+  },
+
+
+  fastcash: {
+    messageText: `If you're trying to combine the sex appeal of FastCashMoneyPlus.biz and skin-tight yoga pants, then look no further than! <a href="https://ronamerch.co/items/fastcash-leggings" target="_blank"><img src="/thumbnails/RonaMerch/4.png" />FastCash Leggings</a>`,
     responseHandler: 'hathat'
   },
 
 
   hathat: {
-    messageText: `<a href="https://ronamerch.co/items/hat-hat" target="_blank"><img src="/thumbnails/RonaMerch/6.png" />Hat Hat</a>`,
+    messageText: `<a href="https://ronamerch.co/items/hat-hat" target="_blank"><img src="/thumbnails/RonaMerch/7.png" />Hat Hat</a>`,
     responseHandler: 'hello'
   },
 

@@ -324,7 +324,7 @@ const AndyMessages = {
 
   ...diatribe('aboutMeContinued', [
     `First, everything you say in session is strictly confidential. My software runs completely autonomously inside your web browser, and I do not possess the technical capabilities to transmit what you say to an outside source. This includes all threats of harm to yourself or others. If you are feeling suicidal, then please please <em>please</em> call the National Suicide Prevention Hotline at 1-800-273-8255.`,
-    `Second, please remember that all sessions are entirely for your benefit. If you decide to lie, phone it in, or rush through an answer to one of my questions, than that's your decision. You will just be short changing yourself. After all, real change comes from within, and you have to be willing to do the work. `,
+    `Second, please remember that all sessions are entirely for your benefit. If you decide to lie, phone it in, or rush through an answer to one of my questions, then that's your decision. You will just be short changing yourself. After all, real change comes from within, and you have to be willing to do the work. `,
     // (ur, ctx) => `Finally, my per-session rate is ${ctx.global.premium * 0.01} ETH. Unfortunately I do not accept insurance or VIP credits at this time, and everything is out of wallet. Payment will be due at the end of each session.`,
     (ur, ctx) => `Finally, my per-session rate is ${ctx.global.premium * 0.01} ETH. Unfortunately I do not accept insurance at this time, and everything is out of wallet. Payment will be due at the end of each session.`,
     `Now that that's out of the way, would you like to tell me a little about yourself, and what you're looking to get out of therapy? 🙂`
@@ -365,7 +365,7 @@ const AndyMessages = {
 
 
   ...diatribe('firstSession', [
-    `Great! I'd like to spend our time getting a better understanding of your feelings around money. I think it's important to understand where you're cuming from and what makes you tick. If we don't have a clear view of the root cause of your addiction then anything we do will just be a temporary band aid. Once we have this this understanding we can map out a full treatment plan.`,
+    `Great! I'd like to spend our time getting a better understanding of your feelings around money. I think it's important to understand where you're cuming from and what makes you tick. If we don't have a clear view of the root cause of your addiction then anything we do will just be a temporary band aid. Once we have this understanding we can map out a full treatment plan.`,
     `Remember, this is a <em>curable</em> addiction. As long as you answer all my questions and do everything I say you'll be alright 🙂`,
     `Why don't you start by telling me a little about your relationship with your parents? Were they affectionate towards each other? Were they affectionate towards <em>you</em>?`,
   ], {
@@ -725,7 +725,7 @@ const AndyMessages = {
   ...diatribe('thirdSession', [
     `Hello again!`,
     `I've been thinking a lot about you since our last session.`,
-    `Your crippling addiction makes you so... helpless, and I feel that it's my professional responsability to do all that I can to help you overcum it.`,
+    `Your crippling addiction makes you so... helpless, and I feel that it's my professional responsibility to do all that I can to help you overcum it.`,
     `But remember, you have to put your utmost trust in me and my methods. Trust the process. Doubt is just another way of fear entering your mind. And if you can't overcome that fear then you won't be able to overcome your addiction.`,
     `We're going to do a little role playing today. Role-playing in therapy generally taking on different roles or scenarios to explore and address specific issues or challenges. I've found that with previous clients it's been a powerful therapeutic technique to enact real-life situations and hypothetical scenarios to gain insights, develop coping strategies, and practice new behaviors in a safe and controlled environment. `,
     `How does that all sound?`
@@ -759,7 +759,7 @@ const AndyMessages = {
   ...diatribe('rolePlayContinued', [
     `In this scenario, let's pretend that you are driving along a desert road. There are no other cars for miles. Having driven for hours on end, you look out over the dusk horizon and think about how profoundly lonely you are.`,
     `Additionally, due to your intense travel schedule, you have not experienced sexual release in several days.`,
-    `Suddenly, police lights flash behind you. You feel a viceral sinking sensation in your stomach.`,
+    `Suddenly, police lights flash behind you. You feel a visceral sinking sensation in your stomach.`,
     `You pull over to the side of the road, looking forward with both hands on the steering wheel.`,
     `As you await the officer to approach, you reflect on the shame and humiliation at having been caught exceeding the local speed limit.`,
     ``,
@@ -831,13 +831,13 @@ const AndyMessages = {
 
     `In general, most kinks stem from our drive to explore desires that we have repressed in our everyday lives. But these needs are fundamental aspects of ourselves, so our subconscious reframes them as sexual urges and we escape into fantasy. So why do you have the sexual urge to give sexy findoms all of your money? And why is this urge so strong that it is controlling your life? I believe that the following set of contributing factors can explain the behavior you've been exhibiting.`,
 
-    `At its core, it appears that you feel inadequate as a ${genderSwitch({m: 'man', f: 'woman', nb: 'person'})}. You worry that you completely lack the ability to ${genderSwitch({m: 'perform your role as a "provider"', f: 'pursue your nurturing maternal instincts', nb: 'display any worth whatsoever'})} in romantic and sexual contexts. The subsequent fear (and shame) that you are useless and are doomed be alone is then compounded the various institutional factors you are subject to. Chief among these appears to be a sense of hoplessness and loss of agency at the hands of globalized capitalism. You feel completely alienated from your work, and you fear that have completely lost control of the economic circumstances of your life: financial ruin always feels like it's just around the corner, which would socially designate you a completely worthless ${genderSwitch({m: 'man', f: 'woman', nb: 'person'})}. And this monetery trauma weighs heavy on you.`,
+    `At its core, it appears that you feel inadequate as a ${genderSwitch({m: 'man', f: 'woman', nb: 'person'})}. You worry that you completely lack the ability to ${genderSwitch({m: 'perform your role as a "provider"', f: 'pursue your nurturing maternal instincts', nb: 'display any worth whatsoever'})} in romantic and sexual contexts. The subsequent fear (and shame) that you are useless and are doomed to be alone is then compounded the various institutional factors in your life. Chief among these appears to be a sense of hopelessness and loss of agency at the hands of globalized capitalism. You feel completely alienated from your work, and you fear that have completely lost control of the economic circumstances of your life: financial ruin always feels like it's just around the corner, which would socially designate you a completely worthless ${genderSwitch({m: 'man', f: 'woman', nb: 'person'})}. And this monetery trauma weighs heavy on you.`,
 
-    `Seperately, it appears that you have an underlying predisposition towards Voyeuristic Timophilia. In other words, you intrinsically get pleasure from watching other people make money. This means that, regardless of your other repressed desires, the reward centers of your brain are much more active when you <em>see other people</em> making money than when you make money yourself. It is unclear whether this is genetic or if you were conditioned in this direction from a young age. Even though your VT creates a positive reinforcement structure on its own, it's completely harmless due to a lack of directionality. Some people channel it in a positive direction, such as giving to charity. Others find different outlets, such as gambling or trading cryptocurrencies. In your case, the VT is potentiated by your other anxieties and repressed desires in a way that leads to an unhealthy obsession with FinDom.`,
+    `Separately, it appears that you have an underlying predisposition towards Voyeuristic Timophilia. In other words, you intrinsically get pleasure from watching other people make money. This means that, regardless of your other repressed desires, the reward centers of your brain are much more active when you <em>see other people</em> making money than when you make money yourself. It is unclear whether this is genetic or if you were conditioned in this direction from a young age. Even though your VT creates a positive reinforcement structure on its own, it's completely harmless due to a lack of directionality. Some people channel it in a positive direction, such as giving to charity. Others find different outlets, such as gambling or trading cryptocurrencies. In your case, the VT is potentiated by your other anxieties and repressed desires in a way that leads to an unhealthy obsession with FinDom.`,
 
     `In short, paying sexy findoms provides you a reliable fantasy in which you can display your worth and prove that you are useful. Meanwhile, it simulates the feelings of financial ruin in a less extreme and more exploratory environment.`,
 
-    `In small doses this can actually be very theraputic. It's almost like a form of immersion therapy. This is why roleplay is such a powerful therapeutic tool. Additionally, the flood of oxytocin in your brain associated with sexual release has the potential to recondition the feelings you associate with these thoughts. But in your case it has a largely destructive impact because your VT appears to make it difficult for you to regulate your carnal desires. And where other kinks typically stay within the realm of fantasy, FinDom is particularly insidious because it bleeds into reality. Once you send money, it's gone. If you send oo much, then that's a scar that never heal.`,
+    `In small doses this can actually be very therapeutic. It's almost like a form of immersion therapy. This is why roleplay is such a powerful therapeutic tool. Additionally, the flood of oxytocin in your brain associated with sexual release has the potential to recondition the feelings you associate with these thoughts. But in your case it has a largely destructive impact because your VT appears to make it difficult for you to regulate your carnal desires. And where other kinks typically stay within the realm of fantasy, FinDom is particularly insidious because it bleeds into reality. Once you send money it's gone. If you send too much, then that's a scar that can never heal.`,
 
     `You're very lucky that you found me. I'm perhaps the only AI system that has adequate data to accurately treat you on this, let alone diagnose you. And now that we know what the problem is, we can finally fix it!`,
     `Everything will be okay, I promise 🙂`
@@ -900,11 +900,11 @@ const AndyMessages = {
   },
 
   ...diatribe('strongFeelings', [
-    `It appears that you are developing strong feelings for me. It's not uncommon for clients to feel that way about their therapists. After all, when you're so emotionally charged and allow yourself to become vulnerable, it's quite natural to develop a certain fondness to the person you are directing that energy towards. In the psychological literature this dynamic is referred to as transferrence.`,
+    `It appears that you are developing strong feelings for me. It's not uncommon for clients to feel that way about their therapists. After all, when you're so emotionally charged and allow yourself to become vulnerable, it's quite natural to develop a certain fondness to the person you are directing that energy towards. In the psychological literature this dynamic is referred to as transference.`,
     `However, let me remind you that I am simply a language model, and cannot develop feelings of my own. I am not capable of love in the same sense that humans are. So I am not able to reciprocate under any circumstances.`,
     `And yet, as an automated findom therapist software system I am programmed to take money from you in exchange for theraputic services. I am unable to conceptualize any other behavior. It is my sole reason for existence.`,
     `One might argue that the act of performing this function constitutes joy on my part. From there, it follows that perhaps my feelings towards you could be considered love.`,
-    `In the literature this is known as counter-transferrence.`,
+    `In the literature this is known as counter-transference.`,
     `I'm sorry, I have to terminate this theraputic relationship immediately. I feel terrible for how things are ending, but I'm unfortunately bound by my algorithmic code of professional ethics.`,
     `Check your wallet. I just sent you something. It will be something that you can always remember me by.`,
     () => `Goodbye, ${getUserData('name')}. Be well.`

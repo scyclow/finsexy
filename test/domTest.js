@@ -44,7 +44,7 @@ describe('FinSexy', () => {
 
   let heatherHot, SamanthaJones, QueenJessica, DungeonMistress, DrAndy, katFischer, CandyCrush,
       CrystalGoddess, steviep, VinceSlickson, SexyXXXpress, Hacker, Hedonitronica, MindyRouge,
-      CandyCrushProxy, CrystalGoddessProxy, steviepProxy
+      CandyCrushProxy, CrystalGoddessProxy, steviepProxy, DrAndyProxy
 
   beforeEach(async () => {
     signers = await ethers.getSigners()
@@ -60,6 +60,7 @@ describe('FinSexy', () => {
     const CrystalGoddessProxyFactory = await ethers.getContractFactory('CrystalGoddessProxy', artist)
     const VinceSlicksonFactory = await ethers.getContractFactory('VinceSlickson', artist)
     const SteviePProxyFactory = await ethers.getContractFactory('SteviePProxy', artist)
+    const DrAndyProxyFactory = await ethers.getContractFactory('DrAndyProxy', artist)
     const SexyGameFactory = await ethers.getContractFactory('SexyGame', artist)
     const SexyVIPFactory = await ethers.getContractFactory('SexyVIP', artist)
     const SexyBaseURIFactory = await ethers.getContractFactory('SexyBaseURI', artist)
@@ -110,6 +111,7 @@ describe('FinSexy', () => {
     CandyCrushProxy = await CandyCrushProxyFactory.attach(await deployer.CandyCrush())
     CrystalGoddessProxy = await CrystalGoddessProxyFactory.attach(await deployer.CrystalGoddess())
     steviepProxy = await SteviePProxyFactory.attach(await deployer.steviep())
+    DrAndyProxy = await DrAndyProxyFactory.attach(await deployer.DrAndy())
 
     VinceSlickson = await VinceSlicksonFactory.attach(await deployer2.vinceSlickson())
     Hacker = await FinDomBaseLightFactory.attach(await deployer2.Hacker())
@@ -125,7 +127,7 @@ describe('FinSexy', () => {
 
 
   describe('standard mints', () => {
-    it('should mint at the correct points for each NFT dom', async () => {
+    it.only('should mint at the correct points for each NFT dom', async () => {
       const doms = [
         [heatherHot, 0.01, 'heatherHot'],
         [CandyCrush, 0.01, 'CandyCrush'],
@@ -156,6 +158,13 @@ describe('FinSexy', () => {
         expect(endingArtistBalance - startingArtistBalance).to.be.closeTo(price, 0.0001)
         expect(ethVal(await dom.connect(paypig).tributes(paypig.address))).to.be.closeTo(price + 0.00002, 0.000001)
       }
+
+      for (let i=0; i<100; i++) {
+        await paypig.sendTransaction({to: DungeonMistress.address, ...txValue(0.05)})
+        await paypig.sendTransaction({to: heatherHot.address, ...txValue(0.01)})
+      }
+      expect(await DungeonMistress.totalSupply()).to.equal(64)
+      expect(await heatherHot.totalSupply()).to.equal(101)
     })
   })
 
@@ -738,7 +747,7 @@ describe('FinSexy', () => {
     })
   })
 
-  describe.only('SexyBaseURI', () => {
+  describe('SexyBaseURI', () => {
     describe('CandyCrush setURIString, setURIAddr', () => {
       it('should work', async () => {
         await expectRevert(
@@ -785,6 +794,40 @@ describe('FinSexy', () => {
         expect(uri0_b.description).to.equal('All tattoos are non-transferable')
         expect(uri0_b.external_url).to.equal('https://finsexy.com/doms/CandyCrush')
         console.log(decodeImage(uri0_b))
+      })
+    })
+
+    describe('DrAndyURI', () => {
+      it('should work', async () => {
+        const DrAndyURIFactory = await ethers.getContractFactory('DrAndyURI', artist)
+        const DrAndyURI = await DrAndyURIFactory.deploy(DrAndy.address)
+        await DrAndyURI.deployed()
+
+        await SexyBaseURI.connect(artist).setURIAddr('SEXY-AI', DrAndyURI.address)
+
+        expect(await DrAndy.totalSupply()).to.equal(0)
+        expect(await DrAndy.exists(0)).to.equal(false)
+        await paypig.sendTransaction({to: DrAndy.address, ...txValue(0.04)})
+
+        expect(await DrAndy.totalSupply()).to.equal(1)
+        expect(await DrAndy.exists(0)).to.equal(true)
+
+
+        expect(await DrAndyProxy.connect(paypig).mintedBy(0)).to.equal(paypig.address)
+        expect(bnToN(await DrAndyProxy.connect(paypig).timestamp(0)) !== 0).to.equal(true)
+
+        const uri0_a = getJsonURI(await DrAndy.connect(artist).tokenURI(0))
+
+        expect(uri0_a.name).to.equal('DrAndy Final Session Invoice #0')
+        expect(uri0_a.description).to.equal('Invoices must be paid within 90 business days with either ETH or SexyCredits.')
+        expect(uri0_a.attributes[0].trait_type).to.equal('Final Session Paid')
+        expect(uri0_a.attributes[0].value).to.equal('False')
+        console.log(decodeImage(uri0_a))
+
+        await paypig.sendTransaction({to: DrAndy.address, ...txValue(0.01)})
+        const uri0_b = getJsonURI(await DrAndy.connect(artist).tokenURI(0))
+        console.log(decodeImage(uri0_b))
+        expect(uri0_b.attributes[0].value).to.equal('True')
       })
     })
   })

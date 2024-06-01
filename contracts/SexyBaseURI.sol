@@ -68,7 +68,6 @@ contract SexyBaseURI {
     return string(json);
   }
 
-  // TODO test
   function setURIString(
     string memory symbol,
     string memory baseURI,
@@ -181,6 +180,97 @@ contract CandyCrushURI {
   }
 }
 
+
+interface IDrAndy {
+  function mintedBy(uint256) external view returns (address);
+  function timestamp(uint256) external view returns (uint256);
+  function tributes(address) external view returns (uint256);
+}
+
+contract DrAndyURI {
+  using IntToString for uint256;
+
+  IDrAndy public ai;
+
+  constructor(address addr) {
+    ai = IDrAndy(addr);
+  }
+
+  function tokenURI(string memory name, string memory symbol, uint256 tokenId) external view returns (string memory) {
+    string memory tokenName = string.concat(name, ' #', tokenId.toString());
+
+    address originalMinter = ai.mintedBy(tokenId);
+    bool finalSessionPaid = ai.tributes(originalMinter) >= 0.05 ether;
+
+    bytes memory json = abi.encodePacked(
+      'data:application/json;utf8,'
+      '{"name": "', tokenName,'",'
+      '"description": "Invoices must be paid within 90 business days with either ETH or SexyCredits.",'
+      '"external_url": "https://finsexy.com/doms/DrAndy",'
+      '"attributes": [{"trait_type": "Final Session Paid", "value": "', finalSessionPaid ? 'True' : 'False','"}],'
+      '"image": "', encodedSVG(tokenId),
+      '"}'
+    );
+
+    return string(json);
+  }
+
+  function encodedSVG(uint256 tokenId) public view returns (string memory) {
+    return string(abi.encodePacked(
+      'data:image/svg+xml;base64,',
+      Base64Encode.encode(rawSVG(tokenId))
+    ));
+  }
+
+  function rawSVG(uint256 tokenId) public view returns (bytes memory) {
+    address originalMinter = ai.mintedBy(tokenId);
+    bool finalSessionPaid = ai.tributes(originalMinter) >= 0.05 ether;
+    uint256 taxId = uint256(keccak256(abi.encodePacked(originalMinter, tokenId))) % 1000000;
+
+    string memory header = string.concat(
+      '<svg viewBox="0 0 850 1100" xmlns="http://www.w3.org/2000/svg"><style>.c{dominant-baseline:hanging;text-anchor:middle}.e{text-anchor:end}text{font-size:25px}line{stroke:#000}</style><rect x="0" y="0" width="850" height="1100" fill="#fff"></rect><text class="c" x="50%" y="125" style="font-size:60px">INVOICE</text><text class="c" x="50%" y="183" style="font-size:45px">Dr. Andy Ingram</text><text class="c s" x="50%" y="240">',
+      uint256(uint160(address(ai))).toHexString(),
+      '</text>'
+    );
+
+    string memory middleSection = string.concat(
+      '<text x="100" y="345" class="s">Invoice # ',
+      tokenId.toString(),
+      '</text><text x="750" y="345" class="s e">Tax # ',
+      taxId.toString(),
+      '</text><line x1="100" x2="750" y1="350" y2="350"></line><text x="100" y="410" class="s">Statement Timestamp: ',
+      ai.timestamp(tokenId).toString(),
+      '</text><text x="100" y="445" class="s">Patient:</text><text x="185" y="445" class="s">',
+       uint256(uint160(originalMinter)).toHexString(),
+      '</text>'
+    );
+
+    string memory feeSection = string.concat(
+      '<text x="100" y="595" class="s"># of Sessions: 4</text><text x="750" y="595" class="s e">Fee Per Session: 0.01 ETH</text><line x1="100" x2="750" y1="600" y2="600"></line><text x="150" y="675">Session 1:</text><text x="300" y="675">0.01 ETH</text><text x="450" y="675">PAID</text><text x="150" y="715">Session 2:</text><text x="300" y="715">0.01 ETH</text><text x="450" y="715">PAID</text><text x="150" y="755">Session 3:</text><text x="300" y="755">0.01 ETH</text><text x="450" y="755">PAID</text><text x="150" y="795">Session 4:</text><text x="300" y="795">0.01 ETH</text><text x="450" y="795" fill="',
+      finalSessionPaid ? '#000' : '#f00',
+      '">',
+      finalSessionPaid ? 'PAID' : 'UNPAID',
+      '</text>'
+    );
+
+    string memory end = string.concat(
+      '<text x="100" y="935">Balance Paid: 0.0',
+      finalSessionPaid ? '4' : '3',
+      ' ETH</text><text x="100" y="975">Balance Due: 0.0',
+       finalSessionPaid ? '0' : '1',
+       ' ETH</text></svg>'
+    );
+
+    return abi.encodePacked(
+      header,
+      middleSection,
+      feeSection,
+      end
+    );
+  }
+}
+
+
 interface ISexyXXXPress {
   function ownerOf(uint256) external view returns (address);
 }
@@ -230,32 +320,64 @@ contract SexyXXXpressURI {
 
 
 library IntToString {
-  bytes16 private constant _HEX_SYMBOLS = "0123456789abcdef";
+    bytes16 private constant _HEX_SYMBOLS = "0123456789abcdef";
 
-  /**
-   * @dev Converts a `uint256` to its ASCII `string` decimal representation.
-   */
-  function toString(uint256 value) internal pure returns (string memory) {
-    // Inspired by OraclizeAPI's implementation - MIT licence
-    // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
+    /**
+     * @dev Converts a `uint256` to its ASCII `string` decimal representation.
+     */
+    function toString(uint256 value) internal pure returns (string memory) {
+        // Inspired by OraclizeAPI's implementation - MIT licence
+        // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
 
-    if (value == 0) {
-        return "0";
+        if (value == 0) {
+            return "0";
+        }
+        uint256 temp = value;
+        uint256 digits;
+        while (temp != 0) {
+            digits++;
+            temp /= 10;
+        }
+        bytes memory buffer = new bytes(digits);
+        while (value != 0) {
+            digits -= 1;
+            buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));
+            value /= 10;
+        }
+        return string(buffer);
     }
-    uint256 temp = value;
-    uint256 digits;
-    while (temp != 0) {
-      digits++;
-      temp /= 10;
+
+    /**
+     * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation.
+     */
+    function toHexString(uint256 value) internal pure returns (string memory) {
+        if (value == 0) {
+            return "0x00";
+        }
+        uint256 temp = value;
+        uint256 length = 0;
+        while (temp != 0) {
+            length++;
+            temp >>= 8;
+        }
+        return toHexString(value, length);
     }
-    bytes memory buffer = new bytes(digits);
-    while (value != 0) {
-      digits -= 1;
-      buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));
-      value /= 10;
+
+    /*
+     * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation with fixed length.
+     */
+
+    function toHexString(uint256 value, uint256 length) internal pure returns (string memory) {
+        bytes memory buffer = new bytes(2 * length + 2);
+        buffer[0] = "0";
+        buffer[1] = "x";
+        for (uint256 i = 2 * length + 1; i > 1; --i) {
+            buffer[i] = _HEX_SYMBOLS[value & 0xf];
+            value >>= 4;
+        }
+        require(value == 0, "Strings: hex length insufficient");
+        return string(buffer);
     }
-    return string(buffer);
-  }
 }
 
 

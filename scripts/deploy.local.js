@@ -74,6 +74,10 @@ async function main() {
   await deployer2.deployed()
 
 
+  // TODO attach CandyCrush URI
+  // TODO attach DrAndy URI
+
+
 
 
   heatherHot = (await FinDomBaseFactory.attach(await deployer.heatherHot())).address

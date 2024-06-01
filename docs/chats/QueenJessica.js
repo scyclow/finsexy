@@ -590,7 +590,7 @@ const QueenMessages = {
     ur => isNo(ur) ? `Didn't think so` : `Nope, still boring`,
     `You really need to work on your conversation skills`,
     `Maybe listen to the person you're talking to every once in a while?`,
-    `Whatever, I'm not your mother. You're not my responsability.`,
+    `Whatever, I'm not your mother. You're not my responsibility.`,
     () => genderSwitch({
       m: `I know men would rather give all their money to findoms on the internet than go to therpy, but maybe send @DrAndy a DM and try to work on yourself a bit?`,
       f: `Maybe send @DrAndy a DM and try to work on yourself a bit?`,
