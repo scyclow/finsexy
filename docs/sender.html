@@ -320,12 +320,16 @@
         const tributesRounded = Math.floor(tributes * 10000000) / 10000000
         if (tributes > 0) {
           totalPaid += tributesRounded
-          tributeContent += `
-            <tr>
-              <td style="font-size: 0.9em"><a href="./doms/${d}">${ellipse(d, 21)}</a></td>
-              <td style="color: var(--medium-color)">${tributesRounded} ETH</td>
-            </tr>
-          `
+
+
+          if (MessageHandler.visibilityCtx[d] !== 'hidden') {
+            tributeContent += `
+              <tr>
+                <td style="font-size: 0.9em"><a href="./doms/${d}">${ellipse(d, 21)}</a></td>
+                <td style="color: var(--medium-color)">${tributesRounded} ETH</td>
+              </tr>
+            `
+          }
         }
       })
 

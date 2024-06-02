@@ -88,6 +88,7 @@ interface InternalMintCheck {
 
 interface ITokenURI {
   function tokenURI(string memory name, string memory symbol, uint256 tokenId) external view returns (string memory);
+  function isSpecial(string memory symbol, uint256 tokenId) external view returns (bool specialness);
 }
 
 contract FinDomBase is ERC721, FinDomTribute {
@@ -97,11 +98,9 @@ contract FinDomBase is ERC721, FinDomTribute {
 
   bool private _isInitialized;
 
-  // ISexyRouter public router;
   address public externalMinter;
   bool public internalMintCheck;
   uint256 public totalSupply;
-  uint256 public maxSupply;
 
   constructor (address owner_, address router_) ERC721('', '') FinDomTribute(owner_, router_) {}
 
@@ -113,8 +112,7 @@ contract FinDomBase is ERC721, FinDomTribute {
     address owner_,
     address router_,
     address externalMinter_,
-    bool internalMintCheck_,
-    uint256 maxSupply_
+    bool internalMintCheck_
   ) external {
     require(!_isInitialized, "Can't initialize more than once");
     _isInitialized = true;
@@ -124,7 +122,6 @@ contract FinDomBase is ERC721, FinDomTribute {
     router = ISexyRouter(router_);
     externalMinter = externalMinter_;
     internalMintCheck = internalMintCheck_;
-    maxSupply = maxSupply_;
 
     _setOwner(owner_);
   }
@@ -152,6 +149,10 @@ contract FinDomBase is ERC721, FinDomTribute {
     totalSupply++;
   }
 
+  function isSpecial(uint256 tokenId) external view returns (bool) {
+    return ITokenURI(router.baseURI()).isSpecial(_symbol, tokenId);
+  }
+
   function _receive(address sender, uint256 value) internal override {
     emit Send(sender, value);
     tributes[sender] += value;
@@ -167,10 +168,8 @@ contract FinDomBase is ERC721, FinDomTribute {
         if (!InternalMintCheck(address(this)).mintCheck(sender, value)) return;
       }
 
-      if (maxSupply == 0 || totalSupply < maxSupply) {
-        _mint(sender, totalSupply);
-        totalSupply++;
-      }
+      _mint(sender, totalSupply);
+      totalSupply++;
     }
 
   }
@@ -213,8 +212,7 @@ contract FindomProxy is ProxyBase {
     uint256 mintThreshold,
     address implementationAddr,
     address owner_,
-    address router,
-    uint256 maxSupply
+    address router
   ) {
     getAddressSlot(_IMPLEMENTATION_SLOT).value = implementationAddr;
 
@@ -222,8 +220,8 @@ contract FindomProxy is ProxyBase {
     Address.functionDelegateCall(
         implementationAddr,
         abi.encodeWithSignature(
-          "initialize(string,string,uint256,address,address,address,bool,uint256)",
-          name, symbol, mintThreshold, owner_, router, address(0), false, maxSupply
+          "initialize(string,string,uint256,address,address,address,bool)",
+          name, symbol, mintThreshold, owner_, router, address(0), false
         ),
         "Address: low-level delegate call failed"
     );

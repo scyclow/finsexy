@@ -31,7 +31,7 @@ contract SexyBaseURI {
     _setURIString('SEXY-HH', '/', '', 'heatherHot', 100);
     _setURIString('SEXY-SJ', '/', '', 'SamanthaJones', 100);
     _setURIString('SEXY-QJ', '/', '', 'QueenJessica', 100);
-    _setURIString('SEXY-DM', '/', '', 'DungeonMistress', 100);
+    _setURIString('SEXY-DM', '/', '', 'DungeonMistress', 64);
     _setURIString('SEXY-AI', '/', '', 'DrAndy', 100);
     _setURIString('SEXY-KF', '/', '', 'katFischer', 100);
     _setURIString('SEXY-SP', '/', '', 'steviep', 100);
@@ -44,6 +44,14 @@ contract SexyBaseURI {
 
   }
 
+  function isSpecial(string memory symbol, uint256 tokenId) external view returns (bool) {
+    if (symbolToForwardedAddr[symbol] != address(0)) {
+      return IForwardedURI(symbolToForwardedAddr[symbol]).isSpecial(tokenId);
+    }
+    return tokenId < symbolToURIInfo[symbol].maxImages;
+  }
+
+
 
   function tokenURI(string memory name, string memory symbol, uint256 tokenId) external view returns (string memory) {
     if (symbolToForwardedAddr[symbol] != address(0)) {
@@ -54,13 +62,14 @@ contract SexyBaseURI {
 
     string memory tokenName = string.concat(name, ' #', tokenId.toString());
     string memory imageURI = string.concat(symbolToURIInfo[symbol].baseURI, outputNum.toString(), '.png');
+    string memory specialness = isSpecial(symbol, tokenId) ? 'True' : 'False'
 
     bytes memory json = abi.encodePacked(
       'data:application/json;utf8,'
       '{"name": "', tokenName,'",'
       '"description": "', symbolToURIInfo[symbol].description, '",'
       '"external_url": "https://finsexy.com/doms/', symbolToURIInfo[symbol].domName,'",'
-      '"attributes": [{"trait_type": "Output #", "value": "', outputNum.toString(),'"}],'
+      '"attributes": [{"trait_type": "Output #", "value": "', outputNum.toString(),'"}, {"trait_type": "Is Special", "value": "', specialness, '"}],'
       '"image": "', imageURI,
       '"}'
     );
@@ -111,11 +120,16 @@ contract CandyCrushURI {
       '{"name": "', tokenName,'",'
       '"description": "All tattoos are non-transferable",'
       '"external_url": "https://finsexy.com/doms/CandyCrush",'
+      '"attributes": [{"trait_type": "Is Special", "value": "', isSpecial(tokenId) ? 'True' : 'False','"}],'
       '"image": "', encodedSVG(tokenId),
       '"}'
     );
 
     return string(json);
+  }
+
+  function isSpecial(uint256 tokenId) external view returns (bool) {
+    return tokenId < 60;
   }
 
   function encodedSVG(uint256 tokenId) public view returns (string memory) {
@@ -207,12 +221,16 @@ contract DrAndyURI {
       '{"name": "', tokenName,'",'
       '"description": "Invoices must be paid within 90 business days with either ETH or SexyCredits.",'
       '"external_url": "https://finsexy.com/doms/DrAndy",'
-      '"attributes": [{"trait_type": "Final Session Paid", "value": "', finalSessionPaid ? 'True' : 'False','"}],'
+      '"attributes": [{"trait_type": "Final Session Paid", "value": "', finalSessionPaid ? 'True' : 'False','"},{"trait_type": "Is Special", "value": "', isSpecial(tokenId) ? 'True' : 'False','"}],'
       '"image": "', encodedSVG(tokenId),
       '"}'
     );
 
     return string(json);
+  }
+
+  function isSpecial(uint256 tokenId) external view returns (bool) {
+    return tokenId < 90;
   }
 
   function encodedSVG(uint256 tokenId) public view returns (string memory) {

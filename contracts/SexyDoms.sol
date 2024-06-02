@@ -30,16 +30,16 @@ contract SexyDeployer {
     // pay pig
     // human atm
 
-    heatherHot = new FindomProxy('heatherHot Feet Pic', 'SEXY-HH', 0.01 ether, baseAddr, msg.sender, router, 0);
-    SamanthaJones = new FindomProxy('SamanthaJones Sexy Pic', 'SEXY-SJ', 0.03 ether, baseAddr, msg.sender, router, 0);
-    QueenJessica = new FindomProxy("QueenJessica's Hot Little Pussy", 'SEXY-QJ', 0.04 ether, baseAddr, msg.sender, router, 0);
-    DungeonMistress = new FindomProxy('DungeonMistress Tavern Key', 'SEXY-DM', 0.05 ether, baseAddr, msg.sender, router, 64);
-    DrAndy = new DrAndyProxy('DrAndy Final Session Invoice', 'SEXY-AI', 0.04 ether, baseAddr, msg.sender, router, 0);
-    katFischer = new FindomProxy('katFischer Human ATM', 'SEXY-KF', 0.03 ether, baseAddr, msg.sender, router, 0);
-    CandyCrush = new CandyCrushProxy('CandyCrush Tattoo', 'SEXY-CC', 0.01 ether, baseAddr, msg.sender, router, 0);
-    steviep = new SteviePProxy('steviep Dick Pic', 'SEXY-SP', baseAddr, msg.sender, router, 0);
-    CrystalGoddess = new CrystalGoddessProxy('CrystalGoddess Monetary Enlightenment', 'SEXY-CG', 0.01 ether, baseAddr, msg.sender, router, 0);
-    SexyXXXpress = new FindomProxy('SexyXXXpress ...', 'SEXY-XXX', 0.01 ether, baseAddr, msg.sender, router, 0);
+    heatherHot = new FindomProxy('heatherHot Feet Pic', 'SEXY-HH', 0.01 ether, baseAddr, msg.sender, router);
+    SamanthaJones = new FindomProxy('SamanthaJones Sexy Pic', 'SEXY-SJ', 0.03 ether, baseAddr, msg.sender, router);
+    QueenJessica = new FindomProxy("QueenJessica's Hot Little Pussy", 'SEXY-QJ', 0.04 ether, baseAddr, msg.sender, router);
+    DungeonMistress = new FindomProxy('DungeonMistress Tavern Key', 'SEXY-DM', 0.05 ether, baseAddr, msg.sender, router);
+    DrAndy = new DrAndyProxy('DrAndy Final Session Invoice', 'SEXY-AI', 0.04 ether, baseAddr, msg.sender, router);
+    katFischer = new FindomProxy('katFischer Human ATM', 'SEXY-KF', 0.03 ether, baseAddr, msg.sender, router);
+    CandyCrush = new CandyCrushProxy('CandyCrush Tattoo', 'SEXY-CC', 0.01 ether, baseAddr, msg.sender, router);
+    steviep = new SteviePProxy('steviep Dick Pic', 'SEXY-SP', baseAddr, msg.sender, router);
+    CrystalGoddess = new CrystalGoddessProxy('CrystalGoddess Monetary Enlightenment', 'SEXY-CG', 0.01 ether, baseAddr, msg.sender, router);
+    SexyXXXpress = new FindomProxy('SexyXXXpress ...', 'SEXY-XXX', 0.01 ether, baseAddr, msg.sender, router);
   }
 }
 
@@ -75,9 +75,8 @@ contract CandyCrushProxy is FindomProxy {
     uint256 mintThreshold,
     address implementation,
     address owner_,
-    address router,
-    uint256 maxSupply
-  ) FindomProxy(name, symbol, mintThreshold, implementation, owner_, router, maxSupply) {}
+    address router
+  ) FindomProxy(name, symbol, mintThreshold, implementation, owner_, router) {}
 
   function safeTransferFrom(address from, address to, uint256 tokenId) external {
     revert('Cannot transfer tattoo');
@@ -103,8 +102,7 @@ contract CrystalGoddessProxy is ProxyBase, InternalMintCheck {
     uint256 mintThreshold,
     address implementationAddr,
     address owner_,
-    address router,
-    uint256 maxSupply
+    address router
   ) {
     getAddressSlot(_IMPLEMENTATION_SLOT).value = implementationAddr;
 
@@ -112,8 +110,8 @@ contract CrystalGoddessProxy is ProxyBase, InternalMintCheck {
     Address.functionDelegateCall(
         implementationAddr,
         abi.encodeWithSignature(
-          "initialize(string,string,uint256,address,address,address,bool,uint256)",
-          name, symbol, mintThreshold, owner_, router, address(0), true, maxSupply
+          "initialize(string,string,uint256,address,address,address,bool)",
+          name, symbol, mintThreshold, owner_, router, address(0), true
         ),
         "Address: low-level delegate call failed"
     );
@@ -172,8 +170,7 @@ contract SteviePProxy is ProxyBase, InternalMintCheck {
     string memory symbol,
     address implementationAddr,
     address owner_,
-    address router,
-    uint256 maxSupply
+    address router
   ) {
     sexyGame = new SexyGame(owner_);
 
@@ -183,8 +180,8 @@ contract SteviePProxy is ProxyBase, InternalMintCheck {
     Address.functionDelegateCall(
         implementationAddr,
         abi.encodeWithSignature(
-          "initialize(string,string,uint256,address,address,address,bool,uint256)",
-          name, symbol, 69 ether, owner_, router, address(sexyGame), false, maxSupply
+          "initialize(string,string,uint256,address,address,address,bool)",
+          name, symbol, 69 ether, owner_, router, address(sexyGame), false
         ),
         "Address: low-level delegate call failed"
     );
@@ -247,8 +244,7 @@ contract DrAndyProxy is ProxyBase, InternalMintCheck {
     uint256 mintThreshold,
     address implementationAddr,
     address owner_,
-    address router,
-    uint256 maxSupply
+    address router
   ) {
     getAddressSlot(_IMPLEMENTATION_SLOT).value = implementationAddr;
 
@@ -256,8 +252,8 @@ contract DrAndyProxy is ProxyBase, InternalMintCheck {
     Address.functionDelegateCall(
         implementationAddr,
         abi.encodeWithSignature(
-          "initialize(string,string,uint256,address,address,address,bool,uint256)",
-          name, symbol, mintThreshold, owner_, router, address(0), true, maxSupply
+          "initialize(string,string,uint256,address,address,address,bool)",
+          name, symbol, mintThreshold, owner_, router, address(0), true
         ),
         "Address: low-level delegate call failed"
     );
@@ -273,12 +269,6 @@ contract DrAndyProxy is ProxyBase, InternalMintCheck {
 }
 
 
-// TODO
-  // DrAndy proxy
-  // mintCheck
-    // store totalSupply => minter address
-    // strore totalSupply => timeStamp
-    // return true
 
 
 // contract XXXpressProxy is ProxyBase, InternalMintCheck {

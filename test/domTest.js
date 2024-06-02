@@ -159,12 +159,12 @@ describe('FinSexy', () => {
         expect(ethVal(await dom.connect(paypig).tributes(paypig.address))).to.be.closeTo(price + 0.00002, 0.000001)
       }
 
-      for (let i=0; i<100; i++) {
-        await paypig.sendTransaction({to: DungeonMistress.address, ...txValue(0.05)})
-        await paypig.sendTransaction({to: heatherHot.address, ...txValue(0.01)})
-      }
-      expect(await DungeonMistress.totalSupply()).to.equal(64)
-      expect(await heatherHot.totalSupply()).to.equal(101)
+      // for (let i=0; i<100; i++) {
+      //   await paypig.sendTransaction({to: DungeonMistress.address, ...txValue(0.05)})
+      //   await paypig.sendTransaction({to: heatherHot.address, ...txValue(0.01)})
+      // }
+      // expect(await DungeonMistress.totalSupply()).to.equal(64)
+      // expect(await heatherHot.totalSupply()).to.equal(101)
     })
   })
 

@@ -274,6 +274,8 @@
     // const addrToContractName
 
     for (let dom of Object.keys(contracts)) {
+      if (MessageHandler.visibilityCtx[dom] === 'hidden') continue
+
       const contract = contracts[dom]
       // addrToContractName[contracts[dom].address] = dom
 

@@ -115,7 +115,7 @@ createComponent(
     ctx.$button.addEventListener('click', async () => {
       ctx.setState({ error: false, loading: true })
       try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }, [])
+        const accounts = await provider.connectWallet()
         const address = await ctx.provider.isConnected()
         ctx.provider.connect()
 

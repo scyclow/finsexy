@@ -140,6 +140,15 @@ export class Web3Provider {
   onConnectCbs = []
   ens = ''
 
+  FORCED_CHAIN_ID = '0xaa36a7'
+  VALID_CHAINS = [
+    // '0x1', // mainnet
+    '0xaa36a7', // sepolia
+    '0x7a69' // local
+  ]
+
+
+
   constructor() {
     if (window.ethereum) {
       try {
@@ -159,6 +168,14 @@ export class Web3Provider {
         }, 500)
 
         this.isConnected()
+          .then(async (addr) => {
+            const currentChain = await this.currentChain()
+            if (addr && !this.VALID_CHAINS.includes(currentChain)) {
+              await this.switchChain(this.FORCED_CHAIN_ID)
+            }
+          })
+
+        this.isConnected()
           .then(async addr => {
             try {
               if (addr) {
@@ -176,6 +193,29 @@ export class Web3Provider {
       this.isEthBrowser = false
     }
   }
+
+  async connectWallet() {
+    const connected = await window.ethereum.request({ method: 'eth_requestAccounts' }, [])
+
+    const currentChain = await this.currentChain()
+    if (!this.VALID_CHAINS.includes(currentChain)) {
+      await this.switchChain(this.FORCED_CHAIN_ID)
+    }
+    return connected
+  }
+
+  async currentChain() {
+    return await window.ethereum.request({ method: 'eth_chainId' })
+  }
+
+  async switchChain(chainId) {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId }],
+    })
+    window.location.reload()
+  }
+
 
   onConnect(cb, errorCb) {
     this.onConnectCbs.push(cb)
@@ -281,6 +321,7 @@ export class Web3Provider {
     const network = await this.provider.getNetwork()
     const hasName = network.name && network.name !== 'unknown'
     const { chainId } = network
+    console.log(network.chainId)
 
     let name
     if (network.chainId === 1) {
