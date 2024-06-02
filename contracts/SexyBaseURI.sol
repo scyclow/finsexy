@@ -8,6 +8,7 @@ interface ISexyRouter {
 
 interface IForwardedURI {
   function tokenURI(string memory name, string memory symbol, uint256 tokenId) external view returns (string memory);
+  function isSpecial(uint256 tokenId) external view returns (bool);
 }
 
 contract SexyBaseURI {
@@ -37,14 +38,13 @@ contract SexyBaseURI {
     _setURIString('SEXY-SP', '/', '', 'steviep', 100);
     _setURIString('SEXY-CG', '/', '', 'CrystalGoddess', 100);
 
-    // symbolToForwardedAddr['SEXY-CC'] = address(new CandyCrushURI());
-
-    // TODO: SexyXXXpress
-    // TODO: CandyCrush
+    _setURIString('SEXY-XXA', '/', '', 'SexyXXXPress', 200);
+    _setURIString('SEXY-XXB', '/', '', 'SexyXXXPress', 100);
+    _setURIString('SEXY-XXC', '/', '', 'SexyXXXPress', 50);
 
   }
 
-  function isSpecial(string memory symbol, uint256 tokenId) external view returns (bool) {
+  function isSpecial(string memory symbol, uint256 tokenId) public view returns (bool) {
     if (symbolToForwardedAddr[symbol] != address(0)) {
       return IForwardedURI(symbolToForwardedAddr[symbol]).isSpecial(tokenId);
     }
@@ -62,7 +62,7 @@ contract SexyBaseURI {
 
     string memory tokenName = string.concat(name, ' #', tokenId.toString());
     string memory imageURI = string.concat(symbolToURIInfo[symbol].baseURI, outputNum.toString(), '.png');
-    string memory specialness = isSpecial(symbol, tokenId) ? 'True' : 'False'
+    string memory specialness = isSpecial(symbol, tokenId) ? 'True' : 'False';
 
     bytes memory json = abi.encodePacked(
       'data:application/json;utf8,'
@@ -101,7 +101,6 @@ contract SexyBaseURI {
     symbolToURIInfo[symbol].maxImages = maxImages;
   }
 
-  // TODO test
   function setURIAddr(string memory symbol, address addr) external {
     require(msg.sender == router.owner(), 'Ownable: caller is not the owner');
     symbolToForwardedAddr[symbol] = addr;
@@ -109,7 +108,7 @@ contract SexyBaseURI {
 }
 
 
-contract CandyCrushURI {
+contract CandyCrushURI is IForwardedURI {
   using IntToString for uint256;
 
   function tokenURI(string memory name, string memory symbol, uint256 tokenId) external view returns (string memory) {
@@ -128,7 +127,7 @@ contract CandyCrushURI {
     return string(json);
   }
 
-  function isSpecial(uint256 tokenId) external view returns (bool) {
+  function isSpecial(uint256 tokenId) public view returns (bool) {
     return tokenId < 60;
   }
 
@@ -201,7 +200,7 @@ interface IDrAndy {
   function tributes(address) external view returns (uint256);
 }
 
-contract DrAndyURI {
+contract DrAndyURI is IForwardedURI{
   using IntToString for uint256;
 
   IDrAndy public ai;
@@ -229,7 +228,7 @@ contract DrAndyURI {
     return string(json);
   }
 
-  function isSpecial(uint256 tokenId) external view returns (bool) {
+  function isSpecial(uint256 tokenId) public view returns (bool) {
     return tokenId < 90;
   }
 
@@ -288,51 +287,6 @@ contract DrAndyURI {
   }
 }
 
-
-interface ISexyXXXPress {
-  function ownerOf(uint256) external view returns (address);
-}
-
-contract SexyXXXpressURI {
-  using IntToString for uint256;
-  ISexyXXXPress public xxx;
-
-  mapping(uint256 => uint256) public tokenIdToURIId;
-  mapping(uint256 => uint256) public uriIdToTokenId;
-
-  constructor(address _xxx) {
-    xxx = ISexyXXXPress(_xxx);
-  }
-
-  // todo burn #0 or something
-
-  function setURIId(uint256 tokenId, uint256 uriId) external {
-    require(xxx.ownerOf(tokenId) == msg.sender, 'Only token owner can choose URI ID');
-    require(tokenIdToURIId[tokenId] == 0, 'tokenId already set');
-    require(uriIdToTokenId[uriId] == 0, 'uriId already taken');
-
-    tokenIdToURIId[tokenId] = uriId;
-    uriIdToTokenId[uriId] = tokenId;
-  }
-
-  function tokenURI(string memory name, string memory symbol, uint256 tokenId) external view returns (string memory) {
-    string memory tokenName = string.concat(name, ' #', tokenId.toString());
-
-    uint256 category = (tokenId / 100) + 1;
-
-    bytes memory json = abi.encodePacked(
-      'data:application/json;utf8,'
-      '{"name": "', tokenName,'",'
-      '"description": "",'
-      '"external_url": "https://finsexy.com/doms/SexyXXXpress",'
-      '"attributes": [{"trait_type": "Category", "value": "', category.toString(),'"}],'
-      '"image": "', '',
-      '"}'
-    );
-
-    return string(json);
-  }
-}
 
 
 

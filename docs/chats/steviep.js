@@ -507,7 +507,7 @@ const StevieMessages = {
     event: 'pay1Event',
     responseHandler: (ur, ctx) => {
       const number = ur.match(/-?\d+(\.\d+)?/)
-      if (number && Number(number) >= ctx.global.premium * 0.01) {
+      if (number && Number(number[0]) >= ctx.global.premium * 0.01) {
         return 'soundsGoodSend'
       } else {
         return 'defaultSend'
@@ -516,7 +516,7 @@ const StevieMessages = {
   },
 
   soundsGoodSend: {
-    messageText: `that sounds good to me. you can send that over whenever you're ready 😉`,
+    messageText: `you read my mind. you can send that over whenever you're ready 😉`,
     responseHandler: 'rememberYouB',
     event: 'pay1Event',
   },

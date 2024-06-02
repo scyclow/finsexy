@@ -45,6 +45,8 @@ async function main() {
   const CrystalGoddessProxyFactory = await ethers.getContractFactory('CrystalGoddessProxy', artist)
   const VinceSlicksonFactory = await ethers.getContractFactory('VinceSlickson', artist)
   const SteviePProxyFactory = await ethers.getContractFactory('SteviePProxy', artist)
+  const SexyXXXpressBaseFactory = await ethers.getContractFactory('SexyXXXpressBase', artist)
+
   const SexyGameFactory = await ethers.getContractFactory('SexyGame', artist)
   const SexyVIPFactory = await ethers.getContractFactory('SexyVIP', artist)
   const SexyMinterFactory = await ethers.getContractFactory('SexyMinter', artist)
@@ -74,6 +76,11 @@ async function main() {
   await deployer2.deployed()
 
 
+  const baseContract = await deployer.baseContract()
+  const factory3 = await ethers.getContractFactory('SexyDeployer3', artist)
+  const deployer3 = await factory3.deploy(SexyRouter.address, baseContract)
+  await deployer3.deployed()
+
   // TODO attach CandyCrush URI
   // TODO attach DrAndy URI
 
@@ -86,7 +93,6 @@ async function main() {
   DungeonMistress = (await FinDomBaseFactory.attach(await deployer.DungeonMistress())).address
   DrAndy = (await FinDomBaseFactory.attach(await deployer.DrAndy())).address
   katFischer = (await FinDomBaseFactory.attach(await deployer.katFischer())).address
-  SexyXXXpress = (await FinDomBaseFactory.attach(await deployer.SexyXXXpress())).address
   CandyCrush = (await FinDomBaseFactory.attach(await deployer.CandyCrush())).address
   CrystalGoddess = (await FinDomBaseFactory.attach(await deployer.CrystalGoddess())).address
   steviep = (await FinDomBaseFactory.attach(await deployer.steviep())).address
@@ -102,6 +108,12 @@ async function main() {
   RonaMerch = (await FinDomBaseLightFactory.attach(await deployer2.RonaMerch())).address
   CustomerSupport247 = (await FinDomBaseLightFactory.attach(await deployer2.CustomerSupport247())).address
   cagla = (await FinDomBaseLightFactory.attach(await deployer2.cagla())).address
+
+  SexyXXXpress = await SexyXXXpressBaseFactory.attach(await deployer3.connect(artist).SexyXXXpress())
+  SexyXXXpressA = await FinDomBaseFactory.attach(await SexyXXXpress.a()).address
+  SexyXXXpressB = await FinDomBaseFactory.attach(await SexyXXXpress.b()).address
+  SexyXXXpressC = await FinDomBaseFactory.attach(await SexyXXXpress.c()).address
+
 
 
   SexyGame = await deployer.steviep()
@@ -123,7 +135,6 @@ async function main() {
     CrystalGoddess,
     steviep,
     VinceSlickson,
-    SexyXXXpress,
     Hedonitronica,
     MindyRouge,
     '0x000000000000000000000000000000000': Hacker,
@@ -132,7 +143,11 @@ async function main() {
     MoneyMommy777,
     HotlineBabe1900,
     CustomerSupport247,
-    cagla
+    cagla,
+    SexyXXXpress: SexyXXXpress.address,
+    SexyXXXpressA,
+    SexyXXXpressB,
+    SexyXXXpressC,
   }
 
 

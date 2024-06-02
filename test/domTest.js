@@ -61,6 +61,8 @@ describe('FinSexy', () => {
     const VinceSlicksonFactory = await ethers.getContractFactory('VinceSlickson', artist)
     const SteviePProxyFactory = await ethers.getContractFactory('SteviePProxy', artist)
     const DrAndyProxyFactory = await ethers.getContractFactory('DrAndyProxy', artist)
+    const SexyXXXpressBaseFactory = await ethers.getContractFactory('SexyXXXpressBase', artist)
+
     const SexyGameFactory = await ethers.getContractFactory('SexyGame', artist)
     const SexyVIPFactory = await ethers.getContractFactory('SexyVIP', artist)
     const SexyBaseURIFactory = await ethers.getContractFactory('SexyBaseURI', artist)
@@ -94,6 +96,12 @@ describe('FinSexy', () => {
     const deployer2 = await factory2.deploy(SexyRouter.address, FastCash.address)
     await deployer2.deployed()
 
+    const baseContract = await deployer.baseContract()
+
+    const factory3 = await ethers.getContractFactory('SexyDeployer3', artist)
+    const deployer3 = await factory3.deploy(SexyRouter.address, baseContract)
+    await deployer3.deployed()
+
 
 
     heatherHot = await FinDomBaseFactory.attach(await deployer.heatherHot())
@@ -102,7 +110,7 @@ describe('FinSexy', () => {
     DungeonMistress = await FinDomBaseFactory.attach(await deployer.DungeonMistress())
     DrAndy = await FinDomBaseFactory.attach(await deployer.DrAndy())
     katFischer = await FinDomBaseFactory.attach(await deployer.katFischer())
-    SexyXXXpress = await FinDomBaseFactory.attach(await deployer.SexyXXXpress())
+
 
     CandyCrush = await FinDomBaseFactory.attach(await deployer.CandyCrush())
     CrystalGoddess = await FinDomBaseFactory.attach(await deployer.CrystalGoddess())
@@ -112,6 +120,15 @@ describe('FinSexy', () => {
     CrystalGoddessProxy = await CrystalGoddessProxyFactory.attach(await deployer.CrystalGoddess())
     steviepProxy = await SteviePProxyFactory.attach(await deployer.steviep())
     DrAndyProxy = await DrAndyProxyFactory.attach(await deployer.DrAndy())
+
+
+    SexyXXXpress = await SexyXXXpressBaseFactory.attach(await deployer3.connect(artist).SexyXXXpress())
+    SexyXXXpressA = await FinDomBaseFactory.attach(await SexyXXXpress.a())
+    SexyXXXpressB = await FinDomBaseFactory.attach(await SexyXXXpress.b())
+    SexyXXXpressC = await FinDomBaseFactory.attach(await SexyXXXpress.c())
+
+
+
 
     VinceSlickson = await VinceSlicksonFactory.attach(await deployer2.vinceSlickson())
     Hacker = await FinDomBaseLightFactory.attach(await deployer2.Hacker())
@@ -127,11 +144,10 @@ describe('FinSexy', () => {
 
 
   describe('standard mints', () => {
-    it.only('should mint at the correct points for each NFT dom', async () => {
+    it('should mint at the correct points for each NFT dom', async () => {
       const doms = [
         [heatherHot, 0.01, 'heatherHot'],
         [CandyCrush, 0.01, 'CandyCrush'],
-        [SexyXXXpress, 0.01, 'SexyXXXpress'],
         [katFischer, 0.03, 'katFischer'],
         [SamanthaJones, 0.03, 'SamanthaJones'],
         [QueenJessica, 0.04, 'QueenJessica'],
@@ -166,6 +182,78 @@ describe('FinSexy', () => {
       // expect(await DungeonMistress.totalSupply()).to.equal(64)
       // expect(await heatherHot.totalSupply()).to.equal(101)
     })
+  })
+
+  it.only('should handle SexyXXXpress properly', async () => {
+    expect(await SexyXXXpressA.totalSupply()).to.equal(0)
+    expect(await SexyXXXpressB.totalSupply()).to.equal(0)
+    expect(await SexyXXXpressC.totalSupply()).to.equal(0)
+
+    for (let i = 0; i < 200; i++) {
+      await paypig.sendTransaction({
+        to: SexyXXXpressA.address,
+        ...txValue(0.01)
+      })
+    }
+
+    for (let i = 0; i < 100; i++) {
+      await paypig.sendTransaction({
+        to: SexyXXXpressB.address,
+        ...txValue(0.01)
+      })
+    }
+
+    for (let i = 0; i < 50; i++) {
+      await paypig.sendTransaction({
+        to: SexyXXXpressC.address,
+        ...txValue(0.01)
+      })
+    }
+
+    expect(await SexyXXXpressA.totalSupply()).to.equal(200)
+    expect(await SexyXXXpressB.totalSupply()).to.equal(100)
+    expect(await SexyXXXpressC.totalSupply()).to.equal(50)
+
+    expect(ethVal(await SexyXXXpressA.tributes(paypig.address))).to.equal(2)
+    expect(ethVal(await SexyXXXpressB.tributes(paypig.address))).to.equal(1)
+    expect(ethVal(await SexyXXXpressC.tributes(paypig.address))).to.equal(0.5)
+
+    expect(ethVal(await SexyXXXpress.tributes(paypig.address))).to.equal(3.5)
+
+
+    await expectRevert(
+      paypig.sendTransaction({
+        to: SexyXXXpressA.address,
+        ...txValue(0.01)
+      }),
+      'ERROR: SUPPLY EXCEEDED'
+    )
+
+    await expectRevert(
+      paypig.sendTransaction({
+        to: SexyXXXpressB.address,
+        ...txValue(0.01)
+      }),
+      'ERROR: SUPPLY EXCEEDED'
+    )
+
+
+    await expectRevert(
+      paypig.sendTransaction({
+        to: SexyXXXpressC.address,
+        ...txValue(0.01)
+      }),
+      'ERROR: SUPPLY EXCEEDED'
+    )
+
+
+      await paypig.sendTransaction({
+        to: SexyXXXpress.address,
+        ...txValue(0.01)
+      })
+
+    expect(ethVal(await SexyXXXpress.tributes(paypig.address))).to.equal(3.51)
+
   })
 
 

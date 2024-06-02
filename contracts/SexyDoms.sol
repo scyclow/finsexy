@@ -15,7 +15,6 @@ contract SexyDeployer {
   CandyCrushProxy public CandyCrush;
   SteviePProxy public steviep;
   CrystalGoddessProxy public CrystalGoddess;
-  FindomProxy public SexyXXXpress;
   DrAndyProxy public DrAndy;
 
   FinDomBase public baseContract;
@@ -26,12 +25,8 @@ contract SexyDeployer {
 
     // TODO nft collection names
 
-    // cash cow
-    // pay pig
-    // human atm
 
     heatherHot = new FindomProxy('heatherHot Feet Pic', 'SEXY-HH', 0.01 ether, baseAddr, msg.sender, router);
-    SamanthaJones = new FindomProxy('SamanthaJones Sexy Pic', 'SEXY-SJ', 0.03 ether, baseAddr, msg.sender, router);
     QueenJessica = new FindomProxy("QueenJessica's Hot Little Pussy", 'SEXY-QJ', 0.04 ether, baseAddr, msg.sender, router);
     DungeonMistress = new FindomProxy('DungeonMistress Tavern Key', 'SEXY-DM', 0.05 ether, baseAddr, msg.sender, router);
     DrAndy = new DrAndyProxy('DrAndy Final Session Invoice', 'SEXY-AI', 0.04 ether, baseAddr, msg.sender, router);
@@ -39,7 +34,8 @@ contract SexyDeployer {
     CandyCrush = new CandyCrushProxy('CandyCrush Tattoo', 'SEXY-CC', 0.01 ether, baseAddr, msg.sender, router);
     steviep = new SteviePProxy('steviep Dick Pic', 'SEXY-SP', baseAddr, msg.sender, router);
     CrystalGoddess = new CrystalGoddessProxy('CrystalGoddess Monetary Enlightenment', 'SEXY-CG', 0.01 ether, baseAddr, msg.sender, router);
-    SexyXXXpress = new FindomProxy('SexyXXXpress ...', 'SEXY-XXX', 0.01 ether, baseAddr, msg.sender, router);
+    SamanthaJones = new FindomProxy('SamanthaJones ...', 'SEXY-SJ', 0.03 ether, baseAddr, msg.sender, router);
+
   }
 }
 
@@ -65,6 +61,40 @@ contract SexyDeployer2 {
     CustomerSupport247 = new FinDomBaseLight(msg.sender, router);
     cagla = new FinDomBaseLight(msg.sender, router);
   }
+}
+
+
+contract SexyDeployer3 {
+  SexyXXXpressBase public SexyXXXpress;
+
+  constructor(address router, address baseAddr) {
+    address A = address(new SexyXXXpressProxy('SexyXXXpress Sexy Picture [MODEL A]', 'SEXY-XXA', 0.01 ether, baseAddr, msg.sender, router, 200));
+    address B = address(new SexyXXXpressProxy('SexyXXXpress Sexy Picture [MODEL B]', 'SEXY-XXB', 0.01 ether, baseAddr, msg.sender, router, 100));
+    address C = address(new SexyXXXpressProxy('SexyXXXpress Sexy Picture [MODEL C]', 'SEXY-XXC', 0.01 ether, baseAddr, msg.sender, router, 50));
+
+    SexyXXXpress = new SexyXXXpressBase(msg.sender, router, A, B, C);
+  }
+}
+
+interface ITributeReceiver {
+  function tributes(address) external view returns (uint256);
+}
+
+contract SexyXXXpressBase is FinDomBaseLight {
+  ITributeReceiver public a;
+  ITributeReceiver public b;
+  ITributeReceiver public c;
+
+  constructor(address owner_, address router_, address A, address B, address C) FinDomBaseLight(owner_, router_) {
+    a = ITributeReceiver(A);
+    b = ITributeReceiver(B);
+    c = ITributeReceiver(C);
+  }
+
+  function tributes(address sender) external virtual override view returns (uint256) {
+    return _tributes[sender] + a.tributes(sender) + b.tributes(sender) + c.tributes(sender);
+  }
+
 }
 
 
@@ -106,7 +136,6 @@ contract CrystalGoddessProxy is ProxyBase, InternalMintCheck {
   ) {
     getAddressSlot(_IMPLEMENTATION_SLOT).value = implementationAddr;
 
-    // Invoke the preInitialize function on itself, as defined by the archetype contract
     Address.functionDelegateCall(
         implementationAddr,
         abi.encodeWithSignature(
@@ -146,7 +175,7 @@ contract VinceSlickson is FinDomBaseLight {
 
   function buyFastCash() external payable {
     require(msg.value >= fastcashPrice, "Don't waste Vince's time");
-    require(tributes[msg.sender] >= 0.01 ether, "Must wet Vince's whistle");
+    require(_tributes[msg.sender] >= 0.01 ether, "Must wet Vince's whistle");
 
     uint256 amount = (msg.value  * 1 ether) / fastcashPrice;
     emit FastCashSaleMade(msg.sender, amount);
@@ -162,7 +191,7 @@ contract VinceSlickson is FinDomBaseLight {
   }
 }
 
-contract SteviePProxy is ProxyBase, InternalMintCheck {
+contract SteviePProxy is ProxyBase {
   SexyGame public sexyGame;
 
   constructor(
@@ -176,7 +205,6 @@ contract SteviePProxy is ProxyBase, InternalMintCheck {
 
     getAddressSlot(_IMPLEMENTATION_SLOT).value = implementationAddr;
 
-    // Invoke the preInitialize function on itself, as defined by the archetype contract
     Address.functionDelegateCall(
         implementationAddr,
         abi.encodeWithSignature(
@@ -185,10 +213,6 @@ contract SteviePProxy is ProxyBase, InternalMintCheck {
         ),
         "Address: low-level delegate call failed"
     );
-  }
-
-  function mintCheck(address, uint256) external returns (bool) {
-    return false;
   }
 }
 
@@ -248,7 +272,6 @@ contract DrAndyProxy is ProxyBase, InternalMintCheck {
   ) {
     getAddressSlot(_IMPLEMENTATION_SLOT).value = implementationAddr;
 
-    // Invoke the preInitialize function on itself, as defined by the archetype contract
     Address.functionDelegateCall(
         implementationAddr,
         abi.encodeWithSignature(
@@ -269,36 +292,40 @@ contract DrAndyProxy is ProxyBase, InternalMintCheck {
 }
 
 
+contract SexyXXXpressProxy is ProxyBase, InternalMintCheck {
+  mapping(uint256 => address) public mintedBy;
+  mapping(uint256 => uint256) public timestamp;
 
+  uint256 public maxSupply;
 
-// contract XXXpressProxy is ProxyBase, InternalMintCheck {
-//   mapping(uint256 => uint256) public tokenIdToURIID;
-//   uint256 public seriesAIssued;
-//   uint256 public seriesBIssued;
-//   uint256 public seriesCIssued;
+  constructor(
+    string memory name,
+    string memory symbol,
+    uint256 mintThreshold,
+    address implementationAddr,
+    address owner_,
+    address router,
+    uint256 maxSupply_
+  ) {
+    maxSupply = maxSupply_;
 
-//   constructor(
-//     string memory name,
-//     string memory symbol,
-//     uint256 mintThreshold,
-//     address implementationAddr,
-//     address owner_,
-//     address router
-//   ) {
-//     getAddressSlot(_IMPLEMENTATION_SLOT).value = implementationAddr;
+    getAddressSlot(_IMPLEMENTATION_SLOT).value = implementationAddr;
 
-//     // Invoke the preInitialize function on itself, as defined by the archetype contract
-//     Address.functionDelegateCall(
-//         implementationAddr,
-//         abi.encodeWithSignature(
-//           "initialize(string,string,uint256,address,address,address,bool)",
-//           name, symbol, mintThreshold, owner_, router, address(0), true
-//         ),
-//         "Address: low-level delegate call failed"
-//     );
-//   }
+    Address.functionDelegateCall(
+        implementationAddr,
+        abi.encodeWithSignature(
+          "initialize(string,string,uint256,address,address,address,bool)",
+          name, symbol, mintThreshold, owner_, router, address(0), true
+        ),
+        "Address: low-level delegate call failed"
+    );
+  }
 
-//   function mintCheck(address sender, uint256 amount) external view returns (bool) {
-//     return cleansedETH[sender] >= amount;
-//   }
-// }
+  function mintCheck(address sender, uint256) external returns (bool) {
+    uint256 tokenId = ITotalSupply(address(this)).totalSupply();
+    require(tokenId < maxSupply, 'ERROR: SUPPLY EXCEEDED');
+
+    return true;
+  }
+}
+

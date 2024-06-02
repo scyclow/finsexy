@@ -150,7 +150,8 @@ export const MistressProfile = {
     lang: 'en-GB',
     name: 'Martha'
   },
-  description: `I like roleplay, sadomasochism, and humiliation. And if you're not careful I'm going to suck every last cent out of your wallet`,
+  description: `I like roleplay, sadomasochism, and humiliation.`,
+  // And if you're not careful I'm going to suck every last cent out of your wallet`,
   testimonials: [
     {
       name:'0x72f...daF',
@@ -1340,7 +1341,7 @@ function tavernActions(ur, ctx, contract, provider) {
     return 'bartender'
   } else if (isMatch(ur, ['harlot', 'harlots', 'prostitutes', 'cackle', 'cackling', 'women', 'right', 'two', '2', 'girls'])) {
     return 'harlots'
-  } else if (isMatch(ur, ['men', 'poker', 'players', 'corner', 'silent', 'fellows', 'gamblers', '3', 'third'])) {
+  } else if (isMatch(ur, ['men', 'dealer', 'poker', 'players', 'corner', 'silent', 'fellows', 'gamblers', '3', 'third'])) {
     return 'poker'
   } else if (isMatch(ur, ['door', 'outside', 'across the room', 'forward', '4', 'exit', 'leave', ...(ctx.state.hasKey ? ['key'] : [])])) {
     return 'exitTavern'

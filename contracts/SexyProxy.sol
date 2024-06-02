@@ -56,7 +56,7 @@ interface ISexyRouter {
 
 
 abstract contract FinDomTribute is TokenWithdrawer {
-  mapping(address => uint256) public tributes;
+  mapping(address => uint256) internal _tributes;
   event Send(address indexed from, uint256 amount);
 
   ISexyRouter public router;
@@ -64,6 +64,10 @@ abstract contract FinDomTribute is TokenWithdrawer {
   constructor(address owner_, address router_) {
     _setOwner(owner_);
     router = ISexyRouter(router_);
+  }
+
+  function tributes(address sender) external virtual view returns (uint256) {
+    return _tributes[sender];
   }
 
   function creditTribute(address recipient, uint256 amount) external {
@@ -77,7 +81,7 @@ abstract contract FinDomTribute is TokenWithdrawer {
 
   function _receive(address sender, uint256 value) internal virtual {
     emit Send(sender, value);
-    tributes[sender] += value;
+    _tributes[sender] += value;
   }
 }
 
@@ -101,6 +105,7 @@ contract FinDomBase is ERC721, FinDomTribute {
   address public externalMinter;
   bool public internalMintCheck;
   uint256 public totalSupply;
+  uint256 public maxSupply;
 
   constructor (address owner_, address router_) ERC721('', '') FinDomTribute(owner_, router_) {}
 
@@ -155,15 +160,16 @@ contract FinDomBase is ERC721, FinDomTribute {
 
   function _receive(address sender, uint256 value) internal override {
     emit Send(sender, value);
-    tributes[sender] += value;
+    _tributes[sender] += value;
 
     if (
       value >= mintThreshold
       || (
-        tributes[sender] % mintThreshold
-        < (tributes[sender] - value) % mintThreshold
+        _tributes[sender] % mintThreshold
+        < (_tributes[sender] - value) % mintThreshold
       )
     ) {
+      if (externalMinter != address(0)) return;
       if (internalMintCheck) {
         if (!InternalMintCheck(address(this)).mintCheck(sender, value)) return;
       }
@@ -216,7 +222,6 @@ contract FindomProxy is ProxyBase {
   ) {
     getAddressSlot(_IMPLEMENTATION_SLOT).value = implementationAddr;
 
-    // Invoke the preInitialize function on itself, as defined by the archetype contract
     Address.functionDelegateCall(
         implementationAddr,
         abi.encodeWithSignature(

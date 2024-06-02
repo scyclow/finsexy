@@ -88,16 +88,15 @@ export const STEVIEP_CONTRACTS = {
 export const DOM_CONTRACTS = {
   local: {
     "heatherHot": "0xf41B47c54dEFF12f8fE830A411a09D865eBb120E",
-    "SamanthaJones": "0x05242D4AC717Cdf38C36AF290F2b0DA99AA82c67",
-    "QueenJessica": "0x1655f30B495586cDC5E1E332844FabF7363b3667",
-    "DungeonMistress": "0x1E01182454073691d6190FC0F977cB7D646981E1",
-    "DrAndy": "0x436932D6361Db21CbDf440A39046093a1C12D2B4",
-    "katFischer": "0x235B28c74f19083a5CAce20C506513417a90BE29",
-    "CandyCrush": "0x72D1fE35eB1aEb7437eEeCa567A93F67dD76A9dA",
-    "CrystalGoddess": "0x9ace813B1adA8a75DF6518A6d1b50f1A418CdAB7",
-    "steviep": "0xa8F7C1571e3522ED545F949558eCB7B8e72529B2",
+    "SamanthaJones": "0xa8F7C1571e3522ED545F949558eCB7B8e72529B2",
+    "QueenJessica": "0x05242D4AC717Cdf38C36AF290F2b0DA99AA82c67",
+    "DungeonMistress": "0x1655f30B495586cDC5E1E332844FabF7363b3667",
+    "DrAndy": "0x1E01182454073691d6190FC0F977cB7D646981E1",
+    "katFischer": "0x436932D6361Db21CbDf440A39046093a1C12D2B4",
+    "CandyCrush": "0x235B28c74f19083a5CAce20C506513417a90BE29",
+    "CrystalGoddess": "0x72D1fE35eB1aEb7437eEeCa567A93F67dD76A9dA",
+    "steviep": "0x46A9cF43B44f5CEb06747aF10955A02fD6671783",
     "VinceSlickson": "0x32467b43BFa67273FC7dDda0999Ee9A12F2AaA08",
-    "SexyXXXpress": "0x46A9cF43B44f5CEb06747aF10955A02fD6671783",
     "Hedonitronica": "0x4AE5AF759E17599107c1C688bfaCF6131C376D51",
     "MindyRouge": "0x1881d02D05a44713a69d6eDDE3e7167792A636d6",
     "0x000000000000000000000000000000000": "0x4ABEaCA4b05d8fA4CED09D26aD28Ea298E8afaC8",
@@ -106,7 +105,11 @@ export const DOM_CONTRACTS = {
     "MoneyMommy777": "0xa9b19BA63eD2fFa19f50a63Bddf5F4a0092678C7",
     "HotlineBabe1900": "0x3083DB70660BB6bbB7A905743D181383aa439b46",
     "CustomerSupport247": "0xdcd0868CDE29952A285da154ff0a5a2A1C88CD13",
-    "cagla": "0xe2657e5E56De8b4c6B6bB2AB57Beb7964F9ab941"
+    "cagla": "0xe2657e5E56De8b4c6B6bB2AB57Beb7964F9ab941",
+    "SexyXXXpress": "0x400890FeB77E0e555D02f8969CA00850f65B96D2",
+    "SexyXXXpressA": "0x8e80FFe6Dc044F4A766Afd6e5a8732Fe0977A493",
+    "SexyXXXpressB": "0x06cd7788D77332cF1156f1E327eBC090B5FF16a3",
+    "SexyXXXpressC": "0xAD4e198623A5E2723e19E4D4a6ECF72B1D19FE4B"
   },
   sepolia: {
     SamanthaJones: '0x6c3Ba73b503810154a375757a1562B5fa0F07395',
@@ -117,7 +120,6 @@ export const DOM_CONTRACTS = {
     QueenJessica: '0xB0aA3152240948076D551455cb0b8424cAfEb456',
     Hedonitronica: '0xb487Fd88c15a3057F3B5fDBA9F3AF4710d830ba6',
     MindyRouge: '0xc5A32eC2FDbBdFfb15443c900995C17Edb6b6783',
-    SexyXXXpress: '0x8399B31c1798a58A35852d29F4d8bBd3E3AB8F6c',
     CandyCrush: '0x01b29F753F82b4262A4CFf621B323eCE063E352e',
     heatherHot: '0x56Ac50BDeD44Da46C5fE582Aa469B4726B779a4b',
     katFischer: '0x0c8E71dCA3F4FC3bEAe304Fd0C31c6ecF6f000d3',
@@ -129,7 +131,11 @@ export const DOM_CONTRACTS = {
     "MoneyMommy777": "0x5C4F3670BC913394181E442a73bd0D3713acc4AC",
     "HotlineBabe1900": "0x46047907a9569dA46A1F692c3512357E93F009B0",
     "CustomerSupport247": "0x1D5Cd15A04985eC3b26c9Ba98Bd1b38f8eB111BD",
-    "cagla": "0x5C59808DC06857CD2D8b599734Fc2E9C152523cd"
+    "cagla": "0x5C59808DC06857CD2D8b599734Fc2E9C152523cd",
+    SexyXXXpress: '0x8399B31c1798a58A35852d29F4d8bBd3E3AB8F6c',
+    "SexyXXXpressA": "0x8399B31c1798a58A35852d29F4d8bBd3E3AB8F6c",
+    "SexyXXXpressB": "0x8399B31c1798a58A35852d29F4d8bBd3E3AB8F6c",
+    "SexyXXXpressC": "0x8399B31c1798a58A35852d29F4d8bBd3E3AB8F6c"
   },
   mainnet: {},
 }
@@ -446,6 +452,9 @@ export class Web3Provider {
       'event Send(address indexed sender, uint256 amount)',
       'function tributes(address) external view returns (uint256)'
     ]
+    const domNFTABI = [
+      'function totalSupply() external view returns (uint256)'
+    ]
 
     const vinceABI = [
       ...domABI,
@@ -462,6 +471,18 @@ export class Web3Provider {
     const stevieABI = [
       ...domABI,
       'function sexyGame() external view returns (address)',
+    ]
+
+    const xxxpressABI = [
+      'function a() external view returns (address)',
+      'function b() external view returns (address)',
+      'function c() external view returns (address)',
+      ...domABI,
+    ]
+
+    const xxxpressNFTABI = [
+      ...domABI,
+      ...domNFTABI,
     ]
 
     const CONTRACTS = DOM_CONTRACTS[networkName]
@@ -482,12 +503,15 @@ export class Web3Provider {
       Hedonitronica: await this.contract(CONTRACTS.Hedonitronica, domABI),
       MindyRouge: await this.contract(CONTRACTS.MindyRouge, domABI),
       CandyCrush: await this.contract(CONTRACTS.CandyCrush, domABI),
-      SexyXXXpress: await this.contract(CONTRACTS.SexyXXXpress, domABI),
       RonaMerch: await this.contract(CONTRACTS.RonaMerch, domABI),
       MoneyMommy777: await this.contract(CONTRACTS.MoneyMommy777, domABI),
       HotlineBabe1900: await this.contract(CONTRACTS.HotlineBabe1900, domABI),
       CustomerSupport247: await this.contract(CONTRACTS.CustomerSupport247, domABI),
       cagla: await this.contract(CONTRACTS.cagla, domABI),
+      SexyXXXpress: await this.contract(CONTRACTS.SexyXXXpress, xxxpressABI),
+      SexyXXXpressA: await this.contract(CONTRACTS.SexyXXXpressA, xxxpressNFTABI),
+      SexyXXXpressB: await this.contract(CONTRACTS.SexyXXXpressB, xxxpressNFTABI),
+      SexyXXXpressC: await this.contract(CONTRACTS.SexyXXXpressC, xxxpressNFTABI),
 
     }
 

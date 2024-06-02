@@ -5,6 +5,7 @@ FDXXXpress -> SexyXXXpress
 */
 import { isYes, isNo, isGreeting, isMatch, MessageHandler, diatribe, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch, getAgeYears } from '../state/profile.js'
+import {sexyCLIT} from '../state/clit.js'
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
@@ -30,6 +31,9 @@ export const XXXProfile = {
     },
     {
       review: `As someone who's constantly on the go, FinDom Express is a real life saver`
+    },
+    {
+      review: `It gets me so hot knowing that there's really a live findom actually typing all of these messages 🤤`
     },
     {
       review: `I usually like to send until I absolutely hate myself and then chase it with scrolling social media until I'm completely numb. So SexyXXXpress really streamlines my workflow`
@@ -62,7 +66,7 @@ export const XXXProfile = {
 
 
 const XXXMessages = {
-  TYPING_SPEED: 1,
+  TYPING_SPEED: 1.3,
 
   START: {
     responseHandler: `hello`,
@@ -75,20 +79,356 @@ const XXXMessages = {
 
   },
 
-  __precheck(userResponse, ctx, contract, provider, isFollowup) {
-    // if (userResponse && isMean(userResponse)) {
-    //   return {
-    //     messageText: ``,
-    //     responseHandler: (ur, ctx) => ctx.lastDomCodeSent
-    //   }
-    // }
+  __precheck(userResponse, ctx, contract, provider) {
+
+    if (!provider.isWeb3()) {
+      return {
+        messageText: `Hello! Please visit <a href="/doms/SexyXXXpress" target="_blank">https://finsexy/doms/SexyXXXpress</a> in a web3-enabled web browser to use SexyXXXpress. Thank You.`,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent,
+      }
+    }
+
+    if (!ctx.global.isConnected) {
+      return {
+        messageText: `Hello! Please connect your wallet and visit <a href="/doms/SexyXXXpress" target="_blank">https://finsexy/doms/SexyXXXpress</a> to use SexyXXXpress. Thank You.`,
+        responseHandler: (ur, ctx) => ctx.lastDomCodeSent,
+      }
+    }
   },
 
 
   hello: {
-    messageText: `Let's get off this site <a href="https://0ms.co/sexydating/" target="_blank">https://0ms.co/sexydating/</a>`,
+    messageText: async (ur, ctx, contract, provider) => {
+
+      const { SexyXXXpressA, SexyXXXpressB, SexyXXXpressC} = await provider.domContracts()
+
+      const aLeft = 200 - bnToN(await SexyXXXpressA.totalSupply())
+      const bLeft = 100 - bnToN(await SexyXXXpressB.totalSupply())
+      const cLeft = 50 - bnToN(await SexyXXXpressC.totalSupply())
+
+      const price = ctx.global.premium * 1
+
+      return `
+        HELLO WELCOME TO SexyXXXpress PLEASE INPUT THE NUMERICAL CODE CORRESPONDING TO THE OPTION YOU WISH TO SELECT:
+        <br><code style="margin-top: 0.25em">1. UNCONDITIONAL TRIBUTE</code>
+        <br><code style="margin-top: 0.25em">2. PURCHASE "Sexy Picture [MODEL A]" -- 0.0${price} ETH or ${price} SexyCredit <br>(${aLeft > 0 ? `${aLeft} REMAINING` : 'SOLD OUT'})</code>
+        <br><code style="margin-top: 0.25em">3. PURCHASE "Sexy Picture [MODEL B]" -- 0.0${price} ETH or ${price} SexyCredit <br>(${bLeft > 0 ? `${bLeft} REMAINING` : 'SOLD OUT'})</code>
+        <br><code style="margin-top: 0.25em">4. PURCHASE "Sexy Picture [MODEL C]" -- 0.0${price} ETH or ${price} SexyCredit <br>(${cLeft > 0 ? `${cLeft} REMAINING` : 'SOLD OUT'})</code>
+      `
+    },
+    responseHandler: (ur) => {
+      if (ur.includes('1')) {
+        return 'unconditional'
+      } else if (ur.includes('2')) {
+        return 'buyA'
+      } else if (ur.includes('3')) {
+        return 'buyB'
+      } else if (ur.includes('4')) {
+        return 'buyC'
+      } else {
+        return 'unsure'
+      }
+    }
+  },
+
+  unsure: {
+    messageText: async (ur, ctx, contract, provider) => {
+      const { SexyXXXpressA, SexyXXXpressB, SexyXXXpressC} = await provider.domContracts()
+
+      const aLeft = 200 - bnToN(await SexyXXXpressA.totalSupply())
+      const bLeft = 100 - bnToN(await SexyXXXpressB.totalSupply())
+      const cLeft = 50 - bnToN(await SexyXXXpressC.totalSupply())
+
+      const price = ctx.global.premium * 1
+
+      return `
+        INVALID CODE -- PLEASE INPUT THE NUMERICAL CODE CORRESPONDING TO THE OPTION YOU WISH TO SELECT:
+        <br><code style="margin-top: 0.25em">1. UNCONDITIONAL TRIBUTE</code>
+        <br><code style="margin-top: 0.25em">2. PURCHASE "Sexy Picture [MODEL A]" -- 0.0${price} ETH or ${price} SexyCredit <br>(${aLeft > 0 ? `${aLeft} REMAINING` : 'SOLD OUT'})</code>
+        <br><code style="margin-top: 0.25em">3. PURCHASE "Sexy Picture [MODEL B]" -- 0.0${price} ETH or ${price} SexyCredit <br>(${bLeft > 0 ? `${bLeft} REMAINING` : 'SOLD OUT'})</code>
+        <br><code style="margin-top: 0.25em">4. PURCHASE "Sexy Picture [MODEL C]" -- 0.0${price} ETH or ${price} SexyCredit <br>(${cLeft > 0 ? `${cLeft} REMAINING` : 'SOLD OUT'})</code>
+      `
+    },
+    responseHandler: (ur) => {
+      if (ur.includes('1')) {
+        return 'unconditional'
+      } else if (ur.includes('2')) {
+        return 'buyA'
+      } else if (ur.includes('3')) {
+        return 'buyB'
+      } else if (ur.includes('4')) {
+        return 'buyC'
+      } else {
+        return 'unsure'
+      }
+    }
+  },
+
+  unconditional: {
+    messageText: `UNCONDITIONAL TRIBUTE`,
+    followUp: fu('unconditional2')
+  },
+
+  unconditional2: {
+    messageText: `WOULD YOU LIKE TO MAKE UNCONDITIONAL TRIBUTE IN SexyCredits OR ETH?`,
+    responseHandler: (ur) => {
+      if (isMatch(ur, ['eth', 'ether', 'ethereum'])) return 'unconditionalETH'
+      else if (isMatch(ur, ['sexy', 'credits', 'sexycredits', 'sexycredit', 'credit'])) return 'unconditionalCredits'
+      else return 'unconditional2'
+    }
+  },
+
+  unconditionalETH: {
+    messageText: 'HOW MUCH ETH WOULD YOU LIKE TO TRIBUTE?',
+    responseHandler: async (ur, ctx, contract, provider) => {
+      ctx.state.error = ''
+      try {
+        const number = ur.match(/-?\d+(\.\d+)?/)
+        if (number) {
+          ctx.state.pending = true
+          provider.signer.sendTransaction({
+            to: contract.address,
+            value: toETH(number[0])
+          })
+          .then(tx => tx.wait())
+          .then(() => {
+            ctx.state.pending = false
+          })
+          .catch(e => {
+            ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
+          })
+          return 'processing'
+        }
+        return 'hello'
+
+      } catch (e) {
+        ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
+        return 'error'
+      }
+    }
+  },
+
+  unconditionalCredits: {
+    messageText: 'HOW MANY SexyCredits WOULD YOU LIKE TO TRIBUTE?',
+    responseHandler: async (ur, ctx, contract, provider) => {
+      ctx.state.error = ''
+      try {
+        const { SexyVIP } = await provider.sexyContracts()
+        const activeTokenId = await sexyCLIT.getActiveVIP()
+
+        if (activeTokenId == null) return 'hello'
+
+        const number = ur.match(/-?\d+(\.\d+)?/)
+        if (number) {
+          ctx.state.pending = true
+
+          const amount = Math.round(Number(number[0]))
+          SexyVIP
+            .spendCredit(activeTokenId, contract.address, amount)
+            .then(tx => tx.wait())
+            .then(() => {
+              ctx.state.pending = false
+            })
+            .catch(e => {
+              ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
+            })
+          return 'processing'
+        }
+        return 'hello'
+
+      } catch (e) {
+        ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
+        return 'error'
+      }
+    }
+  },
+
+  buyA: {
+    messageText: `PURCHASE "Sexy Picture [MODEL A]"`,
+    followUp: fu('buyA2')
+  },
+
+  buyA2: {
+    messageText: `WOULD YOU LIKE TO PAY WITH SexyCredit OR ETH?`,
+    responseHandler: async (ur, ctx, contract, provider) => {
+      ctx.state.error = ''
+      try {
+        const { SexyXXXpressA } = await provider.domContracts()
+
+        if (isMatch(ur, ['eth', 'ether', 'ethereum'])) {
+          ctx.state.pending = true
+          provider.signer.sendTransaction({
+            to: SexyXXXpressA.address,
+            value: toETH(ctx.global.premium * 0.01)
+          })
+            .then(tx => tx.wait())
+            .then(() => {
+              ctx.state.pending = false
+            })
+            .catch(e => {
+              ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
+            })
+          return 'processing'
+        }
+        else if (isMatch(ur, ['sexy', 'credits', 'sexycredits', 'sexycredit', 'credit'])) {
+          const { SexyVIP } = await provider.sexyContracts()
+          const activeTokenId = await sexyCLIT.getActiveVIP()
+          if (activeTokenId == null) return 'buyA2'
+
+          SexyVIP
+            .spendCredit(activeTokenId, SexyXXXpressA.address, ctx.global.premium)
+            .then(tx => tx.wait())
+            .then(() => {
+              ctx.state.pending = false
+            })
+            .catch(e => {
+              ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
+            })
+          return 'processing'
+        }
+        else return 'buyA2'
+      } catch (e) {
+        ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
+        return 'error'
+      }
+    }
+  },
+
+  buyB: {
+    messageText: `PURCHASE "Sexy Picture [MODEL B]"`,
+    followUp: fu('buyB2')
+  },
+
+  buyB2: {
+    messageText: `WOULD YOU LIKE TO PAY WITH SexyCredit OR ETH?`,
+    responseHandler: async (ur, ctx, contract, provider) => {
+      ctx.state.error = ''
+      try {
+        const { SexyXXXpressB } = await provider.domContracts()
+
+        if (isMatch(ur, ['eth', 'ether', 'ethereum'])) {
+          ctx.state.pending = true
+          provider.signer.sendTransaction({
+            to: SexyXXXpressB.address,
+            value: toETH(ctx.global.premium * 0.01)
+          })
+            .then(tx => tx.wait())
+            .then(() => {
+              ctx.state.pending = false
+            })
+            .catch(e => {
+              ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
+            })
+          return 'processing'
+        }
+        else if (isMatch(ur, ['sexy', 'credits', 'sexycredits', 'sexycredit', 'credit'])) {
+          const { SexyVIP } = await provider.sexyContracts()
+          const activeTokenId = await sexyCLIT.getActiveVIP()
+          if (activeTokenId == null) return 'buyB2'
+
+          SexyVIP
+            .spendCredit(activeTokenId, SexyXXXpressB.address, ctx.global.premium)
+            .then(tx => tx.wait())
+            .then(() => {
+              ctx.state.pending = false
+            })
+            .catch(e => {
+              ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
+            })
+          return 'processing'
+        }
+        else return 'buyB2'
+      } catch (e) {
+        ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
+        return 'error'
+      }
+    }
+  },
+
+  buyC: {
+    messageText: `PURCHASE "Sexy Picture [MODEL C]"`,
+    followUp: fu('buyC2')
+  },
+
+  buyC2: {
+    messageText: `WOULD YOU LIKE TO PAY WITH SexyCredit OR ETH?`,
+    responseHandler: async (ur, ctx, contract, provider) => {
+      ctx.state.error = ''
+      try {
+        const { SexyXXXpressC } = await provider.domContracts()
+
+        if (isMatch(ur, ['eth', 'ether', 'ethereum'])) {
+          ctx.state.pending = true
+          provider.signer.sendTransaction({
+            to: SexyXXXpressC.address,
+            value: toETH(ctx.global.premium * 0.01)
+          })
+            .then(tx => tx.wait())
+            .then(() => {
+              ctx.state.pending = false
+            })
+            .catch(e => {
+              ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
+            })
+          return 'processing'
+        }
+        else if (isMatch(ur, ['sexy', 'credits', 'sexycredits', 'sexycredit', 'credit'])) {
+          const { SexyVIP } = await provider.sexyContracts()
+          const activeTokenId = await sexyCLIT.getActiveVIP()
+          if (activeTokenId == null) return 'buyC2'
+
+          SexyVIP
+            .spendCredit(activeTokenId, SexyXXXpressC.address, ctx.global.premium)
+            .then(tx => tx.wait())
+            .then(() => {
+              ctx.state.pending = false
+            })
+            .catch(e => {
+              ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
+            })
+          return 'processing'
+        }
+        else return 'buyC2'
+      } catch (e) {
+        ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
+        return 'error'
+      }
+    }
+  },
+
+  processing: {
+    messageText: 'PROCECSSING...',
+    followUp: fu('processingNext', 3000)
+  },
+  processingNext: {
+    messageText: '',
+    followUp: (ur, ctx) => {
+      if (ctx.state.error) {
+        return fu('error', 100)
+      }
+      else if (ctx.state.pending) {
+        return fu('processing', 3000)
+      }
+      else {
+        return fu('transactionComplete', 3000)
+      }
+    }
+  },
+
+  transactionComplete: {
+    messageText: `TRANSACTION COMPLETE`,
+    followUp: fu('thankYou'),
+  },
+
+  thankYou: {
+    messageText: `THANK YOU`,
     responseHandler: 'hello'
   },
+
+  error: {
+    messageText: (ur, ctx) => `ERROR: ${ctx.state.error}`,
+    responseHandler: 'hello'
+  }
 }
 
 export const XXXChat = new MessageHandler(XXXProfile, XXXMessages)
