@@ -29,15 +29,15 @@ contract SexyBaseURI {
   constructor() {
     router = ISexyRouter(msg.sender);
 
-    _setURIString('SEXY-HH', '/', '', 'heatherHot', 100);
     _setURIString('SEXY-SJ', '/', '', 'SamanthaJones', 100);
     _setURIString('SEXY-QJ', '/', '', 'QueenJessica', 100);
-    _setURIString('SEXY-DM', '/', '', 'DungeonMistress', 64);
-    _setURIString('SEXY-AI', '/', '', 'DrAndy', 100);
-    _setURIString('SEXY-KF', '/', '', 'katFischer', 100);
     _setURIString('SEXY-SP', '/', '', 'steviep', 100);
-    _setURIString('SEXY-CG', '/', '', 'CrystalGoddess', 100);
 
+
+    _setURIString('SEXY-HH', '/', '', 'heatherHot', 70);
+    _setURIString('SEXY-CG', '/', '', 'CrystalGoddess', 36);
+    _setURIString('SEXY-DM', '/', '', 'DungeonMistress', 64);
+    _setURIString('SEXY-KF', '/', '', 'katFischer', 49);
     _setURIString('SEXY-XXA', '/', '', 'SexyXXXPress', 200);
     _setURIString('SEXY-XXB', '/', '', 'SexyXXXPress', 100);
     _setURIString('SEXY-XXC', '/', '', 'SexyXXXPress', 50);

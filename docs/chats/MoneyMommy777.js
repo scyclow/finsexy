@@ -39,7 +39,7 @@ const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 export const MoneyMommyProfile = {
   name: 'MoneyMommy777',
-  startingVisibility: 'online',
+  startingVisibility: 'hidden',
   domType: 'Mentor',
   order: 9,
   age: 23,

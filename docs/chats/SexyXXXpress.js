@@ -16,13 +16,13 @@ export const XXXProfile = {
   domType: 'Automated',
   order: 11,
   age: 11010,
-  distance: 1,
+  distance: 101,
   maxPhotos: 3,
   voice: {
     lang: 'en-US',
     name: 'Fred'
   },
-  description: `TODO`,
+  description: `FINANCIAL DOMINATION CONVENIENCE AT YOUR FINGERTIPS. `,
   gender: 'Binary',
   display: 'nb',
   testimonials: [
@@ -83,14 +83,14 @@ const XXXMessages = {
 
     if (!provider.isWeb3()) {
       return {
-        messageText: `Hello! Please visit <a href="/doms/SexyXXXpress" target="_blank">https://finsexy/doms/SexyXXXpress</a> in a web3-enabled web browser to use SexyXXXpress. Thank You.`,
+        messageText: `HELLO PLEASE VISIT <a href="/doms/SexyXXXpress" target="_blank">https://finsexy/doms/SexyXXXpress</a> IN A WEB3-ENABLED WEB BROWSER TO USE SexyXXXpress. THANK YOU`,
         responseHandler: (ur, ctx) => ctx.lastDomCodeSent,
       }
     }
 
     if (!ctx.global.isConnected) {
       return {
-        messageText: `Hello! Please connect your wallet and visit <a href="/doms/SexyXXXpress" target="_blank">https://finsexy/doms/SexyXXXpress</a> to use SexyXXXpress. Thank You.`,
+        messageText: `HELLO PLEASE CONNECT YOUR WALLET AND VISIT <a href="/doms/SexyXXXpress" target="_blank">https://finsexy/doms/SexyXXXpress</a> TO USE SexyXXXpress. THANK YOU`,
         responseHandler: (ur, ctx) => ctx.lastDomCodeSent,
       }
     }
