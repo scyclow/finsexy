@@ -63,7 +63,7 @@ export const XXXProfile = {
 }
 
 
-
+let FRESH_PROCESSING = false
 
 const XXXMessages = {
   TYPING_SPEED: 1.3,
@@ -172,7 +172,7 @@ const XXXMessages = {
   unconditional2: {
     messageText: `WOULD YOU LIKE TO MAKE UNCONDITIONAL TRIBUTE IN SexyCredits OR ETH?`,
     responseHandler: (ur) => {
-      if (isMatch(ur, ['eth', 'ether', 'ethereum'])) return 'unconditionalETH'
+      if (isMatch(ur, ['eth', 'ether', 'ethereum']) || isYes(ur)) return 'unconditionalETH'
       else if (isMatch(ur, ['sexy', 'credits', 'sexycredits', 'sexycredit', 'credit'])) return 'unconditionalCredits'
       else return 'unconditional2'
     }
@@ -197,6 +197,8 @@ const XXXMessages = {
           .catch(e => {
             ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
           })
+
+        FRESH_PROCESSING = true
           return 'processing'
         }
         return 'hello'
@@ -232,6 +234,8 @@ const XXXMessages = {
             .catch(e => {
               ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
             })
+
+          FRESH_PROCESSING = true
           return 'processing'
         }
         return 'hello'
@@ -255,7 +259,7 @@ const XXXMessages = {
       try {
         const { SexyXXXpressA } = await provider.domContracts()
 
-        if (isMatch(ur, ['eth', 'ether', 'ethereum'])) {
+        if (isMatch(ur, ['eth', 'ether', 'ethereum']) || isYes(ur)) {
           ctx.state.pending = true
           provider.signer.sendTransaction({
             to: SexyXXXpressA.address,
@@ -268,6 +272,8 @@ const XXXMessages = {
             .catch(e => {
               ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
             })
+
+          FRESH_PROCESSING = true
           return 'processing'
         }
         else if (isMatch(ur, ['sexy', 'credits', 'sexycredits', 'sexycredit', 'credit'])) {
@@ -284,6 +290,8 @@ const XXXMessages = {
             .catch(e => {
               ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
             })
+
+          FRESH_PROCESSING = true
           return 'processing'
         }
         else return 'buyA2'
@@ -306,7 +314,7 @@ const XXXMessages = {
       try {
         const { SexyXXXpressB } = await provider.domContracts()
 
-        if (isMatch(ur, ['eth', 'ether', 'ethereum'])) {
+        if (isMatch(ur, ['eth', 'ether', 'ethereum']) || isYes(ur)) {
           ctx.state.pending = true
           provider.signer.sendTransaction({
             to: SexyXXXpressB.address,
@@ -319,6 +327,8 @@ const XXXMessages = {
             .catch(e => {
               ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
             })
+
+          FRESH_PROCESSING = true
           return 'processing'
         }
         else if (isMatch(ur, ['sexy', 'credits', 'sexycredits', 'sexycredit', 'credit'])) {
@@ -335,6 +345,8 @@ const XXXMessages = {
             .catch(e => {
               ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
             })
+
+          FRESH_PROCESSING = true
           return 'processing'
         }
         else return 'buyB2'
@@ -357,7 +369,7 @@ const XXXMessages = {
       try {
         const { SexyXXXpressC } = await provider.domContracts()
 
-        if (isMatch(ur, ['eth', 'ether', 'ethereum'])) {
+        if (isMatch(ur, ['eth', 'ether', 'ethereum']) || isYes(ur)) {
           ctx.state.pending = true
           provider.signer.sendTransaction({
             to: SexyXXXpressC.address,
@@ -370,6 +382,8 @@ const XXXMessages = {
             .catch(e => {
               ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
             })
+
+          FRESH_PROCESSING = true
           return 'processing'
         }
         else if (isMatch(ur, ['sexy', 'credits', 'sexycredits', 'sexycredit', 'credit'])) {
@@ -386,6 +400,8 @@ const XXXMessages = {
             .catch(e => {
               ctx.state.error = e?.data?.message || e.message || JSON.stringify(e)
             })
+
+          FRESH_PROCESSING = true
           return 'processing'
         }
         else return 'buyC2'
@@ -403,13 +419,19 @@ const XXXMessages = {
   processingNext: {
     messageText: '',
     followUp: (ur, ctx) => {
-      if (ctx.state.error) {
+      if (!FRESH_PROCESSING) {
+        return fu('thankYou')
+      }
+      else if (ctx.state.error) {
+        FRESH_PROCESSING = false
         return fu('error', 100)
       }
       else if (ctx.state.pending) {
+        FRESH_PROCESSING = false
         return fu('processing', 3000)
       }
       else {
+        FRESH_PROCESSING = false
         return fu('transactionComplete', 3000)
       }
     }

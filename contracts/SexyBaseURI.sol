@@ -31,14 +31,14 @@ contract SexyBaseURI {
 
     _setURIString('SEXY-CG', 'ipfs://QmXxuewooGfrtNno52sftykoAFLsBubPG8k3DeBXYbKNvr/', '', 'CrystalGoddess', 36);
     _setURIString('SEXY-DM', 'ipfs://QmaH6ZdxNe2xkS7SjdkR2VHoYrHQtwms2GpsiyryZBJiqx/', '', 'DungeonMistress', 64);
-    _setURIString('SEXY-QJ', 'ipfs://Qme5RSzc1kxoUAc4cnwS6RBrF8Y5XQ8LCyUJq3FCLFrmcq/', '', 'QueenJessica', 25);
-    _setURIString('SEXY-SJ', 'ipfs://QmYztV8Pi4GiCVbM8iiLtViGve85jsAAripLVy2CwLudBf/', '', 'SamanthaJones', 36);
-    _setURIString('SEXY-XXA', 'ipfs://QmTgt6nxVB3rUBLhL8iWofWmHAXr22Ss6Q7AGuYPeoZcyR/', '', 'SexyXXXPress', 200); // A
-    _setURIString('SEXY-XXB', 'ipfs://QmbTwHkcVzweEmZP6T2a1aLaJUv2Biwim7KcEhpfhZjBsN/', '', 'SexyXXXPress', 100); // B
-    _setURIString('SEXY-XXC', 'ipfs://QmaZhCNAwpxePAexTgQAdpkcGWZsBUAKsu9P6jHVMp5sHq/', '', 'SexyXXXPress', 50); // C
-    _setURIString('SEXY-HH', 'ipfs://QmcmSw7urQCHyiqsLxXJKPdJdHnRPhSRt3JWgUHESEkkLd/', '', 'heatherHot', 81);
-    _setURIString('SEXY-KF', 'ipfs://QmQo8okVhKAreJv3kaauoCZ2h4H5i6niUtpKZDCgGAgfvF/', '', 'katFischer', 49);
-    _setURIString('SEXY-SP', 'ipfs://QmcHMVW79r3q1xaCmMnrDj64YTmxBp1yWvPo23ei3f6EN8/', '', 'steviep', 49);
+    _setURIString('SEXY-QJ', 'ipfs://Qme5RSzc1kxoUAc4cnwS6RBrF8Y5XQ8LCyUJq3FCLFrmcq/', 'Here\'s my hot little pussy, idiot', 'QueenJessica', 25);
+    _setURIString('SEXY-SJ', 'ipfs://QmYztV8Pi4GiCVbM8iiLtViGve85jsAAripLVy2CwLudBf/', 'Hopefully this gives you a little motivation to keep your taxes in poor standing.', 'SamanthaJones', 36);
+    _setURIString('SEXY-XXA', 'ipfs://QmTgt6nxVB3rUBLhL8iWofWmHAXr22Ss6Q7AGuYPeoZcyR/', 'MODEL A', 'SexyXXXPress', 200); // A
+    _setURIString('SEXY-XXB', 'ipfs://QmbTwHkcVzweEmZP6T2a1aLaJUv2Biwim7KcEhpfhZjBsN/', 'MODEL B', 'SexyXXXPress', 100); // B
+    _setURIString('SEXY-XXC', 'ipfs://QmaZhCNAwpxePAexTgQAdpkcGWZsBUAKsu9P6jHVMp5sHq/', 'MODEL C', 'SexyXXXPress', 50); // C
+    _setURIString('SEXY-HH', 'ipfs://QmcmSw7urQCHyiqsLxXJKPdJdHnRPhSRt3JWgUHESEkkLd/', 'you have \'paypig\' written all over you ;)', 'heatherHot', 81);
+    _setURIString('SEXY-KF', 'ipfs://QmQo8okVhKAreJv3kaauoCZ2h4H5i6niUtpKZDCgGAgfvF/', 'OMG, you really are a human ATM', 'katFischer', 49);
+    _setURIString('SEXY-SP', 'ipfs://QmcHMVW79r3q1xaCmMnrDj64YTmxBp1yWvPo23ei3f6EN8/', 'pleasure doing business with you.', 'steviep', 49);
   }
 
   function isSpecial(string memory symbol, uint256 tokenId) public view returns (bool) {
