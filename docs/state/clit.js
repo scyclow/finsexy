@@ -133,6 +133,8 @@ export const sexyCLIT = {
     }
     else if (command === 'send') {
       if (!provider.isWeb3()) return cb('Please revisit FinSexy in a Web3-enabled browser')
+      if (!provider.hasConnected) return cb('Please connect with <code>$sexy connect</code> before attempting to send')
+        debugger
       this.send(args[0], args[1], cb, cb, () => cb('Send Successful'))
     }
 
@@ -409,17 +411,17 @@ export const sexyCLIT = {
         document.body.classList.add('preOrgasm')
         precumSound(sources)
 
-        const { SexyMinter } = await provider.sexyContracts()
+        const { SexyVIPMinter } = await provider.sexyContracts()
 
-        const standardPrice = ethVal(await SexyMinter.mintPrice())
-        const goldPrice = ethVal(await SexyMinter.goldPrice())
+        const standardPrice = ethVal(await SexyVIPMinter.mintPrice())
+        const goldPrice = ethVal(await SexyVIPMinter.goldPrice())
 
         const name = getUserData('name') || 'PAYPIG_NAME'
         const price = isGold ? txValue(goldPrice) : txValue(standardPrice)
 
 
 
-        const tx = await SexyMinter.mint(name, isGold, price)
+        const tx = await SexyVIPMinter.mint(name, isGold, price)
         await tx.wait()
         document.body.classList.remove('preOrgasm')
         document.documentElement.classList.add('orgasm')

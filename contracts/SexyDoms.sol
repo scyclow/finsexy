@@ -23,10 +23,8 @@ contract SexyDeployer {
     baseContract = new FinDomBase(msg.sender, router);
     address baseAddr = address(baseContract);
 
-    // TODO nft collection names
 
-
-    heatherHot = new FindomProxy('heatherHot Feet Pic', 'SEXY-HH', 0.01 ether, baseAddr, msg.sender, router);
+    heatherHot = new FindomProxy('heatherHot Pay Pig', 'SEXY-HH', 0.01 ether, baseAddr, msg.sender, router);
     QueenJessica = new FindomProxy("QueenJessica's Hot Little Pussy", 'SEXY-QJ', 0.04 ether, baseAddr, msg.sender, router);
     DungeonMistress = new FindomProxy('DungeonMistress Tavern Key', 'SEXY-DM', 0.05 ether, baseAddr, msg.sender, router);
     DrAndy = new DrAndyProxy('DrAndy Final Session Invoice', 'SEXY-AI', 0.04 ether, baseAddr, msg.sender, router);
@@ -34,7 +32,7 @@ contract SexyDeployer {
     CandyCrush = new CandyCrushProxy('CandyCrush Tattoo', 'SEXY-CC', 0.01 ether, baseAddr, msg.sender, router);
     steviep = new SteviePProxy('steviep Dick Pic', 'SEXY-SP', baseAddr, msg.sender, router);
     CrystalGoddess = new CrystalGoddessProxy('CrystalGoddess Monetary Enlightenment', 'SEXY-CG', 0.01 ether, baseAddr, msg.sender, router);
-    SamanthaJones = new FindomProxy('SamanthaJones ...', 'SEXY-SJ', 0.03 ether, baseAddr, msg.sender, router);
+    SamanthaJones = new FindomProxy('SamanthaJones Feet Pic', 'SEXY-SJ', 0.03 ether, baseAddr, msg.sender, router);
 
   }
 }
@@ -44,37 +42,34 @@ contract SexyDeployer2 {
   FinDomBaseLight public Hacker;
   FinDomBaseLight public Hedonitronica;
   FinDomBaseLight public MindyRouge;
-  FinDomBaseLight public MoneyMommy777;
   FinDomBaseLight public HotlineBabe1900;
   FinDomBaseLight public RonaMerch;
   FinDomBaseLight public CustomerSupport247;
-  FinDomBaseLight public cagla;
-
-  constructor(address router, address fcAddr) {
-    vinceSlickson = new VinceSlickson(fcAddr, msg.sender, router);
-    Hacker = new FinDomBaseLight(msg.sender, router);
-    Hedonitronica = new FinDomBaseLight(msg.sender, router);
-    MindyRouge = new FinDomBaseLight(msg.sender, router);
-    MoneyMommy777 = new FinDomBaseLight(msg.sender, router);
-    HotlineBabe1900 = new FinDomBaseLight(msg.sender, router);
-    RonaMerch = new FinDomBaseLight(msg.sender, router);
-    CustomerSupport247 = new FinDomBaseLight(msg.sender, router);
-    cagla = new FinDomBaseLight(msg.sender, router);
-  }
-}
-
-
-contract SexyDeployer3 {
   SexyXXXpressBase public SexyXXXpress;
+  // FinDomBaseLight public MoneyMommy777;
+  // FinDomBaseLight public cagla;
 
-  constructor(address router, address baseAddr) {
+  constructor( address baseAddr,address router, address fcAddr) {
     address A = address(new SexyXXXpressProxy('SexyXXXpress Sexy Picture [MODEL A]', 'SEXY-XXA', 0.01 ether, baseAddr, msg.sender, router, 200));
     address B = address(new SexyXXXpressProxy('SexyXXXpress Sexy Picture [MODEL B]', 'SEXY-XXB', 0.01 ether, baseAddr, msg.sender, router, 100));
     address C = address(new SexyXXXpressProxy('SexyXXXpress Sexy Picture [MODEL C]', 'SEXY-XXC', 0.01 ether, baseAddr, msg.sender, router, 50));
 
     SexyXXXpress = new SexyXXXpressBase(msg.sender, router, A, B, C);
+
+    vinceSlickson = new VinceSlickson(fcAddr, msg.sender, router);
+    Hacker = new FinDomBaseLight(msg.sender, router);
+    Hedonitronica = new FinDomBaseLight(msg.sender, router);
+    MindyRouge = new FinDomBaseLight(msg.sender, router);
+    HotlineBabe1900 = new FinDomBaseLight(msg.sender, router);
+    RonaMerch = new FinDomBaseLight(msg.sender, router);
+    CustomerSupport247 = new FinDomBaseLight(msg.sender, router);
+    // MoneyMommy777 = new FinDomBaseLight(msg.sender, router);
+    // cagla = new FinDomBaseLight(msg.sender, router);
   }
 }
+
+
+
 
 interface ITributeReceiver {
   function tributes(address) external view returns (uint256);
@@ -94,7 +89,6 @@ contract SexyXXXpressBase is FinDomBaseLight {
   function tributes(address sender) external virtual override view returns (uint256) {
     return _tributes[sender] + a.tributes(sender) + b.tributes(sender) + c.tributes(sender);
   }
-
 }
 
 
@@ -108,15 +102,15 @@ contract CandyCrushProxy is FindomProxy {
     address router
   ) FindomProxy(name, symbol, mintThreshold, implementation, owner_, router) {}
 
-  function safeTransferFrom(address from, address to, uint256 tokenId) external {
+  function safeTransferFrom(address, address, uint256) external {
     revert('Cannot transfer tattoo');
   }
 
-  function transferFrom(address from, address to, uint256 tokenId) external {
+  function transferFrom(address, address, uint256) external {
     revert('Cannot transfer tattoo');
   }
 
-  function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldata data) external {
+  function safeTransferFrom(address, address, uint256, bytes calldata) external {
     revert('Cannot transfer tattoo');
   }
 }
@@ -146,7 +140,7 @@ contract CrystalGoddessProxy is ProxyBase, InternalMintCheck {
     );
   }
 
-  function mintCheck(address sender, uint256 amount) external returns (bool) {
+  function mintCheck(address sender, uint256 amount) external view returns (bool) {
     return cleansedETH[sender] >= amount;
   }
 
@@ -321,7 +315,7 @@ contract SexyXXXpressProxy is ProxyBase, InternalMintCheck {
     );
   }
 
-  function mintCheck(address sender, uint256) external returns (bool) {
+  function mintCheck(address, uint256) external view returns (bool) {
     uint256 tokenId = ITotalSupply(address(this)).totalSupply();
     require(tokenId < maxSupply, 'ERROR: SUPPLY EXCEEDED');
 

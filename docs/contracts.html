@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>FinSexy</title>
+  <link rel="shortcut icon" type="image/x-icon" href="./assets/kiss.png" id="favicon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="">
+  <meta name="keywords" content="steviep, steve pikelny, pikelny, crypto, ethereum, bitcoin">
+
+  <meta name="twitter:image" content="https://steviep.xyz/">
+  <meta name="twitter:image:alt" content="">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@steviepxyz">
+  <meta name="twitter:site" content="@steviepxyz">
+  <meta property="twitter:description" content="">
+
+  <meta name="og:image" property="og:image" content="https://steviep.xyz/">
+  <meta name="og:image:alt" content="">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://steviep.xyz/">
+  <meta property="og:title" content="">
+  <meta property="og:site_name" content="">
+  <meta property="og:description" content="">
+
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+
+
+
+
+<script src="./utils.js"></script>
+<script type="module" src="./state/all.js"></script>
+<script type="module" src="./components/all.js"></script>
+
+<style type="text/css">
+  section {
+    margin-bottom: 1em;
+  }
+
+  pre {
+    font-family: var(--code-font);
+  }
+
+</style>
+
+</head>
+
+<body>
+
+
+  <main>
+
+    <connect-wallet>
+      <div slot="noWeb3">
+        <em class="error">Please Connect in a <br>Web3-enabled Browser</em>
+      </div>
+
+      <div slot="notConnected">
+        <h1>Please connect your wallet</h1>
+      </div>
+
+      <div slot="connected" id="connected">
+        <h1>CONNECTED</h1>
+        <h2 id="connectedAs" style="text-align: center; font-family: var(--code-font);"></h2>
+        <h2 id="network" style="text-align: center; font-family: var(--code-font);"></h2>
+        <section>
+          <h2>ROUTER ADDRS</h2>
+          <div>
+            <pre id="routerAddrs"></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>DEPLOY1 ADDRS</h2>
+          <div>
+            <pre id="deploy1Addrs"></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>DEPLOY2 ADDRS</h2>
+          <div>
+            <pre id="deploy2Addrs"></pre>
+          </div>
+        </section>
+
+        <section>
+          <button id="connectCC">connect CandyCrush</button>
+        </section>
+
+        <section>
+          <button id="connectAI">connect DrAndy</button>
+        </section>
+
+      </div>
+    </connect-wallet>
+
+  </main>
+
+
+</body>
+
+
+<!-- <script src="./min.ethers.js"></script> -->
+
+<script type="module">
+
+
+  import {$} from './$.js'
+  import {provider, fromWei} from './eth.js'
+
+
+
+  provider.onConnect(async (addr) => {
+    const network = await provider.getNetwork()
+    console.log('NETWORK:',network.name)
+    console.log('CONNECTED ADDR:',addr)
+
+    $.id('connectedAs').innerHTML = addr
+    $.id('network').innerHTML = network.name
+
+
+    const tokenURIABI = [
+      'function tokenURI(uint256) external view returns (string)'
+    ]
+
+    const ROUTER_ADDR = '0x14e2b5aa033f39b67895f34b5f09a65b4c294562'
+    const DEPLOYER1_ADDR = '0x4D4daC226E9F5D7A9aC5DE2c22a729b7f294B8C9'
+    const DEPLOYER2_ADDR = '0x00f04889b29941aB2d50c66fdB31f6a09092C50E'
+    const CC_URI_ADDR = '0xf04ed1b3b50e15a950e3f066365af2c621dd3cd2'
+    const AI_URI_ADDR = '0x2febf00bb08c639c4115ebd7c88da5a75c4c5296'
+
+    //// 0 ROUTER
+    let SexyBaseURI
+
+    if (ROUTER_ADDR) {
+      const SexyRouter = await provider.contract(ROUTER_ADDR, [
+        'function vip() external view returns (address)',
+        'function baseURI() external view returns (address)',
+      ])
+
+      const SexyVIP = await provider.contract(await SexyRouter.vip(), [
+        'function minter() external view returns (address)'
+      ])
+      SexyBaseURI = await provider.contract(await SexyRouter.baseURI(), [
+        'function setURIAddr(string symbol, address addr) external'
+      ])
+      const SexyVIPMinter = await provider.contract(await SexyVIP.minter(), [])
+
+      $.id('routerAddrs').innerHTML = JSON.stringify({
+        SexyBaseURI: SexyBaseURI.address,
+        SexyVIP: SexyVIP.address,
+        SexyVIPMinter: SexyVIPMinter.address,
+        SexyRouter: ROUTER_ADDR,
+      }, null, 2)
+    }
+
+
+
+
+
+
+
+
+    // ///// DEPLOYER 1
+
+    if (DEPLOYER1_ADDR) {
+      const SexyDeployer = await provider.contract(DEPLOYER1_ADDR, [
+        'function heatherHot() external view returns (address)',
+        'function SamanthaJones() external view returns (address)',
+        'function QueenJessica() external view returns (address)',
+        'function DungeonMistress() external view returns (address)',
+        'function DrAndy() external view returns (address)',
+        'function katFischer() external view returns (address)',
+        'function CandyCrush() external view returns (address)',
+        'function CrystalGoddess() external view returns (address)',
+        'function steviep() external view returns (address)',
+        'function baseContract() external view returns (address)',
+      ])
+
+      const heatherHot = await provider.contract(await SexyDeployer.heatherHot(), tokenURIABI)
+      const SamanthaJones = await provider.contract(await SexyDeployer.SamanthaJones(), tokenURIABI)
+      const QueenJessica = await provider.contract(await SexyDeployer.QueenJessica(), tokenURIABI)
+      const DungeonMistress = await provider.contract(await SexyDeployer.DungeonMistress(), tokenURIABI)
+      const DrAndy = await provider.contract(await SexyDeployer.DrAndy(), tokenURIABI)
+      const katFischer = await provider.contract(await SexyDeployer.katFischer(), tokenURIABI)
+      const CandyCrush = await provider.contract(await SexyDeployer.CandyCrush(), tokenURIABI)
+      const CrystalGoddess = await provider.contract(await SexyDeployer.CrystalGoddess(), tokenURIABI)
+      const steviep = await provider.contract(await SexyDeployer.steviep(), tokenURIABI)
+      const baseContract = await provider.contract(await SexyDeployer.baseContract(), tokenURIABI)
+
+      $.id('deploy1Addrs').innerHTML = JSON.stringify({
+        heatherHot: heatherHot.address,
+        SamanthaJones: SamanthaJones.address,
+        QueenJessica: QueenJessica.address,
+        DungeonMistress: DungeonMistress.address,
+        DrAndy: DrAndy.address,
+        katFischer: katFischer.address,
+        CandyCrush: CandyCrush.address,
+        CrystalGoddess: CrystalGoddess.address,
+        steviep: steviep.address,
+        baseContract: baseContract.address,
+      }, null, 2)
+
+      console.log(await heatherHot.tokenURI(0))
+    }
+
+
+
+
+
+    // ///// DEPLOYER 2
+
+    if (DEPLOYER2_ADDR) {
+      const SexyDeployer2 = await provider.contract(DEPLOYER2_ADDR, [
+        'function vinceSlickson() external view returns (address)',
+        'function Hacker() external view returns (address)',
+        'function Hedonitronica() external view returns (address)',
+        'function MindyRouge() external view returns (address)',
+        'function HotlineBabe1900() external view returns (address)',
+        'function RonaMerch() external view returns (address)',
+        'function CustomerSupport247() external view returns (address)',
+        'function SexyXXXpress() external view returns (address)',
+      ])
+
+
+      const SexyXXXpress = await provider.contract(await SexyDeployer2.SexyXXXpress(), [
+        'function a() external view returns (address)',
+        'function b() external view returns (address)',
+        'function c() external view returns (address)',
+      ])
+
+      const SexyXXXpressA = await provider.contract(await SexyXXXpress.a(), tokenURIABI)
+      const SexyXXXpressB = await provider.contract(await SexyXXXpress.b(), tokenURIABI)
+      const SexyXXXpressC = await provider.contract(await SexyXXXpress.c(), tokenURIABI)
+
+
+      const VinceSlickson = await provider.contract(await SexyDeployer2.vinceSlickson(), [])
+      const Hacker = await provider.contract(await SexyDeployer2.Hacker(), [])
+      const Hedonitronica = await provider.contract(await SexyDeployer2.Hedonitronica(), [])
+      const MindyRouge = await provider.contract(await SexyDeployer2.MindyRouge(), [])
+      const HotlineBabe1900 = await provider.contract(await SexyDeployer2.HotlineBabe1900(), [])
+      const RonaMerch = await provider.contract(await SexyDeployer2.RonaMerch(), [])
+      const CustomerSupport247 = await provider.contract(await SexyDeployer2.CustomerSupport247(), [])
+
+      $.id('deploy2Addrs').innerHTML = JSON.stringify({
+        VinceSlickson: VinceSlickson.address,
+        Hedonitronica: Hedonitronica.address,
+        MindyRouge: MindyRouge.address,
+        '0x000000000000000000000000000000000': Hacker.address,
+        SpecialAgentDiane: Hacker.address,
+        HotlineBabe1900: HotlineBabe1900.address,
+        RonaMerch: RonaMerch.address,
+        CustomerSupport247: CustomerSupport247.address,
+        SexyXXXpress: SexyXXXpress.address,
+        SexyXXXpressA: SexyXXXpressA.address,
+        SexyXXXpressB: SexyXXXpressB.address,
+        SexyXXXpressC: SexyXXXpressC.address,
+      }, null, 2)
+    }
+
+
+
+
+
+    ///// CONNECT CANDY CRUSH
+    $.id('connectCC').onclick = () => {
+      SexyBaseURI.setURIAddr('SEXY-CC', CC_URI_ADDR)
+    }
+
+    ///// CONNECT DR ANDY
+    $.id('connectAI').onclick = () => {
+      SexyBaseURI.setURIAddr('SEXY-AI', AI_URI_ADDR)
+    }
+
+  })
+
+
+</script>
+
+
+</html>

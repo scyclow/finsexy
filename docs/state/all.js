@@ -47,8 +47,12 @@ import {tributeLS} from './tributes.js'
 
 
 if (!ls.get('__enteredSite') && window.location.pathname !== '/dev') {
-  // TODO ad referer ? param + redirect there
-  window.location.replace(`./enter?ref=${encodeURI(window.location.pathname + window.location.search + window.location.hash)}`)
+
+  if (window.location.pathname === '/') {
+    window.location.replace(`./enter`)
+  } else {
+    window.location.replace(`./enter?ref=${encodeURI(window.location.pathname + window.location.search + window.location.hash)}`)
+  }
 }
 
 if (clitLS.get('a11y')) {

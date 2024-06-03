@@ -46,7 +46,7 @@ export const STEVIEP_CONTRACTS = {
     "KYC": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
     // "SexyGame": "0xF8Fbd197365ACbA81D250FE4Bc2d1B5019e7d306",
     "SexyVIP": "0x8dAF17A20c9DBA35f005b6324F493785D239719d",
-    "SexyMinter": "0x6F00454894e0790AaE84E7A6406E85075a321469",
+    "SexyVIPMinter": "0x6F00454894e0790AaE84E7A6406E85075a321469",
     "SexyRouter": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
   },
   sepolia: {
@@ -62,9 +62,9 @@ export const STEVIEP_CONTRACTS = {
     ETF: '0xBe79cF3F13Ded8334dbEe23c7aeE078118eEc45C',
     KYC: '0x9fd04fafD998bfd1bA9aadd24ef1864A5620C05C',
     // "SexyGame": "",
-    "SexyVIP": "0xDC1ae014938D648964b6c3EDA8955108C8C94ed3",
-    "SexyMinter": "0xde01fceb00EC6cb2F3a89423aE4326A84Dee7fCE",
-    "SexyRouter": "0x24140eb824f2fa9d1f1946b01fed132eb0421c28"
+    "SexyVIP": "0xFA69E2711e8d14d6f7028aA972599858Ce1D8F81",
+    "SexyVIPMinter": "0xDCE2aBE37c930B8137BFD490F718b47fDA29aff4",
+    "SexyRouter": "0x14e2b5aa033f39b67895f34b5f09a65b4c294562"
   },
   mainnet: {
     AB: '0xa7d8d9ef8D8Ce8992Df33D8b8CF4Aebabd5bD270',
@@ -80,7 +80,7 @@ export const STEVIEP_CONTRACTS = {
     KYC: '0x0BB72cE0cFE446DD89129B4335e29c0fbbE0c93C',
     // "SexyGame": "",
     "SexyVIP": "",
-    "SexyMinter": "",
+    "SexyVIPMinter": "",
     "SexyRouter": ""
   }
 }
@@ -96,46 +96,44 @@ export const DOM_CONTRACTS = {
     "CandyCrush": "0x235B28c74f19083a5CAce20C506513417a90BE29",
     "CrystalGoddess": "0x72D1fE35eB1aEb7437eEeCa567A93F67dD76A9dA",
     "steviep": "0x46A9cF43B44f5CEb06747aF10955A02fD6671783",
+
     "VinceSlickson": "0x32467b43BFa67273FC7dDda0999Ee9A12F2AaA08",
     "Hedonitronica": "0x4AE5AF759E17599107c1C688bfaCF6131C376D51",
     "MindyRouge": "0x1881d02D05a44713a69d6eDDE3e7167792A636d6",
     "0x000000000000000000000000000000000": "0x4ABEaCA4b05d8fA4CED09D26aD28Ea298E8afaC8",
     "SpecialAgentDiane": "0x4ABEaCA4b05d8fA4CED09D26aD28Ea298E8afaC8",
     "RonaMerch": "0x72616c92Bcb8660B5bE0fa423Fe0C58BdE3EFd28",
-    "MoneyMommy777": "0xa9b19BA63eD2fFa19f50a63Bddf5F4a0092678C7",
     "HotlineBabe1900": "0x3083DB70660BB6bbB7A905743D181383aa439b46",
     "CustomerSupport247": "0xdcd0868CDE29952A285da154ff0a5a2A1C88CD13",
-    "cagla": "0xe2657e5E56De8b4c6B6bB2AB57Beb7964F9ab941",
     "SexyXXXpress": "0x400890FeB77E0e555D02f8969CA00850f65B96D2",
     "SexyXXXpressA": "0x8e80FFe6Dc044F4A766Afd6e5a8732Fe0977A493",
     "SexyXXXpressB": "0x06cd7788D77332cF1156f1E327eBC090B5FF16a3",
     "SexyXXXpressC": "0xAD4e198623A5E2723e19E4D4a6ECF72B1D19FE4B"
+    // "MoneyMommy777": "0xa9b19BA63eD2fFa19f50a63Bddf5F4a0092678C7",
+    // "cagla": "0xe2657e5E56De8b4c6B6bB2AB57Beb7964F9ab941",
   },
   sepolia: {
-    SamanthaJones: '0x6c3Ba73b503810154a375757a1562B5fa0F07395',
-    VinceSlickson: '0x120D15bc7D200866eeA5707a71A77947C183ee17',
-    CrystalGoddess: '0x746933CdD53180Faf6B4B092Fd55Fb5D962e769e',
-    DrAndy: '0xbd0a836134D252A17419316ba0919303c48EcDEa',
-    DungeonMistress: '0x6721E4DE05328Eebbc559713cacB17FCe363a60F',
-    QueenJessica: '0xB0aA3152240948076D551455cb0b8424cAfEb456',
-    Hedonitronica: '0xb487Fd88c15a3057F3B5fDBA9F3AF4710d830ba6',
-    MindyRouge: '0xc5A32eC2FDbBdFfb15443c900995C17Edb6b6783',
-    CandyCrush: '0x01b29F753F82b4262A4CFf621B323eCE063E352e',
-    heatherHot: '0x56Ac50BDeD44Da46C5fE582Aa469B4726B779a4b',
-    katFischer: '0x0c8E71dCA3F4FC3bEAe304Fd0C31c6ecF6f000d3',
-    SpecialAgentDiane: '0x5F19f38ADE25F0ee7e4f3fB463674B1C3376780f',
-    steviep: '0x99B6FA3461061DC22E5B5e84441a46cCf1Bf1FB1',
-    '0x000000000000000000000000000000000': '0x5F19f38ADE25F0ee7e4f3fB463674B1C3376780f',
-    "SpecialAgentDiane": "0x5F19f38ADE25F0ee7e4f3fB463674B1C3376780f",
-    "RonaMerch": "0x519ed2F6079523b7DDBFad6eFCcCCcbc61509A13",
-    "MoneyMommy777": "0x5C4F3670BC913394181E442a73bd0D3713acc4AC",
-    "HotlineBabe1900": "0x46047907a9569dA46A1F692c3512357E93F009B0",
-    "CustomerSupport247": "0x1D5Cd15A04985eC3b26c9Ba98Bd1b38f8eB111BD",
-    "cagla": "0x5C59808DC06857CD2D8b599734Fc2E9C152523cd",
-    SexyXXXpress: '0x8399B31c1798a58A35852d29F4d8bBd3E3AB8F6c',
-    "SexyXXXpressA": "0x8399B31c1798a58A35852d29F4d8bBd3E3AB8F6c",
-    "SexyXXXpressB": "0x8399B31c1798a58A35852d29F4d8bBd3E3AB8F6c",
-    "SexyXXXpressC": "0x8399B31c1798a58A35852d29F4d8bBd3E3AB8F6c"
+    "heatherHot": "0x5547eEf0E98493eb1Fdc3353B2beA3c053Ad5F15",
+    "SamanthaJones": "0x70b3295eC31Ea7db8209C3e8Dd709BD1D19d53ee",
+    "QueenJessica": "0x2b787015ca9380A66E2EFa86921b5FAD51bD4d6b",
+    "DungeonMistress": "0xFf1CeA2461E36964b1691726ba74b19540ef1A3C",
+    "DrAndy": "0xDe71152307fa15999FD9fCFB908bB7e756Ba10aD",
+    "katFischer": "0x997aAA2C3248Ad364f98B7486ce57d2941e88AB9",
+    "CandyCrush": "0x2Ab86D168d30132A1ce12d2AFc6e3f4E971265f8",
+    "CrystalGoddess": "0x91222F9dbe9738c569F74f71565bcE496091eB99",
+    "steviep": "0xEf053d359A3Dc9137C267434Fe11e0Ae32Fe3907",
+    "VinceSlickson": "0x2C4dD57e869DFd080502D3E94af9DeDf4D980e0F",
+    "Hedonitronica": "0x7D33ddd6ADe39b846CdFF78Ca4BE9B8D47Ceb849",
+    "MindyRouge": "0xad77238706b24Ce96c8b35A49A900147d45A5f6E",
+    "0x000000000000000000000000000000000": "0x8Cad477e75D1765ba791e091bC516525fC62b45A",
+    "SpecialAgentDiane": "0x8Cad477e75D1765ba791e091bC516525fC62b45A",
+    "HotlineBabe1900": "0xa417194317B93488694f40693E3b5D13Cb2f3DbF",
+    "RonaMerch": "0xBF7548E3CA5f9D433296E496CD6ef966D83ccC78",
+    "CustomerSupport247": "0x61B49F3C495194Bf06fd67B415C1F46d344C309A",
+    "SexyXXXpress": "0xc34f62bd36C5dd8CE71868480E4E8844AfFB9860",
+    "SexyXXXpressA": "0x5B5715691051C74B7879fD04c25C907C73386AEF",
+    "SexyXXXpressB": "0x0558C615DB74c1C39D90627B4a42F04395310431",
+    "SexyXXXpressC": "0x4f6BDE7cb965CEF5A7A0E0a192f9aE4a8Bf40CDf",
   },
   mainnet: {},
 }
@@ -152,6 +150,8 @@ export class Web3Provider {
     '0xaa36a7', // sepolia
     '0x7a69' // local
   ]
+
+  hasConnected = false
 
 
 
@@ -175,6 +175,9 @@ export class Web3Provider {
 
         this.isConnected()
           .then(async (addr) => {
+            if (!addr) return
+
+            this.hasConnected = true
             const currentChain = await this.currentChain()
             if (addr && !this.VALID_CHAINS.includes(currentChain)) {
               await this.switchChain(this.FORCED_CHAIN_ID)
@@ -327,7 +330,6 @@ export class Web3Provider {
     const network = await this.provider.getNetwork()
     const hasName = network.name && network.name !== 'unknown'
     const { chainId } = network
-    console.log(network.chainId)
 
     let name
     if (network.chainId === 1) {
@@ -436,7 +438,7 @@ export class Web3Provider {
     return {
       // SexyGame: await this.contract(CONTRACTS.SexyGame, GameABI),
       SexyVIP: await this.contract(CONTRACTS.SexyVIP, VIPABI),
-      SexyMinter: await this.contract(CONTRACTS.SexyMinter, VIPMinterABI),
+      SexyVIPMinter: await this.contract(CONTRACTS.SexyVIPMinter, VIPMinterABI),
       SexyRouter: await this.contract(CONTRACTS.SexyRouter, RouterABI),
     }
   }
@@ -504,15 +506,15 @@ export class Web3Provider {
       MindyRouge: await this.contract(CONTRACTS.MindyRouge, domABI),
       CandyCrush: await this.contract(CONTRACTS.CandyCrush, domABI),
       RonaMerch: await this.contract(CONTRACTS.RonaMerch, domABI),
-      MoneyMommy777: await this.contract(CONTRACTS.MoneyMommy777, domABI),
       HotlineBabe1900: await this.contract(CONTRACTS.HotlineBabe1900, domABI),
       CustomerSupport247: await this.contract(CONTRACTS.CustomerSupport247, domABI),
-      cagla: await this.contract(CONTRACTS.cagla, domABI),
       SexyXXXpress: await this.contract(CONTRACTS.SexyXXXpress, xxxpressABI),
       SexyXXXpressA: await this.contract(CONTRACTS.SexyXXXpressA, xxxpressNFTABI),
       SexyXXXpressB: await this.contract(CONTRACTS.SexyXXXpressB, xxxpressNFTABI),
       SexyXXXpressC: await this.contract(CONTRACTS.SexyXXXpressC, xxxpressNFTABI),
 
+      // MoneyMommy777: await this.contract(CONTRACTS.MoneyMommy777, domABI),
+      // cagla: await this.contract(CONTRACTS.cagla, domABI),
     }
 
 

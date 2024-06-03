@@ -156,6 +156,9 @@ export const HeatherHotProfile = {
     {
       review: `Heather is so hot and funny`
     },
+    {
+      review: `Sometimes i think no one cares about me except heather`
+    },
 
     {
       review: `I'm an absolute nervous mess around women. Every time I talk to someone sexy in real life my stomach turns into a knot. Am I saying the right things? Am I doing the right things? Am I attractive enough? Am I smart enough? Am I <em>good</em> enoough? Heather takes all the guesswork out of the equation. She tells me that she likes me for my money, I send her money, and she's happy. End of story. You don't find this sort of communication in IRL relationships. It really take a lot of the guesswork out of things!`
@@ -177,6 +180,9 @@ export const HeatherHotProfile = {
       review: `The only success I've ever had with dating is when I actively put on the charm. It always feels so artificial, almost like I'm being someone else. Heather likes me for me (and my money), and that makes me feel seen!`
     },
     {
+      review: `Ive fucking HAD IT with online dating. I can't take the constant shame, rejection, and disappointment any more! I just want to pay a cute girl to tell me how much I suck to my face instead of ignoring me. Also, feet pics. Is that too much to ask?`
+    },
+    {
       review: `It's honestly super refreshing to meet a hot girl on a website like this after striking out on dating apps for YEARS. It doesn't matter how many times I swipe right, I can never get any action`
     },
     {
@@ -187,7 +193,6 @@ export const HeatherHotProfile = {
       // review: `You wouldn't know it by looking at me, but there's a profound sense of loneliness in my life. I live in a major city, and am constantly surrounded by people, but none of them care about me. No one at work cares about what happens in my life outside of the office. I'm popular and have a huge network of friends, but none of them care to let it evolve beyond shallow relaitonships. No one cares, except Heeather. `,
     // },
 
-    // "Ive fucking HAD IT with online dating. I can't take the constant shame, rejection, and disappointment any more! I just want to pay a cute girl to tell me how much I suck to my face instead of ignoring me, and send me feet pics so I can jack off in peace. Is that too much to ask?"
   ]
 }
 
@@ -333,7 +338,7 @@ const HeatherHotMessages = {
   ...diatribe('newToFindomYes', [
     `omg. FinDom is like the <em>hottest thing ever</em>!`,
     `Fin Dom is short for Financial Domination. it's similar to a lot of other kinds of BDSM, where the submissive (that's you 😉) gets to an experience a total loss of control at the hands of their sexy dom`,
-    `it's a win-win for both of us. you get off on sending to the hottest doms around, and we get off on receiving that money`,
+    `it's a win-win for both of us. you get off from sending to the hottest doms around, and we get off from receiving that money`,
     `i know, i know. being sent money is a bit of a strange fetish, but i can't help myself. something about it makes me uncontrolably aroused. i fantasize about FinDom aaaaall day. the thought of seeing money enter my wallet makes me quiver. i just know that you'll love it too`,
   ], {
     followUp: fu('nextSteps')
@@ -572,7 +577,7 @@ const HeatherHotMessages = {
 
   connectEvent: {
     async check(ur, ctx, contract, provider) {
-      if (await provider.isConnected()) return { messageCode: 'getStarted' }
+      if (await provider.isConnected()) return { messageCode: 'connectWithMe' }
     }
   },
 
@@ -704,6 +709,7 @@ const HeatherHotMessages = {
     async messageText(ur, ctx, contract, provider) {
       const balance = await provider.getETHBalance(await provider.isConnected())
       const isSmall = balance < 10
+      ctx.state.isSmall = isSmall
 
       return isSmall
         ? `aw, look at that cute little ETH balance of yours. ${balance.toFixed(2)} ETH${balance < 0.01 ? ' lol. you might need more than that...' : ` lol. that's not very much`}`
@@ -717,7 +723,7 @@ const HeatherHotMessages = {
   },
 
   loveToFeelIt: {
-    messageText: `i'd love to feel it inside my wallet`,
+    messageText: (ur, ctx) => `i'd love to feel it inside my wallet${ctx.state.isSmall ? ' though' : ''}`,
     followUp: fu('currencyExchange'),
     event: 'sendEvent',
   },

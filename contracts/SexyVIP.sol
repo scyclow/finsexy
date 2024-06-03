@@ -14,7 +14,7 @@ contract SexyVIP is ERC721, Ownable {
   uint256 public totalSupply;
   uint256 public constant maxSupply = 101;
 
-  SexyMinter public minter;
+  SexyVIPMinter public minter;
   SexyVIPTokenURI public uri;
 
   mapping(uint256 => bool) public isGold;
@@ -27,7 +27,7 @@ contract SexyVIP is ERC721, Ownable {
   event BatchMetadataUpdate(uint256 _fromTokenId, uint256 _toTokenId);
 
   constructor(address newOwner) ERC721('FinSexy VIP Membership', 'VIP') {
-    minter = new SexyMinter();
+    minter = new SexyVIPMinter();
     uri = new SexyVIPTokenURI();
 
     isGold[0] = true;
@@ -106,7 +106,7 @@ contract SexyVIP is ERC721, Ownable {
   }
 
   function setMinter(address newMinter) external onlyOwner {
-    minter = SexyMinter(newMinter);
+    minter = SexyVIPMinter(newMinter);
   }
 
   function setURI(address newURI) external onlyOwner {
@@ -119,7 +119,7 @@ contract SexyVIP is ERC721, Ownable {
 }
 
 
-contract SexyMinter {
+contract SexyVIPMinter {
   uint256 public mintPrice = 0.1 ether;
   uint256 public goldPrice = 0.15 ether;
   SexyVIP public sexyVIP;

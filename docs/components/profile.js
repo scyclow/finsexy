@@ -245,9 +245,12 @@ createComponent(
         cursor: pointer
       }
 
-      .modalContent, #imgOverlay, #imgOverlayLeft, #imgOverlayRight {
-        height: 80vmin;
+
+      #imgOverlay {
+        height: 100%;
+        position: absolute;
       }
+
 
       .modalContent, #imgOverlay {
         width: 80vmin;
@@ -271,6 +274,7 @@ createComponent(
         user-select: none;
       }
       .modalContent {
+        position: relative;
         border: 2px solid var(--primary-color);
         box-shadow: 0 0 90px var(--primary-color);
         border-radius: 5px;

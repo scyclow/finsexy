@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 
-const dom = 'heatherHot'
+const dom = 'SexyXXXpressC'
 
 
 
@@ -15,7 +15,7 @@ function shuffle(arr) {
 
 
 
-const files = fs.readdirSync(`./metadata/${dom}`)
+const files = fs.readdirSync(`./metadata/${dom}`).filter(n => !n.includes('DS_Store'))
 
 shuffle(files).forEach((filename, i) => {
   console.log(filename, i)

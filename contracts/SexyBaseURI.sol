@@ -29,19 +29,16 @@ contract SexyBaseURI {
   constructor() {
     router = ISexyRouter(msg.sender);
 
-    _setURIString('SEXY-SJ', '/', '', 'SamanthaJones', 100);
-    _setURIString('SEXY-QJ', '/', '', 'QueenJessica', 100);
-    _setURIString('SEXY-SP', '/', '', 'steviep', 100);
-
-
-    _setURIString('SEXY-HH', '/', '', 'heatherHot', 70);
-    _setURIString('SEXY-CG', '/', '', 'CrystalGoddess', 36);
-    _setURIString('SEXY-DM', '/', '', 'DungeonMistress', 64);
-    _setURIString('SEXY-KF', '/', '', 'katFischer', 49);
-    _setURIString('SEXY-XXA', '/', '', 'SexyXXXPress', 200);
-    _setURIString('SEXY-XXB', '/', '', 'SexyXXXPress', 100);
-    _setURIString('SEXY-XXC', '/', '', 'SexyXXXPress', 50);
-
+    _setURIString('SEXY-CG', 'ipfs://QmXxuewooGfrtNno52sftykoAFLsBubPG8k3DeBXYbKNvr/', '', 'CrystalGoddess', 36);
+    _setURIString('SEXY-DM', 'ipfs://QmaH6ZdxNe2xkS7SjdkR2VHoYrHQtwms2GpsiyryZBJiqx/', '', 'DungeonMistress', 64);
+    _setURIString('SEXY-QJ', 'ipfs://Qme5RSzc1kxoUAc4cnwS6RBrF8Y5XQ8LCyUJq3FCLFrmcq/', '', 'QueenJessica', 25);
+    _setURIString('SEXY-SJ', 'ipfs://QmYztV8Pi4GiCVbM8iiLtViGve85jsAAripLVy2CwLudBf/', '', 'SamanthaJones', 36);
+    _setURIString('SEXY-XXA', 'ipfs://QmTgt6nxVB3rUBLhL8iWofWmHAXr22Ss6Q7AGuYPeoZcyR/', '', 'SexyXXXPress', 200); // A
+    _setURIString('SEXY-XXB', 'ipfs://QmbTwHkcVzweEmZP6T2a1aLaJUv2Biwim7KcEhpfhZjBsN/', '', 'SexyXXXPress', 100); // B
+    _setURIString('SEXY-XXC', 'ipfs://QmaZhCNAwpxePAexTgQAdpkcGWZsBUAKsu9P6jHVMp5sHq/', '', 'SexyXXXPress', 50); // C
+    _setURIString('SEXY-HH', 'ipfs://QmcmSw7urQCHyiqsLxXJKPdJdHnRPhSRt3JWgUHESEkkLd/', '', 'heatherHot', 81);
+    _setURIString('SEXY-KF', 'ipfs://QmQo8okVhKAreJv3kaauoCZ2h4H5i6niUtpKZDCgGAgfvF/', '', 'katFischer', 49);
+    _setURIString('SEXY-SP', 'ipfs://QmcHMVW79r3q1xaCmMnrDj64YTmxBp1yWvPo23ei3f6EN8/', '', 'steviep', 49);
   }
 
   function isSpecial(string memory symbol, uint256 tokenId) public view returns (bool) {
@@ -127,18 +124,18 @@ contract CandyCrushURI is IForwardedURI {
     return string(json);
   }
 
-  function isSpecial(uint256 tokenId) public view returns (bool) {
+  function isSpecial(uint256 tokenId) public pure returns (bool) {
     return tokenId < 60;
   }
 
-  function encodedSVG(uint256 tokenId) public view returns (string memory) {
+  function encodedSVG(uint256 tokenId) public pure returns (string memory) {
     return string(abi.encodePacked(
       'data:image/svg+xml;base64,',
       Base64Encode.encode(rawSVG(tokenId))
     ));
   }
 
-  function rawSVG(uint256 tokenId) public view returns (bytes memory) {
+  function rawSVG(uint256 tokenId) public pure returns (bytes memory) {
     string[10] memory bgColors = [
       '120211', // bg
       '120211', // bg
@@ -187,7 +184,7 @@ contract CandyCrushURI is IForwardedURI {
     return abi.encodePacked(
       '<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg">'
         '<rect x="0" y="0" width="900" height="300" fill="#', bgColor, '"></rect>'
-        '<text x="50%" y="50%" style="fill:#', textColor, ';font-family:cursive;font-size:95px;dominant-baseline:middle;text-anchor: middle;">I\'m a little paypiggie</text>'
+        '<text x="50%" y="50%" style="fill:#', textColor, ';font-family:cursive;font-size:95px;dominant-baseline:middle;text-anchor: middle;">', tattoo,'</text>'
       '</svg>'
     );
   }
@@ -209,7 +206,7 @@ contract DrAndyURI is IForwardedURI{
     ai = IDrAndy(addr);
   }
 
-  function tokenURI(string memory name, string memory symbol, uint256 tokenId) external view returns (string memory) {
+  function tokenURI(string memory name, string memory, uint256 tokenId) external view returns (string memory) {
     string memory tokenName = string.concat(name, ' #', tokenId.toString());
 
     address originalMinter = ai.mintedBy(tokenId);
@@ -228,8 +225,8 @@ contract DrAndyURI is IForwardedURI{
     return string(json);
   }
 
-  function isSpecial(uint256 tokenId) public view returns (bool) {
-    return tokenId < 90;
+  function isSpecial(uint256) public pure returns (bool) {
+    return true;
   }
 
   function encodedSVG(uint256 tokenId) public view returns (string memory) {

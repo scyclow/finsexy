@@ -409,12 +409,12 @@
             <td class="green">✓</td>
           </tr>
 
-          <tr>
+<!--           <tr>
             <td>International Chats!</td>
             <td class="red">✕</td>
             <td class="green">✓</td>
             <td class="green">✓</td>
-          </tr>
+          </tr> -->
 
           <tr>
             <td>Faster Findom Responses!</td>
@@ -578,7 +578,7 @@
   }
 
   provider.onConnect(async (addr) => {
-    const { SexyVIP, SexyMinter } = await provider.sexyContracts()
+    const { SexyVIP, SexyVIPMinter } = await provider.sexyContracts()
 
 
     setRunInterval(async () => {
@@ -599,8 +599,8 @@
 
 
 
-    standardPrice = ethVal(await SexyMinter.mintPrice())
-    goldPrice = ethVal(await SexyMinter.goldPrice())
+    standardPrice = ethVal(await SexyVIPMinter.mintPrice())
+    goldPrice = ethVal(await SexyVIPMinter.goldPrice())
 
     $standardPrice.innerHTML = `(${standardPrice} ETH)`
     $goldPrice.innerHTML = `(${goldPrice} ETH)`

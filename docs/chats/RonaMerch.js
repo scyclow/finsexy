@@ -48,7 +48,7 @@ export const RonaMerchProfile = {
       review: `I just sent RonaMerch 0.069 ETH!`
     },
     {
-      review: `It's so sad to see my favorite websites ruined by corporate sponsorship`
+      review: `It's so sad seeing my favorite websites ruined by corporate sponsorships`
     },
   ]
 }

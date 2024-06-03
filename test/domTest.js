@@ -40,7 +40,7 @@ const spendCreditPresent = 'spendCredit(uint256,address,uint256,address)'
 describe('FinSexy', () => {
   let signers, artist, paypig, paypig2
 
-  let FastCash, SexyVIP, SexyBaseURI, SexyGame, SexyMinter, CandyCrushURI
+  let FastCash, SexyVIP, SexyBaseURI, SexyGame, SexyMinter, CandyCrushURI, DrAndyURI
 
   let heatherHot, SamanthaJones, QueenJessica, DungeonMistress, DrAndy, katFischer, CandyCrush,
       CrystalGoddess, steviep, VinceSlickson, SexyXXXpress, Hacker, Hedonitronica, MindyRouge,
@@ -80,6 +80,7 @@ describe('FinSexy', () => {
 
     const fcCentralBanker = await ethers.getImpersonatedSigner('0x47144372eb383466D18FC91DB9Cd0396Aa6c87A4')
 
+    /// 1. Sexy Router
     SexyRouter = await SexyRouterFactory.deploy()
     await SexyRouter.deployed()
 
@@ -88,19 +89,22 @@ describe('FinSexy', () => {
     SexyVIPTokenURI = await SexyVIPTokenURIFactory.attach(await SexyVIP.uri())
     SexyBaseURI = await SexyBaseURIFactory.attach(await SexyRouter.baseURI())
 
+
+    /// 2. Sexy Deployer
     const factory = await ethers.getContractFactory('SexyDeployer', artist)
     const deployer = await factory.deploy(SexyRouter.address)
     await deployer.deployed()
 
-    const factory2 = await ethers.getContractFactory('SexyDeployer2', artist)
-    const deployer2 = await factory2.deploy(SexyRouter.address, FastCash.address)
-    await deployer2.deployed()
-
     const baseContract = await deployer.baseContract()
 
-    const factory3 = await ethers.getContractFactory('SexyDeployer3', artist)
-    const deployer3 = await factory3.deploy(SexyRouter.address, baseContract)
-    await deployer3.deployed()
+    /// 3. Sexy Deployer 2
+    const factory2 = await ethers.getContractFactory('SexyDeployer2', artist)
+    const deployer2 = await factory2.deploy(baseContract, SexyRouter.address, FastCash.address)
+    await deployer2.deployed()
+
+
+
+
 
 
 
@@ -110,32 +114,44 @@ describe('FinSexy', () => {
     DungeonMistress = await FinDomBaseFactory.attach(await deployer.DungeonMistress())
     DrAndy = await FinDomBaseFactory.attach(await deployer.DrAndy())
     katFischer = await FinDomBaseFactory.attach(await deployer.katFischer())
-
-
     CandyCrush = await FinDomBaseFactory.attach(await deployer.CandyCrush())
     CrystalGoddess = await FinDomBaseFactory.attach(await deployer.CrystalGoddess())
     steviep = await FinDomBaseFactory.attach(await deployer.steviep())
+
+
+    SexyXXXpress = await SexyXXXpressBaseFactory.attach(await deployer2.connect(artist).SexyXXXpress())
+    SexyXXXpressA = await FinDomBaseFactory.attach(await SexyXXXpress.a())
+    SexyXXXpressB = await FinDomBaseFactory.attach(await SexyXXXpress.b())
+    SexyXXXpressC = await FinDomBaseFactory.attach(await SexyXXXpress.c())
+    VinceSlickson = await VinceSlicksonFactory.attach(await deployer2.vinceSlickson())
+    Hacker = await FinDomBaseLightFactory.attach(await deployer2.Hacker())
+    Hedonitronica = await FinDomBaseLightFactory.attach(await deployer2.Hedonitronica())
+    MindyRouge = await FinDomBaseLightFactory.attach(await deployer2.MindyRouge())
+
 
     CandyCrushProxy = await CandyCrushProxyFactory.attach(await deployer.CandyCrush())
     CrystalGoddessProxy = await CrystalGoddessProxyFactory.attach(await deployer.CrystalGoddess())
     steviepProxy = await SteviePProxyFactory.attach(await deployer.steviep())
     DrAndyProxy = await DrAndyProxyFactory.attach(await deployer.DrAndy())
 
-
-    SexyXXXpress = await SexyXXXpressBaseFactory.attach(await deployer3.connect(artist).SexyXXXpress())
-    SexyXXXpressA = await FinDomBaseFactory.attach(await SexyXXXpress.a())
-    SexyXXXpressB = await FinDomBaseFactory.attach(await SexyXXXpress.b())
-    SexyXXXpressC = await FinDomBaseFactory.attach(await SexyXXXpress.c())
-
-
-
-
-    VinceSlickson = await VinceSlicksonFactory.attach(await deployer2.vinceSlickson())
-    Hacker = await FinDomBaseLightFactory.attach(await deployer2.Hacker())
-    Hedonitronica = await FinDomBaseLightFactory.attach(await deployer2.Hedonitronica())
-    MindyRouge = await FinDomBaseLightFactory.attach(await deployer2.MindyRouge())
-
     SexyGame = await SexyGameFactory.attach(await steviepProxy.sexyGame())
+
+
+
+    /// 4. CandyCrush URI
+    const CandyCrushURIFactory = await ethers.getContractFactory('CandyCrushURI', artist)
+    CandyCrushURI = await CandyCrushURIFactory.deploy()
+    await CandyCrushURI.deployed()
+    // await SexyBaseURI.connect(artist).setURIAddr('SEXY-CC', CandyCrushURI.address)
+
+    /// 5. DrAndy URI
+    const DrAndyURIFactory = await ethers.getContractFactory('DrAndyURI', artist)
+    DrAndyURI = await DrAndyURIFactory.deploy(DrAndy.address)
+    await DrAndyURI.deployed()
+    // await SexyBaseURI.connect(artist).setURIAddr('SEXY-AI', DrAndyURI.address)
+
+
+
 
 
     // Infura is being dumb
@@ -184,7 +200,7 @@ describe('FinSexy', () => {
     })
   })
 
-  it.only('should handle SexyXXXpress properly', async () => {
+  it('should handle SexyXXXpress properly', async () => {
     expect(await SexyXXXpressA.totalSupply()).to.equal(0)
     expect(await SexyXXXpressB.totalSupply()).to.equal(0)
     expect(await SexyXXXpressC.totalSupply()).to.equal(0)
@@ -867,10 +883,6 @@ describe('FinSexy', () => {
         expect(uri2.name).to.equal('CandyCrush Tattoo #2')
         expect(uri2.attributes[0].value).to.equal('0')
 
-        const CandyCrushURIFactory = await ethers.getContractFactory('CandyCrushURI', artist)
-        const CandyCrushURI = await CandyCrushURIFactory.deploy()
-        await CandyCrushURI.deployed()
-
         await SexyBaseURI.connect(artist).setURIAddr('SEXY-CC', CandyCrushURI.address)
 
         const uri0_b = getJsonURI(await CandyCrush.connect(artist).tokenURI(0))
@@ -887,10 +899,6 @@ describe('FinSexy', () => {
 
     describe('DrAndyURI', () => {
       it('should work', async () => {
-        const DrAndyURIFactory = await ethers.getContractFactory('DrAndyURI', artist)
-        const DrAndyURI = await DrAndyURIFactory.deploy(DrAndy.address)
-        await DrAndyURI.deployed()
-
         await SexyBaseURI.connect(artist).setURIAddr('SEXY-AI', DrAndyURI.address)
 
         expect(await DrAndy.totalSupply()).to.equal(0)
