@@ -249,6 +249,38 @@ createComponent(
     }
 
 
+    input[type='checkbox'] {
+      width: 1.2em;
+      height: 1.2em;
+      accent-color: var(--blue-color);
+    }
+
+    .tos {
+      margin-top: 1em;
+    }
+
+    .tos, .tos * {
+      cursor: pointer;
+    }
+
+    .tos, .tos label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .tos input {
+      margin-right: 0.6em
+    }
+    .tos a {
+      color: var(--medium-color);
+      text-decoration: underline;
+    }
+    .tos a:hover {
+      text-decoration: none;
+    }
+
+
     @media (max-width: 600px) {
       h1 {
         font-size: 1.5em;
@@ -381,6 +413,8 @@ createComponent(
           <legend>Password</legend>
           <input required type="text" minlength="6" name="pass" id="pass" placeholder="******">
         </fieldset>
+
+        <div class="tos"><label><input type="checkbox"><span>I've read and agree to the <a href="/terms" target="_blank">Sexy Terms of Service</a><span></label></div>
       </div>
 
       <p id="error"></p>

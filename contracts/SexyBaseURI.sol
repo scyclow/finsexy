@@ -29,8 +29,8 @@ contract SexyBaseURI {
   constructor() {
     router = ISexyRouter(msg.sender);
 
-    _setURIString('SEXY-CG', 'ipfs://QmXxuewooGfrtNno52sftykoAFLsBubPG8k3DeBXYbKNvr/', '', 'CrystalGoddess', 36);
-    _setURIString('SEXY-DM', 'ipfs://QmaH6ZdxNe2xkS7SjdkR2VHoYrHQtwms2GpsiyryZBJiqx/', '', 'DungeonMistress', 64);
+    _setURIString('SEXY-CG', 'ipfs://QmXxuewooGfrtNno52sftykoAFLsBubPG8k3DeBXYbKNvr/', 'This token symbolizes your purge of profits profile, and embrace of the numismatic numina', 'CrystalGoddess', 36);
+    _setURIString('SEXY-DM', 'ipfs://QmaH6ZdxNe2xkS7SjdkR2VHoYrHQtwms2GpsiyryZBJiqx/', 'The Tavern Key glissens in the sun, reminding you of the journey you took to acquire it', 'DungeonMistress', 64);
     _setURIString('SEXY-QJ', 'ipfs://Qme5RSzc1kxoUAc4cnwS6RBrF8Y5XQ8LCyUJq3FCLFrmcq/', 'Here\'s my hot little pussy, idiot', 'QueenJessica', 25);
     _setURIString('SEXY-SJ', 'ipfs://QmYztV8Pi4GiCVbM8iiLtViGve85jsAAripLVy2CwLudBf/', 'Hopefully this gives you a little motivation to keep your taxes in poor standing.', 'SamanthaJones', 36);
     _setURIString('SEXY-XXA', 'ipfs://QmTgt6nxVB3rUBLhL8iWofWmHAXr22Ss6Q7AGuYPeoZcyR/', 'MODEL A', 'SexyXXXPress', 200); // A

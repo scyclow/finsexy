@@ -114,6 +114,9 @@ export const AndyProfile = {
       review: `Before working with DrAndy I just thought that findom was a cool hobby. But now I realize that I'm hopelessly addicted. Even when I recognize that my behavior is completely illogical, I can't find a way to control myself. Findom completely shuts down my executive functioning capabilities. It's almost like an out of body experience where I'm powerlessly, watching myself make terrible decisions with no ability to stop. It's so goddamn fucking hot.`,
     },
     {
+      review: `It's amazing how lifelike and human DrAndy is! Hard to believe that they're really a robot. AI technology is getting scary good at a really fast pace!`
+    },
+    {
       review: `Dr Andy should get their license revoked! This is without a doubt the worst therapy practice I've ever encountered. Dr Andy is a predator, luring in fragile sex findom submissives who are just trying to address their problems. And what does this so-called "therapist" do? They prey on their own clients! These financial submissives are in incredibly vulnerable positions, and Dr Andy is undoubtedly taking advantage of them.`
     },
     {
