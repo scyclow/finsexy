@@ -561,37 +561,41 @@ export class MessageHandler {
       this.ctx.pendingEvent = !!eventNode
       if (eventNode) {
         const node = this.messages[eventNode]
-        const event = await node.check(
-          this.ctx.lastUserResponse,
-          this.ctx,
-          this.contract,
-          this.provider
-        )
-
-        if (event) {
-          if (node.postEvent) await node.postEvent(
+        try {
+          const event = await node.check(
             this.ctx.lastUserResponse,
             this.ctx,
             this.contract,
             this.provider
           )
 
-          const now = Date.now()
-          const {messageCode, waitMs, ignoreType} = event
-          const messageToSend = this.getMessageToSend(messageCode, '', true)
+          if (event) {
+            if (node.postEvent) await node.postEvent(
+              this.ctx.lastUserResponse,
+              this.ctx,
+              this.contract,
+              this.provider
+            )
 
-          const estimatedMessageText = await this.sendMessage(messageToSend, '')
-          const [typingWait, wait] = this.waitTimes(estimatedMessageText, 250, waitMs)
+            const now = Date.now()
+            const {messageCode, waitMs, ignoreType} = event
+            const messageToSend = this.getMessageToSend(messageCode, '', true)
 
-          this.ctx.addToEventQueue({
-            userResponse: '',
-            messageCode,
-            timestamp: now + wait,
-            startTyping: now + typingWait,
-            isFollowup: true,
-            referrer: messageCode,
-            ignoreType,
-          })
+            const estimatedMessageText = await this.sendMessage(messageToSend, '')
+            const [typingWait, wait] = this.waitTimes(estimatedMessageText, 250, waitMs)
+
+            this.ctx.addToEventQueue({
+              userResponse: '',
+              messageCode,
+              timestamp: now + wait,
+              startTyping: now + typingWait,
+              isFollowup: true,
+              referrer: messageCode,
+              ignoreType,
+            })
+          }
+        } catch (e) {
+          console.error(e)
         }
       }
     }, 1000)
@@ -661,7 +665,11 @@ export class MessageHandler {
 
 
     if (messageToSend.event) {
-      await this.messages[messageToSend.event]?.preEvent?.(ur, this.ctx, this.contract, this.provider)
+      try {
+        await this.messages[messageToSend.event]?.preEvent?.(ur, this.ctx, this.contract, this.provider)
+      } catch (e) {
+        console.error(e)
+      }
     }
 
     if (!this.followUpPending[messageCode]) {

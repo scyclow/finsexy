@@ -18,6 +18,7 @@ export const tributeLS = {
 
   async resetTributeAdjustment(dom) {
     const addr = await provider.isConnected()
+    if (!addr) return
     const adj = await this.getTribute(dom)
     this.set(addr, dom, adj.toString())
     return adj
@@ -26,6 +27,7 @@ export const tributeLS = {
 
   async resetAllTributeAdjustment(cb) {
     const addr = await provider.isConnected()
+    if (!addr) return
 
     const allTributes = await this.getTributes()
 
@@ -39,6 +41,7 @@ export const tributeLS = {
 
   async getTributes() {
     const addr = await provider.isConnected()
+    if (!addr) return {}
     const domContracts = await provider.domContracts()
 
     const allTributes = {}
@@ -52,6 +55,7 @@ export const tributeLS = {
 
   async getTribute(dom) {
     const addr = await provider.isConnected()
+    if (!addr) return 0
     const domContracts = await provider.domContracts()
     return (await domContracts[dom].tributes(addr))
   },
@@ -62,12 +66,14 @@ export const tributeLS = {
 
   async getAdjustedTribute(dom) {
     const addr = await provider.isConnected()
+    if (!addr) return 0
     const domContracts = await provider.domContracts()
     return (await domContracts[dom].tributes(addr)).sub(this.get(addr, dom) || '0')
   },
 
   async getAdjustedTributes() {
     const addr = await provider.isConnected()
+    if (!addr) return {}
     const domContracts = await provider.domContracts()
 
     const allTributes = this.get(addr)
@@ -92,6 +98,7 @@ export const tributeLS = {
 
   async getAdjustedTributeETH(dom) {
     const addr = await provider.isConnected()
+    if (!addr) return 0
     const domContracts = await provider.domContracts()
 
     return fromWei((await domContracts[dom].tributes(addr)).sub(this.get(addr, dom) || '0'))

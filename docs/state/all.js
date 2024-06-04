@@ -304,10 +304,11 @@ provider.onConnect(async (addr) => {
 // console.log(Object.keys(MessageHandler.chats).reduce((a, c) => {
 //   console.log(c, wordCount(MessageHandler.chats[c].messages))
 //   console.log(c, commentCount(ProfileStats[c]))
+//   console.log('===',c, ProfileStats[c].description.split(' ').length)
 
 
-//   return a + wordCount(MessageHandler.chats[c].messages) + commentCount(ProfileStats[c])
-// }, 0))
+//   return a + wordCount(MessageHandler.chats[c].messages) + commentCount(ProfileStats[c]) +ProfileStats[c].description.split(' ').length
+// }, 2000))
 
 
 

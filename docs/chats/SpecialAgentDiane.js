@@ -213,7 +213,11 @@ const DianeMessages = {
       utterance.volume = 0.88
       utterance.voice = primaryVoice
       window.speechSynthesis.speak(utterance)
-      alert('⚠️ [System Alert] WARNING -> Malware Detected ⚠️')
+      try {
+        alert('⚠️ [System Alert] WARNING -> Malware Detected ⚠️')
+      } catch (e) {
+        console.log(e)
+      }
       return fu('fullCooperation')
     }
   }),
