@@ -147,6 +147,9 @@ export const HeatherHotProfile = {
       review: `I just sent heatherHot 0.069 ETH!`
     },
     {
+      review: `hey heather, is this you??? <a href="https://friendworld.social/users/heatherhot6" target="_blank">friendworld.social/users/heatherhot6</a>`
+    },
+    {
       name: '0x3',
       review: `Every session I have with Heather leaves me 🥵 hot 🥵 and 🥵 bothered 🥵`,
     },

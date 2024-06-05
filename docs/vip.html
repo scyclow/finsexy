@@ -149,6 +149,14 @@
     animation: Glow 4s ease-in-out infinite;
   }
 
+  #goldSelection {
+    animation: Glow2 6s ease-in-out infinite;
+  }
+
+  #goldSelection.activeFilter {
+    animation: Glow3 8s ease-in-out infinite;
+  }
+
   .mintSection {
     margin-top: 3em;
   }
@@ -156,10 +164,14 @@
   #mintButton {
     font-size: 2em;
     box-shadow: 0 0 2em var(--glow-color);
-    transition: 300ms;
+    transition: 400ms;
     padding: 0.35em 1.5em;
     margin-bottom: 0.25em;
     margin-top: 0.5em;
+  }
+
+  #mintButton:hover {
+    box-shadow: 0 0 2em var(--glow-color), 0 0 4em var(--glow-color);
   }
 
   #mintNowButton {
@@ -337,6 +349,34 @@
     50% {
       color: var(--yellow-color);
       text-shadow: 1px 1px 5px var(--yellow-color), 0px 0px 20px var(--yellow-color)
+    }
+  }
+
+  @keyframes Glow2 {
+    0%, 100% {
+      color: var(--medium-color);
+      text-shadow: none;
+      box-shadow: none;
+    }
+    50% {
+      color: var(--yellow-color);
+      text-shadow: 1px 1px 5px var(--yellow-color), 0px 0px 20px var(--yellow-color);
+      box-shadow: 0 0 10px var(--yellow-color), 0 0 20px var(--yellow-color), inset 0 0 8px var(--yellow-color), inset 0 0 12px var(--yellow-color);
+    }
+  }
+
+  @keyframes Glow3 {
+    0%, 100% {
+      background: var(--yellow-color);
+      color: var(--blue-color);
+      border-color: var(--yellow-color);
+      text-shadow: none;
+      box-shadow: none;
+    }
+    50% {
+      background: var(--yellow-color);
+      color: var(--blue-color);
+      box-shadow: 0 0 10px var(--yellow-color);
     }
   }
 

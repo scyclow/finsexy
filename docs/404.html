@@ -38,7 +38,7 @@
       h1 a {
         font-family: var(--fancy-font);
         line-height: 1.1;
-        text-shadow: 2px 2px 0px var(--dark-color), 3px 3px 2px var(--primary-color);
+        text-shadow: 2px 2px 0.02em var(--dark-color), 3px 3px 0.04em var(--primary-color);
         font-size: 12vw;
         text-decoration: none;
         color: var(--light-color);
@@ -48,7 +48,16 @@
       h1 a:hover, h1 a:active, h1 a:focus {
         outline: none;
         color: var(--medium-color);
-        text-shadow: 2px 2px 4px var(--dark-color), 3px 3px 8px var(--primary-color);
+        text-shadow: 2px 2px .04em var(--dark-color), 3px 3px .08em var(--primary-color);
+      }
+
+      h1 img {
+        filter: saturate(1.1) drop-shadow(2px 2px 0.02em var(--dark-color)) drop-shadow(1px 1px 0.01em var(--primary-color));
+        transition: 300ms;
+      }
+
+      h1 a:hover img, h1 a:active img, h1 a:focus img {
+        filter: saturate(1.1) drop-shadow(2px 2px 0.04em var(--dark-color)) drop-shadow(1px 1px 0.04em var(--primary-color));
       }
 
       .center {
@@ -63,7 +72,7 @@
 
 <body>
   <div class="center">
-    <h1><a href="/enter" style="display:flex; align-items:center">💋 404</a></h1>
+    <h1><a href="/enter" style="display:flex; align-items:center"><img src="/assets/kissRaw.png" style="width: 0.85em; margin-right:0.3em"> 404</a></h1>
   </div>
 </body>
 <script>
