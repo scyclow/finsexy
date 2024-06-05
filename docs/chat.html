@@ -408,8 +408,10 @@
 
     Object.keys(MessageHandler.chats).forEach(k => {
       if (k === activeChat) {
+        const u = new URL(window.location)
+        const qpActive = u.searchParams.get('activeChat')
 
-        if (queryParams.activeChat || window.innerWidth > 520) {
+        if (qpActive || window.innerWidth > 520) {
           MessageHandler.chats[k].isActive = true
           MessageHandler.chats[k].ctx.resetUnread()
         }
@@ -495,7 +497,9 @@
 
   let orderedChats = []
   function updateViewedPanels() {
-    if (!document.hidden && queryParams.activeChat || window.innerWidth > 520) {
+    const u = new URL(window.location)
+    const qpActive = u.searchParams.get('activeChat')
+    if (!document.hidden && qpActive || window.innerWidth > 520) {
       MessageHandler.chats[activeChat].ctx.resetUnread()
     }
 
