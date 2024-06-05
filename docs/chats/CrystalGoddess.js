@@ -328,14 +328,14 @@ export const CrystalGoddessMessages = {
 
   repent: {
     messageText: `Then bow down, and acknowledge me as your one true Goddess. Make a vow of devotion to me`,
-    responseHandler: ur => responseParser(ur).includes('vow of devotion to you my goddess')
+    responseHandler: ur => isMatch(ur, ['devotion', 'vow'])
       ? 'vowDevotionSuccess'
       : 'vowDevotionFailure'
   },
 
   vowDevotionFailure: {
     messageText: `I think the words your looking for are: "I make a vow of devotion to you, my goddess"`,
-    responseHandler: ur => responseParser(ur).includes('vow of devotion to you my goddess')
+    responseHandler: ur => isMatch(ur, ['devotion', 'vow'])
       ? 'vowDevotionSuccess'
       : 'vowDevotionFailure'
   },
@@ -412,7 +412,7 @@ export const CrystalGoddessMessages = {
     messageText: `You are not ready to seek enlightenment. Only those with a Web3 wallet can perform this ritual`,
     responseHandler: (ur, ctx) => {
       if (ctx.state.lastRitual === 'burn') return 'ritualBurnInitiate'
-      else if (ctx.state.lastRitual === 'cleanse') return 'cleansingCeremonyStart'
+      else if (ctx.state.lastRitual === 'cleanse') return 'clarityOfThought'
     }
   },
   connectError: {

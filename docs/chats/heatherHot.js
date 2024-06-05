@@ -182,9 +182,9 @@ export const HeatherHotProfile = {
     {
       review: `The only success I've ever had with dating is when I actively put on the charm. It always feels so artificial, almost like I'm being someone else. Heather likes me for me (and my money), and that makes me feel seen!`
     },
-    {
-      review: `Ive fucking HAD IT with online dating. I can't take the constant shame, rejection, and disappointment any more! I just want to pay a cute girl to tell me how much I suck to my face instead of ignoring me. Also, feet pics. Is that too much to ask?`
-    },
+    // {
+    //   review: `Ive fucking HAD IT with online dating. I can't take the constant shame, rejection, and disappointment any more! I just want to pay a cute girl to tell me how much I suck to my face instead of ignoring me. Also, feet pics. Is that too much to ask?`
+    // },
     {
       review: `It's honestly super refreshing to meet a hot girl on a website like this after striking out on dating apps for YEARS. It doesn't matter how many times I swipe right, I can never get any action`
     },
@@ -458,7 +458,7 @@ const HeatherHotMessages = {
     `if you <em>really</em> like sending then you should definitely buy a VIP Membership!`,
     `VIP Members are so hot`,
     `VIP Members get 25 SexyCredits, which they can use to pay their favorite findoms`,
-    `each SexyCredit is worth 0.01 ETH, but you can get 25 of them for only 0.1 ETH!`,
+    `each SexyCredit is worth 0.01 ETH, but you can get 25 of them for only 0.1 ETH with a V.I.P. Membership!`,
     `and if you pay an extra 0.05 ETH then you'll get a <em>really</em> hot Gold Star on your Membership card`,
     `also, VIPs get access to all sorts of extra sexy features like color cusomization, faster response times, and customer support!`,
     `you can buy one by going to <a href="./vip">finsexy.com/vip</a>. there are only 101 VIP Membership NFT cards available though, so you should buy one before they run out! otherwise you'll have to buy one on the secondary market`,
@@ -540,7 +540,7 @@ const HeatherHotMessages = {
   },
 
   moreInfo5e: {
-    messageText: `and lastly, this is an adult website!! if you're not 18+ then please please please go use a kid-friendly app instead, like tiktok or friendworld`,
+    messageText: `and lastly, this is an adult website!! if you're not 18+ then please please please go use a kid-friendly app instead, like tiktok or <a href="https://friendworld.social" target="_blank">friendworld</a>`,
     followUp: { messageCode: 'nextSteps', waitMs: 5000 }
   },
 

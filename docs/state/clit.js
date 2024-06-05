@@ -185,6 +185,7 @@ export const sexyCLIT = {
     }
 
     else if (command === 'premium') {
+
       const code = args[0]
 
       if (code === 'NothingToLose') {
@@ -193,14 +194,17 @@ export const sexyCLIT = {
         return cb(`All prayments faked`)
 
       } else if (code === 'SingleSissySub') {
+        if (!provider.isWeb3()) return cb('Please revisit FinSexy in a Web3-enabled browser')
         return this.applyPremium(1, cb, cb, () => cb('All Prices: 1x'))
 
 
       } else if (code === 'DoubleTheFun') {
+        if (!provider.isWeb3()) return cb('Please revisit FinSexy in a Web3-enabled browser')
         return this.applyPremium(2, cb, cb, () => cb('All Prices: 2x'))
 
 
       } else if (code === 'ThirdTimesTheCharm') {
+        if (!provider.isWeb3()) return cb('Please revisit FinSexy in a Web3-enabled browser')
         return this.applyPremium(3, cb, cb, () => cb('All Prices: 3x'))
 
       } else if (!code || ['list', 'ls'].includes(code.toLowerCase())) {

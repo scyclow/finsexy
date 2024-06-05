@@ -128,7 +128,7 @@ https://m.thegazette.co.uk/all-notices/content/100723#:~:text=A%20bankrupt%20wou
 
 
 
-import { isYes, isNo, isGreeting, isMean, isMatch, responseParser, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
+import { isYes, isNo, isGreeting, isMean, isMatch, isNegate, responseParser, diatribe, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {provider} from '../eth.js'
 import {tributeLS} from '../state/tributes.js'
@@ -783,9 +783,9 @@ const HorseWomanNodes = {
   }),
 
   ...diatribe('approachHorseWomanFresh', [
-    `You approah the woman perched atop her horse. As you get closer to her left side, you notice the horse's massive erection -- no doubt an effect of touching this absolutely gorgeous woman.`,
+    `You approah the woman perched atop a horse. As you get closer to her left side, you notice the horse's massive erection -- no doubt an effect of touching this absolutely gorgeous woman.`,
     `You now stand before me, the Dungeon Mistress. The collector of all debts within the realm, as well as the administrator of all punishment and debt bondage. You do not want to run afoul of me. As I look over the town, I speak,`,
-    () => `"Good day. I'm wondering if you could help me. I'm looking for a ${genderSwitch({m: 'man', f: 'woman', nb: 'person'})} named ${getUserData('name')}. ${genderSwitch({m: 'He owes', f: 'She owes', nb: 'They owe'})} quite a bit of money to a number of different parties. In fact, this amount has become so unmanageably high that I expect ${genderSwitch({m: 'him', f: 'her', nb: 'them'})} to enter debt bondage under the authority of the local court for a significant period of time. Perhaps the rest of their life. This is quite serious, and I wonder if ${genderSwitch({m: 'he is', f: 'she is', nb: 'they are'})} aware of the danger ${genderSwitch({m: 'he is', f: 'she is', nb: 'they are'})} in."`,
+    () => `"Good day. I'm wondering if you could help me. I'm looking for a ${genderSwitch({m: 'man', f: 'woman', nb: 'person'})} named ${getUserData('name')}. ${genderSwitch({m: 'He owes', f: 'She owes', nb: 'They owe'})} quite a bit of money to a number of different parties. In fact, this amount has become so unmanageably high that I expect ${genderSwitch({m: 'him', f: 'her', nb: 'them'})} to enter debt bondage under the authority of the local court for a significant period of time. Perhaps the rest of ${genderSwitch({m: 'his', f: 'her', nb: 'their'})} life. This is quite serious, and I wonder if ${genderSwitch({m: 'he is', f: 'she is', nb: 'they are'})} aware of the danger ${genderSwitch({m: 'he is', f: 'she is', nb: 'they are'})} in."`,
     `I glance down at you with a sly grin before returning my gaze to the town.`,
     `"If I were ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}, I would seek refuge in the market, or perhaps even the Dark Forest. Otherwise, there's no telling what brutal punishment awaits ${genderSwitch({m: 'him', f: 'her', nb: 'them'})} when I catch ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}. One thing is for certain though: ${genderSwitch({m: 'he', f: 'she', nb: 'they'})} will surely lose all freedom to roam around town once I find ${genderSwitch({m: 'him', f: 'her', nb: 'them'})}."`,
   ], {
@@ -948,6 +948,9 @@ const PokerNodes = {
     (ur, ctx) => `<em>(You now have ${ctx.state.beerInventory-1} Beer${(ctx.state.beerInventory-1) === 1 ? '' : 's'} in your inventory)</em>`
   ], {
     followUp: (ur, ctx) => {
+      ctx.state.beerInventory -= 1
+      ctx.state.pokerPlayerGoodSide = true
+
       return fu('tavernDeliberate')
     }
   }),
@@ -1060,10 +1063,9 @@ const MistressMessages = {
       }
     }
 
-    if (!ctx.state.isDrinkingBeer && ur && isMatch(ur, ['drink beer', 'drink a beer', 'drink the beer'], true)) {
+    if (!isFollowup && ur && isMatch(ur, ['drink beer', 'drink a beer', 'drink the beer'], true)) {
       if (ctx.state.beerInventory) {
         ctx.state.drinkBeerReferrer = ctx.lastDomCodeSent
-        ctx.state.isDrinkingBeer = true
         return {
           messageText: ``,
           followUp: fu('drinkBeer', 1)
@@ -1080,13 +1082,15 @@ const MistressMessages = {
 
   drinkBeer: {
     messageText: `You drink a beer, but it has no effect.`,
-    followUp: fu('drinkBeerInventory')
+    followUp: (ur, ctx) => {
+      ctx.state.beerInventory -= 1
+      return fu('drinkBeerInventory')
+    }
   },
 
   drinkBeerInventory: {
     messageText: (ur, ctx) => `<em>(You now have ${ctx.state.beerInventory} Beer${ctx.state.beerInventory === 1 ? '' : 's'} in your inventory)</em>`,
     responseHandler: (ur, ctx) => {
-      ctx.state.isDrinkingBeer = false
       return ctx.state.drinkBeerReferrer
     }
   },
@@ -1203,11 +1207,23 @@ const MistressMessages = {
     `The old man begins furiously chomping his teeth.`,
     `Do you help the old man? Or remain silent?`
   ], {
-    responseHandler: 'cellPurgatory'
+    responseHandler: (ur, ctx) => {
+      if (isMatch(ur, ['help']) && !isNegate(ur)) {
+        ctx.state.oldManHelped = true
+        return 'cellPurgatoryHelp'
+      }
+      'cellPurgatory'
+    }
   }),
+
+  cellPurgatoryHelp: {
+    messageText: `You open your mouth, but no words come out. Despite your intentions you remain silent like the coward that you are.`,
+    followUp: fu('cellPurgatory')
+  },
 
   ...diatribe('cellPurgatory', [
     `The guards remove the old man from the cell as he whimpers. They close cell door and lock it behind them.`,
+    (ur, ctx) => !ctx.state.oldManHelped ? `You wonder what would have happened if you had tried to help the old man. Would it have made a difference?` : ``,
     `You sit in silence, alone with your thoughts.`,
     `You have no idea where you are, how long you've been there, or what will happen to you. But the tension from the suspense makes you unimaginably horny, and it becomes hard to think about anything else.`,
     `The inside of your head is an absolute cluttered mess. All of a sudden the old man's state of mind makes perfect sense. Without some sort of release you feel you will go insane as well.`,
@@ -1226,7 +1242,7 @@ const MistressMessages = {
     `A few friendly faces populate the crowd: the bartender, the harlots, the poker players, the merchant, his wife, your wife. But they cease to be individuals. They are simply components of the mob.`,
     `You hear steps behind you, creaking on the wooden stage. A leather whip touchs your rear, and glides along your back. You feel a hot breath on your ear.`,
     `"Are you ready to service your debt?" you hear me say.`,
-    `I crack the whip on your ass, drawing a hint of blood. ${genderSwitch({ m: 'Your erection comes back in full force.', f: 'Your pussy is sopping wet', nb: `You drool with arousal` })}. The crowd cheers.`,
+    `I crack the whip on your ass, drawing a hint of blood. ${genderSwitch({ m: 'Your erection comes back in full force', f: 'Your pussy is sopping wet', nb: `You drool with arousal` })}. The crowd cheers.`,
     `I walk in front of you, revealing a 9 inch wooden phallus strapped to my pelvis. I rub it against your lips, letting the tip into your mouth.`,
     `Leaning into your ear, I whisper: "fallitus ergo fraudator"`,
     `I crack the whip on your ass once more and you wince.`,

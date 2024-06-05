@@ -248,7 +248,7 @@ export function isMatch(txt, phrases, strict=false) {
   )
 }
 
-const isNegate = txt => responseParser(txt).split(' ').some(word => ['no', 'not', 'dont'].includes(word))
+export const isNegate = txt => responseParser(txt).split(' ').some(word => ['no', 'not', 'dont'].includes(word))
 export const isGreeting = txt => isMatch(txt, greetings)
 export const isYes = txt => isMatch(txt, yeses) && !isNegate(txt)
 export const isNo = txt => isMatch(txt, noes)

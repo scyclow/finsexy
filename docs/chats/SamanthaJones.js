@@ -79,6 +79,9 @@ export const SamanthaProfile = {
       review: `I just sent SamanthaJones 0.069 ETH!`
     },
     {
+      review: `mmm yeah i wanna suck on those toes baby`
+    },
+    {
       name: '0x2',
       review: `I love that every transaction I make is out in the open for Samantha to read at her liesure. It gets me so hard.`,
     },

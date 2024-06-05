@@ -352,7 +352,7 @@ const StevieMessages = {
     `the findoms are <em>not</em> powered by chatgpt or an LLM`,
     `I know that they're all the rage these days, but it just wasn't right for this project`,
     `they just don't have the human touch, you know? for a findom to be really sexy it needs some pizazz`,
-    `besides, I don't want to deal with some external dependencies and third parties`,
+    // `besides, I don't want to deal with some external dependencies and third parties`,
     `what else do you want to know?`
   ], {
     responseHandler: 'question2'
@@ -404,7 +404,7 @@ const StevieMessages = {
     `I've been working on this website on and off for over 8 months!`,
     `I didn't use any libraries or frameworks either. just raw html, css, and javascript`,
     `well, i used ethers.js to interface with the blockchain, but aside from that, it's all me, baby`,
-    `countless hours of market research, the marketing strategy, the engineering... all me`,
+    `countless hours of planning, the PR strategy, the engineering... all me`,
     `exhaustive market research, writing copy, smart contract development, meticulous UI design, choosing colors, adjusting spacing, tweaking animation speeds`,
     `all me.`,
     `and lemme tell you, parts of this website were not trivial engineering efforts`,
@@ -421,6 +421,7 @@ const StevieMessages = {
     `really, the world is my oyster. I could be raking it in on any number of business ventures`,
     `but instead, i chose to spend months of my life building this website. and now I'm wasting my valuable time talking to <em>you</em>`,
     `and my time isn't free, so if oyu want to keep this little chat going you're going to need to do something for me`,
+    `you*`
   ], {
     responseHandler: 'helpMeOut'
   }),

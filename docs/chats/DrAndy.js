@@ -158,6 +158,9 @@ export const AndyProfile = {
       review: `Paying Dr Andy for our session is the one bright spot in the week`
     },
     {
+      review: `I guess it's cheaper than real therapy and my insurance wouldn't cover it anyhow, so why not?`
+    },
+    {
       review: ` I have this really bad habit where right after waking up I just reach for my phone and immediately start sending money to findoms. For some reason it really screws up my concentration for the rest of the day. Even if I'm not <em>thinking</em> about it, I can still feel the thought there in the background. It's like the abstract idea of it completely hijacks part of my brain and throws off my rhythm. It makes it really hard to get any work done. Anyhow, I was hoping you'd be able to help me out with this? I've heard good things about CBT and have been wanting to try it.`
     },
     {
@@ -441,7 +444,6 @@ const AndyMessages = {
       if (provider.isWeb3()) {
         return fu('firstPayment1')
       } else {
-        ctx.visibility.DrAndy = 'offline'
         return fu('noWeb3')
       }
     }
@@ -454,6 +456,18 @@ const AndyMessages = {
 
   noWeb3: {
     messageText: `Oh... I see that you don't have a Web3 wallet. That makes payment pretty tricky. Please add a web3 wallet extension to your browser and we can resume treatment`,
+    responseHandler: (ur, ctx, contract, provider) => {
+      if (provider.isWeb3()) {
+        ctx.visibility.DrAndy = 'online'
+        return 'firstPayment1'
+      } else {
+        return 'noTherapyUntilPay'
+      }
+    }
+  },
+
+  noTherapyUntilPay: {
+    messageText: `I'm sorry, but I cannot provide theraputic services until I receive payment for your first session. If this is an emergency, please call the National Suicide Prevention Hotline at 1-800-273-8255`,
     responseHandler: (ur, ctx, contract, provider) => {
       if (provider.isWeb3()) {
         ctx.visibility.DrAndy = 'online'

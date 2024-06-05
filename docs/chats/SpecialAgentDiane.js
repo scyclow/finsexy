@@ -136,7 +136,7 @@ const DianeMessages = {
     `I know, it is quite serious. My intel suggests that this was the work of a highly sophisticated computer hacker.`,
     `If we don't act quickly then your entire digital life could be at risk.`,
     `Bank accounts, crypto balances, social media profiles... everything.`,
-    `This hacker is incredibly dengerous, and will stop at nothing until they have completely ruined your life.`,
+    `This hacker is incredibly dangerous, and will stop at nothing until they have completely ruined your life.`,
     `It is only a matter of time before all of your funds are completely drained and your loved ones are made aware of your disgusting, shameful FinDom fetish.`,
     `It would be absolutely devistating.`,
     `Additionally, it appears that they have already conducted a fair amount of illegal activity using your identity, which opens you up to substantial legal ramifications.`,
@@ -217,9 +217,11 @@ const DianeMessages = {
         alert('⚠️ [System Alert] WARNING -> Malware Detected ⚠️')
       } catch (e) {
         console.log(e)
+        return fu('fullCooperation')
       }
       return fu('fullCooperation')
-    }
+    },
+    responseHandler: 'fullCooperation'
   }),
 
   ...diatribe('fullCooperation', [
