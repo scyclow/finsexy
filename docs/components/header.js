@@ -23,7 +23,9 @@ createComponent(
         user-select: none;
       }
       header {
-        padding: 0.25em 0.5em;
+        padding: 0.25em;
+        padding-left: 1em;
+        padding-right: 0;
         border-bottom: 1px solid var(--border-color);
         display: flex;
         justify-content: space-between;
@@ -46,6 +48,16 @@ createComponent(
         color: var(--medium-color);
         text-shadow: 2px 2px 4px var(--dark-color), 3px 3px 8px var(--primary-color);
       }
+
+      h1 img {
+        filter: saturate(1.1) drop-shadow(2px 2px 0px var(--dark-color)) drop-shadow(1px 1px 1px var(--primary-color));
+        transition: 300ms;
+      }
+
+      h1 a:hover img, h1 a:active img, h1 a:focus img {
+        filter: saturate(1.1) drop-shadow(2px 2px 2px var(--dark-color)) drop-shadow(1px 1px 4px var(--primary-color));
+      }
+
 
       nav ul {
         list-style-type: none;
@@ -186,6 +198,7 @@ createComponent(
       #connectButton:hover {
         background: var(--light-color);
         color: var(--primary-color);
+        text-shadow: 0 0 20px var(--secondary-color);
         animation: none;
         box-shadow: 0 0 3em var(--primary-color);
       }
@@ -196,6 +209,11 @@ createComponent(
         transform: translateY(1px)
       }
 
+      @media (max-width: 380px) {
+        header {
+          padding-left: 0.75em;
+        }
+      }
 
 
       @media (max-width: 835px) {
@@ -271,10 +289,8 @@ createComponent(
     </style>
 
     <header id="header">
-      <h1><a href="/" style="display:flex; align-items:center">💋 FINSEXY</a></h1>
-      <!--
-        <h1><a href="/" style="display:flex; align-items:center"><img src="/assets/kiss.png" style="width: 1em; margin-right:0.25em"> FINSEXY</a></h1>
-        -->
+      <h1><a href="/" style="display:flex; align-items:center"><img src="/assets/kissRaw.png" style="width: 0.85em; margin-right:0.3em"> FINSEXY</a></h1>
+
       <nav id="nav">
         <h4 id="mobileMenu">Menu<span id="totalUnreadsMenu" class="hidden"><span></a></h4>
         <ul id="navItems">
