@@ -175,6 +175,7 @@ const XXXMessages = {
     responseHandler: (ur) => {
       if (isMatch(ur, ['eth', 'ether', 'ethereum']) || isYes(ur)) return 'unconditionalETH'
       else if (isMatch(ur, ['sexy', 'credits', 'sexycredits', 'sexycredit', 'credit'])) return 'unconditionalCredits'
+      else if (isNo(ur)) return 'hello'
       else return 'unconditional2'
     }
   },
@@ -256,6 +257,8 @@ const XXXMessages = {
   buyA2: {
     messageText: `WOULD YOU LIKE TO PAY WITH SexyCredit OR ETH?`,
     responseHandler: async (ur, ctx, contract, provider) => {
+      if (isNo(ur)) return 'hello'
+
       ctx.state.error = ''
       try {
         const { SexyXXXpressA } = await provider.domContracts()
@@ -311,6 +314,8 @@ const XXXMessages = {
   buyB2: {
     messageText: `WOULD YOU LIKE TO PAY WITH SexyCredit OR ETH?`,
     responseHandler: async (ur, ctx, contract, provider) => {
+      if (isNo(ur)) return 'hello'
+
       ctx.state.error = ''
       try {
         const { SexyXXXpressB } = await provider.domContracts()
@@ -366,6 +371,8 @@ const XXXMessages = {
   buyC2: {
     messageText: `WOULD YOU LIKE TO PAY WITH SexyCredit OR ETH?`,
     responseHandler: async (ur, ctx, contract, provider) => {
+      if (isNo(ur)) return 'hello'
+
       ctx.state.error = ''
       try {
         const { SexyXXXpressC } = await provider.domContracts()

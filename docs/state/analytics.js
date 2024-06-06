@@ -9,9 +9,15 @@ const defaultState = {
 }
 
 
+if (!ls.get('__ANALYTICS_STATE')) {
+  ls.set('__ANALYTICS_STATE', JSON.stringify(defaultState))
+}
+
+
+
 export const analyticsLS = {
   get(k) {
-    const s = ls.get('__ANALYTICS_STATE') || defaultState
+    const s = ls.get('__ANALYTICS_STATE')
     return k ? s[k] : s
   },
 

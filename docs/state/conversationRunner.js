@@ -310,7 +310,6 @@ export function createEvent(threshold, responses={}, waitMs=600000) {
       const amount = ctx.global.premium * threshold //2
       const alreadyPaid = provider.BN(ctx.state.startingBalance) // 1
 
-
       if (contract && addr) {
         const t = await tributeLS.getAdjustedTribute(ctx.chatName) // 1.5
 

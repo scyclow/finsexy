@@ -816,7 +816,7 @@ const StevieMessages = {
     messageText: '',
     followUp: (ur, ctx) => {
       if (ctx.global.hedonitronicaIntroduced) return fu('hedonitronicaContinue', 0)
-      else if (!ctx.global.hedonitronicaIntroduced) return fu('hedonitronicaContinueQueue', 900000)
+      else return fu('hedonitronicaContinueQueue', 900000)
     }
   },
 
@@ -963,7 +963,7 @@ const StevieMessages = {
 
 
   ...diatribe('wrappingUp', [
-    `'oh yeah`,
+    `oh yeah`,
     `i suppose you want an nft or something for helping me out though, right?`
   ], {
     responseHandler: (ur, ctx) => isYes(ur) ? 'nftYes' : 'nftNo'

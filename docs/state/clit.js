@@ -134,7 +134,6 @@ export const sexyCLIT = {
     else if (command === 'send') {
       if (!provider.isWeb3()) return cb('Please revisit FinSexy in a Web3-enabled browser')
       if (!provider.hasConnected) return cb('Please connect with <code>$sexy connect</code> before attempting to send')
-        debugger
       this.send(args[0], args[1], cb, cb, () => cb('Send Successful'))
     }
 
@@ -619,6 +618,9 @@ export const sexyCLIT = {
 
   send(_recipient, amount, cb, errorCb, successCb=noop) {
     document.documentElement.classList.remove('orgasm')
+    document.documentElement.classList.remove('cleanseAnimation')
+    document.documentElement.classList.remove('burnAnimation')
+
     const recipient = _recipient.toLowerCase()
 
     const chat = Object.values(MessageHandler.chats).find(c => c.chatName.toLowerCase() === recipient)

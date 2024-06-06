@@ -181,7 +181,7 @@ function steviepAssetResponseHandler(ur, ctx) {
     return 'ifdAudit'
   } else if (_isMatch(['making', 'opportunity', 'mmo'])) {
     return 'mmoAudit'
-  } else if (_isMatch(['fastcash', 'fast'])) {
+  } else if (_isMatch(['fastcash', 'fast', 'fc', 'fastcashmoneyplus'])) {
     return 'fastCashAudit'
   } else if (_isMatch(['cold', 'hard', 'cash', 'chc',])) {
     return 'cashAudit'
@@ -702,7 +702,7 @@ const SamanthaMessages = {
 
   fimAudit: {
     messageText: (ur, ctx) => ctx.state.steviepBalances.FIM
-      ? `According to your transaction history it appears as if you purchased this NFT that appears to resemble monopoly money. Does this belong to you? <img src="https://artblocks-mainnet.s3.amazonaws.com/${ctx.state.FIMTokens[0]}.png">`
+      ? `According to your transaction history it appears as if you purchased an NFT that appears to resemble monopoly money. Does this belong to you? <img src="https://artblocks-mainnet.s3.amazonaws.com/${ctx.state.FIMTokens[0]}.png">`
       : genderSwitch({m: 'Sir', f: `Ma'am`, nb: getUserData('name')}) + `, you do not appear to have any Fake Internet Money. Let's try to stay focused.`,
     responseHandler: (ur, ctx) => ctx.state.steviepBalances.FIM
       ? 'fimAudit2'
@@ -804,7 +804,7 @@ const SamanthaMessages = {
   },
 
   iouAudit6: {
-    messageText: `I don't think you quite understand the concepts of "debt" and "ownership". I bet @CrystalGoddess is going to have a field day with you. I don't want to ruin her fun, so let's move on here.`,
+    messageText: `I don't think you quite understand the concepts of "debt" and "ownership". I bet @CrystalGoddess is going to have a field day with you. I don't want to ruin her fun though, so let's move on here.`,
     followUp: (ur, ctx) => {
       ctx.state.auditsRemaining.IOU = 0
       return fu('oneByOneReview')
@@ -892,7 +892,7 @@ const SamanthaMessages = {
       isYes(ur)
         ? `Don't lie to me, ${getUserData('name')}. I can see <em>everything</em> you've done.`
         : `I didn't think so.`
-    ) + ` Your desire for penalties must be insatiable.`,
+    ) + ` Your desire for penalties must be insatiable. Tax avoidance is a very serious manner. This will certainly have a significant impact on your final penalty.`,
     followUp: (ur, ctx) => {
       ctx.state.auditsRemaining.MMO = 0
       return fu('oneByOneReview')
@@ -969,7 +969,7 @@ const SamanthaMessages = {
 
 
   tenEthAudit: {
-    messageText: `I hope you understand that redeeming this token will constitute a transaction of more than $10,000 USD, which means that you will need to report @steviep's social security number. `,
+    messageText: `I don't have anything to say about this for the time being, but I hope you understand that redeeming this token will constitute a transaction of more than $10,000 USD. That means that you will need to report @steviep's social security number. `,
     followUp(ur, ctx) {
       ctx.state.auditsRemaining.TenETH = 0
       return fu('oneByOneReview')
@@ -1093,7 +1093,8 @@ const SamanthaMessages = {
   },
 
   sexyCredits: {
-    messageText:(ur, ctx) =>`I also accept SexyCredits as a method of payment. ${!ctx.global.isVIP ? 'I really advise purchasing a VIP Membership at <a href="./vip">finsexy.com/vip</a>. You will get 25 SexyCredits along with your membership for only 0.1 ETH, which makes it a much more cost-effective way of using FinSexy.' : ''} Remember: Each SexyCredit has a book value of 0.01 ETH, so I can accept ${Math.ceil(ctx.state.penaltyAmount* 100)} Credits as payment. That payment can also be made through the $sexy CLIT, or on my profile page.`,
+    messageText:(ur, ctx) =>`I also accept SexyCredits as a method of payment. ${!ctx.global.isVIP ? 'In my professional opinion, I believe that purchasing a VIP Membership at <a href="/vip">finsexy.com/vip</a> is your most cost-effective option for continuing your findom activities. You will get 25 SexyCredits along with your membership for only 0.1 ETH.' : ''} Remember: Each SexyCredit has a book value of 0.01 ETH, so I can accept ${Math.ceil(ctx.state.penaltyAmount* 100)} Credits as payment. That payment can also be made through the $sexy CLIT, or on my profile page.`,
+    event: 'sendEvent2',
     responseHandler: 'penaltiesNow'
   },
 
@@ -1126,7 +1127,8 @@ const SamanthaMessages = {
     `And it's all out in the open, too. You must get pretty turned on with so many people watching you do your business in public. I know I do.`,
     (ur, ctx, contract) => `If you ever want to take a look at me, you can see all my activity here: <a target="_blank" rel="nofollow" href="https://etherscan.io/address/${contract.address}">${contract.address}</a>.`,
     `Just knowing that you might be watching makes every one of my transactions so much more erotic.`,
-    `Anyhow, I have a lot more work to catch up on before EOD. This was fun though. I sent something to your wallet. Hopefully it will give you a little motivation to keep your taxes in poor standing.`,
+    `Anyhow, I have a lot more work to catch up on before EOD. This was fun though.`,
+    `I sent something to your wallet. Hopefully it will give you a little motivation to keep your taxes in poor standing.`,
     `If you ever need another audit, don't hesitate to get in touch.`,
   ], {
     responseHandler: async (ur, ctx, contract) => {

@@ -26,12 +26,10 @@ contract SexyRouter is Ownable {
     _premium[msg.sender] = p;
   }
 
-  // TODO: test
   function setBaseURI(address newBaseURI) external onlyOwner {
     baseURI = newBaseURI;
   }
 
-  // TODO: test
   function setVIP(address newVIP) external onlyOwner {
     vip = newVIP;
   }

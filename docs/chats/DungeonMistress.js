@@ -930,7 +930,15 @@ const PokerNodes = {
     `"Seriously though, I have half a mind to bend you over my knee and beat your ass until you cough up that money. Or even worse, maybe I'll <em>escalate</em> my complaint."`,
     `You gulp. With the other players, the bartender, and the harlots now looking on, you feel a deep humiliation. Your heart skips a beat and blood rushes to your loins.`,
   ], {
-    followUp: (ur, ctx) => ctx.state.beerInventory ? fu('pokerFreshBeer') : fu('pokerFreshContinue')
+    followUp: (ur, ctx) => {
+      if (ctx.state.beerInventory) {
+        ctx.state.beerInventory -= 1
+        ctx.state.pokerPlayerGoodSide = true
+        return fu('pokerFreshBeer')
+      } else {
+        return fu('pokerFreshContinue')
+      }
+    }
   }),
 
 
@@ -946,14 +954,9 @@ const PokerNodes = {
   ...diatribe('pokerFreshBeer', [
     `"But I tell you what. I'm a little parched, so why don't I take that beer off your hands and we forget the whole thing."`,
     `The dealer snatches your beer and downs the entire glass in a few gulps. He hands the empty glass back to you.`,
-    (ur, ctx) => `<em>(You now have ${ctx.state.beerInventory-1} Beer${(ctx.state.beerInventory-1) === 1 ? '' : 's'} in your inventory)</em>`
+    (ur, ctx) => `<em>(You now have ${ctx.state.beerInventory} Beer${(ctx.state.beerInventory) === 1 ? '' : 's'} in your inventory)</em>`
   ], {
-    followUp: (ur, ctx) => {
-      ctx.state.beerInventory -= 1
-      ctx.state.pokerPlayerGoodSide = true
-
-      return fu('tavernDeliberate')
-    }
+    followUp: fu('tavernDeliberate')
   }),
 
 
@@ -1213,7 +1216,7 @@ const MistressMessages = {
         ctx.state.oldManHelped = true
         return 'cellPurgatoryHelp'
       }
-      'cellPurgatory'
+      return 'cellPurgatory'
     }
   }),
 
@@ -1376,6 +1379,7 @@ function resetState(ctx) {
   ctx.state.harlotState = 'fresh'
   ctx.state.bartenderGoodSide = false
   ctx.state.pokerPlayerGoodSide = false
+  ctx.state.visitedPokerPlayers = false
   ctx.state.hasKey = false
   ctx.state.blowjobsGiven = 0
   ctx.state.beersPoured = 0

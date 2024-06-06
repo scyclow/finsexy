@@ -119,7 +119,6 @@ async function main() {
   // cagla = (await FinDomBaseLightFactory.attach(await deployer2.cagla())).address
 
 
-
   /// 4. CandyCrush URI
   const CandyCrushURIFactory = await ethers.getContractFactory('CandyCrushURI', artist)
   CandyCrushURI = await CandyCrushURIFactory.deploy()
@@ -128,7 +127,8 @@ async function main() {
 
   /// 5. DrAndy URI
   const DrAndyURIFactory = await ethers.getContractFactory('DrAndyURI', artist)
-  DrAndyURI = await DrAndyURIFactory.deploy(DrAndy.address)
+
+  DrAndyURI = await DrAndyURIFactory.deploy(DrAndy)
   await DrAndyURI.deployed()
   await SexyBaseURI.connect(artist).setURIAddr('SEXY-AI', DrAndyURI.address)
 
@@ -157,10 +157,10 @@ async function main() {
     '0x000000000000000000000000000000000': Hacker,
     SpecialAgentDiane: Hacker,
     RonaMerch,
-    MoneyMommy777,
+    // MoneyMommy777,
     HotlineBabe1900,
     CustomerSupport247,
-    cagla,
+    // cagla,
     SexyXXXpress: SexyXXXpress.address,
     SexyXXXpressA,
     SexyXXXpressB,

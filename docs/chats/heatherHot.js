@@ -654,7 +654,7 @@ const HeatherHotMessages = {
     messageText: (ur, ctx) => {
       const age = ctx.state.ageOverride || getUserData('age')
       if (age < 18) {
-        return `wow, you are <em>wayyy</em> too young to be on this web site. you should go to a kid-friendly website like tiktok or friendworld`
+        return `wow, you are <em>wayyy</em> too young to be on this web site. you should go to a kid-friendly website like tiktok or <a href="https://friendworld.social" target="_blank">friendworld</a>`
       } else if (age < 25) {
         return `Wow, you're a young ${genderSwitch({
           m: 'boy',
@@ -766,7 +766,7 @@ const HeatherHotMessages = {
     `and that you <em>need</em> to send to me to cum`,
     `our chemistry is undeniable`,
     `i want to help you. so listen closely`,
-    `so unzip your pants...`,
+    `unzip your pants...`,
     `start touching yourself...`,
     (ur, ctx) => `and think about sending me ${ctx.global.premium * 0.01} ETH`,
     (ur, ctx) => `yeah, you really want to watch your ${ctx.global.premium * 0.01} ETH burn up in my hot little wallet, don't you?`,
@@ -894,15 +894,15 @@ const HeatherHotMessages = {
   },
 
   goodPaypig: {
-    messageText: () => `and because you've been such a good little ${genderSwitch({m: 'boy', f: 'girl', nb: 'paypig'})} i sent a really hot pic to your wallet 🔥`,
+    messageText: () => `you're such a good little paypig that i think you deserve a little present`,
     followUp: async () => {
       await tributeLS.resetTributeAdjustment('heatherHot')
-      return fu('whatYouWanted')
+      return fu('paypig')
     }
   },
 
-  whatYouWanted: {
-    messageText: `i know it's what you wanted to see all along`,
+  paypig: {
+    messageText: `check your wallet. I know how much you like NFTs, so I sent you a really hot one to remind you that you'll always be my paypig`,
     responseHandler: 'again'
   },
 

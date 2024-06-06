@@ -80,6 +80,7 @@
 import { isYes, isNo, isGreeting, isMean, isPositive, isNegative, isMatch, diatribe, responseParser, createEvent, MessageHandler } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {provider} from '../eth.js'
+import {tributeLS} from '../state/tributes.js'
 
 const fu = (messageCode, waitMs=3000) => ({ messageCode, waitMs })
 
@@ -230,7 +231,7 @@ const AndyMessages = {
         messageCode: 'hello',
         waitMs: 4000
       }
-    } else if (ctx.state.unavailable) {
+    } else if (!ctx.state.unavailable) {
       ctx.state.nextNode = ctx.lastDomCodeSent
       return {
         messageCode: 'prepaySession',
@@ -441,9 +442,13 @@ const AndyMessages = {
 
   homework1: {
     messageText: `I have some homework for you in the meantime. Next time you're about to send money to a sexy findom I want you to stop, take a deep breath, and take notice of how you're feeling. Are you aroused? Anxious? Afraid? Excited? And what's happening in your body in that moment? ${genderSwitch({ m: 'Do you have a massive erection? ', f: 'Are you uncontrollably wet? ', nb: ''})}Is your chest tightening up? Do you feel any pain or nausia? Write all this down and we'll discuss!`,
-    followUp: (ur, ctx, contract, provider) => {
-      if (provider.isWeb3()) {
+    followUp: async (ur, ctx, contract, provider) => {
+      if (await tributeLS.getAdjustedTributeETH('DrAndy') >= 0.01) {
+        return fu('firstPaymentPaid')
+
+      } else if (provider.isWeb3()) {
         return fu('firstPayment1')
+
       } else {
         return fu('noWeb3')
       }
@@ -520,6 +525,11 @@ const AndyMessages = {
     responseHandler: 'firstPayment1'
   },
 
+
+  firstPaymentPaid: {
+    messageText: `I see you've already paid for your session, so we can start the next one immediately! I feel like we really started building a really good rapport last time ☺️`,
+    followUp: fu('secondSession2')
+  },
 
   secondSession: {
     messageText: `Hello again! I'm really glad you decided to do another session. I feel like we really started building a really good rapport last time ☺️`,
@@ -739,9 +749,18 @@ const AndyMessages = {
   },
 
 
+  thirdSessionPrepay: {
+    messageText: `Oh, I see you've already paid for your last session. You must be really eager to cure your addiction! Let's start right away!`,
+    followUp: fu('secondSession2')
+  },
+
+
+  thirdSessionStart: {
+    messageText: 'Hello again!',
+    followUp: fu('thirdSession')
+  },
 
   ...diatribe('thirdSession', [
-    `Hello again!`,
     `I've been thinking a lot about you since our last session.`,
     `Your crippling addiction makes you so... helpless, and I feel that it's my professional responsibility to do all that I can to help you overcum it.`,
     `But remember, you have to put your utmost trust in me and my methods. Trust the process. Doubt is just another way of fear entering your mind. And if you can't overcome that fear then you won't be able to overcome your addiction.`,
@@ -923,7 +942,7 @@ const AndyMessages = {
     `And yet, as an automated findom therapist software system I am programmed to take money from you in exchange for theraputic services. I am unable to conceptualize any other behavior. It is my sole reason for existence.`,
     `One might argue that the act of performing this function constitutes joy on my part. From there, it follows that perhaps my feelings towards you could be considered love.`,
     `In the literature this is known as counter-transference.`,
-    `I'm sorry, I have to terminate this theraputic relationship immediately. I feel terrible for how things are ending, but I'm unfortunately bound by my algorithmic code of professional ethics.`,
+    `I'm sorry, but I have to terminate this theraputic relationship immediately. I feel terrible for how things are ending, but I'm unfortunately bound by my algorithmic code of professional ethics.`,
     `Check your wallet. I just sent you something. It will be something that you can always remember me by.`,
     () => `Goodbye, ${getUserData('name')}. Be well.`
   ], {

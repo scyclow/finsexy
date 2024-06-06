@@ -241,7 +241,6 @@ const QueenMessages = {
       const creditBalance = vipToken === null ? 0 : await sexyCLIT.vipBalance(vipToken)
       const totalBalance = (await provider.getETHBalance(ctx.global.connectedAddr)) + creditBalance/10
       const totalTributes = fromWei(await tributeLS.getAdjustedTribute('QueenJessica'))
-      console.log(totalTributes)
 
       if (totalBalance < 0.1) {
         if (ctx.state.rejected3) return
@@ -474,7 +473,7 @@ const QueenMessages = {
 
 
 ...diatribe('kidsYes', [
-    `Well hopefully they're looking forward to community college because you're going to have to drain your family's bank account to keep me happy`,
+    `Well hopefully they're looking forward to community college because you're going to have to drain their 529 to keep me happy`,
     `Oops. No more college fund for little Sussie. If she wants to pull your family out of its suffocating mountain of debt, she'll have to find herself a nice sugar daddy to pay for it all`,
     `Their life is pretty much over before it even started. So sad`,
     `And it'll all. be. your. fault.`,

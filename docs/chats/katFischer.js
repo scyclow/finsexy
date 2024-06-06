@@ -520,7 +520,11 @@ export const KatMessages = {
 
   littleSomething: {
     messageText: `I just sent you a little something to remind you of what a complete and utter moron you are.`,
-    responseHandler: 'guilty'
+    responseHandler: async (ur, ctx) => {
+      ctx.state.sends = 0
+      await tributeLS.resetTributeAdjustment('katFischer')
+      return 'guilty'
+    }
   },
 
 
@@ -532,12 +536,7 @@ export const KatMessages = {
 
   startOver: {
     messageText: () => `If you really want we can just start over LOL, but i'm sure as hell not sending you any money back`,
-    responseHandler: async (ur, ctx, contract) => {
-      ctx.state.sends = 0
-      await tributeLS.resetTributeAdjustment('katFischer')
-
-      return 'steviep'
-    }
+    responseHandler: 'steviep'
   },
 
 }

@@ -210,15 +210,19 @@ contract SteviePProxy is ProxyBase {
   }
 }
 
+interface IFindomBase {
+  function mint(address) external;
+}
+
 contract SexyGame is Ownable {
   mapping(address => uint256) public insertionAmount;
   mapping(address => uint256) public insertionTime;
 
-  FinDomBase public steviep;
+  IFindomBase public steviep;
 
   constructor(address owner_) {
     transferOwnership(owner_);
-    steviep = FinDomBase(payable(msg.sender));
+    steviep = IFindomBase(payable(msg.sender));
   }
 
   function insert() external payable {

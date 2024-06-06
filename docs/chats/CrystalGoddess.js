@@ -145,9 +145,6 @@ export const CrystalGoddessProfile = {
       review: `It's beyond hope that @DrAndy and therapy cna fix me, so I must submit to a higher power 🙏`
     },
 
-
-
-
     {
       review: `I don't even know what I want any more. That's why I like Goddess. She just tells me what to like and what to do. I don't need to think too hard about it. Easy peasy.`
     },
@@ -477,7 +474,6 @@ export const CrystalGoddessMessages = {
 
       try {
         const addrBalance = await provider.getETHBalance(ctx.global.connectedAddr)
-        console.log(addrBalance)
 
         const tx = await contract.cleanse({
           value: toETH(addrBalance - 0.006)
