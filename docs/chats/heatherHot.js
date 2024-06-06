@@ -116,6 +116,7 @@ export const HeatherHotProfile = {
   name: 'heatherHot',
   startingVisibility: 'online',
   domType: 'Soft',
+  verified: true,
   order: 1,
   age: 22,
   distance: 2,

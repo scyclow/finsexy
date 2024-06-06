@@ -111,6 +111,7 @@ export const CrystalGoddessProfile = {
   name: 'CrystalGoddess',
   startingVisibility: 'online',
   domType: 'Protocol',
+  verified: true,
   order: 4,
   age: 31,
   distance: 7,

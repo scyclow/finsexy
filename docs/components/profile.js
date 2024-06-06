@@ -99,6 +99,50 @@ createComponent(
         border-radius: 3px;
       }
 
+      .verified {
+        background: var(--gray-color);
+        color: var(--light-link-color);
+        padding: 0.35em;
+        border-radius: 100%;
+        width: 1em;
+        height: 1em;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.4em;
+        margin-left: 1em;
+        transform: translateY(-0.5em);
+        cursor: pointer;
+        user-select: none;
+        text-shadow: none;
+        border: 1px solid var(--light-link-color);
+      }
+
+      .tooltip {
+        position: relative;
+      }
+
+      .tooltip .tooltiptext {
+        background-color: var(--bg-color);
+        color: var(--light-color);
+        border: 1px solid var(--border-color);
+        text-align: center;
+        font-size: 1.25em;
+        padding: 0.25em;
+        border-radius: 5px;
+        position: absolute;
+        z-index: 1;
+        transition: 300ms;
+        visibility: hidden;
+        opacity: 0;
+        transform: translate(0, -2.2em);
+      }
+
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+      }
+
       h1 {
         font-family: var(--fancy-font);
         line-height: 1.1;
@@ -946,7 +990,7 @@ createComponent(
 
         <section id="content">
           <section id="profileInfo">
-            <h2>About Me</h2>
+            <h2 id="aboutMe">About Me</h2>
             <div id="info"></div>
             <blockquote id="description"></blockquote>
           </section>
@@ -999,6 +1043,7 @@ createComponent(
     ctx.$submitComment = ctx.$('#submitComment')
     ctx.$commentError = ctx.$('#commentError')
     ctx.$commentInput = ctx.$('#commentInput')
+    ctx.$aboutMe = ctx.$('#aboutMe')
 
     if (ctx.getAttribute('sideWindow')) {
       ctx.parent.classList.add('sideWindow')
@@ -1015,7 +1060,7 @@ createComponent(
 
 
     const name = ctx.getAttribute('name')
-    const {age, distance, gender, maxPhotos, description, testimonials, domType, sponsor} = ProfileStats[name]
+    const {age, distance, gender, maxPhotos, description, testimonials, domType, sponsor, verified} = ProfileStats[name]
 
     ctx.$description.innerHTML = `<span class="quote">“</span>${description}<span class="quote">”</span>`
     ctx.$name.innerHTML = name
@@ -1027,6 +1072,8 @@ createComponent(
       <div>Gender: ${gender}</div>
       <div>Dom Type: ${domType}</div>
     `
+
+    // if (verified) ctx.$aboutMe.innerHTML += `<span class="verified tooltip">✓<span class="tooltiptext">VERIFIED</span></span>`
 
     ctx.$chat.href = `../chat?activeChat=${name}`
 

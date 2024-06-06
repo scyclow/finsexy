@@ -82,6 +82,7 @@ export const QueenProfile = {
   name: 'QueenJessica',
   startingVisibility: 'online',
   domType: 'Hard',
+  verified: true,
   order: 6,
   age: 29,
   distance: 13,

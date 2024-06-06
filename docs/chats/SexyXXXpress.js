@@ -14,6 +14,7 @@ export const XXXProfile = {
   name: 'SexyXXXpress',
   startingVisibility: 'online',
   domType: 'Automated',
+  verified: true,
   order: 11,
   age: 11010,
   distance: 101,

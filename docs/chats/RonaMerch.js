@@ -13,6 +13,7 @@ const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
 export const RonaMerchProfile = {
   name: 'RonaMerch',
+  verified: true,
   sponsor: true,
   startingVisibility: 'online',
   domType: 'Service',

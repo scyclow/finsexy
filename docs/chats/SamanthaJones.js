@@ -41,6 +41,7 @@ export const SamanthaProfile = {
   startingVisibility: 'offline',
   domType: 'Protocol',
   order: provider.isWeb3() ? 2 : 8,
+  verified: true,
   age: 46,
   distance: 6,
   gender: 'Female',

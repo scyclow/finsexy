@@ -49,7 +49,7 @@ export const MoneyMommyProfile = {
     lang: 'en-ZA',
     name: 'Tessa'
   },
-  description: `TODO`,
+  description: `TODO`, // Find your CASH COW today
   gender: 'Female',
   display: 'f',
   testimonials: [

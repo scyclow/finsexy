@@ -93,6 +93,7 @@ export const AndyProfile = {
   startingVisibility: 'online',
   domType: 'Role-Play',
   order: provider.isWeb3() ? 8 : 7,
+  verified: true,
   age: 24,
   distance: 10,
   gender: 'Non-Binary',

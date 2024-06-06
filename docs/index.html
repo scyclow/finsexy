@@ -372,7 +372,7 @@
     }
 
     @media (max-width: 1150px) {
-      .grid {
+      .grid, .a11ymode .grid {
         grid-template-columns: 1fr 1fr;
       }
       h2 {
@@ -434,11 +434,21 @@
       .grid {
         grid-template-columns: 1fr 1fr;
       }
+
       h2 {
         font-size: 1.75em;
       }
     }
 
+    @media (max-width: 560px) {
+      .a11ymode .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .a11ymode a {
+        max-width: 330px;
+      }
+    }
     @media (max-width: 450px) {
       a {
         max-width: 330px;
@@ -448,7 +458,7 @@
         padding: 0 0.75em;
       }
       h2 {
-        font-size: 1.6em;
+        font-size: 1.5em;
       }
 
       .mobileFilter > * {
@@ -499,8 +509,8 @@
     }
 
     .offline {
-      opacity: 0.6;
-      filter: saturate(0.2) !important;
+      opacity: 0.65;
+      filter: saturate(0.4) !important;
     }
     .online {
       height: 0.5em;
@@ -943,7 +953,7 @@ function domTypeDisplayClass(str) {
 
 
 
-    defaultProfileLS.set('interested', f)
+    // defaultProfileLS.set('interested', f)
   }
   setFilter(defaultProfileLS.get('interested') || 'all')
 
@@ -970,7 +980,7 @@ function domTypeDisplayClass(str) {
       }
     })
 
-    defaultProfileLS.set('domPreference', t)
+    // defaultProfileLS.set('domPreference', t)
   }
   setDomType(defaultProfileLS.get('domPreference') || 'all')
 

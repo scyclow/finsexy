@@ -37,6 +37,7 @@ export const CandyCrushProfile = {
   name: 'CandyCrush',
   startingVisibility: 'offline',
   domType: 'Soft',
+  verified: true,
   order: 10,
   age: 19,
   distance: 4,

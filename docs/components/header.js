@@ -213,6 +213,10 @@ createComponent(
         header {
           padding-left: 0.75em;
         }
+
+        h1 a {
+          font-size: 0.9em;
+        }
       }
 
 

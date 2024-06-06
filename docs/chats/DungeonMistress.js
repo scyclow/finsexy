@@ -142,6 +142,7 @@ export const MistressProfile = {
   domType: 'Role-Play',
   order: provider.isWeb3() ? 7 : 1,
   display: 'f',
+  verified: true,
   age: 27,
   distance: 666,
   gender: 'Female',

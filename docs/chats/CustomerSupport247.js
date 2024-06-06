@@ -27,6 +27,7 @@ export const CustomerSupportProfile = {
   name: 'CustomerSupport247',
   startingVisibility: 'hidden',
   domType: 'Service',
+  verified: true,
   order: 18,
   age: 38,
   distance: 1111,

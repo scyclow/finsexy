@@ -10,7 +10,7 @@ TODO
 
 
 Testimonials
-- i love being watched ☺️
+-
 
 */
 
@@ -46,6 +46,9 @@ export const HackerProfile = {
       review: `I knew someone was watching me this entire time. This whole website gives me the creeps`
     },
     {
+      review: `Fuck. Yes. Take all my money 🤤`
+    },
+    {
       review: `I cna't believe all of you are willfully participating in this degridation of society. the techno-elite are continuing to dehumanize and demasculate us at every possible turn, ripping away everything tha tmakes us human. their just replacing real sex (with real women!) with fake, simulated sex. it's all fake. none of it is real. the simulation is standing in for the real. before we know it, nothing is going to be real! you paypigs need to WAKE UP!`
     },
     {
@@ -53,6 +56,9 @@ export const HackerProfile = {
     },
     {
       review: `FINSEXY IS A BRAINWASHING MIND-CONTROL APP DESIGNED TO HIJACK YOUR MIND AND STEAL ALL YOUR MONEY. DO NOT USE IT`
+    },
+    {
+      review: `i love being watched ☺️`
     }
   ]
 }

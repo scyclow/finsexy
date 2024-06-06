@@ -109,6 +109,7 @@ export const StevieProfile = {
   name: 'steviep',
   startingVisibility: 'online',
   domType: 'Sadist',
+  verified: true,
   order: 5,
   age: Math.floor(getAgeYears(616579260000)),
   distance: 16,

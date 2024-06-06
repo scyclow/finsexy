@@ -50,6 +50,7 @@ export const VinceProfile = {
   name: 'VinceSlickson',
   startingVisibility: 'online',
   domType: 'Daddy',
+  verified: true,
   order: 2,
   age: 42,
   distance: 10,
