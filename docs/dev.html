@@ -217,6 +217,8 @@
         <section id="info"></section>
       </div>
     </connect-wallet>
+
+
     <section class="control">
       <label>
         <input type="checkbox" id="devMode">
@@ -228,18 +230,22 @@
         Ignore Chat Wait
       </label>
 
-      <button id="clearChat">
-        Clear Chat
-      </button>
+      <fieldset style="border-color: var(--red-color); color: var(--red-color); padding: 0.5em; border-width: 6px;">
+        <legend style="font-size: 2em;"><strong>DANGER</strong></legend>
+
+        <button id="clearChat">
+          Clear Chat
+        </button>
 
 
-      <button id="softClearLs">
-        Soft Clear LS
-      </button>
+        <button id="softClearLs">
+          Soft Clear LS
+        </button>
 
-      <button id="clearLs">
-        Clear LS
-      </button>
+        <button id="clearLs">
+          Clear LS
+        </button>
+      </fieldset>
     </section>
 
     <section>
@@ -356,8 +362,8 @@
     $.id('info').innerHTML = `
       <code class="data">Network: ${network.name} - ${network.chainId}</code>
       <code class="data">Connected as: ${addr}</code>
-      <code><pre>${JSON.stringify(ls.get('__ANALYTICS_STATE', null, 2))}</pre></code>
-      <code><pre>${JSON.stringify(ls.get('__TAB_ACTIVITY', null, 2))}</pre></code>
+      <code>ANALYTICS: <pre>${JSON.stringify(ls.get('__ANALYTICS_STATE', null, 2))}</pre></code>
+      <code>TAB DATA: <pre>${JSON.stringify(ls.get('__TAB_ACTIVITY', null, 2))}</pre></code>
     `
 
     const adjustedTributes = await tributeLS.getAdjustedTributes()

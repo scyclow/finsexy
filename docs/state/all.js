@@ -45,6 +45,11 @@ import {analyticsLS} from './analytics.js'
 import {provider} from '../eth.js'
 import {tributeLS} from './tributes.js'
 
+console.log(`Hey sexy. Send me a tip or follow me on twitter or discord if you're looking for a good time 😉`)
+console.log('TIPS 💸: steviep.eth')
+console.log(`https://x.com/steviepxyz`)
+console.log(`https://discord.steviep.xyz`)
+console.log(`https://steviep.xyz`)
 
 if (!ls.get('__enteredSite') && window.location.pathname !== '/dev') {
 

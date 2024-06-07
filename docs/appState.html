@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style type="text/css">
+    body {
+      background: #fff;
+    }
+    h3 {
+      margin: 0.25em;
+    }
+    #error {
+      color: red;
+    }
+    input {
+      margin-right: 0.25em;
+    }
+    button {
+      cursor: pointer;
+    }
+    #error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+
+  <div>1. Navigate to <a href="/dev" target="_blank">https://finsexy.com/dev</a></div>
+  <div>2. Click "Copy State"</div>
+  <div>3. Submit in box below</div>
+
+  <textarea id="stateData"></textarea>
+  <button id="submit">SUBMIT</button>
+  <div id="error"></div>
+
+</body>
+<script src="./min.ethers.js"></script>
+<script type="module">
+  import {ls} from './$.js'
+
+
+  const decodeState = s => JSON.parse(decodeURI(atob(s.trim())))
+
+
+  document.getElementById('submit').onclick = () => {
+    try {
+      decodeState(document.getElementById('stateData').value)
+      ls.set('__appState_compromised', true)
+      document.getElementById('error').innerHTML = 'success'
+
+    } catch (e) {
+      document.getElementById('error').innerHTML = e.message
+    }
+  }
+</script>
+</html>

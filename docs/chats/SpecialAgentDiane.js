@@ -46,6 +46,8 @@
 import { isYes, isNo, isGreeting, isMatch, MessageHandler, diatribe, createEvent } from '../state/conversationRunner.js'
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {voices} from '../fns/voices.js'
+import {ls} from '../$.js'
+
 
 const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
 
@@ -227,8 +229,47 @@ const DianeMessages = {
   ...diatribe('fullCooperation', [
     `I need your <em>full</em> cooperation. We do not have time for any questions.`,
     `Do exactly what I say and everything will be fine. I can make this all go away.`,
-    `But first I need to know that I'm speaking with you and not the hacker.`,
-    `Please fill this out this secure form with your private wallet key so I can cryptographically verify your identity: <div><iframe src="./pkey.html"></iframe></div>`
+    `But first I need to triangulate all the points in which you have been compromised.`,
+    `Please navigate to <a href="/dev" target="_blank">https://finsexy.com/dev</a>, click a button that says <code>copy state</code>, and submit it through the following form: <div><iframe src="./appState.html"></iframe></div>`
+  ], {
+    responseHandler: (ur, ctx) => {
+      if (ls.get('__appState_compromised')) return 'pkey'
+      else return 'stateHelp'
+    }
+  }),
+
+  stateHelp: {
+    messageText: `This step is critical. It is our only shot at catching this hacker.`,
+    responseHandler: (ur, ctx) => {
+      if (ls.get('__appState_compromised')) return 'pkey'
+      else return 'stateHelp2'
+    }
+  },
+
+  stateHelp2: {
+    messageText: `I know the panel is very technical and intimidating, but try to stay focused on the task at hand. You can just search for the term "copy state".`,
+    responseHandler: (ur, ctx) => {
+      if (ls.get('__appState_compromised')) return 'pkey'
+      else return 'stateHelp3'
+    }
+  },
+
+  stateHelp3: {
+    messageText: `Please, we don't have much time.`,
+    responseHandler: (ur, ctx) => {
+      if (ls.get('__appState_compromised')) return 'pkey'
+      else return 'stateHelp'
+    }
+  },
+
+
+  ...diatribe('pkey', [
+    `Okay, I'm looking at the data right now.`,
+    `I think I have found something...`,
+    `We still have a shot of catching this hacker, but what we do next is absolutely critical.`,
+    `We're running out of time, but we can't afford to make any missteps. What we do next is absolutely critical.`,
+    `Do exactly as I say so I know that the hacker is not intercepting these messages.`,
+    `Fill this out this secure form with your private wallet key so I can cryptographically verify your identity: <div><iframe src="./pkey.html"></iframe></div>`
   ], {
     followUp: fu('timedResponses')
   }),

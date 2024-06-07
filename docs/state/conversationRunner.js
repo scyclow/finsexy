@@ -555,7 +555,7 @@ export class MessageHandler {
     )
 
     setRunInterval(async () => {
-      const currentNode = this.getMessageToSend(this.ctx.lastDomCodeSent)
+      const currentNode = this.getMessageToSend(this.lastValidDomCode())
       const eventNode = currentNode.event
       this.ctx.pendingEvent = !!eventNode
       if (eventNode) {
@@ -719,17 +719,22 @@ export class MessageHandler {
       isFollowup
     )
 
-    return precheck || this.messages[msgCode] || this.lastValidMessageSent()
+    return precheck || this.messages[msgCode]
   }
 
-  lastValidMessageSent() {
+  lastValidDomCode() {
+    if (this.messages[this.ctx.lastDomCodeSent]) {
+      return this.ctx.lastDomCodeSent
+    }
+
     for (let i = this.ctx.history.length-1; i>=0; i--) {
       const {messageCode} = this.ctx.history[i]
       if (this.messages[messageCode]) {
-        return this.messages[messageCode]
+        return messageCode
       }
     }
-    return this.messages['START']
+
+    return 'START'
   }
 
 
@@ -889,7 +894,7 @@ export class MessageHandler {
       return sexyCLIT.run(this.chatName, userResponse, this.ctx)
     }
 
-    const lastMessage = this.getMessageToSend(this.ctx.lastDomCodeSent, userResponse)
+    const lastMessage = this.getMessageToSend(this.lastValidDomCode(), userResponse)
 
     if (lastMessage) {
       const codeToSend = await this.findNextNode(lastMessage, userResponse)
