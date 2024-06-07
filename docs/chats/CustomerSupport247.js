@@ -388,7 +388,7 @@ const CustomerSupportMessages = {
         `I want you to send until it hurts`,
         `I'm going to suck your wallet dry`,
         'Oh baby, I want your steaming hot ETH deep inside my walllet.',
-        `You're going to send to me and you're going to fucking like it.`
+        `You're going to send to me and you're going to fucking like it.`,
         `You're such a dirty, filthy paypig. Who's my little moeny slut? You are.`,
         `Yeah, you like that? You like paying me money? I bet you do.`,
         `You're just a wallet to me.`,
