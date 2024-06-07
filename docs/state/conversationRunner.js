@@ -719,7 +719,17 @@ export class MessageHandler {
       isFollowup
     )
 
-    return precheck || this.messages[msgCode]
+    return precheck || this.messages[msgCode] || this.lastValidMessageSent()
+  }
+
+  lastValidMessageSent() {
+    for (let i = this.ctx.history.length-1; i>=0; i--) {
+      const {messageCode} = this.ctx.history[i]
+      if (this.messages[messageCode]) {
+        return this.messages[messageCode]
+      }
+    }
+    return this.messages['START']
   }
 
 

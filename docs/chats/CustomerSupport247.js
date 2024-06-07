@@ -276,7 +276,7 @@ const CustomerSupportMessages = {
   infoAnswered: {
     messageText: 'Did that answer your question, or do you want more info?',
     responseHandler: (ur, ctx) => {
-      if (isYes(ur)) return 'helpConcluded'
+      if (isYes(ur) || isMatch(ur, ['enough', 'stop', 'end', 'menu', 'answered', 'cancel'])) return 'helpConcluded'
       else {
         ctx.state.moreInfoCount = (ctx.state.moreInfoCount + 1) % 3
         return 'finsexyInfo' + ctx.state.moreInfoCount
@@ -393,7 +393,7 @@ const CustomerSupportMessages = {
         `Yeah, you like that? You like paying me money? I bet you do.`,
         `You're just a wallet to me.`,
         `I'm going to absolutely bankrupt you. I hope you like financial ruin.`,
-        `That's not good enough. I want you to beg for the privilegeof sending to me.`,
+        `That's not good enough. I want you to beg for the privilege of sending to me.`,
         `Time to make yourself useful and send.`,
         `Every last cent in your wallet belongs to me`
       ]
@@ -453,7 +453,7 @@ const CustomerSupportMessages = {
   financialDominationBProceed: {
     messageText: (ur, ctx, contract) => `Please  navigate to the Approve SexyCredits section on the <a href="https://finsexy.com/profile#approveSexyCredits">finsexy.com/profile</a> page. Once there, please input the following address: <code>${contract.address}</code>, click "Approve", and confirm your transaction. To cancel Lifestyle SexyCredit Submission, please say "cancel"`,
     responseHandler: async (ur, ctx, contract, provider) => {
-      if (isMatch(ur, ['cancel'])) return 'financialDominationMenu'
+      if (isMatch(ur, ['cancel', 'no', 'stop', 'enough'])) return 'helpConcluded'
 
       const { SexyVIP } = await provider.sexyContracts()
       const activeVIPID = await sexyCLIT.getActiveVIP()
@@ -472,7 +472,7 @@ const CustomerSupportMessages = {
   },
   financialDominationBSuccess: {
     messageText: `You are now engaging in Lifestyle SexyCredit Submission, in which my address can arbitrarily spend or transfer your SexyCredits without notice. To cease engagement, please approve 0x0000000000000000000000000000000000000000 as your SexyCredit operator.`,
-    followUp: fu('financialDominationMenu')
+    followUp: fu('helpConcluded')
   }
 
 }
