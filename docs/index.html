@@ -860,7 +860,7 @@
 
   import {ls, $} from './$.js'
   import {provider} from './eth.js'
-  import {MessageHandler, ProfileStats, tributesPromise} from './state/all.js'
+  import {MessageHandler, ProfileStats} from './state/all.js'
   import {defaultProfileLS} from './state/profile.js'
 
 
@@ -1019,8 +1019,13 @@ function domTypeDisplayClass(str) {
       }
 
 
+      const domContracts = await provider.domContracts()
+      const tributesPaid = {}
 
-      const tributesPaid = await tributesPromise
+      for (let dom of Object.keys(domContracts)) {
+        dom = dom.includes('SexyXXXpress') ? 'SexyXXXpress' : dom
+        tributesPaid[dom] = fromWei(await domContracts[dom].tributes(addr))
+      }
 
       let tributeContent = ''
       let anyTributesPaid

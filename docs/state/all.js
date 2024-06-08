@@ -162,23 +162,6 @@ setRunInterval(() => {
 // }
 
 
-export const tributesPromise = new Promise((res, rej) => {
-  provider.onConnect(async addr => {
-    try {
-      const domContracts = await provider.domContracts()
-      const allTributes = {}
-
-      for (let dom of Object.keys(domContracts)) {
-        allTributes[dom] = fromWei(await domContracts[dom].tributes(addr))
-      }
-
-      res(allTributes)
-
-    } catch (e) {
-      rej(e)
-    }
-  })
-})
 
 
 

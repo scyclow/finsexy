@@ -309,6 +309,8 @@
       const allTributes = {}
 
       for (let dom of Object.keys(domContracts)) {
+        dom = dom.includes('SexyXXXpress') ? 'SexyXXXpress' : dom
+
         allTributes[dom] = fromWei(await domContracts[dom].tributes(paypigAddr))
       }
 

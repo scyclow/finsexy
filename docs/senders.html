@@ -281,6 +281,8 @@
 
       const sendFilter = contract.filters.Send()
       const sendEvents = await contract.queryFilter(sendFilter)
+
+      dom = dom.includes('SexyXXXpress') ? 'SexyXXXpress' : dom
       sendEvents.forEach(e => e.domName = dom)
       allEvents.push(sendEvents)
 
