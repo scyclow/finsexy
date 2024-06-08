@@ -88,7 +88,7 @@ export const QueenProfile = {
   distance: 13,
   gender: 'F',
   display: 'f',
-  maxPhotos: 4,
+  maxPhotos: 6,
   voice: {
     lang: 'en-AU',
     name: 'Karen'

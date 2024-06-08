@@ -431,8 +431,6 @@ createComponent(
           <legend>Password</legend>
           <input required type="text" minlength="6" name="pass" id="pass" placeholder="******">
         </fieldset>
-
-        <div class="tos"><label><input type="checkbox" id="tosCheck"><span>I've read and agree to the <a href="/terms" target="_blank">Sexy Terms of Service</a><span></label></div>
       </div>
 
       <p id="error"></p>
@@ -479,7 +477,7 @@ createComponent(
     ctx.$xClose = ctx.$('#xClose')
     ctx.$page1 = ctx.$('#page1')
     ctx.$page2 = ctx.$('#page2')
-    ctx.$tosCheck = ctx.$('#tosCheck')
+    // ctx.$tosCheck = ctx.$('#tosCheck')
 
 
     if (ctx.state.activePage === 1) {
@@ -532,11 +530,11 @@ createComponent(
       }
     })
 
-    ctx.$tosCheck.checked = defaultProfileLS.get('tos')
+    // ctx.$tosCheck.checked = defaultProfileLS.get('tos')
 
-    ctx.$tosCheck.onchange = () => {
-      defaultProfileLS.set('tos', ctx.$tosCheck.checked)
-    }
+    // ctx.$tosCheck.onchange = () => {
+    //   defaultProfileLS.set('tos', ctx.$tosCheck.checked)
+    // }
 
 
     ctx.$xClose.onclick = () => {

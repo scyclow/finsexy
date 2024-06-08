@@ -107,11 +107,20 @@
       color: var(--primary-color);
     }
     a:hover {
-      text-decoration: none;
+      /*text-decoration: none;*/
     }
 
     p {
       padding: 0 3.8em;
+    }
+
+    #terms {
+      transition: 300ms;
+      text-shadow: 0 0 20px var(--medium-color);
+    }
+
+    #terms:hover {
+      color: var(--light-link-color);
     }
 
     #connectButton, #proceedButton, #fakeProceedButton {
@@ -126,6 +135,14 @@
     .consent {
       margin-top: 3em;
       margin-bottom: 2.5em;
+    }
+
+
+    .fineprint {
+      font-size: 0.75em;
+      margin-top: 3em;
+      max-width: 460px;
+      line-height: 1.5;
     }
 
 
@@ -189,9 +206,14 @@
 
       </div>
 
-      <div class="center" style="font-size: 0.75em; margin-top: 3em;">
-        <p>If you or someone you know has a Financial Domination (FINDOM) problem, please visit the <a href="https://reddit.com/r/paypigsupportgroup" target="_blank" rel="nofollow">Pay Pig Support Group</a> for more information and further assistance.</p>
+
+      <div class="center fineprint">
+        <p>By clicking PROCEED you implicitly agree to the Terms and Conditions set forth in the <a href="/terms" target="_blank" id="terms"> FinSexy Terms of Service</a>.</p>
       </div>
+
+      <!-- <div class="center" style="font-size: 0.75em; margin-top: 3em;">
+        <p>If you or someone you know has a Financial Domination (FINDOM) problem, please visit the <a href="https://reddit.com/r/paypigsupportgroup" target="_blank" rel="nofollow">Pay Pig Support Group</a> for more information and further assistance.</p>
+      </div> -->
 
 
 
@@ -222,6 +244,7 @@
   $proceedButton.addEventListener('click', () => {
     if ($over18.checked) {
       ls.set('__enteredSite', true)
+      ls.set('__tosAgreed', true)
     }
 
     window.location.href = ref || './'

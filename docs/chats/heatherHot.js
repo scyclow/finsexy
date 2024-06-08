@@ -127,7 +127,7 @@ export const HeatherHotProfile = {
     lang: 'en-US',
     name: 'Samantha'
   },
-  description: `My name is Heather, and I'm your next girlfriend.`,
+  description: `my name is Heather, and FinDoming makes me soooooo hot 🔥🔥🔥`,
   testimonials: [
     {
       name: '0xfFff...3892',
@@ -370,9 +370,9 @@ const HeatherHotMessages = {
   nextSteps: {
     messageText: (ur, ctx) => {
       if (ctx.state.completed && !ctx.state.askingQuestions) {
-        return 'hello again. are you ready for me to suck your wallet dry? or do you want me to tell you more about finsexy?'
+        return 'hello again. are you ready for me to suck your wallet dry? or do you want me to tell you more about FinSexy?'
       } else {
-        return `so what do you say? are you ready for me to ${ctx.state.isNew ? 'pop your findom cherry' : 'suck your wallet dry'}? or do you want to me to tell you more about finsexy?`
+        return `so what do you say? are you ready for me to ${ctx.state.isNew ? 'pop your findom cherry' : 'suck your wallet dry'}? or do you want to me to tell you more about FinSexy?`
       }
     },
     responseHandler: async (ur, ctx, contract, provider) => {
@@ -430,7 +430,7 @@ const HeatherHotMessages = {
 
 
   moreInfo2: {
-    messageText: `one thing i really like about finsexy is how there are two sexy ways to send!`,
+    messageText: `one thing i really like about FinSexy is how there are two sexy ways to send!`,
     followUp: { messageCode: 'moreInfo2a', waitMs: 2500 }
   },
 
@@ -462,7 +462,7 @@ const HeatherHotMessages = {
     `each SexyCredit is worth 0.01 ETH, but you can get 25 of them for only 0.1 ETH with a V.I.P. Membership!`,
     `and if you pay an extra 0.05 ETH then you'll get a <em>really</em> hot Gold Star on your Membership card`,
     `also, VIPs get access to all sorts of extra sexy features like color cusomization, faster response times, and customer support!`,
-    `you can buy one by going to <a href="./vip">finsexy.com/vip</a>. there are only 101 VIP Membership NFT cards available though, so you should buy one before they run out! otherwise you'll have to buy one on the secondary market`,
+    `you can buy one by going to <a href="./vip">FinSexy.com/vip</a>. there are only 101 VIP Membership NFT cards available though, so you should buy one before they run out! otherwise you'll have to buy one on the secondary market`,
   ], {
     followUp: { messageCode: 'nextSteps', waitMs: 3500 }
   }),

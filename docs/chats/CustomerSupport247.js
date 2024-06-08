@@ -93,7 +93,7 @@ const mainMenuText = `
 
 
 const CustomerSupportMessages = {
-  TYPING_SPEED: 0.5,
+  TYPING_SPEED: 0.4,
 
   START: {
     responseHandler: `hello`,
@@ -386,16 +386,16 @@ const CustomerSupportMessages = {
     messageText: (ur, ctx) => {
       const sexyPhrases = [
         `I want you to send until it hurts`,
-        `I'm going to suck your wallet dry`,
+        `I'm going to suck your wallet dry.`,
         'Oh baby, I want your steaming hot ETH deep inside my walllet.',
         `You're going to send to me and you're going to fucking like it.`,
-        `You're such a dirty, filthy paypig. Who's my little moeny slut? You are.`,
+        `You're such a dirty, filthy paypig. Who's my little money slut? You are.`,
         `Yeah, you like that? You like paying me money? I bet you do.`,
-        `You're just a wallet to me.`,
         `I'm going to absolutely bankrupt you. I hope you like financial ruin.`,
         `That's not good enough. I want you to beg for the privilege of sending to me.`,
         `Time to make yourself useful and send.`,
-        `Every last cent in your wallet belongs to me`
+        `You're just a wallet to me.`,
+        `Every last cent in your wallet belongs to me.`
       ]
       const ix = (ctx.state.phraseIx || 0) % sexyPhrases.length
       return sexyPhrases[ix]
@@ -408,7 +408,7 @@ const CustomerSupportMessages = {
 
   anotherPhrase: {
     messageText: `Would you like me to tell you another sexy thing?`,
-    responseHandler: (ur, ctx) => isNo(ur) ? 'helpConcluded' : 'sexyPhrase'
+    responseHandler: (ur, ctx) => isNo(ur) || isMatch(ur, ['something else', 'different']) ? 'helpConcluded' : 'sexyPhrase'
   },
 
   financialDominationConfirm: {

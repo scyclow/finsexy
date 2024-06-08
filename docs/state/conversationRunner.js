@@ -26,7 +26,7 @@ const greetings = [
   'hello there',
   `what's up`,
   'sup',
-  `how's it going`,
+  `hows it going`,
   'how are you',
   'hiya there',
   'nice to meet you',

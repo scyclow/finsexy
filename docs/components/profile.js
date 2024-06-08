@@ -38,7 +38,7 @@ createComponent(
 
       header {
         margin-top: 1em;
-        margin-bottom: 2em;
+        margin-bottom: 1.5em;
       }
 
       figcaption {
@@ -47,6 +47,7 @@ createComponent(
         width: calc(100% - 2px);
         display: flex;
         justify-content: space-between;
+        margin-top: 0.5em;
         padding: 0.5em;
         text-shadow: 1px -2px 0 #000;
         /*
@@ -59,12 +60,16 @@ createComponent(
       }
 
       #onlineStatus {
-        display: flex;
+        display: inline-flex;
         align-items: center;
         font-style: italic;
         font-size: 0.9em;
         padding-top: 0.5em;
         padding-left: 1.5em;
+        font-size: 0.3em;
+        text-shadow: none;
+        font-family: var(--default-font) !important;
+        font-weight: normal;
       }
       .online {
         height: 0.5em;
@@ -594,6 +599,7 @@ createComponent(
           flex-direction: column;
         }
         #onlineStatus {
+          display: flex;
           justify-content: center;
           margin-top: 0.5em;
           padding: 0;
@@ -654,6 +660,7 @@ createComponent(
       }
 
       .sideWindow #onlineStatus {
+        display: flex;
         justify-content: center;
         margin: 0.5em 0;
         padding: 0;
@@ -906,7 +913,7 @@ createComponent(
     <article id="parent">
       <header>
         <h1 id="name"></h1>
-        <div id="onlineStatus"></div>
+
       </header>
 
       <main>
@@ -1021,8 +1028,13 @@ createComponent(
   `,
   {activePhoto: 0},
   (ctx) => {
-    ctx.parent = ctx.$('#parent')
     ctx.$name = ctx.$('#name')
+    const name = ctx.getAttribute('name')
+    ctx.$name.innerHTML = name + `<div id="onlineStatus"></div>`
+
+
+
+    ctx.parent = ctx.$('#parent')
     ctx.$photos = ctx.$('#photos')
     ctx.$description = ctx.$('#description')
     ctx.$info = ctx.$('#info')
@@ -1062,11 +1074,9 @@ createComponent(
 
 
 
-    const name = ctx.getAttribute('name')
     const {age, distance, gender, maxPhotos, description, testimonials, domType, sponsor, verified} = ProfileStats[name]
 
     ctx.$description.innerHTML = `<span class="quote">“</span>${description}<span class="quote">”</span>`
-    ctx.$name.innerHTML = name
 
     ctx.$info.innerHTML = `
       ${sponsor ? `<div id="sponsor"> <div>Sexy Sponsor!</div> </div>`: ''}

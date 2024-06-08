@@ -198,6 +198,7 @@ contract SexyGame is Ownable {
 interface ITotalSupply {
   function totalSupply() external view returns (uint256);
 }
+
 contract DrAndyProxy is ProxyBase, InternalMintCheck {
   mapping(uint256 => address) public mintedBy;
   mapping(uint256 => uint256) public timestamp;
