@@ -28,6 +28,13 @@
     font-family: var(--code-font);
   }
 
+  a {
+    color: var(--light-color);
+  }
+
+  td {
+    padding: 0.25em;
+  }
 </style>
 
 </head>
@@ -50,12 +57,39 @@
         <h1>CONNECTED</h1>
         <h2 id="connectedAs" style="text-align: center; font-family: var(--code-font);"></h2>
         <h2 id="network" style="text-align: center; font-family: var(--code-font);"></h2>
+
+        <section>
+          <h2>SexyGame</h2>
+          <div><pre id="sexyGame"></pre></div>
+        </section>
+
+        <section>
+          <h2>VIPs Sold</h2>
+          <div><pre id="vipsSold"></pre></div>
+        </section>
+
+        <section>
+          <table>
+            <thead>
+              <tr>
+                <th>Dom</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+
+            <tbody id="domBalances"></tbody>
+          </table>
+        </section>
+
+
+
         <section>
           <h2>ROUTER ADDRS</h2>
           <div>
             <pre id="routerAddrs"></pre>
           </div>
         </section>
+
 
         <section>
           <h2>DEPLOY1 ADDRS</h2>
@@ -71,10 +105,6 @@
           </div>
         </section>
 
-        <section>
-          <h2>SexyGame</h2>
-          <div><pre id="sexyGame"></pre></div>
-        </section>
 
         <section>
           <button id="connectCC">connect CandyCrush</button>
@@ -117,6 +147,22 @@
     ]
 
 
+
+    const contracts = await provider.domContracts()
+
+    const balances = []
+
+    for (let dom of Object.keys(contracts)) {
+      const balance = await provider.getETHBalance(contracts[dom].address)
+      balances.push([dom, balance])
+    }
+
+    $.id('domBalances').innerHTML = balances.map(([d, b]) => `<tr> <td><a href="https://etherscan.io/address/${contracts[d].address}" target="_blank" rel="nofollow">${d}</a></td> <td>${b}</td> </tr>`).join('')
+
+
+
+
+
     ////// Mainnet
     const ROUTER_ADDR = '0x32e1bfD713D9feF8a5d1bC10592a2d0fC10B92fF'
     const DEPLOYER1_ADDR = '0x8A83fF75acb48FeAa1644eEabF5acebD71B60c80'
@@ -141,7 +187,9 @@
       ])
 
       const SexyVIP = await provider.contract(await SexyRouter.vip(), [
-        'function minter() external view returns (address)'
+        'function minter() external view returns (address)',
+        'function totalSupply() external view returns (uint256)',
+
       ])
       SexyBaseURI = await provider.contract(await SexyRouter.baseURI(), [
         'function setURIAddr(string symbol, address addr) external'
@@ -154,9 +202,11 @@
         SexyVIPMinter: SexyVIPMinter.address,
         SexyRouter: ROUTER_ADDR,
       }, null, 2)
+
+
+
+      $.id('vipsSold').innerHTML = await SexyVIP.totalSupply()
     }
-
-
 
 
 
@@ -206,7 +256,10 @@
         baseContract: baseContract.address,
       }, null, 2)
 
-      $.id('sexyGame').innerHTML = await steviep.sexyGame()
+
+      const sexyGame = await steviep.sexyGame()
+      const sexyBalance = await provider.getETHBalance(sexyGame)
+      $.id('sexyGame').innerHTML = `<a href="https://etherscan.io/address/${sexyGame}" target="_blank" rel="nofollow">${sexyGame}</a>` + (sexyBalance ? `<h1 color: var(--red-color)>${sexyBalance}</h1>` : ``)
 
       console.log(await SamanthaJones.tokenURI(0))
     }

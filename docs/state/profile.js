@@ -48,6 +48,7 @@ export function getUserData(key) {
     age: getAgeYears(profileInfo.birthday || '1970-1-1'),
     interested: profileInfo.interested || 'all',
     fantasy: profileInfo.fantasy || 'undefined',
+    tos: profileInfo.tos || false,
   }
 
   if (key) return info[key]

@@ -170,7 +170,6 @@ createComponent(
       display: flex;
       padding: 1em;
       padding-bottom: 0em;
-      margin-top: 0.5em;
       justify-content: center;
       margin-bottom: 0em;
     }
@@ -256,7 +255,8 @@ createComponent(
     }
 
     .tos {
-      margin-top: 1em;
+      margin-top: 1.5em;
+      padding-bottom: 1.75em;
     }
 
     .tos, .tos * {
@@ -278,6 +278,24 @@ createComponent(
     }
     .tos a:hover {
       text-decoration: none;
+    }
+
+    .tos label {
+      position: absolute;
+      margin-top: 0.75em;
+    }
+    input[type='checkbox'] {
+      z-index: 2;
+    }
+    label:hover input[type='checkbox'] {
+      box-shadow: 0 0 25px var(--primary-color), 0 0 45px var(--secondary-color);
+    }
+    input:checked {
+      box-shadow: 0 0 25px var(--primary-color), 0 0 45px var(--secondary-color);
+    }
+
+    label:active input[type='checkbox'], input[type='checkbox']:focus {
+      box-shadow: 0 0 25px var(--yellow-color);
     }
 
 
@@ -414,7 +432,7 @@ createComponent(
           <input required type="text" minlength="6" name="pass" id="pass" placeholder="******">
         </fieldset>
 
-        <div class="tos"><label><input type="checkbox"><span>I've read and agree to the <a href="/terms" target="_blank">Sexy Terms of Service</a><span></label></div>
+        <div class="tos"><label><input type="checkbox" id="tosCheck"><span>I've read and agree to the <a href="/terms" target="_blank">Sexy Terms of Service</a><span></label></div>
       </div>
 
       <p id="error"></p>
@@ -461,6 +479,7 @@ createComponent(
     ctx.$xClose = ctx.$('#xClose')
     ctx.$page1 = ctx.$('#page1')
     ctx.$page2 = ctx.$('#page2')
+    ctx.$tosCheck = ctx.$('#tosCheck')
 
 
     if (ctx.state.activePage === 1) {
@@ -512,6 +531,12 @@ createComponent(
         }
       }
     })
+
+    ctx.$tosCheck.checked = defaultProfileLS.get('tos')
+
+    ctx.$tosCheck.onchange = () => {
+      defaultProfileLS.set('tos', ctx.$tosCheck.checked)
+    }
 
 
     ctx.$xClose.onclick = () => {

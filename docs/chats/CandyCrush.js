@@ -108,7 +108,7 @@ const CandyCrushMessages = {
   },
 
   send: {
-    messageText: (ur, ctx) => `Send me ${ctx.global.premium * 0.01} ETH and I'll give you a tattoo`,
+    messageText: (ur, ctx) => `Send me ${ctx.global.premium * 0.01} ETH or ${ctx.global.premium} SexyCredit${ctx.global.premium === 1 ? '' : 's'} and I'll give you a tattoo`,
     responseHandler: 'horny',
     event: 'sendEvent'
   },
