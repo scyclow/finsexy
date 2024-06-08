@@ -108,7 +108,7 @@ contract SexyBaseURI {
 contract CandyCrushURI is IForwardedURI {
   using IntToString for uint256;
 
-  function tokenURI(string memory name, string memory symbol, uint256 tokenId) external view returns (string memory) {
+  function tokenURI(string memory name, string memory, uint256 tokenId) external pure returns (string memory) {
     string memory tokenName = string.concat(name, ' #', tokenId.toString());
 
     bytes memory json = abi.encodePacked(

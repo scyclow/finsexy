@@ -9,10 +9,6 @@ interface IERC20 {
   function transfer(address to, uint256 value) external returns (bool);
 }
 
-// interface IERC721 {
-//   function safeTransferFrom(address from, address to, uint256 tokenId) external;
-// }
-
 interface IERC1155 {
   function safeTransferFrom(address from, address to, uint256 id, uint256 amount, bytes calldata data) external;
 }
