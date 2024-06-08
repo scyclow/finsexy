@@ -369,18 +369,23 @@ export const CrystalGoddessMessages = {
     followUp: async (ur, ctx, contract, provider) => {
       if (!provider.isWeb3()) return fu('enlightenment')
       const balance = await provider.getETHBalance(await provider.isConnected())
-      return balance >= 0.05 ? fu('enlightenment') : fu('notReadyEnlightenment')
+      const creditBalance = vipToken === null ? 0 : await sexyCLIT.vipBalance(vipToken)
+      const totalBalance = balance + creditBalance/10
+
+      return totalBalance >= 0.0333 ? fu('enlightenment') : fu('notReadyEnlightenment')
     }
   },
 
   notReadyEnlightenment: {
     messageText: async (ur, ctx, contract, provider) => {
       const balance = await provider.getETHBalance(await provider.isConnected())
-      return `Sadly, you are not worth my time, for your balance of ${balance} is a mere pittance. Only once you have acquired 0.05 ETH will you be ready to seek enlightenment`
+      return `Sadly, you are not worth my time, for your balance of ${balance} is a mere pittance. Only once you have acquired 0.0333 ETH will you be ready to seek enlightenment`
     },
     responseHandler: async (ur, ctx, contract, provider) => {
       const balance = await provider.getETHBalance(await provider.isConnected())
-      return balance >= 0.05 ? 'enlightenment' : 'notReadyEnlightenment'
+      const creditBalance = vipToken === null ? 0 : await sexyCLIT.vipBalance(vipToken)
+      const totalBalance = balance + creditBalance/10
+      return totalBalance >= 0.0333 ? 'enlightenment' : 'notReadyEnlightenment'
     }
   },
 

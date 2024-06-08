@@ -620,14 +620,17 @@ export class MessageHandler {
         : originalTitle.replace(/\((\d+)\)/, '').trim()
 
 
+    const favicon = $.id('favicon')
 
-    if (unreadCount > 0) {
-      document.title = `(${unreadCount}) ${cleanedTitle}`
-      $.id('favicon').href = $.id('favicon').href.replace('kiss.png', 'kissNotification.png')
+    if (favicon) {
+      if (unreadCount > 0) {
+        document.title = `(${unreadCount}) ${cleanedTitle}`
+        favicon.href = $.id('favicon').href.replace('kiss.png', 'kissNotification.png')
 
-    } else {
-      document.title = cleanedTitle
-      $.id('favicon').href = $.id('favicon').href.replace('kissNotification.png', 'kiss.png')
+      } else {
+        document.title = cleanedTitle
+        favicon.href = favicon.href.replace('kissNotification.png', 'kiss.png')
+      }
     }
   }
 

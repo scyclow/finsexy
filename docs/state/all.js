@@ -293,9 +293,10 @@ provider.onConnect(async (addr) => {
 
 
 // const wordCount = M => Object.keys(M).reduce((a, c) => {
-//   const messageText = M[c]
-//   if (messageText) {
-//     a += messageText.toString().split(' ').length
+//   const {messageText} = M[c]
+//   const mt = String(messageText).replace(' => ', '').replace('(ur, ctx)', '')
+//   if (mt) {
+//     a += mt.split(' ').length
 //     return a
 //   }
 //   else return a
@@ -308,7 +309,7 @@ provider.onConnect(async (addr) => {
 
 // console.log(Object.keys(MessageHandler.chats).reduce((a, c) => {
 //   console.log(c, wordCount(MessageHandler.chats[c].messages))
-//   console.log(c, commentCount(ProfileStats[c]))
+//   console.log('%%%%%%%%', c, commentCount(ProfileStats[c]))
 //   console.log('===',c, ProfileStats[c].description.split(' ').length)
 
 
