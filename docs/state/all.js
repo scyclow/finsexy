@@ -51,6 +51,12 @@ console.log(`https://x.com/steviepxyz`)
 console.log(`https://discord.steviep.xyz`)
 console.log(`https://steviep.xyz`)
 
+
+if (ls.get('BETA_PASS')) {
+  localStorage.clear()
+  window.location.replace(`./enter`)
+}
+
 if (!ls.get('__enteredSite') && window.location.pathname !== '/dev') {
 
   if (window.location.pathname === '/') {
@@ -146,14 +152,14 @@ setRunInterval(() => {
 
 
 
-if (!ls.get('BETA_PASS') && window.location.href.includes('finsexy.com')) {
-  let pw
-  while (pw !== 'steveissexy') {
-    pw = prompt('password')
-  }
+// if (!ls.get('BETA_PASS') && window.location.href.includes('finsexy.com')) {
+//   let pw
+//   while (pw !== 'steveissexy') {
+//     pw = prompt('password')
+//   }
 
-  ls.set('BETA_PASS', true)
-}
+//   ls.set('BETA_PASS', true)
+// }
 
 
 export const tributesPromise = new Promise((res, rej) => {
