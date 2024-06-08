@@ -78,10 +78,10 @@ export const STEVIEP_CONTRACTS = {
     TenETH: '0x13bBBEfE251c94467D183821b663Ef0bD0a8A722',
     ETF: '0x7102653225D537e2FE703723ad83edFeb606396e',
     KYC: '0x0BB72cE0cFE446DD89129B4335e29c0fbbE0c93C',
-    // "SexyGame": "",
-    "SexyVIP": "",
-    "SexyVIPMinter": "",
-    "SexyRouter": ""
+    "SexyGame": "0xEBb2ecdae91F875D4f25f26D1494bba0c52a04bC",
+    "SexyVIP": "0x6DD345702Da7a0836Dde60ACE9f970E4113e04a2",
+    "SexyVIPMinter": "0x8806DcbDec120FA999Fc546A90BC122355BA3899",
+    "SexyRouter": "0x32e1bfD713D9feF8a5d1bC10592a2d0fC10B92fF"
   }
 }
 
@@ -132,7 +132,29 @@ export const DOM_CONTRACTS = {
     "SexyXXXpressB": "0x0558C615DB74c1C39D90627B4a42F04395310431",
     "SexyXXXpressC": "0x4f6BDE7cb965CEF5A7A0E0a192f9aE4a8Bf40CDf",
   },
-  mainnet: {},
+  mainnet: {
+    "heatherHot": "0x3E2B03A8990B229D33Bbaa148821293EB6E10738",
+    "SamanthaJones": "0x6dcC6E00790Fb8af522f03694A1700ecD48d99B4",
+    "QueenJessica": "0xf08DD873664B4d5C11b6246fB841a695C258D46a",
+    "DungeonMistress": "0x1113cF630bDc11A7e77920F3c7eC3b4f9c585A6E",
+    "DrAndy": "0xFa5e41483022b76D4f2414e020C4b6fcdCbb893B",
+    "katFischer": "0x48871E4Cb8c6B762d0be0963fB6E54c4088cC128",
+    "CandyCrush": "0xE0F53FabA6cBFb022B16C9DA63a1E0baD0279332",
+    "CrystalGoddess": "0x275460D303DDeAF5e58996c604F066C3033f41a2",
+    "steviep": "0x7c21C4Bbd63D05Fa9F788e38d14e18FC52E9557B",
+    "VinceSlickson": "0xA0a7ff24B61B93BB735d62869c1fcE2BcB660796",
+    "Hedonitronica": "0x686408d54b44d194f0763CA1DAb2689903D1613e",
+    "MindyRouge": "0x5Fdc017335641fbE6850c95049c86C8303322fCd",
+    "0x000000000000000000000000000000000": "0xD5Ea6Ef2C8f46Ce7f8CC95b3AC00eb756ECCb487",
+    "SpecialAgentDiane": "0xD5Ea6Ef2C8f46Ce7f8CC95b3AC00eb756ECCb487",
+    "HotlineBabe1900": "0x1C1D287605BE398a22017e2a345c55E0410E33a9",
+    "RonaMerch": "0xf6D010329471eEf5f712d6A9Bb2A2C713291ad1a",
+    "CustomerSupport247": "0xF30ACc2DaB1BB87b6ce23eBC9ed64e459A453534",
+    "SexyXXXpress": "0xADBCa07B0739C41490DDD417354Ca567c8d4DA79",
+    "SexyXXXpressA": "0x6705C9f03763D0b509C5D4aA5144963cB7641DD9",
+    "SexyXXXpressB": "0xa94b4a96B757ef22b266a8f9C570E2b287A83055",
+    "SexyXXXpressC": "0x34747a049332747E4c45F5AaF79DAA351286AC6c"
+  },
 }
 
 
@@ -141,10 +163,10 @@ export class Web3Provider {
   onConnectCbs = []
   ens = ''
 
-  FORCED_CHAIN_ID = '0xaa36a7'
+  FORCED_CHAIN_ID = '0x1'
   VALID_CHAINS = [
-    // '0x1', // mainnet
-    '0xaa36a7', // sepolia
+    '0x1', // mainnet
+    // '0xaa36a7', // sepolia
     '0x7a69' // local
   ]
 
