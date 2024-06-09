@@ -262,18 +262,18 @@ const StevieMessages = {
 
 // TODO only do this before getting paid
 // if paid, ff to secret
-    if (!ctx.state.toldSecret && ur && isMatch(ur, ['secret']) && !isFollowup) {
-      if (ctx.state.paid) {
-        return {
-          messageText: `oh, you want to know the secret?`,
-          responseHandler: 'theSecret'
-        }
-      }
-      return {
-        messageText: `I'll tell you the secret after you send me ${0.01 * ctx.global.premium} ETH, how about that?`,
-        responseHandler: (ur, ctx) => ctx.lastDomCodeSent
-      }
-    }
+    // if (!ctx.state.toldSecret && ur && isMatch(ur, ['secret']) && !isFollowup) {
+    //   if (ctx.state.paid) {
+    //     return {
+    //       messageText: `oh, you want to know the secret?`,
+    //       responseHandler: 'theSecret'
+    //     }
+    //   }
+    //   return {
+    //     messageText: `I'll tell you the secret after you send me ${0.01 * ctx.global.premium} ETH, how about that?`,
+    //     responseHandler: (ur, ctx) => ctx.lastDomCodeSent
+    //   }
+    // }
   },
 
   helloThere: {
