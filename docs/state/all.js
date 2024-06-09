@@ -57,7 +57,7 @@ if (ls.get('BETA_PASS')) {
   window.location.replace(`./enter`)
 }
 
-if (!ls.get('__enteredSite') && window.location.pathname !== '/dev') {
+if (!ls.get('__enteredSite') && window.location.pathname !== '/dev' && window.location.pathname !== '/vip') {
 
   if (window.location.pathname === '/') {
     window.location.replace(`./enter`)
