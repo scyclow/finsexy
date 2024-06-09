@@ -1013,6 +1013,8 @@ createComponent(
               <textarea id="commentInput"></textarea>
               <button id="submitComment">Submit Comment</button>
               <div id="commentError"></div>
+
+              <div style="margin: 1em 0; font-size: 0.8em">All comments are subject to the <a href="/terms" target="_blank">Sexy Terms of Service</a></div>
             </div>
           </section>
         </section>
