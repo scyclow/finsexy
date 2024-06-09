@@ -231,6 +231,7 @@ const StevieMessages = {
   },
 
   __sendHandler(ctx, preAmount, postAmount, provider) {
+    ctx.state.paid = true
     if (ctx.history.length === 0) {
       return {
         messageCode: 'helloThere',
@@ -261,7 +262,13 @@ const StevieMessages = {
 
 // TODO only do this before getting paid
 // if paid, ff to secret
-    if (!ctx.state.toldSecret && ur && isMatch(ur, ['secret'])) {
+    if (!ctx.state.toldSecret && ur && isMatch(ur, ['secret']) && !isFollowup) {
+      if (ctx.state.paid) {
+        return {
+          messageText: `oh, you want to know the secret?`,
+          responseHandler: 'theSecret'
+        }
+      }
       return {
         messageText: `I'll tell you the secret after you send me ${0.01 * ctx.global.premium} ETH, how about that?`,
         responseHandler: (ur, ctx) => ctx.lastDomCodeSent
@@ -710,6 +717,7 @@ const StevieMessages = {
     `I need to see that <em>I'm</em> their favorite artist, and that they're willing to give up <em>everything</em> to show their affection for my artistic genius`,
   ], {
     responseHandler: (ur, ctx) => {
+      ctx.state.paid = true
       if (isMatch(ur, ['secret', 'tell me'])) return 'ohYeahSecret'
       return 'anyhowSecret'
     }
