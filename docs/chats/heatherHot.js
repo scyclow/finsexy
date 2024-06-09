@@ -570,7 +570,7 @@ const HeatherHotMessages = {
   },
 
   noWeb3f: {
-    messageText: (ur, ctx, contract) => `or you can send ETH directly to my wallet: ${DOM_CONTRACTS.mainnet.address}`,
+    messageText: (ur, ctx, contract) => `or you can send ETH directly to my wallet: ${DOM_CONTRACTS.mainnet.heatherHot}`,
     followUp: 'moreFun'
   },
 
