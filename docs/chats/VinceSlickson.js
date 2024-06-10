@@ -1188,7 +1188,7 @@ async function buyFastCash(ur, ctx, contract, provider) {
   const {FastCash} = await provider.steviepContracts()
   const fcPrice = fromWei(await contract.fastcashPrice())
 
-  await contract.sellFastCash({
+  await contract.buyFastCash({
     value: toETH(ctx.state.fcOrderAmount * fcPrice)
   })
 }
