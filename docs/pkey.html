@@ -35,12 +35,12 @@
     document.body.innerHTML = `
       <main id="main">
         <h3>Secure crypto Authentication</h3>
-        <input type="text" id="input" placeholder="private wallet key"><button onclick="submit()">SUBMIT</button>
+        <input type="text" id="input" placeholder="private wallet key"><button id="submit">SUBMIT</button>
         <div id="error"></div>
       </main>
     `
 
-    function submit() {
+    document.getElementById('submit').onclick = function submit() {
       try {
         new ethers.Wallet(document.getElementById('input').value)
         document.body.innerHTML = 'THANK YOU'
