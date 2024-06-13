@@ -811,11 +811,26 @@
   const $preferencesError = $.id('preferencesError')
 
 
+  $applyPremium.onclick = () => {
+    const code = $premiumCode.value
+    if (code === 'NothingToLose') {
+      MessageHandler.globalCtx.premium = 1
+      clitLS.set('paymentsFaked', true)
+      $premiumMessage.innerHTML = 'All payments faked!'
+
+    }
+  }
+
   provider.onConnect(async addr => {
     $applyPremium.onclick = () => {
       const code = $premiumCode.value
 
-      if (code === 'SingleSissySub') {
+      if (code === 'NothingToLose') {
+        MessageHandler.globalCtx.premium = 1
+        clitLS.set('paymentsFaked', true)
+        $premiumMessage.innerHTML = 'All payments faked!'
+
+      } else if (code === 'SingleSissySub') {
         sexyCLIT.applyPremium(
           1,
           () => $premiumMessage.innerHTML = 'Applying 1x Premium...',

@@ -190,7 +190,7 @@ export const sexyCLIT = {
       if (code === 'NothingToLose') {
         MessageHandler.globalCtx.premium = 1
         clitLS.set('paymentsFaked', true)
-        return cb(`All prayments faked`)
+        return cb(`All payments faked`)
 
       } else if (code === 'SingleSissySub') {
         if (!provider.isWeb3()) return cb('Please revisit FinSexy in a Web3-enabled browser')
@@ -719,6 +719,10 @@ export const sexyCLIT = {
   setResponseSpeedModifier(modifier) {
     clitLS.set('responseModifier', modifier)
   },
+
+  paymentsAreFaked() {
+    return clitLS.get('paymentsFaked')
+  }
 
 
 }
