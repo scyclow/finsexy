@@ -194,6 +194,7 @@
             <h3 id="memberStatus"></h3>
             <h3 id="tokensOwned"></h3>
             <h3 id="creditBalance"></h3>
+            <div id="vipPreview"></div>
           </div>
         </div>
 
@@ -251,6 +252,8 @@
 
   import {$, ls} from './$.js'
   import {provider, fromWei, isENS} from './eth.js'
+  import {vipCard} from './components/all.js'
+
 
   const $profileModal = $.id('profileModal')
   if (!ls.get('profileCompleted') && !ls.get('profileDeferred')) {
@@ -285,22 +288,40 @@
       if (isVIP) {
         const totalSupply = bnToN(await SexyVIP.totalSupply())
         const idsOwned = []
+        const cardData = {}
         let status = 'VIP'
         let creditBalance = 0
+
 
         for (let id = 0; id < totalSupply; id++) {
           if (await SexyVIP.ownerOf(id) === paypigAddr) {
             const isGold = await SexyVIP.isGold(id)
+            const name = await SexyVIP.memberName(id)
             if (isGold) status = 'Gold'
 
             idsOwned.push(id)
-            creditBalance += bnToN(await SexyVIP.creditBalance(id))
+            const balance = bnToN(await SexyVIP.creditBalance(id))
+            creditBalance += balance
+            cardData[id] = {
+              balance,
+              isGold,
+              name
+            }
           }
         }
 
         $.id('memberStatus').innerHTML = `<span class="info">Membership Status:</span> <span class="value ${status==='Gold'?'gold':''}">${status}</span>`
         $.id('tokensOwned').innerHTML = `<span class="info">VIP Token${idsOwned.length > 1 ? 's Owned:' : ':'}</span> <span class="value">${idsOwned.join(', ')}</span>`
         $.id('creditBalance').innerHTML = `<span class="info">SexyCredit Balance:</span> <span class="value">${creditBalance}</span>`
+
+
+        for (let id of idsOwned) {
+          $.id('vipPreview').innerHTML = `
+            <div style="margin-top: 0.5em">${vipCard(cardData[id].name, id, cardData[id].isGold, cardData[id].balance)}</div>
+          `
+        }
+
+
 
       } else {
         $.id('memberStatus').innerHTML = `<span class="info">Membership Status:</span> <span class="value">Standard</span>`
