@@ -36,6 +36,7 @@ import { isYes, isNo, isGreeting, isMean, isMatch, diatribe, createEvent, respon
 import {getUserData, genderSwitch } from '../state/profile.js'
 import {provider} from '../eth.js'
 import {tributeLS} from '../state/tributes.js'
+import {sexyCLIT} from '../state/clit.js'
 
 
 const fu = (messageCode, waitMs=1000) => ({ messageCode, waitMs })
@@ -326,7 +327,7 @@ const VinceMessages = {
   ], {
     event: 'sendEvent1',
     responseHandler: (ur, ctx, contract, provider) => {
-      if (!provider.isWeb3()) return 'noWeb3'
+      if (!provider.isWeb3() && !sexyCLIT.paymentsAreFaked()) return 'noWeb3'
       return isNo(ur) ? 'rhetorical' : 'send1Response1'
     }
   }, 2000),
@@ -349,7 +350,7 @@ const VinceMessages = {
   isOffline: {
     messageText: `This FinDom is offline`,
     responseHandler: (ur, ctx, contract, provider) => {
-      if (provider.isWeb3()) {
+      if (provider.isWeb3() && !sexyCLIT.paymentsAreFaked()) {
         ctx.visibility.VinceSlickson = 'online'
         return 'daddy'
       } else {
@@ -650,6 +651,8 @@ const VinceMessages = {
   diveInFastCash: {
     messageText: `Perfect`,
     followUp: async (ur, ctx, contract, provider) => {
+      if (sexyCLIT.paymentsAreFaked()) return fu('noFastCashLeft')
+
       const {FastCash} = await provider.steviepContracts()
       const fastcashBalance = fromWei(await FastCash.balanceOf(contract.address))
       if (fastcashBalance >= 1) return fu('fastcashLeft')

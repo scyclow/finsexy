@@ -74,6 +74,7 @@ import {sexyCLIT} from '../state/clit.js'
 import {tributeLS} from '../state/tributes.js'
 
 
+
 const hasNumber = ur => ur.match(/(\d+)/)
 
 const fu = (messageCode, waitMs=2000) => ({ messageCode, waitMs })
@@ -228,6 +229,10 @@ const QueenMessages = {
     messageText: '',
     ignoreType: true,
     async followUp(ur, ctx, contract, provider) {
+      if (sexyCLIT.paymentsAreFaked()) {
+        return fu('serveMe', 1)
+      }
+
       if (!provider.isWeb3()) {
         if (ctx.state.rejected1) return
         else return fu('helloResponse1', 1)

@@ -245,6 +245,12 @@ createComponent(
           box-shadow: 0 5px 10px var(--dark-color);
         }
 
+        @media (max-width: 380px) {
+          #navItems.mobileDisplay {
+            top: 55px;
+          }
+        }
+
         #navItems.mobileDisplay li {
           text-align: center;
           padding: 0 3em;

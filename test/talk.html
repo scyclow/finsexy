@@ -7,6 +7,7 @@
 <body>
   <button onclick="precumSound3()">precum</button>
   <button onclick="orgasmSound2()">orgasm</button>
+  <input id="content">
   <main id="main"></main>
 
   <button onclick="window.speechSynthesis.cancel()">CANCEL</button>
@@ -35,9 +36,11 @@ const getVoices = () => {
 }
 getVoices()
 
+document.getElementById('content').value = 'hello, sexy paypig'
 
 function speak(i) {
-  const utterance = new window.SpeechSynthesisUtterance(`hello, sexy paypig`)
+  const content = document.getElementById('content').value
+  const utterance = new window.SpeechSynthesisUtterance(content)
   utterance.volume = 0.88
   utterance.voice = voices[i]
   window.speechSynthesis.speak(utterance)

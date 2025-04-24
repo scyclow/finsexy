@@ -1,0 +1,435 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>FinSexy Tribute</title>
+  <link rel="shortcut icon" type="image/x-icon" href="./assets/kiss.png" id="favicon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="Be a good Paypig and pay tribute today">
+  <meta name="keywords" content="finsexy, vip, chatbots, ai, stable diffusion, text adventure, rpg, steviep, steve pikelny, pikelny, crypto, ethereum, nft, nfts, blockchain, bitcoin">
+
+  <meta name="twitter:image" content="./assets/vip.png">
+  <meta name="twitter:image:alt" content="WARNING! The SEXY FINDOMS on this website will SUCK your wallet dry. Proceed at your own risk.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@steviepxyz">
+  <meta name="twitter:site" content="@steviepxyz">
+  <meta property="twitter:description" content="Be a good Paypig and pay tribute today">
+
+  <meta name="og:image" property="og:image" content="./assets/vip.png">
+  <meta name="og:image:alt" content="WARNING! The SEXY FINDOMS on this website will SUCK your wallet dry. Proceed at your own risk.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://finsexy.com/vip">
+  <meta property="og:title" content="FinSexy.com">
+  <meta property="og:site_name" content="FinSexy">
+  <meta property="og:description" content="Be a good Paypig and pay tribute today">
+
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+
+
+  <style type="text/css">
+    main {
+      max-width: 1400px;
+    }
+
+    aside {
+      width: 250px;
+      padding: 1em;
+    }
+
+
+
+  </style>
+
+
+<script src="./utils.js"></script>
+<script type="module" src="./state/all.js"></script>
+<script type="module" src="./components/all.js"></script>
+
+<style type="text/css">
+  main {
+    max-width: 510px;
+    margin: 2em auto;
+    padding: 0 1em;
+  }
+
+  h1 {
+    font-family: var(--fancy-font);
+    font-size: 2.1em;
+    line-height: 1.1;
+    margin-bottom: 0.25em;
+    text-shadow: 0px 0px 2px var(--dark-color), 0 0 5px var(--medium-color), 0 0 8px var(--border-color);
+  }
+
+  h2 {
+    font-size: 1.2em;
+    color: var(--medium-color);
+    text-align: center;
+    font-style: italic;
+  }
+
+  h4 {
+    text-align: center;
+    margin-top: 1em;
+  }
+  h4 a {
+    color: var(--medium-color);
+  }
+  h4 a:hover{
+    text-decoration: none;
+  }
+
+  .cta {
+    margin-bottom: 2em;
+  }
+
+  table {
+    border-spacing: 0;
+  }
+
+  td:not(:first-child) {
+    outline: 1px solid var(--light-color);
+    text-align: center;
+    width: 80px;
+    box-shadow: inset 0 0 5px var(--light-color), 0 0 5px var(--light-color);
+  }
+
+  td {
+    padding: 0.75em 0.5em;
+  }
+
+  th {
+    padding-bottom: 0.75em;
+  }
+
+  td:first-child {
+    font-size: 0.9em;
+    font-style: italic;
+    text-align: left;
+    padding-right: 1em;
+  }
+
+  #remainingText {
+    /*animation: ColorShift 6s linear infinite;*/
+    margin-top: 0.5em;
+    font-size: 1.5em;
+    /*border: 0.1em solid;*/
+    padding: 0.25em;
+  }
+
+
+  .center {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .vip {
+    text-shadow: 0 0 5px var(--light-color);
+  }
+
+  .standard {
+    font-weight: normal;
+  }
+
+
+  .red {
+    color: var(--red-color);
+    text-shadow: 1px 1px 5px var(--red-color), 0px 0px 20px var(--light-color)
+  }
+
+  .green {
+    color: var(--green-color);
+    text-shadow: 1px 1px 5px var(--green-color), 0px 0px 20px var(--yellow-color)
+  }
+
+  .yellow {
+    animation: Glow 4s ease-in-out infinite;
+  }
+
+  #goldSelection {
+    animation: Glow2 6s ease-in-out infinite;
+  }
+
+  #goldSelection.activeFilter {
+    animation: Glow3 8s ease-in-out infinite;
+  }
+
+  .mintSection {
+    margin-top: 3em;
+  }
+
+  #mintButton {
+    font-size: 2em;
+    box-shadow: 0 0 2em var(--glow-color);
+    transition: 400ms;
+    padding: 0.35em 1.5em;
+    margin-bottom: 0.25em;
+    margin-top: 0.5em;
+  }
+
+  #mintButton:hover {
+    box-shadow: 0 0 2em var(--glow-color), 0 0 4em var(--glow-color);
+  }
+
+  #mintNowButton {
+    font-size: 2em;
+    padding: 0.35em 1.5em;
+    background: var(--bg-color);
+    color: var(--primary-color);
+    border: 2px solid;
+    margin: 0.25em 0;
+    border-radius: 3px;
+    transition: 300ms;
+    text-decoration: none;
+    animation: ColorShift 6s linear infinite;
+
+  }
+  #mintNowButton:hover {
+    background: var(--light-color);
+    color: var(--bg-color);
+    text-shadow: 0 0 2px var(--secondary-color);
+  }
+
+  .filterRow button {
+    color: var(--medium-color);
+    border: 1px solid;
+    background: var(--bg-color);
+    transition: 0.3s;
+    display: inline-block;
+    margin-bottom: 0.5em;
+    margin-bottom: 1em;
+    font-size: 0.8em;
+  }
+
+  .filterRow button:hover, .filterRow button:active, .filterRow button:focus {
+    color: var(--medium-color);
+    background: var(--light-color);
+    border-color: var(--light-color);
+    outline: none;
+  }
+  .filterRow button:active {
+    opacity: 0.8;
+  }
+
+  .filterRow button.activeFilter, .filterRow button.activeFilter:active {
+    color: var(--light-color);
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    text-shadow: 1px 1px 0 var(--dark-color);
+
+  }
+
+  .noWeb3Error {
+    text-shadow: 1px 1px 0 var(--secondary-color), 1px 1px 3px var(--medium-color);
+    box-shadow: 0 0 5px var(--medium-color);
+    width: 60%;
+    display: block;
+    margin: auto;
+    padding: 0.5em;
+    border: 1px solid var(--primary-color);
+  }
+
+  #connectLink {
+    background: var(--bg-color);
+    color: var(--primary-color);
+    text-decoration: underline;
+    cursor: pointer;
+    border: 0;
+    font-size: 1em;
+    transition: 200ms;
+    margin-left: 0.1em;
+    font-style: italic;
+    text-shadow: 0 0 10px var(--medium-color);
+    padding: 0;
+  }
+
+  #connectLink:hover {
+    color: var(--light-link-color);
+    text-shadow: 0 0 15px var(--light-color)
+  }
+
+
+  #vipPreview {
+    transition: 300ms;
+    border-radius: 10px;
+  }
+  #vipPreview svg {
+    display: block;
+  }
+
+  .standardGlow {
+    box-shadow: 0 0 40px var(--gloss-color);
+
+  }
+  .goldGlow {
+    box-shadow: 0 0 20px var(--gloss-color), 0 0 40px var(--yellow-color);
+  }
+
+  connect-button {
+    display: inline-flex;
+    width: 7em;
+  }
+
+
+  #continue {
+    display: block;
+    text-align: center;
+    font-size: 1.2em;
+    color: var(--primary-color);
+    font-size: 1.7em;
+    margin: 0.75em 0;
+    font-style: italic;
+    text-decoration: none;
+    transition: 200ms;
+    text-shadow: 0 0 3px var(--primary-color);
+  }
+
+  #continue:hover {
+    color: var(--light-color);
+  }
+
+  #successMessage {
+    display: fixed;
+    width: 500px;
+    max-width: 100%;
+    background: var(--bg-color);
+    border-radius: 5px;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 15px var(--primary-color), inset 0 0 15px var(--primary-color);
+    padding: 1em;
+    line-height: 1.2;
+  }
+
+  #successMembershipType {
+    font-family: var(--code-font);
+    display: block;
+    margin-top: 0.25em;
+  }
+
+
+  @keyframes ColorShift {
+    0%, 100% {
+      color: var(--primary-color);
+      text-shadow: 0 0 3px var(--primary-color);
+      box-shadow: 0 0 15px var(--primary-color), inset 0 0 15px var(--primary-color);
+    }
+
+/*    16% {
+      color: var(--red-color);
+    }*/
+
+    33% {
+      color: var(--yellow-color);
+      text-shadow: 0 0 3px var(--yellow-color);
+      box-shadow: 0 0 15px var(--yellow-color), inset 0 0 15px var(--yellow-color);
+    }
+
+/*    50% {
+      color: var(--green-color);
+    }*/
+
+    66% {
+      color: var(--light-link-color);
+      text-shadow: 0 0 3px var(--light-link-color);
+      box-shadow: 0 0 15px var(--light-link-color), inset 0 0 15px var(--light-link-color);
+    }
+
+
+  }
+
+
+  @keyframes Glow {
+    0%, 100% {
+      color: var(--light-color);
+      text-shadow: 0 0 5px var(--light-color);
+    }
+    50% {
+      color: var(--yellow-color);
+      text-shadow: 1px 1px 5px var(--yellow-color), 0px 0px 20px var(--yellow-color)
+    }
+  }
+
+  @keyframes Glow2 {
+    0%, 100% {
+      color: var(--medium-color);
+      text-shadow: none;
+      box-shadow: none;
+    }
+    50% {
+      color: var(--yellow-color);
+      text-shadow: 1px 1px 5px var(--yellow-color), 0px 0px 20px var(--yellow-color);
+      box-shadow: 0 0 10px var(--yellow-color), 0 0 20px var(--yellow-color), inset 0 0 8px var(--yellow-color), inset 0 0 12px var(--yellow-color);
+    }
+  }
+
+  @keyframes Glow3 {
+    0%, 100% {
+      background: var(--yellow-color);
+      color: var(--blue-color);
+      border-color: var(--yellow-color);
+      text-shadow: none;
+      box-shadow: none;
+    }
+    50% {
+      background: var(--yellow-color);
+      color: var(--blue-color);
+      box-shadow: 0 0 10px var(--yellow-color);
+    }
+  }
+
+  @media (max-width: 540px) {
+    main{
+      padding: 0 0.75em;
+    }
+
+    h1 {
+      font-size: 1.7em;
+    }
+
+    h2 {
+      font-size: 1em;
+    }
+
+    h3 {
+      font-size: 1em;
+    }
+
+    th, td:first-child {
+      font-size: 0.75em;
+      /*padding-bottom: 0.5em;*/
+    }
+
+    td {
+      height: 25px;
+      padding: 0.5em;
+    }
+  }
+</style>
+</head>
+
+<body>
+  <sexy-header id="header"></sexy-header>
+
+
+  <main>
+
+
+  </main>
+
+  <footer class="mainFooter"><a href="https://steviep.xyz" target="_blank">steviep.xyz</a> (c) 2024</footer>
+
+
+
+
+
+</body>
+
+
+<!-- <script src="./min.ethers.js"></script> -->
+
+
+
+</html>

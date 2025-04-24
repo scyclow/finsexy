@@ -375,6 +375,14 @@ createComponent(
         #back {
           display: initial;
         }
+        header > * {
+          margin-top: -0.6em;
+          font-size: 0.9em;
+        }
+        #pfpContainer {
+          width: 32px;
+          height: 32px;
+        }
       }
 
       .dance:first-child {
@@ -398,7 +406,6 @@ createComponent(
           transform: translate(0, 0.025em);
         }
       }
-
 
 
     </style>
