@@ -111,6 +111,27 @@
     padding-right: 1em;
   }
 
+  code {
+    /*box-shadow: 0 0 5px var(--gloss-color), inset 0 0 5px var(--gloss-color);*/
+    margin-top: 0.25em;
+    display: inline-block;
+    padding: 5px;
+    cursor: pointer;
+    transition: 200ms;
+    background: var(--border-color);
+  }
+
+  code:hover {
+    background: var(--yellow-color);
+    text-shadow: 1px 1px 0 var(--secondary-color);
+  }
+
+  code:active, code:focus {
+    background: var(--gloss-color);
+    text-shadow: 1px 1px 0 var(--secondary-color);
+
+  }
+
   #remainingText {
     /*animation: ColorShift 6s linear infinite;*/
     margin-top: 0.5em;
@@ -415,6 +436,17 @@
 
 
   <main>
+    <h1 style="margin-bottom: 0.75em;">Tribute</h1>
+
+    <div style="box-shadow: 0 0 5px var(--gloss-color), inset 0 0 5px var(--gloss-color); padding: 1.25em 3.5em;">
+      <div style="margin: auto;">
+        <h4 style="margin: 0">Venmo: <br><code id="venmoAddr">@Steven-Pikelny</code></h4>
+        <h4>Send ETH: <br><code id="ethAddr" style="word-break: break-word">0x8D55ccAb57f3Cba220AB3e3F3b7C9F59529e5a65</code></h4>
+      </div>
+      <h4 style="margin-top: 1.5em"><a href="https://www.amazon.com/hz/wishlist/ls/1THBQMMLZZ7YC?ref_=wl_share" target="_blank" rel="nofollow">Buy steviep a gift<br> from his Sexy Wishlist</a></h4>
+      <h4 style="margin-top: 1.5em"><a href="./vip">Purchase <br>VIP Membership</a></h4>
+    </div>
+
 
 
   </main>
@@ -427,6 +459,14 @@
 
 </body>
 
+<script type="text/javascript">
+  document.getElementById('ethAddr').onclick = () => {
+    navigator.clipboard.writeText('0x8D55ccAb57f3Cba220AB3e3F3b7C9F59529e5a65')
+  }
+  document.getElementById('venmoAddr').onclick = () => {
+    navigator.clipboard.writeText('@Steven-Pikelny')
+  }
+</script>
 
 <!-- <script src="./min.ethers.js"></script> -->
 
